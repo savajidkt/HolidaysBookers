@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportsExport;
+use Illuminate\Database\Eloquent\Builder;
 
 class AdminsController extends Controller
 {
@@ -46,10 +47,15 @@ class AdminsController extends Controller
                     return $admin->name;
                 })
                 ->editColumn('role', function (Admin $admin) {
-                    //return $admin->role;
+                    return $admin->roles->first()->name ?? '-';
                 })
                 ->editColumn('status', function (Admin $admin) {
                     return $admin->status_name;
+                })
+                ->filterColumn('role', function(Builder $query, $search){
+                    return $query->whereHas('roles', function($query) use($search){
+                        return $query->where('name', 'like', '%'.$search.'%');
+                    });
                 })
                 ->addColumn('action', function (Admin $admin) {
                     return $admin->action;

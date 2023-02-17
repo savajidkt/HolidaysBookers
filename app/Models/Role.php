@@ -113,6 +113,6 @@ class Role extends Model
    public function admins()
    {
 
-      return $this->belongsToMany(Admin::class, 'users_roles');
+      return $this->belongsToMany(Admin::class, 'users_roles', 'user_id', 'role_id');
    }
 }
