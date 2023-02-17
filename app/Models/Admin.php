@@ -60,11 +60,11 @@ class Admin extends Authenticatable
         'remember_token',
     ];
 
-   
+
     public function scopeStatus($query, $status)
     {
-        $status = strtolower($status) =='active'? 1 : 0;
-        return $query->where('status', $status); 
+        $status = strtolower($status) == 'active' ? 1 : 0;
+        return $query->where('status', $status);
     }
 
     /**
@@ -73,19 +73,18 @@ class Admin extends Authenticatable
      * @return string
      */
     public function getActionAttribute(): string
-    {   
+    {
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
         $admin = auth()->user();
-            $editAction = '<a href="'. route('admins.edit', $this->id).'" class="edit" data-toggle="tooltip" data-original-title="Admin Edit" data-animation="false"><img src="'.asset("app-assets/images/icons/icons8-edit-64.png").'" width="20"></a>';
-        
-        
-        $action='';
-        if($admin->type == 1 || $admin->id == $this->id){
+        $editAction = '<a href="' . route('admins.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="Admin Edit" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
+
+
+        $action = '';
+        if ($admin->type == 1 || $admin->id == $this->id) {
             $action = $editAction;
-            if($admin->type == 1){
-                $action.=$this->getDeleteButtonAttribute();
+            if ($admin->type == 1) {
+                $action .= $this->getDeleteButtonAttribute();
             }
-              
         }
         return $action;
     }
@@ -98,7 +97,7 @@ class Admin extends Authenticatable
      */
     public function getDeleteButtonAttribute($class = '')
     {
-        return '<a href="'.route('admins.destroy', $this).'" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><img src="'.asset("app-assets/images/icons/icons8-remove-48.png").'" width="30"></a>';
+        return '<a href="' . route('admins.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
     }
 
     /**
@@ -119,38 +118,15 @@ class Admin extends Authenticatable
     {
         $status = self::ACTIVE;
 
-        switch($this->status)
-        {
+        switch ($this->status) {
             case self::INACTIVE:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-user_id="'.$this->id.'" data-status="'.$this->status.'">'.self::STATUS[self::INACTIVE].'</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-user_id="' . $this->id . '" data-status="' . $this->status . '">' . self::STATUS[self::INACTIVE] . '</span></a>';
                 break;
             default:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-user_id="'.$this->id.'" data-status="'.$this->status.'">'.self::STATUS[self::ACTIVE].'</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-user_id="' . $this->id . '" data-status="' . $this->status . '">' . self::STATUS[self::ACTIVE] . '</span></a>';
                 break;
         }
 
         return $status;
     }
-  
-    public function getRoleAttribute(): string
-    {
-        $type = self::SUPERADMIN;
-
-        switch($this->type)
-        {
-            case self::SUPERADMIN:
-                $role = '<span class="badge badge-success">'.self::ROLE[self::SUPERADMIN].'</span>';
-                break;
-            default:
-                $role = '<span class="badge badge-success">'.self::ROLE[self::ADMIN].'</span>';
-                break;
-        }
-
-        return $role;
-    }
-   
-public function role()
-   {
-      return $this->belongsTo(Role::class, 'users_roles');
-   }
 }

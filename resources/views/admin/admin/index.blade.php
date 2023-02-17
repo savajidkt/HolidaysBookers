@@ -23,7 +23,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Type</th>
+                        <th>Role</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -65,8 +65,8 @@
                     data: 'email',
                     name: 'email'
                 },{
-                    data: 'type',
-                    name: 'type'
+                    data: 'role',
+                    name: 'role'
                 },
                 {
                     data: 'status',
