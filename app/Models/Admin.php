@@ -77,15 +77,17 @@ class Admin extends Authenticatable
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
         $admin = auth()->user();
         $editAction = '<a href="' . route('admins.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="Admin Edit" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
-
+        
+        
 
         $action = '';
-        if ($admin->type == 1 || $admin->id == $this->id) {
-            $action = $editAction;
-            if ($admin->type == 1) {
-                $action .= $this->getDeleteButtonAttribute();
-            }
-        }
+        $action = $editAction;
+        // if($admin->can('admin-delete')){
+        //     $action .= $this->getDeleteButtonAttribute();
+        // }
+        $action .= $this->getDeleteButtonAttribute();
+        
+
         return $action;
     }
 

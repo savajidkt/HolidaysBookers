@@ -23,12 +23,9 @@ class AdminsController extends Controller
 {
     /** \App\Repository\UserRepository $adminRepository */
     protected $adminRepository;
-
-
     public function __construct(AdminRepository $adminRepository)
     {
         $this->adminRepository       = $adminRepository;
-      
     }
 
     /**
@@ -52,14 +49,14 @@ class AdminsController extends Controller
                 ->editColumn('status', function (Admin $admin) {
                     return $admin->status_name;
                 })
-                ->filterColumn('role', function(Builder $query, $search){
-                    return $query->whereHas('roles', function($query) use($search){
-                        return $query->where('name', 'like', '%'.$search.'%');
+                ->filterColumn('role', function (Builder $query, $search) {
+                    return $query->whereHas('roles', function ($query) use ($search) {
+                        return $query->where('name', 'like', '%' . $search . '%');
                     });
                 })
                 ->addColumn('action', function (Admin $admin) {
                     return $admin->action;
-                })->rawColumns(['action', 'status','role'])->make(true);
+                })->rawColumns(['action', 'status', 'role'])->make(true);
         }
 
         return view('admin.admin.index');
@@ -111,7 +108,7 @@ class AdminsController extends Controller
      */
     public function edit(Admin $admin)
     {
-      
+
         return view('admin.admin.edit', ['model' => $admin]);
     }
 
@@ -126,7 +123,6 @@ class AdminsController extends Controller
     public function update(EditRequest $request, Admin $admin)
     {
         $this->adminRepository->update($request->all(), $admin);
-
         return redirect()->route('admins.index')->with('success', "Admin updated successfully!");
     }
 
@@ -136,11 +132,13 @@ class AdminsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Admin $admin)
+    public function destroy(Request $request,Admin $admin)
     {
-        $this->adminRepository->delete($admin);
-
-        return redirect()->route('admins.index')->with('success', "Admin deleted successfully!");
+        if ($request->user()->can('admin-delete')) {
+            $this->adminRepository->delete($admin);
+            return redirect()->route('admins.index')->with('success', "Admin deleted successfully!");
+        }
+        return permission_redirect();
     }
 
     /**
@@ -164,7 +162,4 @@ class AdminsController extends Controller
 
         throw new Exception('Admin status does not change. Please check sometime later.');
     }
-
-    
-
 }

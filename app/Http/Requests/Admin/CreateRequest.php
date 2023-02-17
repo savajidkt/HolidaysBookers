@@ -42,7 +42,7 @@ class CreateRequest extends FormRequest
         return [
             'fullname.required' => 'Name is required.',
             'password.required' => 'Password is required.',
-            'password.min'=>'Password minimum value should be 8'
+            'password.min' => 'Password minimum value should be 8'
         ];
     }
 }

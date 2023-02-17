@@ -122,11 +122,12 @@
                         </li>
                     </ul>
             </li>
+            @role('super-admin')
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/roles')}}">
                 <i data-feather='life-buoy'></i><span class="menu-title text-truncate" data-i18n="Admins">Roles</span>
                 </a>
-                
+               
             </li>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/permissions')}}">
@@ -146,6 +147,9 @@
                 </a>
                 
             </li>
+            @endrole
+            
+            
             
         </ul>
     </div>

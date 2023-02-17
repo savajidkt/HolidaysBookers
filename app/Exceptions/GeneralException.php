@@ -49,9 +49,7 @@ class GeneralException extends Exception
                 'status'  => false,
                 'message' => $this->message
             ], 400);
-        }
-        else
-        {
+        }else{
             // All instances of GeneralException redirect back with a flash message to show a bootstrap alert-error
             return redirect()
             ->back()

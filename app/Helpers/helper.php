@@ -45,3 +45,13 @@ if (! function_exists('report_multiple_by_100')) {
     }
 }
 
+if (!function_exists('permission_redirect')) {
+    /**
+     * Access (lol) the Access:: facade as a simple function.
+     */
+    function permission_redirect()
+    {
+        return redirect()->route('dashboard')->with('error', "You do not have permission!");
+    }
+}
+
