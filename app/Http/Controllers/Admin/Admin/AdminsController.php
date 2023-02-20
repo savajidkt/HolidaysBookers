@@ -140,7 +140,7 @@ class AdminsController extends Controller
         }
         return permission_redirect();
     }
-
+    
     /**
      * Method changeStatus
      *
