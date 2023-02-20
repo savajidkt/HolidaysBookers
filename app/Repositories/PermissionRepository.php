@@ -27,7 +27,7 @@ class PermissionRepository
             'name'    => $data['permission_name'],
             'slug'     => Str::slug($data['permission_name']),
         ];
-        $permission =  Permission::create($data);
+        $permission =  Permission::create($dataSave);
         return $permission;
     }
 
@@ -42,17 +42,18 @@ class PermissionRepository
      */
     public function update(array $data, Permission $permission): Permission
     {
-        $data = [
+        $dataUpdate = [
             'name'       => $data['permission_name'],
             'slug'       => Str::slug($data['permission_name'])
         ];
-        if($permission->update($data)){
+        if($permission->update($dataUpdate)){
             return $permission;
         }
 
         throw new Exception('Permission update failed.');
     }
 
+     
     /**
      * Method delete
      *
@@ -63,7 +64,9 @@ class PermissionRepository
      */
     public function delete(Permission $permission): bool
     {
-
+        //dd($permission);
+        
+    
         if ($permission->forceDelete()) {
             return true;
         }
