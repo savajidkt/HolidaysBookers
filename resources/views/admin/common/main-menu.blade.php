@@ -53,104 +53,104 @@
                 </a>
             </li>
             <li class="navigation-header"><span data-i18n="Hotels Module">Hotels Module</span><i data-feather="more-horizontal"></i>
-                </li>
+            </li>
             <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather='home'></i><span class="menu-title text-truncate" data-i18n="Hotels">Hotels</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="{{ url('admin/offlinehotels')}}">
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center" href="{{ url('admin/offlinehotels')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Offline">Offline</span>
-                            </a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ url('admin/apihotels')}}">
+                        </a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{{ url('admin/apihotels')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="API Hotels">API Hotels</span>
-                            </a>
-                        </li>
-                       
-                        <li>
-                            <a class="d-flex align-items-center" href="{{ url('admin/hotelgroup')}}">
-                                <i data-feather='circle'></i>
-                                <span class="menu-title text-truncate" data-i18n="Hotel Group">Hotel Group</span>
-                            </a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ url('admin/propertytype')}}">
-                                <i data-feather='circle'></i>
-                                <span class="menu-title text-truncate" data-i18n="Property Type">Property Type</span>
-                            </a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="{{ url('admin/roomtype')}}">
-                                <i data-feather='circle'></i>
-                                <span class="menu-title text-truncate" data-i18n="Room Type">Room Type</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="{{ url('admin/amenities')}}">
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="d-flex align-items-center" href="{{ url('admin/hotelgroup')}}">
+                            <i data-feather='circle'></i>
+                            <span class="menu-title text-truncate" data-i18n="Hotel Group">Hotel Group</span>
+                        </a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{{ url('admin/propertytypes')}}">
+                            <i data-feather='circle'></i>
+                            <span class="menu-title text-truncate" data-i18n="Property Type">Property Types</span>
+                        </a>
+                    </li>
+                    <li><a class="d-flex align-items-center" href="{{ url('admin/roomtype')}}">
+                            <i data-feather='circle'></i>
+                            <span class="menu-title text-truncate" data-i18n="Room Type">Room Type</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="d-flex align-items-center" href="{{ url('admin/amenities')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Amenities">Amenities</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="{{ url('admin/vehicletype')}}">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="d-flex align-items-center" href="{{ url('admin/vehicletype')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Vehicle Type">Vehicle Type</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=" nav-item">
-                    <a class="d-flex align-items-center" href="{{ url('admin/rooms')}}">
-                        <i data-feather='user'></i>
-                        <span class="menu-title text-truncate" data-i18n="Rooms">Rooms</span>
-                    </a>
-                </li>
-                <li class="navigation-header"><span data-i18n="Master Modules">Master Modules</span><i data-feather="more-horizontal"></i>
-                </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" nav-item">
+                <a class="d-flex align-items-center" href="{{ url('admin/rooms')}}">
+                    <i data-feather='user'></i>
+                    <span class="menu-title text-truncate" data-i18n="Rooms">Rooms</span>
+                </a>
+            </li>
+            <li class="navigation-header"><span data-i18n="Master Modules">Master Modules</span><i data-feather="more-horizontal"></i>
+            </li>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather='map'></i><span class="menu-title text-truncate" data-i18n="Location">Location</span></a>
-                    <ul class="menu-content">
-                        <li>
+                <ul class="menu-content">
+                    <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/countries')}}">
-                        <i data-feather='map-pin'></i><span class="menu-item text-truncate" data-i18n="Countries">Countries</span>
-                            </a>
-                        </li>
-                        <li>
+                            <i data-feather='map-pin'></i><span class="menu-item text-truncate" data-i18n="Countries">Countries</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/states')}}">
-                        <i data-feather='map-pin'></i><span class="menu-item text-truncate" data-i18n="States">States</span>
-                            </a>
-                        </li>
-                        <li>
+                            <i data-feather='map-pin'></i><span class="menu-item text-truncate" data-i18n="States">States</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/cities')}}">
-                        <i data-feather='map-pin'></i><span class="menu-item text-truncate" data-i18n="Cities">Cities</span>
-                            </a>
-                        </li>
-                    </ul>
+                            <i data-feather='map-pin'></i><span class="menu-item text-truncate" data-i18n="Cities">Cities</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             @role('super-admin')
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/roles')}}">
-                <i data-feather='life-buoy'></i><span class="menu-title text-truncate" data-i18n="Admins">Roles</span>
+                    <i data-feather='life-buoy'></i><span class="menu-title text-truncate" data-i18n="Admins">Roles</span>
                 </a>
-               
+
             </li>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/permissions')}}">
-                <i data-feather='unlock'></i><span class="menu-title text-truncate" data-i18n="Permissions">Permissions</span>
+                    <i data-feather='unlock'></i><span class="menu-title text-truncate" data-i18n="Permissions">Permissions</span>
                 </a>
-                
+
             </li>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/settings')}}">
-                <i data-feather='settings'></i><span class="menu-title text-truncate" data-i18n="Settings">Settings</span>
+                    <i data-feather='settings'></i><span class="menu-title text-truncate" data-i18n="Settings">Settings</span>
                 </a>
-                
+
             </li>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/admins')}}">
                     <i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Admins">Admins</span>
                 </a>
-                
+
             </li>
             @endrole
-            
-            
-            
+
+
+
         </ul>
     </div>
 </div>
