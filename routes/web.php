@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\User\UsersController;
 use App\Http\Controllers\Admin\Admin\AdminsController;
+use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\Permission\PermissionController;
@@ -51,16 +52,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('/admins', AdminsController::class);
     Route::resource('/roles', RolesController::class);
     Route::resource('/permissions', PermissionsController::class);
+    Route::resource('/hotelgroups', HotelGroupsController::class);
 
     Route::resource('/propertytypes', PropertyTypesController::class);
     Route::post('/propertytype/change-status', [PropertyTypesController::class, 'changeStatus'])->name('change-propertytype-status');
 
-    Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
-    Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
+    //Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
+    //Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
     Route::post('/user/change-status', [UsersController::class, 'changeStatus'])->name('change-user-status');
     Route::post('/admin/change-status', [AdminsController::class, 'changeStatus'])->name('change-admin-status');
     Route::post('/role/change-status', [RolesController::class, 'changeStatus'])->name('change-role-status');
     Route::post('/permission/change-status', [PermissionsController::class, 'changeStatus'])->name('change-permission-status');
+    Route::post('/hotelgroup/change-status', [HotelGroupsController::class, 'changeStatus'])->name('change-hotel-group-status');
 
     Route::get('/export/{user}',[UsersController::class, 'reportExcelExport'])->name('export');
     Route::post('/save-chart-image', [UsersController::class, 'saveChartImage'])->name('save-chart-image');

@@ -10,6 +10,7 @@ use App\Repositories\PropertyTypeRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class PropertyTypesController extends Controller
@@ -28,9 +29,7 @@ class PropertyTypesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-
             $data = PropertyType::select('*');
-            
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('property_name', function (PropertyType $propertytype) {
