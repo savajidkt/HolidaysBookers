@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Amenities\AmenitiesController;
+use App\Http\Controllers\Admin\Countries\CountriesController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\RoomTypes\RoomTypesController;
 use App\Http\Controllers\Admin\Permission\PermissionController;
@@ -70,6 +71,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/vehicletypes', VehicleTypesController::class);
     Route::post('/vehicletype/change-status', [VehicleTypesController::class, 'changeStatus'])->name('change-vehicletype-status');
+
+    Route::resource('/countries', CountriesController::class);
+    Route::post('/country/change-status', [CountriesController::class, 'changeStatus'])->name('change-country-status');
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
