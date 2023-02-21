@@ -77,7 +77,7 @@
                             <span class="menu-title text-truncate" data-i18n="Property Type">Property Types</span>
                         </a>
                     </li>
-                    <li><a class="d-flex align-items-center" href="{{ url('admin/roomtype')}}">
+                    <li><a class="d-flex align-items-center" href="{{ url('admin/roomtypes')}}">
                             <i data-feather='circle'></i>
                             <span class="menu-title text-truncate" data-i18n="Room Type">Room Type</span>
                         </a>
@@ -88,7 +88,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/vehicletype')}}">
+                        <a class="d-flex align-items-center" href="{{ url('admin/vehicletypes')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Vehicle Type">Vehicle Type</span>
                         </a>
                     </li>
