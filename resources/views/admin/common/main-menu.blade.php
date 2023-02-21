@@ -67,9 +67,9 @@
                     </li>
 
                     <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/hotelgroup')}}">
+                        <a class="d-flex align-items-center" href="{{ url('admin/hotelgroups')}}">
                             <i data-feather='circle'></i>
-                            <span class="menu-title text-truncate" data-i18n="Hotel Group">Hotel Group</span>
+                            <span class="menu-title text-truncate" data-i18n="Hotel Group">Hotel Groups</span>
                         </a>
                     </li>
                     <li><a class="d-flex align-items-center" href="{{ url('admin/propertytypes')}}">

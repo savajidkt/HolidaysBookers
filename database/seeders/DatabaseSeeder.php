@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\PropertyType::factory(100000)->create();
         //$this->call(AdminUserSeeder::class);
         //$this->call(AdminLoginSeeder::class);
         //$this->call(QuestionSeeder::class);
-        $this->call(QuestionOptionsSeeder::class);
+        //$this->call(QuestionOptionsSeeder::class);
     }
 }
