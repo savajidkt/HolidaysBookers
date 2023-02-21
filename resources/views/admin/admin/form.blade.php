@@ -23,14 +23,15 @@
     <div class="col-12">
     <div class="form-group">
             <label class="form-label" for="role">Role</label>
-            <select name="type" class="form-control" id="role">
+            <select name="role" class="form-control" id="role">
                 <option value="">Select Role</option>
-                <option value="1" {{($model->type == 1)? 'selected' : ''}} > Super Admin</option>
-                <option value="2" {{($model->type == 2)? 'selected' : ''}} > Admin</option>
-               
+                @foreach($roles as $role)
+                <option  value="{{$role->id}}" {{($model->roles[0]->id == $role->id)? 'selected' : ''}} >{{$role->name}}</option>
+                @endforeach
             </select>
+           
             <div class="valid-feedback">Looks good!</div>
-            @error('type')
+            @error('role')
             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
 

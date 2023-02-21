@@ -10,10 +10,7 @@
         <div class="card-header border-bottom d-flex justify-content-between align-items-center">
           <h4 class="card-title">Admins</h4>
            
-          @if(auth()->user()->type == 1)
-            <a href="{{ route('admins.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New Admin</button></a>
-         
-          @endif
+          <a href="{{ route('admins.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New Admin</button></a>
         </div>
         <div class="card-datatable pt-0 table-responsive">
             <table class="user-list-table datatables-ajax table">

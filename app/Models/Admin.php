@@ -46,7 +46,7 @@ class Admin extends Authenticatable
         'email',
         'password',
         'email',
-        'type',
+        'role',
         'status'
     ];
 
@@ -131,4 +131,10 @@ class Admin extends Authenticatable
 
         return $status;
     }
+
+  public function role()
+   {
+
+      return $this->belongsTo(Role::class, 'users_roles', 'user_id', 'role_id');
+   }
 }

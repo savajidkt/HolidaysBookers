@@ -14,15 +14,15 @@ class CreateAdminsPermissionsTable extends Migration
     public function up()
     {
         Schema::create('admins_permissions', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('admin_id');
             $table->unsignedInteger('permission_id');
 
             //FOREIGN KEY CONSTRAINTS
-            $table->foreign('user_id')->references('id')->on('admin')->onDelete('cascade');
+            $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
             $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
 
             //SETTING THE PRIMARY KEYS
-           // $table->primary(['user_id','permission_id']);
+           // $table->primary(['admin_id','permission_id']);
         });
     }
 

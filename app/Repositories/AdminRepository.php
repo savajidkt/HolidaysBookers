@@ -23,14 +23,14 @@ class AdminRepository
     public function create(array $data): Admin
     {
         $password = $data['password'];
-        $data = [
+        $dataSave = [
             'name'    => $data['fullname'],
             'email'     => $data['email'],
-            'type'     => $data['type'],
             'password'      => Hash::make($password),
         ];
 
-        $admin =  Admin::create($data);
+        $admin =  Admin::create($dataSave);
+        $admin->roles()->sync([$data['role']]);
         //$admin->notify(new RegisterdEmailNotification($password,$admin));
         return $admin;
     }
@@ -47,10 +47,9 @@ class AdminRepository
     public function update(array $data, Admin $admin): Admin
     {
         $password = $data['password'];
-        $data = [
+        $dataSave = [
             'name'       => $data['fullname'],
             'email'         => $data['email'],
-            'type'         => $data['type']
         ];
         
         if( isset($password) )
@@ -59,9 +58,9 @@ class AdminRepository
             $data['password'] = Hash::make($password);
            
         }
-
-        if( $admin->update($data) )
+        if( $admin->update($dataSave) )
         {
+            $admin->roles()->sync([$data['role']]);
             return $admin;
         }
 

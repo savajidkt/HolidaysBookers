@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportsExport;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 
 class AdminsController extends Controller
@@ -72,7 +73,8 @@ class AdminsController extends Controller
         //
 
         $rawData    = new Admin;
-        return view('admin.admin.create', ['model' => $rawData]);
+        $roles    =  Role::all();
+        return view('admin.admin.create', ['model' => $rawData,'roles'=>$roles]);
     }
 
     /**
@@ -108,8 +110,8 @@ class AdminsController extends Controller
      */
     public function edit(Admin $admin)
     {
-
-        return view('admin.admin.edit', ['model' => $admin]);
+        $roles    =  Role::all();
+        return view('admin.admin.edit', ['model' => $admin,'roles'=>$roles]);
     }
 
     /**
