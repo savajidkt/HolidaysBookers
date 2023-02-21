@@ -54,6 +54,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('/roles', RolesController::class);
     Route::resource('/permissions', PermissionsController::class);
 
+    Route::resource('/hotelgroups', HotelGroupsController::class);
+    Route::post('/hotelgroup/change-status', [HotelGroupsController::class, 'changeStatus'])->name('change-hotel-group-status');
+
     Route::resource('/propertytypes', PropertyTypesController::class);
     Route::post('/propertytype/change-status', [PropertyTypesController::class, 'changeStatus'])->name('change-propertytype-status');
 
