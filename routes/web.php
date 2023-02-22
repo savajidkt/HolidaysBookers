@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\User\UsersController;
 use App\Http\Controllers\Admin\Roles\RolesController;
 use App\Http\Controllers\Admin\Admin\AdminsController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Admin\Cities\CitiesController;
+use App\Http\Controllers\Admin\States\StatesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Amenities\AmenitiesController;
@@ -75,6 +77,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/countries', CountriesController::class);
     Route::post('/country/change-status', [CountriesController::class, 'changeStatus'])->name('change-country-status');
+
+    Route::resource('/states', StatesController::class);
+    Route::post('/state/change-status', [StatesController::class, 'changeStatus'])->name('change-state-status');
+
+    Route::resource('/cities', CitiesController::class);
+    Route::post('/city/change-status', [CitiesController::class, 'changeStatus'])->name('change-city-status');
+    Route::post('/city/get-state', [CitiesController::class, 'getStateList'])->name('get-state-list');
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
