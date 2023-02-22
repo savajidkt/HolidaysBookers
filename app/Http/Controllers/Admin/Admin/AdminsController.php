@@ -71,7 +71,7 @@ class AdminsController extends Controller
     public function create()
     {
         //
-
+        $rawData=[];
         $rawData    = new Admin;
         $roles    =  Role::all();
         return view('admin.admin.create', ['model' => $rawData,'roles'=>$roles]);

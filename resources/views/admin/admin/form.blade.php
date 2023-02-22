@@ -21,15 +21,19 @@
         </div>
     </div>
     <div class="col-12">
-    <div class="form-group">
+        <div class="form-group">
             <label class="form-label" for="role">Role</label>
             <select name="role" class="form-control" id="role">
                 <option value="">Select Role</option>
                 @foreach($roles as $role)
-                <option  value="{{$role->id}}" {{($model->roles[0]->id == $role->id)? 'selected' : ''}} >{{$role->name}}</option>
+                @if($model->roles->count() > 0)
+                <option value="{{$role->id}}" {{($model->roles[0]->id == $role->id)? 'selected' : ''}}>{{$role->name}}</option>
+                @else
+                <option value="{{$role->id}}">{{$role->name}}</option>
+                @endif
                 @endforeach
             </select>
-           
+
             <div class="valid-feedback">Looks good!</div>
             @error('role')
             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>

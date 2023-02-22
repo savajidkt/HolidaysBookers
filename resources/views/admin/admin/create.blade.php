@@ -10,7 +10,7 @@
                     <h4 class="card-title">New Admin</h4>
                 </div>
                 <div class="card-body">
-                    <form class="needs-validation1" method="post" enctype="multipart/form-data" action="{{route('admins.store')}}">
+                    <form id="jquery-val-form" class="needs-validation1" method="post" enctype="multipart/form-data" action="{{route('admins.store')}}">
                         <input type="hidden" name="id" value="{{ isset($model->id) ? $model->id : null }}">
                         @csrf
                         @include('admin.admin.form')

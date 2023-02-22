@@ -24,9 +24,9 @@ class EditRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'vehicle_name'        => ['required'],
-            'no_of_seats'        => ['required'],
-            'status'     => ['required'],
+            'vehicle_name'        => 'required',
+            'no_of_seats'        => 'required|numeric',
+            'status'     => 'required',
         ];
 
         return $rules;
@@ -41,7 +41,8 @@ class EditRequest extends FormRequest
     {
         return [
             'vehicle_name.required' => 'Vehicle name is required.',
-            'no_of_seats.required' => 'No of sheet is required.',
+            'no_of_seats.required' => 'No of seats is required.',
+            'no_of_seats.numeric' => 'No of seats it\'s should be number only.',
             'status.required'=>'Status is required.'
         ];
     }

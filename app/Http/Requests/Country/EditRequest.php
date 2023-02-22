@@ -24,11 +24,11 @@ class EditRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name'        => ['required'],
-            'code'        => ['required'],
-            'phone_code'        => ['required'],
-            'nationality'        => ['required'],
-            'status'     => ['required'],
+            'name'        => 'required',
+            'code'        => 'required',
+            'phone_code'        => 'required|numeric|max:4|min:1',
+            'nationality'        => 'required',
+            'status'     => 'required',
         ];
 
         return $rules;
@@ -44,8 +44,11 @@ class EditRequest extends FormRequest
         return [
             'name.required' => 'Country name is required.',
             'code.required' => 'Country code is required.',
-            'phone_code.required' => 'Country Phone code name is required.',
-            'nationality.required' => 'Country nationality name is required.',
+            'phone_code.required' => 'Country phone code is required.',
+            'phone_code.numeric' => 'Phone code it should be number only.',
+            'phone_code.min' => 'Phone code minimum one digit.',
+            'phone_code.max' => 'Phone code maximum four digit.',
+            'nationality.required' => 'Country nationality is required.',
             'status.required' => 'Status is required.'
         ];
     }
