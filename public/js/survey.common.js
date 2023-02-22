@@ -31,8 +31,8 @@ var Survey = {}; // common variable used in all the files of the backend
              * @param {*} selector
              */
             getClosest: function (elem, selector) {
-                for ( ; elem && elem !== document; elem = elem.parentNode ) {
-                    if ( elem.matches( selector ) ) return elem;
+                for (; elem && elem !== document; elem = elem.parentNode) {
+                    if (elem.matches(selector)) return elem;
                 }
                 return null;
             },
@@ -114,7 +114,7 @@ var Survey = {}; // common variable used in all the files of the backend
                                 "<input type='hidden' name='_token' value='" + $('meta[name="csrf-token"]').attr('content') + "'>\n" +
                                 '</form>\n';
                         } else {
-                            return "\n<form action='" + $(this).attr('href') + "' method='"+method+"' " + (formName ? "name='"+ formName +"'" : '') + " style='display:none'>\n" +
+                            return "\n<form action='" + $(this).attr('href') + "' method='" + method + "' " + (formName ? "name='" + formName + "'" : '') + " style='display:none'>\n" +
                                 "<input type='hidden' name='_token' value='" + $('meta[name="csrf-token"]').attr('content') + "'>\n" +
                                 '</form>\n';
                         }
@@ -131,10 +131,9 @@ var Survey = {}; // common variable used in all the files of the backend
             * @param {*} xhr
             * @returns bool
             */
-            handleErrors: function(xhr)
-            {
-                var context     = this,
-                    errorClass  = 'error';
+            handleErrors: function (xhr) {
+                var context = this,
+                    errorClass = 'error';
 
                 // remove validation error messages
                 jQuery('.error').remove();
@@ -168,22 +167,20 @@ var Survey = {}; // common variable used in all the files of the backend
                     return false;
                 }
 
-                if(xhr.status == 302)
-                {
+                if (xhr.status == 302) {
                     context.handleSwalError('Your active session has been expired to process this request.', true);
 
                     return false;
                 }
             },
 
-            handleValidationErrors: function(errors, customContainer = undefined)
-            {
-                var context     = this,
-                    container   = (customContainer) ? customContainer : context.getErrorContainer(),
-                    fragment    = new DocumentFragment(),
-                    ol          = document.createElement('ol'),
-                    closeBtn    = document.createElement('button'),
-                    span        = document.createElement('span');
+            handleValidationErrors: function (errors, customContainer = undefined) {
+                var context = this,
+                    container = (customContainer) ? customContainer : context.getErrorContainer(),
+                    fragment = new DocumentFragment(),
+                    ol = document.createElement('ol'),
+                    closeBtn = document.createElement('button'),
+                    span = document.createElement('span');
 
                 closeBtn.setAttribute('type', 'button');
                 closeBtn.setAttribute('data-dismiss', 'alert');
@@ -196,10 +193,8 @@ var Survey = {}; // common variable used in all the files of the backend
 
                 fragment.appendChild(closeBtn);
 
-                for (let key in errors)
-                {
-                    errors[key].forEach(function(value, index, all)
-                    {
+                for (let key in errors) {
+                    errors[key].forEach(function (value, index, all) {
                         var li = document.createElement('li');
                         li.appendChild(document.createTextNode(value));
                         ol.appendChild(li);
@@ -212,61 +207,50 @@ var Survey = {}; // common variable used in all the files of the backend
                 container.classList.remove("hidden");
             },
 
-            getErrorContainer: function()
-            {
+            getErrorContainer: function () {
                 var context = this;
 
-                if (context.errorContainer == undefined)
-                {
+                if (context.errorContainer == undefined) {
                     context.errorContainer = document.getElementById('error_container');
                     context.addResetHandler(context.errorContainer);
                 }
 
-                if (!context.errorContainer)
-                {
+                if (!context.errorContainer) {
                     throw new Error("Error Container not found.");
                 }
 
                 return context.errorContainer;
             },
 
-            resetValidationErrors: function(customContainer = undefined)
-            {
-                var context     = this,
-                    container   = (customContainer) ? customContainer : context.getErrorContainer();
+            resetValidationErrors: function (customContainer = undefined) {
+                var context = this,
+                    container = (customContainer) ? customContainer : context.getErrorContainer();
 
                 container.innerHTML = "";
                 container.classList.add("hidden");
             },
 
-            addResetHandler: function(element)
-            {
+            addResetHandler: function (element) {
                 var context = this;
 
-                element.addEventListener('click', function(event)
-                {
+                element.addEventListener('click', function (event) {
                     event.stopPropagation();
                     event.preventDefault();
 
-                    if (event.target.closest('button.close'))
-                    {
+                    if (event.target.closest('button.close')) {
                         context.resetValidationErrors(element);
                     }
                 });
             },
 
-            getErrorPlacement: function()
-            {
-                return function(error, element)
-                {
+            getErrorPlacement: function () {
+                return function (error, element) {
                     var target = element.attr('er-target');
 
                     error.addClass('invalid-feedback');
 
-                    if (target)
-                    {
-                        switch(target)
-                        {
+                    if (target) {
+                        switch (target) {
                             case "after":
                                 element.after(error);
                                 break;
@@ -277,11 +261,10 @@ var Survey = {}; // common variable used in all the files of the backend
                                 } else {
                                     element.closest('.form-group').append(error);
                                 }
-                            break;
+                                break;
                         }
                     }
-                    else
-                    {
+                    else {
                         element.closest('.form-group').append(error);
                     }
                 };
@@ -290,3 +273,14 @@ var Survey = {}; // common variable used in all the files of the backend
     };
 
 })();
+
+
+/***
+ * Use Common validation and other things
+ */
+
+$(document).ready(function () {
+    $('form').submit(function() {                
+        $(".buttonLoader").removeClass('hide');               
+    });  
+});

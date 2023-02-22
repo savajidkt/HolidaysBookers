@@ -32,7 +32,7 @@ class City extends Model
     public function getActionAttribute(): string
     {
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-        $editAction = '<a href="' . route('cities.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="State Edit" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
+        $editAction = '<a href="' . route('cities.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
 
 
         $action = $editAction . $this->getDeleteButtonAttribute();

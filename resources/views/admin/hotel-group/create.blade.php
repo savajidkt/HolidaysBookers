@@ -16,7 +16,11 @@
                         @include('admin.hotel-group.form')
                         <div class="row">
                             <div class="col-12">
-                                <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
+                                <a class="btn btn-outline-secondary waves-effect" href="{{ route('hotelgroups.index') }}">Back</a>                                                              
+                                <button type="submit" id="user-save" class="btn btn-primary"><span
+                                    class="spinner-border spinner-border-sm buttonLoader hide" role="status"
+                                    aria-hidden="true"></span><span
+                                    class="ml-25 align-middle">Submit</span></button>
                             </div>
                         </div>
                     </form>

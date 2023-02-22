@@ -64,7 +64,7 @@
 </div>
 @section('extra-script')
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function() {                   
 
             $(document).on('change', '#country_id', function() {
                 var country_id = $(this).val();
@@ -100,5 +100,7 @@
                 }
             });
         });
+
+        
     </script>
 @endsection

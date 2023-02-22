@@ -91,12 +91,7 @@
                         <a class="d-flex align-items-center" href="{{ url('admin/vehicletypes')}}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Vehicle Type">Vehicle Type</span>
                         </a>
-                    </li>
-                    <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/countries')}}">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Countries">Countries</span>
-                        </a>
-                    </li>
+                    </li>                    
                 </ul>
             </li>
             <li class=" nav-item">
