@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('page_title', 'Countries')
+@section('page_title', __('country/listing.title'))
 @section('content')
     <!-- users list start -->
     <section class="app-user-list">
@@ -7,7 +7,7 @@
         <!-- list section start -->
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                <h4 class="card-title">Countries</h4>
+                <h4 class="card-title">{{ __('country/listing.title') }}</h4>
                 <a href="{{ route('countries.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">New Country</button></a>
             </div>
             <div class="card-datatable pt-0 table-responsive">
@@ -16,12 +16,12 @@
                         <tr>
                             <th></th>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Code</th>
-                            <th>Phone Code</th>
-                            <th>Nationality</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>{{ __('country/listing.name') }}</th>
+                            <th>{{ __('country/listing.code') }}</th>
+                            <th>{{ __('country/listing.phonecode') }}</th>
+                            <th>{{ __('country/listing.nationality') }}</th>
+                            <th>{{ __('country/listing.status') }}</th>
+                            <th>{{ __('country/listing.action') }}</th>
                         </tr>
                     </thead>
                 </table>

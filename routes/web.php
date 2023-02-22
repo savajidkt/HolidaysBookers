@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\RoomTypes\RoomTypesController;
 use App\Http\Controllers\Admin\Permission\PermissionController;
 use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
+use App\Http\Controllers\Admin\Language\LocalizationController;
 use App\Http\Controllers\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
@@ -85,6 +86,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/export/{user}',[UsersController::class, 'reportExcelExport'])->name('export');
     Route::post('/save-chart-image', [UsersController::class, 'saveChartImage'])->name('save-chart-image');
 
+    Route::get('index',[LocalizationController::class, 'index'])->name('index');
+    Route::get('change/lang',[LocalizationController::class, 'lang_change'])->name('LangChange');
+   
 });
 
 Auth::routes();

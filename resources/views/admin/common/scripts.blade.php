@@ -51,4 +51,8 @@
                 });
             }
         })
+        var url = "{{ route('LangChange') }}";
+        $(".dropdown-language .dropdown-item").click(function(){
+            window.location.href = url + "?lang="+ $(this).data('language');
+        });
     </script>
