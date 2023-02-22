@@ -37,3 +37,14 @@ div.dataTables_wrapper .dataTables_info{
 	margin: 0;width: 100%;
 }
 .timeline-cus-height{max-height: 395px; overflow-y: auto;}
+
+.loaderDisplay {
+	position: relative;
+}
+
+.loaderDisplay .spinner-border.spinner-border-sm {
+	position: absolute;
+	left: 50%;
+	top: 60%;
+}
+.hide { display: none; }

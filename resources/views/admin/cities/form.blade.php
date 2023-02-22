@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="col-12">
-        <div class="form-group">
+        <div class="form-group loaderDisplay">
             <label class="form-label" for="country">State Name</label>
             <select name="state_id" class="form-control" id="state_id">
                 <option value="">Select State</option>
@@ -27,6 +27,9 @@
                     @endforeach
                 @endif
             </select>
+            <div class="spinner-border spinner-border-sm hide" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
             <div class="valid-feedback">Looks good!</div>
             @error('state_id')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -74,6 +77,12 @@
                         }
                     });
                     $.ajax({
+                        beforeSend: function() {
+                            $(".spinner-border").show();
+                        },
+                        complete: function() {
+                            $(".spinner-border").hide();
+                        },
                         type: 'POST',
                         url: "{{ route('get-state-list') }}",
                         dataType: 'json',
@@ -86,14 +95,11 @@
                                     $('#state_id').append(new Option(val.name, val.id));
                                 });
                             }
+                            $(".spinner-border").hide();
                         }
                     });
-                } else {
-
                 }
             });
-
-
         });
     </script>
 @endsection
