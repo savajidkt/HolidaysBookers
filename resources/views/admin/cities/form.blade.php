@@ -68,9 +68,8 @@
 
             $(document).on('change', '#country_id', function() {
                 var country_id = $(this).val();
+                $('#state_id').find('option:not(:first)').remove();
                 if (country_id) {
-                    $('#state_id').find('option:not(:first)').remove();
-
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
