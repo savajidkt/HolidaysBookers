@@ -35,8 +35,8 @@ class Amenity extends Model
 
     public function scopeStatus($query, $status)
     {
-        $status = strtolower($status) =='active'? 1 : 0;
-        return $query->where('status', $status); 
+        $status = strtolower($status) == 'active' ? 1 : 0;
+        return $query->where('status', $status);
     }
 
     /**
@@ -46,8 +46,8 @@ class Amenity extends Model
      */
     public function getActionAttribute(): string
     {
-        $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-        $editAction = '<a href="' . route('amenities.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
+        $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">' . __('core.view') . '</a>';
+        $editAction = '<a href="' . route('amenities.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
 
 
         $action = $editAction . $this->getDeleteButtonAttribute();
@@ -62,7 +62,7 @@ class Amenity extends Model
      */
     public function getDeleteButtonAttribute($class = '')
     {
-        return '<a href="' . route('amenities.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
+        return '<a href="' . route('amenities.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="' . __('core.delete') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
     }
 
 
@@ -77,17 +77,17 @@ class Amenity extends Model
 
         switch ($this->status) {
             case self::INACTIVE:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-amenity_type_id="' . $this->id . '" data-status="' . $this->status . '">' . self::STATUS[self::INACTIVE] . '</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-amenity_type_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.inactive') . '</span></a>';
                 break;
             default:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-amenity_type_id="' . $this->id . '" data-status="' . $this->status . '">' . self::STATUS[self::ACTIVE] . '</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-amenity_type_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.active') . '</span></a>';
                 break;
         }
 
         return $status;
     }
 
-        /**
+    /**
      * Method getTypeNameAttribute
      *
      * @return string
@@ -98,10 +98,12 @@ class Amenity extends Model
 
         switch ($this->type) {
             case self::ROOM:
-                $type = self::TYPE[self::ROOM];
+                //$type = self::TYPE[self::ROOM];
+                $type = __('amenity/amenity.form_type_room');
                 break;
             default:
-                $type = self::TYPE[self::HOTEL];
+                //$type = self::TYPE[self::HOTEL];
+                $type = __('amenity/amenity.form_type_hotel');
                 break;
         }
 

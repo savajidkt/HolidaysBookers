@@ -45,7 +45,7 @@ class AmenitiesController extends Controller
                 ->addColumn('action', function (Amenity $amenity) {
                     return $amenity->action;
                 })
-                ->rawColumns(['action', 'type','status'])->make(true);
+                ->rawColumns(['action', 'type', 'status'])->make(true);
         }
 
         return view('admin.amenities.index');
@@ -71,7 +71,7 @@ class AmenitiesController extends Controller
     public function store(CreateRequest $request)
     {
         $this->amenityRepository->create($request->all());
-        return redirect()->route('amenities.index')->with('success', "Amenity Type created successfully!");
+        return redirect()->route('amenities.index')->with('success', __('amenity/message.created_success'));
     }
 
     /**
@@ -109,7 +109,7 @@ class AmenitiesController extends Controller
     {
         $this->amenityRepository->update($request->all(), $amenity);
 
-        return redirect()->route('amenities.index')->with('success', "Amenity Type updated successfully!");
+        return redirect()->route('amenities.index')->with('success', __('amenity/message.updated_success'));
     }
 
     /**
@@ -121,7 +121,7 @@ class AmenitiesController extends Controller
     public function destroy(Amenity $amenity)
     {
         $this->amenityRepository->delete($amenity);
-        return redirect()->route('amenities.index')->with('success', "Amenity Type deleted successfully!");
+        return redirect()->route('amenities.index')->with('success', __('amenity/message.deleted_success'));
     }
 
     /**
@@ -139,10 +139,10 @@ class AmenitiesController extends Controller
         if ($this->amenityRepository->changeStatus($input, $amenity)) {
             return response()->json([
                 'status' => true,
-                'message' => 'Amenity Type status updated successfully.'
+                'message' => __('amenity/message.status_updated_success')
             ]);
         }
 
-        throw new Exception('Amenity Type status does not change. Please check sometime later.');
+        throw new Exception(__('amenity/message.error'));
     }
 }

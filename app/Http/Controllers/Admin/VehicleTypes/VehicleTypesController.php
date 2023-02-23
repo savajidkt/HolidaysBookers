@@ -70,7 +70,7 @@ class VehicleTypesController extends Controller
     public function store(CreateRequest $request)
     {
         $this->vehicleTypeRepository->create($request->all());
-        return redirect()->route('vehicletypes.index')->with('success', "Vehicle Type created successfully!");
+        return redirect()->route('vehicletypes.index')->with('success', __('vehicletype/message.created_success'));
     }
 
     /**
@@ -108,7 +108,7 @@ class VehicleTypesController extends Controller
     {
         $this->vehicleTypeRepository->update($request->all(), $vehicletype);
 
-        return redirect()->route('vehicletypes.index')->with('success', "Vehicle Type updated successfully!");
+        return redirect()->route('vehicletypes.index')->with('success', __('vehicletype/message.updated_success'));
     }
 
     /**
@@ -120,7 +120,7 @@ class VehicleTypesController extends Controller
     public function destroy(VehicleType $vehicletype)
     {
         $this->vehicleTypeRepository->delete($vehicletype);
-        return redirect()->route('vehicletypes.index')->with('success', "Vehicle Type deleted successfully!");
+        return redirect()->route('vehicletypes.index')->with('success', __('vehicletype/message.deleted_success'));
     }
 
     /**
@@ -138,10 +138,10 @@ class VehicleTypesController extends Controller
         if ($this->vehicleTypeRepository->changeStatus($input, $vehicletype)) {
             return response()->json([
                 'status' => true,
-                'message' => 'Vehicle Type status updated successfully.'
+                'message' => __('vehicletype/message.status_updated_success')
             ]);
         }
 
-        throw new Exception('Vehicle Type status does not change. Please check sometime later.');
+        throw new Exception(__('vehicletype/message.error'));
     }
 }

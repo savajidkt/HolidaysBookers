@@ -40,9 +40,9 @@ class CreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'amenity_name.required' => 'Amenity name is required.',
-            'type.required' => 'Amenity type is required.',
-            'status.required' => 'Status is required.'
+            'amenity_name.required' => __('amenity/message.amenity_name_required'),
+            'type.required' => __('amenity/message.amenity_type_required'),
+            'status.required' => __('amenity/message.status_required')
         ];
     }
 }

@@ -108,7 +108,7 @@
                     <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/vehicletypes') }}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate"
-                                data-i18n="Vehicle Type">Vehicle Type</span>
+                                data-i18n="{{ __('vehicletype/vehicletype.menu') }}">{{ __('vehicletype/vehicletype.menu') }}</span>
                         </a>
                     </li>
                 </ul>

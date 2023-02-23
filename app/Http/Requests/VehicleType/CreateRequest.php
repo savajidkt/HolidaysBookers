@@ -40,10 +40,10 @@ class CreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'vehicle_name.required' => 'Vehicle name is required.',
-            'no_of_seats.required' => 'No of seats is required.',
-            'no_of_seats.numeric' => 'No of seats it\'s should be number only.',
-            'status.required'=>'Status is required.'
+            'vehicle_name.required' => __('vehicletype/message.vehicle_name_required'),
+            'no_of_seats.required' => __('vehicletype/message.no_of_seats_required'),
+            'no_of_seats.numeric' => __('vehicletype/message.no_of_seats_number_required'),
+            'status.required' => __('vehicletype/message.status_required'),
         ];
     }
 }

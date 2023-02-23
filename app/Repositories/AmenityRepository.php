@@ -22,7 +22,7 @@ class AmenityRepository
             'status'     => $data['status'],
         ];
 
-        $amenity =  Amenity::create($dataSave);        
+        $amenity =  Amenity::create($dataSave);
         return $amenity;
     }
 
@@ -44,12 +44,11 @@ class AmenityRepository
         ];
 
 
-        if($amenity->update($dataSave))
-        {           
+        if ($amenity->update($dataSave)) {
             return $amenity;
         }
 
-        throw new Exception('Amenity name update failed.');
+        throw new Exception(__('amenity/message.updated_error'));
     }
 
     /**
@@ -62,12 +61,11 @@ class AmenityRepository
      */
     public function delete(Amenity $amenity): bool
     {
-        if( $amenity->forceDelete() )
-        {
+        if ($amenity->forceDelete()) {
             return true;
         }
 
-        throw new Exception('Amenity name delete failed.');
+        throw new Exception(__('amenity/message.deleted_error'));
     }
 
     /**
@@ -82,5 +80,4 @@ class AmenityRepository
         $amenity->status = !$input['status'];
         return $amenity->save();
     }
-
 }

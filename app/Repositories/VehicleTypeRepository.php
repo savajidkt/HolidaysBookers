@@ -22,7 +22,7 @@ class VehicleTypeRepository
             'status'     => $data['status'],
         ];
 
-        $vehicletype =  VehicleType::create($dataSave);        
+        $vehicletype =  VehicleType::create($dataSave);
         return $vehicletype;
     }
 
@@ -44,12 +44,11 @@ class VehicleTypeRepository
         ];
 
 
-        if($vehicletype->update($dataSave))
-        {           
+        if ($vehicletype->update($dataSave)) {
             return $vehicletype;
         }
 
-        throw new Exception('Vehicle type update failed.');
+        throw new Exception(__('vehicletype/message.updated_error'));
     }
 
     /**
@@ -62,12 +61,11 @@ class VehicleTypeRepository
      */
     public function delete(VehicleType $vehicletype): bool
     {
-        if( $vehicletype->forceDelete() )
-        {
+        if ($vehicletype->forceDelete()) {
             return true;
         }
 
-        throw new Exception('Vehicle type delete failed.');
+        throw new Exception(__('vehicletype/message.deleted_error'));
     }
 
     /**
@@ -82,5 +80,4 @@ class VehicleTypeRepository
         $vehicletype->status = !$input['status'];
         return $vehicletype->save();
     }
-
 }
