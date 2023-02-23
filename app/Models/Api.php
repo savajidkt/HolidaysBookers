@@ -14,13 +14,13 @@ class Api extends Model
     const STATUS = [
         self::ACTIVE => 'Active',
         self::INACTIVE => 'Inactive'
-    ];   
+    ];
 
     protected $fillable = [
         'name',
         'api_url',
         'status'
-    ];   
+    ];
 
     /**
      * Method getActionAttribute
@@ -60,10 +60,10 @@ class Api extends Model
 
         switch ($this->status) {
             case self::INACTIVE:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-api_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.inactive') . '</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-api_id="' . $this->id . '" data-status="' . $this->status . '">' .__('core.inactive') . '</span></a>';
                 break;
             default:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-api_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.active'). '</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-api_id="' . $this->id . '" data-status="' . $this->status . '">'.__('core.active'). '</span></a>';
                 break;
         }
 

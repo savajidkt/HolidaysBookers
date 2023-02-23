@@ -24,6 +24,12 @@ return [
     'username' => 'Username',
     'balance' => 'Balance',
     'action' => 'Action',
-    'new_agent' => 'New Agent',
+    'add_new' => 'New Agent',
+    'form_name' => 'API Name',
+    'form_url' => 'API URL',
+    'form_status' => 'Status',
+    'form_select_status' => 'Select Status',
+    'form_add_page_title' => 'New Agent',   
+    'form_edit_title' => 'Edit Agent',
     
 ];
