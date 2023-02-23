@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\Apis\ApisController;
 use App\Http\Controllers\Admin\User\UsersController;
+use App\Http\Controllers\Admin\Agent\AgentsController;
 use App\Http\Controllers\Admin\Roles\RolesController;
 use App\Http\Controllers\Admin\Admin\AdminsController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -60,6 +61,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('/admins', AdminsController::class);
     Route::resource('/roles', RolesController::class);
     Route::resource('/permissions', PermissionsController::class);
+
+    Route::resource('/agents', AgentsController::class);
+    Route::post('/agent/change-status', [AgentsController::class, 'changeStatus'])->name('change-agent-status');
 
     Route::resource('/hotelgroups', HotelGroupsController::class);
     Route::post('/hotelgroup/change-status', [HotelGroupsController::class, 'changeStatus'])->name('change-hotel-group-status');

@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Agent extends Authenticatable
 {
     use HasApiTokens, HasFactory, SoftDeletes, Notifiable;
 
@@ -27,20 +27,51 @@ class User extends Authenticatable
         self::INACTIVE => 'Inactive'
     ];
 
-    protected $with = ['agents'];
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'user_type',
-        'status',
-        'email',
-        'password',
+        'agent_code',
+        'agent_company_name',
+        'agent_company_type',
+        'nature_of_business',
+        'agent_first_name',
+        'agent_last_name',
+        'agent_designation',
+        'agent_dob',
+        'agent_office_address',
+        'agent_country',
+        'agent_state',
+        'agent_city',
+        'agent_pincode',
+        'agent_telephone',
+        'agent_mobile_number',
+        'agent_email',
+        'agent_website',
+        'agent_iata',
+        'agent_iata_number',
+        'agent_other_certification',
+        'agent_pan_number',
+        'agent_gst_number',
+        'mgmt_first_name',
+        'mgmt_last_name',
+        'mgmt_contact_number',
+        'mgmt_email',
+        'account_first_name',
+        'account_last_name',
+        'account_contact_number',
+        'account_email',
+        'reserve_first_name',
+        'reserve_last_name',
+        'reserve_contact_number',
+        'reserve_email',
+        'agent_pan_card',
+        'agent_company_certificate',
+        'agent_company_logo',
+        'agent_know_about',
+
     ];
 
     /**
@@ -65,7 +96,7 @@ class User extends Authenticatable
     public function scopeStatus($query, $status)
     {
         $status = strtolower($status) =='active'? 1 : 0;
-        return $query->where('status', $status); 
+        return $query->where('user_status', $status); 
     }
 
     /**
@@ -136,16 +167,14 @@ class User extends Authenticatable
 
         return $status;
     }
-     
+        
     /**
-     * Method agents
+     * Method user
      *
      * @return void
      */
-    public function agents()
-    {
-      return $this->morphTo();
+    public function user() 
+    { 
+        return $this->morphOne(User::class, 'agents');
     }
-   
-
 }

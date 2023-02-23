@@ -17,9 +17,8 @@ class AlterUserTableFields extends Migration
             //
             $table->string('first_name')->after('name')->nullable();
             $table->string('last_name')->after('first_name')->nullable();
-            $table->longText('address')->after('last_name')->nullable();
             $table->tinyInteger('user_type')->after('password')->default(2)->comment('1=Agent, 2=Customer');
-            $table->tinyInteger('user_status')->after('user_type')->default(0)->comment('0=Inactive, 1=Active');
+            $table->tinyInteger('status')->after('user_type')->default(0)->comment('0=Inactive, 1=Active');
             $table->dropColumn('name');
             $table->softDeletes();
         });
@@ -36,9 +35,8 @@ class AlterUserTableFields extends Migration
             //
             $table->dropColumn('first_name');
             $table->dropColumn('last_name');
-            $table->dropColumn('address');
             $table->dropColumn('user_type');
-            $table->dropColumn('user_status');
+            $table->dropColumn('status');
             $table->string('name')->after('id');
             $table->dropColumn('deleted_at');
         });
