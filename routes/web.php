@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\Apis\ApisController;
 use App\Http\Controllers\Admin\User\UsersController;
 use App\Http\Controllers\Admin\Roles\RolesController;
 use App\Http\Controllers\Admin\Admin\AdminsController;
@@ -15,9 +16,9 @@ use App\Http\Controllers\Admin\Amenities\AmenitiesController;
 use App\Http\Controllers\Admin\Countries\CountriesController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\RoomTypes\RoomTypesController;
+use App\Http\Controllers\Admin\Language\LocalizationController;
 use App\Http\Controllers\Admin\Permission\PermissionController;
 use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
-use App\Http\Controllers\Admin\Language\LocalizationController;
 use App\Http\Controllers\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
@@ -84,6 +85,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('/cities', CitiesController::class);
     Route::post('/city/change-status', [CitiesController::class, 'changeStatus'])->name('change-city-status');
     Route::post('/city/get-state', [CitiesController::class, 'getStateList'])->name('get-state-list');
+
+    Route::resource('/apis', ApisController::class);
+    Route::post('/api/change-status', [ApisController::class, 'changeStatus'])->name('change-api-status');
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
