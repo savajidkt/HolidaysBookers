@@ -1,10 +1,11 @@
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Country Name</label>
-            <input type="text" id="basic-addon-name" name="name" class="form-control" placeholder="Country Name"
+            <label class="form-label" for="basic-addon-name">{{ __('country/country.form_country_name') }}</label>
+            <input type="text" id="basic-addon-name" name="name" class="form-control"
+                placeholder="{{ __('country/country.form_country_name') }}"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name" />
-            <div class="valid-feedback">Looks good!</div>
+            <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('name')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -12,10 +13,11 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-code">Country Code</label>
-            <input type="text" id="basic-addon-code" name="code" class="form-control" placeholder="Country Code"
+            <label class="form-label" for="basic-addon-code">{{ __('country/country.form_country_code') }}</label>
+            <input type="text" id="basic-addon-code" name="code" class="form-control"
+                placeholder="{{ __('country/country.form_country_code') }}"
                 value="{{ isset($model->code) ? $model->code : old('code') }}" aria-describedby="basic-addon-code" />
-            <div class="valid-feedback">Looks good!</div>
+            <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('code')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -23,12 +25,13 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-phone_code">Phone Code</label>
+            <label class="form-label"
+                for="basic-addon-phone_code">{{ __('country/country.form_country_phone_code') }}</label>
             <input type="text" id="basic-addon-phone_code" name="phone_code" class="form-control"
-                placeholder="Phone Code"
+                placeholder="{{ __('country/country.form_country_phone_code') }}"
                 value="{{ isset($model->phone_code) ? $model->phone_code : old('phone_code') }}"
                 aria-describedby="basic-addon-phone_code" />
-            <div class="valid-feedback">Looks good!</div>
+            <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('phone_code')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -36,12 +39,13 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-nationality">Nationality</label>
+            <label class="form-label"
+                for="basic-addon-nationality">{{ __('country/country.form_nationality') }}</label>
             <input type="text" id="basic-addon-nationality" name="nationality" class="form-control"
-                placeholder="Nationality"
+                placeholder="{{ __('country/country.form_nationality') }}"
                 value="{{ isset($model->nationality) ? $model->nationality : old('nationality') }}"
                 aria-describedby="basic-addon-nationality" />
-            <div class="valid-feedback">Looks good!</div>
+            <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('nationality')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -49,14 +53,13 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">Status</label>
+            <label class="form-label" for="role">{{ __('country/country.form_status') }}</label>
             <select name="status" class="form-control" id="status">
-                <option value="">Select Status</option>
-                <option value="1" {{ $model->status == 1 ? 'selected' : '' }}> Active</option>
-                <option value="0" {{ $model->status == 0 ? 'selected' : '' }}> Inactive</option>
-
+                <option value="">{{ __('country/country.form_select_status') }}</option>
+                <option value="1" {{ $model->status == 1 ? 'selected' : '' }}> {{ __('core.active') }}</option>
+                <option value="0" {{ $model->status == 0 ? 'selected' : '' }}> {{ __('core.inactive') }}</option>
             </select>
-            <div class="valid-feedback">Looks good!</div>
+            <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('status')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror

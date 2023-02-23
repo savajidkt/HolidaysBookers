@@ -76,7 +76,7 @@ class StatesController extends Controller
     public function store(CreateRequest $request)
     {
         $this->stateRepository->create($request->all());
-        return redirect()->route('states.index')->with('success', "State created successfully!");
+        return redirect()->route('states.index')->with('success', __('state/message.created_success'));
     }
 
     /**
@@ -115,7 +115,7 @@ class StatesController extends Controller
     {
         $this->stateRepository->update($request->all(), $state);
 
-        return redirect()->route('states.index')->with('success', "State updated successfully!");
+        return redirect()->route('states.index')->with('success', __('state/message.updated_success'));
     }
 
     /**
@@ -127,7 +127,7 @@ class StatesController extends Controller
     public function destroy(State $state)
     {
         $this->stateRepository->delete($state);
-        return redirect()->route('states.index')->with('success', "State deleted successfully!");
+        return redirect()->route('states.index')->with('success', __('state/message.deleted_success'));
     }
 
     /**
@@ -145,10 +145,10 @@ class StatesController extends Controller
         if ($this->stateRepository->changeStatus($input, $state)) {
             return response()->json([
                 'status' => true,
-                'message' => 'State status updated successfully.'
+                'message' => __('state/message.status_updated_success')
             ]);
         }
 
-        throw new Exception('State status does not change. Please check sometime later.');
+        throw new Exception(__('state/message.error'));
     }
 }

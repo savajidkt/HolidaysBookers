@@ -50,7 +50,7 @@ class StateRepository
             return $state;
         }
 
-        throw new Exception('State update failed.');
+        throw new Exception(__('state/message.updated_error'));
     }
 
     /**
@@ -67,7 +67,7 @@ class StateRepository
             return true;
         }
 
-        throw new Exception('State delete failed.');
+        throw new Exception(__('state/message.deleted_error'));
     }
 
     /**

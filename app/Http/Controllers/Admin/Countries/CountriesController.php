@@ -76,7 +76,7 @@ class CountriesController extends Controller
     public function store(CreateRequest $request)
     {
         $this->countryRepository->create($request->all());
-        return redirect()->route('countries.index')->with('success', "Country created successfully!");
+        return redirect()->route('countries.index')->with('success', __('country/message.created_success'));
     }
 
     /**
@@ -114,7 +114,7 @@ class CountriesController extends Controller
     {
         $this->countryRepository->update($request->all(), $country);
 
-        return redirect()->route('countries.index')->with('success', "Country updated successfully!");
+        return redirect()->route('countries.index')->with('success', __('country/message.updated_success'));
     }
 
     /**
@@ -126,7 +126,7 @@ class CountriesController extends Controller
     public function destroy(Country $country)
     {
         $this->countryRepository->delete($country);
-        return redirect()->route('countries.index')->with('success', "Country deleted successfully!");
+        return redirect()->route('countries.index')->with('success', __('country/message.deleted_success'));
     }
 
     /**
@@ -144,10 +144,10 @@ class CountriesController extends Controller
         if ($this->countryRepository->changeStatus($input, $country)) {
             return response()->json([
                 'status' => true,
-                'message' => 'Country status updated successfully.'
+                'message' => __('country/message.status_updated_success')
             ]);
         }
 
-        throw new Exception('Country status does not change. Please check sometime later.');
+        throw new Exception(__('country/message.error'));
     }
 }

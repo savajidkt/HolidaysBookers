@@ -129,19 +129,19 @@
                     <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/countries') }}">
                             <i data-feather='map-pin'></i><span class="menu-item text-truncate"
-                                data-i18n="Countries">Countries</span>
+                                data-i18n="{{ __('country/country.menu') }}">{{ __('country/country.menu') }}</span>
                         </a>
                     </li>
                     <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/states') }}">
                             <i data-feather='map-pin'></i><span class="menu-item text-truncate"
-                                data-i18n="States">States</span>
+                                data-i18n="{{ __('state/state.menu') }}">{{ __('state/state.menu') }}</span>
                         </a>
                     </li>
                     <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/cities') }}">
                             <i data-feather='map-pin'></i><span class="menu-item text-truncate"
-                                data-i18n="Cities">Cities</span>
+                                data-i18n="{{ __('city/city.menu') }}">{{ __('city/city.menu') }}</span>
                         </a>
                     </li>
                 </ul>
@@ -149,7 +149,8 @@
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/apis') }}">
                     <i data-feather='user'></i>
-                    <span class="menu-title text-truncate" data-i18n="Apis">{{ __('api/api.menu') }}</span>
+                    <span class="menu-title text-truncate"
+                        data-i18n="{{ __('api/api.menu') }}">{{ __('api/api.menu') }}</span>
                 </a>
             </li>
             @role('super-admin')

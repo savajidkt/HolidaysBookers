@@ -13,25 +13,20 @@ return [
     |
     */
 
-    'menu' => 'Countries',
-    'list_page_title' => 'Countries',    
-
-    'table_country_name' => 'Country',
-    'table_country_code' => 'Country Code',
-    'table_country_phone_code' => 'Phone no',
-    'table_nationality' => 'Nationality',
-
-    'add_new' => 'New Country',
-
+    'menu' => 'Cities',
+    'list_page_title' => 'Cities',    
+    'table_city' => 'City',
+    'table_state' => 'State',
+    'table_country' => 'Country',
+    'add_new' => 'New City',
     'form_country_name' => 'Country Name',
-    'form_country_code' => 'Country Code',    
-    'form_country_phone_code' => 'Phone Code',    
-    'form_nationality' => 'Nationality',    
+    'form_country_select' => 'Select Country',
+    'form_state_name' => 'State Name',
+    'form_state_status' => 'Select State',
+    'form_city_name' => 'City Name',       
     'form_status' => 'Status',    
-
     'form_select_status' => 'Select Status',
-
-    'form_add_page_title' => 'New Country',   
-    'form_edit_title' => 'Edit Country', 
+    'form_add_page_title' => 'New City',   
+    'form_edit_title' => 'Edit City', 
     
 ];

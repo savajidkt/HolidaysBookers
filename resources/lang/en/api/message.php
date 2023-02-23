@@ -15,7 +15,7 @@ return [
 
     'swal_title_are_you_sure' => 'Are you sure?',
     'swal_update_title_are_you_sure' => 'Update API status',
-    'swal_text_are_you_sure' => 'You won\'t be able to revert this!',
+    'swal_text_are_you_sure' => 'You won`t be able to revert this!',
     'swal_confirm_button_text_are_you_sure' => 'Yes, delete it!',
     'swal_confirm_message_active' => 'Are you sure you want to activate API?',
     'swal_confirm_message_deactive' => 'Are you sure you want to deactivate API?',

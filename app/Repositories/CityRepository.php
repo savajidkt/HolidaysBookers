@@ -50,7 +50,7 @@ class CityRepository
             return $city;
         }
 
-        throw new Exception('City update failed.');
+        throw new Exception(__('city/message.updated_error'));
     }
 
     /**
@@ -67,7 +67,7 @@ class CityRepository
             return true;
         }
 
-        throw new Exception('City delete failed.');
+        throw new Exception(__('city/message.deleted_error'));
     }
 
     /**

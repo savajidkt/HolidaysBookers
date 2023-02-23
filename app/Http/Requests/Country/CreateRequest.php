@@ -26,7 +26,7 @@ class CreateRequest extends FormRequest
         $rules = [
             'name'        => 'required',
             'code'        => 'required',
-            'phone_code'        => 'required|numeric|max:4|min:1',
+            'phone_code'        => 'required|numeric',
             'nationality'        => 'required',
             'status'     => 'required',
         ];
@@ -42,14 +42,14 @@ class CreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Country name is required.',
-            'code.required' => 'Country code is required.',
-            'phone_code.required' => 'Country phone code is required.',
-            'phone_code.numeric' => 'Phone code it should be number only.',
-            'phone_code.min' => 'Phone code minimum one digit.',
-            'phone_code.max' => 'Phone code maximum four digit.',
-            'nationality.required' => 'Country nationality is required.',
-            'status.required' => 'Status is required.'
+            'name.required' => __('country/message.country_name_required'),
+            'code.required' => __('country/message.country_code_required'),
+            'phone_code.required' => __('country/message.country_phone_code_required'),
+            'phone_code.numeric' => __('country/message.country_phone_number_only_required'),
+            'phone_code.min' => __('country/message.country_phone_number_min_required'),
+            'phone_code.max' => __('country/message.country_phone_number_max_required'),
+            'nationality.required' => __('country/message.country_nationality_required'),
+            'status.required' => __('country/message.status_required'),
         ];
     }
 }

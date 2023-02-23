@@ -7,7 +7,7 @@
             <div class="col-md-6 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">{{ __('api/api.form_add_page_title') }}</h4>
+                        <h4 class="card-title">{{ __('api/api.add_new') }}</h4>
                     </div>
                     <div class="card-body">
                         <form class="needs-validation1" method="post" enctype="multipart/form-data"

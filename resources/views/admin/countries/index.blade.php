@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('page_title', __('country/country.title'))
+@section('page_title', __('country/country.list_page_title'))
 @section('content')
     <!-- users list start -->
     <section class="app-user-list">
@@ -7,9 +7,9 @@
         <!-- list section start -->
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                <h4 class="card-title">{{ __('country/country.title') }}</h4>
+                <h4 class="card-title">{{ __('country/country.list_page_title') }}</h4>
                 <a href="{{ route('countries.create') }}"><button type="reset"
-                        class="btn btn-primary mr-1 waves-effect waves-float waves-light">New Country</button></a>
+                        class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ __('country/country.add_new') }}</button></a>
             </div>
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">
@@ -17,10 +17,10 @@
                         <tr>
                             <th></th>
                             <th>{{ __('core.id') }}</th>
-                            <th>{{ __('country/country.name') }}</th>
-                            <th>{{ __('country/country.code') }}</th>
-                            <th>{{ __('country/country.phonecode') }}</th>
-                            <th>{{ __('country/country.nationality') }}</th>
+                            <th>{{ __('country/country.table_country_name') }}</th>
+                            <th>{{ __('country/country.table_country_code') }}</th>
+                            <th>{{ __('country/country.table_country_phone_code') }}</th>
+                            <th>{{ __('country/country.table_nationality') }}</th>
                             <th>{{ __('core.status') }}</th>
                             <th>{{ __('core.action') }}</th>
                         </tr>
@@ -37,6 +37,19 @@
     <script type="text/javascript">
         $(function() {
             var table = $('.user-list-table').DataTable({
+                language: {
+                    emptyTable: '{{ __('core.table_no_data') }}',
+                    info: '{{ __('core.table_info_data') }}',
+                    infoEmpty: '{{ __('core.table_infoEmpty_data') }}',
+                    lengthMenu: '{{ __('core.table_lengthMenu') }}',
+                    search: '{{ __('core.table_search') }}',
+                    paginate: {
+                        "first": '{{ __('core.table_paginate_first') }}',
+                        "last": '{{ __('core.table_paginate_last') }}',
+                        "next": '{{ __('core.table_paginate_next') }}',
+                        "previous": '{{ __('core.table_paginate_previous') }}',
+                    },
+                },
                 processing: true,
                 serverSide: true,
                 searching: true,
@@ -88,11 +101,12 @@
                 e.preventDefault();
                 var $this = $(this);
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: "{{ __('country/message.swal_title_are_you_sure') }}",
+                    text: "{{ __('country/message.swal_text_are_you_sure') }}",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: "{{ __('core.cancel') }}",
+                    confirmButtonText: "{{ __('country/message.swal_confirm_button_text_are_you_sure') }}",
                     customClass: {
                         confirmButton: 'btn btn-primary',
                         cancelButton: 'btn btn-outline-danger ml-1'
@@ -108,16 +122,17 @@
                 var $this = $(this),
                     country_type_id = $this.data('country_type_id'),
                     status = $this.data('status'),
-                    message = status == 1 ? 'Are you sure you want to deactivate country?' :
-                    'Are you sure you want to activate country?';
+                    message = status == 1 ? "{{ __('country/message.swal_confirm_message_deactive') }}" :
+                    "{{ __('country/message.swal_confirm_message_active') }}";
 
 
                 Swal.fire({
-                    title: 'Update country status',
+                    title: "{{ __('country/message.swal_update_title_are_you_sure') }}",
                     text: message,
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes',
+                    cancelButtonText: "{{ __('core.cancel') }}",
+                    confirmButtonText: "{{ __('core.yes') }}",
                     customClass: {
                         confirmButton: 'btn btn-primary',
                         cancelButton: 'btn btn-outline-danger ml-1'

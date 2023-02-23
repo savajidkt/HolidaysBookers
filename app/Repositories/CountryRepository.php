@@ -24,7 +24,7 @@ class CountryRepository
             'status'     => $data['status'],
         ];
 
-        $country =  Country::create($dataSave);        
+        $country =  Country::create($dataSave);
         return $country;
     }
 
@@ -48,12 +48,11 @@ class CountryRepository
         ];
 
 
-        if($country->update($dataSave))
-        {           
+        if ($country->update($dataSave)) {
             return $country;
         }
 
-        throw new Exception('Country update failed.');
+        throw new Exception(__('country/message.updated_error'));
     }
 
     /**
@@ -66,12 +65,11 @@ class CountryRepository
      */
     public function delete(Country $country): bool
     {
-        if( $country->forceDelete() )
-        {
+        if ($country->forceDelete()) {
             return true;
         }
 
-        throw new Exception('Country delete failed.');
+        throw new Exception(__('country/message.deleted_error'));
     }
 
     /**
@@ -86,5 +84,4 @@ class CountryRepository
         $country->status = !$input['status'];
         return $country->save();
     }
-
 }

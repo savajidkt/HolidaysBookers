@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('page_title', 'States')
+@section('page_title', __('state/state.list_page_title'))
 @section('content')
     <!-- users list start -->
     <section class="app-user-list">
@@ -7,20 +7,21 @@
         <!-- list section start -->
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                <h4 class="card-title">States</h4>
-                <a href="{{ route('states.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">New State</button></a>
+                <h4 class="card-title">{{ __('state/state.list_page_title') }}</h4>
+                <a href="{{ route('states.create') }}"><button type="reset"
+                        class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ __('state/state.add_new') }}</button></a>
             </div>
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">
                     <thead class="thead-light">
                         <tr>
                             <th></th>
-                            <th>ID</th>                            
-                            <th>State</th>
-                            <th>State Code</th>                            
-                            <th>Country</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>{{ __('core.id') }}</th>
+                            <th>{{ __('state/state.table_state_name') }}</th>
+                            <th>{{ __('state/state.table_state_code') }}</th>
+                            <th>{{ __('state/state.table_country') }}</th>
+                            <th>{{ __('core.table_status') }}</th>
+                            <th>{{ __('core.table_action') }}</th>
                         </tr>
                     </thead>
                 </table>
@@ -51,7 +52,7 @@
                     {
                         data: 'id',
                         visible: false,
-                    },                   
+                    },
                     {
                         data: 'name',
                         name: 'name'
@@ -59,11 +60,11 @@
                     {
                         data: 'code',
                         name: 'code'
-                    }, 
+                    },
                     {
                         data: 'country_id',
                         name: 'country_id'
-                    },                  
+                    },
                     {
                         data: 'status',
                         name: 'status'
@@ -82,11 +83,12 @@
                 e.preventDefault();
                 var $this = $(this);
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
+                    title: "{{ __('state/message.swal_title_are_you_sure') }}",
+                    text: "{{ __('state/message.swal_text_are_you_sure') }}",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: "{{ __('core.cancel') }}",
+                    confirmButtonText: "{{ __('state/message.swal_confirm_button_text_are_you_sure') }}",
                     customClass: {
                         confirmButton: 'btn btn-primary',
                         cancelButton: 'btn btn-outline-danger ml-1'
@@ -100,18 +102,19 @@
             }).on('click', '.status_update', function(e) {
                 e.preventDefault();
                 var $this = $(this),
-                state_id = $this.data('state_id'),
+                    state_id = $this.data('state_id'),
                     status = $this.data('status'),
-                    message = status == 1 ? 'Are you sure you want to deactivate state?' :
-                    'Are you sure you want to activate state?';
+                    message = status == 1 ? "{{ __('state/message.swal_confirm_message_deactive') }}" :
+                    "{{ __('state/message.swal_confirm_message_active') }}";
 
 
                 Swal.fire({
-                    title: 'Update state status',
+                    title: "{{ __('state/message.swal_update_title_are_you_sure') }}",
                     text: message,
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Yes',
+                    cancelButtonText: "{{ __('core.cancel') }}",
+                    confirmButtonText: "{{ __('core.yes') }}",
                     customClass: {
                         confirmButton: 'btn btn-primary',
                         cancelButton: 'btn btn-outline-danger ml-1'
@@ -123,7 +126,7 @@
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             }
-                        });                        
+                        });
                         $.ajax({
                             type: 'POST',
                             url: "{{ route('change-state-status') }}",

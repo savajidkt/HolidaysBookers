@@ -26,7 +26,7 @@ class EditRequest extends FormRequest
         $rules = [
             'country_id'        => ['required'],
             'state_id'        => ['required'],
-            'name'        => ['required'],            
+            'name'        => ['required'],
             'status'     => ['required'],
         ];
 
@@ -41,10 +41,10 @@ class EditRequest extends FormRequest
     public function messages()
     {
         return [
-            'country_id.required' => 'Country name is required.',
-            'state_id.required' => 'State name is required.',
-            'name.required' => 'City name is required.',            
-            'status.required' => 'Status is required.'
+            'country_id.required' => __('city/message.country_name_required'),
+            'state_id.required' =>  __('city/message.state_name_required'),
+            'name.required' =>  __('city/message.city_name_required'),
+            'status.required' =>  __('city/message.status_required')
         ];
     }
 }

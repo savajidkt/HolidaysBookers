@@ -41,10 +41,10 @@ class EditRequest extends FormRequest
     public function messages()
     {
         return [
-            'country_id.required' => 'Country name is required.',
-            'name.required' => 'State name is required.',
-            'code.required' => 'State code name is required.',
-            'status.required' => 'Status is required.'
+            'country_id.required' => __('state/message.country_name_required'),
+            'name.required' => __('state/message.state_name_required'),
+            'code.required' => __('state/message.state_code_required'),
+            'status.required' => __('state/message.status_required')
         ];
     }
 }

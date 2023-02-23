@@ -95,6 +95,7 @@
                     text: "{{ __('api/message.swal_text_are_you_sure') }}",
                     icon: 'warning',
                     showCancelButton: true,
+                    cancelButtonText: "{{ __('core.cancel') }}",
                     confirmButtonText: "{{ __('api/message.swal_confirm_button_text_are_you_sure') }}",
                     customClass: {
                         confirmButton: 'btn btn-primary',
@@ -120,6 +121,7 @@
                     text: message,
                     icon: 'warning',
                     showCancelButton: true,
+                    cancelButtonText: "{{ __('core.cancel') }}",
                     confirmButtonText: "{{ __('core.yes') }}",
                     customClass: {
                         confirmButton: 'btn btn-primary',

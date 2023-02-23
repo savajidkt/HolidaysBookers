@@ -78,7 +78,7 @@ class CitiesController extends Controller
     public function store(CreateRequest $request)
     {
         $this->cityRepository->create($request->all());
-        return redirect()->route('cities.index')->with('success', "City created successfully!");
+        return redirect()->route('cities.index')->with('success', __('city/message.created_success'));
     }
 
     /**
@@ -104,7 +104,7 @@ class CitiesController extends Controller
         $statesData = [];
         $countryData    = Country::all();
         $statesData    = $city->state->country->states;
-        
+
         return view('admin.cities.edit', ['model' => $city, 'countries' => $countryData, 'states' => $statesData]);
     }
 
@@ -120,7 +120,7 @@ class CitiesController extends Controller
     {
         $this->cityRepository->update($request->all(), $city);
 
-        return redirect()->route('cities.index')->with('success', "City updated successfully!");
+        return redirect()->route('cities.index')->with('success', __('city/message.updated_success'));
     }
 
     /**
@@ -132,7 +132,7 @@ class CitiesController extends Controller
     public function destroy(City $city)
     {
         $this->cityRepository->delete($city);
-        return redirect()->route('cities.index')->with('success', "City deleted successfully!");
+        return redirect()->route('cities.index')->with('success', __('city/message.deleted_success'));
     }
 
     /**
@@ -150,11 +150,11 @@ class CitiesController extends Controller
         if ($this->cityRepository->changeStatus($input, $city)) {
             return response()->json([
                 'status' => true,
-                'message' => 'City status updated successfully.'
+                'message' => __('city/message.updated_success')
             ]);
         }
 
-        throw new Exception('City status does not change. Please check sometime later.');
+        throw new Exception(__('city/message.error'));
     }
 
     /**
@@ -171,7 +171,7 @@ class CitiesController extends Controller
         return response()->json([
             'status' => true,
             'states' => $country->states,
-            'message' => 'Get state list successfully.'
+            'message' => __('city/message.success_state_list')
         ]);
     }
 }

@@ -13,7 +13,9 @@ return [
     |
     */
     'back' => 'Back',
+    'cancel' => 'Cancel',
     'submit' => 'Submit',
+    'update' => 'Update',
     'send' => 'Send',
     'view' => 'View',
     'edit' => 'Edit',
@@ -31,7 +33,7 @@ return [
     'inactive' => 'Inactive',
     'table_status' => 'Status',
     'table_action' => 'Action',
-
+    'loading' => 'Loading...', 
     'table_no_data' => 'No data available in table',
     'table_info_data' => 'Showing _START_ to _END_ of _TOTAL_ entries',
     'table_infoEmpty_data' => 'Showing 0 to 0 of 0 entries',
