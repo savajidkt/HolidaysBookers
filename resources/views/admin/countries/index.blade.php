@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('page_title', __('country/listing.title'))
+@section('page_title', __('country/country.title'))
 @section('content')
     <!-- users list start -->
     <section class="app-user-list">
@@ -7,21 +7,22 @@
         <!-- list section start -->
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                <h4 class="card-title">{{ __('country/listing.title') }}</h4>
-                <a href="{{ route('countries.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">New Country</button></a>
+                <h4 class="card-title">{{ __('country/country.title') }}</h4>
+                <a href="{{ route('countries.create') }}"><button type="reset"
+                        class="btn btn-primary mr-1 waves-effect waves-float waves-light">New Country</button></a>
             </div>
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">
                     <thead class="thead-light">
                         <tr>
                             <th></th>
-                            <th>ID</th>
-                            <th>{{ __('country/listing.name') }}</th>
-                            <th>{{ __('country/listing.code') }}</th>
-                            <th>{{ __('country/listing.phonecode') }}</th>
-                            <th>{{ __('country/listing.nationality') }}</th>
-                            <th>{{ __('country/listing.status') }}</th>
-                            <th>{{ __('country/listing.action') }}</th>
+                            <th>{{ __('core.id') }}</th>
+                            <th>{{ __('country/country.name') }}</th>
+                            <th>{{ __('country/country.code') }}</th>
+                            <th>{{ __('country/country.phonecode') }}</th>
+                            <th>{{ __('country/country.nationality') }}</th>
+                            <th>{{ __('core.status') }}</th>
+                            <th>{{ __('core.action') }}</th>
                         </tr>
                     </thead>
                 </table>
@@ -128,7 +129,7 @@
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             }
-                        });                        
+                        });
                         $.ajax({
                             type: 'POST',
                             url: "{{ route('change-country-status') }}",

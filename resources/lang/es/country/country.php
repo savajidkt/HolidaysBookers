@@ -13,13 +13,9 @@ return [
     |
     */
 
-    'title' => 'Des pays',
-    'name' => 'Nom',
-    'code' => 'Code',
-    'phonecode' => 'Indicatif téléphonique',
-    'nationality' => 'Nationalité',
-    'status' => 'Statut',
-    'action' => 'Action',
-
-
+    'title' => 'Países',
+    'name' => 'Nombre',
+    'code' => 'Código',
+    'phonecode' => 'Código de teléfono',
+    'nationality' => 'Nacionalidad',
 ];

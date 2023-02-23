@@ -12,14 +12,12 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
-    'title' => 'Countries',
-    'name' => 'Name',
-    'code' => 'Code',
-    'phonecode' => 'Phone Code',
-    'nationality' => 'Nationality',
-    'status' => 'Status',
-    'action' => 'Action',
+    'back' => 'Atrás',
+    'submit' => 'Entregar',
+    'Send' => 'Enviar',
+    'id' => 'Identificación',
+    'status' => 'Estado',
+    'action' => 'Acción',
 
 
 ];

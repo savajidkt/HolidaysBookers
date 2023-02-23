@@ -18,10 +18,9 @@ class LocalizationController extends Controller
     }
     public function lang_change(Request $request)
     {
-        // App::setLocale($request->lang);
-        // session()->put('locale', $request->lang);
         if (array_key_exists($request->lang, Config::get('languages'))) {
-            Session::put('locale',$request->lang);
+            App::setLocale($request->lang);
+            session()->put('locale', $request->lang);
         }
         return redirect()->back();
     }
