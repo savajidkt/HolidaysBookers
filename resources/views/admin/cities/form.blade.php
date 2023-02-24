@@ -2,7 +2,8 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label" for="country">{{ __('city/city.form_country_name') }}</label>
-            <select name="country_id" class="form-control" id="country_id">
+            <select name="country_id" class="form-control" id="country_id"
+                data-error="{{ __('city/message.country_name_required') }}">
                 <option value="">{{ __('city/city.form_country_select') }}</option>
                 @foreach ($countries as $country)
                     <option value="{{ $country->id }}" {{ $model->country_id == $country->id ? 'selected' : '' }}>
@@ -18,7 +19,8 @@
     <div class="col-12">
         <div class="form-group loaderDisplay">
             <label class="form-label" for="country">{{ __('city/city.form_state_name') }}</label>
-            <select name="state_id" class="form-control" id="state_id">
+            <select name="state_id" class="form-control" id="state_id"
+                data-error="{{ __('city/message.state_name_required') }}">
                 <option value="">{{ __('city/city.form_state_status') }}</option>
                 @if ($states)
                     @foreach ($states as $state)
@@ -41,7 +43,8 @@
             <label class="form-label" for="basic-addon-name">{{ __('city/city.form_city_name') }}</label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
                 placeholder="{{ __('city/city.form_city_name') }}"
-                value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name" />
+                value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
+                data-error="{{ __('city/message.city_name_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('name')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -51,7 +54,8 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label" for="role">{{ __('city/city.form_status') }}</label>
-            <select name="status" class="form-control" id="status">
+            <select name="status" class="form-control" id="status"
+                data-error="{{ __('city/message.state_name_required') }}">
                 <option value="">{{ __('city/city.form_select_status') }}</option>
                 <option value="1" {{ $model->status == 1 ? 'selected' : '' }}> {{ __('core.active') }}
                 </option>
@@ -67,41 +71,9 @@
 </div>
 @section('extra-script')
     <script type="text/javascript">
-        $(document).ready(function() {
-
-            $(document).on('change', '#country_id', function() {
-                var country_id = $(this).val();
-                $('#state_id').find('option:not(:first)').remove();
-                if (country_id) {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        beforeSend: function() {
-                            $(".spinner-border").show();
-                        },
-                        complete: function() {
-                            $(".spinner-border").hide();
-                        },
-                        type: 'POST',
-                        url: "{{ route('get-state-list') }}",
-                        dataType: 'json',
-                        data: {
-                            country_id: country_id
-                        },
-                        success: function(data) {
-                            if (data.status) {
-                                $.each(data.states, function(key, val) {
-                                    $('#state_id').append(new Option(val.name, val.id));
-                                });
-                            }
-                            $(".spinner-border").hide();
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+        var moduleConfig = {
+            redirectUrl: "{!! route('get-state-list') !!}"
+        };
+    </script>    
+    <script src="{{ asset('js/form/City.js') }}"></script>
 @endsection

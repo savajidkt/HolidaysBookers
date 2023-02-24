@@ -16,8 +16,7 @@
     <script src="{{asset('app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js')}}"></script>
     <script src="{{asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js')}}"></script>
 
-    <script src="{{asset('app-assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
-    <script src="{{asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('app-assets/vendors/js/forms/select/select2.full.min.js')}}"></script>    
     <script src="{{asset('app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js')}}"></script>
 
     <!-- BEGIN: Theme JS-->

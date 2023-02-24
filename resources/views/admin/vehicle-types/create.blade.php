@@ -10,7 +10,7 @@
                         <h4 class="card-title">{{ __('vehicletype/vehicletype.add_new') }}</h4>
                     </div>
                     <div class="card-body">
-                        <form class="needs-validation1" method="post" enctype="multipart/form-data"
+                        <form id="FrmVehicleType" class="needs-validation1" method="post" enctype="multipart/form-data"
                             action="{{ route('vehicletypes.store') }}">
                             <input type="hidden" name="id" value="{{ isset($model->id) ? $model->id : null }}">
                             @csrf

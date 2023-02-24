@@ -10,7 +10,7 @@
                         <h4 class="card-title">{{ __('city/city.form_edit_title') }}</h4>
                     </div>
                     <div class="card-body">
-                        <form id="city-edit" class="needs-validation1" novalidate method="post" enctype="multipart/form-data"
+                        <form id="City" class="needs-validation1" novalidate method="post" enctype="multipart/form-data"
                             action="{{ route('cities.update', $model) }}">
                             @csrf
                             @method('PUT')

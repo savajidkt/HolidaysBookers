@@ -10,8 +10,8 @@
                         <h4 class="card-title">{{ __('country/country.form_edit_title') }}</h4>
                     </div>
                     <div class="card-body">
-                        <form id="jquery-val-form" class="needs-validation1" novalidate method="post"
-                            enctype="multipart/form-data" action="{{ route('countries.update', $model) }}">
+                        <form id="Country" class="needs-validation1" novalidate method="post" enctype="multipart/form-data"
+                            action="{{ route('countries.update', $model) }}">
                             @csrf
                             @method('PUT')
                             @include('admin.countries.form')

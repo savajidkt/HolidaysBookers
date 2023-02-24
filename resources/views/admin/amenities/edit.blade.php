@@ -10,7 +10,7 @@
                         <h4 class="card-title">{{ __('amenity/amenity.form_edit_title') }}</h4>
                     </div>
                     <div class="card-body">
-                        <form id="jquery-val-form" class="needs-validation1" novalidate method="post"
+                        <form id="FrmAmenity" class="needs-validation1" novalidate method="post"
                             enctype="multipart/form-data" action="{{ route('amenities.update', $model) }}">
                             @csrf
                             @method('PUT')

@@ -10,7 +10,7 @@
                         <h4 class="card-title">{{ __('city/city.add_new') }}</h4>
                     </div>
                     <div class="card-body">
-                        <form id="city-add" class="needs-validation1" method="post" enctype="multipart/form-data"
+                        <form id="City" class="needs-validation1" method="post" enctype="multipart/form-data"
                             action="{{ route('cities.store') }}">
                             <input type="hidden" name="id" value="{{ isset($model->id) ? $model->id : null }}">
                             @csrf
