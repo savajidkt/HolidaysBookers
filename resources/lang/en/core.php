@@ -47,4 +47,6 @@ return [
     'menu_header_master_modules' => 'Master Modules',
     'dropdown_manu_header_title_location' => 'Location',
     'dropdown_manu_header_title_hotels' => 'Hotels',
+    'required'=>'is required',
+    
 ];

@@ -31,6 +31,7 @@ class CreateAgentsTable extends Migration
             $table->string('agent_pincode')->nullable();
             $table->string('agent_telephone')->nullable();
             $table->string('agent_mobile_number')->nullable();
+            $table->string('agent_email')->nullable();
             $table->string('agent_website')->nullable();
             $table->string('agent_iata')->nullable();
             $table->string('agent_iata_number')->nullable();
