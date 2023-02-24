@@ -39,7 +39,7 @@
     <script src="{{asset('app-assets/js/scripts/forms/pickers/form-pickers.js')}}"></script>
     @endif
     <!-- END: Page JS-->
-    <script src="{{asset('js/survey.common.js')}}"></script>
+    <script src="{{asset('js/common.js')}}"></script>
 
 
     <script>
