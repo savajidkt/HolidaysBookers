@@ -21,7 +21,7 @@ class PropertyTypeRepository
             'status'     => $data['status'],
         ];
 
-        $propertytype =  PropertyType::create($dataSave);        
+        $propertytype =  PropertyType::create($dataSave);
         return $propertytype;
     }
 
@@ -42,12 +42,11 @@ class PropertyTypeRepository
         ];
 
 
-        if($propertytype->update($dataSave))
-        {           
+        if ($propertytype->update($dataSave)) {
             return $propertytype;
         }
 
-        throw new Exception('Property type update failed.');
+        throw new Exception(__('propertytype/message.updated_error'));
     }
 
     /**
@@ -60,12 +59,11 @@ class PropertyTypeRepository
      */
     public function delete(PropertyType $propertytype): bool
     {
-        if( $propertytype->forceDelete() )
-        {
+        if ($propertytype->forceDelete()) {
             return true;
         }
 
-        throw new Exception('Property type delete failed.');
+        throw new Exception(__('propertytype/message.deleted_error'));
     }
 
     /**
@@ -80,5 +78,4 @@ class PropertyTypeRepository
         $propertytype->status = !$input['status'];
         return $propertytype->save();
     }
-
 }

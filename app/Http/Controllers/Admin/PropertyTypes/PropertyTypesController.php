@@ -67,7 +67,7 @@ class PropertyTypesController extends Controller
     public function store(CreateRequest $request)
     {
         $this->propertyTypeRepository->create($request->all());
-        return redirect()->route('propertytypes.index')->with('success', "Property Type created successfully!");
+        return redirect()->route('propertytypes.index')->with('success', __('propertytype/message.created_success'));
     }
 
     /**
@@ -105,7 +105,7 @@ class PropertyTypesController extends Controller
     {
         $this->propertyTypeRepository->update($request->all(), $propertytype);
 
-        return redirect()->route('propertytypes.index')->with('success', "Property Type updated successfully!");
+        return redirect()->route('propertytypes.index')->with('success', __('propertytype/message.updated_success'));
     }
 
     /**
@@ -117,7 +117,7 @@ class PropertyTypesController extends Controller
     public function destroy(PropertyType $propertytype)
     {
         $this->propertyTypeRepository->delete($propertytype);
-        return redirect()->route('propertytypes.index')->with('success', "Property Type deleted successfully!");
+        return redirect()->route('propertytypes.index')->with('success', __('propertytype/message.deleted_success'));
     }
 
     /**
@@ -135,10 +135,10 @@ class PropertyTypesController extends Controller
         if ($this->propertyTypeRepository->changeStatus($input, $propertytype)) {
             return response()->json([
                 'status' => true,
-                'message' => 'Property Type status updated successfully.'
+                'message' => __('propertytype/message.status_updated_success')
             ]);
         }
 
-        throw new Exception('Property Type status does not change. Please check sometime later.');
+        throw new Exception(__('propertytype/message.error'));
     }
 }

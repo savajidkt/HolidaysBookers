@@ -45,12 +45,11 @@ class HotelGroupRepository
         ];
 
 
-        if($hotelGroup->update($dataSave))
-        {
-          return $hotelGroup;
+        if ($hotelGroup->update($dataSave)) {
+            return $hotelGroup;
         }
 
-        throw new Exception('Hotel Group update failed.');
+        throw new Exception(__('hotel-group/message.updated_error'));
     }
 
     /**
@@ -63,11 +62,10 @@ class HotelGroupRepository
      */
     public function delete(HotelGroup $hotelGroup): bool
     {
-        if( $hotelGroup->forceDelete() )
-        {
+        if ($hotelGroup->forceDelete()) {
             return true;
         }
-        throw new Exception('Hotel Group delete failed.');
+        throw new Exception(__('hotel-group/message.deleted_error'));
     }
     /**
      * Method changeStatus
@@ -81,5 +79,4 @@ class HotelGroupRepository
         $hotelgroup->status = !$input['status'];
         return $hotelgroup->save();
     }
-
 }

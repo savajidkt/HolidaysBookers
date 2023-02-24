@@ -67,7 +67,7 @@ class HotelGroupsController extends Controller
     public function store(CreateRequest $request)
     {
         $this->hotelGroupRepository->create($request->all());
-        return redirect()->route('hotelgroups.index')->with('success', "Hotel Group created successfully!");
+        return redirect()->route('hotelgroups.index')->with('success', __('hotel-group/message.created_success'));
     }
 
     /**
@@ -105,7 +105,7 @@ class HotelGroupsController extends Controller
     {
         $this->hotelGroupRepository->update($request->all(), $hotelgroup);
 
-        return redirect()->route('hotelgroups.index')->with('success', "Hotel Group updated successfully!");
+        return redirect()->route('hotelgroups.index')->with('success', __('hotel-group/message.updated_success'));
     }
 
     /**
@@ -117,7 +117,7 @@ class HotelGroupsController extends Controller
     public function destroy(HotelGroup $hotelgroup)
     {
         $this->hotelGroupRepository->delete($hotelgroup);
-        return redirect()->route('hotelgroups.index')->with('success', "Hotel Group deleted successfully!");
+        return redirect()->route('hotelgroups.index')->with('success', __('hotel-group/message.deleted_success'));
     }
 
     /**
@@ -135,10 +135,9 @@ class HotelGroupsController extends Controller
         if ($this->hotelGroupRepository->changeStatus($input, $hotelgroup)) {
             return response()->json([
                 'status' => true,
-                'message' => 'Hotel Group status updated successfully.'
+                'message' => __('hotel-group/message.status_updated_success')
             ]);
         }
-
-        throw new Exception('Hotel Group status does not change. Please check sometime later.');
+        throw new Exception(__('hotel-group/message.error'));
     }
 }

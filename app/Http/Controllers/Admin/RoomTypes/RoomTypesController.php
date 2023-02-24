@@ -30,7 +30,7 @@ class RoomTypesController extends Controller
         if ($request->ajax()) {
 
             $data = RoomType::select('*');
-            
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('room_type', function (RoomType $roomtype) {
@@ -68,7 +68,7 @@ class RoomTypesController extends Controller
     public function store(CreateRequest $request)
     {
         $this->roomTypeRepository->create($request->all());
-        return redirect()->route('roomtypes.index')->with('success', "Room Type created successfully!");
+        return redirect()->route('roomtypes.index')->with('success', __('roomtype/message.created_success'));
     }
 
     /**
@@ -106,7 +106,7 @@ class RoomTypesController extends Controller
     {
         $this->roomTypeRepository->update($request->all(), $roomtype);
 
-        return redirect()->route('roomtypes.index')->with('success', "Room Type updated successfully!");
+        return redirect()->route('roomtypes.index')->with('success', __('roomtype/message.updated_success'));
     }
 
     /**
@@ -118,7 +118,7 @@ class RoomTypesController extends Controller
     public function destroy(RoomType $roomtype)
     {
         $this->roomTypeRepository->delete($roomtype);
-        return redirect()->route('roomtypes.index')->with('success', "Room Type deleted successfully!");
+        return redirect()->route('roomtypes.index')->with('success', __('roomtype/message.deleted_success'));
     }
 
     /**
@@ -136,10 +136,10 @@ class RoomTypesController extends Controller
         if ($this->roomTypeRepository->changeStatus($input, $roomtype)) {
             return response()->json([
                 'status' => true,
-                'message' => 'Room Type status updated successfully.'
+                'message' => __('roomtype/message.status_updated_success')
             ]);
         }
 
-        throw new Exception('Room Type status does not change. Please check sometime later.');
+        throw new Exception(__('roomtype/message.error'));
     }
 }

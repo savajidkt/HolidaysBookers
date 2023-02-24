@@ -65,12 +65,13 @@
                     <span class="menu-title text-truncate" data-i18n="Agents">Agents</span>
                 </a>
             </li>
-            <li class="navigation-header"><span data-i18n="Hotels Module">Hotels Module</span><i
+            <li class="navigation-header"><span
+                    data-i18n="{{ __('core.menu_header_hotels') }}">{{ __('core.menu_header_hotels') }}</span><i
                     data-feather="more-horizontal"></i>
             </li>
             <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather='home'></i><span class="menu-title text-truncate"
-                        data-i18n="Hotels">Hotels</span></a>
+                        data-i18n="{{ __('core.dropdown_manu_header_title_hotels') }}">{{ __('core.dropdown_manu_header_title_hotels') }}</span></a>
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center" href="{{ url('admin/offlinehotels') }}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate"
@@ -86,23 +87,26 @@
                     <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/hotelgroups') }}">
                             <i data-feather='circle'></i>
-                            <span class="menu-title text-truncate" data-i18n="Hotel Group">Hotel Groups</span>
+                            <span class="menu-title text-truncate"
+                                data-i18n="{{ __('hotel-group/hotel-group.menu') }}">{{ __('hotel-group/hotel-group.menu') }}</span>
                         </a>
                     </li>
                     <li><a class="d-flex align-items-center" href="{{ url('admin/propertytypes') }}">
                             <i data-feather='circle'></i>
-                            <span class="menu-title text-truncate" data-i18n="Property Type">Property Types</span>
+                            <span class="menu-title text-truncate"
+                                data-i18n="{{ __('propertytype/propertytype.menu') }}">{{ __('propertytype/propertytype.menu') }}</span>
                         </a>
                     </li>
                     <li><a class="d-flex align-items-center" href="{{ url('admin/roomtypes') }}">
                             <i data-feather='circle'></i>
-                            <span class="menu-title text-truncate" data-i18n="Room Type">Room Type</span>
+                            <span class="menu-title text-truncate"
+                                data-i18n="{{ __('roomtype/roomtype.menu') }}">{{ __('roomtype/roomtype.menu') }}</span>
                         </a>
                     </li>
                     <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/amenities') }}">
                             <i data-feather="circle"></i><span class="menu-item text-truncate"
-                                data-i18n="Amenities">Amenities</span>
+                                data-i18n="{{ __('amenity/amenity.menu') }}">{{ __('amenity/amenity.menu') }}</span>
                         </a>
                     </li>
                     <li>
@@ -119,12 +123,13 @@
                     <span class="menu-title text-truncate" data-i18n="Rooms">Rooms</span>
                 </a>
             </li>
-            <li class="navigation-header"><span data-i18n="Master Modules">Master Modules</span><i
+            <li class="navigation-header"><span
+                    data-i18n="Master Modules">{{ __('core.menu_header_master_modules') }}</span><i
                     data-feather="more-horizontal"></i>
             </li>
             <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather='map'></i><span class="menu-title text-truncate"
-                        data-i18n="Location">Location</span></a>
+                        data-i18n="{{ __('core.dropdown_manu_header_title_location') }}">{{ __('core.dropdown_manu_header_title_location') }}</span></a>
                 <ul class="menu-content">
                     <li>
                         <a class="d-flex align-items-center" href="{{ url('admin/countries') }}">

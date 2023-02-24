@@ -33,7 +33,7 @@ return [
     'inactive' => 'Inactive',
     'table_status' => 'Status',
     'table_action' => 'Action',
-    'loading' => 'Loading...', 
+    'loading' => 'Loading...',
     'table_no_data' => 'No data available in table',
     'table_info_data' => 'Showing _START_ to _END_ of _TOTAL_ entries',
     'table_infoEmpty_data' => 'Showing 0 to 0 of 0 entries',
@@ -43,4 +43,8 @@ return [
     'table_paginate_last' => 'Last',
     'table_paginate_next' => 'Next',
     'table_paginate_previous' => 'Previous',
+    'menu_header_hotels' => 'Hotel Modules',
+    'menu_header_master_modules' => 'Master Modules',
+    'dropdown_manu_header_title_location' => 'Location',
+    'dropdown_manu_header_title_hotels' => 'Hotels',
 ];

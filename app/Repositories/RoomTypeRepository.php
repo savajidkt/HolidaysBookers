@@ -21,7 +21,7 @@ class RoomTypeRepository
             'status'     => $data['status'],
         ];
 
-        $roomtype =  RoomType::create($dataSave);        
+        $roomtype =  RoomType::create($dataSave);
         return $roomtype;
     }
 
@@ -42,12 +42,11 @@ class RoomTypeRepository
         ];
 
 
-        if($roomtype->update($dataSave))
-        {           
+        if ($roomtype->update($dataSave)) {
             return $roomtype;
         }
 
-        throw new Exception('Room type update failed.');
+        throw new Exception(__('roomtype/message.updated_error'));
     }
 
     /**
@@ -60,12 +59,11 @@ class RoomTypeRepository
      */
     public function delete(RoomType $roomtype): bool
     {
-        if( $roomtype->forceDelete() )
-        {
+        if ($roomtype->forceDelete()) {
             return true;
         }
 
-        throw new Exception('Room type delete failed.');
+        throw new Exception(__('roomtype/message.deleted_error'));
     }
 
     /**
@@ -80,5 +78,4 @@ class RoomTypeRepository
         $roomtype->status = !$input['status'];
         return $roomtype->save();
     }
-
 }

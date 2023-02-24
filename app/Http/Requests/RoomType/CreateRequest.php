@@ -39,8 +39,8 @@ class CreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'room_type.required' => 'Room type is required.',
-            'status.required' => 'Status is required.'
+            'room_type.required' => __('roomtype/message.room_type_required'),
+            'status.required' => __('roomtype/message.status_required')
         ];
     }
 }

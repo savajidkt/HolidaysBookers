@@ -39,8 +39,8 @@ class CreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'group_name.required' => 'Hotel Group name is required.',
-            'status.required'=>'Hotel Group status is required.'
+            'group_name.required' => __('hotel-group/message.hotel_group_required'),
+            'status.required' => __('hotel-group/message.status_required')
         ];
     }
 }

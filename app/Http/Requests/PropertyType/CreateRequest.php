@@ -39,8 +39,8 @@ class CreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'property_name.required' => 'Property name is required.',
-            'status.required'=>'Status is required.'
+            'property_name.required' => __('propertytype/message.property_type_required'),
+            'status.required' => __('propertytype/message.status_required')
         ];
     }
 }
