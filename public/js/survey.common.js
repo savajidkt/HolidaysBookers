@@ -246,9 +246,7 @@ var Survey = {}; // common variable used in all the files of the backend
             getErrorPlacement: function () {
                 return function (error, element) {
                     var target = element.attr('er-target');
-
                     error.addClass('invalid-feedback');
-
                     if (target) {
                         switch (target) {
                             case "after":
@@ -280,7 +278,7 @@ var Survey = {}; // common variable used in all the files of the backend
  */
 
 $(document).ready(function () {
-    $('form').submit(function() {                
-        $(".buttonLoader").removeClass('hide');               
-    });  
+    $('form').submit(function () {
+        //$(".buttonLoader").removeClass('hide');               
+    });
 });

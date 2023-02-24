@@ -158,6 +158,13 @@
                         data-i18n="{{ __('api/api.menu') }}">{{ __('api/api.menu') }}</span>
                 </a>
             </li>
+            <li class=" nav-item">
+                <a class="d-flex align-items-center" href="{{ url('admin/companytypes') }}">
+                    <i data-feather='user'></i>
+                    <span class="menu-title text-truncate"
+                        data-i18n="{{ __('company-type/company-type.menu') }}">{{ __('company-type/company-type.menu') }}</span>
+                </a>
+            </li>
             @role('super-admin')
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="{{ url('admin/roles') }}">
