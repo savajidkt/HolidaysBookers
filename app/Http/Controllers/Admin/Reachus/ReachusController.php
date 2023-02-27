@@ -85,26 +85,26 @@ class ReachusController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Reach $reach [explicite description]
+     * @param \App\Models\Reach $reachu [explicite description]
      *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function edit(Reach $reach)
-    {        
-        return view('admin.reach.edit', ['model' => $reach]);
+    public function edit(Reach $reachu)
+    {     
+        return view('admin.reach.edit', ['model' => $reachu]);
     }
 
     /**
      * Method update
      *
      * @param \App\Http\Requests\Admin\EditRequest $request
-     * @param \App\Models\Reach $reach
+     * @param \App\Models\Reach $reachu
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(EditRequest $request, Reach $reach)
+    public function update(EditRequest $request, Reach $reachu)
     {
-        $this->reachRepository->update($request->all(), $reach);
+        $this->reachRepository->update($request->all(), $reachu);
 
         return redirect()->route('reachus.index')->with('success', __('reach-us/message.updated_success'));
     }
@@ -115,9 +115,9 @@ class ReachusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reach $reach)
+    public function destroy(Reach $reachu)
     {
-        $this->reachRepository->delete($reach);
+        $this->reachRepository->delete($reachu);
         return redirect()->route('reachus.index')->with('success', __('reach-us/message.deleted_success'));
     }
 
