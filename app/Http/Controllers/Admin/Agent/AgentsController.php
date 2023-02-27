@@ -8,6 +8,8 @@ use App\Http\Requests\Agent\EditRequest;
 use App\Http\Requests\Agent\PDFRequest;
 use App\Models\User;
 use App\Models\Agent;
+use App\Models\CompanyType;
+use App\Models\Country;
 use App\Repositories\AgentRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -64,7 +66,9 @@ class AgentsController extends Controller
     {
         //
         $rawData    = new User;
-        return view('admin.agent.create', ['model' => $rawData]);
+        $companyType    = new CompanyType();
+        $countries    = new Country();
+        return view('admin.agent.create', ['model' => $rawData,'company'=>$companyType,'countries'=>$countries]);
     }
 
     /**

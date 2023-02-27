@@ -20,7 +20,9 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_company_type">{{__('agent/agent.agent_company_type')}}</label>
-            <input type="text" id="agent_company_type" name="agent_company_type" class="form-control" placeholder="{{__('agent/agent.agent_company_type')}}" value="{{(isset($model->agent_company_type))? $model->agent_company_type :old('agent_company_type')}}" data-error="{{ __('agent/agent.agent_company_type') }}" />
+            <select class="select2 form-control form-control-lg" id="agent_company_type" name="agent_company_type" data-error="{{ __('agent/agent.agent_company_type') }}">
+            {{(isset($model->agent_company_type))? $model->agent_company_type :old('agent_company_type')}}
+            </select>
             <div class="valid-feedback">Looks good!</div>
             @error('agent_company_type')
             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -218,6 +220,16 @@
             @enderror
         </div>
     </div>
+    <div class="col-4">
+        <div class="form-group">
+            <label class="form-label" for="agent_know_about">{{__('agent/agent.agent_know_about')}}</label>
+            <input type="text" id="agent_know_about" name="agent_know_about" class="form-control" placeholder="{{__('agent/agent.agent_know_about')}}" value="{{(isset($model->agent_know_about))? $model->agent_know_about :old('agent_know_about')}}" data-error="{{ __('agent/agent.agent_know_about') }}" />
+            <div class="valid-feedback">Looks good!</div>
+            @error('agent_know_about')
+            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -410,45 +422,45 @@
         </div>
         <hr class="my-2" />
         <div class="col-6">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Single File Upload</h4>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">
-                        By default, dropzone is a multiple file uploader and does not have specific option allowing us to switch to
-                        single file uploading mode, but this functionality can be achieved by adding more options to the plugin
-                        settings, such as
-                        <code>maxfilesexceeded</code> callback and <code>maxFiles</code> option set to 1.
-                        <code>maxFiles: 1</code> is used to tell dropzone that there should be only one file.
-                    </p>
-                    <form action="#" class="dropzone dropzone-area" id="dpz-single-file">
-                        <div class="dz-message">Drop files here or click to upload.</div>
-                    </form>
-                </div>
+            <div class="form-group">
+                <label class="form-label" for="agent_pan_card">{{__('agent/agent.agent_pan_card')}}</label><br>
+                <input type="file" name="agent_pan_card" id="agent_pan_card">
+                <div class="valid-feedback">Looks good!</div>
+                @error('agent_pan_card')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
             </div>
         </div>
-    </div>
-    <div class="col-6">
-        <div class="form-group">
-            <label class="form-label" for="agent_password">{{__('agent/agent.agent_password')}}</label>
-            <input type="text" id="agent_password" name="agent_password" class="form-control" placeholder="{{__('agent/agent.agent_password')}}" value="{{(isset($model->agent_password))? $model->agent_password :old('agent_password')}}" data-error="{{ __('agent/agent.agent_password') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_password')
-            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+        <div class="col-6">
+            <div class="form-group">
+                <label class="form-label" for="agent_company_certificate">{{__('agent/agent.agent_company_certificate')}}</label><br>
+                <input type="file" name="agent_company_certificate" id="agent_company_certificate">
+                <div class="valid-feedback">Looks good!</div>
+                @error('agent_company_certificate')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
-    </div>
-    <div class="col-6">
-        <div class="form-group">
-            <label class="form-label" for="agent_confirm_password">{{__('agent/agent.agent_confirm_password')}}</label>
-            <input type="text" id="agent_confirm_password" name="agent_confirm_password" class="form-control" placeholder="{{__('agent/agent.agent_confirm_password')}}" value="{{(isset($model->agent_confirm_password))? $model->agent_confirm_password :old('agent_confirm_password')}}" data-error="{{ __('agent/agent.agent_confirm_password') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_confirm_password')
-            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+        <div class="col-6">
+            <div class="form-group">
+                <label class="form-label" for="agent_company_logo">{{__('agent/agent.agent_company_logo')}}</label><br>
+                <input type="file" name="agent_company_logo" id="agent_company_logo">
+                <div class="valid-feedback">Looks good!</div>
+                @error('agent_company_logo')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
-    </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label class="form-label" for="agent_pan_card">{{__('agent/agent.agent_pan_card')}}</label><br>
+                <input type="file" name="agent_pan_card" id="agent_pan_card">
+                <div class="valid-feedback">Looks good!</div>
+                @error('agent_pan_card')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
 </div>
 </div>
 <div class="modal fade text-left" id="CompanyForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
@@ -475,21 +487,6 @@
 </div>
 
 @section('extra-script')
-<script src="{{asset('app-assets/vendors/js/extensions/dropzone.min.js')}}"></script>
-<script src="{{asset('app-assets/js/scripts/forms/form-file-uploader.js')}}"></script>
-<script type="text/javascript">
-    jQuery(function() {
-        function generatePassword() {
-            return Math.random() // Generate random number, eg: 0.123456
-                .toString(36) // Convert  to base-36 : "0.4fzyo82mvyr"
-                .slice(-8); // Cut off last 8 characters : "yo82mvyr"
-        }
-        jQuery('#generate_password').on('click', function() {
-            var password = generatePassword();
-            jQuery('#password').val(password);
-            jQuery('#confirm-password').val(password);
-        });
+<script src="{{asset('js/form/Agent.js')}}"></script>
 
-    })
-</script>
 @endsection

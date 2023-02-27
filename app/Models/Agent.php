@@ -177,4 +177,17 @@ class Agent extends Authenticatable
     { 
         return $this->morphOne(User::class, 'agents');
     }
+
+    public function country() 
+    { 
+        return $this->belongsTo(Country::class, 'country_id','id');
+    }
+    public function company() 
+    { 
+        return $this->belongsTo(CompanyType::class, 'agent_company_type','id');
+    }
+    public function reachus() 
+    { 
+        return $this->belongsTo(Reach::class, 'agent_know_about','id');
+    }
 }
