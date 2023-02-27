@@ -172,6 +172,20 @@
                         data-i18n="{{ __('reach-us/reach-us.menu') }}">{{ __('reach-us/reach-us.menu') }}</span>
                 </a>
             </li>
+
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                <i data-feather='map'></i><span class="menu-title text-truncate"
+                    data-i18n="{{ __('core.dropdown_manu_header_title_location') }}">{{ __('core.menu_header_markup_modules') }}</span></a>
+            <ul class="menu-content">
+                <li>
+                    <a class="d-flex align-items-center" href="{{ url('admin/productmarkups') }}">
+                        <i data-feather='map-pin'></i><span class="menu-item text-truncate"
+                            data-i18n="{{ __('product-markup/product-markup.menu') }}">{{ __('product-markup/product-markup.menu') }}</span>
+                    </a>
+                </li>                
+            </ul>
+        </li>
+        
             @role('super-admin')
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="{{ url('admin/roles') }}">

@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
+use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +101,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/reachus', ReachusController::class);
     Route::post('/reach/change-status', [ReachusController::class, 'changeStatus'])->name('change-reach-status');    
+
+    Route::resource('/productmarkups', ProductmarkupsController::class);
+    Route::post('/productmarkup/change-status', [ProductmarkupsController::class, 'changeStatus'])->name('change-product-markup-status'); 
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');

@@ -45,6 +45,7 @@ return [
     'table_paginate_previous' => 'Previous',
     'menu_header_hotels' => 'Hotel Modules',
     'menu_header_master_modules' => 'Master Modules',
+    'menu_header_markup_modules' => 'Markup',
     'dropdown_manu_header_title_location' => 'Location',
     'dropdown_manu_header_title_hotels' => 'Hotels',
     'required'=>'is required',
