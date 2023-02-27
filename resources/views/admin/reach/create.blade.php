@@ -10,7 +10,7 @@
                         <h4 class="card-title">{{ __('reach-us/reach-us.add_new') }}</h4>
                     </div>
                     <div class="card-body">
-                        <form id="FrmCompanyType" class="needs-validation1" method="post" enctype="multipart/form-data"
+                        <form id="FrmReach" class="needs-validation1" method="post" enctype="multipart/form-data"
                             action="{{ route('reachus.store') }}">
                             <input type="hidden" name="id" value="{{ isset($model->id) ? $model->id : null }}">
                             @csrf
