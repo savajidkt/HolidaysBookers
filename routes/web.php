@@ -5,14 +5,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\Apis\ApisController;
 use App\Http\Controllers\Admin\User\UsersController;
-use App\Http\Controllers\Admin\Agent\AgentsController;
 use App\Http\Controllers\Admin\Roles\RolesController;
 use App\Http\Controllers\Admin\Admin\AdminsController;
+use App\Http\Controllers\Admin\Agent\AgentsController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\Cities\CitiesController;
 use App\Http\Controllers\Admin\States\StatesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
+use App\Http\Controllers\Admin\Reachus\ReachusController;
 use App\Http\Controllers\Admin\Amenities\AmenitiesController;
 use App\Http\Controllers\Admin\Countries\CountriesController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
@@ -21,9 +22,9 @@ use App\Http\Controllers\Admin\Language\LocalizationController;
 use App\Http\Controllers\Admin\Permission\PermissionController;
 use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
 use App\Http\Controllers\Admin\Permissions\PermissionsController;
+use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
-use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/companytypes', CompanytypesController::class);
     Route::post('/companytype/change-status', [CompanytypesController::class, 'changeStatus'])->name('change-company-type-status');
+
+    Route::resource('/reachus', ReachusController::class);
+    Route::post('/reach/change-status', [ReachusController::class, 'changeStatus'])->name('change-reach-status');    
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
