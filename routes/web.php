@@ -86,6 +86,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/countries', CountriesController::class);
     Route::post('/country/change-status', [CountriesController::class, 'changeStatus'])->name('change-country-status');
+    Route::post('/country/import-countries', [CountriesController::class, 'importCountries'])->name('importsCountries');
 
     Route::resource('/states', StatesController::class);
     Route::post('/state/change-status', [StatesController::class, 'changeStatus'])->name('change-state-status');

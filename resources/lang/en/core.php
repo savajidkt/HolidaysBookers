@@ -23,6 +23,11 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
     'id' => 'ID',
+    'import' => 'Imports',
+    'import_excel' => 'Import Excel',
+    'export' => 'Exports',
+    'download_sample' => 'Download Sample',
+    'drop_files' => 'Drop files here or click to upload.',
     'status' => 'Status',
     'action' => 'Action',
     'show' => 'Show',
@@ -48,6 +53,6 @@ return [
     'menu_header_markup_modules' => 'Markup',
     'dropdown_manu_header_title_location' => 'Location',
     'dropdown_manu_header_title_hotels' => 'Hotels',
-    'required'=>'is required',
-    
+    'required' => 'is required',
+
 ];

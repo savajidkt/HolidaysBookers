@@ -20,6 +20,9 @@ return [
     'table_country_code' => 'Country Code',
     'table_country_phone_code' => 'Phone no',
     'table_nationality' => 'Nationality',
+    'table_header_download' => 'Download Sample',
+    'table_header_import' => 'Import Excel',
+    'modal_title' => 'Import Countries Excel',
 
     'add_new' => 'New Country',
 

@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Admin\Countries;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Country\CreateRequest;
-use App\Http\Requests\Country\EditRequest;
-use App\Models\Country;
-use App\Repositories\CountryRepository;
 use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Models\Country;
 use Illuminate\Http\Request;
+use App\Imports\CountriesImport;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Repositories\CountryRepository;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\Country\EditRequest;
+use App\Http\Requests\Country\CreateRequest;
+use App\Http\Requests\Country\ImportRequest;
 
 class CountriesController extends Controller
 {
@@ -149,5 +152,24 @@ class CountriesController extends Controller
         }
 
         throw new Exception(__('country/message.error'));
+    }
+
+
+
+        
+    /**
+     * Method importCountries
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function importCountries(Request $request): JsonResponse
+    {      
+        Excel::import(new CountriesImport, $request->file);        
+        return response()->json([
+            'status' => true,
+            'message' => 'Countries import Successfully.'
+        ]);
     }
 }
