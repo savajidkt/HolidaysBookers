@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Admin\States;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\State\CreateRequest;
-use App\Http\Requests\State\EditRequest;
-use App\Models\Country;
-use App\Models\State;
-use App\Repositories\StateRepository;
 use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Models\State;
+use App\Models\Country;
 use Illuminate\Http\Request;
+use App\Imports\StatesImport;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Repositories\StateRepository;
+use App\Http\Requests\State\EditRequest;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\State\CreateRequest;
 
 class StatesController extends Controller
 {
@@ -34,7 +36,7 @@ class StatesController extends Controller
             $data = State::select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->editColumn('name', function (State $state) {
+                ->editColumn('name', function (State $state) {                    
                     return $state->name;
                 })
                 ->editColumn('code', function (State $state) {
@@ -150,5 +152,21 @@ class StatesController extends Controller
         }
 
         throw new Exception(__('state/message.error'));
+    }
+
+    /**
+     * Method importStates
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function importStates(Request $request): JsonResponse
+    {       
+        Excel::import(new StatesImport, $request->file);
+        return response()->json([
+            'status' => true,
+            'message' => 'States import Successfully.'
+        ]);
     }
 }

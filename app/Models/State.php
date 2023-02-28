@@ -69,7 +69,12 @@ class State extends Model
         }
 
         return $status;
-    }
+    }    
+    /**
+     * Method country
+     *
+     * @return void
+     */
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');

@@ -15,13 +15,21 @@ class CountriesImport implements ToModel, WithHeadingRow
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function model(array $row)
-    {       
-        return new Country([
-            "name" => $row['countryname'],
-            "code" => $row['countrycode'],
-            "phone_code" => $row['phonecode'],
-            "nationality" => $row['nationality'],
-            "status" => $row['status']
-        ]);
+    {
+        if (strlen(trim($row['countryname'])) > 0) {
+            if (strlen(trim($row['countrycode'])) > 0) {
+                if (strlen(trim($row['phonecode'])) > 0) {
+                    if (strlen(trim($row['nationality'])) > 0) {
+                        return new Country([
+                            "name" => $row['countryname'],
+                            "code" => $row['countrycode'],
+                            "phone_code" => $row['phonecode'],
+                            "nationality" => $row['nationality'],
+                            "status" => 1
+                        ]);
+                    }
+                }
+            }
+        }
     }
 }

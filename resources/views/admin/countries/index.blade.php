@@ -1,21 +1,6 @@
 @extends('admin.layout.app')
 @section('page_title', __('country/country.list_page_title'))
-@section('content')
-    <style>
-        .dropzone .dz-message:before {
-            top: 16rem;
-            width: 40px;
-            height: 40px;
-        }
-
-        .dropzone .dz-message {
-            font-size: 1.5rem;
-        }
-
-        .dropzone .dz-preview.dz-error .dz-error-mark {
-            background: #EA5455;
-        }
-    </style>
+@section('content')   
     <!-- users list start -->
     <section class="app-user-list">
         <!-- users filter end -->

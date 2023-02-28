@@ -53,3 +53,18 @@ div.dataTables_wrapper .dataTables_info{
     font-size: 0.857rem;
     color: #EA5455;
 }
+
+
+.dropzone .dz-message:before {
+	top: 16rem;
+	width: 40px;
+	height: 40px;
+}
+
+.dropzone .dz-message {
+	font-size: 1.5rem;
+}
+
+.dropzone .dz-preview.dz-error .dz-error-mark {
+	background: #EA5455;
+}

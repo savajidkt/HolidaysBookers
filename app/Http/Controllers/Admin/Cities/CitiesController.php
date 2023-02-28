@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Admin\Cities;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\City\CreateRequest;
-use App\Http\Requests\City\EditRequest;
-use App\Models\Country;
+use Exception;
 use App\Models\City;
 use App\Models\State;
-use App\Repositories\CityRepository;
-use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Models\Country;
 use Illuminate\Http\Request;
+use App\Imports\CitiesImport;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Repositories\CityRepository;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\City\EditRequest;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\City\CreateRequest;
 
 class CitiesController extends Controller
 {
@@ -172,6 +174,15 @@ class CitiesController extends Controller
             'status' => true,
             'states' => $country->states,
             'message' => __('city/message.success_state_list')
+        ]);
+    }
+
+    public function importCities(Request $request): JsonResponse
+    {
+        Excel::import(new CitiesImport, $request->file);
+        return response()->json([
+            'status' => true,
+            'message' => 'Cities import Successfully.'
         ]);
     }
 }

@@ -18,6 +18,7 @@ return [
     'table_city' => 'City',
     'table_state' => 'State',
     'table_country' => 'Country',
+    'modal_title' => 'Import Cities Excel',
     'add_new' => 'New City',
     'form_country_name' => 'Country Name',
     'form_country_select' => 'Select Country',

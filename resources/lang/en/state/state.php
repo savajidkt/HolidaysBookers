@@ -18,6 +18,7 @@ return [
     'table_state_name' => 'State Name',
     'table_state_code' => 'State Code',
     'table_country' => 'Country',
+    'modal_title' => 'Import States Excel',
     'add_new' => 'New State',
     'form_country_name' => 'Country Name',
     'form_country_select' => 'Select Country',        

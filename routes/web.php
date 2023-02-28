@@ -90,10 +90,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/states', StatesController::class);
     Route::post('/state/change-status', [StatesController::class, 'changeStatus'])->name('change-state-status');
+    Route::post('/state/import-states', [StatesController::class, 'importStates'])->name('importsStates');
 
     Route::resource('/cities', CitiesController::class);
     Route::post('/city/change-status', [CitiesController::class, 'changeStatus'])->name('change-city-status');
     Route::post('/city/get-state', [CitiesController::class, 'getStateList'])->name('get-state-list');
+    Route::post('/state/import-cities', [CitiesController::class, 'importCities'])->name('importsCities');
 
     Route::resource('/apis', ApisController::class);
     Route::post('/api/change-status', [ApisController::class, 'changeStatus'])->name('change-api-status');
@@ -102,13 +104,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/companytype/change-status', [CompanytypesController::class, 'changeStatus'])->name('change-company-type-status');
 
     Route::resource('/reachus', ReachusController::class);
-    Route::post('/reach/change-status', [ReachusController::class, 'changeStatus'])->name('change-reach-status');    
+    Route::post('/reach/change-status', [ReachusController::class, 'changeStatus'])->name('change-reach-status');
 
     Route::resource('/productmarkups', ProductmarkupsController::class);
-    Route::post('/productmarkup/change-status', [ProductmarkupsController::class, 'changeStatus'])->name('change-product-markup-status'); 
+    Route::post('/productmarkup/change-status', [ProductmarkupsController::class, 'changeStatus'])->name('change-product-markup-status');
 
     Route::resource('/agentmarkups', AgentmarkupsController::class);
-    Route::post('/agentmarkup/change-status', [AgentmarkupsController::class, 'changeStatus'])->name('change-agent-markup-status'); 
+    Route::post('/agentmarkup/change-status', [AgentmarkupsController::class, 'changeStatus'])->name('change-agent-markup-status');
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
