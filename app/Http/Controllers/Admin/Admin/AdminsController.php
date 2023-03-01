@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportsExport;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -74,7 +75,8 @@ class AdminsController extends Controller
         $rawData=[];
         $rawData    = new Admin;
         $roles    =  Role::all();
-        return view('admin.admin.create', ['model' => $rawData,'roles'=>$roles]);
+        $permissions    =  Permission::all();
+        return view('admin.admin.create', ['model' => $rawData,'roles'=>$roles,'permissions'=>$permissions]);
     }
 
     /**

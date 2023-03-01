@@ -30,8 +30,12 @@ class PermissionsController extends Controller
             $data = Permission::select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('name', function (Permission $permission) {
+                ->addColumn('module', function (Permission $permission) {
+                    return $permission->module;
+                })->addColumn('name', function (Permission $permission) {
                     return $permission->name;
+                })->addColumn('type', function (Permission $permission) {
+                    return $permission->type_name;
                 })
                 ->editColumn('slug', function (Permission $permission) {
                     return $permission->slug;

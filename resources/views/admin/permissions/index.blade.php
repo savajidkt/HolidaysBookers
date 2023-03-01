@@ -19,7 +19,9 @@
                     <tr>
                         <th></th>
                         <th>ID</th>
+                        <th>Module</th>
                         <th>Name</th>
+                        <th>Type</th>
                         <th>Slug</th>
                         <th>Actions</th>
                     </tr>
@@ -53,8 +55,16 @@
                     visible: false,
                 },
                 {
+                    data: 'module',
+                    name: 'module'
+                },
+                {
                     data: 'name',
                     name: 'name'
+                },
+                {
+                    data: 'type',
+                    name: 'type'
                 },
                 {
                     data: 'slug',

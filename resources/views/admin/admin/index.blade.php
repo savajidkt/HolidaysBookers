@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('page_title','Admins')
+@section('page_title','Staff Management')
 @section('content')
 <!-- users list start -->
 <section class="app-user-list">
@@ -8,9 +8,9 @@
     <div class="card">
 
         <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-          <h4 class="card-title">Admins</h4>
+          <h4 class="card-title">Staff Management</h4>
            
-          <a href="{{ route('admins.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New Admin</button></a>
+          <a href="{{ route('admins.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New Staff</button></a>
         </div>
         <div class="card-datatable pt-0 table-responsive">
             <table class="user-list-table datatables-ajax table">

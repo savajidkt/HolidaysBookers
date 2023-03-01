@@ -24,7 +24,9 @@ class PermissionRepository
     public function create(array $data): Permission
     {
         $dataSave = [
-            'name'    => $data['permission_name'],
+            'module'       => $data['module'],
+            'name'       => $data['permission_name'],
+            'type'       => $data['type'],
             'slug'     => Str::slug($data['permission_name']),
         ];
         $permission =  Permission::create($dataSave);
@@ -43,7 +45,9 @@ class PermissionRepository
     public function update(array $data, Permission $permission): Permission
     {
         $dataUpdate = [
+            'module'       => $data['module'],
             'name'       => $data['permission_name'],
+            'type'       => $data['type'],
             'slug'       => Str::slug($data['permission_name'])
         ];
         if($permission->update($dataUpdate)){

@@ -1,13 +1,13 @@
 @extends('admin.layout.app')
-@section('page_title','Edit Admin')
+@section('page_title','Edit Staff')
 @section('content')
 <section class="bs-validation">
     <div class="row">
         <!-- Bootstrap Validation -->
-        <div class="col-md-6 col-12">
+        <div class="col-md-12 col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Edit Admin</h4>
+                    <h4 class="card-title">Edit Staff</h4>
                 </div>
                 <div class="card-body">
                     <form id="jquery-val-form" class="needs-validation1" novalidate method="post" enctype="multipart/form-data" action="{{route('admins.update', $model)}}">

@@ -14,7 +14,9 @@ class Permission extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+         'module',
          'name',
+         'type',
          'slug'
    ];
    /**
@@ -46,9 +48,20 @@ class Permission extends Model
      *
      * @return string
      */
-    public function getFullNameAttribute(): string
-    {
-        return $this->name;
+    public function getTypeNameAttribute(): string
+    {    $type_name ='';
+        if($this->type==1){
+            $type_name = 'Create';
+        }elseif($this->type==2){
+            $type_name = 'Edit';
+        }
+        elseif($this->type==3){
+            $type_name = 'Delete';
+        }
+        elseif($this->type==4){
+            $type_name = 'View';
+        }
+        return $type_name;
     }
 
     public function roles() {
