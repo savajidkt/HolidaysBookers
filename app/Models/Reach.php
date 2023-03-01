@@ -23,6 +23,7 @@ class Reach extends Model
     protected $fillable = [
         'name',
         'show_other_textbox',
+        'textbox_lable',
         'status'
     ];
 

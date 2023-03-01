@@ -43,7 +43,7 @@ return [
     'agent_email' => 'Email Address',
     'agent_website' => 'Website',
     'agent_iata' => 'IATA certified',
-    'agent_iata_number' => '',
+    'agent_iata_number' => 'IATA Number',
     'agent_other_certification' => 'Other Certification',
     'agent_pan_number' => ' PAN Number',
     'agent_gst_number' => 'GST Number',

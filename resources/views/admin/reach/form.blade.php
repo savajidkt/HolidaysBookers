@@ -16,9 +16,22 @@
         <div class="form-group">
             <label class="form-label" for="role">Show Other Textbox</label>
             <select name="show_other_textbox" class="form-control" id="show_other_textbox">
-                <option value="0" {{ $model->show_other_textbox == 0 ? 'selected' : '' }}> {{ __('core.no') }}</option>
-                <option value="1" {{ $model->show_other_textbox == 1 ? 'selected' : '' }}> {{ __('core.yes') }}</option>
+                <option value="0" {{ $model->show_other_textbox == 0 ? 'selected' : '' }}> {{ __('core.no') }}
+                </option>
+                <option value="1" {{ $model->show_other_textbox == 1 ? 'selected' : '' }}> {{ __('core.yes') }}
+                </option>
             </select>
+        </div>
+    </div>
+    @php
+        $hide = isset($model->textbox_lable) ? '' : 'hide';
+    @endphp
+    <div class="col-12 textbox_lable_div {{ $hide }}">
+        <div class="form-group">
+            <label class="form-label" for="role">Textbox Lable</label>
+            <input type="text" id="basic-addon-textbox_lable" name="textbox_lable" class="form-control"
+                value="{{ isset($model->textbox_lable) ? $model->textbox_lable : old('textbox_lable') }}"
+                data-error="Textbox lable name is required" />
         </div>
     </div>
     <div class="col-12">

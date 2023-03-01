@@ -38,6 +38,9 @@ class ReachusController extends Controller
                 ->editColumn('show_other_textbox', function (Reach $reach) {
                     return $reach->show_other_textbox_name;
                 })
+                ->editColumn('textbox_lable', function (Reach $reach) {
+                    return $reach->textbox_lable;
+                })
                 ->editColumn('status', function (Reach $reach) {
                     return $reach->status_name;
                 })

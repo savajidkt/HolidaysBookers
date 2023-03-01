@@ -20,6 +20,7 @@
                             <th>{{ __('core.id') }}</th>
                             <th>{{ __('reach-us/reach-us.table_reach_name') }}</th>
                             <th>Show Other Textbox</th>
+                            <th>Textbox Label</th>
                             <th>{{ __('core.status') }}</th>
                             <th>{{ __('core.action') }}</th>
                         </tr>
@@ -62,6 +63,10 @@
                     {
                         data: 'show_other_textbox',
                         name: 'show_other_textbox'
+                    },
+                    {
+                        data: 'textbox_lable',
+                        name: 'textbox_lable'
                     },
                     {
                         data: 'status',

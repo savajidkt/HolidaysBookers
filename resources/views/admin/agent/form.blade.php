@@ -230,11 +230,13 @@
             <div class="demo-inline-spacing">
                 <div class="custom-control custom-radio">
                     <input type="radio" id="agent_iata-yes" name="agent_iata" class="custom-control-input"
+                        value="yes"
                         {{ $model->agent_iata == 'yes' || old('agent_iata') == 'yes' ? 'checked' : '' }} />
                     <label class="custom-control-label" for="agent_iata-yes">Yes</label>
                 </div>
                 <div class="custom-control custom-radio">
                     <input type="radio" id="agent_iata-no" name="agent_iata" class="custom-control-input"
+                        value="no"
                         {{ $model->agent_iata == 'no' || old('agent_iata') == 'no' ? 'checked' : '' }} />
                     <label class="custom-control-label" for="agent_iata-no">No</label>
                 </div>
@@ -248,7 +250,7 @@
     @php
         $hide = isset($model->agent_iata_number) ? '' : 'hide';
     @endphp
-    <div class="col-4 {{ $hide }}" id="iata_number_hide">
+    <div class="col-4 iata_number_hide {{ $hide }}" id="iata_number_hide">
         <div class="form-group">
             <label class="form-label" for="agent_iata_number">{{ __('agent/agent.agent_iata_number') }}</label>
             <input type="text" id="agent_iata_number" name="agent_iata_number" class="form-control"
@@ -308,7 +310,9 @@
                 data-error="{{ __('agent/agent.agent_know_about') }}">
                 <option value="">Select Reach Us</option>
                 @foreach ($reach as $rech)
-                    <option value="{{ $rech->id }}" {{ $model->id == $rech->id ? 'selected' : '' }}>
+                    <option value="{{ $rech->id }}" data-name="{{ $rech->textbox_lable }}"
+                        data-other="{{ $rech->show_other_textbox }}"
+                        {{ $model->id == $rech->id ? 'selected' : '' }}>
                         {{ $rech->name }}</option>
                 @endforeach
             </select>
@@ -318,7 +322,14 @@
             @enderror
         </div>
     </div>
+    <div class="col-4 otherData hide">
+        <div class="form-group">
+            <label class="form-label" for="agent_know_about">{{ __('agent/agent.agent_know_about') }}</label>
+            <input type="text" id="othername" name="othername" class="form-control" />
+        </div>
+    </div>
 </div>
+
 
 <div class="row">
     <div class="col-4">
