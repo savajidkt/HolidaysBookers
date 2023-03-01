@@ -82,6 +82,11 @@
                     @endif
                 </div>
             </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <button type="submit" id="user-save" class="btn btn-primary">Save</button>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -101,12 +106,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($permissions as $permission)
+                            @foreach($permissions as $key=>$permission)
                             <tr>
-                                <td>{{$permission->module}}</td>
-                                <td>{{$permission->name}}</td>
-                                <td>{{$permission->type}}</td>
-                                <td>{{$permission->slug}}</td>
+                                <td>{{$key}}</td>
+                                @foreach($permission as $val)
+                                <td>
+                                <div class="demo-inline-spacing">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="permissions[]" id="permissions{{$val->id}}" value="{{$val->id}}" @if(is_array(old("permissions")) && in_array($val->id, old('permissions')) || in_array($val->id,$model->permissions()->pluck('permission_id')->toArray())) checked @endif />
+                                        <label class="custom-control-label" for="permissions{{$val->id}}"></label>
+                                    </div>
+                                </div>
+                                </td>
+                                @endforeach
                             </tr>
                             @endforeach
                         </tbody>

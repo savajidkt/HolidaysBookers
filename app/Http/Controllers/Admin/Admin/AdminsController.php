@@ -36,7 +36,8 @@ class AdminsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   $user = $request->user();
+        dd($user->givePermissionsTo('create-tasks'));
         if ($request->ajax()) {
 
             $data = Admin::select('*');
@@ -75,7 +76,7 @@ class AdminsController extends Controller
         $rawData=[];
         $rawData    = new Admin;
         $roles    =  Role::all();
-        $permissions    =  Permission::all();
+        $permissions    =  Permission::all()->groupBy('module');
         return view('admin.admin.create', ['model' => $rawData,'roles'=>$roles,'permissions'=>$permissions]);
     }
 
@@ -113,7 +114,8 @@ class AdminsController extends Controller
     public function edit(Admin $admin)
     {
         $roles    =  Role::all();
-        return view('admin.admin.edit', ['model' => $admin,'roles'=>$roles]);
+        $permissions    =  Permission::all()->groupBy('module');
+        return view('admin.admin.edit', ['model' => $admin,'roles'=>$roles,'permissions'=>$permissions]);
     }
 
     /**

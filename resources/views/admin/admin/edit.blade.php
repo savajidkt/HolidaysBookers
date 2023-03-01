@@ -14,11 +14,7 @@
                         @csrf
                         @method('PUT')
                         @include('admin.admin.form')
-                        <div class="row">
-                            <div class="col-12">
-                                <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
+                        
                     </form>
                 </div>
             </div>

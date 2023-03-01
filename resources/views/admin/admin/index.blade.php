@@ -9,7 +9,7 @@
 
         <div class="card-header border-bottom d-flex justify-content-between align-items-center">
           <h4 class="card-title">Staff Management</h4>
-           
+         
           <a href="{{ route('admins.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New Staff</button></a>
         </div>
         <div class="card-datatable pt-0 table-responsive">

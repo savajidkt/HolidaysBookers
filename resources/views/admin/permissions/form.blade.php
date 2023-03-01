@@ -34,11 +34,11 @@
                     <label class="custom-control-label" for="edit">Edit</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" name="type" id="delete" value="1" {{($model->type == 3)? 'checked' : ''}} />
+                    <input class="custom-control-input" type="radio" name="type" id="delete" value="3" {{($model->type == 3)? 'checked' : ''}} />
                     <label class="custom-control-label" for="delete">Delete</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input class="custom-control-input" type="radio" name="type" id="view" value="1" {{($model->type == 4)? 'checked' : ''}} />
+                    <input class="custom-control-input" type="radio" name="type" id="view" value="4" {{($model->type == 4)? 'checked' : ''}} />
                     <label class="custom-control-label" for="view">View</label>
                 </div>
                 

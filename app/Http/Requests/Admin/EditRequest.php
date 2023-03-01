@@ -25,6 +25,7 @@ class EditRequest extends FormRequest
     {
         $rules = [
             'fullname'        => ['required'],
+            'role'              => ['required'],
             'password'          => ['nullable', 'min:8'],
             'email'             => ['required', 'email', 'unique:admin,email,'.$this->admin->id],
         ];
@@ -41,6 +42,7 @@ class EditRequest extends FormRequest
     {
         return [
             'fullname.required' => 'Name is required.',
+            'role.required' => 'Role is required.',
             'password.min' => 'Password minimum value should be 8.',
         ];
     }
