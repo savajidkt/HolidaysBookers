@@ -11,14 +11,18 @@ class Reach extends Model
     const ACTIVE = 1;
     const INACTIVE = 0;
 
+
     const STATUS = [
         self::ACTIVE => 'Active',
         self::INACTIVE => 'Inactive'
     ];
 
+
+
     protected $table = "reachus";
     protected $fillable = [
         'name',
+        'show_other_textbox',
         'status'
     ];
 
@@ -64,5 +68,15 @@ class Reach extends Model
                 break;
         }
         return $status;
+    }
+
+    public function getShowOtherTextboxNameAttribute(): string
+    {
+
+        if ($this->show_other_textbox == 0) {
+            return '<span class="badge badge-danger" >' . __('core.no') . '</span>';
+        } else {
+            return '<span class="badge badge-success" >' . __('core.yes') . '</span>';
+        }
     }
 }

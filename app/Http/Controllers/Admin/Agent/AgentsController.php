@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Agent;
 use App\Models\CompanyType;
 use App\Models\Country;
+use App\Models\Reach;
 use App\Repositories\AgentRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -66,9 +67,11 @@ class AgentsController extends Controller
     {
         //
         $rawData    = new User;
-        $companyType    = new CompanyType();
-        $countries    = new Country();
-        return view('admin.agent.create', ['model' => $rawData,'company'=>$companyType,'countries'=>$countries]);
+        $companyType    = CompanyType::where('status',1)->get();
+        $countries    =  Country::where('status',1)->get();
+        $reach    =  Reach::where('status',1)->get();
+        
+        return view('admin.agent.create', ['model' => $rawData,'companies'=>$companyType,'reach'=>$reach,'countries'=>$countries]);
     }
 
     /**

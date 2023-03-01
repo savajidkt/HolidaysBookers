@@ -35,13 +35,16 @@ class ReachusController extends Controller
                 ->editColumn('name', function (Reach $reach) {
                     return $reach->name;
                 })
+                ->editColumn('show_other_textbox', function (Reach $reach) {
+                    return $reach->show_other_textbox_name;
+                })
                 ->editColumn('status', function (Reach $reach) {
                     return $reach->status_name;
                 })
                 ->addColumn('action', function (Reach $reach) {
                     return $reach->action;
                 })
-                ->rawColumns(['action', 'status'])->make(true);
+                ->rawColumns(['action', 'status', 'show_other_textbox'])->make(true);
         }
 
         return view('admin.reach.index');
@@ -90,7 +93,7 @@ class ReachusController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Reach $reachu)
-    {     
+    {
         return view('admin.reach.edit', ['model' => $reachu]);
     }
 

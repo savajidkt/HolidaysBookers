@@ -19,6 +19,7 @@ class ReachRepository
     {
         $dataSave = [
             'name'    => $data['name'],
+            'show_other_textbox'    => $data['show_other_textbox'],
             'status'     => $data['status'],
         ];
 
@@ -39,6 +40,7 @@ class ReachRepository
     {
         $dataSave = [
             'name'    => $data['name'],
+            'show_other_textbox'    => $data['show_other_textbox'],
             'status'     => $data['status'],
         ];
 

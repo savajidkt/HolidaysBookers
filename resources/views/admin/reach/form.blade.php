@@ -14,6 +14,15 @@
     </div>
     <div class="col-12">
         <div class="form-group">
+            <label class="form-label" for="role">Show Other Textbox</label>
+            <select name="show_other_textbox" class="form-control" id="show_other_textbox">
+                <option value="0" {{ $model->show_other_textbox == 0 ? 'selected' : '' }}> {{ __('core.no') }}</option>
+                <option value="1" {{ $model->show_other_textbox == 1 ? 'selected' : '' }}> {{ __('core.yes') }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
             <label class="form-label" for="role">{{ __('reach-us/reach-us.form_status') }}</label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('reach-us/message.status_required') }}">
