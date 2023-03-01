@@ -156,16 +156,92 @@ var FrmAgentPreference = function () {
             }
         });
     }
+    var getStateList = function () {
+        $(document).on('change', '#agent_country', function () {
+            var country_id = $(this).val();
+            $('#agent_state').find('option:not(:first)').remove();
+            $('#agent_city').find('option:not(:first)').remove();
+            if (country_id) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $(".myState .spinner-border").show();
+                    },
+                    complete: function () {
+                        $(".myState .spinner-border").hide();
+                    },
+                    type: 'POST',
+                    url: moduleConfig.redirectUrl,
+                    dataType: 'json',
+                    data: {
+                        country_id: country_id
+                    },
+                    success: function (data) {
+                        if (data.status) {
+                            $.each(data.states, function (key, val) {
+                                $('#agent_state').append(new Option(val.name, val.id));
+                            });
+                        }
+                        $(".myState .spinner-border").hide();
+                    }
+                });
+            }
+        });
+    }
+
+    var getCityList = function () {
+        $(document).on('change', '#agent_state', function () {
+            var state_id = $(this).val();
+            $('#agent_city').find('option:not(:first)').remove();
+            if (state_id) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $(".myCity .spinner-border").show();
+                    },
+                    complete: function () {
+                        $(".myCity .spinner-border").hide();
+                    },
+                    type: 'POST',
+                    url: moduleConfig.getCities,
+                    dataType: 'json',
+                    data: {
+                        state_id: state_id
+                    },
+                    success: function (data) {
+                        if (data.status) {
+                            $.each(data.cities, function (key, val) {
+                                $('#agent_city').append(new Option(val.name, val.id));
+                            });
+                        }
+                        $(".myCity .spinner-border").hide();
+                    }
+                });
+            }
+        });
+    }
+
     return {
         //main function to initiate the module
         init: function () {
             AgentFormValidation();
+            getStateList();
+            getCityList();
         }
     };
 }();
 
 $(document).ready(function () {
     FrmAgentPreference.init();
+    
 
     $('input[type=radio][name=agent_iata]').change(function () {
         if (this.value == 'yes') {
@@ -186,5 +262,6 @@ $(document).ready(function () {
             $('.otherData').addClass('hide');
         }
     });
+    
 
 });

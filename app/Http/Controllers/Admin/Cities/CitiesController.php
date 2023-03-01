@@ -177,6 +177,24 @@ class CitiesController extends Controller
         ]);
     }
 
+    /**
+     * Method getStateList
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function getCitiesList(Request $request): JsonResponse
+    {
+        $input = $request->all();
+        $state  = State::find($input['state_id']);
+        return response()->json([
+            'status' => true,
+            'cities' => $state->cities,
+            'message' => __('city/message.success_state_list')
+        ]);
+    }
+
     public function importCities(Request $request): JsonResponse
     {
         Excel::import(new CitiesImport, $request->file);

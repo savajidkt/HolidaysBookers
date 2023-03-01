@@ -95,6 +95,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('/cities', CitiesController::class);
     Route::post('/city/change-status', [CitiesController::class, 'changeStatus'])->name('change-city-status');
     Route::post('/city/get-state', [CitiesController::class, 'getStateList'])->name('get-state-list');
+    Route::post('/city/get-cities', [CitiesController::class, 'getCitiesList'])->name('get-city-list');
     Route::post('/state/import-cities', [CitiesController::class, 'importCities'])->name('importsCities');
 
     Route::resource('/apis', ApisController::class);

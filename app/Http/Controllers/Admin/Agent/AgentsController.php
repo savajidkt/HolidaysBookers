@@ -67,11 +67,11 @@ class AgentsController extends Controller
     {
         //
         $rawData    = new User;
-        $companyType    = CompanyType::where('status',1)->get();
-        $countries    =  Country::where('status',1)->get();
-        $reach    =  Reach::where('status',1)->get();
-        
-        return view('admin.agent.create', ['model' => $rawData,'companies'=>$companyType,'reach'=>$reach,'countries'=>$countries]);
+        $companyType    = CompanyType::where('status', 1)->get();
+        $countries    =  Country::where('status', 1)->get();
+        $reach    =  Reach::where('status', 1)->get();
+
+        return view('admin.agent.create', ['model' => $rawData, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
     }
 
     /**
@@ -80,10 +80,9 @@ class AgentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function store(CreateRequest $request)
-    {
+    public function store(Request $request)
+    {          
         $this->agentRepository->create($request->all());
-
         return redirect()->route('agent.index')->with('success', "User created successfully!");
     }
 
@@ -169,6 +168,4 @@ class AgentsController extends Controller
 
         return str_pad($input, $pad_len, "0", STR_PAD_LEFT);
     }
-
-
 }

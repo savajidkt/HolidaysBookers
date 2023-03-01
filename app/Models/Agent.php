@@ -33,6 +33,7 @@ class Agent extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'agent_code',
         'agent_company_name',
         'agent_company_type',

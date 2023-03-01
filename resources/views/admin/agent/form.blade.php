@@ -93,8 +93,8 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_dob">{{ __('agent/agent.agent_dob') }}</label>
-            <input type="text" id="agent_dob" name="agent_dob" class="form-control flatpickr-disabled-range"
-                placeholder="{{ __('agent/agent.agent_dob') }}"
+            <input type="text" id="fp-default" name="agent_dob" class="form-control flatpickr-basic flatpickr-input"
+                placeholder="YYYY-MM-DD" placeholder="{{ __('agent/agent.agent_dob') }}"
                 value="{{ isset($model->agent_dob) ? $model->agent_dob : old('agent_dob') }}"
                 data-error="{{ __('agent/agent.agent_dob') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -134,12 +134,15 @@
         </div>
     </div>
     <div class="col-4">
-        <div class="form-group">
+        <div class="form-group myState">
             <label class="form-label" for="agent_state">{{ __('agent/agent.agent_state') }}</label>
-            <input type="text" id="agent_state" name="agent_state" class="form-control"
-                placeholder="{{ __('agent/agent.agent_state') }}"
-                value="{{ isset($model->agent_state) ? $model->agent_state : old('agent_state') }}"
-                data-error="{{ __('agent/agent.agent_state') }}" />
+            <select class="select2 form-control form-control-lg" id="agent_state" name="agent_state"
+                data-error="{{ __('agent/agent.agent_state') }}">
+                <option value="">Select State</option>
+            </select>
+            <div class="spinner-border spinner-border-sm hide" role="status">
+                <span class="sr-only">{{ __('core.loading') }}</span>
+            </div>
             <div class="valid-feedback">Looks good!</div>
             @error('agent_state')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -147,12 +150,15 @@
         </div>
     </div>
     <div class="col-4">
-        <div class="form-group">
+        <div class="form-group myCity">
             <label class="form-label" for="agent_city">{{ __('agent/agent.agent_city') }}</label>
-            <input type="text" id="agent_city" name="agent_city" class="form-control"
-                placeholder="{{ __('agent/agent.agent_city') }}"
-                value="{{ isset($model->agent_city) ? $model->city : old('agent_city') }}"
-                data-error="{{ __('agent/agent.agent_city') }}" />
+            <select class="select2 form-control form-control-lg" id="agent_city" name="agent_city"
+                data-error="{{ __('agent/agent.agent_city') }}">
+                <option value="">Select City</option>
+            </select>
+            <div class="spinner-border spinner-border-sm hide" role="status">
+                <span class="sr-only">{{ __('core.loading') }}</span>
+            </div>
             <div class="valid-feedback">Looks good!</div>
             @error('agent_city')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -642,4 +648,14 @@
 
 @section('extra-script')
     <script src="{{ asset('js/form/Agent.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
+    <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
+
+    <script type="text/javascript">
+        var moduleConfig = {
+            redirectUrl: "{!! route('get-state-list') !!}",
+            getCities: "{!! route('get-city-list') !!}",
+        };
+    </script>
 @endsection

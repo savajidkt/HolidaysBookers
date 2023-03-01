@@ -2,14 +2,16 @@
 
 namespace App\Repositories;
 
+use Exception;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Agent;
+use Illuminate\Support\Facades\DB;
 use App\Events\ForgotPasswordEvent;
 use App\Exceptions\GeneralException;
-use App\Models\User;
-use App\Notifications\RegisterdEmailNotification;
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use App\Notifications\RegisterdEmailNotification;
 
 class AgentRepository
 {
@@ -22,20 +24,57 @@ class AgentRepository
      */
     public function create(array $data): User
     {
-        $password = $data['password'];
-        $data = [
-            'company_id'    => $data['company'],
-            'project_id'     => $data['project'],
-            'first_name'    => $data['first_name'],
-            'last_name'     => $data['last_name'],
-            'address'     => $data['address'],
-            'email'         => $data['email'],
-            'password'      => Hash::make($password),
+
+        $UserArr = [
+            'first_name'    => $data['agent_first_name'],
+            'last_name'    => $data['agent_last_name'],
+            'email'    => $data['agent_username'],
+            'password'    => Hash::make($data['agent_password']),
+            'user_type'    => 1,
+            'status'    => 1,
         ];
 
-        $user =  User::create($data);
-        $user->notify(new RegisterdEmailNotification($password,$user));
+        $user =  User::create($UserArr);
+        $UserProfileArr = [];
+        $UserProfileArr['user_id'] = $user->id;
+        $UserProfileArr['agent_code'] = 'CA';
+        foreach ($data as $key => $value) {
+            if ($key != "id" && $key != "_token") {
+                if ($key == "agent_pan_card") {
+                    $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_pan_card', $user->id);
+                } else if ($key == "agent_company_certificate") {
+                    $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_certificate', $user->id);
+                } else if ($key == "agent_company_logo") {
+                    $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_logo', $user->id);
+                } else {
+                    $UserProfileArr[$key] = $data[$key];
+                }
+            }
+        }
+
+        $agent =  Agent::create($UserProfileArr);
+        exit;
+        //$user->notify(new RegisterdEmailNotification($password,$user));
         return $user;
+    }
+
+
+    /**
+     * Method uploadDoc
+     *
+     * @param $data $data [explicite description]
+     * @param $filename $filename [explicite description]
+     *
+     * @return void
+     */
+    public function uploadDoc($data, $filename, $user_id)
+    {
+        if (strlen($data[$filename]) > 0) {
+            FolderExists($user_id);
+            return FileUpload($data[$filename], 'upload/' . $user_id);
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -58,15 +97,12 @@ class AgentRepository
             'address'       => $data['address'],
             'email'         => $data['email']
         ];
-        
-        if( isset($password) )
-        {
-            
+
+        if (isset($password)) {
+
             $data['password'] = Hash::make($password);
-           
         }
-        if( $user->update($data) )
-        {
+        if ($user->update($data)) {
             return $user;
         }
 
@@ -83,8 +119,7 @@ class AgentRepository
      */
     public function delete(User $user): bool
     {
-        if( $user->forceDelete() )
-        {
+        if ($user->forceDelete()) {
             return true;
         }
 
@@ -103,16 +138,13 @@ class AgentRepository
         $user = User::withTrashed()->where('email', $input['email'])->first();
 
         // Event for forgot password
-        try
-        {
-            if($user->trashed())
-            {
+        try {
+            if ($user->trashed()) {
                 $user->restore();
             }
 
             event(new ForgotPasswordEvent($user));
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             // Failed to dispatch event
             report($e);
         }
@@ -143,8 +175,7 @@ class AgentRepository
         //unset($input['new_password']);
         //unset($input['password_confirmation']);
 
-        if($user->update($data))
-        {
+        if ($user->update($data)) {
             return true;
         }
 
@@ -169,7 +200,7 @@ class AgentRepository
         return $userSurvey->delete();
     }
 
-   /**
+    /**
      * Method demoformcreate
      *
      * @param array $data [explicite description]
@@ -183,16 +214,15 @@ class AgentRepository
         $user = auth()->user();
         $data = [
             'gender'    => $data['gender'],
-            'other_text'    => $data['other_text']??null,
+            'other_text'    => $data['other_text'] ?? null,
             'age'     => $data['age'],
             'ethnicity'     => $data['ethnicity'],
             'job_level'     => $data['job_level'],
             'years'       => $data['years']
         ];
-        
-       
-        if( $user->update($data) )
-        {
+
+
+        if ($user->update($data)) {
             return $user;
         }
 

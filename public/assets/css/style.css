@@ -68,3 +68,16 @@ div.dataTables_wrapper .dataTables_info{
 .dropzone .dz-preview.dz-error .dz-error-mark {
 	background: #EA5455;
 }
+
+.myState .spinner-border-sm {   
+    position: relative;
+    top: -35px;
+    right: -467px;
+}
+
+
+.myCity .spinner-border-sm {   
+    position: relative;
+    top: -35px;
+    right: -467px;
+}
