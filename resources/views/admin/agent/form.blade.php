@@ -21,7 +21,10 @@
         <div class="form-group">
             <label class="form-label" for="agent_company_type">{{__('agent/agent.agent_company_type')}}</label>
             <select class="select2 form-control form-control-lg" id="agent_company_type" name="agent_company_type" data-error="{{ __('agent/agent.agent_company_type') }}">
-            {{(isset($model->agent_company_type))? $model->agent_company_type :old('agent_company_type')}}
+                <option value="">Select Company Type</option>
+                @foreach($companies as $company)
+                <option value="{{$company->id}}" {{($model->id == $company->id)? 'selected' : ''}}>{{$company->company_type}}</option>
+                @endforeach
             </select>
             <div class="valid-feedback">Looks good!</div>
             @error('agent_company_type')
@@ -73,7 +76,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_dob">{{__('agent/agent.agent_dob')}}</label>
-            <input type="text" id="agent_dob" name="agent_dob" class="form-control" placeholder="{{__('agent/agent.agent_dob')}}" value="{{(isset($model->agent_dob))? $model->agent_dob :old('agent_dob')}}" data-error="{{ __('agent/agent.agent_dob') }}" />
+            <input type="text" id="agent_dob" name="agent_dob" class="form-control flatpickr-disabled-range" placeholder="{{__('agent/agent.agent_dob')}}" value="{{(isset($model->agent_dob))? $model->agent_dob :old('agent_dob')}}" data-error="{{ __('agent/agent.agent_dob') }}" />
             <div class="valid-feedback">Looks good!</div>
             @error('agent_dob')
             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -93,7 +96,12 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_country">{{__('agent/agent.agent_country')}}</label>
-            <input type="text" id="agent_country" name="agent_country" class="form-control" placeholder="{{__('agent/agent.agent_country')}}" value="{{(isset($model->agent_country))? $model->agent_country :old('agent_country')}}" data-error="{{ __('agent/agent.agent_country') }}" />
+            <select class="select2 form-control form-control-lg" id="agent_country" name="agent_country" data-error="{{ __('agent/agent.agent_country') }}">
+                <option value="">Select Country</option>
+                @foreach($countries as $country)
+                <option value="{{$country->id}}" {{($model->id == $country->id)? 'selected' : ''}}>{{$country->name}}</option>
+                @endforeach
+            </select>
             <div class="valid-feedback">Looks good!</div>
             @error('agent_country')
             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -173,14 +181,26 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_iata">{{__('agent/agent.agent_iata')}}</label>
-            <input type="text" id="agent_iata" name="agent_iata" class="form-control" placeholder="{{__('agent/agent.agent_iata')}}" value="{{(isset($model->agent_iata))? $model->agent_iata :old('agent_iata')}}" data-error="{{ __('agent/agent.agent_iata') }}" />
+            <div class="demo-inline-spacing">
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="agent_iata-yes" name="agent_iata" class="custom-control-input" {{($model->agent_iata=='yes' || old('agent_iata') =='yes')? 'checked' : ''}} />
+                    <label class="custom-control-label" for="agent_iata-yes">Yes</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="agent_iata-no" name="agent_iata" class="custom-control-input" {{($model->agent_iata=='no' || old('agent_iata') =='no')? 'checked' : ''}} />
+                    <label class="custom-control-label" for="agent_iata-no">No</label>
+                </div>               
+            </div>
             <div class="valid-feedback">Looks good!</div>
             @error('agent_iata')
             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    @php 
+    $hide = (isset($model->agent_iata_number)) ? '': 'hide';
+    @endphp
+    <div class="col-4 {{$hide}}" id="iata_number_hide">
         <div class="form-group">
             <label class="form-label" for="agent_iata_number">{{__('agent/agent.agent_iata_number')}}</label>
             <input type="text" id="agent_iata_number" name="agent_iata_number" class="form-control" placeholder="{{__('agent/agent.agent_iata_number')}}" value="{{(isset($model->agent_iata_number))? $model->agent_iata_number :old('agent_iata_number')}}" data-error="{{ __('agent/agent.agent_iata_number') }}" />
@@ -223,7 +243,12 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_know_about">{{__('agent/agent.agent_know_about')}}</label>
-            <input type="text" id="agent_know_about" name="agent_know_about" class="form-control" placeholder="{{__('agent/agent.agent_know_about')}}" value="{{(isset($model->agent_know_about))? $model->agent_know_about :old('agent_know_about')}}" data-error="{{ __('agent/agent.agent_know_about') }}" />
+            <select class="select2 form-control form-control-lg" id="agent_know_about" name="agent_know_about" data-error="{{ __('agent/agent.agent_know_about') }}">
+                <option value="">Select Reach Us</option>
+                @foreach($reach as $rech)
+                <option value="{{$rech->id}}" {{($model->id == $rech->id)? 'selected' : ''}}>{{$rech->name}}</option>
+                @endforeach
+            </select>
             <div class="valid-feedback">Looks good!</div>
             @error('agent_know_about')
             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -387,7 +412,7 @@
         <div class="col-6">
             <div class="form-group">
                 <label class="form-label" for="agent_username">{{__('agent/agent.agent_username')}}</label>
-                <input type="text" id="agent_username" name="reserve_first_name" class="form-control" placeholder="{{__('agent/agent.agent_username')}}" value="{{(isset($model->agent_username))? $model->agent_username :old('agent_username')}}" data-error="{{ __('agent/agent.agent_username') }}" />
+                <input type="text" id="agent_username" name="agent_username" class="form-control" placeholder="{{__('agent/agent.agent_username')}}" value="{{(isset($model->agent_username))? $model->agent_username :old('agent_username')}}" data-error="{{ __('agent/agent.agent_username') }}" />
                 <div class="valid-feedback">Looks good!</div>
                 @error('agent_username')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -397,7 +422,7 @@
         <div class="col-6">
             <div class="form-group">
                 <label class="form-label" for="agent_password">{{__('agent/agent.agent_password')}}</label>
-                <input type="text" id="agent_password" name="agent_password" class="form-control" placeholder="{{__('agent/agent.agent_password')}}" value="{{(isset($model->agent_password))? $model->agent_password :old('agent_password')}}" data-error="{{ __('agent/agent.agent_password') }}" />
+                <input type="password" id="agent_password" name="agent_password" class="form-control" placeholder="{{__('agent/agent.agent_password')}}" value="{{(isset($model->agent_password))? $model->agent_password :old('agent_password')}}" data-error="{{ __('agent/agent.agent_password') }}" />
                 <div class="valid-feedback">Looks good!</div>
                 @error('agent_password')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -407,7 +432,7 @@
         <div class="col-6">
             <div class="form-group">
                 <label class="form-label" for="agent_confirm_password">{{__('agent/agent.agent_confirm_password')}}</label>
-                <input type="text" id="agent_confirm_password" name="agent_confirm_password" class="form-control" placeholder="{{__('agent/agent.agent_confirm_password')}}" value="{{(isset($model->agent_confirm_password))? $model->agent_confirm_password :old('agent_confirm_password')}}" data-error="{{ __('agent/agent.agent_confirm_password') }}" />
+                <input type="password" id="agent_confirm_password" name="agent_confirm_password" class="form-control" placeholder="{{__('agent/agent.agent_confirm_password')}}" value="{{(isset($model->agent_confirm_password))? $model->agent_confirm_password :old('agent_confirm_password')}}" data-error="{{ __('agent/agent.agent_confirm_password') }}" />
                 <div class="valid-feedback">Looks good!</div>
                 @error('agent_confirm_password')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -462,7 +487,7 @@
             </div>
         </div>
 </div>
-</div>
+</div>  
 <div class="modal fade text-left" id="CompanyForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

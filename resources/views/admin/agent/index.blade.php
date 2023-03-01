@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 @section('page_title',__('agent/agent.title'))
-@section('content')
+@section('content')    
 <!-- users list start -->
 <section class="app-user-list">
     <!-- users filter end -->

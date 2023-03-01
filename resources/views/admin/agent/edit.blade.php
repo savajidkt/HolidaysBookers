@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 @section('page_title',__('agent/agent.form_edit_title'))
-@section('content')
+@section('content')   
 <section id="multiple-column-form">
                     <div class="row">
                         <div class="col-12">
