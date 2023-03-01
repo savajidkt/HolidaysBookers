@@ -56,13 +56,25 @@
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/users') }}">
                     <i data-feather='users'></i>
-                    <span class="menu-title text-truncate" data-i18n="User">Users</span>
+                    <span class="menu-title text-truncate" data-i18n="Customers">Customers</span>
                 </a>
             </li>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/agents') }}">
                     <i data-feather='user'></i>
-                    <span class="menu-title text-truncate" data-i18n="Agents">Agents</span>
+                    <span class="menu-title text-truncate" data-i18n="Agents">Agents Management</span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a class="d-flex align-items-center" href="{{ url('admin/agents') }}">
+                    <i data-feather='user'></i>
+                    <span class="menu-title text-truncate" data-i18n="Vendors">Vendors Management</span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a class="d-flex align-items-center" href="{{ url('admin/agents') }}">
+                    <i data-feather='user'></i>
+                    <span class="menu-title text-truncate" data-i18n="Coporate Management">Coporate Management</span>
                 </a>
             </li>
             <li class="navigation-header"><span
@@ -217,7 +229,7 @@
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="{{ url('admin/admins') }}">
                         <i data-feather="file-text"></i><span class="menu-title text-truncate"
-                            data-i18n="Admins">Admins</span>
+                            data-i18n="Staff Management">Staff Management</span>
                     </a>
 
                 </li>
