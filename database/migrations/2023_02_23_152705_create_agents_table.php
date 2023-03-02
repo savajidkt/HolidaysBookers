@@ -54,6 +54,7 @@ class CreateAgentsTable extends Migration
             $table->string('agent_company_certificate')->nullable();
             $table->string('agent_company_logo')->nullable();
             $table->string('agent_know_about')->nullable();
+            $table->string('othername')->nullable();
 
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

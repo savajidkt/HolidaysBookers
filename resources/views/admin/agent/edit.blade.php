@@ -10,9 +10,10 @@
                     <h4 class="card-title text-white">{{__('agent/agent.form_edit_title')}}</h4>
                 </div>
                 <div class="card-body">
-                    <form class="needs-validation1" id="FrmAgent" method="post" enctype="multipart/form-data" action="{{route('agents.update')}}">
+                    <form class="needs-validation1" id="FrmAgent" method="post" enctype="multipart/form-data" action="{{route('agents.update',$model)}}">
                         <input type="hidden" name="id" value="{{ isset($model->id) ? $model->id : null }}">
                         @csrf
+                        @method('PUT')
                         @include('admin.agent.form')
                         <div class="row">
                             <div class="col-12">

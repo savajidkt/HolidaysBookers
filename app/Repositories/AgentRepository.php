@@ -52,7 +52,7 @@ class AgentRepository
             }
         }
 
-        $agent =  Agent::create($UserProfileArr);       
+        $agent =  Agent::create($UserProfileArr);
         //$user->notify(new RegisterdEmailNotification($password,$user));
         return $user;
     }
@@ -87,24 +87,42 @@ class AgentRepository
      */
     public function update(array $data, User $user): User
     {
-        $password = $data['password'];
-        $data = [
-            'company_id'    => $data['company'],
-            'project_id'     => $data['project'],
-            'first_name'     => $data['first_name'],
-            'last_name'     => $data['last_name'],
-            'address'       => $data['address'],
-            'email'         => $data['email']
+
+        $password = $data['agent_password'];
+        $UserArr = [
+            'first_name'    => $data['agent_first_name'],
+            'last_name'    => $data['agent_last_name'],
+            'email'    => $data['agent_username'],
+            'user_type'    => 1,
+            'status'    => 1,
         ];
-
         if (isset($password)) {
-
-            $data['password'] = Hash::make($password);
+            $UserArr['password'] = Hash::make($password);
         }
-        if ($user->update($data)) {
-            return $user;
-        }
+      
+        if ($user->update($UserArr)) {
 
+            $UserProfileArr = [];
+            foreach ($data as $key => $value) {
+                if ($key != "id" && $key != "_token") {
+                    if ($key == "agent_pan_card") {
+                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_pan_card', $user->id);
+                    } else if ($key == "agent_company_certificate") {
+                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_certificate', $user->id);
+                    } else if ($key == "agent_company_logo") {
+                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_logo', $user->id);
+                    } else {
+                        $UserProfileArr[$key] = $data[$key];
+                    }
+                }
+            }
+
+            $user->agents->update($UserProfileArr);
+            
+            //$agent =  Agent::create($UserProfileArr);
+            //$user->notify(new RegisterdEmailNotification($password,$user));
+        }
+        return $user;
         throw new Exception('User update failed.');
     }
 

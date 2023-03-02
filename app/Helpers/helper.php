@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\City;
+use App\Models\State;
 use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('home_route')) {
@@ -86,5 +88,26 @@ if (!function_exists('FileUpload')) {
     {
         $file->storeAs($FolderName, $file->hashName());
         return $file->hashName();
+    }
+}
+
+
+if (!function_exists('getCountryStates')) {
+    /**
+     * getCountryState return state lists
+     */
+    function getCountryStates($country_id)
+    {       
+       return State::where('country_id', $country_id)->where('status', 1)->get();
+    }
+}
+
+if (!function_exists('getStateCities')) {
+    /**
+     * getCountryState return state lists
+     */
+    function getStateCities($state_id)
+    {
+        return City::where('state_id', $state_id)->where('status', 1)->get();
     }
 }

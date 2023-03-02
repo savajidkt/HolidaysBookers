@@ -72,6 +72,7 @@ class Agent extends Authenticatable
         'agent_company_certificate',
         'agent_company_logo',
         'agent_know_about',
+        'othername',
 
     ];
 

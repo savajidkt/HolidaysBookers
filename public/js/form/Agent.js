@@ -46,9 +46,35 @@ var FrmAgentPreference = function () {
                 reserve_last_name: { required: true },
                 reserve_contact_number: { required: true, digits: true },
                 reserve_email: { required: true, email: true },
-                agent_username: { required: true },
-                agent_password: { minlength: 6, required: true },
-                agent_confirm_password: { equalTo: "#agent_password" },
+                agent_username: {
+                    required: function () {
+                        if ($('input[name="editPage"]:checked').val() == 'yes') {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                },
+                agent_password: {
+                    required: function () {
+                        if ($('input[name="editPage"]:checked').val() == 'yes') {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    },
+                    minlength: 6,
+                },
+                agent_confirm_password: {
+                    required: function () {
+                        if ($('input[name="editPage"]:checked').val() == 'yes') {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    },
+                    equalTo: "#agent_password"
+                },
                 status: { required: true }
             },
             messages: {
@@ -241,7 +267,7 @@ var FrmAgentPreference = function () {
 
 $(document).ready(function () {
     FrmAgentPreference.init();
-    
+
 
     $('input[type=radio][name=agent_iata]').change(function () {
         if (this.value == 'yes') {
@@ -262,6 +288,6 @@ $(document).ready(function () {
             $('.otherData').addClass('hide');
         }
     });
-    
+
 
 });

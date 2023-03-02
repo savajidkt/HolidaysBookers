@@ -27,7 +27,8 @@
                 data-error="{{ __('agent/agent.agent_company_type') }}">
                 <option value="">Select Company Type</option>
                 @foreach ($companies as $key => $company)
-                    <option value="{{ $company->id }}" {{ $model->id == $company->id ? 'selected' : '' }}>
+                    <option value="{{ $company->id }}"
+                        {{ $model->agent_company_type == $company->id ? 'selected' : '' }}>
                         {{ $company->company_type }}</option>
                 @endforeach
             </select>
@@ -123,7 +124,8 @@
                 data-error="{{ __('agent/agent.agent_country') }}">
                 <option value="">Select Country</option>
                 @foreach ($countries as $country)
-                    <option value="{{ $country->id }}" {{ $model->id == $country->id ? 'selected' : '' }}>
+                    <option value="{{ $country->id }}"
+                        {{ $model->agent_country == $country->id ? 'selected' : '' }}>
                         {{ $country->name }}</option>
                 @endforeach
             </select>
@@ -139,6 +141,14 @@
             <select class="select2 form-control form-control-lg" id="agent_state" name="agent_state"
                 data-error="{{ __('agent/agent.agent_state') }}">
                 <option value="">Select State</option>
+                @php $states = getCountryStates($model->agent_country);  @endphp
+                @if ($states->count() > 0)
+                    @foreach ($states as $state)
+                        <option value="{{ $state->id }}"
+                            {{ $model->agent_state == $state->id ? 'selected' : '' }}>
+                            {{ $state->name }}</option>
+                    @endforeach
+                @endif
             </select>
             <div class="spinner-border spinner-border-sm hide" role="status">
                 <span class="sr-only">{{ __('core.loading') }}</span>
@@ -155,6 +165,13 @@
             <select class="select2 form-control form-control-lg" id="agent_city" name="agent_city"
                 data-error="{{ __('agent/agent.agent_city') }}">
                 <option value="">Select City</option>
+                @php $cities = getStateCities($model->agent_state);  @endphp
+                @if ($cities->count() > 0)
+                    @foreach ($cities as $city)
+                        <option value="{{ $city->id }}" {{ $model->agent_city == $city->id ? 'selected' : '' }}>
+                            {{ $city->name }}</option>
+                    @endforeach
+                @endif
             </select>
             <div class="spinner-border spinner-border-sm hide" role="status">
                 <span class="sr-only">{{ __('core.loading') }}</span>
@@ -309,6 +326,9 @@
             @enderror
         </div>
     </div>
+    @php
+        $hide = 'hide';
+    @endphp
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_know_about">{{ __('agent/agent.agent_know_about') }}</label>
@@ -320,6 +340,9 @@
                         data-other="{{ $rech->show_other_textbox }}"
                         {{ $model->id == $rech->id ? 'selected' : '' }}>
                         {{ $rech->name }}</option>
+                    @php
+                        $hide = $model->id == $rech->id ? '' : 'hide';
+                    @endphp
                 @endforeach
             </select>
             <div class="valid-feedback">Looks good!</div>
@@ -328,10 +351,12 @@
             @enderror
         </div>
     </div>
-    <div class="col-4 otherData hide">
+
+    <div class="col-4 otherData {{ $hide }}">
         <div class="form-group">
             <label class="form-label" for="agent_know_about">{{ __('agent/agent.agent_know_about') }}</label>
-            <input type="text" id="othername" name="othername" class="form-control" />
+            <input type="text" id="othername" name="othername" class="form-control"
+                value="{{ isset($model->othername) ? $model->othername : old('othername') }}" />
         </div>
     </div>
 </div>
@@ -525,6 +550,7 @@
 </div>
 <div class="row">
     <div class="col-4">
+        <input type="hidden" value="{{ isset($model->id) ? 'yes' : 'no' }}" class="editPage" id="editPage">
         <div class="d-flex align-items-center mb-1 mt-1">
             <i data-feather="user" class="font-medium-3"></i>
             <h4 class="mb-0 ml-75">{{ __('agent/agent.access_details_title') }}</h4>
@@ -577,7 +603,7 @@
             <h4 class="mb-0 ml-75">{{ __('agent/agent.document_details_title') }}</h4>
         </div>
         <hr class="my-2" />
-        <div class="col-3">            
+        <div class="col-3">
             <div class="form-group">
                 <label class="form-label" for="agent_pan_card">{{ __('agent/agent.agent_pan_card') }}</label><br>
                 <input type="file" name="agent_pan_card" id="agent_pan_card">
@@ -586,6 +612,10 @@
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
                 @enderror
             </div>
+            @if (strlen($model->agent_pan_card) > 0)
+                <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_pan_card) }}"
+                    alt="{{ $model->agent_first_name }}" title="{{ $model->agent_first_name }}" width="100px;">
+            @endif
         </div>
         <div class="col-3">
             <div class="form-group">
@@ -597,6 +627,11 @@
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
                 @enderror
             </div>
+            @if (strlen($model->agent_company_certificate) > 0)
+                <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_certificate) }}"
+                    alt="{{ $model->agent_company_name }}" title="{{ $model->agent_company_name }}"
+                    width="100px;">
+            @endif
         </div>
         <div class="col-3">
             <div class="form-group">
@@ -608,7 +643,12 @@
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
                 @enderror
             </div>
-        </div>        
+            @if (strlen($model->agent_company_logo) > 0)
+                <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_logo) }}"
+                    alt="{{ $model->agent_company_name }}" title="{{ $model->agent_company_name }}"
+                    width="100px;">
+            @endif
+        </div>
     </div>
 </div>
 <div class="modal fade text-left" id="CompanyForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
@@ -642,8 +682,6 @@
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
     <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
-    <script type="text/javascript">
-
     <script type="text/javascript">
         var moduleConfig = {
             redirectUrl: "{!! route('get-state-list') !!}",

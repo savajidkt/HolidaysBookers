@@ -42,7 +42,7 @@ class AgentsController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('agent_code', function (User $user) {                    
+                ->addColumn('agent_code', function (User $user) {
                     return $user->agents->agent_code;
                 })
                 ->addColumn('agent_company_name', function (User $user) {
@@ -102,7 +102,7 @@ class AgentsController extends Controller
     public function store(Request $request)
     {
         $this->agentRepository->create($request->all());
-        return redirect()->route('agent.index')->with('success', "User created successfully!");
+        return redirect()->route('agents.index')->with('success', "User created successfully!");
     }
 
     /**
@@ -124,12 +124,12 @@ class AgentsController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Agent $agent)
-    {        
+    {
         $companyType    = CompanyType::where('status', 1)->get();
         $countries    =  Country::where('status', 1)->get();
         $reach    =  Reach::where('status', 1)->get();
 
-        return view('admin.agent.edit', ['model' => $agent,'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
+        return view('admin.agent.edit', ['model' => $agent, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
     }
 
     /**
@@ -140,7 +140,7 @@ class AgentsController extends Controller
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(EditRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
         $this->agentRepository->update($request->all(), $user);
 
