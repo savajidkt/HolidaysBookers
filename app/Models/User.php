@@ -144,7 +144,8 @@ class User extends Authenticatable
      */
     public function agents()
     {
-      return $this->morphTo();
+        return $this->belongsTo(Agent::class,'id','user_id');
+      //return $this->morphTo();
     }
    
 

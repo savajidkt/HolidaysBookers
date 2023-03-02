@@ -39,10 +39,29 @@ class AgentsController extends Controller
         if ($request->ajax()) {
 
             $data = User::select('*');
+
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('agent_code', function (User $user) {                    
+                    return $user->agents->agent_code;
+                })
+                ->addColumn('agent_company_name', function (User $user) {
+                    return $user->agents->agent_company_name;
+                })
                 ->addColumn('full_name', function (User $user) {
                     return $user->fullName;
+                })
+                ->addColumn('agent_mobile_number', function (User $user) {
+                    return $user->agents->agent_mobile_number;
+                })
+                ->addColumn('agent_email', function (User $user) {
+                    return $user->agents->agent_email;
+                })
+                ->addColumn('email', function (User $user) {
+                    return $user->email;
+                })
+                ->addColumn('balance', function (User $user) {
+                    return 0;
                 })
                 ->editColumn('status', function (User $user) {
                     return $user->status_name;
@@ -51,7 +70,7 @@ class AgentsController extends Controller
                     $query->orderByRaw('CONCAT_WS(\' \', first_name, last_name) ' . $order);
                 })
                 ->addColumn('action', function ($row) {
-                    return $row->action;
+                    return $row->agents->action;
                 })->rawColumns(['action', 'status'])->make(true);
         }
 
@@ -81,7 +100,7 @@ class AgentsController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
-    {          
+    {
         $this->agentRepository->create($request->all());
         return redirect()->route('agent.index')->with('success', "User created successfully!");
     }
@@ -100,13 +119,17 @@ class AgentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\User $user [explicite description]
+     * @param \App\Models\Agent $agent [explicite description]
      *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function edit(User $user)
-    {
-        return view('admin.agent.edit', ['model' => $user]);
+    public function edit(Agent $agent)
+    {        
+        $companyType    = CompanyType::where('status', 1)->get();
+        $countries    =  Country::where('status', 1)->get();
+        $reach    =  Reach::where('status', 1)->get();
+
+        return view('admin.agent.edit', ['model' => $agent,'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
     }
 
     /**

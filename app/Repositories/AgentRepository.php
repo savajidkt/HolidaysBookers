@@ -52,8 +52,7 @@ class AgentRepository
             }
         }
 
-        $agent =  Agent::create($UserProfileArr);
-        exit;
+        $agent =  Agent::create($UserProfileArr);       
         //$user->notify(new RegisterdEmailNotification($password,$user));
         return $user;
     }

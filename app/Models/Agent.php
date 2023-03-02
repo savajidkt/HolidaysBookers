@@ -96,8 +96,8 @@ class Agent extends Authenticatable
 
     public function scopeStatus($query, $status)
     {
-        $status = strtolower($status) =='active'? 1 : 0;
-        return $query->where('user_status', $status); 
+        $status = strtolower($status) == 'active' ? 1 : 0;
+        return $query->where('user_status', $status);
     }
 
     /**
@@ -108,23 +108,9 @@ class Agent extends Authenticatable
     public function getActionAttribute(): string
     {
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-        $editAction = '<a href="'. route('users.edit', $this->id).'" class="edit" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><img src="'.asset("app-assets/images/icons/icons8-edit-64.png").'" width="20"></a>';
-        
-        $ResendAction ='';
-        if( isset($this->survey->id) && in_array($this->survey->status, [UserSurvey::INPROGRESS, UserSurvey::PENDING]))
-        {
-            $ResendAction = '<a href="javascript:void(0)" class="resend" data-user_id="'.$this->id.'" data-toggle="tooltip" data-original-title="Survey Time Reset" data-animation="false"><img src="'.asset("app-assets/images/icons/icons8-available-updates-50.png").'" width="20"></a>';
-        }
-        
-        $downloadAction = '';
-        if( isset($this->survey->id) && $this->survey->status == UserSurvey::COMPLETED)
-        {
-            $downloadAction = '<a href="'. route('generate-pdf', $this->id).'" class="download " data-user_id="'.$this->id.'" data-toggle="tooltip" data-original-title="Download Survey" data-animation="false"><img src="'.asset("app-assets/images/icons/icons8-pdf-50.png").'" width="20"></a>';
-            $downloadAction .= ' <a href="'. route('export', $this->id).'" class="download " data-user_id="'.$this->id.'" data-toggle="tooltip" data-original-title="Download Raw Data" data-animation="false"><img src="'.asset("app-assets/images/icons/icons8-microsoft-excel-50.png").'" width="20"></a>';
-        }
-        
-
-        return $editAction.' '.$this->getDeleteButtonAttribute().' '.$ResendAction.' '.$downloadAction;
+        $editAction = '<a href="' . route('agents.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
+        $PasswordAction = '<a href="javascript:void(0)" class="reset" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="Reset Password" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-available-updates-50.png") . '" width="20"></a>';
+        return $editAction .' '. $PasswordAction . ' ' . $this->getDeleteButtonAttribute() ;
     }
 
     /**
@@ -135,7 +121,7 @@ class Agent extends Authenticatable
      */
     public function getDeleteButtonAttribute($class = '')
     {
-        return '<a href="'.route('users.destroy', $this).'" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><img src="'.asset("app-assets/images/icons/icons8-remove-48.png").'" width="30"></a>';
+        return '<a href="' . route('users.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
     }
 
     /**
@@ -145,7 +131,7 @@ class Agent extends Authenticatable
      */
     public function getFullNameAttribute(): string
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
     }
     /**
      * Method getStatusAttribute
@@ -156,39 +142,38 @@ class Agent extends Authenticatable
     {
         $status = self::ACTIVE;
 
-        switch($this->user_status)
-        {
+        switch ($this->user_status) {
             case self::INACTIVE:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-user_id="'.$this->id.'" data-status="'.$this->user_status.'">'.self::STATUS[self::INACTIVE].'</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-user_id="' . $this->id . '" data-status="' . $this->user_status . '">' . self::STATUS[self::INACTIVE] . '</span></a>';
                 break;
             default:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-user_id="'.$this->id.'" data-status="'.$this->user_status.'">'.self::STATUS[self::ACTIVE].'</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-user_id="' . $this->id . '" data-status="' . $this->user_status . '">' . self::STATUS[self::ACTIVE] . '</span></a>';
                 break;
         }
 
         return $status;
     }
-        
+
     /**
      * Method user
      *
      * @return void
      */
-    public function user() 
-    { 
+    public function user()
+    {
         return $this->morphOne(User::class, 'agents');
     }
 
-    public function country() 
-    { 
-        return $this->belongsTo(Country::class, 'country_id','id');
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'id');
     }
-    public function company() 
-    { 
-        return $this->belongsTo(CompanyType::class, 'agent_company_type','id');
+    public function company()
+    {
+        return $this->belongsTo(CompanyType::class, 'agent_company_type', 'id');
     }
-    public function reachus() 
-    { 
-        return $this->belongsTo(Reach::class, 'agent_know_about','id');
+    public function reachus()
+    {
+        return $this->belongsTo(Reach::class, 'agent_know_about', 'id');
     }
 }

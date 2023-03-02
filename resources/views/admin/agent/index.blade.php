@@ -70,28 +70,28 @@
                     visible: false,
                 },
                 {
-                    data: 'code',
-                    name: 'code'
+                    data: 'agent_code',
+                    name: 'agent_code'
                 },
                 {
-                    data: 'company',
-                    name: 'company'
+                    data: 'agent_company_name',
+                    name: 'agent_company_name'
                 },
                 {
-                    data: 'contact_person',
-                    name: 'contact_person'
+                    data: 'full_name',
+                    name: 'full_name'
                 },
                 {
-                    data: 'phone',
-                    name: 'phone'
+                    data: 'agent_mobile_number',
+                    name: 'agent_mobile_number'
+                },
+                {
+                    data: 'agent_email',
+                    name: 'agent_email'
                 },
                 {
                     data: 'email',
                     name: 'email'
-                },
-                {
-                    data: 'username',
-                    name: 'username'
                 },
                 {
                     data: 'balance',

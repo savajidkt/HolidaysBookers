@@ -524,13 +524,13 @@
 
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-4">
         <div class="d-flex align-items-center mb-1 mt-1">
             <i data-feather="user" class="font-medium-3"></i>
             <h4 class="mb-0 ml-75">{{ __('agent/agent.access_details_title') }}</h4>
         </div>
         <hr class="my-2" />
-        <div class="col-6">
+        <div class="col-12">
             <div class="form-group">
                 <label class="form-label" for="agent_username">{{ __('agent/agent.agent_username') }}</label>
                 <input type="text" id="agent_username" name="agent_username" class="form-control"
@@ -543,7 +543,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-12">
             <div class="form-group">
                 <label class="form-label" for="agent_password">{{ __('agent/agent.agent_password') }}</label>
                 <input type="password" id="agent_password" name="agent_password" class="form-control"
@@ -556,7 +556,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-12">
             <div class="form-group">
                 <label class="form-label"
                     for="agent_confirm_password">{{ __('agent/agent.agent_confirm_password') }}</label>
@@ -571,13 +571,13 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-8">
         <div class="d-flex align-items-center mb-1 mt-1">
             <i data-feather="user" class="font-medium-3"></i>
             <h4 class="mb-0 ml-75">{{ __('agent/agent.document_details_title') }}</h4>
         </div>
         <hr class="my-2" />
-        <div class="col-6">
+        <div class="col-3">            
             <div class="form-group">
                 <label class="form-label" for="agent_pan_card">{{ __('agent/agent.agent_pan_card') }}</label><br>
                 <input type="file" name="agent_pan_card" id="agent_pan_card">
@@ -587,7 +587,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-3">
             <div class="form-group">
                 <label class="form-label"
                     for="agent_company_certificate">{{ __('agent/agent.agent_company_certificate') }}</label><br>
@@ -598,7 +598,7 @@
                 @enderror
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-3">
             <div class="form-group">
                 <label class="form-label"
                     for="agent_company_logo">{{ __('agent/agent.agent_company_logo') }}</label><br>
@@ -608,17 +608,7 @@
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
                 @enderror
             </div>
-        </div>
-        <div class="col-6">
-            <div class="form-group">
-                <label class="form-label" for="agent_pan_card">{{ __('agent/agent.agent_pan_card') }}</label><br>
-                <input type="file" name="agent_pan_card" id="agent_pan_card">
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_pan_card')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
+        </div>        
     </div>
 </div>
 <div class="modal fade text-left" id="CompanyForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
@@ -651,6 +641,8 @@
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
     <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script type="text/javascript">
 
     <script type="text/javascript">
         var moduleConfig = {
