@@ -110,8 +110,9 @@ class Agent extends Authenticatable
     {
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
         $editAction = '<a href="' . route('agents.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
-        $PasswordAction = '<a href="javascript:void(0)" class="reset" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="Reset Password" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-available-updates-50.png") . '" width="20"></a>';
-        return $editAction .' '. $PasswordAction . ' ' . $this->getDeleteButtonAttribute() ;
+        //$PasswordAction = '<button href="#ResetPasswordModal" data-target="#ResetPasswordModal" class="reset" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="Reset Password" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-available-updates-50.png") . '" width="20"></button>';
+        $PasswordAction = '<button type="button" class="currntBTN" data-user_id="' . $this->id . '"><img src="' . asset("app-assets/images/icons/icons8-available-updates-50.png") . '" width="20"></button>';
+        return $editAction . ' ' . $PasswordAction . ' ' . $this->getDeleteButtonAttribute();
     }
 
     /**
@@ -122,37 +123,7 @@ class Agent extends Authenticatable
      */
     public function getDeleteButtonAttribute($class = '')
     {
-        return '<a href="' . route('users.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
-    }
-
-    /**
-     * Method getFullNameAttribute
-     *
-     * @return string
-     */
-    public function getFullNameAttribute(): string
-    {
-        return $this->first_name . ' ' . $this->last_name;
-    }
-    /**
-     * Method getStatusAttribute
-     *
-     * @return string
-     */
-    public function getStatusNameAttribute(): string
-    {
-        $status = self::ACTIVE;
-
-        switch ($this->user_status) {
-            case self::INACTIVE:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-user_id="' . $this->id . '" data-status="' . $this->user_status . '">' . self::STATUS[self::INACTIVE] . '</span></a>';
-                break;
-            default:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-user_id="' . $this->id . '" data-status="' . $this->user_status . '">' . self::STATUS[self::ACTIVE] . '</span></a>';
-                break;
-        }
-
-        return $status;
+        return '<a href="' . route('agents.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
     }
 
     /**
@@ -162,7 +133,8 @@ class Agent extends Authenticatable
      */
     public function user()
     {
-        return $this->morphOne(User::class, 'agents');
+        return $this->belongsTo(User::class, 'user_id', 'id');
+        //return $this->morphOne(User::class, 'agents');
     }
 
     public function country()

@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Admin\Agent;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Agent\CreateRequest;
-use App\Http\Requests\Agent\EditRequest;
-use App\Http\Requests\Agent\PDFRequest;
+use Exception;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Agent;
-use App\Models\CompanyType;
-use App\Models\Country;
 use App\Models\Reach;
-use App\Repositories\AgentRepository;
-use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Models\Country;
+use App\Models\CompanyType;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\App;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use App\Http\Controllers\Controller;
+use App\Repositories\AgentRepository;
+use App\Http\Requests\Agent\PDFRequest;
+use App\Http\Requests\Agent\EditRequest;
+use App\Http\Requests\Agent\CreateRequest;
+use App\Http\Requests\Agent\UpdatePasswordRequest;
 
 class AgentsController extends Controller
 {
@@ -61,7 +62,7 @@ class AgentsController extends Controller
                     return $user->email;
                 })
                 ->addColumn('balance', function (User $user) {
-                    return 0;
+                    return $user->agents->balance;
                 })
                 ->editColumn('status', function (User $user) {
                     return $user->status_name;
@@ -83,7 +84,7 @@ class AgentsController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
-    {
+    {     
         //
         $rawData    = new User;
         $companyType    = CompanyType::where('status', 1)->get();
@@ -99,7 +100,7 @@ class AgentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
         $this->agentRepository->create($request->all());
         return redirect()->route('agents.index')->with('success', "User created successfully!");
@@ -135,14 +136,14 @@ class AgentsController extends Controller
     /**
      * Method update
      *
-     * @param \App\Http\Requests\User\EditRequest $request
-     * @param \App\Models\User $user
+     * @param \App\Http\Requests\Agent\EditRequest $request
+     * @param \App\Models\Agent $agent
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(EditRequest $request, Agent $agent)
     {
-        $this->agentRepository->update($request->all(), $user);
+        $this->agentRepository->update($request->all(), $agent);
 
         return redirect()->route('agents.index')->with('success', "Agent updated successfully!");
     }
@@ -153,9 +154,10 @@ class AgentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Agent $agent)
     {
-        $this->agentRepository->delete($user);
+
+        $this->agentRepository->delete($agent);
 
         return redirect()->route('agents.index')->with('success', "Agent deleted successfully!");
     }
@@ -190,5 +192,24 @@ class AgentsController extends Controller
             return sprintf("%s%s", $prefix, str_pad($input, $pad_len, "0", STR_PAD_LEFT));
 
         return str_pad($input, $pad_len, "0", STR_PAD_LEFT);
+    }
+
+    /**
+     * Method updatePassword
+     *
+     * @param UpdatePasswordRequest $request [explicite description]
+     * @param Agent $agent [explicite description]
+     *
+     * @return void
+     */
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        
+        $input = $request->all();        
+        $agent  = Agent::find($input['modal_user_id']);
+        $user  = $agent->user;        
+        $this->agentRepository->updatePassword($input, $user);
+
+        return redirect()->route('agents.index')->with('success', "Agent password updated successfully!");
     }
 }

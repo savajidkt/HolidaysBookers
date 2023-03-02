@@ -124,13 +124,13 @@ class User extends Authenticatable
     {
         $status = self::ACTIVE;
 
-        switch($this->user_status)
+        switch($this->status)
         {
             case self::INACTIVE:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-user_id="'.$this->id.'" data-status="'.$this->user_status.'">'.self::STATUS[self::INACTIVE].'</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-user_id="'.$this->id.'" data-status="'.$this->status.'">'.self::STATUS[self::INACTIVE].'</span></a>';
                 break;
             default:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-user_id="'.$this->id.'" data-status="'.$this->user_status.'">'.self::STATUS[self::ACTIVE].'</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-user_id="'.$this->id.'" data-status="'.$this->status.'">'.self::STATUS[self::ACTIVE].'</span></a>';
                 break;
         }
 

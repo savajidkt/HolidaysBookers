@@ -561,8 +561,8 @@
                 <label class="form-label" for="agent_username">{{ __('agent/agent.agent_username') }}</label>
                 <input type="text" id="agent_username" name="agent_username" class="form-control"
                     placeholder="{{ __('agent/agent.agent_username') }}"
-                    value="{{ isset($model->agent_username) ? $model->agent_username : old('agent_username') }}"
-                    data-error="{{ __('agent/agent.agent_username') }}" />
+                    value="{{ isset($model->user->email) ? $model->user->email : old('agent_username') }}"
+                    data-error="{{ __('agent/agent.agent_username') }}"  autocomplete="off"/>
                 <div class="valid-feedback">Looks good!</div>
                 @error('agent_username')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -574,7 +574,7 @@
                 <label class="form-label" for="agent_password">{{ __('agent/agent.agent_password') }}</label>
                 <input type="password" id="agent_password" name="agent_password" class="form-control"
                     placeholder="{{ __('agent/agent.agent_password') }}"
-                    value="{{ isset($model->agent_password) ? $model->agent_password : old('agent_password') }}"
+                    value=""
                     data-error="{{ __('agent/agent.agent_password') }}" />
                 <div class="valid-feedback">Looks good!</div>
                 @error('agent_password')
@@ -588,7 +588,7 @@
                     for="agent_confirm_password">{{ __('agent/agent.agent_confirm_password') }}</label>
                 <input type="password" id="agent_confirm_password" name="agent_confirm_password"
                     class="form-control" placeholder="{{ __('agent/agent.agent_confirm_password') }}"
-                    value="{{ isset($model->agent_confirm_password) ? $model->agent_confirm_password : old('agent_confirm_password') }}"
+                    value=""
                     data-error="{{ __('agent/agent.agent_confirm_password') }}" />
                 <div class="valid-feedback">Looks good!</div>
                 @error('agent_confirm_password')
@@ -651,31 +651,6 @@
         </div>
     </div>
 </div>
-<div class="modal fade text-left" id="CompanyForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel33">Create Company</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <label>Company: </label>
-                <div class="form-group">
-                    <input type="text" placeholder="Company" name="company_name" id="company_name"
-                        class="form-control" />
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="create-company" class="btn btn-primary">Create</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section('extra-script')
     <script src="{{ asset('js/form/Agent.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>

@@ -37,7 +37,7 @@ class AgentRepository
         $user =  User::create($UserArr);
         $UserProfileArr = [];
         $UserProfileArr['user_id'] = $user->id;
-        $UserProfileArr['agent_code'] = 'CA';
+        $UserProfileArr['agent_code'] = createAgentCode($user->id);
         foreach ($data as $key => $value) {
             if ($key != "id" && $key != "_token") {
                 if ($key == "agent_pan_card") {
@@ -80,13 +80,14 @@ class AgentRepository
      * Method update
      *
      * @param array $data [explicite description]
-     * @param User $user [explicite description]
+     * @param Agent $agent [explicite description]
      *
-     * @return User
+     * @return Agent
      * @throws Exception
      */
-    public function update(array $data, User $user): User
+    public function update(array $data, Agent $agent): Agent
     {
+
 
         $password = $data['agent_password'];
         $UserArr = [
@@ -99,44 +100,42 @@ class AgentRepository
         if (isset($password)) {
             $UserArr['password'] = Hash::make($password);
         }
-      
-        if ($user->update($UserArr)) {
+
+        if ($agent->user->update($UserArr)) {
 
             $UserProfileArr = [];
             foreach ($data as $key => $value) {
                 if ($key != "id" && $key != "_token") {
                     if ($key == "agent_pan_card") {
-                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_pan_card', $user->id);
+                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_pan_card', $agent->user->id);
                     } else if ($key == "agent_company_certificate") {
-                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_certificate', $user->id);
+                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_certificate', $agent->user->id);
                     } else if ($key == "agent_company_logo") {
-                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_logo', $user->id);
+                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_logo', $agent->user->id);
                     } else {
                         $UserProfileArr[$key] = $data[$key];
                     }
                 }
             }
 
-            $user->agents->update($UserProfileArr);
-            
-            //$agent =  Agent::create($UserProfileArr);
-            //$user->notify(new RegisterdEmailNotification($password,$user));
+            $agent->update($UserProfileArr);
+            //$agent->notify(new RegisterdEmailNotification($password,$agent));
         }
-        return $user;
+        return $agent;
         throw new Exception('User update failed.');
     }
 
     /**
      * Method delete
      *
-     * @param User $user [explicite description]
+     * @param Agent $agent [explicite description]
      *
      * @return bool
      * @throws Exception
      */
-    public function delete(User $user): bool
+    public function delete(Agent $agent): bool
     {
-        if ($user->forceDelete()) {
+        if ($agent->user->forceDelete()) {
             return true;
         }
 
@@ -166,33 +165,22 @@ class AgentRepository
             report($e);
         }
     }
+       
     /**
-     * Method changePassword
+     * Method updatePassword
      *
-     * @param User $user
-     * @param array $input
+     * @param array $input [explicite description]
+     * @param User $user [explicite description]
      *
      * @return void
      */
-    public function changePassword(User $user, array $input)
+    public function updatePassword(array $input, User $user)
     {
-        // if(!Hash::check($input['current_password'], $user->password))
-        // {
-        //     throw new GeneralException('Entered current password is incorrect.');
-        // }
-
-        $data = [
-            'password'                 => Hash::make($input['new_password']),
-            'is_first_time_login'      => 1,
+        $UserArr = [
+            'password'    => Hash::make($input['password'])
         ];
-        //$input['password'] = Hash::make($input['new_password']);
-        //$input['is_first_time_login'] = 1;
-
-        //unset($input['current_password']);
-        //unset($input['new_password']);
-        //unset($input['password_confirmation']);
-
-        if ($user->update($data)) {
+        
+        if ($user->update($UserArr)) {
             return true;
         }
 
@@ -208,7 +196,7 @@ class AgentRepository
      */
     public function changeStatus(array $input, User $user): bool
     {
-        $user->user_status = !$input['status'];
+        $user->status = !$input['status'];
         return $user->save();
     }
 

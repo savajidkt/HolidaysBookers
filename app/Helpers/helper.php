@@ -104,10 +104,26 @@ if (!function_exists('getCountryStates')) {
 
 if (!function_exists('getStateCities')) {
     /**
-     * getCountryState return state lists
+     * getCountryState return cities lists
      */
     function getStateCities($state_id)
     {
         return City::where('state_id', $state_id)->where('status', 1)->get();
+    }
+}
+
+
+if (!function_exists('createAgentCode')) {
+    /**
+     * createAgentCode return agent code
+     */
+    function createAgentCode($id)
+    {
+        $agent_code = 'CA' . date('y') . '000';
+        if ($id < 10) {
+            $id = '0' . $id;
+        }
+        return 'CA' . date('y') . $id;
+        
     }
 }

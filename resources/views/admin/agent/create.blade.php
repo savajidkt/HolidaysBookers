@@ -17,7 +17,14 @@
                         @include('admin.agent.form')
                         <div class="row">
                             <div class="col-12">
-                                <button type="submit" id="user-save" class="btn btn-primary">{{__('core.submit')}}</button>
+                                <div class="col-12">
+                                    <a class="btn btn-outline-secondary waves-effect"
+                                        href="{{ route('agents.index') }}">{{ __('core.back') }}</a>
+                                    <button type="submit" id="user-save" class="btn btn-primary"><span
+                                            class="spinner-border spinner-border-sm buttonLoader hide" role="status"
+                                            aria-hidden="true"></span><span
+                                            class="ml-25 align-middle">{{ __('core.submit') }}</span></button>
+                                </div>                                
                             </div>
                         </div>
                     </form>
@@ -28,7 +35,6 @@
 </section>
 @endsection
 @section('extra-script')
-
 <script type="text/javascript">
     jQuery(function() {
         function generatePassword() {

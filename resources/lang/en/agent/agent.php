@@ -72,7 +72,7 @@ return [
     'reservation_details_title' => 'OPERATIONS/RESERVATIONS',
     'access_details_title' => 'ACCESS DETAILS',
     'document_details_title' => 'DOCUMENTS UPLOAD',
-    'agent_username' => 'Username/Email',
+    'agent_username' => 'Email',
     'agent_password' => 'Password',
     'agent_confirm_password' => 'Confirm Password'
   
