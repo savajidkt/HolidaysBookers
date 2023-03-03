@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Agent;
 
+use App\Exceptions\GeneralException;
 use Exception;
 use Carbon\Carbon;
 use App\Models\User;
@@ -196,7 +197,7 @@ class AgentsController extends Controller
             ]);
         }
 
-        throw new Exception('Agent status does not change. Please check sometime later.');
+        throw new GeneralException('Agent status does not change. Please check sometime later.');
     }
 
     function invoice_num($input, $pad_len = 7, $prefix = null)
@@ -220,12 +221,10 @@ class AgentsController extends Controller
      */
     public function updatePassword(UpdatePasswordRequest $request)
     {
-        
-        $input = $request->all();        
+        $input = $request->all();
         $agent  = Agent::find($input['modal_user_id']);
-        $user  = $agent->user;        
+        $user  = $agent->user;
         $this->agentRepository->updatePassword($input, $user);
-
         return redirect()->route('agents.index')->with('success', "Agent password updated successfully!");
     }
 }

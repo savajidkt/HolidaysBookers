@@ -93,7 +93,13 @@
     <div class="col-md-6 col-12">
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="basic-default-password1"><strong>Permissions</strong></label>
+            <div class="col-6"><label class="form-label" for="basic-default-password1"><strong>Permissions</strong></label></div>
+                <div class="col-6">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" name="selectAll" id="selectAll"/>
+                        <label class="custom-control-label" for="selectAll">Select All</label>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -132,15 +138,14 @@
 @section('extra-script')
 <script type="text/javascript">
     jQuery(function() {
-        function generatePassword() {
-            return Math.random() // Generate random number, eg: 0.123456
-                .toString(36) // Convert  to base-36 : "0.4fzyo82mvyr"
-                .slice(-8); // Cut off last 8 characters : "yo82mvyr"
-        }
-        jQuery('#generate_password').on('click', function() {
-            var password = generatePassword();
-            jQuery('#password').val(password);
-            jQuery('#confirm-password').val(password);
+       
+        jQuery('#selectAll').on('click', function() {
+            if($(this).prop('checked') == true){
+                $('input[type="checkbox"]').prop('checked',true);
+            }else{
+                $('input[type="checkbox"]').prop('checked',false);
+            }
+            
         });
 
     })

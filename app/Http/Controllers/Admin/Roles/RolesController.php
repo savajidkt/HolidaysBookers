@@ -53,9 +53,8 @@ class RolesController extends Controller
     public function create()
     {
         $rawData    = new Role;
-        $permission = Permission::get();
-
-        return view('admin.roles.create', ['model' => $rawData,'permission'=>$permission]);
+        $permissions    =  Permission::all()->groupBy('module');
+        return view('admin.roles.create', ['model' => $rawData,'permissions'=>$permissions]);
     }
 
     /**
@@ -91,8 +90,8 @@ class RolesController extends Controller
     public function edit(Role $role)
     {
         
-        $permission = Permission::get();
-        return view('admin.roles.edit', ['model' => $role,'permission'=>$permission]);
+        $permissions    =  Permission::all()->groupBy('module');
+        return view('admin.roles.edit', ['model' => $role,'permissions'=>$permissions]);
     }
 
     /**

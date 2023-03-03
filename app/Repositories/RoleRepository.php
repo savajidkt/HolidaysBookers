@@ -52,9 +52,11 @@ class RoleRepository
 
 
         if($role->update($dataSave))
-        {
-            $role->permissions()->detach($data['permissions']);
-            $role->permissions()->attach($data['permissions']);
+        {   if(isset($data['permissions'])){
+                $role->permissions()->detach();
+                $role->permissions()->attach($data['permissions']);
+            }
+           
             return $role;
         }
 

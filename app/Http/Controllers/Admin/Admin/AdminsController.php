@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Admin;
 
+use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CreateRequest;
 use App\Http\Requests\Admin\EditRequest;
@@ -37,8 +38,11 @@ class AdminsController extends Controller
      */
     public function index(Request $request)
     {   
+        $user = auth()->user();
+        if(!$user->can('admin-staff-view')){
+            throw new GeneralException('Access Denide!');
+        }
         if ($request->ajax()) {
-
             $data = Admin::select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -75,7 +79,7 @@ class AdminsController extends Controller
         $rawData=[];
         $rawData    = new Admin;
         $roles    =  Role::all();
-        $permissions    =  Permission::all()->groupBy('module');
+        $permissions    =  Permission::where('status',Permission::ACTIVE)->all()->groupBy('module');
         return view('admin.admin.create', ['model' => $rawData,'roles'=>$roles,'permissions'=>$permissions]);
     }
 
@@ -112,8 +116,7 @@ class AdminsController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Admin $admin)
-    {   
-        
+    {
         $roles    =  Role::all();
         $permissions    =  Permission::all()->groupBy('module');
         return view('admin.admin.edit', ['model' => $admin,'roles'=>$roles,'permissions'=>$permissions]);
