@@ -84,7 +84,7 @@ class AgentsController extends Controller
                     return $user->email;
                 })->addColumn('balance', function (User $user) {
                     //return $user->agents->balance; Todo
-                    return 00.00;
+                    return '00';
                 })->editColumn('status', function (User $user) {
                     return $user->status_name;
                 })->orderColumn('full_name', function ($query, $order) {
@@ -106,9 +106,9 @@ class AgentsController extends Controller
     {     
         //
         $rawData    = new User;
-        $companyType    = CompanyType::where('status', 1)->get();
-        $countries    =  Country::where('status', 1)->get();
-        $reach    =  Reach::where('status', 1)->get();
+        $companyType    = CompanyType::where('status', CompanyType::ACTIVE)->get();
+        $countries    =  Country::where('status', Country::ACTIVE)->get();
+        $reach    =  Reach::where('status',Reach::ACTIVE)->get();
 
         return view('admin.agent.create', ['model' => $rawData, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
     }
