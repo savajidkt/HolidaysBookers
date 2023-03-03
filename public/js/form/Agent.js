@@ -46,7 +46,7 @@ var FrmAgentPreference = function () {
                 reserve_last_name: { required: true },
                 reserve_contact_number: { required: true, digits: true },
                 reserve_email: { required: true, email: true },
-                agent_username: {required: true},
+                agent_username: { required: true },
                 agent_password: {
                     required: function () {
                         if ($('.editPage').val() == 'no') {
@@ -283,6 +283,60 @@ var FrmAgentPreference = function () {
         });
     }
 
+    var updateHBCreditFormValidation = function () {
+        var FrmUpdateHBCreditPreferenceForm = $('#updateHBCredit');
+        var error4 = $('.error-message', FrmUpdateHBCreditPreferenceForm);
+        var success4 = $('.error-message', FrmUpdateHBCreditPreferenceForm);
+
+        FrmUpdateHBCreditPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                type: {
+                    required: true,
+                },
+                amount: {
+                    required: true,
+                    number: true
+                },
+                comment: {
+                    required: true,
+                },
+            },
+            messages: {
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                var avilableBal = $('#HBCreditModal #HBCredit_Bal').val();
+                var enterAmount = $('#HBCreditModal #amount').val();
+                var enterType = $("#HBCreditModal select[name=type]").val();
+                if (enterType == 0) {
+                    if (parseFloat(avilableBal) < parseFloat(enterAmount)) {
+                        Swal.fire({
+                            title: 'Insufficient balance',
+                            text: 'Please enter less then ₹' + avilableBal,
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                confirmButton: 'btn btn-primary',
+                                cancelButton: 'btn btn-outline-danger ml-1'
+                            },
+                            buttonsStyling: false
+                        });
+                        return false;
+                    }
+                }
+                $(".buttonLoader").removeClass('hide');
+                form.submit();
+            }
+        });
+    }
+
     return {
         //main function to initiate the module
         init: function () {
@@ -290,6 +344,7 @@ var FrmAgentPreference = function () {
             getStateList();
             getCityList();
             changePasswordFormValidation();
+            updateHBCreditFormValidation();
         }
     };
 }();
@@ -301,6 +356,14 @@ $(document).ready(function () {
     $(document).on('click', '.currntBTN', function () {
         $('#changePassword #modal_user_id').val($(this).data('user_id'));
         $('#ResetPasswordModal').modal('show');
+    });
+
+    $(document).on('click', '.HBCredit', function () {
+        $('#HBCreditModal #HBCredit_user_id').val($(this).data('user_id'));
+        $('#HBCreditModal .agentName').html($(this).data('agent_code'));
+        $('#HBCreditModal #availableBal').html('Avilable Balance ₹' + $(this).data('balance'));
+        $('#HBCreditModal #HBCredit_Bal').val($(this).data('balance'));
+        $('#HBCreditModal').modal('show');
     });
 
 

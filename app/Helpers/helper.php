@@ -2,6 +2,7 @@
 
 use App\Models\City;
 use App\Models\State;
+use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('home_route')) {
@@ -75,7 +76,7 @@ if (!function_exists('FolderExists')) {
         if (!Storage::exists('/upload/' . $user_id)) {
             return Storage::makeDirectory('/upload/' . $user_id, 0775, true);
         }
-        
+
         return true;
     }
 }
@@ -97,8 +98,8 @@ if (!function_exists('getCountryStates')) {
      * getCountryState return state lists
      */
     function getCountryStates($country_id)
-    {       
-       return State::where('country_id', $country_id)->where('status', 1)->get();
+    {
+        return State::where('country_id', $country_id)->where('status', 1)->get();
     }
 }
 
@@ -124,6 +125,63 @@ if (!function_exists('createAgentCode')) {
             $id = '0' . $id;
         }
         return 'CA' . date('y') . $id;
-        
+    }
+}
+
+
+if (!function_exists('numberFormat')) {
+    /**
+     * numberFormat return number with two decimals
+     */
+    function numberFormat($amount, $currency = '')
+    {
+        return ($currency) ? $currency . ' ' . number_format((float)$amount, 2, '.', '') : number_format((float)$amount, 2, '.', '');
+    }
+}
+
+if (!function_exists('dateFormat')) {
+    /**
+     * numberFormat return number with two decimals
+     */
+    function dateFormat($date)
+    {
+        return date("d M, Y h:i:s A", strtotime($date));
+    }
+}
+
+
+if (!function_exists('calculateBalance')) {
+    /**
+     * calculateBalance return Balance
+     */
+    function calculateBalance($agent_id, $type, $amount)
+    {
+        $letest = WalletTransaction::where('agent_id', $agent_id)->latest()->first();
+        if ($type == 0) {
+            if ($letest->balance >= $amount) {
+                return  numberFormat($letest->balance - $amount);
+            } else {
+                return redirect()->route('agents.index')->with('error', "Please enter less then balance amount");
+            }
+        } else if ($type == 1) {
+            return  numberFormat($letest->balance + $amount);
+        }
+        return redirect()->route('agents.index')->with('error', "HB Credit type not found");
+    }
+}
+
+
+if (!function_exists('availableBalance')) {
+    /**
+     * availableBalance return Balance
+     */
+    function availableBalance($agent_id, $currency = '₹')
+    {
+        $letest = WalletTransaction::where('agent_id', $agent_id)->latest()->first();
+        if ($letest->balance > 0) {
+            return  numberFormat($letest->balance, $currency);
+        } else {
+            return  numberFormat(0);
+        }
     }
 }

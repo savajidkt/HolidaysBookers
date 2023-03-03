@@ -22,11 +22,12 @@ use App\Http\Controllers\Admin\Language\LocalizationController;
 use App\Http\Controllers\Admin\Permission\PermissionController;
 use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
 use App\Http\Controllers\Admin\Permissions\PermissionsController;
+use App\Http\Controllers\Admin\AgentMarkups\AgentMarkupsController;
 use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
 use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
-use App\Http\Controllers\Admin\AgentMarkups\AgentMarkupsController;
+use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,6 +114,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/agentmarkups', AgentmarkupsController::class);
     Route::post('/agentmarkup/change-status', [AgentmarkupsController::class, 'changeStatus'])->name('change-agent-markup-status');
+
+
+   // Route::resource('/wallettransactions', WalletTransactionsController::class);    
+    Route::post('/wallettransaction/update-hb-credit', [WalletTransactionsController::class, 'updateHBCredit'])->name('update-hb-credit');
+    Route::get('/wallettransaction/{agent}/agent', [WalletTransactionsController::class, 'index'])->name('list-hb-credit');    
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');

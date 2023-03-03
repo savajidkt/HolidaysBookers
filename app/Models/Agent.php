@@ -108,11 +108,13 @@ class Agent extends Authenticatable
      */
     public function getActionAttribute(): string
     {
-        $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-        $editAction = '<a href="' . route('agents.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
-        //$PasswordAction = '<button href="#ResetPasswordModal" data-target="#ResetPasswordModal" class="reset" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="Reset Password" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-available-updates-50.png") . '" width="20"></button>';
-        $PasswordAction = '<button type="button" class="currntBTN" data-user_id="' . $this->id . '"><img src="' . asset("app-assets/images/icons/icons8-available-updates-50.png") . '" width="20"></button>';
-        return $editAction . ' ' . $PasswordAction . ' ' . $this->getDeleteButtonAttribute();
+        
+        $creditAction = '<a href="javascript:void(0);" class="HBCredit btn btn-success btn-sm" data-balance="' . availableBalance($this->id,'') . '" data-agent_code="' . $this->agent_code . '" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="HB Credit '.availableBalance($this->id).' " data-animation="false"><i class="fa fa-money" aria-hidden="true"></i></a>';
+        $transactionAction = '<a href="' . route('list-hb-credit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Transaction" data-animation="false"><i class="fa fa-history" aria-hidden="true"></i></a>';
+        $viewAction = '<a href="javascript:void(0);" class="edit btn btn-primary btn-sm">View</a>';
+        $editAction = '<a href="' . route('agents.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';        
+        $PasswordAction = '<a href="javascript:void(0);" class="currntBTN btn btn-info btn-sm" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="Change Password"><i class="fa fa-key" aria-hidden="true"></i></a>';
+        return $creditAction.' '.$editAction . ' ' . $PasswordAction . ' ' . $this->getDeleteButtonAttribute().' '.$transactionAction;
     }
 
     /**
@@ -123,7 +125,7 @@ class Agent extends Authenticatable
      */
     public function getDeleteButtonAttribute($class = '')
     {
-        return '<a href="' . route('agents.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
+        return '<a href="' . route('agents.destroy', $this) . '" class="delete_action btn btn-danger btn-sm" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><i class="fa fa-trash" aria-hidden="true"></i></a>';
     }
 
     /**
@@ -148,5 +150,9 @@ class Agent extends Authenticatable
     public function reachus()
     {
         return $this->belongsTo(Reach::class, 'agent_know_about', 'id');
+    }
+    public function wallettransactions()
+    {
+        return $this->hasMany(WalletTransaction::class, 'agent_id', 'id');
     }
 }

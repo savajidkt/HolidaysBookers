@@ -53,7 +53,8 @@
                         <form action="{{ route('update-agent-password') }}" method="post" id="changePassword"
                             enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" class="updateCls" id="modal_user_id" name="modal_user_id" value="">
+                            <input type="hidden" class="updateCls" id="modal_user_id" name="modal_user_id"
+                                value="">
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="form-label"
@@ -81,7 +82,65 @@
                     </div>
                 </div>
             </div>
-            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade text-left" id="HBCreditModal" tabindex="-1" aria-labelledby="myModalLabel120" aria-hidden="true"
+    data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel120">HB Credit: <span>Agent Code-<strong
+                            class="agentName">CA</strong></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="{{ route('update-hb-credit') }}" method="post" id="updateHBCredit"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" class="updateCls" id="HBCredit_user_id" name="HBCredit_user_id" value="">
+                            <input type="hidden" class="updateCls" id="HBCredit_Bal" name="HBCredit_Bal"
+                                value="">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="Type">Type</label>
+                                    <select class="select2 form-control form-control-lg" name="type"
+                                        data-error="Type">
+                                        <option value="">Select type</option>
+                                        <option value="1">Credit</option>
+                                        <option value="0">Debit</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="amount">Amount</label>
+                                    <input type="text" id="amount" name="amount" class="form-control"
+                                        value="" data-error="Amount" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')"/>
+                                        <small id="availableBal" class="form-text text-muted"></small>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="comment">Comment</label>
+                                    <textarea name="comment" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit"
+                                    class="btn btn-primary waves-effect waves-float waves-light">{{ __('core.submit') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
