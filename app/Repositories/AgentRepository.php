@@ -30,8 +30,8 @@ class AgentRepository
             'last_name'    => $data['agent_last_name'],
             'email'    => $data['agent_username'],
             'password'    => Hash::make($data['agent_password']),
-            'user_type'    => 1,
-            'status'    => 1,
+            'user_type'    => User::AGENT,
+            'status'    => User::ACTIVE,
         ];
 
         $user =  User::create($UserArr);

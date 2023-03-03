@@ -36,8 +36,7 @@ class AdminsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   $user = $request->user();
-        dd($user->givePermissionsTo('create-tasks'));
+    {   
         if ($request->ajax()) {
 
             $data = Admin::select('*');
@@ -88,6 +87,7 @@ class AdminsController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        
         $this->adminRepository->create($request->all());
 
         return redirect()->route('admins.index')->with('success', "Admin created successfully!");
@@ -112,7 +112,8 @@ class AdminsController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Admin $admin)
-    {
+    {   
+        
         $roles    =  Role::all();
         $permissions    =  Permission::all()->groupBy('module');
         return view('admin.admin.edit', ['model' => $admin,'roles'=>$roles,'permissions'=>$permissions]);

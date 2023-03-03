@@ -59,10 +59,15 @@ class AdminRepository
             $data['password'] = Hash::make($password);
            
         }
-        if( $admin->update($dataSave) )
+        if($admin->update($dataSave) )
         {
             $admin->roles()->sync([$data['role']]);
-            $admin->permissions()->attach($data['permissions']);
+           
+            if(isset($data['permissions'])){
+                $admin->permissions()->detach();
+                $admin->permissions()->attach($data['permissions']);
+            }
+            
             return $admin;
         }
 

@@ -139,3 +139,4 @@ class Admin extends Authenticatable
       return $this->belongsTo(Role::class, 'users_roles', 'user_id', 'role_id');
    }
 }
+

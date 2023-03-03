@@ -19,8 +19,10 @@ class User extends Authenticatable
     const INACTIVE = 0;
 
     /** User types */
-    const ADMIN = 1;
-    const USER  = 2;
+    const AGENT = 1;
+    const CUSTOMER  = 2;
+    const VENDOR  = 3;
+    const CORPORATE  = 4;
 
     const STATUS = [
         self::ACTIVE => 'Active',

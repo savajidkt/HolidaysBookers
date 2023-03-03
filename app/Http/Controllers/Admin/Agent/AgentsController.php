@@ -37,40 +37,58 @@ class AgentsController extends Controller
      */
     public function index(Request $request)
     {
+        // $user = auth()->user();   
+        // dd($user->can('agents-create'));
         if ($request->ajax()) {
 
-            $data = User::select('*');
-
+            $data = User::with('agents')->where('user_type',User::AGENT);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('agent_code', function (User $user) {
-                    return $user->agents->agent_code;
-                })
-                ->addColumn('agent_company_name', function (User $user) {
+                    return $user->agents->agent_code ?? '-';
+                })->filterColumn('agent_code', function ($query, $keyword) {
+                    $query->whereHas('agents', function($query) use($keyword)
+                    {
+                      $query->where('agent_code','LIKE','%'.$keyword.'%');
+                    });
+                })->addColumn('agent_company_name', function (User $user) {
                     return $user->agents->agent_company_name;
-                })
-                ->addColumn('full_name', function (User $user) {
+                })->filterColumn('agent_company_name', function ($query, $keyword) {
+                    $query->whereHas('agents', function($query) use($keyword)
+                    {
+                      $query->where('agent_company_name','LIKE','%'.$keyword.'%');
+                    });
+                })->addColumn('full_name', function (User $user) {
                     return $user->fullName;
-                })
-                ->addColumn('agent_mobile_number', function (User $user) {
+                })->filterColumn('full_name', function($query, $keyword) {
+                    $sql = "CONCAT(users.first_name,'-',users.last_name)  like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+                })->editColumn('agent_mobile_number', function (User $user) {
                     return $user->agents->agent_mobile_number;
-                })
-                ->addColumn('agent_email', function (User $user) {
+                })->filterColumn('agent_mobile_number', function ($query, $keyword) {
+                    $query->whereHas('agents', function($query) use($keyword)
+                    {
+                      $query->where('agent_mobile_number','LIKE','%'.$keyword.'%');
+                    });
+
+                })->addColumn('agent_email', function (User $user) {
                     return $user->agents->agent_email;
-                })
-                ->addColumn('email', function (User $user) {
+                })->filterColumn('agent_email', function ($query, $keyword) {
+                    $query->whereHas('agents', function($query) use($keyword)
+                    {
+                      $query->where('agent_email','LIKE','%'.$keyword.'%');
+                    });
+
+                })->addColumn('email', function (User $user) {
                     return $user->email;
-                })
-                ->addColumn('balance', function (User $user) {
-                    return $user->agents->balance;
-                })
-                ->editColumn('status', function (User $user) {
+                })->addColumn('balance', function (User $user) {
+                    //return $user->agents->balance; Todo
+                    return 00.00;
+                })->editColumn('status', function (User $user) {
                     return $user->status_name;
-                })
-                ->orderColumn('full_name', function ($query, $order) {
+                })->orderColumn('full_name', function ($query, $order) {
                     $query->orderByRaw('CONCAT_WS(\' \', first_name, last_name) ' . $order);
-                })
-                ->addColumn('action', function ($row) {
+                })->addColumn('action', function ($row) {
                     return $row->agents->action;
                 })->rawColumns(['action', 'status'])->make(true);
         }
@@ -126,9 +144,9 @@ class AgentsController extends Controller
      */
     public function edit(Agent $agent)
     {
-        $companyType    = CompanyType::where('status', 1)->get();
-        $countries    =  Country::where('status', 1)->get();
-        $reach    =  Reach::where('status', 1)->get();
+        $companyType    = CompanyType::where('status',CompanyType::ACTIVE)->get();
+        $countries    =  Country::where('status',Country::ACTIVE)->get();
+        $reach    =  Reach::where('status',Reach::ACTIVE)->get();
 
         return view('admin.agent.edit', ['model' => $agent, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
     }
@@ -156,9 +174,7 @@ class AgentsController extends Controller
      */
     public function destroy(Agent $agent)
     {
-
         $this->agentRepository->delete($agent);
-
         return redirect()->route('agents.index')->with('success', "Agent deleted successfully!");
     }
 
