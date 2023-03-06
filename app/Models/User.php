@@ -67,7 +67,7 @@ class User extends Authenticatable
     public function scopeStatus($query, $status)
     {
         $status = strtolower($status) =='active'? 1 : 0;
-        return $query->where('status', $status); 
+        return $query->where('status', $status);
     }
 
     /**

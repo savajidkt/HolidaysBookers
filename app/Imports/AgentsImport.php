@@ -31,17 +31,7 @@ class AgentsImport implements ToCollection, WithStartRow
 
     public function collection(Collection $rows)
     {
-        $user =  User::create([
-            'first_name'    => 'fff',
-            'last_name'    => 'CCC',
-            'email'    => 'ds@gmail.com',
-            'password'    => Hash::make('123456'),
-            'user_type'    => 1,
-            'status'    => 1,
-        ]);
-        dd($user);
-        exit;
-
+        
         $skip = [];
         $skip['sucess_client'] = 0;
         $skip['skip'][] = 0;
@@ -56,32 +46,20 @@ class AgentsImport implements ToCollection, WithStartRow
 
                 $total_count++;
                 if ($this->requiredFilds($row)) {
-                    // $UserArr =  [
-                    //     'first_name'    => $row[3],
-                    //     'last_name'    => $row[4],
-                    //     'email'    => $row[35],
-                    //     'password'    => Hash::make($row[36]),
-                    //     'user_type'    => 1,
-                    //     'status'    => 1,
-                    // ];
-
-                   
-                   
-                    //DB::enableQueryLog();
-                    $user =  User::create([
-                        'first_name'    => 'fff',
-                        'last_name'    => 'CCC',
-                        'email'    => 'ds@gmail.com',
-                        'password'    => Hash::make('123456'),
+                    $UserArr =  [
+                        'first_name'    => $row[3],
+                        'last_name'    => $row[4],
+                        'email'    => $row[35],
+                        'password'    => Hash::make($row[36]),
                         'user_type'    => 1,
                         'status'    => 1,
-                    ]);
-                   // dd(DB::getQueryLog());
-exit;
+                    ];
+
+                    $user =  User::create($UserArr);
                     $agent_country = Country::select('id')->where('name', $row[8])->first();
                     $agent_state = State::where('name', $row[9])->first();
                     $agent_city =  City::where('name', $row[10])->first();
-                    
+
                     $UserProfileArr = [];
                     $UserProfileArr['user_id'] = $user->id;
                     $UserProfileArr['agent_country'] = $agent_country->id;
@@ -135,7 +113,6 @@ exit;
         }
 
         $skip['total_client'] = $total_count;
-        _P($skip); exit;
         session()->put('skip_row', $skip);
     }
 
