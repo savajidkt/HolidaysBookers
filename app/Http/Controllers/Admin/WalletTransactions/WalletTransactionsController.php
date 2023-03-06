@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin\WalletTransactions;
 
 use Exception;
 use App\Models\Agent;
+use App\Models\Reach;
+use App\Models\Country;
+use App\Models\CompanyType;
 use Illuminate\Http\Request;
 use App\Models\WalletTransaction;
 use Illuminate\Http\JsonResponse;
@@ -26,7 +29,7 @@ class WalletTransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request,Agent $agent)
+    public function index(Request $request, Agent $agent)
     {
         if ($request->ajax()) {
             $data = $agent->wallettransactions;
@@ -52,7 +55,7 @@ class WalletTransactionsController extends Controller
         }
 
 
-        return view('admin.wallet-transactions.index',['model' =>$agent]);
+        return view('admin.wallet-transactions.index', ['model' => $agent]);
     }
 
     /**
@@ -78,15 +81,21 @@ class WalletTransactionsController extends Controller
         return redirect()->route('wallettransactions.index')->with('success', __('wallettransaction/message.created_success'));
     }
 
+    
     /**
-     * Display the specified resource.
+     * Method show
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request [explicite description]
+     * @param Agent $agent [explicite description]
+     *
+     * @return void
      */
-    public function show($id)
-    {
-        //
+    public function show(Request $request, Agent $agent)
+    {        
+        $companyType    = CompanyType::where('status',CompanyType::ACTIVE)->get();
+        $countries    =  Country::where('status',Country::ACTIVE)->get();
+        $reach    =  Reach::where('status',Reach::ACTIVE)->get();
+        return view('admin.wallet-transactions.view', ['model' => $agent, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
     }
 
     /**
@@ -122,10 +131,10 @@ class WalletTransactionsController extends Controller
     {
         $input = $request->all();
         $agent  = Agent::find($input['HBCredit_user_id']);
-       // $user  = $agent->user->id;
+        // $user  = $agent->user->id;
         $input['user_id'] = $agent->user->id;
         $balance = calculateBalance($agent->id, $input['type'], $input['amount']);
-        
+
         if ($balance) {
             $input['balance'] = $balance;
             $this->walletTransactionRepository->updateCredit($input, $wallettransaction);

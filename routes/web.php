@@ -117,8 +117,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
 
    // Route::resource('/wallettransactions', WalletTransactionsController::class);    
-    Route::post('/wallettransaction/update-hb-credit', [WalletTransactionsController::class, 'updateHBCredit'])->name('update-hb-credit');
+    Route::post('/wallettransaction/update-hb-credit', [WalletTransactionsController::class, 'updateHBCredit'])->name('update-hb-credit');    
     Route::get('/wallettransaction/{agent}/agent', [WalletTransactionsController::class, 'index'])->name('list-hb-credit');    
+    Route::get('/wallettransaction/view/{agent}/agent', [WalletTransactionsController::class, 'show'])->name('view-profile'); 
+       
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
