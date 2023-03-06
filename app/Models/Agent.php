@@ -110,11 +110,11 @@ class Agent extends Authenticatable
     {
         
         $creditAction = '<a href="javascript:void(0);" class="HBCredit btn btn-success btn-sm" data-balance="' . availableBalance($this->id,'') . '" data-agent_code="' . $this->agent_code . '" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="HB Credit '.availableBalance($this->id).' " data-animation="false"><i class="fa fa-money" aria-hidden="true"></i></a>';
-        $transactionAction = '<a href="' . route('list-hb-credit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Transaction" data-animation="false"><i class="fa fa-history" aria-hidden="true"></i></a>';
-        $viewAction = '<a href="javascript:void(0);" class="edit btn btn-primary btn-sm">View</a>';
+        $transactionAction ='<a href="' . route('list-hb-credit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Transaction" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
+        $viewAction =  '<a href="' . route('view-profile', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';        
         $editAction = '<a href="' . route('agents.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';        
         $PasswordAction = '<a href="javascript:void(0);" class="currntBTN btn btn-info btn-sm" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="Change Password"><i class="fa fa-key" aria-hidden="true"></i></a>';
-        return $creditAction.' '.$editAction . ' ' . $PasswordAction . ' ' . $this->getDeleteButtonAttribute().' '.$transactionAction;
+        return $creditAction.' '.$editAction . ' ' . $PasswordAction . ' ' . $this->getDeleteButtonAttribute().' '.$transactionAction.' '.$viewAction;
     }
 
     /**
