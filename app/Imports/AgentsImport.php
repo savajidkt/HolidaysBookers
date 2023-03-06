@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AgentsImport implements ToCollection, WithStartRow
 {
     use HasApiTokens, HasFactory, SoftDeletes, Notifiable;
-    
+
     public function startRow(): int
     {
         return 2;
@@ -31,10 +31,10 @@ class AgentsImport implements ToCollection, WithStartRow
 
     public function collection(Collection $rows)
     {
-        
+
         $skip = [];
-        $skip['sucess_client'] = 0;
-        $skip['skip'][] = 0;
+        $skip['sucess'] = 0;
+        $skip['skip'] = [];
         $skip['download_skip_data'] = array();
         $suc = 1;
         $total_count = 0;
@@ -43,7 +43,6 @@ class AgentsImport implements ToCollection, WithStartRow
 
         foreach ($rows as $row) {
             if ($row) {
-
                 $total_count++;
                 if ($this->requiredFilds($row)) {
                     $UserArr =  [
@@ -98,11 +97,12 @@ class AgentsImport implements ToCollection, WithStartRow
                     $UserProfileArr['reserve_email'] = $row[34];
                     $UserProfileArr['agent_know_about'] = $row[21];
                     $UserProfileArr['othername'] = $row[22];
-                     Agent::create($UserProfileArr);
-                    $skip_client['sucess_client'] = $suc;
+                    Agent::create($UserProfileArr);
+                    $skip['sucess'] = $suc;
                     $suc++;
+                   
                 } else {
-                    $skip_client['skip'][] = $row[0];
+                    $skip['skip'][] = $row[0];
                     $skipArray[] = $this->skipArrayCollection($row);
                 }
             }
@@ -112,7 +112,7 @@ class AgentsImport implements ToCollection, WithStartRow
             $skip['download_skip_data'] = $skipArray;
         }
 
-        $skip['total_client'] = $total_count;
+        $skip['total'] = $total_count;        
         session()->put('skip_row', $skip);
     }
 

@@ -10,6 +10,7 @@ use App\Models\Reach;
 use App\Models\Country;
 use App\Models\CompanyType;
 use Illuminate\Http\Request;
+use App\Exports\ExportAgents;
 use App\Imports\AgentsImport;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
@@ -17,13 +18,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\AgentRepository;
 use App\Http\Requests\Agent\PDFRequest;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Agent\EditRequest;
 use App\Http\Requests\Agent\CreateRequest;
 use App\Http\Requests\Agent\UpdatePasswordRequest;
-use Illuminate\Support\Facades\Hash;
 
 class AgentsController extends Controller
 {
@@ -82,7 +84,7 @@ class AgentsController extends Controller
                 })->addColumn('balance', function (User $user) {
                     return availableBalance($user->agents->id);
                     //return $user->agents->balance[0]->balance;
-                    
+
                 })->editColumn('status', function (User $user) {
                     return $user->status_name;
                 })->orderColumn('full_name', function ($query, $order) {
@@ -235,11 +237,38 @@ class AgentsController extends Controller
      */
     public function importAgents(Request $request): JsonResponse
     {
-          
+
+        if (session()->has('skip_row')) {
+            session()->forget('skip_row');
+        }
+
         Excel::import(new AgentsImport, $request->file);
+
+      
+        $html = false;
+        if (session()->has('skip_row')) {
+            $details = session()->get('skip_row');
+            $skipLink = "";
+
+            if (is_array($details['download_skip_data']) && count($details['download_skip_data']) > 0) {
+                $datefile = date('d_m_Y_H_i_s');
+                $filename = $datefile . '.xlsx';
+                Excel::store(new ExportAgents($details['download_skip_data']), $filename);
+                $skipLinks = storage_path($filename);
+                $skipLink = "<li><b>Skip Agents Download : </b><a target='_blank' href='" . url('/storage/app') . '/' . $filename . "'>Download</a></li>";
+            }
+            $html = '<ul>
+                    <li><b>Skip Agents : </b> ' . count($details['skip']) . '</li>
+                    <li><b>Total Import Agents : </b> ' . $details['total'] . '</li>
+                    <li><b>Successfully Imported Agents : </b> ' . $details['sucess'] . '</li>
+                    ' . $skipLink . '
+                </ul>';
+        }
+
         return response()->json([
             'status' => true,
-            'message' => 'Agents import Successfully.'
+            'message' => 'Agents import Successfully.',
+            'html' => $html,
         ]);
     }
 }

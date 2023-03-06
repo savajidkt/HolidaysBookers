@@ -160,37 +160,37 @@
 </div>
 
 <div class="modal fade text-left" id="ImportAgentss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel33">Import Agents Excel</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <!-- single file upload starts -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <form action="{{ route('importsAgents') }}" class="dropzone dropzone-area"
-                                id="dpz-single-file" enctype="multipart/form-data">
-                                @csrf
-                                <div class="dz-message">{{ __('core.drop_files') }}</div>
-                            </form>
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel33">Import Agents Excel</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- single file upload starts -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="{{ route('importsAgents') }}" class="dropzone dropzone-area"
+                                    id="dpz-single-file" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="dz-message">{{ __('core.drop_files') }}</div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- single file upload ends -->
             </div>
-            <!-- single file upload ends -->
-        </div>
-        <div class="modal-footer">
-            <button type="button" id="import-agents" class="btn btn-primary">{{ __('core.import') }}</button>
+            <div class="modal-footer">
+                <button type="button" id="import-agents" class="btn btn-primary">{{ __('core.import') }}</button>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 @section('extra-script')
@@ -209,11 +209,17 @@ aria-hidden="true">
                 table.ajax.reload();
                 $('#ImportAgentss').modal('hide');
                 myDropzone.destroy();
-                Swal.fire(
-                    'Excel import success!',
-                    response.message,
-                    'success'
-                )
+                // Swal.fire(
+                //     'Excel import success!',
+                //     response.message,
+                //     'success'
+                // )
+
+                Swal.fire({
+  title: response.message, 
+  html: response.html,  
+  confirmButtonText: "OK", 
+});
             }
         });
         $('#import-agents').click(function() {
