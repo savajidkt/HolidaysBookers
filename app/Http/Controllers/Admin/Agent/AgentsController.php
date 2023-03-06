@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\Agent;
 
-use App\Exceptions\GeneralException;
 use Exception;
 use Carbon\Carbon;
 use App\Models\User;
@@ -11,16 +10,20 @@ use App\Models\Reach;
 use App\Models\Country;
 use App\Models\CompanyType;
 use Illuminate\Http\Request;
+use App\Imports\AgentsImport;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\AgentRepository;
 use App\Http\Requests\Agent\PDFRequest;
 use App\Http\Requests\Agent\EditRequest;
 use App\Http\Requests\Agent\CreateRequest;
 use App\Http\Requests\Agent\UpdatePasswordRequest;
+use Illuminate\Support\Facades\Hash;
 
 class AgentsController extends Controller
 {
@@ -42,44 +45,38 @@ class AgentsController extends Controller
         // dd($user->can('agents-create'));
         if ($request->ajax()) {
 
-            $data = User::with('agents')->where('user_type',User::AGENT);
+            $data = User::with('agents')->where('user_type', User::AGENT);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('agent_code', function (User $user) {
                     return $user->agents->agent_code ?? '-';
                 })->filterColumn('agent_code', function ($query, $keyword) {
-                    $query->whereHas('agents', function($query) use($keyword)
-                    {
-                      $query->where('agent_code','LIKE','%'.$keyword.'%');
+                    $query->whereHas('agents', function ($query) use ($keyword) {
+                        $query->where('agent_code', 'LIKE', '%' . $keyword . '%');
                     });
                 })->addColumn('agent_company_name', function (User $user) {
                     return $user->agents->agent_company_name;
                 })->filterColumn('agent_company_name', function ($query, $keyword) {
-                    $query->whereHas('agents', function($query) use($keyword)
-                    {
-                      $query->where('agent_company_name','LIKE','%'.$keyword.'%');
+                    $query->whereHas('agents', function ($query) use ($keyword) {
+                        $query->where('agent_company_name', 'LIKE', '%' . $keyword . '%');
                     });
                 })->addColumn('full_name', function (User $user) {
                     return $user->fullName;
-                })->filterColumn('full_name', function($query, $keyword) {
+                })->filterColumn('full_name', function ($query, $keyword) {
                     $sql = "CONCAT(users.first_name,'-',users.last_name)  like ?";
                     $query->whereRaw($sql, ["%{$keyword}%"]);
                 })->editColumn('agent_mobile_number', function (User $user) {
                     return $user->agents->agent_mobile_number;
                 })->filterColumn('agent_mobile_number', function ($query, $keyword) {
-                    $query->whereHas('agents', function($query) use($keyword)
-                    {
-                      $query->where('agent_mobile_number','LIKE','%'.$keyword.'%');
+                    $query->whereHas('agents', function ($query) use ($keyword) {
+                        $query->where('agent_mobile_number', 'LIKE', '%' . $keyword . '%');
                     });
-
                 })->addColumn('agent_email', function (User $user) {
                     return $user->agents->agent_email;
                 })->filterColumn('agent_email', function ($query, $keyword) {
-                    $query->whereHas('agents', function($query) use($keyword)
-                    {
-                      $query->where('agent_email','LIKE','%'.$keyword.'%');
+                    $query->whereHas('agents', function ($query) use ($keyword) {
+                        $query->where('agent_email', 'LIKE', '%' . $keyword . '%');
                     });
-
                 })->addColumn('email', function (User $user) {
                     return $user->email;
                 })->addColumn('balance', function (User $user) {
@@ -103,12 +100,12 @@ class AgentsController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
-    {     
+    {
         //
         $rawData    = new User;
         $companyType    = CompanyType::where('status', CompanyType::ACTIVE)->get();
         $countries    =  Country::where('status', Country::ACTIVE)->get();
-        $reach    =  Reach::where('status',Reach::ACTIVE)->get();
+        $reach    =  Reach::where('status', Reach::ACTIVE)->get();
 
         return view('admin.agent.create', ['model' => $rawData, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
     }
@@ -145,9 +142,9 @@ class AgentsController extends Controller
      */
     public function edit(Agent $agent)
     {
-        $companyType    = CompanyType::where('status',CompanyType::ACTIVE)->get();
-        $countries    =  Country::where('status',Country::ACTIVE)->get();
-        $reach    =  Reach::where('status',Reach::ACTIVE)->get();
+        $companyType    = CompanyType::where('status', CompanyType::ACTIVE)->get();
+        $countries    =  Country::where('status', Country::ACTIVE)->get();
+        $reach    =  Reach::where('status', Reach::ACTIVE)->get();
 
         return view('admin.agent.edit', ['model' => $agent, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
     }
@@ -226,5 +223,22 @@ class AgentsController extends Controller
         $user  = $agent->user;
         $this->agentRepository->updatePassword($input, $user);
         return redirect()->route('agents.index')->with('success', "Agent password updated successfully!");
+    }
+
+    /**
+     * Method importAgents
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function importAgents(Request $request): JsonResponse
+    {
+          
+        Excel::import(new AgentsImport, $request->file);
+        return response()->json([
+            'status' => true,
+            'message' => 'Agents import Successfully.'
+        ]);
     }
 }

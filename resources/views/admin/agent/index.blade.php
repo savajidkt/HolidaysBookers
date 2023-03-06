@@ -7,9 +7,21 @@
         <!-- list section start -->
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                <h4 class="card-title">{{ __('agent/agent.title') }}</h4>
-                <a href="{{ route('agents.create') }}"><button type="reset"
-                        class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ __('agent/agent.add_new') }}</button></a>
+
+                <div class="col-md-6">
+                    <h4 class="card-title">{{ __('agent/agent.title') }}</h4>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button type="button" class="btn btn-outline-primary waves-effect" id="DownloadAgent">
+                        {{ __('core.download_sample') }}
+                    </button>
+                    <button type="button" class="btn btn-outline-primary waves-effect" data-toggle="modal"
+                        data-target="#ImportAgentss" data-backdrop="false">
+                        {{ __('core.import_excel') }}
+                    </button>
+                    <a href="{{ route('agents.create') }}"><button type="reset"
+                            class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ __('agent/agent.add_new') }}</button></a>
+                </div>
             </div>
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">
@@ -104,7 +116,8 @@
                         <form action="{{ route('update-hb-credit') }}" method="post" id="updateHBCredit"
                             enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" class="updateCls" id="HBCredit_user_id" name="HBCredit_user_id" value="">
+                            <input type="hidden" class="updateCls" id="HBCredit_user_id" name="HBCredit_user_id"
+                                value="">
                             <input type="hidden" class="updateCls" id="HBCredit_Bal" name="HBCredit_Bal"
                                 value="">
                             <div class="col-12">
@@ -122,8 +135,9 @@
                                 <div class="form-group">
                                     <label class="form-label" for="amount">Amount</label>
                                     <input type="text" id="amount" name="amount" class="form-control"
-                                        value="" data-error="Amount" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')"/>
-                                        <small id="availableBal" class="form-text text-muted"></small>
+                                        value="" data-error="Amount"
+                                        onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" />
+                                    <small id="availableBal" class="form-text text-muted"></small>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -145,13 +159,79 @@
     </div>
 </div>
 
+<div class="modal fade text-left" id="ImportAgentss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel33">Import Agents Excel</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!-- single file upload starts -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{{ route('importsAgents') }}" class="dropzone dropzone-area"
+                                id="dpz-single-file" enctype="multipart/form-data">
+                                @csrf
+                                <div class="dz-message">{{ __('core.drop_files') }}</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- single file upload ends -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="import-agents" class="btn btn-primary">{{ __('core.import') }}</button>
+        </div>
+    </div>
+</div>
+</div>
+
 @section('extra-script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script src="{{ asset('js/form/Agent.js') }}"></script>
 
     <script type="text/javascript">
+        var table = "";
+        Dropzone.autoDiscover = false;
+        var myDropzone = new Dropzone(".dropzone", {
+            autoProcessQueue: false,
+            maxFilesize: 1,
+            acceptedFiles: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            success: function(file, response) {
+                table.ajax.reload();
+                $('#ImportAgentss').modal('hide');
+                myDropzone.destroy();
+                Swal.fire(
+                    'Excel import success!',
+                    response.message,
+                    'success'
+                )
+            }
+        });
+        $('#import-agents').click(function() {
+            myDropzone.processQueue();
+        });
+
+        $(document).on('click', '#DownloadAgent', function() {
+            var link = "{{ asset('sample-file/Agents-Sample.xlsx') }}";
+            var element = document.createElement('a');
+            element.setAttribute('href', link);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        });
+
         $(function() {
-            var table = $('.user-list-table').DataTable({
+            table = $('.user-list-table').DataTable({
                 language: {
                     emptyTable: '{{ __('core.table_no_data') }}',
                     info: '{{ __('core.table_info_data') }}',
