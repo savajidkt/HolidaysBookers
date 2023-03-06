@@ -31,6 +31,7 @@ class CountriesController extends Controller
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
         if ($request->ajax()) {
             $data = Country::select('*');
             return DataTables::of($data)
@@ -56,7 +57,7 @@ class CountriesController extends Controller
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.countries.index');
+        return view('admin.countries.index',['user'=>$user]);
     }
 
     /**
@@ -65,7 +66,7 @@ class CountriesController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
-    {
+    {   permissionCheck('location-create');
         $rawData    = new Country;
         return view('admin.countries.create', ['model' => $rawData]);
     }
@@ -78,6 +79,7 @@ class CountriesController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        permissionCheck('location-create');
         $this->countryRepository->create($request->all());
         return redirect()->route('countries.index')->with('success', __('country/message.created_success'));
     }
@@ -102,6 +104,7 @@ class CountriesController extends Controller
      */
     public function edit(Country $country)
     {
+        permissionCheck('location-edit');
         return view('admin.countries.edit', ['model' => $country]);
     }
 
@@ -115,8 +118,8 @@ class CountriesController extends Controller
      */
     public function update(EditRequest $request, Country $country)
     {
+        permissionCheck('location-edit');
         $this->countryRepository->update($request->all(), $country);
-
         return redirect()->route('countries.index')->with('success', __('country/message.updated_success'));
     }
 
@@ -128,6 +131,7 @@ class CountriesController extends Controller
      */
     public function destroy(Country $country)
     {
+        permissionCheck('location-delete');
         $this->countryRepository->delete($country);
         return redirect()->route('countries.index')->with('success', __('country/message.deleted_success'));
     }

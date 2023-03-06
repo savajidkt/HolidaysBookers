@@ -28,6 +28,7 @@ class ProductMarkupsController extends Controller
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
         if ($request->ajax()) {
             $data = ProductMarkup::select('*');
             return DataTables::of($data)
@@ -47,7 +48,7 @@ class ProductMarkupsController extends Controller
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.product-markups.index');
+        return view('admin.product-markups.index',['user'=>$user]);
     }
 
     /**
@@ -57,7 +58,7 @@ class ProductMarkupsController extends Controller
      */
     public function create()
     {
-        
+        permissionCheck('product-markup-create');
         $rawData    = new ProductMarkup;
         return view('admin.product-markups.create', ['model' => $rawData]);
     }
@@ -70,6 +71,7 @@ class ProductMarkupsController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        permissionCheck('product-markup-create');
         $this->productMarkupRepository->create($request->all());
         return redirect()->route('productmarkups.index')->with('success', __('product-markup/message.created_success'));
     }
@@ -94,6 +96,7 @@ class ProductMarkupsController extends Controller
      */
     public function edit(ProductMarkup $productmarkup)
     {
+        permissionCheck('product-markup-edit');
         return view('admin.product-markups.edit', ['model' => $productmarkup]);
     }
 
@@ -107,8 +110,8 @@ class ProductMarkupsController extends Controller
      */
     public function update(EditRequest $request, ProductMarkup $productmarkup)
     {
+        permissionCheck('product-markup-edit');
         $this->productMarkupRepository->update($request->all(), $productmarkup);
-
         return redirect()->route('productmarkups.index')->with('success', __('product-markup/message.updated_success'));
     }
 
@@ -120,6 +123,7 @@ class ProductMarkupsController extends Controller
      */
     public function destroy(ProductMarkup $productmarkup)
     {
+        permissionCheck('product-markup-delete');
         $this->productMarkupRepository->delete($productmarkup);
         return redirect()->route('productmarkups.index')->with('success', __('product-markup/message.deleted_success'));
     }

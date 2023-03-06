@@ -13,14 +13,14 @@ return [
     |
     */
 
-    'menu' => 'Reach Us',
-    'list_page_title' => 'Reach Us',
+    'menu' => 'How do you know about us',
+    'list_page_title' => 'How do you know about us',
     'table_reach_name' => 'Name',
-    'add_new' => 'New Reach Us',
+    'add_new' => 'Add New',
     'form_reach_name' => 'Name',
     'form_status' => 'Status',
     'form_select_status' => 'Select Status',
-    'form_add_page_title' => 'New Reach Us',
-    'form_edit_title' => 'Edit Reach Us',
+    'form_add_page_title' => 'New How do you know about us',
+    'form_edit_title' => 'Edit How do you know about us',
 
 ];

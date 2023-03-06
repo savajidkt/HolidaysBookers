@@ -37,12 +37,17 @@ class Role extends Model
      * @return string
      */
     public function getActionAttribute(): string
-    {   
+    {   $user = auth()->user();
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-       $editAction = '<a href="'. route('roles.edit', $this->id).'" class="edit" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><img src="'.asset("app-assets/images/icons/icons8-edit-64.png").'" width="20"></a>';
-        
-        
-       $action = $editAction.$this->getDeleteButtonAttribute();
+        $editAction = '<a href="'. route('roles.edit', $this->id).'" class="edit" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><img src="'.asset("app-assets/images/icons/icons8-edit-64.png").'" width="20"></a>';
+        $action = '';
+        if($user->can('role-edit')){
+            $action .= $editAction;
+        }
+        if($user->can('role-delete')){
+            $action .= $this->getDeleteButtonAttribute();
+        }
+       
         return $action;
     }
 

@@ -9,10 +9,10 @@
 
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                 <h4 class="card-title">{{ __('propertytype/propertytype.list_page_title') }}</h4>
-
+                @if($user->can('property-types-create'))
                 <a href="{{ route('propertytypes.create') }}"><button type="reset"
                         class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ __('propertytype/propertytype.add_new') }}</button></a>
-
+                @endif
             </div>
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">

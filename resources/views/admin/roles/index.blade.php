@@ -9,9 +9,9 @@
 
         <div class="card-header border-bottom d-flex justify-content-between align-items-center">
           <h4 class="card-title">Roles</h4>
-           
+           @if($user->can('role-create'))
             <a href="{{ route('roles.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">New Role</button></a>
-        
+            @endif
         </div>
         <div class="card-datatable pt-0 table-responsive">
             <table class="user-list-table datatables-ajax table">

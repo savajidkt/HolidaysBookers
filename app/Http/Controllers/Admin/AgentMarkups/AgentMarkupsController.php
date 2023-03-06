@@ -27,7 +27,7 @@ class AgentMarkupsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   $user = auth()->user();
         if ($request->ajax()) {
             $data = AgentMarkup::select('*');
             return DataTables::of($data)
@@ -47,7 +47,7 @@ class AgentMarkupsController extends Controller
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.agent-markups.index');
+        return view('admin.agent-markups.index',['user'=>$user]);
     }
 
     /**
@@ -57,7 +57,7 @@ class AgentMarkupsController extends Controller
      */
     public function create()
     {
-
+        permissionCheck('agent-markup-create');
         $rawData    = new AgentMarkup;
         return view('admin.agent-markups.create', ['model' => $rawData]);
     }
@@ -69,7 +69,8 @@ class AgentMarkupsController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(CreateRequest $request)
-    {
+    {   
+        permissionCheck('agent-markup-create');
         $this->agentMarkupRepository->create($request->all());
         return redirect()->route('agentmarkups.index')->with('success', __('agent-markup/message.created_success'));
     }
@@ -94,6 +95,7 @@ class AgentMarkupsController extends Controller
      */
     public function edit(AgentMarkup $agentmarkup)
     {
+        permissionCheck('agent-markup-edit');
         return view('admin.agent-markups.edit', ['model' => $agentmarkup]);
     }
 
@@ -107,8 +109,8 @@ class AgentMarkupsController extends Controller
      */
     public function update(EditRequest $request, AgentMarkup $agentmarkup)
     {
+        permissionCheck('agent-markup-edit');
         $this->agentMarkupRepository->update($request->all(), $agentmarkup);
-
         return redirect()->route('agentmarkups.index')->with('success', __('agent-markup/message.updated_success'));
     }
 
@@ -119,7 +121,8 @@ class AgentMarkupsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(AgentMarkup $agentmarkup)
-    {
+    {   
+        permissionCheck('agent-markup-delete');
         $this->agentMarkupRepository->delete($agentmarkup);
         return redirect()->route('agentmarkups.index')->with('success', __('agent-markup/message.deleted_success'));
     }

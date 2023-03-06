@@ -28,9 +28,21 @@ class PropertyType extends Model
      */
     public function getActionAttribute(): string
     {
+        $admin = auth()->user();
+        $action ='';
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">' . __('core.view') . '</a>';
         $editAction = '<a href="' . route('propertytypes.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
-        $action = $editAction . $this->getDeleteButtonAttribute();
+        if($admin->can('property-types-view')){
+            //$action .= $viewAction;
+        }
+        //$action = $editAction;
+        if($admin->can('property-types-edit')){
+            $action .= $editAction;
+        } 
+
+        if($admin->can('property-types-delete')){
+             $action .= $this->getDeleteButtonAttribute();
+         }
         return $action;
     }
 

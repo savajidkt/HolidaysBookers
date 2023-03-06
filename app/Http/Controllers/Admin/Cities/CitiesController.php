@@ -31,7 +31,7 @@ class CitiesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   $user = auth()->user();
         if ($request->ajax()) {
 
             $data = City::select('*');
@@ -55,7 +55,7 @@ class CitiesController extends Controller
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.cities.index');
+        return view('admin.cities.index',['user'=>$user]);
     }
 
     /**
@@ -65,9 +65,10 @@ class CitiesController extends Controller
      */
     public function create()
     {
+        permissionCheck('location-create');
         $statesData = [];
         $rawData    = new City;
-        $countryData    = Country::all();
+        $countryData    = Country::where('status',Country::ACTIVE)->get();
         return view('admin.cities.create', ['model' => $rawData, 'countries' => $countryData, 'states' => $statesData]);
     }
 
@@ -78,7 +79,7 @@ class CitiesController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(CreateRequest $request)
-    {
+    {   permissionCheck('location-create');
         $this->cityRepository->create($request->all());
         return redirect()->route('cities.index')->with('success', __('city/message.created_success'));
     }
@@ -103,8 +104,9 @@ class CitiesController extends Controller
      */
     public function edit(City $city)
     {
+        permissionCheck('location-edit');
         $statesData = [];
-        $countryData    = Country::all();
+        $countryData    = Country::where('status',Country::ACTIVE)->get();
         $statesData    = $city->state->country->states;
 
         return view('admin.cities.edit', ['model' => $city, 'countries' => $countryData, 'states' => $statesData]);
@@ -120,8 +122,8 @@ class CitiesController extends Controller
      */
     public function update(EditRequest $request, City $city)
     {
+        permissionCheck('location-edit');
         $this->cityRepository->update($request->all(), $city);
-
         return redirect()->route('cities.index')->with('success', __('city/message.updated_success'));
     }
 
@@ -133,6 +135,7 @@ class CitiesController extends Controller
      */
     public function destroy(City $city)
     {
+        permissionCheck('location-delete');
         $this->cityRepository->delete($city);
         return redirect()->route('cities.index')->with('success', __('city/message.deleted_success'));
     }

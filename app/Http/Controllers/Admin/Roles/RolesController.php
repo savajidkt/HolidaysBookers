@@ -26,7 +26,7 @@ class RolesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   $user = auth()->user();
         if ($request->ajax()) {
             $data = Role::select('*');
             return DataTables::of($data)
@@ -42,7 +42,7 @@ class RolesController extends Controller
                 })->rawColumns(['action'])->make(true);
         }
 
-        return view('admin.roles.index');
+        return view('admin.roles.index',['user'=>$user]);
     }
 
     /**
@@ -51,7 +51,7 @@ class RolesController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
-    {
+    {   permissionCheck('role-create');
         $rawData    = new Role;
         $permissions    =  Permission::all()->groupBy('module');
         return view('admin.roles.create', ['model' => $rawData,'permissions'=>$permissions]);
@@ -64,7 +64,7 @@ class RolesController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(CreateRequest $request)
-    {
+    {   permissionCheck('role-create');
         $this->roleRepository->create($request->all());
         return redirect()->route('roles.index')->with('success', "Role created successfully!");
     }
@@ -89,7 +89,7 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
-        
+        permissionCheck('role-edit');
         $permissions    =  Permission::all()->groupBy('module');
         return view('admin.roles.edit', ['model' => $role,'permissions'=>$permissions]);
     }
@@ -103,9 +103,8 @@ class RolesController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function update(EditRequest $request, Role $role)
-    {
+    {   permissionCheck('role-edit');
         $this->roleRepository->update($request->all(), $role);
-
         return redirect()->route('roles.index')->with('success', "Role updated successfully!");
     }
 
@@ -116,7 +115,7 @@ class RolesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role)
-    {
+    {   permissionCheck('role-delete');
         $this->roleRepository->delete($role);
         return redirect()->route('roles.index')->with('success', "Role deleted successfully!");
     }

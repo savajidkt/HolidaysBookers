@@ -33,10 +33,20 @@ class Reach extends Model
      * @return string
      */
     public function getActionAttribute(): string
-    {
+    {   $admin = auth()->user();
+        $action ='';
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">' . __('core.view') . '</a>';
         $editAction = '<a href="' . route('reachus.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
-        $action = $editAction . $this->getDeleteButtonAttribute();
+        if($admin->can('reach-us-view')){
+            //$action .= $viewAction;
+        }
+        if($admin->can('reach-us-edit')){
+            $action .= $editAction;
+        } 
+
+        if($admin->can('reach-us-delete')){
+             $action .= $this->getDeleteButtonAttribute();
+         }
         return $action;
     }
 

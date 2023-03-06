@@ -29,6 +29,7 @@ class AdminsController extends Controller
     public function __construct(AdminRepository $adminRepository)
     {
         $this->adminRepository       = $adminRepository;
+        
     }
 
     /**
@@ -39,9 +40,6 @@ class AdminsController extends Controller
     public function index(Request $request)
     {   
         $user = auth()->user();
-        if(!$user->can('admin-staff-view')){
-            throw new GeneralException('Access Denide!');
-        }
         if ($request->ajax()) {
             $data = Admin::select('*');
             return DataTables::of($data)
@@ -65,7 +63,7 @@ class AdminsController extends Controller
                 })->rawColumns(['action', 'status', 'role'])->make(true);
         }
 
-        return view('admin.admin.index');
+        return view('admin.admin.index',['user'=>$user]);
     }
 
     /**
@@ -75,7 +73,7 @@ class AdminsController extends Controller
      */
     public function create()
     {
-        //
+        permissionCheck('admin-staff-create');
         $rawData=[];
         $rawData    = new Admin;
         $roles    =  Role::all();
@@ -91,9 +89,8 @@ class AdminsController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        
+        permissionCheck('admin-staff-create');
         $this->adminRepository->create($request->all());
-
         return redirect()->route('admins.index')->with('success', "Admin created successfully!");
     }
 
@@ -117,6 +114,7 @@ class AdminsController extends Controller
      */
     public function edit(Admin $admin)
     {
+        permissionCheck('admin-staff-edit');
         $roles    =  Role::all();
         $permissions    =  Permission::all()->groupBy('module');
         return view('admin.admin.edit', ['model' => $admin,'roles'=>$roles,'permissions'=>$permissions]);
@@ -132,6 +130,7 @@ class AdminsController extends Controller
      */
     public function update(EditRequest $request, Admin $admin)
     {
+        permissionCheck('admin-staff-edit');
         $this->adminRepository->update($request->all(), $admin);
         return redirect()->route('admins.index')->with('success', "Admin updated successfully!");
     }
@@ -143,12 +142,9 @@ class AdminsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request,Admin $admin)
-    {
-        if ($request->user()->can('admin-delete')) {
+    {   permissionCheck('admin-staff-delete');
             $this->adminRepository->delete($admin);
             return redirect()->route('admins.index')->with('success', "Admin deleted successfully!");
-        }
-        return permission_redirect();
     }
     
     /**

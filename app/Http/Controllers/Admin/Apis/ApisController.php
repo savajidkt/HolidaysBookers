@@ -27,10 +27,10 @@ class ApisController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   $user = auth()->user();
         if ($request->ajax()) {
 
-            $data = Api::select('*');
+            $data = Api::select('*')->where('status',Api::ACTIVE);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('name', function (Api $api) {
@@ -48,7 +48,7 @@ class ApisController extends Controller
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.apis.index');
+        return view('admin.apis.index',['user'=>$user]);
     }
 
     /**
@@ -58,6 +58,7 @@ class ApisController extends Controller
      */
     public function create()
     {
+        permissionCheck('api-create');
         $rawData    = new Api;
         return view('admin.apis.create', ['model' => $rawData]);
     }
@@ -70,6 +71,7 @@ class ApisController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        permissionCheck('api-create');
         $this->apiRepository->create($request->all());
         return redirect()->route('apis.index')->with('success', __('api/message.created_success'));
     }
@@ -94,6 +96,7 @@ class ApisController extends Controller
      */
     public function edit(Api $api)
     {
+        permissionCheck('api-edit');
         return view('admin.apis.edit', ['model' => $api]);
     }
 
@@ -107,8 +110,8 @@ class ApisController extends Controller
      */
     public function update(EditRequest $request, Api $api)
     {
+        permissionCheck('api-edit');
         $this->apiRepository->update($request->all(), $api);
-
         return redirect()->route('apis.index')->with('success', __('api/message.updated_success'));
     }
 
@@ -120,6 +123,7 @@ class ApisController extends Controller
      */
     public function destroy(Api $api)
     {
+        permissionCheck('api-delete');
         $this->apiRepository->delete($api);
         return redirect()->route('apis.index')->with('success', __('api/message.deleted_success'));
     }

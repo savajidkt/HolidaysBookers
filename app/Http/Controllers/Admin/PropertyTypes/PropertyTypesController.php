@@ -28,6 +28,7 @@ class PropertyTypesController extends Controller
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
         if ($request->ajax()) {
             $data = PropertyType::select('*');
             return DataTables::of($data)
@@ -44,7 +45,7 @@ class PropertyTypesController extends Controller
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.property-types.index');
+        return view('admin.property-types.index',['user'=>$user]);
     }
 
     /**
@@ -53,11 +54,12 @@ class PropertyTypesController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
-    {
+    {   
+        permissionCheck('property-types-create');
         $rawData    = new PropertyType;
         return view('admin.property-types.create', ['model' => $rawData]);
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -66,6 +68,7 @@ class PropertyTypesController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        permissionCheck('property-types-create');
         $this->propertyTypeRepository->create($request->all());
         return redirect()->route('propertytypes.index')->with('success', __('propertytype/message.created_success'));
     }
@@ -90,6 +93,7 @@ class PropertyTypesController extends Controller
      */
     public function edit(PropertyType $propertytype)
     {
+        permissionCheck('property-types-edit');
         return view('admin.property-types.edit', ['model' => $propertytype]);
     }
 
@@ -103,8 +107,8 @@ class PropertyTypesController extends Controller
      */
     public function update(EditRequest $request, PropertyType $propertytype)
     {
+        permissionCheck('property-types-edit');
         $this->propertyTypeRepository->update($request->all(), $propertytype);
-
         return redirect()->route('propertytypes.index')->with('success', __('propertytype/message.updated_success'));
     }
 
@@ -116,6 +120,7 @@ class PropertyTypesController extends Controller
      */
     public function destroy(PropertyType $propertytype)
     {
+        permissionCheck('property-types-delete');
         $this->propertyTypeRepository->delete($propertytype);
         return redirect()->route('propertytypes.index')->with('success', __('propertytype/message.deleted_success'));
     }

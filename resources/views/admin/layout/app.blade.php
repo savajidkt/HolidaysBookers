@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html class="loading bordered-layout" lang="en" data-layout="bordered-layout" data-textdirection="ltr">
     <!-- BEGIN: Head-->
-
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -58,7 +57,9 @@
     <!-- BEGIN: Body-->
 
     <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
-
+        @php
+        $admin = auth()->user();
+        @endphp
         <!-- BEGIN: Header-->
         @include('admin.common.header')
         <!-- END: Header-->

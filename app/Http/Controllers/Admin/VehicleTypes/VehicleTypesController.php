@@ -27,7 +27,7 @@ class VehicleTypesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   $user =auth()->user();
         if ($request->ajax()) {
             $data = VehicleType::select('*');
             return DataTables::of($data)
@@ -47,7 +47,7 @@ class VehicleTypesController extends Controller
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.vehicle-types.index');
+        return view('admin.vehicle-types.index',['user'=>$user]);
     }
 
     /**
@@ -56,7 +56,8 @@ class VehicleTypesController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
-    {
+    {   
+        permissionCheck('vehicle-type-create');
         $rawData    = new VehicleType;
         return view('admin.vehicle-types.create', ['model' => $rawData]);
     }
@@ -69,6 +70,7 @@ class VehicleTypesController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        permissionCheck('vehicle-type-create');
         $this->vehicleTypeRepository->create($request->all());
         return redirect()->route('vehicletypes.index')->with('success', __('vehicletype/message.created_success'));
     }
@@ -93,6 +95,7 @@ class VehicleTypesController extends Controller
      */
     public function edit(VehicleType $vehicletype)
     {
+        permissionCheck('vehicle-type-edit');
         return view('admin.vehicle-types.edit', ['model' => $vehicletype]);
     }
 
@@ -106,8 +109,8 @@ class VehicleTypesController extends Controller
      */
     public function update(EditRequest $request, VehicleType $vehicletype)
     {
+        permissionCheck('vehicle-type-edit');
         $this->vehicleTypeRepository->update($request->all(), $vehicletype);
-
         return redirect()->route('vehicletypes.index')->with('success', __('vehicletype/message.updated_success'));
     }
 
@@ -119,6 +122,7 @@ class VehicleTypesController extends Controller
      */
     public function destroy(VehicleType $vehicletype)
     {
+        permissionCheck('vehicle-type-delete');
         $this->vehicleTypeRepository->delete($vehicletype);
         return redirect()->route('vehicletypes.index')->with('success', __('vehicletype/message.deleted_success'));
     }

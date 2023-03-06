@@ -75,18 +75,27 @@ class Admin extends Authenticatable
      */
     public function getActionAttribute(): string
     {
-        $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+        
         $admin = auth()->user();
         $editAction = '<a href="' . route('admins.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
         
         
 
         $action = '';
-        $action = $editAction;
-        // if($admin->can('admin-delete')){
-        //     $action .= $this->getDeleteButtonAttribute();
-        // }
-        $action .= $this->getDeleteButtonAttribute();
+        $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+        if($admin->can('admin-staff-view')){
+            //$action .= $viewAction;
+        }
+        //$action = $editAction;
+        if($admin->can('admin-staff-edit')){
+            $action .= $editAction;
+        } 
+
+        if($admin->can('admin-staff-delete')){
+             $action .= $this->getDeleteButtonAttribute();
+         }
+
+        //$action .= $this->getDeleteButtonAttribute();
         
 
         return $action;

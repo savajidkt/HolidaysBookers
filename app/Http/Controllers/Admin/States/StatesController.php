@@ -30,7 +30,7 @@ class StatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   $user = auth()->user();
         if ($request->ajax()) {
 
             $data = State::select('*');
@@ -54,7 +54,7 @@ class StatesController extends Controller
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.states.index');
+        return view('admin.states.index',['user'=>$user]);
     }
 
     /**
@@ -64,8 +64,9 @@ class StatesController extends Controller
      */
     public function create()
     {
+        permissionCheck('location-create');
         $rawData    = new State;
-        $countryData    = Country::all();
+        $countryData    = Country::where('status',Country::ACTIVE)->get();
         return view('admin.states.create', ['model' => $rawData, 'countries' => $countryData]);
     }
 
@@ -77,6 +78,7 @@ class StatesController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        permissionCheck('location-create');
         $this->stateRepository->create($request->all());
         return redirect()->route('states.index')->with('success', __('state/message.created_success'));
     }
@@ -100,8 +102,9 @@ class StatesController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(State $state)
-    {
-        $countryData    = Country::all();
+    {   
+        permissionCheck('location-edit');
+        $countryData    = Country::where('status',Country::ACTIVE)->get();
         return view('admin.states.edit', ['model' => $state, 'countries' => $countryData]);
     }
 
@@ -115,8 +118,8 @@ class StatesController extends Controller
      */
     public function update(EditRequest $request, State $state)
     {
+        permissionCheck('location-edit');
         $this->stateRepository->update($request->all(), $state);
-
         return redirect()->route('states.index')->with('success', __('state/message.updated_success'));
     }
 
@@ -128,6 +131,7 @@ class StatesController extends Controller
      */
     public function destroy(State $state)
     {
+        permissionCheck('location-delete');
         $this->stateRepository->delete($state);
         return redirect()->route('states.index')->with('success', __('state/message.deleted_success'));
     }

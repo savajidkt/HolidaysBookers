@@ -31,11 +31,22 @@ class City extends Model
      */
     public function getActionAttribute(): string
     {
+        $admin = auth()->user();
+        $action ='';
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">'.__('core.view').'</a>';
         $editAction = '<a href="' . route('cities.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="'.__('core.edit').'" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
+        if($admin->can('location-view')){
+            //$action .= $viewAction;
+        }
+        //$action = $editAction;
+        if($admin->can('location-edit')){
+            $action .= $editAction;
+        } 
+    
+        if($admin->can('location-delete')){
+             $action .= $this->getDeleteButtonAttribute();
+         }
 
-
-        $action = $editAction . $this->getDeleteButtonAttribute();
         return $action;
     }
 

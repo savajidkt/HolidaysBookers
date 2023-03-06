@@ -27,7 +27,8 @@ class ReachusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+        $user = auth()->user();
         if ($request->ajax()) {
             $data = Reach::select('*');
             return DataTables::of($data)
@@ -50,7 +51,7 @@ class ReachusController extends Controller
                 ->rawColumns(['action', 'status', 'show_other_textbox'])->make(true);
         }
 
-        return view('admin.reach.index');
+        return view('admin.reach.index',['user'=>$user]);
     }
 
     /**
@@ -59,7 +60,8 @@ class ReachusController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
-    {
+    {   
+        permissionCheck('reach-us-create');
         $rawData    = new Reach;
         return view('admin.reach.create', ['model' => $rawData]);
     }
@@ -72,7 +74,7 @@ class ReachusController extends Controller
      */
     public function store(CreateRequest $request)
     {
-
+        permissionCheck('reach-us-create');
         $this->reachRepository->create($request->all());
         return redirect()->route('reachus.index')->with('success', __('reach-us/message.created_success'));
     }
@@ -97,6 +99,7 @@ class ReachusController extends Controller
      */
     public function edit(Reach $reachu)
     {
+        permissionCheck('reach-us-edit');
         return view('admin.reach.edit', ['model' => $reachu]);
     }
 
@@ -110,8 +113,8 @@ class ReachusController extends Controller
      */
     public function update(EditRequest $request, Reach $reachu)
     {
+        permissionCheck('reach-us-edit');
         $this->reachRepository->update($request->all(), $reachu);
-
         return redirect()->route('reachus.index')->with('success', __('reach-us/message.updated_success'));
     }
 
@@ -123,6 +126,7 @@ class ReachusController extends Controller
      */
     public function destroy(Reach $reachu)
     {
+        permissionCheck('reach-us-delete');
         $this->reachRepository->delete($reachu);
         return redirect()->route('reachus.index')->with('success', __('reach-us/message.deleted_success'));
     }

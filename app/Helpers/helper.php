@@ -1,8 +1,10 @@
 <?php
 
+use App\Exceptions\GeneralException;
 use App\Models\City;
 use App\Models\State;
 use App\Models\WalletTransaction;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('home_route')) {
@@ -183,5 +185,26 @@ if (!function_exists('availableBalance')) {
         } else {
             return  numberFormat(0);
         }
+    }
+}
+if (!function_exists('permissionCheck')) {
+   
+    function permissionCheck($permission)
+    {   
+        $user = auth()->user();
+        if(!$user->can($permission)){
+            throw new GeneralException('Access Denide!');
+        }
+    }
+}
+
+if (!function_exists('excelDateConvert')) {
+   
+    function excelDateConvert($date)
+    {   
+        $excel_date = $date;
+        $date_unix_date = ($excel_date - 25569) * 86400;
+        $_date_excel_date = 25569 + ($date_unix_date / 86400);
+       return Carbon::parse(($_date_excel_date - 25569) * 86400)->format('Y-m-d');
     }
 }
