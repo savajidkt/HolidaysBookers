@@ -179,7 +179,7 @@ if (!function_exists('availableBalance')) {
      */
     function availableBalance($agent_id, $currency = '₹')
     {
-        $letest = WalletTransaction::where('agent_id', $agent_id)->latest()->first();
+        $letest = WalletTransaction::where('agent_id', $agent_id)->orderBy('id','DESC')->latest()->first();
         if ($letest->balance > 0) {
             return  numberFormat($letest->balance, $currency);
         } else {

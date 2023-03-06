@@ -155,4 +155,8 @@ class Agent extends Authenticatable
     {
         return $this->hasMany(WalletTransaction::class, 'agent_id', 'id');
     }
+    public function balance()
+    {
+        return $this->hasMany(WalletTransaction::class, 'agent_id', 'id')->orderBy('id','DESC')->latest();
+    }
 }
