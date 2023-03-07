@@ -2,82 +2,45 @@
 
 namespace App\Exports;
 
-namespace App\Exports;
+use App\Models\Agent;
+use Illuminate\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Events\BeforeExport;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-
-class ExportAgents implements FromCollection, WithHeadings
+class ExportAgents implements FromView, WithEvents
 {
+    protected $agents;
 
-    protected $data;
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function __construct($data)
+    function __construct($agents)
     {
-        $this->data = $data;
+        $this->agents = $agents;
+    }
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function view(): View
+    {
+
+        return view('admin.agent.agent-export', [
+            'agents' => $this->agents
+        ]);
     }
 
     /**
-     * Write code on Method
-     *
-     * @return response()
+     * @return array
      */
-    public function collection()
-    {
-        return collect($this->data);
-    }
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function headings(): array
+    public function registerEvents(): array
     {
         return [
-            'Company Name',
-            'Firm Company Type',
-            'Nature of Business',
-            'First Name',
-            'Last Name',
-            'Designation',
-            'Date Of Birth',
-            'Office address',
-            'Country',
-            'State',
-            'City',
-            'Zipcode',
-            'Telephone',
-            'Mobile Number',
-            'Email Address',
-            'Website',
-            'IATA certified',
-            'IATA Number',
-            'Other Certification',
-            'PAN Number',
-            'GST Number',
-            'Know About',
-            'Know Other',
-            'Management First Name',
-            'Management Last Name',
-            'Management Contact Number',
-            'Management Email Address',
-            'Accounts First Name',
-            'Accounts Last Name',
-            'Accounts Contact Number',
-            'Accounts Email Address',
-            'Operations First Name',
-            'Operations Last Name',
-            'Operations Contact Number',
-            'Operations Email Address',
-            'Login Email',
-            'Password',
-            'Confirm Password'
+            AfterSheet::class => function (AfterSheet $event) {
+                $columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+                foreach ($columns as $column) {
+                    $event->sheet->getDelegate()->getColumnDimension($column)->setAutoSize(true);
+                }
+            },
+
         ];
     }
 }

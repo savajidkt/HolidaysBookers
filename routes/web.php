@@ -71,6 +71,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/agent/change-status', [AgentsController::class, 'changeStatus'])->name('change-agent-status');
     Route::post('/agent/update-password', [AgentsController::class, 'updatePassword'])->name('update-agent-password');
     Route::post('/agent/import-agents', [AgentsController::class, 'importAgents'])->name('importsAgents');
+    Route::get('/agent/export',[AgentsController::class, 'agentExcelExport'])->name('agentExport');    
 
     Route::resource('/hotelgroups', HotelGroupsController::class);
     Route::post('/hotelgroup/change-status', [HotelGroupsController::class, 'changeStatus'])->name('change-hotel-group-status');

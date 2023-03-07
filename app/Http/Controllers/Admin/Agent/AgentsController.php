@@ -15,6 +15,7 @@ use App\Imports\AgentsImport;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Exports\ExportFailedAgents;
 use Illuminate\Support\Facades\App;
 use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
@@ -45,6 +46,7 @@ class AgentsController extends Controller
     {
         // $user = auth()->user();   
         // dd($user->can('agents-create'));
+        
         if ($request->ajax()) {
 
             $data = User::with('agents')->where('user_type', User::AGENT);
@@ -94,6 +96,7 @@ class AgentsController extends Controller
                 })->rawColumns(['action', 'status'])->make(true);
         }
 
+           
         return view('admin.agent.index');
     }
 
@@ -253,7 +256,7 @@ class AgentsController extends Controller
             if (is_array($details['download_skip_data']) && count($details['download_skip_data']) > 0) {
                 $datefile = date('d_m_Y_H_i_s');
                 $filename = $datefile . '.xlsx';
-                Excel::store(new ExportAgents($details['download_skip_data']), $filename);
+                Excel::store(new ExportFailedAgents($details['download_skip_data']), $filename);
                 $skipLinks = storage_path($filename);
                 $skipLink = "<li><b>Skip Agents Download : </b><a target='_blank' href='" . url('/storage/app') . '/' . $filename . "'>Download</a></li>";
             }
@@ -270,5 +273,13 @@ class AgentsController extends Controller
             'message' => 'Agents import Successfully.',
             'html' => $html,
         ]);
+    }
+    
+    
+    public function agentExcelExport()
+    {              
+       // $id= $user->id;
+       $agents    = Agent::all();               
+        return Excel::download(new ExportAgents($agents), 'agent-export.xlsx');
     }
 }

@@ -15,6 +15,10 @@
                     <button type="button" class="btn btn-outline-primary waves-effect" id="DownloadAgent">
                         {{ __('core.download_sample') }}
                     </button>
+                    
+                    <a href="{{ route('agentExport') }}" class="btn btn-outline-primary waves-effect">
+                        Export Excel
+                    </a>
                     <button type="button" class="btn btn-outline-primary waves-effect" data-toggle="modal"
                         data-target="#ImportAgentss" data-backdrop="false">
                         {{ __('core.import_excel') }}

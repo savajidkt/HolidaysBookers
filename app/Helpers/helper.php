@@ -2,6 +2,7 @@
 
 use App\Exceptions\GeneralException;
 use App\Models\City;
+use App\Models\Reach;
 use App\Models\State;
 use App\Models\WalletTransaction;
 use Carbon\Carbon;
@@ -179,7 +180,7 @@ if (!function_exists('availableBalance')) {
      */
     function availableBalance($agent_id, $currency = '₹')
     {
-        $letest = WalletTransaction::where('agent_id', $agent_id)->orderBy('id','DESC')->latest()->first();
+        $letest = WalletTransaction::where('agent_id', $agent_id)->orderBy('id', 'DESC')->latest()->first();
         if ($letest->balance > 0) {
             return  numberFormat($letest->balance, $currency);
         } else {
@@ -188,23 +189,23 @@ if (!function_exists('availableBalance')) {
     }
 }
 if (!function_exists('permissionCheck')) {
-   
+
     function permissionCheck($permission)
-    {   
+    {
         $user = auth()->user();
-        if(!$user->can($permission)){
+        if (!$user->can($permission)) {
             throw new GeneralException('Access Denide!');
         }
     }
 }
 
 if (!function_exists('excelDateConvert')) {
-   
+
     function excelDateConvert($date)
-    {   
+    {
         $excel_date = $date;
         $date_unix_date = ($excel_date - 25569) * 86400;
         $_date_excel_date = 25569 + ($date_unix_date / 86400);
-       return Carbon::parse(($_date_excel_date - 25569) * 86400)->format('Y-m-d');
+        return Carbon::parse(($_date_excel_date - 25569) * 86400)->format('Y-m-d');
     }
 }
