@@ -63,8 +63,8 @@
                 <td>{{ $agent->agent_iata_number }}</td>
                 <td>{{ $agent->agent_other_certification }}</td>
                 <td>{{ $agent->agent_pan_number }}</td>
-                <td>{{ $agent->agent_gst_number }}</td>
-                <td>{{ $agent->reachus->name }}</td>
+                <td>{{ $agent->agent_gst_number }}</td>               
+                <td>{{ (isset($agent->reachus->name)) ?$agent->reachus->name : '' }}</td>
                 <td>{{ $agent->othername }}</td>                
                 <td>{{ $agent->mgmt_first_name }}</td>
                 <td>{{ $agent->mgmt_last_name }}</td>

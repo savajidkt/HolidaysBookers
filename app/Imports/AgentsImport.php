@@ -6,9 +6,11 @@ use Carbon\Carbon;
 use App\Models\City;
 use App\Models\User;
 use App\Models\Agent;
+use App\Models\CompanyType;
 use App\Models\State;
 use App\Models\Country;
 use App\Models\Reach;
+use App\Models\WalletTransaction;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +48,7 @@ class AgentsImport implements ToCollection, WithStartRow
             if ($row) {
                 $total_count++;
                 if ($this->requiredFilds($row)) {
+
                     $UserArr =  [
                         'first_name'    => $row[3],
                         'last_name'    => $row[4],
@@ -56,10 +59,12 @@ class AgentsImport implements ToCollection, WithStartRow
                     ];
 
                     $user =  User::create($UserArr);
+
                     $agent_country = Country::select('id')->where('name', $row[8])->first();
                     $agent_state = State::where('name', $row[9])->first();
                     $agent_city =  City::where('name', $row[10])->first();
                     $reachus =  Reach::where('name', $row[21])->first();
+                    $company_type =  CompanyType::where('company_type', $row[1])->first();
 
                     $UserProfileArr = [];
                     $UserProfileArr['user_id'] = $user->id;
@@ -68,7 +73,7 @@ class AgentsImport implements ToCollection, WithStartRow
                     $UserProfileArr['agent_city'] = $agent_city->id;
                     $UserProfileArr['agent_code'] = createAgentCode($user->id);
                     $UserProfileArr['agent_company_name'] = $row[35];
-                    $UserProfileArr['agent_company_type'] = $row[1];
+                    $UserProfileArr['agent_company_type'] = $company_type->id;
                     $UserProfileArr['nature_of_business'] = $row[2];
                     $UserProfileArr['agent_first_name'] = $row[3];
                     $UserProfileArr['agent_last_name'] = $row[4];
@@ -99,10 +104,16 @@ class AgentsImport implements ToCollection, WithStartRow
                     $UserProfileArr['reserve_email'] = $row[34];
                     $UserProfileArr['agent_know_about'] = $reachus->id;
                     $UserProfileArr['othername'] = $row[22];
-                    Agent::create($UserProfileArr);
+
+                    $agent =  Agent::create($UserProfileArr);
+                    $WalletTransaction =  [
+                        'user_id'    => $user->id,
+                        'agent_id'    => $agent->id,
+                        'comment'    => 'Import Agent By Excel',
+                    ];
+                    WalletTransaction::create($WalletTransaction);
                     $skip['sucess'] = $suc;
                     $suc++;
-                   
                 } else {
                     $skip['skip'][] = $row[0];
                     $skipArray[] = $this->skipArrayCollection($row);
@@ -114,7 +125,7 @@ class AgentsImport implements ToCollection, WithStartRow
             $skip['download_skip_data'] = $skipArray;
         }
 
-        $skip['total'] = $total_count;        
+        $skip['total'] = $total_count;
         session()->put('skip_row', $skip);
     }
 
@@ -150,6 +161,12 @@ class AgentsImport implements ToCollection, WithStartRow
                 } else if ($i == 16 && $row[$i] == "yes") {
                     if (strlen($row[$i + 1]) == 0 || $row[$i + 1] == "") {
                         return false;
+                    }
+                } else if ($i == 17) {
+                    if ($row[16] == "yes") {                       
+                        if (strlen($row[$i]) == 0 || $row[$i] == "") {
+                            return false;
+                        }
                     }
                 } else if ($i == 35) {
                     $userArr = User::where('email', $row[$i])->first();
