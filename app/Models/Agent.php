@@ -164,6 +164,6 @@ class Agent extends Authenticatable
     }
     public function getbalance()
     {
-        return $this->hasOne(WalletTransaction::class,'agent_id', 'id');
+        return $this->hasOne(WalletTransaction::class,'agent_id', 'id')->orderBy('id','DESC');
     }
 }
