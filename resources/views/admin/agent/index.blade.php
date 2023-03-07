@@ -209,17 +209,19 @@
                 table.ajax.reload();
                 $('#ImportAgentss').modal('hide');
                 myDropzone.destroy();
-                // Swal.fire(
-                //     'Excel import success!',
-                //     response.message,
-                //     'success'
-                // )
-
                 Swal.fire({
-  title: response.message, 
-  html: response.html,  
-  confirmButtonText: "OK", 
-});
+                    title: 'Excel import success!',
+                    text: response.message,
+                    html: response.html,
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'btn btn-primary',
+                        cancelButton: 'btn btn-outline-danger ml-1'
+                    },
+                    buttonsStyling: false
+                })
             }
         });
         $('#import-agents').click(function() {

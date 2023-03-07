@@ -244,7 +244,7 @@ class AgentsController extends Controller
 
         Excel::import(new AgentsImport, $request->file);
 
-      
+
         $html = false;
         if (session()->has('skip_row')) {
             $details = session()->get('skip_row');
@@ -259,8 +259,8 @@ class AgentsController extends Controller
             }
             $html = '<ul>
                     <li><b>Skip Agents : </b> ' . count($details['skip']) . '</li>
-                    <li><b>Total Import Agents : </b> ' . $details['total'] . '</li>
-                    <li><b>Successfully Imported Agents : </b> ' . $details['sucess'] . '</li>
+                    <li><b>Imported Agents : </b> ' . $details['sucess'] . '</li>
+                    <li><b>Total Agents : </b> ' . $details['total'] . '</li>                   
                     ' . $skipLink . '
                 </ul>';
         }
