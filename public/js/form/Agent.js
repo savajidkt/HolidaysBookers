@@ -331,7 +331,11 @@ var FrmAgentPreference = function () {
                         return false;
                     }
                 }
+
+                                
+                $('#updateHBCredit :button[type="submit"]').prop('disabled', true);
                 $(".buttonLoader").removeClass('hide');
+                
                 form.submit();
             }
         });
@@ -352,7 +356,7 @@ var FrmAgentPreference = function () {
 $(document).ready(function () {
     FrmAgentPreference.init();
 
-
+    
     $(document).on('click', '.currntBTN', function () {
         $('#changePassword #modal_user_id').val($(this).data('user_id'));
         $('#ResetPasswordModal').modal('show');

@@ -151,8 +151,10 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit"
-                                    class="btn btn-primary waves-effect waves-float waves-light">{{ __('core.submit') }}</button>
+                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light"><span
+                                    class="spinner-border spinner-border-sm buttonLoader hide" role="status"
+                                    aria-hidden="true"></span><span
+                                    class="ml-25 align-middle">{{ __('core.submit') }}</span></button>                                
                             </div>
                         </form>
                     </div>
