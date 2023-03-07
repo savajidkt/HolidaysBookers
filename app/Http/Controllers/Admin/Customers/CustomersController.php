@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Admin\Customers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CompanyType\CreateRequest;
-use App\Http\Requests\CompanyType\EditRequest;
-use App\Models\CompanyType;
-use App\Repositories\CompanyTypeRepository;
 use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Models\Country;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Repositories\CustomerRepository;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\Customer\EditRequest;
+use App\Http\Requests\Customer\CreateRequest;
 
 class CustomersController extends Controller
 {
-    protected $companyTypeRepository;
-    public function __construct(CompanyTypeRepository $companyTypeRepository)
+    protected $customerRepository;
+    public function __construct(CustomerRepository $customerRepository)
     {
-        $this->companyTypeRepository       = $companyTypeRepository;
+        $this->customerRepository       = $customerRepository;
     }
 
     /**
@@ -27,24 +28,24 @@ class CustomersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
         if ($request->ajax()) {
-            $data = CompanyType::select('*');
+            $data = Customer::select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->editColumn('company_type', function (CompanyType $companytype) {
-                    return $companytype->company_type;
+                ->editColumn('company_type', function (Customer $customer) {
+                    return $customer->company_type;
                 })
-                ->editColumn('status', function (CompanyType $companytype) {
-                    return $companytype->status_name;
+                ->editColumn('status', function (Customer $customer) {
+                    return $customer->status_name;
                 })
-                ->addColumn('action', function (CompanyType $companytype) {
-                    return $companytype->action;
+                ->addColumn('action', function (Customer $customer) {
+                    return $customer->action;
                 })
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.company-types.index');
+        return view('admin.customers.index');
     }
 
     /**
@@ -54,8 +55,9 @@ class CustomersController extends Controller
      */
     public function create()
     {
-        $rawData    = new CompanyType;
-        return view('admin.company-types.create', ['model' => $rawData]);
+        $rawData    = new Customer;
+        $countries    =  Country::where('status', Country::ACTIVE)->get();
+        return view('admin.customers.create', ['model' => $rawData, 'countries' => $countries]);
     }
 
     /**
@@ -67,8 +69,8 @@ class CustomersController extends Controller
     public function store(CreateRequest $request)
     {
         
-        $this->companyTypeRepository->create($request->all());
-        return redirect()->route('companytypes.index')->with('success', __('companytype/message.created_success'));
+        $this->customerRepository->create($request->all());
+        return redirect()->route('customers.index')->with('success', 'Customer created successfully!');
     }
 
     /**
@@ -85,28 +87,29 @@ class CustomersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\CompanyType $companytype [explicite description]
+     * @param \App\Models\Customer $customer [explicite description]
      *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function edit(CompanyType $companytype)
+    public function edit(Customer $customer)
     {
-        return view('admin.company-types.edit', ['model' => $companytype]);
+        $countries    =  Country::where('status', Country::ACTIVE)->get();
+        return view('admin.customers.edit', ['model' => $customer,'countries' => $countries]);
     }
 
     /**
      * Method update
      *
-     * @param \App\Http\Requests\Admin\EditRequest $request
-     * @param \App\Models\CompanyType $companytype
+     * @param \App\Http\Requests\Customer\EditRequest $request
+     * @param \App\Models\Customer $customer
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(EditRequest $request, CompanyType $companytype)
+    public function update(EditRequest $request, Customer $customer)
     {
-        $this->companyTypeRepository->update($request->all(), $companytype);
+        $this->customerRepository->update($request->all(), $customer);
 
-        return redirect()->route('companytypes.index')->with('success', __('companytype/message.updated_success'));
+        return redirect()->route('customers.index')->with('success', 'Customer updated successfully!');
     }
 
     /**
@@ -115,10 +118,10 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CompanyType $companytype)
+    public function destroy(Customer $customer)
     {
-        $this->companyTypeRepository->delete($companytype);
-        return redirect()->route('companytypes.index')->with('success', __('companytype/message.deleted_success'));
+        $this->customerRepository->delete($customer);
+        return redirect()->route('customers.index')->with('success', 'Customer deleted successfully!');
     }
 
     /**
@@ -131,15 +134,15 @@ class CustomersController extends Controller
     public function changeStatus(Request $request): JsonResponse
     {
         $input = $request->all();
-        $companytype  = CompanyType::find($input['company_type_id']);
+        $customer  = Customer::find($input['company_type_id']);
         // dd($user);
-        if ($this->companyTypeRepository->changeStatus($input, $companytype)) {
+        if ($this->customerRepository->changeStatus($input, $customer)) {
             return response()->json([
                 'status' => true,
-                'message' => __('companytype/message.status_updated_success')
+                'message' => 'Customer status updated successfully!'
             ]);
         }
 
-        throw new Exception(__('companytype/message.error'));
+        throw new Exception('Customer status does not change. Please check sometime later.');
     }
 }
