@@ -46,6 +46,8 @@
         <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/file-uploaders/dropzone.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/plugins/forms/form-file-uploader.css')}}">
         <!-- END: Page CSS-->
+        <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/pages/app-calendar.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/calendars/fullcalendar.min.css')}}">
 
         <!-- BEGIN: Custom CSS-->
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">

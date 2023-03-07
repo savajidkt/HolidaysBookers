@@ -77,6 +77,15 @@
                     <span class="menu-title text-truncate" data-i18n="Coporate Management">Coporate Management</span>
                 </a>
             </li>
+            @if($admin->can('admin-staff-create') || $admin->can('admin-staff-edit') || $admin->can('admin-staff-delete') || $admin->can('admin-staff-view'))
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="{{ url('admin/admins') }}">
+                        <i data-feather="file-text"></i><span class="menu-title text-truncate"
+                            data-i18n="Staff Management">Staff Management</span>
+                    </a>
+
+                </li>
+            @endif
             <li class="navigation-header"><span
                     data-i18n="{{ __('core.menu_header_hotels') }}">{{ __('core.menu_header_hotels') }}</span><i
                     data-feather="more-horizontal"></i>
@@ -142,6 +151,7 @@
                     @endif
                 </ul>
             </li>
+
             @if($admin->can('rooms-create') || $admin->can('rooms-edit') || $admin->can('rooms-delete') || $admin->can('rooms-view'))
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/rooms') }}">
@@ -150,6 +160,16 @@
                 </a>
             </li>
             @endif
+            <li class="navigation-header"><span
+                    data-i18n="Package Module">Package Module</span><i
+                    data-feather="more-horizontal"></i>
+            </li>
+            <li class=" nav-item">
+                <a class="d-flex align-items-center" href="{{ url('admin/rooms') }}">
+                <i data-feather='package'></i>
+                    <span class="menu-title text-truncate" data-i18n="Rooms">Package Management</span>
+                </a>
+            </li>
             <li class="navigation-header"><span
                     data-i18n="Master Modules">{{ __('core.menu_header_master_modules') }}</span><i
                     data-feather="more-horizontal"></i>
@@ -253,15 +273,7 @@
                     </a>
 
                 </li>
-                @if($admin->can('admin-staff-create') || $admin->can('admin-staff-edit') || $admin->can('admin-staff-delete') || $admin->can('admin-staff-view'))
-                <li class=" nav-item">
-                    <a class="d-flex align-items-center" href="{{ url('admin/admins') }}">
-                        <i data-feather="file-text"></i><span class="menu-title text-truncate"
-                            data-i18n="Staff Management">Staff Management</span>
-                    </a>
-
-                </li>
-                @endif
+                
 
         </ul>
     </div>

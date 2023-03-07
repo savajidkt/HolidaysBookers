@@ -4,7 +4,7 @@
 
     <!-- BEGIN: Page Vendor JS-->
     @if(Route::is('dashboard'))
-    <script src="{{asset('app-assets/vendors/js/charts/apexcharts.min.js')}}"></script>
+    <!-- <script src="{{asset('app-assets/vendors/js/charts/apexcharts.min.js')}}"></script> -->
     @endif
     <script src="{{asset('app-assets/vendors/js/extensions/toastr.min.js')}}"></script>
     <!-- END: Page Vendor JS-->
@@ -29,6 +29,8 @@
     <script src="{{asset('app-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 
     @if(Route::is('dashboard'))
+    <script src="{{asset('app-assets/vendors/js/calendar/fullcalendar.min.js')}}"></script>
+    <script src="{{asset('app-assets/vendors/js/extensions/moment.min.js')}}"></script>
     <!-- <script src="{{asset('app-assets/js/scripts/pages/dashboard-ecommerce.js')}}"></script> -->
     <script src="{{asset('app-assets/vendors/js/pickers/pickadate/picker.js')}}"></script>
     <script src="{{asset('app-assets/vendors/js/pickers/pickadate/picker.date.js')}}"></script>
@@ -36,6 +38,8 @@
     <script src="{{asset('app-assets/vendors/js/pickers/pickadate/legacy.js')}}"></script>
     <script src="{{asset('app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js')}}"></script>
     <script src="{{asset('app-assets/js/scripts/forms/pickers/form-pickers.js')}}"></script>
+    <script src="{{asset('app-assets/js/scripts/pages/app-calendar-events.js')}}"></script>
+    <script src="{{asset('app-assets/js/scripts/pages/app-calendar.js')}}"></script>
     @endif
     <!-- END: Page JS-->
     <script src="{{asset('js/common.js')}}"></script>

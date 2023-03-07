@@ -24,6 +24,8 @@ use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
 use App\Http\Controllers\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\AgentMarkups\AgentMarkupsController;
 use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
+use App\Http\Controllers\Admin\Customers\CustomersController;
+use App\Http\Controllers\Admin\Packages\PackagesController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
 use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
@@ -72,6 +74,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/agent/update-password', [AgentsController::class, 'updatePassword'])->name('update-agent-password');
     Route::post('/agent/import-agents', [AgentsController::class, 'importAgents'])->name('importsAgents');
     Route::get('/agent/export',[AgentsController::class, 'agentExcelExport'])->name('agentExport');    
+
+    Route::resource('/packages', PackagesController::class);
+    Route::post('/package/change-status', [PackageController::class, 'changeStatus'])->name('change-package-status');
+
+    Route::resource('/customers', CustomersController::class);
+    Route::post('/customer/change-status', [CustomersController::class, 'changeStatus'])->name('change-customer-status');
+
 
     Route::resource('/hotelgroups', HotelGroupsController::class);
     Route::post('/hotelgroup/change-status', [HotelGroupsController::class, 'changeStatus'])->name('change-hotel-group-status');
