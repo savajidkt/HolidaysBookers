@@ -2,6 +2,20 @@
 @section('page_title', __('vehicletype/vehicletype.form_edit_title'))
 @section('content')
     <section id="page-account-settings">
+        <div class="card">
+
+            <div class="card-header border-bottom d-flex justify-content-between align-items-center">
+                <div class="col-md-6">
+                    <h4 class="card-title">Agent Profile: #{{ $model->agent_code }}</h4>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="{{ route('agents.index') }}"><button type="reset"
+                            class="btn btn-outline-secondary waves-effectt">
+                            {{ __('core.back') }}</button></a>
+                </div>
+            </div>
+
+        </div>
         <div class="row">
             <!-- left menu section -->
             <div class="col-md-3 mb-2 mb-md-0">
@@ -10,14 +24,14 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="account-pill-company-details" data-toggle="pill"
                             href="#account-vertical-company-details" aria-expanded="true">
-                            <i class="fa fa-building fa-2x" aria-hidden="true" ></i>
+                            <i class="fa fa-building fa-2x" aria-hidden="true"></i>
                             <span class="font-weight-bold">{{ __('agent/agent.company_details_title') }}</span>
                         </a>
                     </li>
                     <!-- management -->
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-management" data-toggle="pill"
-                            href="#account-vertical-management" aria-expanded="false">                            
+                            href="#account-vertical-management" aria-expanded="false">
                             <i class="fa fa-briefcase fa-2x" aria-hidden="true"></i>
                             <span class="font-weight-bold">{{ __('agent/agent.management_details_title') }}</span>
                         </a>
@@ -69,10 +83,9 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label
-                                                for="account-username">{{ __('agent/agent.agent_company_name') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_company_name) ? $model->agent_company_name : '' }}">
+                                            <label for="account-username">{{ __('agent/agent.agent_company_name') }}</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_company_name) ? $model->agent_company_name : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -90,53 +103,55 @@
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                            <input class="form-control" disabled
-                                                value="{{ isset($agent_company_type) ? $agent_company_type : '' }}">
+                                            <strong
+                                                class="disp-below">{{ isset($agent_company_type) ? $agent_company_type : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.nature_of_business') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->nature_of_business) ? $model->nature_of_business : '' }}">
+                                            <strong
+                                                class="disp-below">{{ isset($model->nature_of_business) ? $model->nature_of_business : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">{{ __('agent/agent.agent_first_name') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_first_name) ? $model->agent_first_name : '' }}">
+                                            <label for="account-username">{{ __('agent/agent.agent_first_name') }}</label>                                           
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_first_name) ? $model->agent_first_name : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.agent_last_name') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_last_name) ? $model->agent_last_name : '' }}">
+                                           
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_last_name) ? $model->agent_last_name : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.agent_designation') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_designation) ? $model->agent_designation : '' }}">
+                                            
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_designation) ? $model->agent_designation : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">{{ __('agent/agent.agent_dob') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_dob) ? $model->agent_dob : '' }}">
+                                            <label for="account-username">{{ __('agent/agent.agent_dob') }}</label>                                           
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_dob) ? $model->agent_dob : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label
-                                                for="account-username">{{ __('agent/agent.agent_office_address') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_office_address) ? $model->agent_office_address : '' }}">
+                                                for="account-username">{{ __('agent/agent.agent_office_address') }}</label>                                           
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_office_address) ? $model->agent_office_address : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -152,9 +167,9 @@
                                                         break;
                                                     @endphp
                                                 @endif
-                                            @endforeach
-                                            <input class="form-control" disabled
-                                                value="{{ isset($agent_country) ? $agent_country : '' }}">
+                                            @endforeach                                            
+                                            <strong
+                                                class="disp-below">{{ isset($agent_country) ? $agent_country : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -173,9 +188,9 @@
                                                         @endphp
                                                     @endif
                                                 @endforeach
-                                            @endif
-                                            <input class="form-control" disabled
-                                                value="{{ isset($agent_state) ? $agent_state : '' }}">
+                                            @endif                                           
+                                            <strong
+                                                class="disp-below">{{ isset($agent_state) ? $agent_state : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -194,61 +209,61 @@
                                                         @endphp
                                                     @endif
                                                 @endforeach
-                                            @endif
-                                            <input class="form-control" disabled
-                                                value="{{ isset($agent_city) ? $agent_city : '' }}">
+                                            @endif                                         
+                                            <strong
+                                                class="disp-below">{{ isset($agent_city) ? $agent_city : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">{{ __('agent/agent.agent_pincode') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_pincode) ? $model->agent_pincode : '' }}">
+                                            <label for="account-username">{{ __('agent/agent.agent_pincode') }}</label>                                          
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_pincode) ? $model->agent_pincode : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">{{ __('agent/agent.agent_telephone') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_telephone) ? $model->agent_telephone : '' }}">
+                                            <label for="account-username">{{ __('agent/agent.agent_telephone') }}</label>                                          
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_telephone) ? $model->agent_telephone : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label
-                                                for="account-username">{{ __('agent/agent.agent_mobile_number') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_mobile_number) ? $model->agent_mobile_number : '' }}">
+                                                for="account-username">{{ __('agent/agent.agent_mobile_number') }}</label>                                           
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_mobile_number) ? $model->agent_mobile_number : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">{{ __('agent/agent.agent_email') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_email) ? $model->agent_email : '' }}">
+                                            <label for="account-username">{{ __('agent/agent.agent_email') }}</label>                                           
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_email) ? $model->agent_email : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">{{ __('agent/agent.agent_website') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_website) ? $model->agent_website : '' }}">
+                                            <label for="account-username">{{ __('agent/agent.agent_website') }}</label>                                           
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_website) ? $model->agent_website : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">{{ __('agent/agent.agent_iata') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_iata) ? ucfirst($model->agent_iata) : '' }}">
+                                            <label for="account-username">{{ __('agent/agent.agent_iata') }}</label>                                            
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_iata) ? ucfirst($model->agent_iata) : '' }}</strong>
                                         </div>
                                     </div>
                                     @if ($model->agent_iata == 'yes')
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group">
                                                 <label
-                                                    for="account-username">{{ __('agent/agent.agent_iata_number') }}</label>
-                                                <input class="form-control" disabled
-                                                    value="{{ isset($model->agent_iata_number) ? $model->agent_iata_number : '' }}">
+                                                    for="account-username">{{ __('agent/agent.agent_iata_number') }}</label>                                               
+                                                <strong
+                                                    class="disp-below">{{ isset($model->agent_iata_number) ? $model->agent_iata_number : '' }}</strong>
                                             </div>
                                         </div>
                                     @endif
@@ -256,22 +271,23 @@
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.agent_other_certification') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_other_certification) ? $model->agent_other_certification : '' }}">
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_other_certification) ? $model->agent_other_certification : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.agent_pan_number') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_pan_number) ? $model->agent_pan_number : '' }}">
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_pan_number) ? $model->agent_pan_number : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.agent_gst_number') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->agent_gst_number) ? $model->agent_gst_number : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->agent_gst_number) ? $model->agent_gst_number : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -292,16 +308,17 @@
                                                     @endphp
                                                 @endif
                                             @endforeach
-                                            <input class="form-control" disabled
-                                                value="{{ isset($agent_know_about) ? $agent_know_about : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($agent_know_about) ? $agent_know_about : '' }}</strong>
                                         </div>
                                     </div>
                                     @if ($agent_know_about_show == 1)
                                         <div class="col-12 col-sm-4">
                                             <div class="form-group">
                                                 <label for="account-username">{{ $agent_know_about_lable }}</label>
-                                                <input class="form-control" disabled
-                                                    value="{{ isset($model->othername) ? $model->othername : '' }}">
+                                                <strong
+                                                    class="disp-below">{{ isset($model->othername) ? $model->othername : '' }}</strong>
                                             </div>
                                         </div>
                                     @endif
@@ -316,30 +333,34 @@
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.mgmt_first_name') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->mgmt_first_name) ? $model->mgmt_first_name : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->mgmt_first_name) ? $model->mgmt_first_name : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.mgmt_last_name') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->mgmt_last_name) ? $model->mgmt_last_name : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->mgmt_last_name) ? $model->mgmt_last_name : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.mgmt_contact_number') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->mgmt_contact_number) ? $model->mgmt_contact_number : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->mgmt_contact_number) ? $model->mgmt_contact_number : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.mgmt_email') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->mgmt_email) ? $model->mgmt_email : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->mgmt_email) ? $model->mgmt_email : '' }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -354,31 +375,35 @@
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.account_first_name') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->account_first_name) ? $model->account_first_name : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->account_first_name) ? $model->account_first_name : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.account_last_name') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->account_last_name) ? $model->account_last_name : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->account_last_name) ? $model->account_last_name : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.account_contact_number') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->account_contact_number) ? $model->account_contact_number : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->account_contact_number) ? $model->account_contact_number : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.account_email') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->account_email) ? $model->account_email : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->account_email) ? $model->account_email : '' }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -393,31 +418,34 @@
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.reserve_first_name') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->reserve_first_name) ? $model->reserve_first_name : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->reserve_first_name) ? $model->reserve_first_name : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.reserve_last_name') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->reserve_last_name) ? $model->reserve_last_name : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->reserve_last_name) ? $model->reserve_last_name : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label
                                                 for="account-username">{{ __('agent/agent.reserve_contact_number') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->reserve_contact_number) ? $model->reserve_contact_number : '' }}">
+
+                                            <strong
+                                                class="disp-below">{{ isset($model->reserve_contact_number) ? $model->reserve_contact_number : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.reserve_email') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->reserve_email) ? $model->reserve_email : '' }}">
+                                            <strong
+                                                class="disp-below">{{ isset($model->reserve_email) ? $model->reserve_email : '' }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -431,8 +459,8 @@
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.agent_username') }}</label>
-                                            <input class="form-control" disabled
-                                                value="{{ isset($model->user->email) ? $model->user->email : '' }}">
+                                            <strong
+                                                class="disp-below">{{ isset($model->user->email) ? $model->user->email : '' }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -446,7 +474,9 @@
                                     <div class="row">
                                         <div class="col-12 col-sm-4">
                                             @if (strlen($model->agent_pan_card) > 0)
-                                                <a target="_blank" href="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_pan_card) }}" class="mr-25">
+                                                <a target="_blank"
+                                                    href="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_pan_card) }}"
+                                                    class="mr-25">
                                                     <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_pan_card) }}"
                                                         id="account-upload-img" class="rounded mr-50" alt="profile image"
                                                         height="80" width="80">
@@ -458,7 +488,9 @@
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             @if (strlen($model->agent_company_certificate) > 0)
-                                                <a target="_blank" href="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_certificate) }}" class="mr-25">
+                                                <a target="_blank"
+                                                    href="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_certificate) }}"
+                                                    class="mr-25">
                                                     <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_certificate) }}"
                                                         id="account-upload-img" class="rounded mr-50" alt="profile image"
                                                         height="80" width="80">
@@ -470,7 +502,9 @@
                                         </div>
                                         <div class="col-12 col-sm-4">
                                             @if (strlen($model->agent_company_logo) > 0)
-                                                <a target="_blank" href="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_logo) }}" class="mr-25">
+                                                <a target="_blank"
+                                                    href="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_logo) }}"
+                                                    class="mr-25">
                                                     <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_logo) }}"
                                                         id="account-upload-img" class="rounded mr-50" alt="profile image"
                                                         height="80" width="80">

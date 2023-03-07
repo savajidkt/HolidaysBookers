@@ -130,8 +130,8 @@
                                     <select class="select2 form-control form-control-lg" name="type"
                                         data-error="Type">
                                         <option value="">Select type</option>
-                                        <option value="1">Credit</option>
-                                        <option value="0">Debit</option>
+                                        <option value="1">HB Credit</option>
+                                        <option value="0">HB Debit</option>
                                     </select>
                                 </div>
                             </div>

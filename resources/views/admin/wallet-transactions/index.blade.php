@@ -13,9 +13,12 @@
                 </div>
                 <div class="col-md-6 text-right">
                     
-                    <a href="{{ route('vehicletypes.create') }}"><button type="reset"
+                    <a href="{{ route('agents.index') }}"><button type="reset"
+                            class="btn btn-outline-secondary waves-effectt">
+                            {{ __('core.back') }}</button></a>
+                   <button type="reset"
                             class="btn btn-primary mr-1 waves-effect waves-float waves-light">Balance:
-                            {{ availableBalance($model->id) }}</button></a>
+                            {{ availableBalance($model->id) }}</button>
                 </div>
             </div>
             <div class="card-datatable pt-0 table-responsive">
@@ -28,6 +31,7 @@
                             <th>PNR</th>
                             <th>Type</th>
                             <th>Amount</th>
+                            <th>Comment</th>
                             <th>Created At</th>
                         </tr>
                     </thead>
@@ -90,6 +94,10 @@
                     {
                         data: 'amount',
                         name: 'amount'
+                    },
+                    {
+                        data: 'comment',
+                        name: 'comment'
                     },
                     {
                         data: 'created_at',

@@ -48,6 +48,9 @@ class WalletTransactionsController extends Controller
                 ->addColumn('amount', function (WalletTransaction $wallettransaction) {
                     return numberFormat($wallettransaction->amount, '₹');
                 })
+                ->addColumn('comment', function (WalletTransaction $wallettransaction) {
+                    return $wallettransaction->comment;
+                })
                 ->addColumn('created_at', function (WalletTransaction $wallettransaction) {
                     return dateFormat($wallettransaction->created_at);
                 })
