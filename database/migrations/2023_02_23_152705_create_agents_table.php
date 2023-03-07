@@ -53,7 +53,7 @@ class CreateAgentsTable extends Migration
             $table->string('agent_pan_card')->nullable();
             $table->string('agent_company_certificate')->nullable();
             $table->string('agent_company_logo')->nullable();
-            $table->string('agent_know_about')->nullable();
+            $table->unsignedBigInteger('agent_know_about')->nullable();
             $table->string('othername')->nullable();
 
             //FOREIGN KEY CONSTRAINTS
@@ -61,6 +61,8 @@ class CreateAgentsTable extends Migration
             $table->foreign('agent_country')->references('id')->on('countries')->onDelete('cascade');
             $table->foreign('agent_state')->references('id')->on('states')->onDelete('cascade');
             $table->foreign('agent_city')->references('id')->on('cities')->onDelete('cascade');
+            $table->foreign('agent_know_about')->references('id')->on('reachus')->onDelete('cascade');
+            
 
             $table->softDeletes();
             $table->timestamps();

@@ -51,9 +51,9 @@
                 <td>{{ $agent->agent_designation }}</td>
                 <td>{{ $agent->agent_dob }}</td>
                 <td>{{ $agent->agent_office_address }}</td>
-                <td>{{ $agent->agent_country }}</td>
-                <td>{{ $agent->agent_state }}</td>
-                <td>{{ $agent->agent_city }}</td>
+                <td>{{ $agent->country->name }}</td>
+                <td>{{ $agent->state->name }}</td>
+                <td>{{ $agent->city->name }}</td>
                 <td>{{ $agent->agent_pincode }}</td>
                 <td>{{ $agent->agent_telephone }}</td>
                 <td>{{ $agent->agent_mobile_number }}</td>
@@ -64,7 +64,7 @@
                 <td>{{ $agent->agent_other_certification }}</td>
                 <td>{{ $agent->agent_pan_number }}</td>
                 <td>{{ $agent->agent_gst_number }}</td>
-                <td>{{ $agent->agent_know_about }}</td>
+                <td>{{ $agent->reachus->name }}</td>
                 <td>{{ $agent->othername }}</td>                
                 <td>{{ $agent->mgmt_first_name }}</td>
                 <td>{{ $agent->mgmt_last_name }}</td>

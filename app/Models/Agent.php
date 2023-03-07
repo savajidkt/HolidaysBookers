@@ -136,12 +136,19 @@ class Agent extends Authenticatable
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-        //return $this->morphOne(User::class, 'agents');
     }
 
     public function country()
     {
-        return $this->belongsTo(Country::class, 'country_id', 'id');
+        return $this->belongsTo(Country::class, 'agent_country', 'id');
+    }
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'agent_state', 'id');
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'agent_city', 'id');
     }
     public function company()
     {
@@ -155,8 +162,8 @@ class Agent extends Authenticatable
     {
         return $this->hasMany(WalletTransaction::class, 'agent_id', 'id');
     }
-    public function balance()
+    public function getbalance()
     {
-        return $this->hasMany(WalletTransaction::class, 'agent_id', 'id')->orderBy('id','DESC')->latest();
+        return $this->hasOne(WalletTransaction::class,'agent_id', 'id');
     }
 }

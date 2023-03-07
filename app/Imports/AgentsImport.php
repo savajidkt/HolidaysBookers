@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Agent;
 use App\Models\State;
 use App\Models\Country;
+use App\Models\Reach;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -58,6 +59,7 @@ class AgentsImport implements ToCollection, WithStartRow
                     $agent_country = Country::select('id')->where('name', $row[8])->first();
                     $agent_state = State::where('name', $row[9])->first();
                     $agent_city =  City::where('name', $row[10])->first();
+                    $reachus =  Reach::where('name', $row[21])->first();
 
                     $UserProfileArr = [];
                     $UserProfileArr['user_id'] = $user->id;
@@ -95,7 +97,7 @@ class AgentsImport implements ToCollection, WithStartRow
                     $UserProfileArr['reserve_last_name'] = $row[32];
                     $UserProfileArr['reserve_contact_number'] = $row[33];
                     $UserProfileArr['reserve_email'] = $row[34];
-                    $UserProfileArr['agent_know_about'] = $row[21];
+                    $UserProfileArr['agent_know_about'] = $reachus->id;
                     $UserProfileArr['othername'] = $row[22];
                     Agent::create($UserProfileArr);
                     $skip['sucess'] = $suc;

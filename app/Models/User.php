@@ -140,13 +140,14 @@ class User extends Authenticatable
     }
      
     /**
-     * Method agents
+     * Method agent
      *
      * @return void
      */
     public function agents()
     {
-        return $this->belongsTo(Agent::class,'id','user_id');
+        //return $this->belongsTo(Agent::class,'id','user_id');
+        return $this->hasOne(Agent::class, 'user_id', 'id');
       //return $this->morphTo();
     }
    
