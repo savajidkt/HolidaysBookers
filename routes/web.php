@@ -80,6 +80,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/customers', CustomersController::class);
     Route::post('/customer/change-status', [CustomersController::class, 'changeStatus'])->name('change-customer-status');
+    Route::get('/customer/view/{customer}/customer', [CustomersController::class, 'show'])->name('view-profile-customer'); 
 
 
     Route::resource('/hotelgroups', HotelGroupsController::class);

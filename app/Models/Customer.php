@@ -34,11 +34,10 @@ class Customer extends Model
      * @return string
      */
     public function getActionAttribute(): string
-    {
-        $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">' . __('core.view') . '</a>';
-        $editAction = '<a href="' . route('customers.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
-        $action = $editAction . $this->getDeleteButtonAttribute();
-        return $action;
+    {        
+        $viewAction =  '<a href="' . route('view-profile-customer', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';        
+        $editAction = '<a href="' . route('customers.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';                
+        return $editAction . ' ' . $viewAction . ' ' . $this->getDeleteButtonAttribute();
     }
 
     /**
@@ -49,7 +48,7 @@ class Customer extends Model
      */
     public function getDeleteButtonAttribute($class = '')
     {
-        return '<a href="' . route('customers.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="' . __('core.delete') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
+        return '<a href="' . route('customers.destroy', $this) . '" class="delete_action btn btn-danger btn-sm" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><i class="fa fa-trash" aria-hidden="true"></i></a>';        
     }
 
 
@@ -63,10 +62,10 @@ class Customer extends Model
         $status = self::ACTIVE;
         switch ($this->status) {
             case self::INACTIVE:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-company_type_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.inactive') . '</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-customer_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.inactive') . '</span></a>';
                 break;
             default:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-company_type_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.active') . '</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-customer_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.active') . '</span></a>';
                 break;
         }
         return $status;

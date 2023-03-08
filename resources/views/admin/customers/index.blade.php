@@ -8,7 +8,8 @@
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                 <h4 class="card-title">Customers</h4>
-                <a href="{{ route('customers.create') }}"><button type="reset" class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New</button></a>
+                <a href="{{ route('customers.create') }}"><button type="reset"
+                        class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New</button></a>
             </div>
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">
@@ -16,9 +17,11 @@
                         <tr>
                             <th></th>
                             <th>{{ __('core.id') }}</th>
-                            <th>{{ __('company-type/company-type.table_company_type') }}</th>
-                            <th>{{ __('core.status') }}</th>
-                            <th>{{ __('core.action') }}</th>
+                            <th>Fulll Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                 </table>
@@ -53,12 +56,21 @@
                         visible: false,
                     },
                     {
-                        data: 'company_type',
-                        name: 'company_type'
+                        data: 'full_name',
+                        name: 'full_name'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'mobile_number',
+                        name: 'mobile_number'
                     },
                     {
                         data: 'status',
-                        name: 'status'
+                        name: 'status',
+                        searchable: false
                     },
                     {
                         data: 'action',
@@ -74,12 +86,12 @@
                 e.preventDefault();
                 var $this = $(this);
                 Swal.fire({
-                    title: "{{ __('company-type/message.swal_title_are_you_sure') }}",
-                    text: "{{ __('company-type/message.swal_text_are_you_sure') }}",
+                    title: "Are you sure?",
+                    text: "You won`t be able to revert this!",
                     icon: 'warning',
                     showCancelButton: true,
                     cancelButtonText: "{{ __('core.cancel') }}",
-                    confirmButtonText: "{{ __('company-type/message.swal_confirm_button_text_are_you_sure') }}",
+                    confirmButtonText: "Yes, delete it!",
                     customClass: {
                         confirmButton: 'btn btn-primary',
                         cancelButton: 'btn btn-outline-danger ml-1'
@@ -93,15 +105,16 @@
             }).on('click', '.status_update', function(e) {
                 e.preventDefault();
                 var $this = $(this),
-                    company_type_id = $this.data('company_type_id'),
+                    user_id = $this.data('user_id'),
+
                     status = $this.data('status'),
                     message = status == 1 ?
-                    "{{ __('company-type/message.swal_confirm_message_deactive') }}" :
-                    "{{ __('company-type/message.swal_confirm_message_active') }}";
+                    "Are you sure you want to deactivate Customer?" :
+                    "Are you sure you want to activate Customer?";
 
 
                 Swal.fire({
-                    title: "{{ __('company-type/message.swal_update_title_are_you_sure') }}",
+                    title: "Update Customer status",
                     text: message,
                     icon: 'warning',
                     showCancelButton: true,
@@ -114,6 +127,7 @@
                     buttonsStyling: false
                 }).then(function(result) {
                     if (result.value) {
+
                         $.ajaxSetup({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -121,10 +135,10 @@
                         });
                         $.ajax({
                             type: 'POST',
-                            url: "{{ route('change-company-type-status') }}",
+                            url: "{{ route('change-customer-status') }}",
                             dataType: 'json',
                             data: {
-                                company_type_id: company_type_id,
+                                user_id: user_id,
                                 status: status
                             },
                             success: function(data) {

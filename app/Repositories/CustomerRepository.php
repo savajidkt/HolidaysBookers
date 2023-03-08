@@ -94,7 +94,7 @@ class CustomerRepository
      */
     public function delete(Customer $customer): bool
     {
-        if ($customer->forceDelete()) {
+        if ($customer->user->forceDelete()) {
             return true;
         }
 
@@ -108,9 +108,9 @@ class CustomerRepository
      *
      * @return bool
      */
-    public function changeStatus(array $input, Customer $customer): bool
+    public function changeStatus(array $input, User $user): bool
     {
-        $customer->status = !$input['status'];
-        return $customer->save();
+        $user->status = !$input['status'];
+        return $user->save();
     }
 }

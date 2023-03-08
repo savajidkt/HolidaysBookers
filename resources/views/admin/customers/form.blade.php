@@ -122,7 +122,7 @@
             <label class="form-label" for="basic-addon-name">Telephone</label>
             <input type="text" id="basic-addon-telephone" name="telephone" class="form-control"
                 placeholder="Telephone" value="{{ isset($model->telephone) ? $model->telephone : old('telephone') }}"
-                aria-describedby="basic-addon-name" data-error="Telephone is required" />
+                aria-describedby="basic-addon-name" data-error="Telephone is required" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('telephone')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -135,7 +135,7 @@
             <input type="text" id="basic-addon-mobile_number" name="mobile_number" class="form-control"
                 placeholder="Mobile Number"
                 value="{{ isset($model->mobile_number) ? $model->mobile_number : old('mobile_number') }}"
-                aria-describedby="basic-addon-name" data-error="Mobile Number is required" />
+                aria-describedby="basic-addon-name" data-error="Mobile Number is required" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('mobile_number')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -148,8 +148,8 @@
             <label class="form-label" for="role">Status</label>
             <select name="status" class="form-control" id="status" data-error="Status is required">
                 <option value="">Select Status</option>
-                <option value="1" {{ $model->user->status == 1 ? 'selected' : '' }}> {{ __('core.active') }}</option>
-                <option value="0" {{ $model->user->status == 0 ? 'selected' : '' }}> {{ __('core.inactive') }}
+                <option value="1" {{ (isset($model->id) && $model->user->status == 1) ? 'selected' : '' }}> {{ __('core.active') }}</option>
+                <option value="0" {{ (isset($model->id) && $model->user->status == 0) ? 'selected' : '' }}> {{ __('core.inactive') }}
                 </option>
             </select>
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

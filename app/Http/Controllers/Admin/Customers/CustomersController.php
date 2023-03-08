@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Customers;
 
 use Exception;
+use App\Models\User;
 use App\Models\Country;
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -28,21 +29,32 @@ class CustomersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
+    {
         if ($request->ajax()) {
-            $data = Customer::select('*');
+            $data = User::with('customers')->where('user_type', User::CUSTOMER);
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->editColumn('company_type', function (Customer $customer) {
-                    return $customer->company_type;
-                })
-                ->editColumn('status', function (Customer $customer) {
-                    return $customer->status_name;
-                })
-                ->addColumn('action', function (Customer $customer) {
-                    return $customer->action;
-                })
-                ->rawColumns(['action', 'status'])->make(true);
+                ->addColumn('full_name', function (User $user) {
+                    return $user->fullName;
+                })->filterColumn('full_name', function ($query, $keyword) {
+                    $sql = "CONCAT(users.first_name,'-',users.last_name)  like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+                })->addColumn('email', function (User $user) {
+                    return $user->email;
+                })->filterColumn('email', function ($query, $keyword) {
+                    $sql = "email  like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+                })->addColumn('mobile_number', function (User $user) {
+                    return $user->customers->mobile_number;
+                })->filterColumn('mobile_number', function ($query, $keyword) {
+                    $query->whereHas('customers', function ($query) use ($keyword) {
+                        $query->where('mobile_number', 'LIKE', '%' . $keyword . '%');
+                    });
+                })->editColumn('status', function (User $user) {
+                    return $user->status_name;
+                })->addColumn('action', function ($row) {
+                    return $row->customers->action;
+                })->rawColumns(['action', 'status'])->make(true);
         }
 
         return view('admin.customers.index');
@@ -68,7 +80,7 @@ class CustomersController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        
+
         $this->customerRepository->create($request->all());
         return redirect()->route('customers.index')->with('success', 'Customer created successfully!');
     }
@@ -79,9 +91,10 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, Customer $customer)
     {
-        //
+        $countries    =  Country::where('status', Country::ACTIVE)->get();
+        return view('admin.customers.view', ['model' => $customer, 'countries' => $countries]);
     }
 
     /**
@@ -94,7 +107,7 @@ class CustomersController extends Controller
     public function edit(Customer $customer)
     {
         $countries    =  Country::where('status', Country::ACTIVE)->get();
-        return view('admin.customers.edit', ['model' => $customer,'countries' => $countries]);
+        return view('admin.customers.edit', ['model' => $customer, 'countries' => $countries]);
     }
 
     /**
@@ -134,9 +147,9 @@ class CustomersController extends Controller
     public function changeStatus(Request $request): JsonResponse
     {
         $input = $request->all();
-        $customer  = Customer::find($input['company_type_id']);
+        $user  = User::find($input['user_id']);
         // dd($user);
-        if ($this->customerRepository->changeStatus($input, $customer)) {
+        if ($this->customerRepository->changeStatus($input, $user)) {
             return response()->json([
                 'status' => true,
                 'message' => 'Customer status updated successfully!'
