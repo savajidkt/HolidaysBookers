@@ -134,7 +134,12 @@ class AgentsImport implements ToCollection, WithStartRow
     {
         $newArr = array();
         foreach ($row as $key => $value) {
-            $newArr[$key] = $value;
+            if ($key == 6) {
+                $newArr[$key] = excelDateConvert($value);
+            } else {
+                $newArr[$key] = $value;
+            }
+            //$newArr[$key] = $value;
         }
         return $newArr;
     }

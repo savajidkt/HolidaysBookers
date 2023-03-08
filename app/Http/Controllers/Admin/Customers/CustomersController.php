@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Admin\Customers;
 
-use App\Exports\ExportCustomers;
 use Exception;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportCustomers;
+use App\Imports\CustomersImport;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportFailedCustomers;
 use App\Repositories\CustomerRepository;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Customer\EditRequest;
@@ -178,6 +180,43 @@ class CustomersController extends Controller
         $user  = $customer->user;
         $this->customerRepository->updatePassword($input, $user);
         return redirect()->route('customers.index')->with('success', "Customer password updated successfully!");
+    }
+
+
+    public function importCustomers(Request $request): JsonResponse
+    {
+
+        if (session()->has('skip_row')) {
+            session()->forget('skip_row');
+        }
+
+        Excel::import(new CustomersImport, $request->file);
+        
+        $html = false;
+        if (session()->has('skip_row')) {
+            $details = session()->get('skip_row');
+            $skipLink = "";
+
+            if (is_array($details['download_skip_data']) && count($details['download_skip_data']) > 0) {
+                $datefile = date('d_m_Y_H_i_s');
+                $filename = $datefile . '.xlsx';
+                Excel::store(new ExportFailedCustomers($details['download_skip_data']), $filename);
+                $skipLinks = storage_path($filename);
+                $skipLink = "<li><b>Skip Customers Download : </b><a target='_blank' href='" . url('/storage/app') . '/' . $filename . "'>Download</a></li>";
+            }
+            $html = '<ul>
+                    <li><b>Skip Customers : </b> ' . count($details['skip']) . '</li>
+                    <li><b>Imported Customers : </b> ' . $details['sucess'] . '</li>
+                    <li><b>Total Customers : </b> ' . $details['total'] . '</li>                   
+                    ' . $skipLink . '
+                </ul>';
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Customers import Successfully.',
+            'html' => $html,
+        ]);
     }
 
 

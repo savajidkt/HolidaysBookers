@@ -123,6 +123,7 @@
                                     @csrf
                                     <div class="dz-message">{{ __('core.drop_files') }}</div>
                                 </form>
+                                <div class="emptyDropzone help-block-error hide">Upload Customers Excel File</div>
                             </div>
                         </div>
                     </div>
@@ -131,7 +132,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="import-customers"
-                    class="btn btn-primary">{{ __('core.import') }}</button>
+                    class="btn btn-primary waves-effect waves-float waves-light"><span
+                        class="spinner-border spinner-border-sm buttonLoader hide" role="status"
+                        aria-hidden="true"></span><span
+                        class="ml-25 align-middle">{{ __('core.import') }}</span></button>
             </div>
         </div>
     </div>
@@ -142,8 +146,9 @@
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script src="{{ asset('js/form/Customer.js') }}"></script>
     <script type="text/javascript">
+    
         var moduleConfig = {
-            fileUrl: "{!! asset('sample-file/Customers-Sample.xlsx') !!}"            
+            fileUrl: "{!! asset('sample-file/Customers-Sample.xlsx') !!}"
         };
 
         var table = "";
@@ -171,12 +176,17 @@
                 })
             }
         });
-        $('#import-customers').click(function() {
-            myDropzone.processQueue();
+        $('#import-customers').click(function() {   
+            $("#CustomerImports .emptyDropzone").addClass('hide');        
+            if (myDropzone.getQueuedFiles().length > 0) {
+                $("#CustomerImports .spinner-border").removeClass('hide');
+                myDropzone.processQueue();
+            }
+            $("#CustomerImports .emptyDropzone").removeClass('hide');
+            
         });
-
         $(function() {
-            var table = $('.user-list-table').DataTable({
+            table = $('.user-list-table').DataTable({
                 processing: true,
                 serverSide: true,
                 searching: true,
