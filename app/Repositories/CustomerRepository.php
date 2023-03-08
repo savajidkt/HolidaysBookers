@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Exception;
 use App\Models\User;
 use App\Models\Customer;
+use App\Exceptions\GeneralException;
 use Illuminate\Support\Facades\Hash;
 
 class CustomerRepository
@@ -112,5 +113,26 @@ class CustomerRepository
     {
         $user->status = !$input['status'];
         return $user->save();
+    }
+
+    /**
+     * Method updatePassword
+     *
+     * @param array $input [explicite description]
+     * @param User $user [explicite description]
+     *
+     * @return void
+     */
+    public function updatePassword(array $input, User $user)
+    {
+        $UserArr = [
+            'password'    => Hash::make($input['password'])
+        ];
+        
+        if ($user->update($UserArr)) {
+            return true;
+        }
+
+        throw new GeneralException('Change password failed.');
     }
 }

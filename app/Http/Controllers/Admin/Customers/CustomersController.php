@@ -14,6 +14,7 @@ use App\Repositories\CustomerRepository;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Customer\EditRequest;
 use App\Http\Requests\Customer\CreateRequest;
+use App\Http\Requests\Customer\UpdatePasswordRequest;
 
 class CustomersController extends Controller
 {
@@ -157,5 +158,23 @@ class CustomersController extends Controller
         }
 
         throw new Exception('Customer status does not change. Please check sometime later.');
+    }
+
+
+        /**
+     * Method updatePassword
+     *
+     * @param UpdatePasswordRequest $request [explicite description]
+     * @param Customer $customer [explicite description]
+     *
+     * @return void
+     */
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $input = $request->all();
+        $customer  = Customer::find($input['modal_user_id']);
+        $user  = $customer->user;
+        $this->customerRepository->updatePassword($input, $user);
+        return redirect()->route('customers.index')->with('success', "Customer password updated successfully!");
     }
 }

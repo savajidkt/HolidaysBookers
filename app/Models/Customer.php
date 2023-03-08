@@ -37,7 +37,8 @@ class Customer extends Model
     {        
         $viewAction =  '<a href="' . route('view-profile-customer', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';        
         $editAction = '<a href="' . route('customers.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';                
-        return $editAction . ' ' . $viewAction . ' ' . $this->getDeleteButtonAttribute();
+        $PasswordAction = '<a href="javascript:void(0);" class="currntBTN btn btn-info btn-sm" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="Change Password"><i class="fa fa-key" aria-hidden="true"></i></a>';
+        return $editAction . ' ' . $viewAction.' '.$PasswordAction. ' ' . $this->getDeleteButtonAttribute();
     }
 
     /**

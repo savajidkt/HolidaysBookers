@@ -165,12 +165,50 @@ var FrmCustomerPreference = function () {
         });
     }
 
+    var changePasswordFormValidation = function () {
+        var FrmChangePasswordPreferenceForm = $('#changePassword');
+        var error4 = $('.error-message', FrmChangePasswordPreferenceForm);
+        var success4 = $('.error-message', FrmChangePasswordPreferenceForm);
+
+        FrmChangePasswordPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                password: {
+                    required: true,
+                    minlength: 6,
+                },
+                confirm_password: {
+                    equalTo: "#password"
+                },
+            },
+            messages: {
+                password: {
+                    required: $("input[name=password]").attr('data-error') + ' is required'
+                },
+                confirm_password: {
+                    required: $("input[name=confirm_password]").attr('data-error') + ' is required'
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $(".buttonLoader").removeClass('hide');
+                form.submit();
+            }
+        });
+    }
+
     return {
         //main function to initiate the module
         init: function () {
             CustomerFormValidation();
             getStateList();
             getCityList();
+            changePasswordFormValidation();
 
         }
     };
@@ -178,4 +216,8 @@ var FrmCustomerPreference = function () {
 
 $(document).ready(function () {
     FrmCustomerPreference.init();
+    $(document).on('click', '.currntBTN', function () {
+        $('#changePassword #modal_user_id').val($(this).data('user_id'));
+        $('#ResetPasswordModal').modal('show');
+    });
 });
