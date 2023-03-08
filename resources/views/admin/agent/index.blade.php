@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('page_title','Packages Management')
+@section('page_title', __('agent/agent.title'))
 @section('content')
     <!-- users list start -->
     <section class="app-user-list">
@@ -9,19 +9,19 @@
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
 
                 <div class="col-md-6">
-                    <h4 class="card-title">Packages Management</h4>
+                    <h4 class="card-title">{{ __('agent/agent.title') }}</h4>
                 </div>
                 <div class="col-md-6 text-right">
-                    <button type="button" class="btn btn-outline-primary waves-effect" id="DownloadPackage">
-                    Download Sample
+                    <button type="button" class="btn btn-outline-primary waves-effect" id="DownloadAgent">
+                        {{ __('core.download_sample') }}
                     </button>
                     
-                    <a href="{{ route('packagesExport') }}" class="btn btn-outline-primary waves-effect">
+                    <a href="{{ route('agentExport') }}" class="btn btn-outline-primary waves-effect">
                         Export Excel
                     </a>
                     <button type="button" class="btn btn-outline-primary waves-effect" data-toggle="modal"
-                        data-target="#ImportPackages" data-backdrop="false">
-                        Import Excel
+                        data-target="#ImportAgentss" data-backdrop="false">
+                        {{ __('core.import_excel') }}
                     </button>
                     <a href="{{ route('agents.create') }}"><button type="reset"
                             class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ __('agent/agent.add_new') }}</button></a>
@@ -32,7 +32,7 @@
                     <thead class="thead-light">
                         <tr>
                             <th></th>
-                            <th>ID</th>
+                            <th>{{ __('core.id') }}</th>
                             <th>{{ __('agent/agent.code') }}</th>
                             <th>{{ __('agent/agent.company') }}</th>
                             <th>{{ __('agent/agent.contact_person') }}</th>
@@ -91,11 +91,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-
-                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light"><span
-                                    class="spinner-border spinner-border-sm buttonLoader hide" role="status"
-                                    aria-hidden="true"></span><span
-                                    class="ml-25 align-middle">{{ __('core.submit') }}</span></button>
+                                <button type="submit"
+                                    class="btn btn-primary waves-effect waves-float waves-light">{{ __('core.submit') }}</button>
                             </div>
                         </form>
                     </div>
@@ -196,12 +193,7 @@
                 <!-- single file upload ends -->
             </div>
             <div class="modal-footer">
-                <button type="button" id="import-agents" class="btn btn-primary waves-effect waves-float waves-light"><span
-                    class="spinner-border spinner-border-sm buttonLoader hide" role="status"
-                    aria-hidden="true"></span><span
-                    class="ml-25 align-middle">{{ __('core.import') }}</span></button>
-
-                {{-- <button type="button" id="import-agents" class="btn btn-primary">{{ __('core.import') }}</button> --}}
+                <button type="button" id="import-agents" class="btn btn-primary">{{ __('core.import') }}</button>
             </div>
         </div>
     </div>
