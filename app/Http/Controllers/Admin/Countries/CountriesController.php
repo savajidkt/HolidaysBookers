@@ -15,6 +15,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Country\EditRequest;
 use App\Http\Requests\Country\CreateRequest;
 use App\Http\Requests\Country\ImportRequest;
+use App\Models\City;
 
 class CountriesController extends Controller
 {
@@ -66,7 +67,8 @@ class CountriesController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
-    {   permissionCheck('location-create');
+    {      
+        permissionCheck('location-create');
         $rawData    = new Country;
         return view('admin.countries.create', ['model' => $rawData]);
     }

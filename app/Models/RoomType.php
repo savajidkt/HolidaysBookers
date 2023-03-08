@@ -31,7 +31,7 @@ class RoomType extends Model
     public function getActionAttribute(): string
     {
         $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">' . __('core.view') . '</a>';
-        $editAction = '<a href="' . route('roomtypes.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
+        $editAction = '<a href="' . route('roomtypes.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a> ';
 
 
         $action = $editAction . $this->getDeleteButtonAttribute();
@@ -46,7 +46,7 @@ class RoomType extends Model
      */
     public function getDeleteButtonAttribute($class = '')
     {
-        return '<a href="' . route('roomtypes.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="' . __('core.delete') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
+        return '<a href="' . route('roomtypes.destroy', $this) . '" class="delete_action btn btn-danger btn-sm" data-method="delete" data-toggle="tooltip" data-original-title="' . __('core.delete') . '" data-animation="false"><i class="fa fa-trash" aria-hidden="true"></i></a>';
     }
 
 

@@ -25,33 +25,7 @@ class WalletTransaction extends Model
         'type',
         'comment',
         'balance',
-    ];
-
-    /**
-     * Method getActionAttribute
-     *
-     * @return string
-     */
-    public function getActionAttribute(): string
-    {
-        $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">' . __('core.view') . '</a>';
-        $editAction = '<a href="' . route('apis.edit', $this->id) . '" class="edit" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-edit-64.png") . '" width="20"></a>';
-
-
-        $action = $editAction . $this->getDeleteButtonAttribute();
-        return $action;
-    }
-
-    /**
-     * Get Delete Button Attribute
-     *
-     * @param string $class
-     * @return string
-     */
-    public function getDeleteButtonAttribute($class = '')
-    {
-        return '<a href="' . route('apis.destroy', $this) . '" class="delete_action" data-method="delete" data-toggle="tooltip" data-original-title="' . __('core.delete') . '" data-animation="false"><img src="' . asset("app-assets/images/icons/icons8-remove-48.png") . '" width="30"></a>';
-    }
+    ];  
 
 
     /**
