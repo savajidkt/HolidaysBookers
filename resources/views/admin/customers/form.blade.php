@@ -49,7 +49,7 @@
                 data-error="Country is required">
                 <option value="">Select Country</option>
                 @foreach ($countries as $country)
-                    <option value="{{ $country->id }}" {{ $model->country == $country->id ? 'selected' : '' }}>
+                    <option value="{{ $country->id }}" {{ (isset($model->id) && $model->country == $country->id) ? 'selected' : ''}}>
                         {{ $country->name }}</option>
                 @endforeach
             </select>
@@ -68,7 +68,7 @@
                 @php $states = getCountryStates($model->country);  @endphp
                 @if ($states->count() > 0)
                     @foreach ($states as $state)
-                        <option value="{{ $state->id }}" {{ $model->state == $state->id ? 'selected' : '' }}>
+                        <option value="{{ $state->id }}" {{ (isset($model->id) && $model->state == $state->id) ? 'selected' : ''}}>
                             {{ $state->name }}</option>
                     @endforeach
                 @endif
@@ -91,7 +91,7 @@
                 @php $cities = getStateCities($model->state);  @endphp
                 @if ($cities->count() > 0)
                     @foreach ($cities as $city)
-                        <option value="{{ $city->id }}" {{ $model->city == $city->id ? 'selected' : '' }}>
+                        <option value="{{ $city->id }}" {{ (isset($model->id) && $model->city == $city->id) ? 'selected' : ''}}>
                             {{ $city->name }}</option>
                     @endforeach
                 @endif

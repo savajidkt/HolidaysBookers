@@ -84,15 +84,15 @@ class Customer extends Authenticatable
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function country()
+    public function countryname()
     {
         return $this->belongsTo(Country::class, 'country', 'id');
     }
-    public function state()
+    public function statename()
     {
         return $this->belongsTo(State::class, 'state', 'id');
     }
-    public function city()
+    public function cityname()
     {
         return $this->belongsTo(City::class, 'city', 'id');
     }

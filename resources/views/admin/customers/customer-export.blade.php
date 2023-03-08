@@ -20,9 +20,9 @@
                 <td>{{ $customer->user->first_name }}</td>
                 <td>{{ $customer->user->last_name }}</td>                
                 <td>{{ $customer->dob }}</td>                
-                <td>{{ $customer->country->name }}</td>
-                <td>{{ $customer->state->name }}</td>
-                <td>{{ $customer->city->name }}</td>
+                <td>{{ $customer->countryname->name }}</td>
+                <td>{{ $customer->statename->name }}</td>
+                <td>{{ $customer->cityname->name }}</td>
                 <td>{{ $customer->zipcode }}</td>
                 <td>{{ $customer->telephone }}</td>
                 <td>{{ $customer->mobile_number }}</td>
