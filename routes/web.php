@@ -82,6 +82,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/customer/change-status', [CustomersController::class, 'changeStatus'])->name('change-customer-status');
     Route::get('/customer/view/{customer}/customer', [CustomersController::class, 'show'])->name('view-profile-customer'); 
     Route::post('/customer/update-password', [CustomersController::class, 'updatePassword'])->name('update-customer-password');
+    Route::post('/customer/import-customers', [CustomersController::class, 'importCustomers'])->name('importsCustomers');
+    Route::get('/customer/export',[CustomersController::class, 'customerExcelExport'])->name('customerExport');   
 
 
     Route::resource('/hotelgroups', HotelGroupsController::class);

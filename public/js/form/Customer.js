@@ -10,7 +10,7 @@ var FrmCustomerPreference = function () {
             focusInvalid: false,
             ignore: "",
             rules: {
-              
+
                 first_name: { required: true },
                 last_name: { required: true },
                 dob: { required: true },
@@ -20,7 +20,7 @@ var FrmCustomerPreference = function () {
                 zipcode: { required: true },
                 mobile_number: { required: true },
                 email_address: { required: true, email: true },
-                status: { required: true },                
+                status: { required: true },
                 password: {
                     required: function () {
                         if ($('.editPage').val() == 'no') {
@@ -44,7 +44,7 @@ var FrmCustomerPreference = function () {
 
             },
             messages: {
-               
+
                 first_name: {
                     required: $("select[name=first_name]").attr('data-error')
                 },
@@ -220,4 +220,15 @@ $(document).ready(function () {
         $('#changePassword #modal_user_id').val($(this).data('user_id'));
         $('#ResetPasswordModal').modal('show');
     });
+
+    $(document).on('click', '#DownloadCustomer', function () {
+        var link = moduleConfig.fileUrl;
+        var element = document.createElement('a');
+        element.setAttribute('href', link);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    });
+
 });

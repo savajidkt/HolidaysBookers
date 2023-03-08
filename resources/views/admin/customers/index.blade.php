@@ -7,10 +7,26 @@
         <!-- list section start -->
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                <h4 class="card-title">Customers</h4>
-                <a href="{{ route('customers.create') }}"><button type="reset"
-                        class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New</button></a>
+
+                <div class="col-md-6">
+                    <h4 class="card-title">Customers</h4>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button type="button" class="btn btn-outline-primary waves-effect" id="DownloadCustomer">
+                        {{ __('core.download_sample') }}
+                    </button>
+                    <a href="{{ route('customerExport') }}" class="btn btn-outline-primary waves-effect">
+                        Export Excel
+                    </a>
+                    <button type="button" class="btn btn-outline-primary waves-effect" data-toggle="modal"
+                        data-target="#CustomerImports" data-backdrop="false">
+                        {{ __('core.import_excel') }}
+                    </button>
+                    <a href="{{ route('customers.create') }}"><button type="reset"
+                            class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New</button></a>
+                </div>
             </div>
+
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">
                     <thead class="thead-light">
@@ -71,10 +87,11 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light"><span
-                                    class="spinner-border spinner-border-sm buttonLoader hide" role="status"
-                                    aria-hidden="true"></span><span
-                                    class="ml-25 align-middle">{{ __('core.submit') }}</span></button>                                
+                                <button type="submit"
+                                    class="btn btn-primary waves-effect waves-float waves-light"><span
+                                        class="spinner-border spinner-border-sm buttonLoader hide" role="status"
+                                        aria-hidden="true"></span><span
+                                        class="ml-25 align-middle">{{ __('core.submit') }}</span></button>
                             </div>
                         </form>
                     </div>
@@ -85,11 +102,79 @@
     </div>
 </div>
 
+<div class="modal fade text-left" id="CustomerImports" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel33">Import Customers Excel</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- single file upload starts -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="{{ route('importsCustomers') }}" class="dropzone dropzone-area"
+                                    id="dpz-single-file" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="dz-message">{{ __('core.drop_files') }}</div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- single file upload ends -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="import-customers"
+                    class="btn btn-primary">{{ __('core.import') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section('extra-script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script src="{{ asset('js/form/Customer.js') }}"></script>
     <script type="text/javascript">
+        var moduleConfig = {
+            fileUrl: "{!! asset('sample-file/Customers-Sample.xlsx') !!}"            
+        };
+
+        var table = "";
+        Dropzone.autoDiscover = false;
+        var myDropzone = new Dropzone(".dropzone", {
+            autoProcessQueue: false,
+            maxFilesize: 1,
+            acceptedFiles: 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            success: function(file, response) {
+                table.ajax.reload();
+                $('#CustomerImports').modal('hide');
+                myDropzone.destroy();
+                Swal.fire({
+                    title: 'Excel import success!',
+                    text: response.message,
+                    html: response.html,
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'btn btn-primary',
+                        cancelButton: 'btn btn-outline-danger ml-1'
+                    },
+                    buttonsStyling: false
+                })
+            }
+        });
+        $('#import-customers').click(function() {
+            myDropzone.processQueue();
+        });
+
         $(function() {
             var table = $('.user-list-table').DataTable({
                 processing: true,

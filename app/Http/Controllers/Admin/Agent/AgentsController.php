@@ -276,7 +276,12 @@ class AgentsController extends Controller
         ]);
     }
     
-    
+        
+    /**
+     * Method agentExcelExport
+     *
+     * @return void
+     */
     public function agentExcelExport()
     {              
        // $id= $user->id;

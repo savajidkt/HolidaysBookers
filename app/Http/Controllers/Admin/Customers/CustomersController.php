@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Customers;
 
+use App\Exports\ExportCustomers;
 use Exception;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -161,7 +163,7 @@ class CustomersController extends Controller
     }
 
 
-        /**
+    /**
      * Method updatePassword
      *
      * @param UpdatePasswordRequest $request [explicite description]
@@ -176,5 +178,17 @@ class CustomersController extends Controller
         $user  = $customer->user;
         $this->customerRepository->updatePassword($input, $user);
         return redirect()->route('customers.index')->with('success', "Customer password updated successfully!");
+    }
+
+
+    /**
+     * Method customerExcelExport
+     *
+     * @return void
+     */
+    public function customerExcelExport()
+    {
+        $customers    = Customer::all();
+        return Excel::download(new ExportCustomers($customers), 'customer-export.xlsx');
     }
 }

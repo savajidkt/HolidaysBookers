@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, SoftDeletes, Notifiable;
     const ACTIVE = 1;
     const INACTIVE = 0;
 
@@ -76,5 +82,18 @@ class Customer extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country', 'id');
+    }
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state', 'id');
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city', 'id');
     }
 }
