@@ -1,0 +1,266 @@
+<?php
+
+namespace App\Http\Controllers\Admin\OfflineHotels;
+
+use Exception;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\OfflineHotel;
+use App\Models\Reach;
+use App\Models\Country;
+use App\Models\CompanyType;
+use Illuminate\Http\Request;
+use App\Exports\ExportAgents;
+use App\Imports\OfflineHotelsImport;
+use Yajra\DataTables\DataTables;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use App\Exports\ExportFailedAgents;
+use Illuminate\Support\Facades\App;
+use App\Exceptions\GeneralException;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Repositories\OfflineHotelRepository;
+use Illuminate\Support\Facades\Session;
+use App\Http\Requests\Agent\EditRequest;
+use App\Http\Requests\Agent\CreateRequest;
+use App\Http\Requests\Agent\UpdatePasswordRequest;
+
+class OfflineHotelsController extends Controller
+{
+    /** \App\Repository\OfflineHotelRepository $offlineHotelRepository */
+    protected $offlineHotelRepository;
+    public function __construct(OfflineHotelRepository $offlineHotelRepository)
+    {
+        $this->offlineHotelRepository       = $offlineHotelRepository;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+
+        if ($request->ajax()) {
+
+            $data = OfflineHotel::all();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('hotel_name', function (OfflineHotel $hotel) {
+                    return $hotel->hotel_name;
+                })->addColumn('category', function (OfflineHotel $hotel) {
+                    return $hotel->category;
+                })->addColumn('city', function (OfflineHotel $hotel) {
+                    return $hotel->city->name;
+                })->editColumn('state', function (OfflineHotel $hotel) {
+                    return $hotel->state->name;
+                })->addColumn('country', function (OfflineHotel $hotel) {
+                    return $hotel->country->name;
+                })->addColumn('phone_number', function (OfflineHotel $hotel) {
+                    return $hotel->phone_number;
+                })->addColumn('hotel_email', function(OfflineHotel $hotel){
+                    return $hotel->hotel_email;
+                })->addColumn('hotel_review', function (OfflineHotel $hotel) {
+                    return $hotel->hotel_review;
+                })->editColumn('status', function (OfflineHotel $hotel) {
+                    return $hotel->status_name;
+                })->addColumn('action', function ($row) {
+                    return $row->action;
+                })->rawColumns(['action', 'status'])->make(true);
+        }
+
+           
+        return view('admin.offline-hotels.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function create()
+    {
+        //
+        $rawData    = new User;
+        $companyType    = CompanyType::where('status', CompanyType::ACTIVE)->get();
+        $countries    =  Country::where('status', Country::ACTIVE)->get();
+        $reach    =  Reach::where('status', Reach::ACTIVE)->get();
+
+        return view('admin.offline-hotels.create', ['model' => $rawData, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
+    public function store(CreateRequest $request)
+    {
+        $this->agentRepository->create($request->all());
+        return redirect()->route('offlinehotels.index')->with('success', "User created successfully!");
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\Models\Agent $agent [explicite description]
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function edit(Agent $agent)
+    {
+        $companyType    = CompanyType::where('status', CompanyType::ACTIVE)->get();
+        $countries    =  Country::where('status', Country::ACTIVE)->get();
+        $reach    =  Reach::where('status', Reach::ACTIVE)->get();
+
+        return view('admin.offline-hotels.edit', ['model' => $agent, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
+    }
+
+    /**
+     * Method update
+     *
+     * @param \App\Http\Requests\Agent\EditRequest $request
+     * @param \App\Models\Agent $agent
+     *
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     */
+    public function update(EditRequest $request, Agent $agent)
+    {
+        $this->agentRepository->update($request->all(), $agent);
+
+        return redirect()->route('offlinehotels.index')->with('success', "Agent updated successfully!");
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Agent $agent)
+    {
+        $this->agentRepository->delete($agent);
+        return redirect()->route('offlinehotels.index')->with('success', "Agent deleted successfully!");
+    }
+
+    /**
+     * Method changeStatus
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function changeStatus(Request $request): JsonResponse
+    {
+        $input = $request->all();
+        $user  = User::find($input['user_id']);
+        if ($this->agentRepository->changeStatus($input, $user)) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Agent status updated successfully.'
+            ]);
+        }
+
+        throw new GeneralException('Agent status does not change. Please check sometime later.');
+    }
+
+    function invoice_num($input, $pad_len = 7, $prefix = null)
+    {
+        if ($pad_len <= strlen($input))
+            trigger_error('<strong>$pad_len</strong> cannot be less than or equal to the length of <strong>$input</strong> to generate invoice number', E_USER_ERROR);
+
+        if (is_string($prefix))
+            return sprintf("%s%s", $prefix, str_pad($input, $pad_len, "0", STR_PAD_LEFT));
+
+        return str_pad($input, $pad_len, "0", STR_PAD_LEFT);
+    }
+
+    /**
+     * Method updatePassword
+     *
+     * @param UpdatePasswordRequest $request [explicite description]
+     * @param Agent $agent [explicite description]
+     *
+     * @return void
+     */
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $input = $request->all();
+        $agent  = Agent::find($input['modal_user_id']);
+        $user  = $agent->user;
+        $this->agentRepository->updatePassword($input, $user);
+        return redirect()->route('offlinehotels.index')->with('success', "Agent password updated successfully!");
+    }
+
+    /**
+     * Method importOfflineHotels
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function importOfflineHotels(Request $request): JsonResponse
+    {
+
+        if (session()->has('skip_row')) {
+            session()->forget('skip_row');
+        }
+
+        Excel::import(new OfflineHotelsImport, $request->file);
+
+
+        $html = false;
+        if (session()->has('skip_row')) {
+            $details = session()->get('skip_row');
+            $skipLink = "";
+
+            if (is_array($details['download_skip_data']) && count($details['download_skip_data']) > 0) {
+                $datefile = date('d_m_Y_H_i_s');
+                $filename = $datefile . '.xlsx';
+                Excel::store(new ExportFailedAgents($details['download_skip_data']), $filename);
+                $skipLinks = storage_path($filename);
+                $skipLink = "<li><b>Skip Agents Download : </b><a target='_blank' href='" . url('/storage/app') . '/' . $filename . "'>Download</a></li>";
+            }
+            $html = '<ul>
+                    <li><b>Skip Agents : </b> '.count($details['skip']).'</li>
+                    <li><b>Imported Agents : </b>'.$details['sucess']. '</li>
+                    <li><b>Total Agents : </b>'.$details['total'].'</li>
+                    ' . $skipLink . '
+                </ul>';
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Agents import Successfully.',
+            'html' => $html,
+        ]);
+    }
+    
+        
+    /**
+     * Method agentExcelExport
+     *
+     * @return void
+     */
+    public function agentExcelExport()
+    {              
+       // $id= $user->id;
+       $agents    = Agent::all();               
+        return Excel::download(new ExportAgents($agents), 'agent-export.xlsx');
+    }
+}

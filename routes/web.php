@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\AgentMarkups\AgentMarkupsController;
 use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
 use App\Http\Controllers\Admin\Customers\CustomersController;
+use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
 use App\Http\Controllers\Admin\Packages\PackagesController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
@@ -84,6 +85,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/customer/update-password', [CustomersController::class, 'updatePassword'])->name('update-customer-password');
     Route::post('/customer/import-customers', [CustomersController::class, 'importCustomers'])->name('importsCustomers');
     Route::get('/customer/export',[CustomersController::class, 'customerExcelExport'])->name('customerExport');   
+
+    // Hotels Route
+    Route::resource('/offlinehotels', OfflineHotelsController::class);
+    Route::post('/offlinehotels/change-status', [OfflineHotelsController::class, 'changeStatus'])->name('change-offlinehotels-status');
+    Route::post('/offlinehotels/import-offilnehotels', [OfflineHotelsController::class, 'importOfflineHotels'])->name('import-offline-hotels');
+    Route::get('/offlinehotels/export',[OfflineHotelsController::class, 'offlineHotelsExport'])->name('offline-hotels-export'); 
 
 
     Route::resource('/hotelgroups', HotelGroupsController::class);
