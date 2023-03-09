@@ -12,9 +12,17 @@ $(function () {
   'use strict';
 
   // form repeater jquery
-  $('.invoice-repeater, .repeater-default').repeater({
+  $('.room-repeater, .repeater-default').repeater({
     show: function () {
       $(this).slideDown();
+
+      $('.repeaterCLS .select2-container').remove();
+      $('.select2-room-types, .select2-room-amenities').select2({
+        placeholder: "Select",
+        allowClear: true
+      });
+      $('.repeaterCLS  .select2-container').css('width', '100%');
+
       // Feather Icons
       if (feather) {
         feather.replace({ width: 14, height: 14 });

@@ -14,8 +14,10 @@ use App\Http\Controllers\Admin\States\StatesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Reachus\ReachusController;
+use App\Http\Controllers\Admin\Packages\PackagesController;
 use App\Http\Controllers\Admin\Amenities\AmenitiesController;
 use App\Http\Controllers\Admin\Countries\CountriesController;
+use App\Http\Controllers\Admin\Customers\CustomersController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\RoomTypes\RoomTypesController;
 use App\Http\Controllers\Admin\Language\LocalizationController;
@@ -24,10 +26,9 @@ use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
 use App\Http\Controllers\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\AgentMarkups\AgentMarkupsController;
 use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
-use App\Http\Controllers\Admin\Customers\CustomersController;
-use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
-use App\Http\Controllers\Admin\Packages\PackagesController;
+use App\Http\Controllers\Admin\OfflineRooms\OfflineRoomsController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
+use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
 use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
 use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
@@ -143,6 +144,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/wallettransaction/{agent}/agent', [WalletTransactionsController::class, 'index'])->name('list-hb-credit');    
     Route::get('/wallettransaction/view/{agent}/agent', [WalletTransactionsController::class, 'show'])->name('view-profile'); 
        
+    Route::resource('/offlinerooms', OfflineRoomsController::class);
+    Route::post('/offlineroom/change-status', [OfflineRoomsController::class, 'changeStatus'])->name('change-offline-room-status');
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');

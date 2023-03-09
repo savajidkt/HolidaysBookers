@@ -77,7 +77,11 @@
                     <span class="menu-title text-truncate" data-i18n="Coporate Management">Coporate Management</span>
                 </a>
             </li>
-            @if($admin->can('admin-staff-create') || $admin->can('admin-staff-edit') || $admin->can('admin-staff-delete') || $admin->can('admin-staff-view'))
+            @if (
+                $admin->can('admin-staff-create') ||
+                    $admin->can('admin-staff-edit') ||
+                    $admin->can('admin-staff-delete') ||
+                    $admin->can('admin-staff-view'))
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="{{ url('admin/admins') }}">
                         <i data-feather="file-text"></i><span class="menu-title text-truncate"
@@ -94,79 +98,123 @@
                     <i data-feather='home'></i><span class="menu-title text-truncate"
                         data-i18n="{{ __('core.dropdown_manu_header_title_hotels') }}">{{ __('core.dropdown_manu_header_title_hotels') }}</span></a>
                 <ul class="menu-content">
-                    @if($admin->can('offline-hotels-create') || $admin->can('offline-hotels-edit') || $admin->can('offline-hotels-delete') || $admin->can('offline-hotels-view'))
-                    <li><a class="d-flex align-items-center" href="{{ url('admin/offlinehotels') }}">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate"
-                                data-i18n="Offline">Offline</span>
-                        </a>
-                    </li>
+                    @if (
+                        $admin->can('offline-hotels-create') ||
+                            $admin->can('offline-hotels-edit') ||
+                            $admin->can('offline-hotels-delete') ||
+                            $admin->can('offline-hotels-view'))
+                        <li><a class="d-flex align-items-center" href="{{ url('admin/offlinehotels') }}">
+                                <i data-feather="circle"></i><span class="menu-item text-truncate"
+                                    data-i18n="Offline">Offline</span>
+                            </a>
+                        </li>
                     @endif
-                    @if($admin->can('api-hotels-create') || $admin->can('api-hotels-edit') || $admin->can('api-hotels-delete') || $admin->can('api-hotels-view'))
-                    <li><a class="d-flex align-items-center" href="{{ url('admin/apihotels') }}">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate"
-                                data-i18n="API Hotels">API Hotels</span>
-                        </a>
-                    </li>
+                    @if (
+                        $admin->can('api-hotels-create') ||
+                            $admin->can('api-hotels-edit') ||
+                            $admin->can('api-hotels-delete') ||
+                            $admin->can('api-hotels-view'))
+                        <li><a class="d-flex align-items-center" href="{{ url('admin/apihotels') }}">
+                                <i data-feather="circle"></i><span class="menu-item text-truncate"
+                                    data-i18n="API Hotels">API Hotels</span>
+                            </a>
+                        </li>
                     @endif
-                    @if($admin->can('hotel-groups-create') || $admin->can('hotel-groups-edit') || $admin->can('hotel-groups-delete') || $admin->can('hotel-groups-view'))
-                    <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/hotelgroups') }}">
-                            <i data-feather='circle'></i>
-                            <span class="menu-title text-truncate"
-                                data-i18n="{{ __('hotel-group/hotel-group.menu') }}">{{ __('hotel-group/hotel-group.menu') }}</span>
-                        </a>
-                    </li>
+                    @if (
+                        $admin->can('hotel-groups-create') ||
+                            $admin->can('hotel-groups-edit') ||
+                            $admin->can('hotel-groups-delete') ||
+                            $admin->can('hotel-groups-view'))
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/hotelgroups') }}">
+                                <i data-feather='circle'></i>
+                                <span class="menu-title text-truncate"
+                                    data-i18n="{{ __('hotel-group/hotel-group.menu') }}">{{ __('hotel-group/hotel-group.menu') }}</span>
+                            </a>
+                        </li>
                     @endif
-                    @if($admin->can('property-types-create') || $admin->can('property-types-edit') || $admin->can('property-types-delete') || $admin->can('property-types-view'))
-                    <li><a class="d-flex align-items-center" href="{{ url('admin/propertytypes') }}">
-                            <i data-feather='circle'></i>
-                            <span class="menu-title text-truncate"
-                                data-i18n="{{ __('propertytype/propertytype.menu') }}">{{ __('propertytype/propertytype.menu') }}</span>
-                        </a>
-                    </li>
+                    @if (
+                        $admin->can('property-types-create') ||
+                            $admin->can('property-types-edit') ||
+                            $admin->can('property-types-delete') ||
+                            $admin->can('property-types-view'))
+                        <li><a class="d-flex align-items-center" href="{{ url('admin/propertytypes') }}">
+                                <i data-feather='circle'></i>
+                                <span class="menu-title text-truncate"
+                                    data-i18n="{{ __('propertytype/propertytype.menu') }}">{{ __('propertytype/propertytype.menu') }}</span>
+                            </a>
+                        </li>
                     @endif
-                    @if($admin->can('room-types-create') || $admin->can('room-types-edit') || $admin->can('room-types-delete') || $admin->can('room-types-view'))
-                    <li><a class="d-flex align-items-center" href="{{ url('admin/roomtypes') }}">
-                            <i data-feather='circle'></i>
-                            <span class="menu-title text-truncate"
-                                data-i18n="{{ __('roomtype/roomtype.menu') }}">{{ __('roomtype/roomtype.menu') }}</span>
-                        </a>
-                    </li>
+                    @if (
+                        $admin->can('room-types-create') ||
+                            $admin->can('room-types-edit') ||
+                            $admin->can('room-types-delete') ||
+                            $admin->can('room-types-view'))
+                        <li><a class="d-flex align-items-center" href="{{ url('admin/roomtypes') }}">
+                                <i data-feather='circle'></i>
+                                <span class="menu-title text-truncate"
+                                    data-i18n="{{ __('roomtype/roomtype.menu') }}">{{ __('roomtype/roomtype.menu') }}</span>
+                            </a>
+                        </li>
                     @endif
-                    @if($admin->can('amenities-create') || $admin->can('amenities-edit') || $admin->can('amenities-delete') || $admin->can('amenities-view'))
-                    <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/amenities') }}">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate"
-                                data-i18n="{{ __('amenity/amenity.menu') }}">{{ __('amenity/amenity.menu') }}</span>
-                        </a>
-                    </li>
+                    @if (
+                        $admin->can('amenities-create') ||
+                            $admin->can('amenities-edit') ||
+                            $admin->can('amenities-delete') ||
+                            $admin->can('amenities-view'))
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/amenities') }}">
+                                <i data-feather="circle"></i><span class="menu-item text-truncate"
+                                    data-i18n="{{ __('amenity/amenity.menu') }}">{{ __('amenity/amenity.menu') }}</span>
+                            </a>
+                        </li>
                     @endif
-                    @if($admin->can('vehicle-type-create') || $admin->can('vehicle-type-edit') || $admin->can('vehicle-type-delete') || $admin->can('vehicle-type-view'))
-                    <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/vehicletypes') }}">
-                            <i data-feather="circle"></i><span class="menu-item text-truncate"
-                                data-i18n="{{ __('vehicletype/vehicletype.menu') }}">{{ __('vehicletype/vehicletype.menu') }}</span>
-                        </a>
-                    </li>
+                    @if (
+                        $admin->can('vehicle-type-create') ||
+                            $admin->can('vehicle-type-edit') ||
+                            $admin->can('vehicle-type-delete') ||
+                            $admin->can('vehicle-type-view'))
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/vehicletypes') }}">
+                                <i data-feather="circle"></i><span class="menu-item text-truncate"
+                                    data-i18n="{{ __('vehicletype/vehicletype.menu') }}">{{ __('vehicletype/vehicletype.menu') }}</span>
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </li>
 
-            @if($admin->can('rooms-create') || $admin->can('rooms-edit') || $admin->can('rooms-delete') || $admin->can('rooms-view'))
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="{{ url('admin/rooms') }}">
-                    <i data-feather='user'></i>
-                    <span class="menu-title text-truncate" data-i18n="Rooms">Rooms</span>
-                </a>
-            </li>
+            @if (
+                $admin->can('rooms-create') ||
+                    $admin->can('rooms-edit') ||
+                    $admin->can('rooms-delete') ||
+                    $admin->can('rooms-view'))
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                        <i data-feather='map'></i><span class="menu-title text-truncate"
+                            data-i18n="Rooms">Rooms</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/offlinerooms') }}">
+                                <i data-feather='map-pin'></i><span class="menu-item text-truncate"
+                                    data-i18n="Offline Rooms">Offline Rooms</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/countries') }}">
+                                <i data-feather='map-pin'></i><span class="menu-item text-truncate"
+                                    data-i18n="API Rooms">API Rooms</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
             @endif
-            <li class="navigation-header"><span
-                    data-i18n="Package Module">Package Module</span><i
+            <li class="navigation-header"><span data-i18n="Package Module">Package Module</span><i
                     data-feather="more-horizontal"></i>
             </li>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/packages') }}">
-                <i data-feather='package'></i>
+                    <i data-feather='package'></i>
                     <span class="menu-title text-truncate" data-i18n="Rooms">Package Management</span>
                 </a>
             </li>
@@ -174,83 +222,103 @@
                     data-i18n="Master Modules">{{ __('core.menu_header_master_modules') }}</span><i
                     data-feather="more-horizontal"></i>
             </li>
-            @if($admin->can('location-create') || $admin->can('location-edit') || $admin->can('location-delete') || $admin->can('location-view'))
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#">
-                    <i data-feather='map'></i><span class="menu-title text-truncate"
-                        data-i18n="{{ __('core.dropdown_manu_header_title_location') }}">{{ __('core.dropdown_manu_header_title_location') }}</span></a>
-                <ul class="menu-content">
-                    <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/countries') }}">
-                            <i data-feather='map-pin'></i><span class="menu-item text-truncate"
-                                data-i18n="{{ __('country/country.menu') }}">{{ __('country/country.menu') }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/states') }}">
-                            <i data-feather='map-pin'></i><span class="menu-item text-truncate"
-                                data-i18n="{{ __('state/state.menu') }}">{{ __('state/state.menu') }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/cities') }}">
-                            <i data-feather='map-pin'></i><span class="menu-item text-truncate"
-                                data-i18n="{{ __('city/city.menu') }}">{{ __('city/city.menu') }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            @if (
+                $admin->can('location-create') ||
+                    $admin->can('location-edit') ||
+                    $admin->can('location-delete') ||
+                    $admin->can('location-view'))
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                        <i data-feather='map'></i><span class="menu-title text-truncate"
+                            data-i18n="{{ __('core.dropdown_manu_header_title_location') }}">{{ __('core.dropdown_manu_header_title_location') }}</span></a>
+                    <ul class="menu-content">
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/countries') }}">
+                                <i data-feather='map-pin'></i><span class="menu-item text-truncate"
+                                    data-i18n="{{ __('country/country.menu') }}">{{ __('country/country.menu') }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/states') }}">
+                                <i data-feather='map-pin'></i><span class="menu-item text-truncate"
+                                    data-i18n="{{ __('state/state.menu') }}">{{ __('state/state.menu') }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/cities') }}">
+                                <i data-feather='map-pin'></i><span class="menu-item text-truncate"
+                                    data-i18n="{{ __('city/city.menu') }}">{{ __('city/city.menu') }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             @endif
-            @if($admin->can('api-create') || $admin->can('api-edit') || $admin->can('api-delete') || $admin->can('api-view'))
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="{{ url('admin/apis') }}">
-                    <i data-feather='cloud'></i>
-                    <span class="menu-title text-truncate"
-                        data-i18n="{{ __('api/api.menu') }}">{{ __('api/api.menu') }}</span>
-                </a>
-            </li>
+            @if ($admin->can('api-create') || $admin->can('api-edit') || $admin->can('api-delete') || $admin->can('api-view'))
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="{{ url('admin/apis') }}">
+                        <i data-feather='cloud'></i>
+                        <span class="menu-title text-truncate"
+                            data-i18n="{{ __('api/api.menu') }}">{{ __('api/api.menu') }}</span>
+                    </a>
+                </li>
             @endif
-            @if($admin->can('company-type-create') || $admin->can('company-type-edit') || $admin->can('company-type-delete') || $admin->can('company-type-view'))
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="{{ url('admin/companytypes') }}">
-                    <i data-feather='columns'></i>
-                    <span class="menu-title text-truncate"
-                        data-i18n="{{ __('company-type/company-type.menu') }}">{{ __('company-type/company-type.menu') }}</span>
-                </a>
-            </li>
+            @if (
+                $admin->can('company-type-create') ||
+                    $admin->can('company-type-edit') ||
+                    $admin->can('company-type-delete') ||
+                    $admin->can('company-type-view'))
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="{{ url('admin/companytypes') }}">
+                        <i data-feather='columns'></i>
+                        <span class="menu-title text-truncate"
+                            data-i18n="{{ __('company-type/company-type.menu') }}">{{ __('company-type/company-type.menu') }}</span>
+                    </a>
+                </li>
             @endif
-            @if($admin->can('reach-us-create') || $admin->can('reach-us-edit') || $admin->can('reach-us-delete') || $admin->can('reach-us-view'))
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="{{ url('admin/reachus') }}">
-                    <i data-feather='columns'></i>
-                    <span class="menu-title text-truncate"
-                        data-i18n="{{ __('reach-us/reach-us.menu') }}">{{ __('reach-us/reach-us.menu') }}</span>
-                </a>
-            </li>
+            @if (
+                $admin->can('reach-us-create') ||
+                    $admin->can('reach-us-edit') ||
+                    $admin->can('reach-us-delete') ||
+                    $admin->can('reach-us-view'))
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="{{ url('admin/reachus') }}">
+                        <i data-feather='columns'></i>
+                        <span class="menu-title text-truncate"
+                            data-i18n="{{ __('reach-us/reach-us.menu') }}">{{ __('reach-us/reach-us.menu') }}</span>
+                    </a>
+                </li>
             @endif
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather='map'></i><span class="menu-title text-truncate"
                         data-i18n="{{ __('core.dropdown_manu_header_title_location') }}">{{ __('core.menu_header_markup_modules') }}</span></a>
                 <ul class="menu-content">
-                @if($admin->can('product-markup-create') || $admin->can('product-markup-edit') || $admin->can('product-markup-delete') || $admin->can('product-markup-view'))
-                    <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/productmarkups') }}">
-                            <i data-feather='map-pin'></i><span class="menu-item text-truncate"
-                                data-i18n="{{ __('product-markup/product-markup.menu') }}">{{ __('product-markup/product-markup.menu') }}</span>
-                        </a>
-                    </li>
-                @endif
-                    @if($admin->can('agent-markup-create') || $admin->can('agent-markup-edit') || $admin->can('agent-markup-delete') || $admin->can('agent-markup-view'))
-                    <li>
-                        <a class="d-flex align-items-center" href="{{ url('admin/agentmarkups') }}">
-                            <i data-feather='map-pin'></i><span class="menu-item text-truncate"
-                                data-i18n="{{ __('agent-markup/agent-markup.menu') }}">{{ __('agent-markup/agent-markup.menu') }}</span>
-                        </a>
-                    </li>
+                    @if (
+                        $admin->can('product-markup-create') ||
+                            $admin->can('product-markup-edit') ||
+                            $admin->can('product-markup-delete') ||
+                            $admin->can('product-markup-view'))
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/productmarkups') }}">
+                                <i data-feather='map-pin'></i><span class="menu-item text-truncate"
+                                    data-i18n="{{ __('product-markup/product-markup.menu') }}">{{ __('product-markup/product-markup.menu') }}</span>
+                            </a>
+                        </li>
+                    @endif
+                    @if (
+                        $admin->can('agent-markup-create') ||
+                            $admin->can('agent-markup-edit') ||
+                            $admin->can('agent-markup-delete') ||
+                            $admin->can('agent-markup-view'))
+                        <li>
+                            <a class="d-flex align-items-center" href="{{ url('admin/agentmarkups') }}">
+                                <i data-feather='map-pin'></i><span class="menu-item text-truncate"
+                                    data-i18n="{{ __('agent-markup/agent-markup.menu') }}">{{ __('agent-markup/agent-markup.menu') }}</span>
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </li>
-            @if($admin->can('role-create') || $admin->can('role-edit') || $admin->can('role-delete') || $admin->can('role-view'))
+            @if ($admin->can('role-create') || $admin->can('role-edit') || $admin->can('role-delete') || $admin->can('role-view'))
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="{{ url('admin/roles') }}">
                         <i data-feather='life-buoy'></i><span class="menu-title text-truncate"
@@ -259,21 +327,21 @@
 
                 </li>
             @endif
-                <li class=" nav-item">
-                    <a class="d-flex align-items-center" href="{{ url('admin/permissions') }}">
-                        <i data-feather='unlock'></i><span class="menu-title text-truncate"
-                            data-i18n="Permissions">Permissions</span>
-                    </a>
+            <li class=" nav-item">
+                <a class="d-flex align-items-center" href="{{ url('admin/permissions') }}">
+                    <i data-feather='unlock'></i><span class="menu-title text-truncate"
+                        data-i18n="Permissions">Permissions</span>
+                </a>
 
-                </li>
-                <li class=" nav-item">
-                    <a class="d-flex align-items-center" href="{{ url('admin/settings') }}">
-                        <i data-feather='settings'></i><span class="menu-title text-truncate"
-                            data-i18n="Settings">Settings</span>
-                    </a>
+            </li>
+            <li class=" nav-item">
+                <a class="d-flex align-items-center" href="{{ url('admin/settings') }}">
+                    <i data-feather='settings'></i><span class="menu-title text-truncate"
+                        data-i18n="Settings">Settings</span>
+                </a>
 
-                </li>
-                
+            </li>
+
 
         </ul>
     </div>
