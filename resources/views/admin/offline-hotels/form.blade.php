@@ -3,6 +3,7 @@
         <div class="d-flex align-items-center mb-1 mt-1">
             <i data-feather="user" class="font-medium-3"></i>
             <h4 class="mb-0 ml-75">Hotel Details</h4>
+            <input type="hidden" value="{{ isset($model->id) ? 'yes' : 'no' }}" class="editPage" id="editPage">
         </div>
         <hr class="my-2" />
     </div>
@@ -136,476 +137,173 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="phone_number">Fax Number</label>
-            <input type="text" id="phone_number" name="phone_number" class="form-control"
+            <label class="form-label" for="fax_number">Fax Number</label>
+            <input type="text" id="fax_number" name="fax_number" class="form-control"
                 placeholder="Fax Number"
-                value="{{ isset($model->phone_number) ? $model->phone_number : old('phone_number') }}"
+                value="{{ isset($model->fax_number) ? $model->fax_number : old('fax_number') }}"
                 data-error="Fax Number" />
             <div class="valid-feedback">Looks good!</div>
-            @error('phone_number')
+            @error('fax_number')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
-    
-   
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_office_address">{{ __('agent/agent.agent_office_address') }}</label>
-            <input type="text" id="agent_office_address" name="agent_office_address" class="form-control"
-                placeholder="{{ __('agent/agent.agent_office_address') }}"
-                value="{{ isset($model->agent_office_address) ? $model->agent_office_address : old('agent_office_address') }}"
-                data-error="{{ __('agent/agent.agent_office_address') }}" />
+            <label class="form-label" for="hotel_address">Address</label>
+            <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address"
+            placeholder="Address" cols="30" rows="2">{{ isset($model->hotel_address) ? $model->hotel_address : old('hotel_address') }}</textarea>
             <div class="valid-feedback">Looks good!</div>
-            @error('agent_office_address')
+            @error('hotel_address')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
-
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_pincode">{{ __('agent/agent.agent_pincode') }}</label>
-            <input type="text" id="agent_pincode" name="agent_pincode" class="form-control"
-                placeholder="{{ __('agent/agent.agent_pincode') }}"
-                value="{{ isset($model->agent_pincode) ? $model->agent_pincode : old('agent_pincode') }}"
-                data-error="{{ __('agent/agent.agent_pincode') }}" />
+            <label class="form-label" for="hotel_pincode">Pincode</label>
+            <input type="text" id="hotel_pincode" name="hotel_pincode" class="form-control"
+                placeholder="Pincode"
+                value="{{ isset($model->hotel_pincode) ? $model->hotel_pincode : old('hotel_pincode') }}"
+                data-error="Pincode" />
             <div class="valid-feedback">Looks good!</div>
-            @error('agent_pincode')
+            @error('hotel_pincode')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
+ 
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_telephone">{{ __('agent/agent.agent_telephone') }}</label>
-            <input type="text" id="agent_telephone" name="agent_telephone" class="form-control"
-                placeholder="{{ __('agent/agent.agent_telephone') }}"
-                value="{{ isset($model->agent_telephone) ? $model->agent_telephone : old('agent_telephone') }}"
-                data-error="{{ __('agent/agent.agent_telephone') }}" />
+            <label class="form-label" for="hotel_email">Email</label>
+            <input type="text" id="hotel_email" name="hotel_email" class="form-control"
+                placeholder="Email"
+                value="{{ isset($model->agent_email) ? $model->agent_email : old('hotel_email') }}"
+                data-error="Email" />
             <div class="valid-feedback">Looks good!</div>
-            @error('agent_telephone')
+            @error('hotel_email')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_mobile_number">{{ __('agent/agent.agent_mobile_number') }}</label>
-            <input type="text" id="agent_mobile_number" name="agent_mobile_number" class="form-control"
-                placeholder="{{ __('agent/agent.agent_mobile_number') }}"
-                value="{{ isset($model->agent_mobile_number) ? $model->agent_mobile_number : old('agent_mobile_number') }}"
-                data-error="{{ __('agent/agent.agent_mobile_number') }}" />
+            <label class="form-label" for="hotel_amenities">Hotel Amenities</label>
+            <input type="text" id="hotel_amenities" name="hotel_amenities" class="form-control"
+                placeholder="Hotel Amenities"
+                value="{{ isset($model->hotel_amenities) ? $model->hotel_amenities : old('hotel_amenities') }}"
+                data-error="Hotel Amenities" />
             <div class="valid-feedback">Looks good!</div>
-            @error('agent_mobile_number')
+            @error('hotel_amenities')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_email">{{ __('agent/agent.agent_email') }}</label>
-            <input type="text" id="agent_email" name="agent_email" class="form-control"
-                placeholder="{{ __('agent/agent.agent_email') }}"
-                value="{{ isset($model->agent_email) ? $model->agent_email : old('agent_email') }}"
-                data-error="{{ __('agent/agent.agent_email') }}" />
+            <label class="form-label" for="property_type_id">Property Type</label>
+            <input type="text" id="property_type_id" name="property_type_id" class="form-control"
+                placeholder="Property Type"
+                value="{{ isset($model->property_type_id) ? $model->property_type_id : old('property_type_id') }}"
+                data-error="Property Type" />
             <div class="valid-feedback">Looks good!</div>
-            @error('agent_email')
+            @error('property_type_id')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_website">{{ __('agent/agent.agent_website') }}</label>
-            <input type="text" id="agent_website" name="agent_website" class="form-control"
-                placeholder="{{ __('agent/agent.agent_website') }}"
-                value="{{ isset($model->agent_website) ? $model->agent_website : old('agent_website') }}"
-                data-error="{{ __('agent/agent.agent_website') }}" />
+            <label class="form-label" for="hotel_review">Rating</label>
+            <input type="text" id="hotel_review" name="hotel_review" class="form-control"
+                placeholder="Rating"
+                value="{{ isset($model->hotel_review) ? $model->hotel_review : old('hotel_review') }}"
+                data-error="Rating" />
             <div class="valid-feedback">Looks good!</div>
-            @error('agent_website')
+            @error('hotel_review')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_iata">{{ __('agent/agent.agent_iata') }}</label>
-            <div class="demo-inline-spacing">
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="agent_iata-yes" name="agent_iata" class="custom-control-input"
-                        value="yes"
-                        {{ $model->agent_iata == 'yes' || old('agent_iata') == 'yes' ? 'checked' : '' }} />
-                    <label class="custom-control-label" for="agent_iata-yes">Yes</label>
+            <label class="form-label" for="hotel_latitude">Rating</label>
+            <input type="text" id="hotel_latitude" name="hotel_latitude" class="form-control"
+                placeholder="Latitude"
+                value="{{ isset($model->hotel_latitude) ? $model->hotel_latitude : old('hotel_latitude') }}"
+                data-error="Latitude" />
+            <div class="valid-feedback">Looks good!</div>
+            @error('hotel_latitude')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <label class="form-label" for="hotel_longitude">Longitude</label>
+            <input type="text" id="hotel_longitude" name="hotel_longitude" class="form-control"
+                placeholder="Longitude"
+                value="{{ isset($model->hotel_longitude) ? $model->hotel_longitude : old('hotel_longitude') }}"
+                data-error="Longitude" />
+            <div class="valid-feedback">Looks good!</div>
+            @error('hotel_longitude')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <label class="form-label" for="cancel_days">Cancel Days</label>
+            <input type="text" id="cancel_days" name="cancel_days" class="form-control"
+                placeholder="Cancel Days"
+                value="{{ isset($model->cancel_days) ? $model->cancel_days : old('cancel_days') }}"
+                data-error="Cancel Days" />
+            <div class="valid-feedback">Looks good!</div>
+            @error('hotel_review')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label class="form-label" for="cancel_days">Hotel Description</label>
+            <div id="full-wrapper">
+                <div id="full-container">
+                    <div class="editor">
+                      
+                    </div>
                 </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="agent_iata-no" name="agent_iata" class="custom-control-input"
-                        value="no"
-                        {{ $model->agent_iata == 'no' || old('agent_iata') == 'no' ? 'checked' : '' }} />
-                    <label class="custom-control-label" for="agent_iata-no">No</label>
+            </div>
+            <div class="valid-feedback">Looks good!</div>
+            @error('hotel_review')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label class="form-label" for="cancel_days">Cancellation Policy</label>
+            <div id="full-wrapper">
+                <div id="full-container">
+                    <div class="editor">
+                      
+                    </div>
                 </div>
             </div>
             <div class="valid-feedback">Looks good!</div>
-            @error('agent_iata')
+            @error('hotel_review')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
-        </div>
-    </div>
-    @php
-        $hide = isset($model->agent_iata_number) ? '' : 'hide';
-    @endphp
-    <div class="col-4 iata_number_hide {{ $hide }}" id="iata_number_hide">
-        <div class="form-group">
-            <label class="form-label" for="agent_iata_number">{{ __('agent/agent.agent_iata_number') }}</label>
-            <input type="text" id="agent_iata_number" name="agent_iata_number" class="form-control"
-                placeholder="{{ __('agent/agent.agent_iata_number') }}"
-                value="{{ isset($model->agent_iata_number) ? $model->agent_iata_number : old('agent_iata_number') }}"
-                data-error="{{ __('agent/agent.agent_iata_number') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_iata_number')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label"
-                for="agent_other_certification">{{ __('agent/agent.agent_other_certification') }}</label>
-            <input type="text" id="agent_other_certification" name="agent_other_certification"
-                class="form-control" placeholder="{{ __('agent/agent.agent_other_certification') }}"
-                value="{{ isset($model->agent_other_certification) ? $model->agent_other_certification : old('agent_other_certification') }}"
-                data-error="{{ __('agent/agent.agent_other_certification') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_other_certification')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_pan_number">{{ __('agent/agent.agent_pan_number') }}</label>
-            <input type="text" id="agent_pan_number" name="agent_pan_number" class="form-control"
-                placeholder="{{ __('agent/agent.agent_pan_number') }}"
-                value="{{ isset($model->agent_pan_number) ? $model->agent_pan_number : old('agent_pan_number') }}"
-                data-error="{{ __('agent/agent.agent_pan_number') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_pan_number')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_gst_number">{{ __('agent/agent.agent_gst_number') }}</label>
-            <input type="text" id="agent_gst_number" name="agent_gst_number" class="form-control"
-                placeholder="{{ __('agent/agent.agent_gst_number') }}"
-                value="{{ isset($model->agent_gst_number) ? $model->agent_gst_number : old('agent_gst_number') }}"
-                data-error="{{ __('agent/agent.agent_gst_number') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_gst_number')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-   
-</div>
-
-
-<div class="row">
-    <div class="col-4">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.management_details_title') }}</h4>
-        </div>
-        <hr class="my-2" />
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="mgmt_first_name">{{ __('agent/agent.mgmt_first_name') }}</label>
-                <input type="text" id="mgmt_first_name" name="mgmt_first_name" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_first_name') }}"
-                    value="{{ isset($model->mgmt_first_name) ? $model->mgmt_first_name : old('mgmt_first_name') }}"
-                    data-error="{{ __('agent/agent.mgmt_first_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('mgmt_first_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="mgmt_last_name">{{ __('agent/agent.mgmt_last_name') }}</label>
-                <input type="text" id="mgmt_last_name" name="mgmt_last_name" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_last_name') }}"
-                    value="{{ isset($model->mgmt_last_name) ? $model->mgmt_last_name : old('mgmt_last_name') }}"
-                    data-error="{{ __('agent/agent.mgmt_last_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('mgmt_last_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="mgmt_contact_number">{{ __('agent/agent.mgmt_contact_number') }}</label>
-                <input type="text" id="mgmt_contact_number" name="mgmt_contact_number" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_contact_number') }}"
-                    value="{{ isset($model->mgmt_contact_number) ? $model->mgmt_contact_number : old('mgmt_contact_number') }}"
-                    data-error="{{ __('agent/agent.mgmt_contact_number') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('mgmt_contact_number')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="mgmt_email">{{ __('agent/agent.mgmt_email') }}</label>
-                <input type="text" id="mgmt_email" name="mgmt_email" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_email') }}"
-                    value="{{ isset($model->mgmt_email) ? $model->mgmt_email : old('mgmt_email') }}"
-                    data-error="{{ __('agent/agent.mgmt_email') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('mgmt_email')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
-    </div>
-    <div class="col-4">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.account_details_title') }}</h4>
-        </div>
-        <hr class="my-2" />
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="account_first_name">{{ __('agent/agent.account_first_name') }}</label>
-                <input type="text" id="account_first_name" name="account_first_name" class="form-control"
-                    placeholder="{{ __('agent/agent.account_first_name') }}"
-                    value="{{ isset($model->account_first_name) ? $model->account_first_name : old('account_first_name') }}"
-                    data-error="{{ __('agent/agent.account_first_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('account_first_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="account_last_name">{{ __('agent/agent.account_last_name') }}</label>
-                <input type="text" id="account_last_name" name="account_last_name" class="form-control"
-                    placeholder="{{ __('agent/agent.account_last_name') }}"
-                    value="{{ isset($model->account_last_name) ? $model->account_last_name : old('account_last_name') }}"
-                    data-error="{{ __('agent/agent.account_last_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('account_last_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="account_contact_number">{{ __('agent/agent.mgmt_contact_number') }}</label>
-                <input type="text" id="account_contact_number" name="account_contact_number" class="form-control"
-                    placeholder="{{ __('agent/agent.account_contact_number') }}"
-                    value="{{ isset($model->account_contact_number) ? $model->account_contact_number : old('account_contact_number') }}"
-                    data-error="{{ __('agent/agent.account_contact_number') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('account_contact_number')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="account_email">{{ __('agent/agent.account_email') }}</label>
-                <input type="text" id="account_email" name="account_email" class="form-control"
-                    placeholder="{{ __('agent/agent.account_email') }}"
-                    value="{{ isset($model->account_email) ? $model->account_email : old('account_email') }}"
-                    data-error="{{ __('agent/agent.account_email') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('account_email')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.reservation_details_title') }}</h4>
-        </div>
-        <hr class="my-2" />
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="reserve_first_name">{{ __('agent/agent.reserve_first_name') }}</label>
-                <input type="text" id="reserve_first_name" name="reserve_first_name" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_first_name') }}"
-                    value="{{ isset($model->reserve_first_name) ? $model->reserve_first_name : old('reserve_first_name') }}"
-                    data-error="{{ __('agent/agent.reserve_first_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('reserve_first_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="reserve_last_name">{{ __('agent/agent.account_last_name') }}</label>
-                <input type="text" id="reserve_last_name" name="reserve_last_name" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_last_name') }}"
-                    value="{{ isset($model->reserve_last_name) ? $model->reserve_last_name : old('reserve_last_name') }}"
-                    data-error="{{ __('agent/agent.reserve_last_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('reserve_last_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="reserve_contact_number">{{ __('agent/agent.reserve_contact_number') }}</label>
-                <input type="text" id="reserve_contact_number" name="reserve_contact_number" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_contact_number') }}"
-                    value="{{ isset($model->reserve_contact_number) ? $model->reserve_contact_number : old('reserve_contact_number') }}"
-                    data-error="{{ __('agent/agent.reserve_contact_number') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('reserve_contact_number')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="reserve_email">{{ __('agent/agent.reserve_email') }}</label>
-                <input type="text" id="reserve_email" name="reserve_email" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_email') }}"
-                    value="{{ isset($model->reserve_email) ? $model->reserve_email : old('reserve_email') }}"
-                    data-error="{{ __('agent/agent.reserve_email') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('reserve_email')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-    </div>
-
-</div>
-<div class="row">
-    <div class="col-4">
-        <input type="hidden" value="{{ isset($model->id) ? 'yes' : 'no' }}" class="editPage" id="editPage">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.access_details_title') }}</h4>
-        </div>
-        <hr class="my-2" />
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="agent_username">{{ __('agent/agent.agent_username') }}</label>
-                <input type="text" id="agent_username" name="agent_username" class="form-control"
-                    placeholder="{{ __('agent/agent.agent_username') }}"
-                    value="{{ isset($model->user->email) ? $model->user->email : old('agent_username') }}"
-                    data-error="{{ __('agent/agent.agent_username') }}"  autocomplete="off"/>
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_username')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="agent_password">{{ __('agent/agent.agent_password') }}</label>
-                <input type="password" id="agent_password" name="agent_password" class="form-control"
-                    placeholder="{{ __('agent/agent.agent_password') }}"
-                    value=""
-                    data-error="{{ __('agent/agent.agent_password') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_password')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="agent_confirm_password">{{ __('agent/agent.agent_confirm_password') }}</label>
-                <input type="password" id="agent_confirm_password" name="agent_confirm_password"
-                    class="form-control" placeholder="{{ __('agent/agent.agent_confirm_password') }}"
-                    value=""
-                    data-error="{{ __('agent/agent.agent_confirm_password') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_confirm_password')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-    </div>
-    <div class="col-8">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.document_details_title') }}</h4>
-        </div>
-        <hr class="my-2" />
-        <div class="col-3">
-            <div class="form-group">
-                <label class="form-label" for="agent_pan_card">{{ __('agent/agent.agent_pan_card') }}</label><br>
-                <input type="file" name="agent_pan_card" id="agent_pan_card">
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_pan_card')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-            @if (strlen($model->agent_pan_card) > 0)
-                <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_pan_card) }}"
-                    alt="{{ $model->agent_first_name }}" title="{{ $model->agent_first_name }}" width="100px;">
-            @endif
-        </div>
-        <div class="col-3">
-            <div class="form-group">
-                <label class="form-label"
-                    for="agent_company_certificate">{{ __('agent/agent.agent_company_certificate') }}</label><br>
-                <input type="file" name="agent_company_certificate" id="agent_company_certificate">
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_company_certificate')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-            @if (strlen($model->agent_company_certificate) > 0)
-                <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_certificate) }}"
-                    alt="{{ $model->agent_company_name }}" title="{{ $model->agent_company_name }}"
-                    width="100px;">
-            @endif
-        </div>
-        <div class="col-3">
-            <div class="form-group">
-                <label class="form-label"
-                    for="agent_company_logo">{{ __('agent/agent.agent_company_logo') }}</label><br>
-                <input type="file" name="agent_company_logo" id="agent_company_logo">
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_company_logo')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-            @if (strlen($model->agent_company_logo) > 0)
-                <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_logo) }}"
-                    alt="{{ $model->agent_company_name }}" title="{{ $model->agent_company_name }}"
-                    width="100px;">
-            @endif
         </div>
     </div>
 </div>
+
 @section('extra-script')
-    <script src="{{ asset('js/form/Agent.js') }}"></script>
-    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
-    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
-    <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
-    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+<script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
+<script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
+<script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
+<script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+<script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.js') }}"></script>
     <script type="text/javascript">
         var moduleConfig = {
             redirectUrl: "{!! route('get-state-list') !!}",

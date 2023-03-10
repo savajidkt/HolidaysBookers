@@ -95,7 +95,7 @@ class OfflineHotelsController extends Controller
             '4'=>'4 Star',
             '5'=>'5 Star',
         ];
-
+        
         return view('admin.offline-hotels.create', ['model' => $rawData,'hotelGroups'=>$hotelGroups, 'categories' =>$categories,'countries' => $countries]);
     }
 

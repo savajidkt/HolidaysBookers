@@ -27,6 +27,7 @@ class CreateHotelsTable extends Migration
             $table->string('phone_number');
             $table->string('fax_number');
             $table->longText('hotel_address');
+            $table->string('hotel_pincode');
             $table->string('currency')->nullable();
             $table->string('hotel_image_location')->nullable();
             $table->longText('hotel_description')->nullable();
