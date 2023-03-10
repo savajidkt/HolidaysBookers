@@ -16,11 +16,11 @@ class CreateHotelAmenitiesTable extends Migration
         Schema::create('hotel_amenities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('hotel_id');
-            $table->unsignedInteger('amenities_id');
+            $table->unsignedBigInteger('amenities_id');
 
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
-            $table->foreign('amenities_id')->references('id')->on('permissions')->onDelete('cascade');
+            $table->foreign('amenities_id')->references('id')->on('amenities')->onDelete('cascade');
             $table->timestamps();
         });
     }

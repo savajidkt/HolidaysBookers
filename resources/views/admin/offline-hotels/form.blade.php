@@ -22,14 +22,79 @@
     </div>
     <div class="col-4">
         <div class="form-group">
+            <label class="form-label" for="hotel_country">Country</label>
+            <select class="select2 form-control form-control-lg" id="hotel_country" name="hotel_country"
+                data-error="{{ __('agent/agent.hotel_country') }}">
+                <option value="">Select Country</option>
+                @foreach ($countries as $country)
+                    <option value="{{ $country->id }}"
+                        {{ $model->agent_country == $country->id ? 'selected' : '' }}>
+                        {{ $country->name }}</option>
+                @endforeach
+            </select>
+            <div class="valid-feedback">Looks good!</div>
+            @error('hotel_country')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group myState">
+            <label class="form-label" for="hotel_state">State</label>
+            <select class="select2 form-control form-control-lg" id="hotel_state" name="hotel_state"
+                data-error="State">
+                <option value="">Select State</option>
+                @php $states = getCountryStates($model->hotel_state);  @endphp
+                @if ($states->count() > 0)
+                    @foreach ($states as $state)
+                        <option value="{{ $state->id }}"
+                            {{ $model->hotel_state == $state->id ? 'selected' : '' }}>
+                            {{ $state->name }}</option>
+                    @endforeach
+                @endif
+            </select>
+            <div class="spinner-border spinner-border-sm hide" role="status">
+                <span class="sr-only">{{ __('core.loading') }}</span>
+            </div>
+            <div class="valid-feedback">Looks good!</div>
+            @error('hotel_state')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group myCity">
+            <label class="form-label" for="hotel_city">City</label>
+            <select class="select2 form-control form-control-lg" id="hotel_city" name="hotel_city"
+                data-error="City">
+                <option value="">Select City</option>
+                @php $cities = getStateCities($model->hotel_city);  @endphp
+                @if ($cities->count() > 0)
+                    @foreach ($cities as $city)
+                        <option value="{{ $city->id }}" {{ $model->hotel_city == $city->id ? 'selected' : '' }}>
+                            {{ $city->name }}</option>
+                    @endforeach
+                @endif
+            </select>
+            <div class="spinner-border spinner-border-sm hide" role="status">
+                <span class="sr-only">{{ __('core.loading') }}</span>
+            </div>
+            <div class="valid-feedback">Looks good!</div>
+            @error('hotel_city')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
             <label class="form-label" for="category">Category</label>
             <select class="select2 form-control form-control-lg" id="category" name="category"
                 data-error="Category">
                 <option value="">Select Category</option>
-                @foreach ($companies as $key => $company)
-                    <option value="{{ $company->id }}"
-                        {{ $model->category == $company->id ? 'selected' : '' }}>
-                        {{ $company->company_type }}</option>
+                @foreach ($categories as $key => $category)
+                    <option value="{{ $key }}"
+                        {{ $model->category == $key ? 'selected' : '' }}>
+                        {{ $category}}</option>
                 @endforeach
             </select>
             <div class="valid-feedback">Looks good!</div>
@@ -41,69 +106,35 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="nature_of_business">{{ __('agent/agent.nature_of_business') }}</label>
-            <input type="text" id="nature_of_business" name="nature_of_business" class="form-control"
-                placeholder="{{ __('agent/agent.nature_of_business') }}"
-                value="{{ isset($model->nature_of_business) ? $model->nature_of_business : old('nature_of_business') }}"
-                data-error="{{ __('agent/agent.nature_of_business') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('nature_of_business')
+            <label class="form-label" for="hotel_group_id">Hotel Group</label>
+            <select class="select2 form-control form-control-lg" id="hotel_group_id" name="hotel_group_id"
+                data-error="Hotel Group">
+                <option value="">Select Hotel Group</option>
+                @foreach ($hotelGroups as $key => $hg)
+                    <option value="{{ $hg->id }}"
+                        {{ $model->hotel_group_id == $hg->id ? 'selected' : '' }}>
+                        {{ $hg->name}}</option>
+                @endforeach
+            </select>
+            @error('hotel_group_id')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_first_name">{{ __('agent/agent.agent_first_name') }}</label>
-            <input type="text" id="agent_first_name" name="agent_first_name" class="form-control"
-                placeholder="{{ __('agent/agent.agent_first_name') }}"
-                value="{{ isset($model->agent_first_name) ? $model->agent_first_name : old('agent_first_name') }}"
-                data-error="{{ __('agent/agent.agent_first_name') }}" />
+            <label class="form-label" for="phone_number">Phone Number</label>
+            <input type="text" id="phone_number" name="phone_number" class="form-control"
+                placeholder="Phone Number"
+                value="{{ isset($model->phone_number) ? $model->phone_number : old('phone_number') }}"
+                data-error="Phone Number" />
             <div class="valid-feedback">Looks good!</div>
-            @error('agent_first_name')
+            @error('phone_number')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_last_name">{{ __('agent/agent.agent_last_name') }}</label>
-            <input type="text" id="agent_last_name" name="agent_last_name" class="form-control"
-                placeholder="{{ __('agent/agent.agent_last_name') }}"
-                value="{{ isset($model->agent_last_name) ? $model->agent_last_name : old('agent_last_name') }}"
-                data-error="{{ __('agent/agent.agent_last_name') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_last_name')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_designation">{{ __('agent/agent.agent_designation') }}</label>
-            <input type="text" id="agent_designation" name="agent_designation" class="form-control"
-                placeholder="{{ __('agent/agent.agent_designation') }}"
-                value="{{ isset($model->agent_designation) ? $model->agent_designation : old('agent_designation') }}"
-                data-error="{{ __('agent/agent.agent_designation') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_designation')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_dob">{{ __('agent/agent.agent_dob') }}</label>
-            <input type="text" id="fp-default" name="agent_dob" class="form-control flatpickr-basic flatpickr-input"
-                placeholder="YYYY-MM-DD" placeholder="{{ __('agent/agent.agent_dob') }}"
-                value="{{ isset($model->agent_dob) ? $model->agent_dob : old('agent_dob') }}"
-                data-error="{{ __('agent/agent.agent_dob') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_dob')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
+   
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_office_address">{{ __('agent/agent.agent_office_address') }}</label>
@@ -117,71 +148,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_country">{{ __('agent/agent.agent_country') }}</label>
-            <select class="select2 form-control form-control-lg" id="agent_country" name="agent_country"
-                data-error="{{ __('agent/agent.agent_country') }}">
-                <option value="">Select Country</option>
-                @foreach ($countries as $country)
-                    <option value="{{ $country->id }}"
-                        {{ $model->agent_country == $country->id ? 'selected' : '' }}>
-                        {{ $country->name }}</option>
-                @endforeach
-            </select>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_country')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group myState">
-            <label class="form-label" for="agent_state">{{ __('agent/agent.agent_state') }}</label>
-            <select class="select2 form-control form-control-lg" id="agent_state" name="agent_state"
-                data-error="{{ __('agent/agent.agent_state') }}">
-                <option value="">Select State</option>
-                @php $states = getCountryStates($model->agent_country);  @endphp
-                @if ($states->count() > 0)
-                    @foreach ($states as $state)
-                        <option value="{{ $state->id }}"
-                            {{ $model->agent_state == $state->id ? 'selected' : '' }}>
-                            {{ $state->name }}</option>
-                    @endforeach
-                @endif
-            </select>
-            <div class="spinner-border spinner-border-sm hide" role="status">
-                <span class="sr-only">{{ __('core.loading') }}</span>
-            </div>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_state')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group myCity">
-            <label class="form-label" for="agent_city">{{ __('agent/agent.agent_city') }}</label>
-            <select class="select2 form-control form-control-lg" id="agent_city" name="agent_city"
-                data-error="{{ __('agent/agent.agent_city') }}">
-                <option value="">Select City</option>
-                @php $cities = getStateCities($model->agent_state);  @endphp
-                @if ($cities->count() > 0)
-                    @foreach ($cities as $city)
-                        <option value="{{ $city->id }}" {{ $model->agent_city == $city->id ? 'selected' : '' }}>
-                            {{ $city->name }}</option>
-                    @endforeach
-                @endif
-            </select>
-            <div class="spinner-border spinner-border-sm hide" role="status">
-                <span class="sr-only">{{ __('core.loading') }}</span>
-            </div>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_city')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
+
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_pincode">{{ __('agent/agent.agent_pincode') }}</label>
@@ -326,39 +293,7 @@
             @enderror
         </div>
     </div>
-    @php
-        $hide = 'hide';
-    @endphp
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_know_about">{{ __('agent/agent.agent_know_about') }}</label>
-            <select class="select2 form-control form-control-lg" id="agent_know_about" name="agent_know_about"
-                data-error="{{ __('agent/agent.agent_know_about') }}">
-                <option value="">Select Reach Us</option>
-                @foreach ($reach as $rech)
-                    <option value="{{ $rech->id }}" data-name="{{ $rech->textbox_lable }}"
-                        data-other="{{ $rech->show_other_textbox }}"
-                        {{ $model->id == $rech->id ? 'selected' : '' }}>
-                        {{ $rech->name }}</option>
-                    @php
-                        $hide = $model->id == $rech->id ? '' : 'hide';
-                    @endphp
-                @endforeach
-            </select>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_know_about')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-
-    <div class="col-4 otherData {{ $hide }}">
-        <div class="form-group">
-            <label class="form-label" for="agent_know_about">{{ __('agent/agent.agent_know_about') }}</label>
-            <input type="text" id="othername" name="othername" class="form-control"
-                value="{{ isset($model->othername) ? $model->othername : old('othername') }}" />
-        </div>
-    </div>
+   
 </div>
 
 

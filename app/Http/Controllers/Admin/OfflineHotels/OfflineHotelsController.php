@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Agent\EditRequest;
 use App\Http\Requests\Agent\CreateRequest;
 use App\Http\Requests\Agent\UpdatePasswordRequest;
+use App\Models\HotelGroup;
 
 class OfflineHotelsController extends Controller
 {
@@ -84,12 +85,18 @@ class OfflineHotelsController extends Controller
     public function create()
     {
         //
-        $rawData    = new User;
-        $companyType    = CompanyType::where('status', CompanyType::ACTIVE)->get();
+        $rawData    = new OfflineHotel();
+        $hotelGroups    = HotelGroup::where('status', HotelGroup::ACTIVE)->get();
         $countries    =  Country::where('status', Country::ACTIVE)->get();
-        $reach    =  Reach::where('status', Reach::ACTIVE)->get();
+        $categories = [
+            '1'=>'1 Star',
+            '2'=>'2 Star',
+            '3'=>'3 Star',
+            '4'=>'4 Star',
+            '5'=>'5 Star',
+        ];
 
-        return view('admin.offline-hotels.create', ['model' => $rawData, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
+        return view('admin.offline-hotels.create', ['model' => $rawData,'hotelGroups'=>$hotelGroups, 'categories' =>$categories,'countries' => $countries]);
     }
 
     /**
