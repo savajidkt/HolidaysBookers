@@ -134,6 +134,20 @@
             @enderror
         </div>
     </div>
+    <div class="col-4">
+        <div class="form-group">
+            <label class="form-label" for="phone_number">Fax Number</label>
+            <input type="text" id="phone_number" name="phone_number" class="form-control"
+                placeholder="Fax Number"
+                value="{{ isset($model->phone_number) ? $model->phone_number : old('phone_number') }}"
+                data-error="Fax Number" />
+            <div class="valid-feedback">Looks good!</div>
+            @error('phone_number')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    
    
     <div class="col-4">
         <div class="form-group">

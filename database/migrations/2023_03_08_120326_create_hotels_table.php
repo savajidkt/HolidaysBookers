@@ -20,7 +20,7 @@ class CreateHotelsTable extends Migration
             $table->unsignedBigInteger('hotel_city');
             $table->unsignedBigInteger('hotel_group_id');
             $table->unsignedBigInteger('property_type_id');
-            $table->unsignedBigInteger('hotel_type');
+            $table->unsignedBigInteger('api_id');
             $table->string('hotel_code')->nullable();
             $table->string('hotel_name');
             $table->string('category');
@@ -37,6 +37,7 @@ class CreateHotelsTable extends Migration
             $table->string('is_new')->nullable();
             $table->string('cancel_days')->nullable();
             $table->string('cancellation_policy')->nullable();
+            $table->string('hotel_type')->default(true)->comment('1=Offline, 2=API');            
             $table->boolean('status')->default(true)->comment('1=Active, 0=Inactive');
            
 
@@ -46,7 +47,7 @@ class CreateHotelsTable extends Migration
             $table->foreign('hotel_city')->references('id')->on('cities')->onDelete('cascade');
             $table->foreign('hotel_group_id')->references('id')->on('hotel_groups')->onDelete('cascade');
             $table->foreign('property_type_id')->references('id')->on('property_types')->onDelete('cascade');
-            $table->foreign('hotel_type')->references('id')->on('apis')->onDelete('cascade');
+            $table->foreign('api_id')->references('id')->on('apis')->onDelete('cascade');
 
             $table->softDeletes();
             $table->timestamps();
