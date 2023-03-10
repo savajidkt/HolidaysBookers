@@ -83,3 +83,11 @@ div.dataTables_wrapper .dataTables_info{
 }
 
 .disp-below{ display: block; }
+
+
+.hotelDrp .spinner-border-sm{
+    position: relative;
+    top: -25px;
+    float: right;
+    right: 15px;
+}

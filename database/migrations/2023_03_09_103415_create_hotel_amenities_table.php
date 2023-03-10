@@ -21,6 +21,7 @@ class CreateHotelAmenitiesTable extends Migration
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
             $table->foreign('amenities_id')->references('id')->on('amenities')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

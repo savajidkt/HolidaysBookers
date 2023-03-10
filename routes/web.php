@@ -146,6 +146,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
        
     Route::resource('/offlinerooms', OfflineRoomsController::class);
     Route::post('/offlineroom/change-status', [OfflineRoomsController::class, 'changeStatus'])->name('change-offline-room-status');
+    Route::get('/offlineroom/view/{offlineroom}/offlineroom', [OfflineRoomsController::class, 'show'])->name('view-room');     
 
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');

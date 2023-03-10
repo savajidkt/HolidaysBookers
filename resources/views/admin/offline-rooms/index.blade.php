@@ -63,16 +63,24 @@
                         visible: false,
                     },
                     {
-                        data: 'full_name',
-                        name: 'full_name'
+                        data: 'hotel_name',
+                        name: 'hotel_name'
                     },
                     {
-                        data: 'email',
-                        name: 'email'
+                        data: 'room_type',
+                        name: 'room_type'
                     },
                     {
-                        data: 'mobile_number',
-                        name: 'mobile_number'
+                        data: 'total_adult',
+                        name: 'total_adult'
+                    },
+                    {
+                        data: 'total_cwb',
+                        name: 'total_cwb'
+                    },
+                    {
+                        data: 'total_cnb',
+                        name: 'total_cnb'
                     },
                     {
                         data: 'status',
@@ -112,16 +120,16 @@
             }).on('click', '.status_update', function(e) {
                 e.preventDefault();
                 var $this = $(this),
-                    user_id = $this.data('user_id'),
+                offline_room_id = $this.data('offline_room_id'),
 
                     status = $this.data('status'),
                     message = status == 1 ?
-                    "Are you sure you want to deactivate Customer?" :
-                    "Are you sure you want to activate Customer?";
+                    "Are you sure you want to deactivate room?" :
+                    "Are you sure you want to activate room?";
 
 
                 Swal.fire({
-                    title: "Update Customer status",
+                    title: "Update Room status",
                     text: message,
                     icon: 'warning',
                     showCancelButton: true,
@@ -142,10 +150,10 @@
                         });
                         $.ajax({
                             type: 'POST',
-                            url: "{{ route('change-customer-status') }}",
+                            url: "{{ route('change-offline-room-status') }}",
                             dataType: 'json',
                             data: {
-                                user_id: user_id,
+                                offline_room_id: offline_room_id,
                                 status: status
                             },
                             success: function(data) {

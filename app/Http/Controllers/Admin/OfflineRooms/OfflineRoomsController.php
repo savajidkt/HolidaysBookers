@@ -14,7 +14,9 @@ use App\Repositories\OfflineRoomRepository;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\OfflineRoom\EditRequest;
 use App\Http\Requests\OfflineRoom\CreateRequest;
-
+use App\Models\Amenity;
+use App\Models\OfflineHotel;
+use App\Models\RoomType;
 
 class OfflineRoomsController extends Controller
 {
@@ -32,29 +34,23 @@ class OfflineRoomsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::with('customers')->where('user_type', User::CUSTOMER);
+            $data = OfflineRoom::where('type', OfflineRoom::OFFLINE);
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('full_name', function (User $user) {
-                    return $user->fullName;
-                })->filterColumn('full_name', function ($query, $keyword) {
-                    $sql = "CONCAT(users.first_name,'-',users.last_name)  like ?";
-                    $query->whereRaw($sql, ["%{$keyword}%"]);
-                })->addColumn('email', function (User $user) {
-                    return $user->email;
-                })->filterColumn('email', function ($query, $keyword) {
-                    $sql = "email  like ?";
-                    $query->whereRaw($sql, ["%{$keyword}%"]);
-                })->addColumn('mobile_number', function (User $user) {
-                    return $user->customers->mobile_number;
-                })->filterColumn('mobile_number', function ($query, $keyword) {
-                    $query->whereHas('customers', function ($query) use ($keyword) {
-                        $query->where('mobile_number', 'LIKE', '%' . $keyword . '%');
-                    });
-                })->editColumn('status', function (User $user) {
-                    return $user->status_name;
+                ->addColumn('hotel_name', function (OfflineRoom $room) {
+                    return $room->hotel->hotel_name;
+                })->addColumn('room_type', function (OfflineRoom $room) {
+                    return $room->roomtype->room_type;
+                })->addColumn('total_adult', function (OfflineRoom $room) {
+                    return $room->total_adult;
+                })->addColumn('total_cwb', function (OfflineRoom $room) {
+                    return $room->total_cwb;
+                })->addColumn('total_cnb', function (OfflineRoom $room) {
+                    return $room->total_cnb;
+                })->editColumn('status', function (OfflineRoom $room) {
+                    return $room->status_name;
                 })->addColumn('action', function ($row) {
-                    return $row->customers->action;
+                    return $row->action;
                 })->rawColumns(['action', 'status'])->make(true);
         }
 
@@ -68,8 +64,11 @@ class OfflineRoomsController extends Controller
      */
     public function create()
     {
-        $rawData    = new OfflineRoom;        
-        return view('admin.offline-rooms.create', ['model' => $rawData]);
+        $rawData    = new OfflineRoom;
+        $HotelsList  = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->pluck('hotel_name', 'id')->toArray();
+        $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
+        $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();        
+        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities]);
     }
 
     /**
@@ -92,6 +91,7 @@ class OfflineRoomsController extends Controller
      */
     public function show(Request $request, OfflineRoom $offlineRoom)
     {
+        echo "Show Room Dettails"; exit;
         $countries    =  Country::where('status', Country::ACTIVE)->get();
         return view('admin.offline-rooms.view', ['model' => $offlineRoom, 'countries' => $countries]);
     }
@@ -124,15 +124,17 @@ class OfflineRoomsController extends Controller
         return redirect()->route('offlinerooms.index')->with('success', 'Offline Room updated successfully!');
     }
 
+       
     /**
-     * Remove the specified resource from storage.
+     * Method destroy
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param OfflineRoom $offlineroom [explicite description]
+     *
+     * @return void
      */
-    public function destroy(OfflineRoom $offlineRoom)
+    public function destroy(OfflineRoom $offlineroom)
     {
-        $this->offlineRoomRepository->delete($offlineRoom);
+        $this->offlineRoomRepository->delete($offlineroom);
         return redirect()->route('offlinerooms.index')->with('success', 'Offline Room deleted successfully!');
     }
 
@@ -146,15 +148,13 @@ class OfflineRoomsController extends Controller
     public function changeStatus(Request $request): JsonResponse
     {
         $input = $request->all();
-        $user  = User::find($input['user_id']);
-        // dd($user);
-        if ($this->offlineRoomRepository->changeStatus($input, $user)) {
+        $offlineroom  = OfflineRoom::find($input['offline_room_id']);        
+        if ($this->offlineRoomRepository->changeStatus($input, $offlineroom)) {
             return response()->json([
                 'status' => true,
                 'message' => 'Offline Room status updated successfully!'
             ]);
         }
-
         throw new Exception('Offline Room status does not change. Please check sometime later.');
     }
 }
