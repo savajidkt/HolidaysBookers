@@ -1,3 +1,6 @@
+<script>
+    var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
+</script>
 <div class="row">
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
@@ -10,8 +13,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_name">Hotel Name</label>
-            <input type="text" id="hotel_name" name="hotel_name" class="form-control"
-                placeholder="Hotel Name"
+            <input type="text" id="hotel_name" name="hotel_name" class="form-control" placeholder="Hotel Name"
                 value="{{ isset($model->hotel_name) ? $model->hotel_name : old('hotel_name') }}"
                 data-error="Hotel Name" />
             <div class="valid-feedback">Looks good!</div>
@@ -28,8 +30,7 @@
                 data-error="{{ __('agent/agent.hotel_country') }}">
                 <option value="">Select Country</option>
                 @foreach ($countries as $country)
-                    <option value="{{ $country->id }}"
-                        {{ $model->agent_country == $country->id ? 'selected' : '' }}>
+                    <option value="{{ $country->id }}" {{ $model->agent_country == $country->id ? 'selected' : '' }}>
                         {{ $country->name }}</option>
                 @endforeach
             </select>
@@ -42,14 +43,12 @@
     <div class="col-4">
         <div class="form-group myState">
             <label class="form-label" for="hotel_state">State</label>
-            <select class="select2 form-control form-control-lg" id="hotel_state" name="hotel_state"
-                data-error="State">
+            <select class="select2 form-control form-control-lg" id="hotel_state" name="hotel_state" data-error="State">
                 <option value="">Select State</option>
                 @php $states = getCountryStates($model->hotel_state);  @endphp
                 @if ($states->count() > 0)
                     @foreach ($states as $state)
-                        <option value="{{ $state->id }}"
-                            {{ $model->hotel_state == $state->id ? 'selected' : '' }}>
+                        <option value="{{ $state->id }}" {{ $model->hotel_state == $state->id ? 'selected' : '' }}>
                             {{ $state->name }}</option>
                     @endforeach
                 @endif
@@ -66,8 +65,7 @@
     <div class="col-4">
         <div class="form-group myCity">
             <label class="form-label" for="hotel_city">City</label>
-            <select class="select2 form-control form-control-lg" id="hotel_city" name="hotel_city"
-                data-error="City">
+            <select class="select2 form-control form-control-lg" id="hotel_city" name="hotel_city" data-error="City">
                 <option value="">Select City</option>
                 @php $cities = getStateCities($model->hotel_city);  @endphp
                 @if ($cities->count() > 0)
@@ -89,13 +87,11 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="category">Category</label>
-            <select class="select2 form-control form-control-lg" id="category" name="category"
-                data-error="Category">
+            <select class="select2 form-control form-control-lg" id="category" name="category" data-error="Category">
                 <option value="">Select Category</option>
                 @foreach ($categories as $key => $category)
-                    <option value="{{ $key }}"
-                        {{ $model->category == $key ? 'selected' : '' }}>
-                        {{ $category}}</option>
+                    <option value="{{ $key }}" {{ $model->category == $key ? 'selected' : '' }}>
+                        {{ $category }}</option>
                 @endforeach
             </select>
             <div class="valid-feedback">Looks good!</div>
@@ -112,9 +108,8 @@
                 data-error="Hotel Group">
                 <option value="">Select Hotel Group</option>
                 @foreach ($hotelGroups as $key => $hg)
-                    <option value="{{ $hg->id }}"
-                        {{ $model->hotel_group_id == $hg->id ? 'selected' : '' }}>
-                        {{ $hg->name}}</option>
+                    <option value="{{ $hg->id }}" {{ $model->hotel_group_id == $hg->id ? 'selected' : '' }}>
+                        {{ $hg->name }}</option>
                 @endforeach
             </select>
             @error('hotel_group_id')
@@ -138,8 +133,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="fax_number">Fax Number</label>
-            <input type="text" id="fax_number" name="fax_number" class="form-control"
-                placeholder="Fax Number"
+            <input type="text" id="fax_number" name="fax_number" class="form-control" placeholder="Fax Number"
                 value="{{ isset($model->fax_number) ? $model->fax_number : old('fax_number') }}"
                 data-error="Fax Number" />
             <div class="valid-feedback">Looks good!</div>
@@ -151,8 +145,8 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_address">Address</label>
-            <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address"
-            placeholder="Address" cols="30" rows="2">{{ isset($model->hotel_address) ? $model->hotel_address : old('hotel_address') }}</textarea>
+            <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address" placeholder="Address"
+                cols="30" rows="2">{{ isset($model->hotel_address) ? $model->hotel_address : old('hotel_address') }}</textarea>
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_address')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -172,12 +166,11 @@
             @enderror
         </div>
     </div>
- 
+
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_email">Email</label>
-            <input type="text" id="hotel_email" name="hotel_email" class="form-control"
-                placeholder="Email"
+            <input type="text" id="hotel_email" name="hotel_email" class="form-control" placeholder="Email"
                 value="{{ isset($model->agent_email) ? $model->agent_email : old('hotel_email') }}"
                 data-error="Email" />
             <div class="valid-feedback">Looks good!</div>
@@ -189,10 +182,9 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_amenities">Hotel Amenities</label>
-            <input type="text" id="hotel_amenities" name="hotel_amenities" class="form-control"
-                placeholder="Hotel Amenities"
-                value="{{ isset($model->hotel_amenities) ? $model->hotel_amenities : old('hotel_amenities') }}"
-                data-error="Hotel Amenities" />
+            <select class="select2 select2-hotel-amenities form-control" multiple name="hotel_amenities"></select>
+            <div class="hotel_amenitiesCLS"></div>
+
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_amenities')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -215,8 +207,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_review">Rating</label>
-            <input type="text" id="hotel_review" name="hotel_review" class="form-control"
-                placeholder="Rating"
+            <input type="text" id="hotel_review" name="hotel_review" class="form-control" placeholder="Rating"
                 value="{{ isset($model->hotel_review) ? $model->hotel_review : old('hotel_review') }}"
                 data-error="Rating" />
             <div class="valid-feedback">Looks good!</div>
@@ -266,13 +257,14 @@
     </div>
     <div class="col-6">
         <div class="form-group">
-            <label class="form-label" for="cancel_days">Hotel Description</label>
+            <label class="form-label" for="hotel_description">Hotel Description</label>
             <div id="full-wrapper">
-                <div id="full-container">
+                <div id="hdescription">
                     <div class="editor">
-                      
+                        {{ $model->hotel_description }}
                     </div>
                 </div>
+                <textarea style="display: none" id="hotel_description" name="hotel_description">{{ $model->hotel_description }}</textarea>
             </div>
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_review')
@@ -282,32 +274,70 @@
     </div>
     <div class="col-6">
         <div class="form-group">
-            <label class="form-label" for="cancel_days">Cancellation Policy</label>
+            <label class="form-label" for="cancellation_policy">Cancellation Policy</label>
             <div id="full-wrapper">
-                <div id="full-container">
+                <div id="cpolicy">
                     <div class="editor">
-                      
+                        {{ $model->cancellation_policy }}
                     </div>
                 </div>
+                <textarea style="display: none" id="cancellation_policy" name="cancellation_policy">{{ $model->cancellation_policy }}</textarea>
             </div>
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_review')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
+    </div>    
+    <div class="col-4">
+        <div class="form-group">
+            <label class="form-label" for="cancel_days">Hotel Image</label>
+            <div class="dropzone clsbox" id="mydropzone">
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="form-group">
+            <label class="form-label" for="cancel_days">Hotel Images Gallery</label>
+            <div class="dropzone clsbox" id="hoteldropzone">
+            </div>
+        </div>
     </div>
 </div>
 
 @section('extra-script')
-<script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
-<script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
-<script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
-<script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
-<script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.js') }}"></script>
     <script type="text/javascript">
         var moduleConfig = {
             redirectUrl: "{!! route('get-state-list') !!}",
             getCities: "{!! route('get-city-list') !!}",
         };
+    </script>
+    <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.js') }}"></script>
+    
+    <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script type="text/javascript">
+        Dropzone.autoDiscover = false;
+        // Dropzone class:
+        var myDropzone = new Dropzone("div#mydropzone", {
+            url: "/file/post",
+            autoProcessQueue: false,
+            maxFilesize: 1,
+            acceptedFiles: 'image/*',
+        });
+        var myHotelDropzone = new Dropzone("div#hoteldropzone", {
+            url: "/file/post",
+            autoProcessQueue: false,
+            acceptedFiles: 'image/*',
+        });
+        // If you use jQuery, you can use the jQuery plugin Dropzone ships with:
+        $("div#myDrop").dropzone({
+            url: "/file/post"
+            
+        });
     </script>
 @endsection

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Agent\EditRequest;
 use App\Http\Requests\Agent\CreateRequest;
 use App\Http\Requests\Agent\UpdatePasswordRequest;
+use App\Models\Amenity;
 use App\Models\HotelGroup;
 
 class OfflineHotelsController extends Controller
@@ -95,8 +96,8 @@ class OfflineHotelsController extends Controller
             '4'=>'4 Star',
             '5'=>'5 Star',
         ];
-        
-        return view('admin.offline-hotels.create', ['model' => $rawData,'hotelGroups'=>$hotelGroups, 'categories' =>$categories,'countries' => $countries]);
+        $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::HOTEL)->pluck('amenity_name', 'id')->toArray();
+        return view('admin.offline-hotels.create', ['model' => $rawData,'hotelGroups'=>$hotelGroups, 'categories' =>$categories,'countries' => $countries,'HotelsAmenities'=>$HotelsAmenities]);
     }
 
     /**
@@ -105,8 +106,8 @@ class OfflineHotelsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function store(CreateRequest $request)
-    {
+    public function store(Request $request)
+    {   dd($request->all());
         $this->agentRepository->create($request->all());
         return redirect()->route('offlinehotels.index')->with('success', "User created successfully!");
     }

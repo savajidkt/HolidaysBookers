@@ -91,7 +91,7 @@
 @section('extra-script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
-    <script src="{{ asset('js/form/OfflineHotel.js') }}"></script>
+    <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
 
     <script type="text/javascript">
         var table = "";
