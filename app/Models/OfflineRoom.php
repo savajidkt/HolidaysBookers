@@ -130,4 +130,8 @@ class OfflineRoom extends Authenticatable
     {
         return $this->belongsTo(RoomType::class, 'room_type_id', 'id');
     }
+    public function amenity()
+    {
+        return $this->belongsTo(Amenity::class, 'amenities_id', 'id');
+    }
 }

@@ -89,11 +89,10 @@ class OfflineRoomsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, OfflineRoom $offlineRoom)
-    {
-        echo "Show Room Dettails"; exit;
-        $countries    =  Country::where('status', Country::ACTIVE)->get();
-        return view('admin.offline-rooms.view', ['model' => $offlineRoom, 'countries' => $countries]);
+    public function show(Request $request, OfflineRoom $offlineroom)
+    {                
+        
+        return view('admin.offline-rooms.view', ['model' => $offlineroom]);
     }
 
     /**

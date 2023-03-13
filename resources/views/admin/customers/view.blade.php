@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('page_title', __('vehicletype/vehicletype.form_edit_title'))
+@section('page_title', 'Customer')
 @section('content')
     <section id="page-account-settings">
         <div class="card">

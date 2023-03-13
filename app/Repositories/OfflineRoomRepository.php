@@ -68,10 +68,9 @@ class OfflineRoomRepository
                 $RoomChildPriceArr['cnb_price'] = $value['cnb_price'];
                 $offlineRoomChildPrice =  OfflineRoomChildPrice::create($RoomChildPriceArr);
             }
-        }
-        exit;
+        }        
 
-        return $offlineRoomChildPrice;
+        return $offlineRoom;
     }
 
        
