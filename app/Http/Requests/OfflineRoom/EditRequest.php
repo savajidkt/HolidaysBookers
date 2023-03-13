@@ -25,8 +25,7 @@ class EditRequest extends FormRequest
     public function rules()
     {
         $rules = [           
-            'first_name'     => ['required'],           
-            'status'     => ['required'],
+            'hotel_id'     => ['required'],                      
         ];
 
         return $rules;
@@ -40,8 +39,7 @@ class EditRequest extends FormRequest
     public function messages()
     {
         return [            
-            'first_name.required' => 'First name is required',           
-            'status.required' => 'Status is required'
+            'hotel_id.required' => 'Hotel is required',            
         ];
     }
 }

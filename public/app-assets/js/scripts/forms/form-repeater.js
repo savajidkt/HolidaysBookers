@@ -16,12 +16,12 @@ $(function () {
     show: function () {
       $(this).slideDown();
 
-      // $('.repeaterCLS .select2-container').remove();
-      // $('.select2-room-types, .select2-room-amenities').select2({
-      //   placeholder: "Select",
-      //   allowClear: true
-      // });
-      // $('.repeaterCLS  .select2-container').css('width', '100%');
+      $('.repeaterCLS .select2-container').remove();
+      $('.select2-room-types, .select2-room-amenities').select2({
+        placeholder: "Select",
+        allowClear: true
+      });
+      $('.repeaterCLS  .select2-container').css('width', '100%');
 
       // Feather Icons
       if (feather) {

@@ -24,8 +24,7 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         $rules = [           
-            'hotel_id'     => ['required'],           
-            'status'     => ['required'],
+            'hotel_id'     => ['required'],                      
         ];
 
         return $rules;

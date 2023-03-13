@@ -11,7 +11,7 @@
                 <div class="col-md-6">
                     <h4 class="card-title">Offline Rooms</h4>
                 </div>
-                <div class="col-md-6 text-right">                   
+                <div class="col-md-6 text-right">
                     <a href="{{ route('offlinerooms.create') }}"><button type="reset"
                             class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New</button></a>
                 </div>
@@ -38,7 +38,8 @@
         </div>
         <!-- list section end -->
     </section>
-    <!-- users list ends -->
+    <!-- users list ends -->   
+
 @endsection
 @section('extra-script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
@@ -120,7 +121,7 @@
             }).on('click', '.status_update', function(e) {
                 e.preventDefault();
                 var $this = $(this),
-                offline_room_id = $this.data('offline_room_id'),
+                    offline_room_id = $this.data('offline_room_id'),
 
                     status = $this.data('status'),
                     message = status == 1 ?

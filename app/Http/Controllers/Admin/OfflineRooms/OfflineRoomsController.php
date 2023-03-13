@@ -67,7 +67,7 @@ class OfflineRoomsController extends Controller
         $rawData    = new OfflineRoom;
         $HotelsList  = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->pluck('hotel_name', 'id')->toArray();
         $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
-        $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();        
+        $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
         return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities]);
     }
 
@@ -90,22 +90,26 @@ class OfflineRoomsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, OfflineRoom $offlineroom)
-    {                
-        
-        return view('admin.offline-rooms.view', ['model' => $offlineroom]);
+    {
+        $amenitiesName = implode(' | ', $offlineroom->roomamenity()->pluck('amenity_name')->toArray());
+        return view('admin.offline-rooms.view', ['model' => $offlineroom, 'amenitiesName' => $amenitiesName]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\OfflineRoom $offlineRoom [explicite description]
+     * @param \App\Models\OfflineRoom $offlineroom [explicite description]
      *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function edit(OfflineRoom $offlineRoom)
+    public function edit(OfflineRoom $offlineroom)
     {
-        $countries    =  Country::where('status', Country::ACTIVE)->get();
-        return view('admin.offline-rooms.edit', ['model' => $offlineRoom, 'countries' => $countries]);
+        $HotelsList  = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->pluck('hotel_name', 'id')->toArray();
+        $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
+        $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
+        $HotelsAmenitiesIDS  = $offlineroom->roomamenity()->pluck('amenity_id')->toArray();
+
+        return view('admin.offline-rooms.edit', ['model' => $offlineroom, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDS' => $HotelsAmenitiesIDS]);
     }
 
     /**
@@ -116,14 +120,14 @@ class OfflineRoomsController extends Controller
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(EditRequest $request, OfflineRoom $offlineRoom)
+    public function update(Request $request, OfflineRoom $offlineroom)
     {
-        $this->offlineRoomRepository->update($request->all(), $offlineRoom);
+        $this->offlineRoomRepository->update($request->all(), $offlineroom);
 
         return redirect()->route('offlinerooms.index')->with('success', 'Offline Room updated successfully!');
     }
 
-       
+
     /**
      * Method destroy
      *
@@ -147,7 +151,7 @@ class OfflineRoomsController extends Controller
     public function changeStatus(Request $request): JsonResponse
     {
         $input = $request->all();
-        $offlineroom  = OfflineRoom::find($input['offline_room_id']);        
+        $offlineroom  = OfflineRoom::find($input['offline_room_id']);
         if ($this->offlineRoomRepository->changeStatus($input, $offlineroom)) {
             return response()->json([
                 'status' => true,

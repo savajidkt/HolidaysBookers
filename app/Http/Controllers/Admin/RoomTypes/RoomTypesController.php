@@ -142,4 +142,23 @@ class RoomTypesController extends Controller
 
         throw new Exception(__('roomtype/message.error'));
     }
+
+    
+    /**
+     * Method addRoomTypePopup
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function addRoomTypePopup(Request $request): JsonResponse
+    {    
+        $this->roomTypeRepository->addRoomPopup($request->all());
+        return response()->json([
+            'status' => true,
+            'responce' =>RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray(),
+            'message' => ''
+        ]);
+
+    }
 }

@@ -57,7 +57,7 @@ class OfflineRoom extends Authenticatable
     {
         $viewAction =  '<a href="' . route('view-room', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';
         $editAction = '<a href="' . route('offlinerooms.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';
-        $priceListAction ='<a href="' . route('list-hb-credit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Transaction" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
+        $priceListAction = '<a href="' . route('list-hb-credit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Transaction" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
         return $editAction . ' ' . $viewAction . ' ' . $priceListAction . ' ' . $this->getDeleteButtonAttribute();
     }
 
@@ -133,5 +133,10 @@ class OfflineRoom extends Authenticatable
     public function amenity()
     {
         return $this->belongsTo(Amenity::class, 'amenities_id', 'id');
+    }
+
+    public function roomamenity()
+    {
+        return $this->belongsToMany(Amenity::class, 'room_amenities', 'room_id', 'amenity_id');
     }
 }

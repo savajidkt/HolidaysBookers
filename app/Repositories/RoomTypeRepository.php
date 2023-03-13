@@ -78,4 +78,22 @@ class RoomTypeRepository
         $roomtype->status = !$input['status'];
         return $roomtype->save();
     }
+
+    
+    /**
+     * Method addRoomPopup
+     *
+     * @param array $data [explicite description]
+     *
+     * @return RoomType
+     */
+    public function addRoomPopup(array $data): RoomType
+    {
+        $dataSave = [
+            'room_type'    => $data['room_type'],
+            'status'     => 1,
+        ];
+        $roomtype =  RoomType::create($dataSave);
+        return $roomtype;
+    }
 }

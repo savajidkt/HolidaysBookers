@@ -59,7 +59,7 @@ var FrmOfflineRoomPreference = function () {
                 },
                 start_date: {
                     required: 'Start date is required'
-                },               
+                },
                 end_date: {
                     required: 'End date is required'
                 },
@@ -137,7 +137,9 @@ var FrmOfflineRoomPreference = function () {
             dropdownParent: selectRoomType.parent(),
             width: '100%',
             data: hotelRoomData
-        });
+        });        
+        $('.select2-room-types').val(HotelsRoomID);
+        $('.select2-room-types').trigger('change');
 
     }
     var OfflineHotelAmenities = function () {
@@ -148,13 +150,124 @@ var FrmOfflineRoomPreference = function () {
         $.each(HotelsAmenities, function (key, val) {
             hotelAmenitiesData.push({ id: key, text: val });
         });
+
         selectAmenities.wrap('<div class="position-relative"></div>').select2({
             placeholder: "Select Amenities",
             allowClear: true,
+            multiple: true,
             dropdownAutoWidth: true,
             dropdownParent: selectAmenities.parent(),
             width: '100%',
             data: hotelAmenitiesData
+        });
+
+        $('.select2-room-amenities').val(HotelsAmenitiesIDs);
+        $('.select2-room-amenities').trigger('change');
+    }
+
+    var FrmAddAmenity = function () {
+        var FrmRoomAmenityPreferenceForm = $('#FrmroomAmenity');
+        var error4 = $('.error-message', FrmRoomAmenityPreferenceForm);
+        var success4 = $('.error-message', FrmRoomAmenityPreferenceForm);
+
+        FrmRoomAmenityPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                amenity_name: {
+                    required: true,
+                }
+            },
+            messages: {
+                amenity_name: {
+                    required: $("input[name=amenity_name]").attr('data-error')
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $("#FrmroomAmenity .buttonLoader").removeClass('hide');
+                    },
+                    complete: function () {
+                        $("#FrmroomAmenity .buttonLoader").addClass('hide');
+                    },
+                    type: 'POST',
+                    url: moduleConfig.addAmenityURL,
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            HotelsAmenities = data.responce;
+                            OfflineHotelAmenities();
+                            $('#roomAmenityBTN').modal('hide');
+                        }
+                        $("#FrmroomAmenity .buttonLoader").addClass('hide');
+                    }
+                });
+            }
+        });
+    }
+
+    var FrmAddRoomType = function () {
+        var FrmRoomTypePreferenceForm = $('#FrmroomType');
+        var error4 = $('.error-message', FrmRoomTypePreferenceForm);
+        var success4 = $('.error-message', FrmRoomTypePreferenceForm);
+
+        FrmRoomTypePreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                room_type: {
+                    required: true
+                }
+            },
+            messages: {
+                room_type: {
+                    required: $("input[name=room_type]").attr('data-error')
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $("#FrmroomType .buttonLoader").removeClass('hide');
+                    },
+                    complete: function () {
+                        $("#FrmroomType .buttonLoader").addClass('hide');
+                    },
+                    type: 'POST',
+                    url: moduleConfig.addRoomTypeURL,
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            HotelsRoomType = data.responce;
+                            OfflineHotelRooms();
+                            $('#roomTypeBTN').modal('hide');
+                        }
+                        $("#FrmroomType .buttonLoader").addClass('hide');
+                    }
+                });
+            }
         });
     }
 
@@ -166,10 +279,18 @@ var FrmOfflineRoomPreference = function () {
             OfflineHotel();
             OfflineHotelRooms();
             OfflineHotelAmenities();
+            FrmAddAmenity();
+            FrmAddRoomType();
         }
     };
 }();
 
 $(document).ready(function () {
     FrmOfflineRoomPreference.init();
+    $(document).on('click', '.roomTypeBTN', function () {
+        $('#roomTypeBTN').modal('show');
+    });
+    $(document).on('click', '.roomAmenityBTN', function () {
+        $('#roomAmenityBTN').modal('show');
+    });
 });

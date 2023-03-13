@@ -80,4 +80,25 @@ class AmenityRepository
         $amenity->status = !$input['status'];
         return $amenity->save();
     }
+
+
+
+    /**
+     * Method addAmenityPopup
+     *
+     * @param array $data [explicite description]
+     *
+     * @return Amenity
+     */
+    public function addAmenityPopup(array $data): Amenity
+    {
+        $dataSave = [
+            'amenity_name'    => $data['amenity_name'],
+            'type'    => 2,
+            'status'     => 1,
+        ];
+
+        $amenity =  Amenity::create($dataSave);
+        return $amenity;
+    }
 }

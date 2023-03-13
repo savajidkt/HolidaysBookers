@@ -17,7 +17,7 @@ class CreateOfflineroomsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('hotel_id');
             $table->unsignedBigInteger('room_type_id');
-            $table->unsignedBigInteger('amenities_id');
+           // $table->unsignedBigInteger('amenities_id');
             $table->integer('total_adult')->default(0);
             $table->integer('total_cwb')->default(0);
             $table->integer('total_cnb')->default(0);
@@ -34,7 +34,7 @@ class CreateOfflineroomsTable extends Migration
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');            
             $table->foreign('room_type_id')->references('id')->on('room_types')->onDelete('cascade');
-            $table->foreign('amenities_id')->references('id')->on('amenities')->onDelete('cascade');
+            //$table->foreign('amenities_id')->references('id')->on('amenities')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

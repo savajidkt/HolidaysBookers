@@ -89,8 +89,44 @@
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">Room Amenities</label>
+                                            <strong class="disp-below">
+                                              {{$amenitiesName}}
+                                             </strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Max Pax</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->amenity->amenity_name) ? $model->amenity->amenity_name : '' }}</strong>
+                                                class="disp-below">{{ isset($model->max_pax) ? $model->max_pax : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Min Pax</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->min_pax) ? $model->min_pax : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">No of Adult</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->total_adult) ? $model->total_adult : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">No of CWB</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->total_cwb) ? $model->total_cwb : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">No of CNB</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->total_cnb) ? $model->total_cnb : '' }}</strong>
                                         </div>
                                     </div>
                                 </div>

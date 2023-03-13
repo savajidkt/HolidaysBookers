@@ -145,4 +145,14 @@ class AmenitiesController extends Controller
 
         throw new Exception(__('amenity/message.error'));
     }
+
+    public function addAmenityPopup(Request $request): JsonResponse
+    {
+        $this->amenityRepository->addAmenityPopup($request->all());
+        return response()->json([
+            'status' => true,
+            'responce' => Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray(),
+            'message' => ''
+        ]);
+    }
 }
