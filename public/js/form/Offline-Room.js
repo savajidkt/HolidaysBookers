@@ -92,6 +92,82 @@ var FrmOfflineRoomPreference = function () {
             }
         });
     }
+    var FrmOfflineRoomPriceValidation = function () {
+        var FrmOfflineRoomPreferenceForm = $('#FrmOfflineRoomPrice');
+        var error4 = $('.error-message', FrmOfflineRoomPreferenceForm);
+        var success4 = $('.error-message', FrmOfflineRoomPreferenceForm);
+
+        FrmOfflineRoomPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                price_type: { required: true },
+                start_date: { required: true },
+                end_date: { required: true },
+                double_occupancy: {
+                    required: function () {
+                        if ($("input[name='price_type']:checked").val() != 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                },
+                single_occupancy: {
+                    required: function () {
+                        if ($("input[name='price_type']:checked").val() != 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                },
+                extra_pax_price: {
+                    required: function () {
+                        if ($("input[name='price_type']:checked").val() != 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            },
+            messages: {
+
+                price_type: {
+                    required: 'Price type is required'
+                },
+                start_date: {
+                    required: 'Start date is required'
+                },
+                end_date: {
+                    required: 'End date is required'
+                },
+                double_occupancy: {
+                    required: 'Double occupancy is required'
+                },
+                single_occupancy: {
+                    required: 'Single occupancy is required'
+                },
+                extra_pax_price: {
+                    required: 'Extra Pax Price is required'
+                },
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "price_type") {
+                    error.insertAfter(".price_typeCLS");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function (form) {
+                $(".buttonLoader").removeClass('hide');
+                form.submit();
+            }
+        });
+    }
 
     var FrmOfflineRoomPriceType = function () {
         $('input:radio[name=price_type]').change(function () {
@@ -137,7 +213,7 @@ var FrmOfflineRoomPreference = function () {
             dropdownParent: selectRoomType.parent(),
             width: '100%',
             data: hotelRoomData
-        });        
+        });
         $('.select2-room-types').val(HotelsRoomID);
         $('.select2-room-types').trigger('change');
 
@@ -281,6 +357,7 @@ var FrmOfflineRoomPreference = function () {
             OfflineHotelAmenities();
             FrmAddAmenity();
             FrmAddRoomType();
+            FrmOfflineRoomPriceValidation();
         }
     };
 }();

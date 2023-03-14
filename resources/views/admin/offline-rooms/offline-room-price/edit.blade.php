@@ -10,7 +10,7 @@
                         <h4 class="card-title text-white">Edit Room Price</h4>
                     </div>
                     <div class="card-body">
-                        <form id="FrmOfflineRoom" class="room-repeater" novalidate method="post" enctype="multipart/form-data"
+                        <form id="FrmOfflineRoomPrice" class="room-repeater" novalidate method="post" enctype="multipart/form-data"
                             action="{{ route('edit-room-price', $pricemodel) }}">
                             @csrf                            
                             @include('admin.offline-rooms.offline-room-price.form')

@@ -10,7 +10,7 @@
                         <h4 class="card-title text-white">Add Room Price</h4>
                     </div>
                     <div class="card-body">
-                        <form id="FrmOfflineRoom" class="room-repeater" method="post" enctype="multipart/form-data"
+                        <form id="FrmOfflineRoomPrice" class="room-repeater" method="post" enctype="multipart/form-data"
                             action="{{ route('add-room-price', $model) }}">
                             @csrf
                             @include('admin.offline-rooms.offline-room-price.form')

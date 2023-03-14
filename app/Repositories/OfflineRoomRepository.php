@@ -120,9 +120,9 @@ class OfflineRoomRepository
             'room_id'     => $offlineroom->id,
             'from_date'     => $data['start_date'],
             'to_date'     => $data['end_date'],
-            'single_adult_price'     => $data['single_occupancy'],
-            'adult_price'     => $data['double_occupancy'],
-            'extra_bed_price'     => $data['extra_pax_price'],
+            'single_adult_price'     => $data['single_occupancy'] ?? 0,
+            'adult_price'     => $data['double_occupancy'] ?? 0,
+            'extra_bed_price'     => $data['extra_pax_price'] ?? 0,
             'price_type'     => $data['price_type']
         ];
         $offlineRoomPrice =  OfflineRoomPrice::create($RoomPriceArr);
@@ -166,9 +166,9 @@ class OfflineRoomRepository
         $RoomPriceArr = [
             'from_date'     => $data['start_date'],
             'to_date'     => $data['end_date'],
-            'single_adult_price'     => $data['single_occupancy'],
-            'adult_price'     => $data['double_occupancy'],
-            'extra_bed_price'     => $data['extra_pax_price'],
+            'single_adult_price'     => $data['single_occupancy'] ?? 0,
+            'adult_price'     => $data['double_occupancy'] ?? 0,
+            'extra_bed_price'     => $data['extra_pax_price'] ?? 0,
             'price_type'     => $data['price_type']
         ];
         $offlineroomprice->update($RoomPriceArr);
@@ -177,18 +177,19 @@ class OfflineRoomRepository
             'from_date'     => $data['start_date'],
             'to_date'     => $data['end_date'],
         ];
+
         if (is_array($data['childrens']) && count($data['childrens']) > 0) {
             foreach ($data['childrens'] as $key => $value) {
                 $RoomChildPriceArr['min_age'] = $value['main_age'];
                 $RoomChildPriceArr['max_age'] = $value['max_age'];
                 $RoomChildPriceArr['cwb_price'] = $value['cwb_price'];
                 $RoomChildPriceArr['cnb_price'] = $value['cnb_price'];
-                if (strlen($value['id']) == 0 || $value['id'] == "" || $value['id'] == NULL) {
+                if (!isset($data['id'][$key]) || strlen($data['id'][$key]) == 0 || $data['id'][$key] == "" || $data['id'][$key] == NULL) {
                     $RoomChildPriceArr['room_id'] = $offlineroomprice->room_id;
                     $RoomChildPriceArr['price_id'] = $offlineroomprice->id;
                     OfflineRoomChildPrice::create($RoomChildPriceArr);
                 } else {
-                    OfflineRoomChildPrice::where('id', 3)->where('room_id', $value['room_id'])->where('price_id', $value['price_id'])->update($RoomChildPriceArr);
+                    OfflineRoomChildPrice::where('id', $data['id'][$key])->where('room_id', $data['room_id'])->where('price_id', $data['price_id'])->update($RoomChildPriceArr);
                 }
             }
         }

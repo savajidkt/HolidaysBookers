@@ -175,7 +175,11 @@
 <div data-repeater-list="childrens" class="repeaterCLS">
     @if ($pricemodel->childprice->count() > 0)
         @foreach ($pricemodel->childprice as $childs)
+                    <input type="hidden" name="id[]" value="{{ $childs->id }}" />
+                    <input type="hidden" name="room_id" value="{{ $childs->room_id }}" />
+                    <input type="hidden" name="price_id" value="{{ $childs->price_id }}" />
             <div data-repeater-item>
+                
                 <div class="row d-flex align-items-end">
                     <div class="col-12">
                         <div class="d-flex align-items-center mb-1 mt-1">
@@ -218,9 +222,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="id" value="{{ $childs->id }}" />
-                    <input type="hidden" name="room_id" value="{{ $childs->room_id }}" />
-                    <input type="hidden" name="price_id" value="{{ $childs->price_id }}" />
+                    
                     <div class="row col-4">
                         <div class="col-md-2 col-12 mb-50">
                             <div class="form-group">
