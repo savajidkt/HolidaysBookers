@@ -96,10 +96,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/hotelgroups', HotelGroupsController::class);
     Route::post('/hotelgroup/change-status', [HotelGroupsController::class, 'changeStatus'])->name('change-hotel-group-status');
+    Route::post('/hotelgroup/add-group', [HotelGroupsController::class, 'addGroupPopup'])->name('add-group');
+    
 
     Route::resource('/propertytypes', PropertyTypesController::class);
     Route::post('/propertytype/change-status', [PropertyTypesController::class, 'changeStatus'])->name('change-propertytype-status');
-
+    Route::post('/propertytype/add-property', [PropertyTypesController::class, 'addPropertyPopup'])->name('add-property');
+    
     Route::resource('/roomtypes', RoomTypesController::class);
     Route::post('/roomtype/change-status', [RoomTypesController::class, 'changeStatus'])->name('change-roomtype-status');
     Route::post('/roomtype/add-room-type', [RoomTypesController::class, 'addRoomTypePopup'])->name('add-room-type');

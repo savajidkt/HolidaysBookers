@@ -146,4 +146,14 @@ class PropertyTypesController extends Controller
 
         throw new Exception(__('propertytype/message.error'));
     }
+
+    public function addPropertyPopup(Request $request): JsonResponse
+    {
+        $hotelProperty = $this->propertyTypeRepository->addPropertyPopup($request->all());
+        return response()->json([
+            'status' => true,
+            'responce' =>['id'=>$hotelProperty->id,'name'=>$hotelProperty->property_name],
+            'message' => ''
+        ]);
+    }
 }

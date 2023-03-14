@@ -9,6 +9,7 @@ use App\Models\Agent;
 use Illuminate\Support\Facades\DB;
 use App\Events\ForgotPasswordEvent;
 use App\Exceptions\GeneralException;
+use App\Models\OfflineHotel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\RegisterdEmailNotification;
@@ -20,41 +21,43 @@ class OfflineHotelRepository
      *
      * @param array $data [explicite description]
      *
-     * @return User
+     * @return OfflineHotel
      */
-    public function create(array $data): User
+    public function create(array $data): OfflineHotel
     {
 
-        $UserArr = [
-            'first_name'    => $data['agent_first_name'],
-            'last_name'    => $data['agent_last_name'],
-            'email'    => $data['agent_username'],
-            'password'    => Hash::make($data['agent_password']),
-            'user_type'    => User::AGENT,
-            'status'    => User::ACTIVE,
+        $HotelArr = [
+            'hotel_name'    => $data['hotel_name'],
+            'hotel_country'  => $data['hotel_country'],
+            'hotel_state'    => $data['hotel_state'],
+            'hotel_city'    => $data['hotel_city'],
+            'category'      => $data['category'],
+            'hotel_group_id'    => $data['hotel_group_id'],
+            'phone_number'    => $data['phone_number'],
+            'fax_number'    => $data['fax_number'],
+            'hotel_address'    => $data['hotel_address'],
+            'hotel_pincode'    => $data['hotel_pincode'],
+            'hotel_email'    => $data['hotel_email'],
+            'hotel_amenities'    => $data['hotel_amenities'],
+            'property_type_id'    => $data['property_type_id'],
+            'hotel_review'    => $data['hotel_review'],
+            'hotel_latitude'    => $data['hotel_latitude'],
+            'hotel_longitude'    => $data['hotel_longitude'],
+            'cancel_days'    => $data['cancel_days'],
+            'hotel_description'    => $data['hotel_description'],
+            'cancellation_policy'    => $data['cancellation_policy'],
+            'status'    => OfflineHotel::ACTIVE,
         ];
 
-        $user =  User::create($UserArr);
+        $hotel =  OfflineHotel::create($HotelArr);
+
         $UserProfileArr = [];
-        $UserProfileArr['user_id'] = $user->id;
-        $UserProfileArr['agent_code'] = createAgentCode($user->id);
-        foreach ($data as $key => $value) {
-            if ($key != "id" && $key != "_token") {
-                if ($key == "agent_pan_card") {
-                    $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_pan_card', $user->id);
-                } else if ($key == "agent_company_certificate") {
-                    $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_certificate', $user->id);
-                } else if ($key == "agent_company_logo") {
-                    $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_logo', $user->id);
-                } else {
-                    $UserProfileArr[$key] = $data[$key];
-                }
-            }
-        }
+        $UserProfileArr['user_id'] = $hotel->id;
+        $UserProfileArr['agent_code'] = createAgentCode($hotel->id);
 
         $agent =  Agent::create($UserProfileArr);
         //$user->notify(new RegisterdEmailNotification($password,$user));
-        return $user;
+        return $hotel;
     }
 
 

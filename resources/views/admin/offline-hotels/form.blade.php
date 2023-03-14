@@ -104,6 +104,9 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_group_id">Hotel Group</label>
+            <a class="badge badge-success HotelGroupPopup" style="color:#FFF; float: right;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Group
+            </a>
             <select class="select2 form-control form-control-lg" id="hotel_group_id" name="hotel_group_id"
                 data-error="Hotel Group">
                 <option value="">Select Hotel Group</option>
@@ -182,6 +185,9 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_amenities">Hotel Amenities</label>
+            <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Amenities
+            </a>
             <select class="select2 select2-hotel-amenities form-control" multiple name="hotel_amenities"></select>
             <div class="hotel_amenitiesCLS"></div>
 
@@ -194,10 +200,17 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="property_type_id">Property Type</label>
-            <input type="text" id="property_type_id" name="property_type_id" class="form-control"
-                placeholder="Property Type"
-                value="{{ isset($model->property_type_id) ? $model->property_type_id : old('property_type_id') }}"
-                data-error="Property Type" />
+            <a class="badge badge-success PropertyPopup" style="color:#FFF; float: right;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Property Type
+            </a>
+            <select class="select2 form-control form-control-lg" id="property_type_id" name="property_type_id"
+                data-error="Property Type">
+                <option value="">Select Property Type</option>
+                @foreach ($propertyTypes as $key => $type)
+                    <option value="{{ $type->id }}" {{ $model->property_type_id == $type->id ? 'selected' : '' }}>
+                        {{ $type->property_name }}</option>
+                @endforeach
+            </select>
             <div class="valid-feedback">Looks good!</div>
             @error('property_type_id')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -218,7 +231,7 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="hotel_latitude">Rating</label>
+            <label class="form-label" for="hotel_latitude">Latitude</label>
             <input type="text" id="hotel_latitude" name="hotel_latitude" class="form-control"
                 placeholder="Latitude"
                 value="{{ isset($model->hotel_latitude) ? $model->hotel_latitude : old('hotel_latitude') }}"
@@ -305,19 +318,23 @@
     </div>
 </div>
 
+
 @section('extra-script')
     <script type="text/javascript">
         var moduleConfig = {
             redirectUrl: "{!! route('get-state-list') !!}",
             getCities: "{!! route('get-city-list') !!}",
+            addAmenityURL: "{!! route('add-amenity') !!}",
+            addGroupURL: "{!! route('add-group') !!}",
+            addPropertyURL: "{!! route('add-property') !!}",
         };
     </script>
     <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
-    <script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.js') }}"></script>
     
+
     <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script type="text/javascript">
@@ -339,5 +356,87 @@
             url: "/file/post"
             
         });
+
+
+(function (window, document, $) {
+  'use strict';
+  var Font = Quill.import('formats/font');
+  Font.whitelist = ['sofia', 'slabo', 'roboto', 'inconsolata', 'ubuntu'];
+  Quill.register(Font, true);
+var modulesSettings = {
+      formula: true,
+      syntax: true,
+      toolbar: [[{font: []},{size: []}],
+        ['bold', 'italic', 'underline', 'strike'],
+        [
+          {
+            color: []
+          },
+          {
+            background: []
+          }
+        ],
+        [
+          {
+            script: 'super'
+          },
+          {
+            script: 'sub'
+          }
+        ],
+        [
+          {
+            header: '1'
+          },
+          {
+            header: '2'
+          },
+          'blockquote',
+          'code-block'
+        ],
+        [
+          {
+            list: 'ordered'
+          },
+          {
+            list: 'bullet'
+          },
+          {
+            indent: '-1'
+          },
+          {
+            indent: '+1'
+          }
+        ],
+        [
+          'direction',
+          {
+            align: []
+          }
+        ],
+        ['link', 'image', 'video', 'formula'],
+        ['clean']
+      ]
+    };
+    var hotel_description = new Quill('#hdescription .editor', {
+        bounds: '#hdescription .editor',
+        modules: modulesSettings,
+        theme: 'snow'
+    });
+    var cancellation_policy = new Quill('#cpolicy .editor', {
+        bounds: '#cpolicy .editor',
+        modules: modulesSettings,
+        theme: 'snow'
+    });
+
+        hotel_description.on('text-change', function(delta, oldDelta, source) {
+                $('#hotel_description').val(hotel_description.container.firstChild.innerHTML);
+            });
+            cancellation_policy.on('text-change', function(delta, oldDelta, source) {
+                $('#cancellation_policy').val(cancellation_policy.container.firstChild.innerHTML);
+            });
+            
+  var editors = [hotel_description,cancellation_policy];
+})(window, document, jQuery);
     </script>
 @endsection

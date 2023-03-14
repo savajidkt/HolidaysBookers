@@ -149,9 +149,10 @@ class AmenitiesController extends Controller
     public function addAmenityPopup(Request $request): JsonResponse
     {
         $this->amenityRepository->addAmenityPopup($request->all());
+        $type = (isset($request->type)) ? $request->type : Amenity::ROOM;
         return response()->json([
             'status' => true,
-            'responce' => Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray(),
+            'responce' => Amenity::where('status', Amenity::ACTIVE)->where('type',$type)->pluck('amenity_name', 'id')->toArray(),
             'message' => ''
         ]);
     }

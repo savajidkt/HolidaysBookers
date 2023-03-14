@@ -78,4 +78,14 @@ class PropertyTypeRepository
         $propertytype->status = !$input['status'];
         return $propertytype->save();
     }
+    public function addPropertyPopup(array $data): PropertyType
+    {
+        $dataSave = [
+            'property_name'    => $data['property_name'],
+            'status'  => PropertyType::ACTIVE,
+        ];
+
+        $property =  PropertyType::create($dataSave);
+        return $property;
+    }
 }

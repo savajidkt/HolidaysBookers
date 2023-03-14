@@ -79,4 +79,22 @@ class HotelGroupRepository
         $hotelgroup->status = !$input['status'];
         return $hotelgroup->save();
     }
+    
+    /**
+     * Method addGroupPopup
+     *
+     * @param array $data [explicite description]
+     *
+     * @return HotelGroup
+     */
+    public function addGroupPopup(array $data): HotelGroup
+    {
+        $dataSave = [
+            'name'    => $data['name'],
+            'status'  => HotelGroup::ACTIVE,
+        ];
+
+        $group =  HotelGroup::create($dataSave);
+        return $group;
+    }
 }

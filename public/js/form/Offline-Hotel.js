@@ -1,104 +1,85 @@
-var FrmOfflineRoomPreference = function () {
-    var FrmOfflineRoomValidation = function () {
-        var FrmOfflineRoomPreferenceForm = $('#FrmOfflineRoom');
-        var error4 = $('.error-message', FrmOfflineRoomPreferenceForm);
-        var success4 = $('.error-message', FrmOfflineRoomPreferenceForm);
+var FrmOfflineHotelPreference = function () {
+    var FrmOfflineHotelValidation = function () {
+        var FrmOfflineHotelPreferenceForm = $('#FrmOfflineHotel');
+        var error4 = $('.error-message', FrmOfflineHotelPreference);
+        var success4 = $('.error-message', FrmOfflineHotelPreference);
 
-        FrmOfflineRoomPreferenceForm.validate({
+        FrmOfflineHotelPreferenceForm.validate({
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
             focusInvalid: false,
             ignore: "",
             rules: {
-                hotel_id: { required: true },
-                room_type: { required: true },
-                room_amenities: { required: true },
-                max_pax: { required: true },
-                min_pax: { required: true },
-                no_of_cwb: { required: true },
-                no_of_cnb: { required: true },
-                no_of_adult: { required: true },
-                status: { required: true },
-                price_type: { required: true },
-                start_date: { required: true },
-                end_date: { required: true },
-                double_occupancy: { required: true },
-                single_occupancy: { required: true },
-                extra_pax_price: { required: true },
+                hotel_name: { required: true },
+                hotel_country: { required: true },
+                hotel_state: { required: true },
+                hotel_city: { required: true },
+                category: { required: true },
+                hotel_group_id: { required: true },
+                phone_number: { required: true },
+                hotel_address: { required: true },
+                hotel_pincode: { required: true },
+                hotel_email: { required: true },
+                hotel_amenities: { required: true },
+                property_type_id: { required: true },
+                hotel_review: { required: true },
+                hotel_latitude: { required: true },
+                hotel_longitude: { required: true },
+                cancel_days: { required: true }
             },
             messages: {
-                hotel_id: {
+                hotel_name: {
                     required: 'Hotel is required'
                 },
-                room_type: {
-                    required: 'Room type is required'
+                hotel_country: {
+                    required: 'Country is required'
                 },
-                room_amenities: {
-                    required: 'Room amenities is required'
+                hotel_state: {
+                    required: 'State is required'
                 },
-                max_pax: {
-                    required: 'Max pax is required'
+                hotel_city: {
+                    required: 'City is required'
                 },
-                min_pax: {
-                    required: 'Min pax is required'
+                category: {
+                    required: 'Category is required'
                 },
-                no_of_cwb: {
-                    required: 'No of CWB is required'
+                hotel_group_id: {
+                    required: 'Group is required'
                 },
-                no_of_cnb: {
-                    required: 'No of CNB is required'
+                phone_number: {
+                    required: 'Phone number is required'
                 },
-                no_of_adult: {
-                    required: 'No of Adult is required'
+                hotel_address: {
+                    required: 'Address is required'
                 },
-                status: {
-                    required: 'Status is required'
+                hotel_pincode: {
+                    required: 'Pincode is required'
                 },
-                price_type: {
-                    required: 'Price type is required'
+                hotel_email: {
+                    required: 'Email is required'
                 },
-                start_date: {
-                    required: 'Start date is required'
+                hotel_amenities: {
+                    required: 'Amenity is required'
                 },               
-                end_date: {
-                    required: 'End date is required'
+                property_type_id: {
+                    required: 'Property type is required'
                 },
-                double_occupancy: {
-                    required: 'Double occupancy is required'
+                hotel_review: {
+                    required: 'Review is required'
                 },
-                single_occupancy: {
-                    required: 'Single occupancy is required'
+                hotel_latitude: {
+                    required: 'Latitude is required'
                 },
-                extra_pax_price: {
-                    required: 'Extra Pax Price is required'
+                hotel_longitude: {
+                    required: 'Longitude is required'
                 },
-            },
-            errorPlacement: function (error, element) {
-                if (element.attr("name") == "price_type") {
-                    error.insertAfter(".price_typeCLS");
-                } else if (element.attr("name") == "hotel_id") {
-                    error.insertAfter(".hotel_idCLS");
-                } else if (element.attr("name") == "room_type") {
-                    error.insertAfter(".room_typeCLS");
-                } else if (element.attr("name") == "room_amenities") {
-                    error.insertAfter(".room_amenitiesCLS");
-                } else {
-                    error.insertAfter(element);
-                }
+                cancel_days: {
+                    required: 'Cancel day is required'
+                },
             },
             submitHandler: function (form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
-            }
-        });
-    }
-
-    var FrmOfflineRoomPriceType = function () {
-        $('input:radio[name=price_type]').change(function () {
-            if ($(this).val() == 0) {
-                $('.is_stop_sale').addClass('hide');
-            } else {
-                $('.is_stop_sale').removeClass('hide');
             }
         });
     }
@@ -121,16 +102,201 @@ var FrmOfflineRoomPreference = function () {
             data: hotelAmenitiesData
         });
     }
+    var OfflineHotelGroups = function () {
+        var selectGroups = $('#hotel_group_id');
+        $(selectGroups).append($('<option>', { 
+            value:HotelsGroups.id,
+            text :HotelsGroups.name
+        }));
+        
+    }
+    var OfflinePropertyType = function () {
+        var selectProperty = $('#property_type_id');
+        $(selectProperty).append($('<option>', { 
+            value:Property.id,
+            text :Property.name
+        }));
+        
+    }
 
+    var FrmAddAmenity = function () {
+        var FrmHotelAmenityPreferenceForm = $('#FrmhotelAmenity');
+        var error4 = $('.error-message', FrmHotelAmenityPreferenceForm);
+        var success4 = $('.error-message', FrmHotelAmenityPreferenceForm);
+
+        FrmHotelAmenityPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                amenity_name: {
+                    required: true,
+                }
+            },
+            messages: {
+                amenity_name: {
+                    required: $("input[name=amenity_name]").attr('data-error')
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $("#FrmhotelAmenity .buttonLoader").removeClass('hide');
+                    },
+                    complete: function () {
+                        $("#FrmhotelAmenity .buttonLoader").addClass('hide');
+                    },
+                    type: 'POST',
+                    url: moduleConfig.addAmenityURL,
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            HotelsAmenities = data.responce;
+                            OfflineHotelAmenities();
+                            $('#roomAmenityBTN').modal('hide');
+                        }
+                        $("#FrmhotelAmenity .buttonLoader").addClass('hide');
+                    }
+                });
+            }
+        });
+    }
+    var FrmAddGroup = function () {
+        var FrmHotelGroupPreferenceForm = $('#FrmhotelGroup');
+        var error4 = $('.error-message', FrmHotelGroupPreferenceForm);
+        var success4 = $('.error-message', FrmHotelGroupPreferenceForm);
+
+        FrmHotelGroupPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                name: {
+                    required: true,
+                }
+            },
+            messages: {
+                name: {
+                    required: $("input[name=name]").attr('data-error')
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $("#FrmhotelGroup .buttonLoader").removeClass('hide');
+                    },
+                    complete: function () {
+                        $("#FrmhotelGroup .buttonLoader").addClass('hide');
+                    },
+                    type: 'POST',
+                    url: moduleConfig.addGroupURL,
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            HotelsGroups = data.responce;
+                            OfflineHotelGroups();
+                            $('#HotelGroupPopup').modal('hide');
+                        }
+                        $("#FrmhotelGroup .buttonLoader").addClass('hide');
+                    }
+                });
+            }
+        });
+    }
+    var FrmAddProperty = function () {
+        var FrmPropertyPreferenceForm = $('#FrmPropertyType');
+        var error4 = $('.error-message', FrmPropertyPreferenceForm);
+        var success4 = $('.error-message', FrmPropertyPreferenceForm);
+
+        FrmPropertyPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                property_name: {
+                    required: true,
+                }
+            },
+            messages: {
+                property_name: {
+                    required: $("input[name=property_name]").attr('data-error')
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $("#FrmPropertyType .buttonLoader").removeClass('hide');
+                    },
+                    complete: function () {
+                        $("#FrmPropertyType .buttonLoader").addClass('hide');
+                    },
+                    type: 'POST',
+                    url: moduleConfig.addPropertyURL,
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            Property = data.responce;
+                            OfflinePropertyType();
+                            $('#PropertyPopup').modal('hide');
+                        }
+                        $("#FrmPropertyType .buttonLoader").addClass('hide');
+                    }
+                });
+            }
+        });
+    }
     return {
         //main function to initiate the module
         init: function () {
-            FrmOfflineRoomValidation();
+            FrmOfflineHotelValidation();
             OfflineHotelAmenities();
+            FrmAddAmenity();
+            FrmAddGroup();
+            FrmAddProperty();
         }
     };
 }();
 
 $(document).ready(function () {
-    FrmOfflineRoomPreference.init();
+    FrmOfflineHotelPreference.init();
+    $(document).on('click', '.HotelGroupPopup', function () {
+        $('#HotelGroupPopup').modal('show');
+    });
+    
+    $(document).on('click', '.PropertyPopup', function () {
+        $('#PropertyPopup').modal('show');
+    });
+    $(document).on('click', '.roomAmenityBTN', function () {
+        $('#roomAmenityBTN').modal('show');
+    });
 });

@@ -140,4 +140,22 @@ class HotelGroupsController extends Controller
         }
         throw new Exception(__('hotel-group/message.error'));
     }
+    
+    /**
+     * Method addGroupPopup
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return JsonResponse
+     */
+    public function addGroupPopup(Request $request): JsonResponse
+    {
+        $hotelGroup = $this->hotelGroupRepository->addGroupPopup($request->all());
+        return response()->json([
+            'status' => true,
+            'responce' =>['id'=>$hotelGroup->id,'name'=>$hotelGroup->name],
+            'message' => ''
+        ]);
+    }
+    
 }

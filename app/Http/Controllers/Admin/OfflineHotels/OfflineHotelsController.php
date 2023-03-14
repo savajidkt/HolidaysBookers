@@ -28,6 +28,7 @@ use App\Http\Requests\Agent\CreateRequest;
 use App\Http\Requests\Agent\UpdatePasswordRequest;
 use App\Models\Amenity;
 use App\Models\HotelGroup;
+use App\Models\PropertyType;
 
 class OfflineHotelsController extends Controller
 {
@@ -88,6 +89,7 @@ class OfflineHotelsController extends Controller
         //
         $rawData    = new OfflineHotel();
         $hotelGroups    = HotelGroup::where('status', HotelGroup::ACTIVE)->get();
+        $propertyTypes    = PropertyType::where('status', PropertyType::ACTIVE)->get();
         $countries    =  Country::where('status', Country::ACTIVE)->get();
         $categories = [
             '1'=>'1 Star',
@@ -97,7 +99,7 @@ class OfflineHotelsController extends Controller
             '5'=>'5 Star',
         ];
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::HOTEL)->pluck('amenity_name', 'id')->toArray();
-        return view('admin.offline-hotels.create', ['model' => $rawData,'hotelGroups'=>$hotelGroups, 'categories' =>$categories,'countries' => $countries,'HotelsAmenities'=>$HotelsAmenities]);
+        return view('admin.offline-hotels.create', ['model' => $rawData,'hotelGroups'=>$hotelGroups,'propertyTypes'=>$propertyTypes, 'categories' =>$categories,'countries' => $countries,'HotelsAmenities'=>$HotelsAmenities]);
     }
 
     /**
@@ -107,9 +109,9 @@ class OfflineHotelsController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
-    {   dd($request->all());
-        $this->agentRepository->create($request->all());
-        return redirect()->route('offlinehotels.index')->with('success', "User created successfully!");
+    {  
+        $this->offlineHotelRepository->create($request->all());
+        return redirect()->route('offlinehotels.index')->with('success', "Hotel created successfully!");
     }
 
     /**
@@ -187,34 +189,7 @@ class OfflineHotelsController extends Controller
         throw new GeneralException('Agent status does not change. Please check sometime later.');
     }
 
-    function invoice_num($input, $pad_len = 7, $prefix = null)
-    {
-        if ($pad_len <= strlen($input))
-            trigger_error('<strong>$pad_len</strong> cannot be less than or equal to the length of <strong>$input</strong> to generate invoice number', E_USER_ERROR);
-
-        if (is_string($prefix))
-            return sprintf("%s%s", $prefix, str_pad($input, $pad_len, "0", STR_PAD_LEFT));
-
-        return str_pad($input, $pad_len, "0", STR_PAD_LEFT);
-    }
-
-    /**
-     * Method updatePassword
-     *
-     * @param UpdatePasswordRequest $request [explicite description]
-     * @param Agent $agent [explicite description]
-     *
-     * @return void
-     */
-    public function updatePassword(UpdatePasswordRequest $request)
-    {
-        $input = $request->all();
-        $agent  = Agent::find($input['modal_user_id']);
-        $user  = $agent->user;
-        $this->agentRepository->updatePassword($input, $user);
-        return redirect()->route('offlinehotels.index')->with('success', "Agent password updated successfully!");
-    }
-
+    
     /**
      * Method importOfflineHotels
      *

@@ -11,7 +11,7 @@
                         <h4 class="card-title text-white">New Offline Hotel</h4>
                     </div>
                     <div class="card-body">
-                        <form class="needs-validation1" id="FrmAgent" method="post" enctype="multipart/form-data"
+                        <form class="needs-validation1" id="FrmOfflineHotel" method="post" enctype="multipart/form-data"
                             action="{{ route('offlinehotels.store') }}">
                             <input type="hidden" name="id" value="{{ isset($model->id) ? $model->id : null }}">
                             @csrf
@@ -34,7 +34,12 @@
             </div>
         </div>
     </section>
+@include('admin.offline-hotels.hotel-group-popup');
+@include('admin.offline-hotels.property-popup');
+@include('admin.offline-hotels.amenity-popup');
+
 @endsection
+
 @section('extra-script')
-    
+
 @endsection

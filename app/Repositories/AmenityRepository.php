@@ -94,7 +94,7 @@ class AmenityRepository
     {
         $dataSave = [
             'amenity_name'    => $data['amenity_name'],
-            'type'    => 2,
+            'type'    => $data['type'] ?? Amenity::ROOM,
             'status'     => 1,
         ];
 
