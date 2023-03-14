@@ -17,6 +17,10 @@ class OfflineRoom extends Authenticatable
 
     const OFFLINE = 1;
     const API = 2;
+    
+    const STOPSALE = 0;
+    const NORMAL = 1;  
+    const BLACKOUTSALE = 2;
 
     const STATUS = [
         self::ACTIVE => 'Active',
@@ -26,6 +30,11 @@ class OfflineRoom extends Authenticatable
     const TYPE = [
         self::OFFLINE => 'Offline',
         self::API => 'API'
+    ];
+    const PRICETYPE = [
+        self::NORMAL => 'Normal',
+        self::STOPSALE => 'Stop Sale',
+        self::BLACKOUTSALE => 'Blackout Sale'
     ];
 
 
@@ -57,8 +66,9 @@ class OfflineRoom extends Authenticatable
     {
         $viewAction =  '<a href="' . route('view-room', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';
         $editAction = '<a href="' . route('offlinerooms.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';
-        $priceListAction = '<a href="' . route('list-hb-credit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Transaction" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
-        return $editAction . ' ' . $viewAction . ' ' . $priceListAction . ' ' . $this->getDeleteButtonAttribute();
+        $addPriceAction = '<a href="' . route('add-room-price', $this->id) . '" class="edit btn btn-success btn-sm" data-toggle="tooltip" data-original-title="Add Price" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i></a>';
+        $priceListAction = '<a href="' . route('view-room-price', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Price" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
+        return $editAction . ' ' . $viewAction . ' '.$addPriceAction.' '. $priceListAction . ' ' . $this->getDeleteButtonAttribute();
     }
 
     /**
@@ -115,7 +125,7 @@ class OfflineRoom extends Authenticatable
 
     public function price()
     {
-        return $this->belongsTo(OfflineRoomPrice::class, 'room_id', 'id');
+        return $this->hasMany(OfflineRoomPrice::class, 'room_id', 'id');
     }
     public function childprice()
     {

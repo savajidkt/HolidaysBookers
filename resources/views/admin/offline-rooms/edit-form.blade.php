@@ -1,9 +1,9 @@
 <script>
-    var HotelsList = {!! json_encode($HotelsList) !!};
-    var HotelsRoomType = {!! json_encode($HotelsRoomType) !!};
-    var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
-    var HotelsRoomID = "{!! $model->room_type_id !!}";
-    var HotelsAmenitiesIDs = {!! json_encode($HotelsAmenitiesIDS) !!};
+    var HotelsList = "";
+    var HotelsRoomType = "";
+    var HotelsAmenities = "";
+    var HotelsRoomID = "";
+    var HotelsAmenitiesIDs = "";
 </script>
 
 <div class="row">

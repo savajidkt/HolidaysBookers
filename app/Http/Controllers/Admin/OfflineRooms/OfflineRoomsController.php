@@ -16,6 +16,7 @@ use App\Http\Requests\OfflineRoom\EditRequest;
 use App\Http\Requests\OfflineRoom\CreateRequest;
 use App\Models\Amenity;
 use App\Models\OfflineHotel;
+use App\Models\OfflineRoomPrice;
 use App\Models\RoomType;
 
 class OfflineRoomsController extends Controller
@@ -136,7 +137,7 @@ class OfflineRoomsController extends Controller
      * @return void
      */
     public function destroy(OfflineRoom $offlineroom)
-    {
+    {        
         $this->offlineRoomRepository->delete($offlineroom);
         return redirect()->route('offlinerooms.index')->with('success', 'Offline Room deleted successfully!');
     }
@@ -159,5 +160,113 @@ class OfflineRoomsController extends Controller
             ]);
         }
         throw new Exception('Offline Room status does not change. Please check sometime later.');
+    }
+
+
+    /**
+     * Method viewPrice
+     *
+     * @param Request $request [explicite description]
+     * @param OfflineRoom $offlineroom [explicite description]
+     *
+     * @return void
+     */
+    public function viewPrice(Request $request, OfflineRoom $offlineroom)
+    {
+        if ($request->ajax()) {
+            $data = OfflineRoomPrice::where('room_id', $offlineroom->id)->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('hotel_name', function (OfflineRoomPrice $price) {
+                    return $price->room->hotel->hotel_name;
+                })->addColumn('room_type', function (OfflineRoomPrice $price) {
+                    return $price->room->roomtype->room_type;
+                })->addColumn('price_type', function (OfflineRoomPrice $price) {
+                    return $price->price_type_name;
+                })->addColumn('from_date', function (OfflineRoomPrice $price) {
+                    return $price->from_date;
+                })->addColumn('to_date', function (OfflineRoomPrice $price) {
+                    return $price->to_date;
+                })->addColumn('adult_price', function (OfflineRoomPrice $price) {
+                    return $price->adult_price;
+                })->addColumn('extra_bed_price', function (OfflineRoomPrice $price) {
+                    return $price->extra_bed_price;
+                })->addColumn('action', function ($row) {
+                    return $row->action;
+                })->rawColumns(['action', 'price_type'])->make(true);
+        }
+
+        return view('admin.offline-rooms.offline-room-price.index', ['model' => $offlineroom]);
+    }
+
+    /**
+     * Method createPrice
+     *
+     * @param OfflineRoom $offlineroom [explicite description]
+     *
+     * @return void
+     */
+    public function createPrice(OfflineRoom $offlineroom)
+    {
+        $roomPrice = new OfflineRoomPrice();
+        return view('admin.offline-rooms.offline-room-price.create', ['pricemodel' => $roomPrice, 'model' => $offlineroom]);
+    }
+
+    /**
+     * Method storePrice
+     *
+     * @param Request $request [explicite description]
+     * @param OfflineRoom $offlineroom [explicite description]
+     *
+     * @return void
+     */
+    public function storePrice(Request $request, OfflineRoom $offlineroom)
+    {
+        $this->offlineRoomRepository->createPrice($request->all(), $offlineroom);
+        return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price created successfully!');
+    }
+
+    /**
+     * Method editPrice
+     *
+     * @param $id $id [explicite description]
+     *
+     * @return void
+     */
+    public function editPrice($id)
+    {
+        $roomPrice = OfflineRoomPrice::find($id);
+        $OfflineRoom = $roomPrice->room;
+        return view('admin.offline-rooms.offline-room-price.edit', ['pricemodel' => $roomPrice, 'model' => $OfflineRoom]);
+    }
+
+    /**
+     * Method updatePrice
+     *
+     * @param Request $request [explicite description]
+     * @param OfflineRoomPrice $offlineroomprice [explicite description]
+     *
+     * @return void
+     */
+    public function updatePrice(Request $request, OfflineRoomPrice $offlineroomprice)
+    {
+        $offlineroom =  $offlineroomprice->room;
+        $this->offlineRoomRepository->updatePrice($request->all(), $offlineroomprice);
+        return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price updated successfully!');
+    }
+
+    /**
+     * Method destroyPrice
+     *
+     * @param OfflineRoom $offlineroom [explicite description]
+     *
+     * @return void
+     */
+    public function destroyPrice(OfflineRoomPrice $offlineroomprice)
+    {        
+        $offlineroom =  $offlineroomprice->room;
+        $this->offlineRoomRepository->deletePrice($offlineroomprice);
+        return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price deleted successfully!');
     }
 }

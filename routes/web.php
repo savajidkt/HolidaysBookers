@@ -149,7 +149,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('/offlinerooms', OfflineRoomsController::class);
     Route::post('/offlineroom/change-status', [OfflineRoomsController::class, 'changeStatus'])->name('change-offline-room-status');
     Route::get('/offlineroom/view/{offlineroom}/offlineroom', [OfflineRoomsController::class, 'show'])->name('view-room');     
-
+    Route::get('/offlineroom/{offlineroom}/price', [OfflineRoomsController::class, 'viewPrice'])->name('view-room-price');     
+    Route::get('/offlineroom/{offlineroom}/price/add', [OfflineRoomsController::class, 'createPrice'])->name('add-room-price');     
+    Route::post('/offlineroom/{offlineroom}/price/add', [OfflineRoomsController::class, 'storePrice'])->name('add-room-price');     
+    Route::get('/offlineroom/{id}/price/edit', [OfflineRoomsController::class, 'editPrice'])->name('edit-room-price');     
+    Route::post('/offlineroom/{offlineroomprice}/price/edit', [OfflineRoomsController::class, 'updatePrice'])->name('edit-room-price');     
+    Route::delete('/offlineroom/{offlineroomprice}/price/delete', [OfflineRoomsController::class, 'destroyPrice'])->name('delete-room-price');     
+    
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
     Route::post('/user/change-status', [UsersController::class, 'changeStatus'])->name('change-user-status');
