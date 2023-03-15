@@ -40,15 +40,29 @@ class OfflineRoomsController extends Controller
                 ->addIndexColumn()
                 ->addColumn('hotel_name', function (OfflineRoom $room) {
                     return $room->hotel->hotel_name;
+                })->filterColumn('hotel_name', function ($query, $keyword) {
+                    $query->whereHas('hotel', function ($query) use ($keyword) {
+                        $query->where('hotel_name', 'LIKE', '%' . $keyword . '%');
+                    });
                 })->addColumn('room_type', function (OfflineRoom $room) {
                     return $room->roomtype->room_type;
+                })->filterColumn('room_type', function ($query, $keyword) {
+                    $query->whereHas('roomtype', function ($query) use ($keyword) {
+                        $query->where('room_type', 'LIKE', '%' . $keyword . '%');
+                    });
                 })->addColumn('total_adult', function (OfflineRoom $room) {
                     return $room->total_adult;
+                })->filterColumn('total_adult', function ($query, $keyword) {                 
+                        $query->where('total_adult', 'LIKE', '%' . $keyword . '%');                 
                 })->addColumn('total_cwb', function (OfflineRoom $room) {
                     return $room->total_cwb;
-                })->addColumn('total_cnb', function (OfflineRoom $room) {
+                })->filterColumn('total_cwb', function ($query, $keyword) {                 
+                    $query->where('total_cwb', 'LIKE', '%' . $keyword . '%');                 
+            })->addColumn('total_cnb', function (OfflineRoom $room) {
                     return $room->total_cnb;
-                })->editColumn('status', function (OfflineRoom $room) {
+                })->filterColumn('total_cnb', function ($query, $keyword) {                 
+                    $query->where('total_cnb', 'LIKE', '%' . $keyword . '%');                 
+            })->editColumn('status', function (OfflineRoom $room) {
                     return $room->status_name;
                 })->addColumn('action', function ($row) {
                     return $row->action;
