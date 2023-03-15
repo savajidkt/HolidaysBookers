@@ -26,7 +26,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_country">Country</label>
-            <select class="select2 form-control form-control-lg" id="hotel_country" name="hotel_country"
+            <select class="select2 form-control" id="hotel_country" name="hotel_country"
                 data-error="{{ __('agent/agent.hotel_country') }}">
                 <option value="">Select Country</option>
                 @foreach ($countries as $country)
@@ -43,7 +43,7 @@
     <div class="col-4">
         <div class="form-group myState">
             <label class="form-label" for="hotel_state">State</label>
-            <select class="select2 form-control form-control-lg" id="hotel_state" name="hotel_state" data-error="State">
+            <select class="select2 form-control" id="hotel_state" name="hotel_state" data-error="State">
                 <option value="">Select State</option>
                 @php $states = getCountryStates($model->hotel_state);  @endphp
                 @if ($states->count() > 0)
@@ -65,7 +65,7 @@
     <div class="col-4">
         <div class="form-group myCity">
             <label class="form-label" for="hotel_city">City</label>
-            <select class="select2 form-control form-control-lg" id="hotel_city" name="hotel_city" data-error="City">
+            <select class="select2 form-control" id="hotel_city" name="hotel_city" data-error="City">
                 <option value="">Select City</option>
                 @php $cities = getStateCities($model->hotel_city);  @endphp
                 @if ($cities->count() > 0)
@@ -87,7 +87,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="category">Category</label>
-            <select class="select2 form-control form-control-lg" id="category" name="category" data-error="Category">
+            <select class="select2 form-control" id="category" name="category" data-error="Category">
                 <option value="">Select Category</option>
                 @foreach ($categories as $key => $category)
                     <option value="{{ $key }}" {{ $model->category == $key ? 'selected' : '' }}>
@@ -107,7 +107,7 @@
             <a class="badge badge-success HotelGroupPopup" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Group
             </a>
-            <select class="select2 form-control form-control-lg" id="hotel_group_id" name="hotel_group_id"
+            <select class="select2 form-control" id="hotel_group_id" name="hotel_group_id"
                 data-error="Hotel Group">
                 <option value="">Select Hotel Group</option>
                 @foreach ($hotelGroups as $key => $hg)
@@ -203,7 +203,7 @@
             <a class="badge badge-success PropertyPopup" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Property Type
             </a>
-            <select class="select2 form-control form-control-lg" id="property_type_id" name="property_type_id"
+            <select class="select2 form-control" id="property_type_id" name="property_type_id"
                 data-error="Property Type">
                 <option value="">Select Property Type</option>
                 @foreach ($propertyTypes as $key => $type)

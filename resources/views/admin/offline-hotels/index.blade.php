@@ -12,19 +12,19 @@
                     <h4 class="card-title">Offline Hotels</h4>
                 </div>
                 <div class="col-md-6 text-right">
-                    <button type="button" class="btn btn-outline-primary waves-effect" id="DownloadOfflineHotel">
+                    <button type="button" class="btn btn-outline-primary waves-effect btn-sm" id="DownloadOfflineHotel">
                        Download Sample
                     </button>
                     
-                    <a href="{{ route('offline-hotels-export') }}" class="btn btn-outline-primary waves-effect">
+                    <a href="{{ route('offline-hotels-export') }}" class="btn btn-outline-primary btn-sm waves-effect">
                         Export Excel
                     </a>
-                    <button type="button" class="btn btn-outline-primary waves-effect" data-toggle="modal"
+                    <button type="button" class="btn btn-outline-primary waves-effect btn-sm" data-toggle="modal"
                         data-target="#ImportOfflineHotels" data-backdrop="false">
                         Import Excel
                     </button>
                     <a href="{{ route('offlinehotels.create') }}"><button type="reset"
-                            class="btn btn-primary mr-1 waves-effect waves-float waves-light">New Hotel</button></a>
+                            class="btn btn-primary mr-1 waves-effect waves-float waves-light btn-sm">New Hotel</button></a>
                 </div>
             </div>
             <div class="card-datatable pt-0 table-responsive">
@@ -91,8 +91,6 @@
 @section('extra-script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
-    <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
-
     <script type="text/javascript">
         var table = "";
         Dropzone.autoDiscover = false;
