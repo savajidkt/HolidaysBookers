@@ -10,21 +10,51 @@ var FrmOfflineRoomPreference = function () {
             focusInvalid: false,
             ignore: "",
             rules: {
-                hotel_id: { required: true },
-                room_type: { required: true },
-                room_amenities: { required: true },
-                max_pax: { required: true },
-                min_pax: { required: true },
-                no_of_cwb: { required: true },
-                no_of_cnb: { required: true },
-                no_of_adult: { required: true },
-                status: { required: true },
-                price_type: { required: true },
-                start_date: { required: true },
-                end_date: { required: true },
-                double_occupancy: { required: true },
-                single_occupancy: { required: true },
-                extra_pax_price: { required: true },
+                hotel_id: {
+                    required: true
+                },
+                room_type: {
+                    required: true
+                },
+                room_amenities: {
+                    required: true
+                },
+                max_pax: {
+                    required: true
+                },
+                min_pax: {
+                    required: true
+                },
+                no_of_cwb: {
+                    required: true
+                },
+                no_of_cnb: {
+                    required: true
+                },
+                no_of_adult: {
+                    required: true
+                },
+                status: {
+                    required: true
+                },
+                price_type: {
+                    required: true
+                },
+                start_date: {
+                    required: true
+                },
+                end_date: {
+                    required: true
+                },
+                double_occupancy: {
+                    required: true
+                },
+                single_occupancy: {
+                    required: true
+                },
+                extra_pax_price: {
+                    required: true
+                },
             },
             messages: {
                 hotel_id: {
@@ -103,9 +133,15 @@ var FrmOfflineRoomPreference = function () {
             focusInvalid: false,
             ignore: "",
             rules: {
-                price_type: { required: true },
-                start_date: { required: true },
-                end_date: { required: true },
+                price_type: {
+                    required: true
+                },
+                start_date: {
+                    required: true
+                },
+                end_date: {
+                    required: true
+                },
                 double_occupancy: {
                     required: function () {
                         if ($("input[name='price_type']:checked").val() != 0) {
@@ -181,11 +217,15 @@ var FrmOfflineRoomPreference = function () {
 
     var OfflineHotel = function () {
         var selectHotel = $('.select2-hotel');
-        var hotelData = [
-            { id: '', text: '' }
-        ];
+        var hotelData = [{
+            id: '',
+            text: ''
+        }];
         $.each(HotelsList, function (key, val) {
-            hotelData.push({ id: key, text: val });
+            hotelData.push({
+                id: key,
+                text: val
+            });
         });
         selectHotel.wrap('<div class="position-relative"></div>').select2({
             placeholder: "Select Hotel",
@@ -199,16 +239,21 @@ var FrmOfflineRoomPreference = function () {
 
     var OfflineHotelRooms = function () {
         var selectRoomType = $('.select2-room-types');
-        var hotelRoomData = [
-            { id: '', text: '' }
-        ];
+        var hotelRoomData = [{
+            id: '',
+            text: ''
+        }];
         $.each(HotelsRoomType, function (key, val) {
-            hotelRoomData.push({ id: key, text: val });
+            hotelRoomData.push({
+                id: key,
+                text: val
+            });
         });
 
         selectRoomType.wrap('<div class="position-relative"></div>').select2({
             placeholder: "Select Room",
             allowClear: true,
+            tags: true,
             dropdownAutoWidth: true,
             dropdownParent: selectRoomType.parent(),
             width: '100%',
@@ -220,11 +265,15 @@ var FrmOfflineRoomPreference = function () {
     }
     var OfflineHotelAmenities = function () {
         var selectAmenities = $('.select2-room-amenities');
-        var hotelAmenitiesData = [
-            { id: '', text: '' }
-        ];
+        var hotelAmenitiesData = [{
+            id: '',
+            text: ''
+        }];
         $.each(HotelsAmenities, function (key, val) {
-            hotelAmenitiesData.push({ id: key, text: val });
+            hotelAmenitiesData.push({
+                id: key,
+                text: val
+            });
         });
 
         selectAmenities.wrap('<div class="position-relative"></div>').select2({
@@ -284,7 +333,18 @@ var FrmOfflineRoomPreference = function () {
                     success: function (data) {
                         if (data.status) {
                             HotelsAmenities = data.responce;
-                            OfflineHotelAmenities();
+
+                            var datas = [];
+                            $.each(HotelsAmenities, function (key, val) {
+                                datas.push({
+                                    id: key,
+                                    text: val
+                                });
+                            });
+                            $(".select2-room-amenities").select2({
+                                data: datas
+                            });
+                            $('input[name="amenity_name"]').val('');
                             $('#roomAmenityBTN').modal('hide');
                         }
                         $("#FrmroomAmenity .buttonLoader").addClass('hide');
@@ -337,7 +397,17 @@ var FrmOfflineRoomPreference = function () {
                     success: function (data) {
                         if (data.status) {
                             HotelsRoomType = data.responce;
-                            OfflineHotelRooms();
+                            var datas = [];
+                            $.each(HotelsRoomType, function (key, val) {
+                                datas.push({
+                                    id: key,
+                                    text: val
+                                });
+                            });
+                            $(".select2-room-types").select2({
+                                data: datas
+                            });
+                            $('input[name="room_type"]').val('');
                             $('#roomTypeBTN').modal('hide');
                         }
                         $("#FrmroomType .buttonLoader").addClass('hide');
