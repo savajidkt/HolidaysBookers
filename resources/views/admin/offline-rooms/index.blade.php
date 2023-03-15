@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-md-6 text-right">
                     <a href="{{ route('offlinerooms.create') }}"><button type="reset"
-                            class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New</button></a>
+                            class="btn btn-primary btn-sm mr-1 waves-effect waves-float waves-light">Add New</button></a>
                 </div>
             </div>
 

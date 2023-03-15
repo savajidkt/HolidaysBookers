@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-md-6 text-right">
                     <a href="{{ route('offlinerooms.index') }}"><button type="reset"
-                            class="btn btn-outline-secondary waves-effectt">
+                            class="btn btn-outline-secondary btn-sm  waves-effectt">
                             {{ __('core.back') }}</button></a>
                 </div>
             </div>

@@ -13,10 +13,10 @@
                 </div>
                 <div class="col-md-6 text-right">
                     <a href="{{ route('offlinerooms.index') }}"><button type="reset"
-                            class="btn btn-outline-secondary waves-effectt">
+                            class="btn btn-outline-secondary btn-sm  waves-effectt">
                             {{ __('core.back') }}</button></a>
                     <a href="{{ route('add-room-price', $model) }}"><button type="reset"
-                            class="btn btn-primary mr-1 waves-effect waves-float waves-light">Add New Room
+                            class="btn btn-primary btn-sm  mr-1 waves-effect waves-float waves-light">Add New Room
                             Price</button></a>
                 </div>
             </div>

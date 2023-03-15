@@ -110,6 +110,7 @@ class OfflineRoomsController extends Controller
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
         $HotelsAmenitiesIDS  = $offlineroom->roomamenity()->pluck('amenity_id')->toArray();
 
+        
         return view('admin.offline-rooms.edit', ['model' => $offlineroom, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDS' => $HotelsAmenitiesIDS]);
     }
 

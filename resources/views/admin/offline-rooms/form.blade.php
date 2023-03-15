@@ -150,7 +150,7 @@
             <div class="row col-4">
                 <div class="col-md-2 col-12 mb-50">
                     <div class="form-group">
-                        <button class="btn btn-outline-danger text-nowrap px-1" data-repeater-delete type="button">
+                        <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete type="button">
                             <i data-feather="x" class="mr-25"></i>
                             <span>Delete</span>
                         </button>
@@ -163,8 +163,8 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <button class="btn btn-icon btn-primary" type="button" data-repeater-create>
-            <i data-feather="plus" class="mr-25"></i>
+        <button class="btn btn-icon btn-primary " type="button" data-repeater-create>
+            <i data-feather="plus" ></i>
             <span>Add More Room</span>
         </button>
     </div>

@@ -16,9 +16,9 @@
                             @include('admin.offline-rooms.form')
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <a class="btn btn-outline-secondary waves-effect"
+                                    <a class="btn btn-outline-secondary btn-sm waves-effect"
                                         href="{{ route('offlinerooms.index') }}">{{ __('core.back') }}</a>
-                                    <button type="submit" id="user-save" class="btn btn-primary"><span
+                                    <button type="submit" id="user-save" class="btn btn-primary btn-sm"><span
                                             class="spinner-border spinner-border-sm buttonLoader hide" role="status"
                                             aria-hidden="true"></span><span
                                             class="ml-25 align-middle">{{ __('core.submit') }}</span></button>
@@ -54,7 +54,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="submit"
-                                                            class="btn btn-primary waves-effect waves-float waves-light"><span
+                                                            class="btn btn-primary btn-sm waves-effect waves-float waves-light"><span
                                                                 class="spinner-border spinner-border-sm buttonLoader hide"
                                                                 role="status" aria-hidden="true"></span><span
                                                                 class="ml-25 align-middle">{{ __('core.submit') }}</span></button>
@@ -98,7 +98,7 @@
                                                     </div>                                                    
                                                     <div class="modal-footer">
                                                         <button type="submit"
-                                                            class="btn btn-primary waves-effect waves-float waves-light"><span
+                                                            class="btn btn-primary btn-sm waves-effect waves-float waves-light"><span
                                                                 class="spinner-border spinner-border-sm buttonLoader hide"
                                                                 role="status" aria-hidden="true"></span><span
                                                                 class="ml-25 align-middle">{{ __('core.submit') }}</span></button>
