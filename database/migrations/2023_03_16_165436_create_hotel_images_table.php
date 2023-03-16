@@ -18,7 +18,7 @@ class CreateHotelImagesTable extends Migration
             $table->unsignedBigInteger('hotel_id');
             $table->string('file_path')->nullable();
             //FOREIGN KEY CONSTRAINTS
-            $table->foreign('file_path')->references('id')->on('hotels')->onDelete('cascade');
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
             $table->timestamps();
         });
     }
