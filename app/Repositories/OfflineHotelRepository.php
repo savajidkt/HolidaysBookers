@@ -6,10 +6,12 @@ use Exception;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Agent;
+use Illuminate\Support\Str;
+use App\Models\OfflineHotel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Events\ForgotPasswordEvent;
 use App\Exceptions\GeneralException;
-use App\Models\OfflineHotel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\RegisterdEmailNotification;
@@ -23,7 +25,7 @@ class OfflineHotelRepository
      *
      * @return OfflineHotel
      */
-    public function create(array $data): OfflineHotel
+    public function create(Request $request, array $data): OfflineHotel
     {
 
         $HotelArr = [
@@ -45,14 +47,27 @@ class OfflineHotelRepository
             'hotel_longitude'    => $data['hotel_longitude'],
             'cancel_days'    => $data['cancel_days'],
             'hotel_description'    => $data['hotel_description'],
-            'cancellation_policy'    => $data['cancellation_policy'],            
+            'cancellation_policy'    => $data['cancellation_policy'],
             'status'    => OfflineHotel::ACTIVE,
         ];
 
         $OfflineHotel = OfflineHotel::create($HotelArr);
-        _P($OfflineHotel);
-        exit;
-        //$user->notify(new RegisterdEmailNotification($password,$user));
+        $images = [];
+        foreach ($request->hotel_gallery_image as $file) {
+            $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(storage_path('app/upload/') . "/Hotel/". $OfflineHotel->id."/gallery/", $fileName);
+            $images[] = ['file_path' => $fileName];
+        }
+        $OfflineHotel->images()->createMany($images);
+
+        if ($request->hotel_image) {
+            foreach ($request['hotel_image'] as $files) {
+                $Filename = $files->getClientOriginalName();
+                $files->move(storage_path('app/upload/') . "/Hotel/". $OfflineHotel->id."/", $Filename);
+            }
+            $OfflineHotel->update(['hotel_image_location'=>$Filename]);
+        }
+            //$user->notify(new RegisterdEmailNotification($password,$user));
         return $OfflineHotel;
     }
 

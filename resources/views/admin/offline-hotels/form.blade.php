@@ -328,6 +328,7 @@
             addGroupURL: "{!! route('add-group') !!}",
             addPropertyURL: "{!! route('add-property') !!}",
             addStoreURL: "{!! route('offlinehotels.store') !!}",
+            indexURL: "{!! route('offlinehotels.index') !!}",
         };
     </script>
     <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>

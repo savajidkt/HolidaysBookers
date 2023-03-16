@@ -39,6 +39,7 @@ class OfflineHotel extends Authenticatable
         'hotel_state',
         'hotel_city',
         'hotel_group_id',
+        'property_type_id',
         'hotel_type',
         'hotel_code',
         'hotel_name',

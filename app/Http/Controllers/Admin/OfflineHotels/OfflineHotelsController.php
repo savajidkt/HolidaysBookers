@@ -111,7 +111,7 @@ class OfflineHotelsController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $this->offlineHotelRepository->create($request->all());
+        $this->offlineHotelRepository->create($request, $request->all());
         return redirect()->route('offlinehotels.index')->with('success', "Hotel created successfully!");
     }
 

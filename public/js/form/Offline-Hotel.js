@@ -115,7 +115,7 @@ var FrmOfflineHotelPreference = function () {
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        alert('ok');
+                        window.location = moduleConfig.indexURL;
                     },
                     error: function (x, t, m) {
                     }
@@ -160,7 +160,78 @@ var FrmOfflineHotelPreference = function () {
         }));
 
     }
+    var getStateList = function () {
+        $(document).on('change', '#hotel_country', function () {
+            var country_id = $(this).val();
+            $('#hotel_state').find('option:not(:first)').remove();
+            $('#hotel_city').find('option:not(:first)').remove();
+            if (country_id) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $(".myState .spinner-border").show();
+                    },
+                    complete: function () {
+                        $(".myState .spinner-border").hide();
+                    },
+                    type: 'POST',
+                    url: moduleConfig.redirectUrl,
+                    dataType: 'json',
+                    data: {
+                        country_id: country_id
+                    },
+                    success: function (data) {
+                        if (data.status) {
+                            $.each(data.states, function (key, val) {
+                                $('#hotel_state').append(new Option(val.name, val.id));
+                            });
+                        }
+                        $(".myState .spinner-border").hide();
+                    }
+                });
+            }
+        });
+    }
 
+    var getCityList = function () {
+        $(document).on('change', '#hotel_state', function () {
+            var state_id = $(this).val();
+            $('#hotel_city').find('option:not(:first)').remove();
+            if (state_id) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $(".myCity .spinner-border").show();
+                    },
+                    complete: function () {
+                        $(".myCity .spinner-border").hide();
+                    },
+                    type: 'POST',
+                    url: moduleConfig.getCities,
+                    dataType: 'json',
+                    data: {
+                        state_id: state_id
+                    },
+                    success: function (data) {
+                        if (data.status) {
+                            $.each(data.cities, function (key, val) {
+                                $('#hotel_city').append(new Option(val.name, val.id));
+                            });
+                        }
+                        $(".myCity .spinner-border").hide();
+                    }
+                });
+            }
+        });
+    }
     var FrmAddAmenity = function () {
         var FrmHotelAmenityPreferenceForm = $('#FrmhotelAmenity');
         var error4 = $('.error-message', FrmHotelAmenityPreferenceForm);
@@ -325,6 +396,8 @@ var FrmOfflineHotelPreference = function () {
             FrmAddAmenity();
             FrmAddGroup();
             FrmAddProperty();
+            getStateList();
+            getCityList();
         }
     };
 }();
