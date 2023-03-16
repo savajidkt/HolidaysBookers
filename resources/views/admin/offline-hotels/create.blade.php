@@ -34,9 +34,9 @@
             </div>
         </div>
     </section>
-@include('admin.offline-hotels.hotel-group-popup');
-@include('admin.offline-hotels.property-popup');
-@include('admin.offline-hotels.amenity-popup');
+@include('admin.offline-hotels.hotel-group-popup')
+@include('admin.offline-hotels.property-popup')
+@include('admin.offline-hotels.amenity-popup')
 
 @endsection
 

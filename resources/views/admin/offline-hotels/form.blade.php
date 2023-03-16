@@ -307,6 +307,7 @@
             <label class="form-label" for="cancel_days">Hotel Image</label>
             <div class="dropzone clsbox" id="mydropzone">
             </div>
+            <input type="file" name="one_image">
         </div>
     </div>
     <div class="col-8">
@@ -335,27 +336,30 @@
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     
 
-    <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
+    
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
     <script type="text/javascript">
-        Dropzone.autoDiscover = false;
+        Dropzone.autoDiscover = false;        
         // Dropzone class:
         var myDropzone = new Dropzone("div#mydropzone", {
             url: "/file/post",
             autoProcessQueue: false,
+            paramName: "hotel_image",
             maxFilesize: 1,
             acceptedFiles: 'image/*',
         });
-        var myHotelDropzone = new Dropzone("div#hoteldropzone", {
-            url: "/file/post",
-            autoProcessQueue: false,
-            acceptedFiles: 'image/*',
-        });
+        // var myHotelDropzone = new Dropzone("div#hoteldropzone", {
+        //     url: "/file/post",
+        //     autoProcessQueue: false,
+        //     acceptedFiles: 'image/*',
+        // });
         // If you use jQuery, you can use the jQuery plugin Dropzone ships with:
         $("div#myDrop").dropzone({
             url: "/file/post"
             
         });
+
 
 
 (function (window, document, $) {

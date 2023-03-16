@@ -74,8 +74,6 @@ class OfflineHotelsController extends Controller
                     return $row->action;
                 })->rawColumns(['action', 'status'])->make(true);
         }
-
-           
         return view('admin.offline-hotels.index');
     }
 
@@ -109,7 +107,9 @@ class OfflineHotelsController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
-    {  
+    {
+        $extension = $request->file('one_image');
+        dd($extension);
         dd($request->all());
         $this->offlineHotelRepository->create($request->all());
         return redirect()->route('offlinehotels.index')->with('success', "Hotel created successfully!");
