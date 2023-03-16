@@ -125,4 +125,8 @@ class OfflineHotel extends Authenticatable
     {
         return $this->hasOne(WalletTransaction::class,'agent_id', 'id')->orderBy('id','DESC');
     }
+    public function images()
+    {
+        return $this->hasMany(HotelImage::class,'hotel_id', 'id');
+    }
 }
