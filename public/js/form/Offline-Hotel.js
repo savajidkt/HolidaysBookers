@@ -10,22 +10,22 @@ var FrmOfflineHotelPreference = function () {
             focusInvalid: false,
             ignore: "",
             rules: {
-                // hotel_name: { required: true },
+                hotel_name: { required: true },
                 // hotel_country: { required: true },
                 // hotel_state: { required: true },
                 // hotel_city: { required: true },
-                // category: { required: true },
-                // hotel_group_id: { required: true },
-                // phone_number: { required: true },
-                // hotel_address: { required: true },
-                // hotel_pincode: { required: true },
-                // hotel_email: { required: true },
-                // hotel_amenities: { required: true },
-                // property_type_id: { required: true },
-                // hotel_review: { required: true },
-                // hotel_latitude: { required: true },
-                // hotel_longitude: { required: true },
-                // cancel_days: { required: true }
+                category: { required: true },
+                hotel_group_id: { required: true },
+                phone_number: { required: true },
+                hotel_address: { required: true },
+                hotel_pincode: { required: true },
+                hotel_email: { required: true },
+                hotel_amenities: { required: true },
+                property_type_id: { required: true },
+                hotel_review: { required: true },
+                hotel_latitude: { required: true },
+                hotel_longitude: { required: true },
+                cancel_days: { required: true }
             },
             messages: {
                 hotel_name: {
@@ -60,7 +60,7 @@ var FrmOfflineHotelPreference = function () {
                 },
                 hotel_amenities: {
                     required: 'Amenity is required'
-                },               
+                },
                 property_type_id: {
                     required: 'Property type is required'
                 },
@@ -78,93 +78,50 @@ var FrmOfflineHotelPreference = function () {
                 },
             },
             submitHandler: function (form) {
-                console.log(form);
+                //$(".buttonLoader").removeClass('hide');
+
+                var form_data = new FormData(form);
+
                 var fileUpload = $('#mydropzone').get(0).dropzone;
                 var files = fileUpload.files;
-                var form_data= new FormData($('#FrmOfflineHotel')[0]);
-                console.log(form_data);
-                // for (var i = 0; i < files.length; i++) {
-                //     form_data.append(files[i].name, files[i]);
-                //     form_data.append("data[]", files[i]);
-                //     form_data.append("VenderDocumentid", ids);
-                // }              
+                
 
-                $(".buttonLoader").removeClass('hide');
-                return false;
-                //form.submit();
+                for (var i = 0; i < files.length; i++) {
+                    form_data.append(files[i].name, files[i]);
+                    form_data.append("hotel_image[]", files[i]);
+                }
 
-            }
-        });
-    }
-    var getStateList = function () {
-        $(document).on('change', '#hotel_country', function () {
-            var country_id = $(this).val();
-            $('#hotel_state').find('option:not(:first)').remove();
-            $('#hotel_city').find('option:not(:first)').remove();
-            if (country_id) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+                var fileUploadGallery = $('#hoteldropzone').get(0).dropzone;
+                var filesGallery = fileUploadGallery.files;
+
+                for (var i = 0; i < filesGallery.length; i++) {
+                    form_data.append(filesGallery[i].name, filesGallery[i]);
+                    form_data.append("hotel_gallery_image[]", filesGallery[i]);
+                }
+
                 $.ajax({
                     beforeSend: function () {
-                        $(".myState .spinner-border").show();
-                    },
-                    complete: function () {
-                        $(".myState .spinner-border").hide();
-                    },
-                    type: 'POST',
-                    url: moduleConfig.redirectUrl,
-                    dataType: 'json',
-                    data: {
-                        country_id: country_id
-                    },
-                    success: function (data) {
-                        if (data.status) {
-                            $.each(data.states, function (key, val) {
-                                $('#hotel_state').append(new Option(val.name, val.id));
-                            });
-                        }
-                        $(".myState .spinner-border").hide();
-                    }
-                });
-            }
-        });
-    }
 
-    var getCityList = function () {
-        $(document).on('change', '#hotel_state', function () {
-            var state_id = $(this).val();
-            $('#hotel_city').find('option:not(:first)').remove();
-            if (state_id) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    beforeSend: function () {
-                        $(".myCity .spinner-border").show();
                     },
-                    complete: function () {
-                        $(".myCity .spinner-border").hide();
+                    complete: function (data) {
                     },
-                    type: 'POST',
-                    url: moduleConfig.getCities,
+                    error: function (data) {
+                    },
+                    type: "post",
+                    url: moduleConfig.addStoreURL,
+                    data: form_data,
                     dataType: 'json',
-                    data: {
-                        state_id: state_id
-                    },
+                    'global': false,
+                    contentType: false,
+                    processData: false,
                     success: function (data) {
-                        if (data.status) {
-                            $.each(data.cities, function (key, val) {
-                                $('#hotel_city').append(new Option(val.name, val.id));
-                            });
-                        }
-                        $(".myCity .spinner-border").hide();
+                        alert('ok');
+                    },
+                    error: function (x, t, m) {
                     }
                 });
+
+                // form.submit();
             }
         });
     }
@@ -189,19 +146,19 @@ var FrmOfflineHotelPreference = function () {
     }
     var OfflineHotelGroups = function () {
         var selectGroups = $('#hotel_group_id');
-        $(selectGroups).append($('<option>', { 
-            value:HotelsGroups.id,
-            text :HotelsGroups.name
+        $(selectGroups).append($('<option>', {
+            value: HotelsGroups.id,
+            text: HotelsGroups.name
         }));
-        
+
     }
     var OfflinePropertyType = function () {
         var selectProperty = $('#property_type_id');
-        $(selectProperty).append($('<option>', { 
-            value:Property.id,
-            text :Property.name
+        $(selectProperty).append($('<option>', {
+            value: Property.id,
+            text: Property.name
         }));
-        
+
     }
 
     var FrmAddAmenity = function () {
@@ -368,8 +325,6 @@ var FrmOfflineHotelPreference = function () {
             FrmAddAmenity();
             FrmAddGroup();
             FrmAddProperty();
-            getStateList();
-            getCityList();
         }
     };
 }();
@@ -379,7 +334,7 @@ $(document).ready(function () {
     $(document).on('click', '.HotelGroupPopup', function () {
         $('#HotelGroupPopup').modal('show');
     });
-    
+
     $(document).on('click', '.PropertyPopup', function () {
         $('#PropertyPopup').modal('show');
     });

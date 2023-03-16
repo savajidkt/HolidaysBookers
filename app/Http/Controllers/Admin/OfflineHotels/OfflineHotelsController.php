@@ -24,7 +24,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\OfflineHotelRepository;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Agent\EditRequest;
-use App\Http\Requests\Agent\CreateRequest;
+use App\Http\Requests\OfflineHotel\CreateRequest;
 use App\Http\Requests\Agent\UpdatePasswordRequest;
 use App\Models\Amenity;
 use App\Models\HotelGroup;
@@ -64,7 +64,7 @@ class OfflineHotelsController extends Controller
                     return $hotel->country->name;
                 })->addColumn('phone_number', function (OfflineHotel $hotel) {
                     return $hotel->phone_number;
-                })->addColumn('hotel_email', function(OfflineHotel $hotel){
+                })->addColumn('hotel_email', function (OfflineHotel $hotel) {
                     return $hotel->hotel_email;
                 })->addColumn('hotel_review', function (OfflineHotel $hotel) {
                     return $hotel->hotel_review;
@@ -74,6 +74,8 @@ class OfflineHotelsController extends Controller
                     return $row->action;
                 })->rawColumns(['action', 'status'])->make(true);
         }
+
+
         return view('admin.offline-hotels.index');
     }
 
@@ -90,27 +92,25 @@ class OfflineHotelsController extends Controller
         $propertyTypes    = PropertyType::where('status', PropertyType::ACTIVE)->get();
         $countries    =  Country::where('status', Country::ACTIVE)->get();
         $categories = [
-            '1'=>'1 Star',
-            '2'=>'2 Star',
-            '3'=>'3 Star',
-            '4'=>'4 Star',
-            '5'=>'5 Star',
+            '1' => '1 Star',
+            '2' => '2 Star',
+            '3' => '3 Star',
+            '4' => '4 Star',
+            '5' => '5 Star',
         ];
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::HOTEL)->pluck('amenity_name', 'id')->toArray();
-        return view('admin.offline-hotels.create', ['model' => $rawData,'hotelGroups'=>$hotelGroups,'propertyTypes'=>$propertyTypes, 'categories' =>$categories,'countries' => $countries,'HotelsAmenities'=>$HotelsAmenities]);
+        return view('admin.offline-hotels.create', ['model' => $rawData, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities]);
     }
-
+    
     /**
-     * Store a newly created resource in storage.
+     * Method store
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @param CreateRequest $request [explicite description]
+     *
+     * @return void
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $extension = $request->file('one_image');
-        dd($extension);
-        dd($request->all());
         $this->offlineHotelRepository->create($request->all());
         return redirect()->route('offlinehotels.index')->with('success', "Hotel created successfully!");
     }
@@ -190,7 +190,7 @@ class OfflineHotelsController extends Controller
         throw new GeneralException('Agent status does not change. Please check sometime later.');
     }
 
-    
+
     /**
      * Method importOfflineHotels
      *
@@ -221,9 +221,9 @@ class OfflineHotelsController extends Controller
                 $skipLink = "<li><b>Skip Agents Download : </b><a target='_blank' href='" . url('/storage/app') . '/' . $filename . "'>Download</a></li>";
             }
             $html = '<ul>
-                    <li><b>Skip Agents : </b> '.count($details['skip']).'</li>
-                    <li><b>Imported Agents : </b>'.$details['sucess']. '</li>
-                    <li><b>Total Agents : </b>'.$details['total'].'</li>
+                    <li><b>Skip Agents : </b> ' . count($details['skip']) . '</li>
+                    <li><b>Imported Agents : </b>' . $details['sucess'] . '</li>
+                    <li><b>Total Agents : </b>' . $details['total'] . '</li>
                     ' . $skipLink . '
                 </ul>';
         }
@@ -234,17 +234,17 @@ class OfflineHotelsController extends Controller
             'html' => $html,
         ]);
     }
-    
-        
+
+
     /**
      * Method agentExcelExport
      *
      * @return void
      */
     public function agentExcelExport()
-    {              
-       // $id= $user->id;
-       $agents    = Agent::all();               
+    {
+        // $id= $user->id;
+        $agents    = Agent::all();
         return Excel::download(new ExportAgents($agents), 'agent-export.xlsx');
     }
 }

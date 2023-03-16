@@ -107,8 +107,7 @@
             <a class="badge badge-success HotelGroupPopup" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Group
             </a>
-            <select class="select2 form-control" id="hotel_group_id" name="hotel_group_id"
-                data-error="Hotel Group">
+            <select class="select2 form-control" id="hotel_group_id" name="hotel_group_id" data-error="Hotel Group">
                 <option value="">Select Hotel Group</option>
                 @foreach ($hotelGroups as $key => $hg)
                     <option value="{{ $hg->id }}" {{ $model->hotel_group_id == $hg->id ? 'selected' : '' }}>
@@ -207,7 +206,8 @@
                 data-error="Property Type">
                 <option value="">Select Property Type</option>
                 @foreach ($propertyTypes as $key => $type)
-                    <option value="{{ $type->id }}" {{ $model->property_type_id == $type->id ? 'selected' : '' }}>
+                    <option value="{{ $type->id }}"
+                        {{ $model->property_type_id == $type->id ? 'selected' : '' }}>
                         {{ $type->property_name }}</option>
                 @endforeach
             </select>
@@ -301,13 +301,12 @@
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
-    </div>    
+    </div>
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="cancel_days">Hotel Image</label>
             <div class="dropzone clsbox" id="mydropzone">
             </div>
-            <input type="file" name="one_image">
         </div>
     </div>
     <div class="col-8">
@@ -328,119 +327,167 @@
             addAmenityURL: "{!! route('add-amenity') !!}",
             addGroupURL: "{!! route('add-group') !!}",
             addPropertyURL: "{!! route('add-property') !!}",
+            addStoreURL: "{!! route('offlinehotels.store') !!}",
         };
     </script>
     <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
-    
 
-    
-    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+
     <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script type="text/javascript">
-        Dropzone.autoDiscover = false;        
+        Dropzone.autoDiscover = false;
         // Dropzone class:
         var myDropzone = new Dropzone("div#mydropzone", {
             url: "/file/post",
             autoProcessQueue: false,
-            paramName: "hotel_image",
             maxFilesize: 1,
             acceptedFiles: 'image/*',
+            init: function() {
+                this.on('addedfile', function(file) {
+                    if (this.files.length > 1) {
+                        this.removeFile(this.files[0]);
+                    }
+                    // Create the remove button
+                    var removeButton = Dropzone.createElement(
+                        "<button class='btn btn-outline-danger btn-sm' style='margin-left: 7px;margin-top: 7px;'>Remove file</button>"
+                        );
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+                    // Listen to the click event
+                    removeButton.addEventListener("click", function(e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Remove the file preview.
+                        _this.removeFile(file);
+                        // If you want to the delete the file on the server as well,
+                        // you can do the AJAX request here.
+                        this.on("maxfilesexceeded", function(file) {
+                            this.removeFile(file);
+                        });
+                    });
+                    // Add the button to the file preview element.
+                    file.previewElement.appendChild(removeButton);
+                });
+            }
         });
-        // var myHotelDropzone = new Dropzone("div#hoteldropzone", {
-        //     url: "/file/post",
-        //     autoProcessQueue: false,
-        //     acceptedFiles: 'image/*',
-        // });
+        var myHotelDropzone = new Dropzone("div#hoteldropzone", {
+            url: "/file/post",
+            autoProcessQueue: false,
+            acceptedFiles: 'image/*',
+            init: function() {
+                this.on('addedfile', function(file) {                   
+                    // Create the remove button
+                    var removeButton = Dropzone.createElement(
+                        "<button class='btn btn-outline-danger btn-sm' style='margin-left: 7px;margin-top: 7px;'>Remove file</button>"
+                        );
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+                    // Listen to the click event
+                    removeButton.addEventListener("click", function(e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Remove the file preview.
+                        _this.removeFile(file);
+                        // If you want to the delete the file on the server as well,
+                        // you can do the AJAX request here.
+                        this.on("maxfilesexceeded", function(file) {
+                            this.removeFile(file);
+                        });
+                    });
+                    // Add the button to the file preview element.
+                    file.previewElement.appendChild(removeButton);
+                });
+            }
+        });
         // If you use jQuery, you can use the jQuery plugin Dropzone ships with:
-        $("div#myDrop").dropzone({
-            url: "/file/post"
-            
-        });
 
 
+        (function(window, document, $) {
+            'use strict';
+            var Font = Quill.import('formats/font');
+            Font.whitelist = ['sofia', 'slabo', 'roboto', 'inconsolata', 'ubuntu'];
+            Quill.register(Font, true);
+            var modulesSettings = {
+                formula: true,
+                syntax: true,
+                toolbar: [
+                    [{
+                        font: []
+                    }, {
+                        size: []
+                    }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{
+                            color: []
+                        },
+                        {
+                            background: []
+                        }
+                    ],
+                    [{
+                            script: 'super'
+                        },
+                        {
+                            script: 'sub'
+                        }
+                    ],
+                    [{
+                            header: '1'
+                        },
+                        {
+                            header: '2'
+                        },
+                        'blockquote',
+                        'code-block'
+                    ],
+                    [{
+                            list: 'ordered'
+                        },
+                        {
+                            list: 'bullet'
+                        },
+                        {
+                            indent: '-1'
+                        },
+                        {
+                            indent: '+1'
+                        }
+                    ],
+                    [
+                        'direction',
+                        {
+                            align: []
+                        }
+                    ],
+                    ['link', 'image', 'video', 'formula'],
+                    ['clean']
+                ]
+            };
+            var hotel_description = new Quill('#hdescription .editor', {
+                bounds: '#hdescription .editor',
+                modules: modulesSettings,
+                theme: 'snow'
+            });
+            var cancellation_policy = new Quill('#cpolicy .editor', {
+                bounds: '#cpolicy .editor',
+                modules: modulesSettings,
+                theme: 'snow'
+            });
 
-(function (window, document, $) {
-  'use strict';
-  var Font = Quill.import('formats/font');
-  Font.whitelist = ['sofia', 'slabo', 'roboto', 'inconsolata', 'ubuntu'];
-  Quill.register(Font, true);
-var modulesSettings = {
-      formula: true,
-      syntax: true,
-      toolbar: [[{font: []},{size: []}],
-        ['bold', 'italic', 'underline', 'strike'],
-        [
-          {
-            color: []
-          },
-          {
-            background: []
-          }
-        ],
-        [
-          {
-            script: 'super'
-          },
-          {
-            script: 'sub'
-          }
-        ],
-        [
-          {
-            header: '1'
-          },
-          {
-            header: '2'
-          },
-          'blockquote',
-          'code-block'
-        ],
-        [
-          {
-            list: 'ordered'
-          },
-          {
-            list: 'bullet'
-          },
-          {
-            indent: '-1'
-          },
-          {
-            indent: '+1'
-          }
-        ],
-        [
-          'direction',
-          {
-            align: []
-          }
-        ],
-        ['link', 'image', 'video', 'formula'],
-        ['clean']
-      ]
-    };
-    var hotel_description = new Quill('#hdescription .editor', {
-        bounds: '#hdescription .editor',
-        modules: modulesSettings,
-        theme: 'snow'
-    });
-    var cancellation_policy = new Quill('#cpolicy .editor', {
-        bounds: '#cpolicy .editor',
-        modules: modulesSettings,
-        theme: 'snow'
-    });
-
-        hotel_description.on('text-change', function(delta, oldDelta, source) {
+            hotel_description.on('text-change', function(delta, oldDelta, source) {
                 $('#hotel_description').val(hotel_description.container.firstChild.innerHTML);
             });
             cancellation_policy.on('text-change', function(delta, oldDelta, source) {
                 $('#cancellation_policy').val(cancellation_policy.container.firstChild.innerHTML);
             });
-            
-  var editors = [hotel_description,cancellation_policy];
-})(window, document, jQuery);
+
+            var editors = [hotel_description, cancellation_policy];
+        })(window, document, jQuery);
     </script>
 @endsection

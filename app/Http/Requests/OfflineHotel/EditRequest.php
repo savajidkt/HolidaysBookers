@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Agent;
+namespace App\Http\Requests\OfflineHotel;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,41 +24,24 @@ class EditRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        $rules = [
-            'agent_company_name'        => ['required'],
-            'agent_company_type'        => ['required'],
-            'nature_of_business'        => ['required'],
-            'agent_first_name'        => ['required'],
-            'agent_last_name'         => ['required'],
-            'agent_designation'         => ['required'],
-            'agent_dob'         => ['required'],
-            'agent_office_address'         => ['required'],
-            'agent_country'         => ['required'],
-            'agent_state'         => ['required'],
-            'agent_city'         => ['required'],
-            'agent_pincode'         => ['required'],
-            'agent_mobile_number'         => ['required'],
-            'agent_email'         => ['required'],          
-            'mgmt_first_name'         => ['required'],
-            'mgmt_last_name'         => ['required'],
-            'mgmt_contact_number'         => ['required'],
-            'mgmt_email'         => ['required'],
-            'account_first_name'         => ['required'],
-            'account_last_name'         => ['required'],
-            'account_contact_number'         => ['required'],
-            'account_email'         => ['required'],
-            'reserve_first_name'         => ['required'],
-            'reserve_last_name'         => ['required'],
-            'reserve_contact_number'         => ['required'],
-            'reserve_email'         => ['required'],
-            'agent_username'             => ['required', 'email', 'unique:users,email,' . $this->agent->user->id],
-        ];
-
-        if ($request->agent_iata == "yes") {
-            $rules['agent_iata_number'] = ['required'];            
-        }
-
-        return $rules;
+        return [
+            'hotel_name'        => ['required'],
+            'hotel_country'        => ['required'],
+            'hotel_state'        => ['required'],
+            'hotel_city'        => ['required'],
+            'category'         => ['required'],
+            'hotel_group_id'         => ['required'],
+            'phone_number'         => ['required'],
+            'hotel_address'         => ['required'],
+            'hotel_pincode'         => ['required'],
+            'hotel_email'         => ['required'],
+            'hotel_amenities'         => ['required'],
+            'property_type_id'         => ['required'],
+            'hotel_review'         => ['required'],
+            'hotel_latitude'         => ['required'],
+            'hotel_longitude'         => ['required'],
+            'cancel_days'         => ['required']
+        ];        
     }
 
     /**
@@ -69,33 +52,22 @@ class EditRequest extends FormRequest
     public function messages()
     {
         return [
-            'agent_company_name.required' => 'Company name is required.',
-            'agent_company_type.required' => 'Company type is required.',
-            'nature_of_business.required' => 'Nature of business is required.',
-            'agent_first_name.required' => 'First name is required.',
-            'agent_last_name.required' => 'Last name is required.',
-            'agent_designation.required' => 'Designation is required.',
-            'agent_dob.required' => 'Date of birth is required.',
-            'agent_office_address.required' => 'Address is required.',
-            'agent_country.required' => 'Country is required.',
-            'agent_state.required' => 'State is required.',
-            'agent_city.required' => 'City is required.',
-            'agent_pincode.required' => 'Pincode is required.',
-            'agent_mobile_number.required' => 'Mobile number is required.',
-            'agent_email.required' => 'Email is required.',
-            'agent_iata_number.required' => 'IATA number is required.',
-            'mgmt_first_name.required' => 'First name is required.',
-            'mgmt_last_name.required' => 'Last name is required.',
-            'mgmt_contact_number.required' => 'Contact number is required.',
-            'mgmt_email.required' => 'Email is required.',
-            'account_first_name.required' => 'First name is required.',
-            'account_last_name.required' => 'Last name is required.',
-            'account_contact_number.required' => 'Contact number is required.',
-            'account_email.required' => 'Email is required.',
-            'reserve_first_name.required' => 'First name is required.',
-            'reserve_last_name.required' => 'Last name is required.',
-            'reserve_contact_number.required' => 'Contact number is required.',
-            'reserve_email.required' => 'Email is required.',
+            'hotel_name.required' => 'Hotel is required.',
+            'hotel_country.required' => 'Country is required.',
+            'hotel_state.required' => 'State is required.',
+            'hotel_city.required' => 'City is required.',
+            'category.required' => 'Category is required.',
+            'hotel_group_id.required' => 'Group is required.',
+            'phone_number.required' => 'Phone number is required.',
+            'hotel_address.required' => 'Address is required.',
+            'hotel_pincode.required' => 'Pincode is required.',
+            'hotel_email.required' => 'Email is required.',
+            'hotel_amenities.required' => 'Amenity is required.',
+            'property_type_id.required' => 'Property is required.',
+            'hotel_review.required' => 'Review is required.',
+            'hotel_latitude.required' => 'Latitude is required.',
+            'hotel_longitude.required' => 'Longitude is required.',
+            'cancel_days.required' => 'Cancel day is required.'
         ];
     }
 }

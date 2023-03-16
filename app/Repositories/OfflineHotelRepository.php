@@ -45,19 +45,15 @@ class OfflineHotelRepository
             'hotel_longitude'    => $data['hotel_longitude'],
             'cancel_days'    => $data['cancel_days'],
             'hotel_description'    => $data['hotel_description'],
-            'cancellation_policy'    => $data['cancellation_policy'],
+            'cancellation_policy'    => $data['cancellation_policy'],            
             'status'    => OfflineHotel::ACTIVE,
         ];
 
-        $hotel =  OfflineHotel::create($HotelArr);
-
-        $UserProfileArr = [];
-        $UserProfileArr['user_id'] = $hotel->id;
-        $UserProfileArr['agent_code'] = createAgentCode($hotel->id);
-
-        $agent =  Agent::create($UserProfileArr);
+        $OfflineHotel = OfflineHotel::create($HotelArr);
+        _P($OfflineHotel);
+        exit;
         //$user->notify(new RegisterdEmailNotification($password,$user));
-        return $hotel;
+        return $OfflineHotel;
     }
 
 
@@ -168,7 +164,7 @@ class OfflineHotelRepository
             report($e);
         }
     }
-       
+
     /**
      * Method updatePassword
      *
@@ -182,7 +178,7 @@ class OfflineHotelRepository
         $UserArr = [
             'password'    => Hash::make($input['password'])
         ];
-        
+
         if ($user->update($UserArr)) {
             return true;
         }
