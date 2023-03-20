@@ -1,17 +1,30 @@
 @php
-if(isset($model->images)){
-    foreach($model->images as $key=>$img){
-            $images[$key]['file_path'] =  url(Storage::url('app/upload/Hotel/'.$model->id.'/gallery/'.$img['file_path']));
-       
+    $hotel_image_location = '';
+    $images = [];
+    if (isset($model->images)) {
+        foreach ($model->images as $key => $img) {
+            $images[$key]['file_path'] = url(Storage::url('app/upload/Hotel/' . $model->id . '/gallery/' . $img['file_path']));
+        }
     }
-}
-$hotel_image_location = url(Storage::url('app/upload/Hotel/'.$model->id.'/'.$model->hotel_image_location));
+    
+    if (strlen($model->hotel_image_location) > 0) {
+        $hotel_image_location = url(Storage::url('app/upload/Hotel/' . $model->id . '/' . $model->hotel_image_location));
+    }
+    
 @endphp
 <script>
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
-    var HotelsAmenitiesIDs ={!! json_encode($HotelsAmenitiesIDs) !!};
-   var images = {!! json_encode($images) !!};
+    var HotelsAmenitiesIDs = {!! json_encode($HotelsAmenitiesIDs) !!};
+    var images = {!! json_encode($images) !!};
+    var $hotel_image_locationJS = "{!! $hotel_image_location !!}";
 </script>
+<style>
+    .dropzone .dz-preview .dz-image img {
+        display: block;
+        width: 120px;
+        height: 120px;
+    }
+</style>
 
 
 <div class="row">
@@ -39,8 +52,7 @@ $hotel_image_location = url(Storage::url('app/upload/Hotel/'.$model->id.'/'.$mod
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_country">Country</label>
-            <select class="select2 form-control" id="hotel_country" name="hotel_country"
-                data-error="Country">
+            <select class="select2 form-control" id="hotel_country" name="hotel_country" data-error="Country">
                 <option value="">Select Country</option>
                 @foreach ($countries as $country)
                     <option value="{{ $country->id }}" {{ $model->hotel_country == $country->id ? 'selected' : '' }}>
@@ -340,9 +352,21 @@ $hotel_image_location = url(Storage::url('app/upload/Hotel/'.$model->id.'/'.$mod
             addAmenityURL: "{!! route('add-amenity') !!}",
             addGroupURL: "{!! route('add-group') !!}",
             addPropertyURL: "{!! route('add-property') !!}",
-            addStoreURL: "{!! route('offlinehotels.store') !!}",
+            // addStoreURL: "{!! route('offlinehotels.store') !!}",
             indexURL: "{!! route('offlinehotels.index') !!}",
         };
+    </script>
+    @if ($model->id)
+        <script type="text/javascript">
+            moduleConfig['addStoreURL'] = "{!! route('offlinehotels.update', $model) !!}";
+        </script>
+    @else
+        <script type="text/javascript">
+            moduleConfig['addStoreURL'] = "{!! route('offlinehotels.store') !!}";
+        </script>
+    @endif
+    <script type="text/javascript">
+        console.log(moduleConfig);
     </script>
     <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
@@ -358,45 +382,45 @@ $hotel_image_location = url(Storage::url('app/upload/Hotel/'.$model->id.'/'.$mod
             url: "/file/post",
             autoProcessQueue: false,
             maxFilesize: 1,
+            uploadMultiple: false,
             acceptedFiles: 'image/*',
-            init: function() {
-                this.on('addedfile', function(file) {
-                    if (this.files.length > 1) {
-                        this.removeFile(this.files[0]);
+            addRemoveLinks: true,
+            removedfile: function(file) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
-                    // Create the remove button
-                    var removeButton = Dropzone.createElement(
-                        "<button class='btn btn-outline-danger btn-sm' style='margin-left: 7px;margin-top: 7px;'>Remove file</button>"
-                        );
-                    // Capture the Dropzone instance as closure.
-                    var _this = this;
-                    // Listen to the click event
-                    removeButton.addEventListener("click", function(e) {
-                        // Make sure the button click doesn't submit the form:
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // Remove the file preview.
-                        _this.removeFile(file);
-                        // If you want to the delete the file on the server as well,
-                        // you can do the AJAX request here.
-                        this.on("maxfilesexceeded", function(file) {
-                            this.removeFile(file);
-                        });
-                    });
-                    // Add the button to the file preview element.
-                    file.previewElement.appendChild(removeButton);
                 });
-            }
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('delete-hotel-image') }}",
+                    data: {
+                        filename: file.url
+                    },
+                    success: function(data) {
+                        console.log("File has been successfully removed!!");
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }
+                });
+                var fileRef;
+                return (fileRef = file.previewElement) != null ?
+                    fileRef.parentNode.removeChild(file.previewElement) : void 0;
+            },
         });
-        
-            var mockFile = {url:'{!! $hotel_image_location !!}'};
-            myDropzone.emit("addedfile", mockFile);
-            myDropzone.emit("thumbnail", mockFile,'{!! $hotel_image_location !!}');
-            myDropzone.emit("complete", mockFile);
-            var existingFileCount = 1; 
-            myDropzone.options.maxFiles = myDropzone.options.maxFiles - existingFileCount;
 
-            
+        if ($hotel_image_locationJS) {
+            var mockFile = {
+                url: '{!! $hotel_image_location !!}'
+            };
+            myDropzone.emit("addedfile", mockFile);
+            myDropzone.emit("thumbnail", mockFile, '{!! $hotel_image_location !!}');
+            myDropzone.emit("complete", mockFile);
+            var existingFileCount = 1;
+            myDropzone.options.maxFiles = myDropzone.options.maxFiles - existingFileCount;
+        }
+
         var myHotelDropzone = new Dropzone("div#hoteldropzone", {
             url: "/file/post",
             autoProcessQueue: false,
@@ -405,69 +429,40 @@ $hotel_image_location = url(Storage::url('app/upload/Hotel/'.$model->id.'/'.$mod
             uploadMultiple: true,
             parallelUploads: 100, // use it with uploadMultiple
             createImageThumbnails: true,
-            thumbnailWidth:"250",
-            thumbnailHeight:"250",
+            thumbnailWidth: "250",
+            thumbnailHeight: "250",
             addRemoveLinks: true,
-            init: function() {
-                this.on('addedfile', function(file) {
-                    // Create the remove button
-                    var removeButton = Dropzone.createElement(
-                        "<button class='btn btn-outline-danger btn-sm' style='margin-left: 7px;margin-top: 7px;'>Remove file</button>"
-                        );
-                    // Capture the Dropzone instance as closure.
-                    var _this = this;
-                    // Listen to the click event
-                    removeButton.addEventListener("click", function(e) {
-                        // Make sure the button click doesn't submit the form:
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // Remove the file preview.
-                        _this.removeFile(file);
-                        // If you want to the delete the file on the server as well,
-                        // you can do the AJAX request here.
-                        this.on("maxfilesexceeded", function(file) {
-                            this.removeFile(file);
-                        });
-                    });
-                    // Add the button to the file preview element.
-                    file.previewElement.appendChild(removeButton);
+            removedfile: function(file) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
                 });
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('delete-hotel-gallery-image') }}",
+                    data: {
+                        filename: file.url
+                    },
+                    success: function(data) {
+                        console.log("File has been successfully removed!!");
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }
+                });
+                var fileRef;
+                return (fileRef = file.previewElement) != null ?
+                    fileRef.parentNode.removeChild(file.previewElement) : void 0;
             },
-            removedfile: function(file) 
-            {
-				if (this.options.dictRemoveFile) {
-				  return Dropzone.confirm("Are You Sure to "+this.options.dictRemoveFile, function() {
-					if(file.previewElement.id != ""){
-						var name = file.previewElement.id;
-					}else{
-						var name = file.name;
-					}
-					//console.log(name);
-					$.ajax({
-						headers: {
-							  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							  },
-						type: 'POST',
-						url: delete_url,
-						data: {filename: name},
-						success: function (data){
-							alert(data.success +" File has been successfully removed!");
-						},
-						error: function(e) {
-							console.log(e);
-						}});
-						var fileRef;
-						return (fileRef = file.previewElement) != null ? 
-						fileRef.parentNode.removeChild(file.previewElement) : void 0;
-				   });
-			    }		
-            }
         });
         // If you use jQuery, you can use the jQuery plugin Dropzone ships with:
-        for(let i = 0; i < images.length; i++) {
+        for (let i = 0; i < images.length; i++) {
             let img = images[i];
             // Create the mock file:
-            var mockFile = {url:img.file_path};
+            var mockFile = {
+                url: img.file_path
+            };
             // Call the default addedfile event handler
             myHotelDropzone.emit("addedfile", mockFile);
             // And optionally show the thumbnail of the file:
@@ -479,7 +474,7 @@ $hotel_image_location = url(Storage::url('app/upload/Hotel/'.$model->id.'/'.$mod
             var existingFileCount = 1; // The number of files already uploaded
             myHotelDropzone.options.maxFiles = myHotelDropzone.options.maxFiles - existingFileCount;
 
-            }
+        }
 
         (function(window, document, $) {
             'use strict';

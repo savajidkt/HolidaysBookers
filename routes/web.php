@@ -94,7 +94,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/offlinehotels/change-status', [OfflineHotelsController::class, 'changeStatus'])->name('change-offlinehotels-status');
     Route::post('/offlinehotels/import-offilnehotels', [OfflineHotelsController::class, 'importOfflineHotels'])->name('import-offline-hotels');
     Route::get('/offlinehotels/export',[OfflineHotelsController::class, 'offlineHotelsExport'])->name('offline-hotels-export'); 
-
+    Route::post('/offlinehotel/delete-hotel-image', [OfflineHotelsController::class, 'deleteHotelImage'])->name('delete-hotel-image');     
+    Route::post('/offlinehotel/delete-hotel-gallery-image', [OfflineHotelsController::class, 'deleteHotelGalleryImage'])->name('delete-hotel-gallery-image');     
+    
 
     Route::resource('/hotelgroups', HotelGroupsController::class);
     Route::post('/hotelgroup/change-status', [HotelGroupsController::class, 'changeStatus'])->name('change-hotel-group-status');

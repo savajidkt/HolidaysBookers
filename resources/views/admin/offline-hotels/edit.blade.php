@@ -13,6 +13,7 @@
                     <form class="needs-validation1" id="FrmOfflineHotel" method="post" enctype="multipart/form-data" action="{{route('offlinehotels.update',$model)}}">
                         <input type="hidden" name="id" value="{{ isset($model->id) ? $model->id : null }}">
                         @csrf
+                        @method('PUT')
                         @include('admin.offline-hotels.form')
                         <div class="row">
                             <div class="col-12">

@@ -53,9 +53,10 @@ class OfflineHotelRepository
         $OfflineHotel = OfflineHotel::create($HotelArr);
         $OfflineHotel->hotelamenity()->attach($data['hotel_amenities']);
         $images = [];
+
         foreach ($request->hotel_gallery_image as $file) {
             $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/upload/') . "/Hotel/". $OfflineHotel->id."/gallery/", $fileName);
+            $file->move(storage_path('app/upload/') . "/Hotel/" . $OfflineHotel->id . "/gallery/", $fileName);
             $images[] = ['file_path' => $fileName];
         }
         $OfflineHotel->images()->createMany($images);
@@ -63,11 +64,11 @@ class OfflineHotelRepository
         if ($request->hotel_image) {
             foreach ($request['hotel_image'] as $files) {
                 $Filename = $files->getClientOriginalName();
-                $files->move(storage_path('app/upload/') . "/Hotel/". $OfflineHotel->id."/", $Filename);
+                $files->move(storage_path('app/upload/') . "/Hotel/" . $OfflineHotel->id . "/", $Filename);
             }
-            $OfflineHotel->update(['hotel_image_location'=>$Filename]);
+            $OfflineHotel->update(['hotel_image_location' => $Filename]);
         }
-            //$user->notify(new RegisterdEmailNotification($password,$user));
+        //$user->notify(new RegisterdEmailNotification($password,$user));
         return $OfflineHotel;
     }
 
@@ -99,7 +100,7 @@ class OfflineHotelRepository
      * @return OfflineHotel
      * @throws Exception
      */
-    public function update(array $data, OfflineHotel $offlinehotel): OfflineHotel
+    public function update(Request $request, array $data, OfflineHotel $offlinehotel): OfflineHotel
     {
         $HotelArr = [
             'hotel_name'    => $data['hotel_name'],
@@ -131,22 +132,25 @@ class OfflineHotelRepository
 
 
         $images = [];
-        foreach ($data['hotel_gallery_image'] as $file) {
-            $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/upload/') . "/Hotel/". $offlinehotel->id."/gallery/", $fileName);
-            $images[] = ['file_path' => $fileName];
-        }
-        $offlinehotel->images()->createMany($images);
-
-        if ($data['hotel_image']) {
-            foreach ($data['hotel_image'] as $files) {
-                $Filename = $files->getClientOriginalName();
-                $files->move(storage_path('app/upload/') . "/Hotel/". $offlinehotel->id."/", $Filename);
+        if ($request->hotel_gallery_image) {
+            foreach ($request->hotel_gallery_image as $file) {
+                $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
+                $file->move(storage_path('app/upload/') . "/Hotel/" . $offlinehotel->id . "/gallery/", $fileName);
+                $images[] = ['file_path' => $fileName];
             }
-            $offlinehotel->update(['hotel_image_location'=>$Filename]);
+            $offlinehotel->images()->createMany($images);
+        }
+        
+
+        if ($request->hotel_image) {
+            foreach ($request->hotel_image as $files) {
+                $Filename = $files->getClientOriginalName();
+                $files->move(storage_path('app/upload/') . "/Hotel/" . $offlinehotel->id . "/", $Filename);
+            }
+            $offlinehotel->update(['hotel_image_location' => $Filename]);
         }
 
-        
+
 
         return $offlinehotel;
         throw new Exception('Offline Hotel update failed.');
@@ -219,11 +223,11 @@ class OfflineHotelRepository
     public function hotel_destroy(Request $request)
     {
         $filename =  $request->get('filename');
-        Gallery::where('filename',$filename)->delete();
-        $path = public_path('uploads/gallery/').$filename;
+        Gallery::where('filename', $filename)->delete();
+        $path = public_path('uploads/gallery/') . $filename;
         if (file_exists($path)) {
             unlink($path);
         }
-        return response()->json(['success'=>$filename]);
+        return response()->json(['success' => $filename]);
     }
 }

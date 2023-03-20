@@ -5,26 +5,28 @@ namespace App\Http\Controllers\Admin\OfflineHotels;
 use Exception;
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\OfflineHotel;
 use App\Models\Reach;
+use App\Models\Amenity;
 use App\Models\Country;
+use App\Models\HotelGroup;
 use App\Models\CompanyType;
+use App\Models\OfflineHotel;
+use App\Models\PropertyType;
 use Illuminate\Http\Request;
 use App\Exports\ExportAgents;
-use App\Imports\OfflineHotelsImport;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use App\Exports\ExportFailedAgents;
 use Illuminate\Support\Facades\App;
 use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
+use App\Imports\OfflineHotelsImport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Repositories\OfflineHotelRepository;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Agent\EditRequest;
+use App\Repositories\OfflineHotelRepository;
 use App\Http\Requests\OfflineHotel\CreateRequest;
-use App\Models\Amenity;
-use App\Models\HotelGroup;
-use App\Models\PropertyType;
+use App\Models\HotelImage;
 
 class OfflineHotelsController extends Controller
 {
@@ -45,7 +47,7 @@ class OfflineHotelsController extends Controller
 
         if ($request->ajax()) {
 
-            $data = OfflineHotel::where('hotel_type',OfflineHotel::OFFLINE);
+            $data = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('hotel_name', function (OfflineHotel $hotel) {
@@ -95,11 +97,11 @@ class OfflineHotelsController extends Controller
             '4' => '4 Star',
             '5' => '5 Star',
         ];
-        $HotelsAmenitiesIDS =[];
+        $HotelsAmenitiesIDS = [];
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::HOTEL)->pluck('amenity_name', 'id')->toArray();
-        return view('admin.offline-hotels.create', ['model' => $rawData, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities,'HotelsAmenitiesIDs'=>$HotelsAmenitiesIDS]);
+        return view('admin.offline-hotels.create', ['model' => $rawData, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDs' => $HotelsAmenitiesIDS]);
     }
-    
+
     /**
      * Method store
      *
@@ -124,7 +126,7 @@ class OfflineHotelsController extends Controller
         //
     }
 
-       
+
     /**
      * Method edit
      *
@@ -134,7 +136,7 @@ class OfflineHotelsController extends Controller
      */
     public function edit(OfflineHotel $offlinehotel)
     {
-        $HotelsAmenitiesIDS =[];
+        $HotelsAmenitiesIDS = [];
         $hotelGroups    = HotelGroup::where('status', HotelGroup::ACTIVE)->get();
         $propertyTypes  = PropertyType::where('status', PropertyType::ACTIVE)->get();
         $countries      =  Country::where('status', Country::ACTIVE)->get();
@@ -147,7 +149,7 @@ class OfflineHotelsController extends Controller
         ];
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::HOTEL)->pluck('amenity_name', 'id')->toArray();
         $HotelsAmenitiesIDS  = $offlinehotel->hotelamenity()->pluck('amenities_id')->toArray();
-        return view('admin.offline-hotels.edit', ['model' =>$offlinehotel, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities,'HotelsAmenitiesIDs'=>$HotelsAmenitiesIDS]);
+        return view('admin.offline-hotels.edit', ['model' => $offlinehotel, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDs' => $HotelsAmenitiesIDS]);
     }
 
     /**
@@ -159,10 +161,8 @@ class OfflineHotelsController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function update(EditRequest $request, OfflineHotel $offlinehotel)
-    {
-        dd('asdasdsadsadasdasdad');
-        $this->offlineHotelRepository->update($request->all(), $offlinehotel);
-
+    {        
+        $this->offlineHotelRepository->update( $request, $request->all(), $offlinehotel);
         return redirect()->route('offlinehotels.index')->with('success', "Hotel updated successfully!");
     }
 
@@ -255,5 +255,43 @@ class OfflineHotelsController extends Controller
         // $id= $user->id;
         $agents    = Agent::all();
         return Excel::download(new ExportAgents($agents), 'agent-export.xlsx');
+    }
+
+
+
+    public function deleteHotelImage(Request $request)
+    {
+        $filename = str_replace(url(Storage::url('app/upload/Hotel/')), '', $request->filename);
+        $filesname =  explode('/', $filename);
+
+        if (is_array($filesname) && count($filesname) > 0) {
+            $image = OfflineHotel::where('id', $filesname[1])->where('hotel_image_location', $filesname[2]);
+            if ($image->update(['hotel_image_location' => ''])) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Offline hotel image deleted successfully!'
+                ]);
+            }
+            throw new Exception('Offline hotel image does not deleted. Please check sometime later.');
+        }
+    }
+
+
+    public function deleteHotelGalleryImage(Request $request)
+    {
+
+        $filename = str_replace(url(Storage::url('app/upload/Hotel/')), '', $request->filename);
+        $filesname =  explode('/', $filename);
+        
+        if (is_array($filesname) && count($filesname) > 0) {
+            $gallery = HotelImage::where('hotel_id', $filesname[1])->where('file_path', $filesname[3]);
+            if ($gallery->delete()) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Offline hotel gallery image deleted successfully!'
+                ]);
+            }
+            throw new Exception('Offline hotel gallery image does not deleted. Please check sometime later.');
+        }
     }
 }

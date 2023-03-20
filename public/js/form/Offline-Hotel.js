@@ -79,12 +79,13 @@ var FrmOfflineHotelPreference = function () {
             },
             submitHandler: function (form) {
                 //$(".buttonLoader").removeClass('hide');
+               
 
                 var form_data = new FormData(form);
 
                 var fileUpload = $('#mydropzone').get(0).dropzone;
                 var files = fileUpload.files;
-                
+
 
                 for (var i = 0; i < files.length; i++) {
                     form_data.append(files[i].name, files[i]);
