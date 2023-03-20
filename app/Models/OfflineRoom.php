@@ -53,6 +53,7 @@ class OfflineRoom extends Authenticatable
         'accommodation_policy',
         'type',
         'api_name',
+        'room_image',
         'status'
 
     ];
@@ -148,5 +149,10 @@ class OfflineRoom extends Authenticatable
     public function roomamenity()
     {
         return $this->belongsToMany(Amenity::class, 'room_amenities', 'room_id', 'amenity_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(OfflineRoomGallery::class,'room_id', 'id');
     }
 }

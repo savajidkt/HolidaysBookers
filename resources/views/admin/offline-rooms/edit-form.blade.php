@@ -1,11 +1,35 @@
+@php
+    $imageMainPath = '';
+    $images = [];
+    if (isset($model->images)) {
+        foreach ($model->images as $key => $img) {
+            $images[$key]['images'] = url(Storage::url('app/upload/Hotel/' . $model->hotel_id . '/Room/' . $model->id . '/Gallery/' . $img['images']));
+        }
+    }
+    if (strlen($model->room_image) > 0) {
+        $imageMainPath = url(Storage::url('app/upload/Hotel/' . $model->hotel_id . '/Room/' . $model->id . '/' . $model->room_image));
+    }
+    
+@endphp
+
+
+
 <script>
     var HotelsList = {!! json_encode($HotelsList) !!};
     var HotelsRoomType = {!! json_encode($HotelsRoomType) !!};
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
     var HotelsRoomID = "{!! $model->room_type_id !!}";
     var HotelsAmenitiesIDs = {!! json_encode($HotelsAmenitiesIDS) !!};
+    var images = {!! json_encode($images) !!};
+    var $imageMainPathjs = "{!! $imageMainPath !!}";
 </script>
-
+<style>
+    .dropzone .dz-preview .dz-image img {
+        display: block;
+        width: 120px;
+        height: 120px;
+    }
+</style>
 <div class="row">
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
@@ -123,8 +147,31 @@
             </div>
         </div>
     </div>
+    <div class="col-3">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label class="form-label" for="cancel_days">Room Image</label>
+                <div class="dropzone clsbox roomImageDropzone" id="roomImageDropzone_0" name="roomImageDropzone"
+                    dropzonename="roomImageDropzone">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label class="form-label" for="cancel_days">Room Gallery</label>
+                <div class="dropzone clsbox roomGalleryDropzone" id="roomGalleryDropzone_0"
+                    name="roomGalleryDropzone" dropzonegallery="roomGalleryDropzone">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <hr />
+
+
+
 
 
 
@@ -138,13 +185,110 @@
     <script src="{{ asset('app-assets/js/scripts/forms/form-select2.js') }}"></script>
     <!-- END: Page JS-->
 
-    <!-- BEGIN: Page JS-->
-    <script src="{{ asset('app-assets/js/scripts/forms/form-repeater.js') }}"></script>
-    <!-- END: Page JS-->
+    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script type="text/javascript">
+        Dropzone.autoDiscover = false;
+
+        // Dropzone class:
+        var roomImageDropzone = new Dropzone("div#roomImageDropzone_0", {
+            url: "/file/post",
+            autoProcessQueue: false,
+            maxFilesize: 1,
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
+            removedfile: function(file) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('delete-room-image') }}",
+                    data: {
+                        filename: file.url
+                    },
+                    success: function(data) {
+                        console.log("File has been successfully removed!!");
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }
+                });
+                var fileRef;
+                return (fileRef = file.previewElement) != null ?
+                    fileRef.parentNode.removeChild(file.previewElement) : void 0;
+            },
+        });
+
+        if ($imageMainPathjs) {
+            var mockFile = {
+                url: '{!! $imageMainPath !!}'
+            };
+            roomImageDropzone.emit("addedfile", mockFile);
+            roomImageDropzone.emit("thumbnail", mockFile, '{!! $imageMainPath !!}');
+            roomImageDropzone.emit("complete", mockFile);
+            // var existingFileCount = 1;
+            // roomImageDropzone.options.maxFiles = roomImageDropzone.options.maxFiles - existingFileCount;
+        }
+
+        var roomGalleryDropzone = new Dropzone("div#roomGalleryDropzone_0", {
+            url: "/file/post",
+            autoProcessQueue: false,
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
+            removedfile: function(file) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('delete-room-gallery-image') }}",
+                    data: {
+                        filename: file.url
+                    },
+                    success: function(data) {
+                        console.log("File has been successfully removed!!");
+                    },
+                    error: function(e) {
+                        console.log(e);
+                    }
+                });
+                var fileRef;
+                return (fileRef = file.previewElement) != null ?
+                    fileRef.parentNode.removeChild(file.previewElement) : void 0;
+            },
+        });
+
+
+        // If you use jQuery, you can use the jQuery plugin Dropzone ships with:
+        for (let i = 0; i < images.length; i++) {
+            let img = images[i];
+            // Create the mock file:
+            var mockFile = {
+                url: img.images
+            };
+            // Call the default addedfile event handler
+            roomGalleryDropzone.emit("addedfile", mockFile);
+            // And optionally show the thumbnail of the file:
+            roomGalleryDropzone.emit("thumbnail", mockFile, img.images);
+            // Make sure that there is no progress bar, etc...
+            roomGalleryDropzone.emit("complete", mockFile);
+            // If you use the maxFiles option, make sure you adjust it to the
+            // correct amount:
+            var existingFileCount = 1; // The number of files already uploaded
+            roomGalleryDropzone.options.maxFiles = roomGalleryDropzone.options.maxFiles - existingFileCount;
+
+        }
+    </script>
     <script type="text/javascript">
         var moduleConfig = {
             addRoomTypeURL: "{!! route('add-room-type') !!}",
             addAmenityURL: "{!! route('add-amenity') !!}",
+            editRoomURL: "{!! route('offlinerooms.update', $model) !!}",
+            listRoomsURL: "{!! route('offlinerooms.index') !!}",
         };
     </script>
 @endsection

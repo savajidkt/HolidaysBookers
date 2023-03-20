@@ -4,20 +4,22 @@ namespace App\Http\Controllers\Admin\OfflineRooms;
 
 use Exception;
 use App\Models\User;
+use App\Models\Amenity;
 use App\Models\Country;
+use App\Models\RoomType;
 use App\Models\OfflineRoom;
+use App\Models\OfflineHotel;
+use App\Models\OfflineRoomGallery;
 use Illuminate\Http\Request;
+use App\Models\OfflineRoomPrice;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Repositories\OfflineRoomRepository;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use App\Repositories\OfflineRoomRepository;
 use App\Http\Requests\OfflineRoom\EditRequest;
 use App\Http\Requests\OfflineRoom\CreateRequest;
-use App\Models\Amenity;
-use App\Models\OfflineHotel;
-use App\Models\OfflineRoomPrice;
-use App\Models\RoomType;
 
 class OfflineRoomsController extends Controller
 {
@@ -52,17 +54,17 @@ class OfflineRoomsController extends Controller
                     });
                 })->addColumn('total_adult', function (OfflineRoom $room) {
                     return $room->total_adult;
-                })->filterColumn('total_adult', function ($query, $keyword) {                 
-                        $query->where('total_adult', 'LIKE', '%' . $keyword . '%');                 
+                })->filterColumn('total_adult', function ($query, $keyword) {
+                    $query->where('total_adult', 'LIKE', '%' . $keyword . '%');
                 })->addColumn('total_cwb', function (OfflineRoom $room) {
                     return $room->total_cwb;
-                })->filterColumn('total_cwb', function ($query, $keyword) {                 
-                    $query->where('total_cwb', 'LIKE', '%' . $keyword . '%');                 
-            })->addColumn('total_cnb', function (OfflineRoom $room) {
+                })->filterColumn('total_cwb', function ($query, $keyword) {
+                    $query->where('total_cwb', 'LIKE', '%' . $keyword . '%');
+                })->addColumn('total_cnb', function (OfflineRoom $room) {
                     return $room->total_cnb;
-                })->filterColumn('total_cnb', function ($query, $keyword) {                 
-                    $query->where('total_cnb', 'LIKE', '%' . $keyword . '%');                 
-            })->editColumn('status', function (OfflineRoom $room) {
+                })->filterColumn('total_cnb', function ($query, $keyword) {
+                    $query->where('total_cnb', 'LIKE', '%' . $keyword . '%');
+                })->editColumn('status', function (OfflineRoom $room) {
                     return $room->status_name;
                 })->addColumn('action', function ($row) {
                     return $row->action;
@@ -94,7 +96,7 @@ class OfflineRoomsController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        $this->offlineRoomRepository->create($request->all());
+        $this->offlineRoomRepository->create($request, $request->all());
         return redirect()->route('offlinerooms.index')->with('success', 'Offline Room created successfully!');
     }
 
@@ -124,7 +126,7 @@ class OfflineRoomsController extends Controller
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
         $HotelsAmenitiesIDS  = $offlineroom->roomamenity()->pluck('amenity_id')->toArray();
 
-        
+
         return view('admin.offline-rooms.edit', ['model' => $offlineroom, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDS' => $HotelsAmenitiesIDS]);
     }
 
@@ -138,9 +140,13 @@ class OfflineRoomsController extends Controller
      */
     public function update(Request $request, OfflineRoom $offlineroom)
     {
-        $this->offlineRoomRepository->update($request->all(), $offlineroom);
-
-        return redirect()->route('offlinerooms.index')->with('success', 'Offline Room updated successfully!');
+       
+        $this->offlineRoomRepository->update($request, $request->all(), $offlineroom);   
+        return response()->json([
+            'status' => true,
+            'message' => 'Offline Room updated successfully!'
+        ]);     
+        //return redirect()->route('offlinerooms.index')->with('success', 'Offline Room updated successfully!');
     }
 
 
@@ -152,7 +158,7 @@ class OfflineRoomsController extends Controller
      * @return void
      */
     public function destroy(OfflineRoom $offlineroom)
-    {        
+    {
         $this->offlineRoomRepository->delete($offlineroom);
         return redirect()->route('offlinerooms.index')->with('success', 'Offline Room deleted successfully!');
     }
@@ -237,7 +243,7 @@ class OfflineRoomsController extends Controller
      * @return void
      */
     public function storePrice(Request $request, OfflineRoom $offlineroom)
-    {        
+    {
         $this->offlineRoomRepository->createPrice($request->all(), $offlineroom);
         return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price created successfully!');
     }
@@ -265,7 +271,7 @@ class OfflineRoomsController extends Controller
      * @return void
      */
     public function updatePrice(Request $request, OfflineRoomPrice $offlineroomprice)
-    {        
+    {
         $offlineroom =  $offlineroomprice->room;
         $this->offlineRoomRepository->updatePrice($request->all(), $offlineroomprice);
         return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price updated successfully!');
@@ -279,9 +285,57 @@ class OfflineRoomsController extends Controller
      * @return void
      */
     public function destroyPrice(OfflineRoomPrice $offlineroomprice)
-    {        
+    {
         $offlineroom =  $offlineroomprice->room;
         $this->offlineRoomRepository->deletePrice($offlineroomprice);
         return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price deleted successfully!');
+    }
+
+    /**
+     * Method deleteRoomImage
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return void
+     */
+    public function deleteRoomImage(Request $request)
+    {
+
+        $filename = str_replace(url(Storage::url('app/upload/Hotel/')), '', $request->filename);
+        $filesname =  explode('/', $filename);
+        if (is_array($filesname) && count($filesname) > 0) {
+            $image = OfflineRoom::where('id', $filesname[3])->where('room_image', $filesname[4]);
+            if ($image->update(['room_image' => ''])) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Offline room image deleted successfully!'
+                ]);
+            }
+            throw new Exception('Offline room image does not deleted. Please check sometime later.');
+        }
+    }
+
+    /**
+     * Method deleteRoomGalleryImage
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return void
+     */
+    public function deleteRoomGalleryImage(Request $request)
+    {
+        
+        $filename = str_replace(url(Storage::url('app/upload/Hotel/')), '', $request->filename);
+        $filesname =  explode('/', $filename);
+        if (is_array($filesname) && count($filesname) > 0) {
+            $gallery = OfflineRoomGallery::where('room_id', $filesname[3])->where('images', $filesname[5]);
+            if ($gallery->delete()) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Offline room gallery image deleted successfully!'
+                ]);
+            }
+            throw new Exception('Offline room gallery image does not deleted. Please check sometime later.');
+        }
     }
 }

@@ -34,7 +34,7 @@
                             <span class="font-weight-bold">ROOM DETAILS</span>
                         </a>
                     </li>
-                   
+
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-galleries-details" data-toggle="pill"
                             href="#account-vertical-galleries-details" aria-expanded="false">
@@ -77,8 +77,8 @@
                                         <div class="form-group">
                                             <label for="account-username">Room Amenities</label>
                                             <strong class="disp-below">
-                                              {{$amenitiesName}}
-                                             </strong>
+                                                {{ $amenitiesName }}
+                                            </strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -117,12 +117,54 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                            
-                            <div class="tab-pane fade" id="account-pill-galleries-details" role="tabpanel"
+                            </div>
+                            <div class="tab-pane fade" id="account-vertical-galleries-details" role="tabpanel"
                                 aria-labelledby="account-pill-galleries-details" aria-expanded="false">
                                 <div class="row">
-                                    <div class="col-12 col-sm-3">
-                                        Gallery
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4 class="card-title">Room Galleries</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                @if ($model->images->count() > 0)
+                                                    <div id="carouselExampleFade" class="carousel slide carousel-fade"
+                                                        data-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @php
+                                                                $i = 0;
+                                                            @endphp
+                                                            @foreach ($model->images as $image)
+                                                                @php
+                                                                    $i++;
+                                                                @endphp
+                                                                <div class="carousel-item {{ $i == 1 ? 'active' : '' }}">
+                                                                    <img src="{{ url('storage/app/upload/Hotel/' . $model->hotel_id . '/Room/' . $model->id . '/Gallery/' . $image['images']) }}"
+                                                                        class="img-fluid d-block w-100" alt="cf-img-1" />
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        <a class="carousel-control-prev" href="#carouselExampleFade"
+                                                            role="button" data-slide="prev">
+                                                            <span class="carousel-control-prev-icon"
+                                                                aria-hidden="true"></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href="#carouselExampleFade"
+                                                            role="button" data-slide="next">
+                                                            <span class="carousel-control-next-icon"
+                                                                aria-hidden="true"></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </div>
+                                                @else
+                                                    <p class="card-text">
+                                                        Room galleries not found!
+                                                    </p>
+                                                @endif
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

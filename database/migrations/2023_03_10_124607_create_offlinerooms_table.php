@@ -29,6 +29,7 @@ class CreateOfflineroomsTable extends Migration
             $table->string('accommodation_policy')->nullable();
             $table->boolean('type')->default(1)->comment('1=Offline, 2=API');
             $table->string('api_name')->nullable();
+            $table->text('room_image')->nullable();
             $table->boolean('status')->default(false)->comment('1=Active, 0=Inactive');
 
             //FOREIGN KEY CONSTRAINTS

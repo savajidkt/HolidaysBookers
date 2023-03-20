@@ -10,7 +10,7 @@
                         <h4 class="card-title text-white">Edit Offline Room</h4>
                     </div>
                     <div class="card-body">
-                        <form id="FrmOfflineRoom" class="needs-validation1" novalidate method="post"
+                        <form id="FrmEditOfflineRoom" class="needs-validation1" novalidate method="post"
                             enctype="multipart/form-data" action="{{ route('offlinerooms.update', $model) }}">
                             @csrf
                             @method('PUT')

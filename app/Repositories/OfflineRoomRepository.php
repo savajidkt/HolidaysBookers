@@ -4,18 +4,21 @@ namespace App\Repositories;
 
 use Exception;
 use App\Models\User;
-use App\Models\OfflineHotel;
 use App\Models\Customer;
-use App\Exceptions\GeneralException;
 use App\Models\OfflineRoom;
-use App\Models\OfflineRoomChildPrice;
+use Illuminate\Support\Str;
+use App\Models\OfflineHotel;
+use Illuminate\Http\Request;
 use App\Models\OfflineRoomPrice;
+use App\Exceptions\GeneralException;
 use Illuminate\Support\Facades\Hash;
+use App\Models\OfflineRoomChildPrice;
+use Illuminate\Support\Facades\Storage;
 
 class OfflineRoomRepository
 {
 
-    public function create(array $data): OfflineRoom
+    public function create(Request $request, array $data): OfflineRoom
     {
         /**
          * Inser Room Data
@@ -26,6 +29,7 @@ class OfflineRoomRepository
                 'hotel_id'    => $data['hotel_id'],
             ];
             foreach ($data['rooms'] as $key => $value) {
+
                 $RoomArr['room_type_id'] = $value['room_type'];
                 $RoomArr['total_adult'] = $value['no_of_adult'];
                 $RoomArr['total_cwb'] = $value['no_of_cwb'];
@@ -35,11 +39,35 @@ class OfflineRoomRepository
                 $RoomArr['type'] = 1;
                 $RoomArr['status'] = $value['status'];
                 $offlineRoom =  OfflineRoom::create($RoomArr);
-
                 $offlineRoom->roomamenity()->attach($value['room_amenities']);
+
+                /**
+                 * Room Image Add
+                 */
+
+                if ($request->room_image) {
+                    foreach ($request->room_image[$key] as $files) {
+                        $Filename = time() . Str::random(8) . '.' . $files->getClientOriginalExtension();
+                        $files->move(storage_path('app/upload/') . "/Hotel/" . $data['hotel_id'] . "/Room/" . $offlineRoom->id . "/", $Filename);
+                    }
+                    $offlineRoom->update(['room_image' => $Filename]);
+                }
+
+                /**
+                 * Room Gallery Add
+                 */
+
+                $images = [];
+                if ($request->room_gallery_image) {
+                    foreach ($request->room_gallery_image[$key] as $file) {
+                        $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
+                        $file->move(storage_path('app/upload/') . "/Hotel/" . $data['hotel_id'] . "/Room/" . $offlineRoom->id . "/Gallery/", $fileName);
+                        $images[] = ['images' => $fileName];
+                    }
+                }
+                $offlineRoom->images()->createMany($images);
             }
         }
-
         return $offlineRoom;
     }
 
@@ -52,7 +80,7 @@ class OfflineRoomRepository
      *
      * @return OfflineRoom
      */
-    public function update(array $data, OfflineRoom $offlineroom): OfflineRoom
+    public function update(Request $request, array $data, OfflineRoom $offlineroom): OfflineRoom
     {
 
         $RoomArr['room_type_id'] = $data['room_type'];
@@ -69,6 +97,33 @@ class OfflineRoomRepository
             $offlineroom->roomamenity()->detach();
             $offlineroom->roomamenity()->attach($data['room_amenities']);
         }
+
+        /**
+         * Room Image Add
+         */
+
+        if ($request->room_image) {
+            foreach ($request->room_image as $files) {
+                $Filename = time() . Str::random(8) . '.' . $files->getClientOriginalExtension();
+                $files->move(storage_path('app/upload/') . "/Hotel/" . $offlineroom->hotel_id . "/Room/" . $offlineroom->id . "/", $Filename);
+            }
+            $offlineroom->update(['room_image' => $Filename]);
+        }
+
+        /**
+         * Room Gallery Add
+         */
+
+        $images = [];
+        if ($request->room_gallery_image) {
+            foreach ($request->room_gallery_image as $file) {
+
+                $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
+                $file->move(storage_path('app/upload/') . "/Hotel/" . $offlineroom->hotel_id . "/Room/" . $offlineroom->id . "/Gallery/", $fileName);
+                $images[] = ['images' => $fileName];
+            }
+        }
+        $offlineroom->images()->createMany($images);
         return $offlineroom;
     }
 

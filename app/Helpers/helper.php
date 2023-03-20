@@ -84,6 +84,17 @@ if (!function_exists('FolderExists')) {
     }
 }
 
+if (!function_exists('makeDirectory')) {
+    function makeDirectory($path,$id)
+    {
+        if (!Storage::exists('/'.$path.'/' . $id)) {
+            return Storage::makeDirectory('/'.$path.'/' . $user_id, 0775, true);
+        }
+
+        return true;
+    }
+}
+
 if (!function_exists('FileUpload')) {
     /**
      * FileUpload return file name

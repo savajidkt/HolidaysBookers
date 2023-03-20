@@ -147,10 +147,29 @@
                     </div>
                 </div>
             </div>
+            <div class="col-3">
+                <div class="col-md-12 col-12">
+                    <div class="form-group">
+                        <label class="form-label" for="cancel_days">Room Image</label>                       
+                        <div class="dropzone clsbox roomImageDropzone" id="roomImageDropzone_0" name="roomImageDropzone" dropzonename="roomImageDropzone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="col-md-12 col-12">
+                    <div class="form-group">
+                        <label class="form-label" for="cancel_days">Room Gallery</label>                        
+                        <div class="dropzone clsbox roomGalleryDropzone" id="roomGalleryDropzone_0" name="roomGalleryDropzone" dropzonegallery="roomGalleryDropzone">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row col-4">
                 <div class="col-md-2 col-12 mb-50">
                     <div class="form-group">
-                        <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete type="button">
+                        <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete
+                            type="button">
                             <i data-feather="x" class="mr-25"></i>
                             <span>Delete</span>
                         </button>
@@ -164,7 +183,7 @@
 <div class="row">
     <div class="col-12">
         <button class="btn btn-icon btn-primary " type="button" data-repeater-create>
-            <i data-feather="plus" ></i>
+            <i data-feather="plus"></i>
             <span>Add More Room</span>
         </button>
     </div>
@@ -182,10 +201,84 @@
     <!-- BEGIN: Page JS-->
     <script src="{{ asset('app-assets/js/scripts/forms/form-repeater.js') }}"></script>
     <!-- END: Page JS-->
+    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script type="text/javascript">
+        Dropzone.autoDiscover = false;
+        
+        // Dropzone class:
+        var roomImageDropzone = new Dropzone("div#roomImageDropzone_0", {
+            url: "/file/post",
+            autoProcessQueue: false,
+            maxFilesize: 1,
+            acceptedFiles: 'image/*',
+            init: function() {
+                this.on('addedfile', function(file) {
+                    if (this.files.length > 1) {
+                        this.removeFile(this.files[0]);
+                    }
+                    // Create the remove button
+                    var removeButton = Dropzone.createElement(
+                        "<button class='btn btn-outline-danger btn-sm' style='margin-left: 7px;margin-top: 7px;'>Remove file</button>"
+                    );
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+                    // Listen to the click event
+                    removeButton.addEventListener("click", function(e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Remove the file preview.
+                        _this.removeFile(file);
+                        // If you want to the delete the file on the server as well,
+                        // you can do the AJAX request here.
+                        this.on("maxfilesexceeded", function(file) {
+                            this.removeFile(file);
+                        });
+                    });
+                    // Add the button to the file preview element.
+                    file.previewElement.appendChild(removeButton);
+                });
+            }
+        });
+        
+
+        var roomGalleryDropzone = new Dropzone("div#roomGalleryDropzone_0", {
+            url: "/file/post",
+            autoProcessQueue: false,
+            acceptedFiles: 'image/*',
+            init: function() {
+                this.on('addedfile', function(file) {                   
+                    // Create the remove button
+                    var removeButton = Dropzone.createElement(
+                        "<button class='btn btn-outline-danger btn-sm' style='margin-left: 7px;margin-top: 7px;'>Remove file</button>"
+                        );
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+                    // Listen to the click event
+                    removeButton.addEventListener("click", function(e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Remove the file preview.
+                        _this.removeFile(file);
+                        // If you want to the delete the file on the server as well,
+                        // you can do the AJAX request here.
+                        this.on("maxfilesexceeded", function(file) {
+                            this.removeFile(file);
+                        });
+                    });
+                    // Add the button to the file preview element.
+                    file.previewElement.appendChild(removeButton);
+                });
+            }
+        });
+    </script>
     <script type="text/javascript">
         var moduleConfig = {
             addRoomTypeURL: "{!! route('add-room-type') !!}",
             addAmenityURL: "{!! route('add-amenity') !!}",
+            addRoomsURL: "{!! route('offlinerooms.store') !!}",
+            listRoomsURL: "{!! route('offlinerooms.index') !!}",
         };
     </script>
 @endsection
