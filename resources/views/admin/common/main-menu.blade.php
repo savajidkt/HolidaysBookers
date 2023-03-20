@@ -287,6 +287,31 @@
                     </a>
                 </li>
             @endif
+            @if (
+                $admin->can('meal-plan-create') ||
+                    $admin->can('meal-plan-edit') ||
+                    $admin->can('meal-plan-delete') ||
+                    $admin->can('meal-plan-view'))
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="{{ url('admin/mealplans') }}">
+                        <i data-feather='columns'></i>
+                        <span class="menu-title text-truncate" data-i18n="Meal Plans">Meal Plans</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (
+                $admin->can('currency-create') ||
+                    $admin->can('currency-edit') ||
+                    $admin->can('currency-delete') ||
+                    $admin->can('currency-view'))
+                <li class=" nav-item">
+                    <a class="d-flex align-items-center" href="{{ url('admin/currencies') }}">
+                        <i data-feather='columns'></i>
+                        <span class="menu-title text-truncate" data-i18n="Currencies">Currencies</span>
+                    </a>
+                </li>
+            @endif
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#">
                     <i data-feather='map'></i><span class="menu-title text-truncate"

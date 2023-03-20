@@ -19,7 +19,9 @@ use App\Http\Controllers\Admin\Amenities\AmenitiesController;
 use App\Http\Controllers\Admin\Countries\CountriesController;
 use App\Http\Controllers\Admin\Customers\CustomersController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
+use App\Http\Controllers\Admin\MealPlans\MealPlansController;
 use App\Http\Controllers\Admin\RoomTypes\RoomTypesController;
+use App\Http\Controllers\Admin\Currencies\CurrenciesController;
 use App\Http\Controllers\Admin\Language\LocalizationController;
 use App\Http\Controllers\Admin\Permission\PermissionController;
 use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
@@ -160,6 +162,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::delete('/offlineroom/{offlineroomprice}/price/delete', [OfflineRoomsController::class, 'destroyPrice'])->name('delete-room-price');     
     Route::post('/offlineroom/delete-room-image', [OfflineRoomsController::class, 'deleteRoomImage'])->name('delete-room-image');     
     Route::post('/offlineroom/delete-room-gallery-image', [OfflineRoomsController::class, 'deleteRoomGalleryImage'])->name('delete-room-gallery-image');     
+
+    Route::resource('/mealplans', MealPlansController::class);
+    Route::post('/mealplan/change-status', [MealPlansController::class, 'changeStatus'])->name('change-meal-plan-status');
+
+    Route::resource('/currencies', CurrenciesController::class);
+    Route::post('/currency/change-status', [CurrenciesController::class, 'changeStatus'])->name('change-currency-status');
     
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
