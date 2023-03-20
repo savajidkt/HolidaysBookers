@@ -13,10 +13,8 @@
                     <form class="needs-validation1" id="FrmOfflineHotel" method="post" enctype="multipart/form-data" action="{{route('offlinehotels.update',$model)}}">
                         <input type="hidden" name="id" value="{{ isset($model->id) ? $model->id : null }}">
                         @csrf
-                        @method('PUT')
                         @include('admin.offline-hotels.form')
                         <div class="row">
-                           
                             <div class="col-12">
                                 <a class="btn btn-outline-secondary waves-effect"
                                     href="{{ route('offlinehotels.index') }}">{{ __('core.back') }}</a>
@@ -30,7 +28,7 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
 </section>
 @include('admin.offline-hotels.hotel-group-popup')
 @include('admin.offline-hotels.property-popup')

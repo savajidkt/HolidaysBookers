@@ -1,6 +1,19 @@
+@php
+if(isset($model->images)){
+    foreach($model->images as $key=>$img){
+            $images[$key]['file_path'] =  url(Storage::url('app/upload/Hotel/'.$model->id.'/gallery/'.$img['file_path']));
+       
+    }
+}
+$hotel_image_location = url(Storage::url('app/upload/Hotel/'.$model->id.'/'.$model->hotel_image_location));
+@endphp
 <script>
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
+    var HotelsAmenitiesIDs ={!! json_encode($HotelsAmenitiesIDs) !!};
+   var images = {!! json_encode($images) !!};
 </script>
+
+
 <div class="row">
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
@@ -27,11 +40,12 @@
         <div class="form-group">
             <label class="form-label" for="hotel_country">Country</label>
             <select class="select2 form-control" id="hotel_country" name="hotel_country"
-                data-error="{{ __('agent/agent.hotel_country') }}">
+                data-error="Country">
                 <option value="">Select Country</option>
                 @foreach ($countries as $country)
-                    <option value="{{ $country->id }}" {{ $model->agent_country == $country->id ? 'selected' : '' }}>
-                        {{ $country->name }}</option>
+                    <option value="{{ $country->id }}" {{ $model->hotel_country == $country->id ? 'selected' : '' }}>
+                        {{ $country->name }}
+                    </option>
                 @endforeach
             </select>
             <div class="valid-feedback">Looks good!</div>
@@ -45,7 +59,7 @@
             <label class="form-label" for="hotel_state">State</label>
             <select class="select2 form-control" id="hotel_state" name="hotel_state" data-error="State">
                 <option value="">Select State</option>
-                @php $states = getCountryStates($model->hotel_state);  @endphp
+                @php $states = getCountryStates($model->hotel_country);  @endphp
                 @if ($states->count() > 0)
                     @foreach ($states as $state)
                         <option value="{{ $state->id }}" {{ $model->hotel_state == $state->id ? 'selected' : '' }}>
@@ -67,7 +81,7 @@
             <label class="form-label" for="hotel_city">City</label>
             <select class="select2 form-control" id="hotel_city" name="hotel_city" data-error="City">
                 <option value="">Select City</option>
-                @php $cities = getStateCities($model->hotel_city);  @endphp
+                @php $cities = getStateCities($model->hotel_state);  @endphp
                 @if ($cities->count() > 0)
                     @foreach ($cities as $city)
                         <option value="{{ $city->id }}" {{ $model->hotel_city == $city->id ? 'selected' : '' }}>
@@ -173,7 +187,7 @@
         <div class="form-group">
             <label class="form-label" for="hotel_email">Email</label>
             <input type="text" id="hotel_email" name="hotel_email" class="form-control" placeholder="Email"
-                value="{{ isset($model->agent_email) ? $model->agent_email : old('hotel_email') }}"
+                value="{{ isset($model->hotel_email) ? $model->hotel_email : old('hotel_email') }}"
                 data-error="Email" />
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_email')
@@ -189,7 +203,6 @@
             </a>
             <select class="select2 select2-hotel-amenities form-control" multiple name="hotel_amenities"></select>
             <div class="hotel_amenitiesCLS"></div>
-
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_amenities')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -341,7 +354,6 @@
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
-        // Dropzone class:
         var myDropzone = new Dropzone("div#mydropzone", {
             url: "/file/post",
             autoProcessQueue: false,
@@ -376,12 +388,28 @@
                 });
             }
         });
+        
+            var mockFile = {url:'{!! $hotel_image_location !!}'};
+            myDropzone.emit("addedfile", mockFile);
+            myDropzone.emit("thumbnail", mockFile,'{!! $hotel_image_location !!}');
+            myDropzone.emit("complete", mockFile);
+            var existingFileCount = 1; 
+            myDropzone.options.maxFiles = myDropzone.options.maxFiles - existingFileCount;
+
+            
         var myHotelDropzone = new Dropzone("div#hoteldropzone", {
             url: "/file/post",
             autoProcessQueue: false,
             acceptedFiles: 'image/*',
+            maxFiles: 20,
+            uploadMultiple: true,
+            parallelUploads: 100, // use it with uploadMultiple
+            createImageThumbnails: true,
+            thumbnailWidth:"250",
+            thumbnailHeight:"250",
+            addRemoveLinks: true,
             init: function() {
-                this.on('addedfile', function(file) {                   
+                this.on('addedfile', function(file) {
                     // Create the remove button
                     var removeButton = Dropzone.createElement(
                         "<button class='btn btn-outline-danger btn-sm' style='margin-left: 7px;margin-top: 7px;'>Remove file</button>"
@@ -404,10 +432,54 @@
                     // Add the button to the file preview element.
                     file.previewElement.appendChild(removeButton);
                 });
+            },
+            removedfile: function(file) 
+            {
+				if (this.options.dictRemoveFile) {
+				  return Dropzone.confirm("Are You Sure to "+this.options.dictRemoveFile, function() {
+					if(file.previewElement.id != ""){
+						var name = file.previewElement.id;
+					}else{
+						var name = file.name;
+					}
+					//console.log(name);
+					$.ajax({
+						headers: {
+							  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							  },
+						type: 'POST',
+						url: delete_url,
+						data: {filename: name},
+						success: function (data){
+							alert(data.success +" File has been successfully removed!");
+						},
+						error: function(e) {
+							console.log(e);
+						}});
+						var fileRef;
+						return (fileRef = file.previewElement) != null ? 
+						fileRef.parentNode.removeChild(file.previewElement) : void 0;
+				   });
+			    }		
             }
         });
         // If you use jQuery, you can use the jQuery plugin Dropzone ships with:
+        for(let i = 0; i < images.length; i++) {
+            let img = images[i];
+            // Create the mock file:
+            var mockFile = {url:img.file_path};
+            // Call the default addedfile event handler
+            myHotelDropzone.emit("addedfile", mockFile);
+            // And optionally show the thumbnail of the file:
+            myHotelDropzone.emit("thumbnail", mockFile, img.file_path);
+            // Make sure that there is no progress bar, etc...
+            myHotelDropzone.emit("complete", mockFile);
+            // If you use the maxFiles option, make sure you adjust it to the
+            // correct amount:
+            var existingFileCount = 1; // The number of files already uploaded
+            myHotelDropzone.options.maxFiles = myHotelDropzone.options.maxFiles - existingFileCount;
 
+            }
 
         (function(window, document, $) {
             'use strict';

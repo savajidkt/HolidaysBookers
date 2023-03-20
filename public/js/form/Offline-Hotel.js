@@ -143,6 +143,8 @@ var FrmOfflineHotelPreference = function () {
             width: '100%',
             data: hotelAmenitiesData
         });
+        $('.select2-hotel-amenities').val(HotelsAmenitiesIDs);
+        $('.select2-hotel-amenities').trigger('change');
     }
     var OfflineHotelGroups = function () {
         var selectGroups = $('#hotel_group_id');

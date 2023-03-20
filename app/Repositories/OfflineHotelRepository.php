@@ -40,7 +40,6 @@ class OfflineHotelRepository
             'hotel_address'    => $data['hotel_address'],
             'hotel_pincode'    => $data['hotel_pincode'],
             'hotel_email'    => $data['hotel_email'],
-            'hotel_amenities'    => $data['hotel_amenities'],
             'property_type_id'    => $data['property_type_id'],
             'hotel_review'    => $data['hotel_review'],
             'hotel_latitude'    => $data['hotel_latitude'],
@@ -52,6 +51,7 @@ class OfflineHotelRepository
         ];
 
         $OfflineHotel = OfflineHotel::create($HotelArr);
+        $OfflineHotel->hotelamenity()->attach($data['hotel_amenities']);
         $images = [];
         foreach ($request->hotel_gallery_image as $file) {
             $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
@@ -94,111 +94,79 @@ class OfflineHotelRepository
      * Method update
      *
      * @param array $data [explicite description]
-     * @param Agent $agent [explicite description]
+     * @param OfflineHotel $offlinehotel [explicite description]
      *
-     * @return Agent
+     * @return OfflineHotel
      * @throws Exception
      */
-    public function update(array $data, Agent $agent): Agent
+    public function update(array $data, OfflineHotel $offlinehotel): OfflineHotel
     {
-
-
-        $password = $data['agent_password'];
-        $UserArr = [
-            'first_name'    => $data['agent_first_name'],
-            'last_name'    => $data['agent_last_name'],
-            'email'    => $data['agent_username'],
-            'user_type'    => 1,
-            'status'    => 1,
+        $HotelArr = [
+            'hotel_name'    => $data['hotel_name'],
+            'hotel_country'  => $data['hotel_country'],
+            'hotel_state'    => $data['hotel_state'],
+            'hotel_city'    => $data['hotel_city'],
+            'category'      => $data['category'],
+            'hotel_group_id'    => $data['hotel_group_id'],
+            'phone_number'    => $data['phone_number'],
+            'fax_number'    => $data['fax_number'],
+            'hotel_address'    => $data['hotel_address'],
+            'hotel_pincode'    => $data['hotel_pincode'],
+            'hotel_email'    => $data['hotel_email'],
+            'property_type_id'    => $data['property_type_id'],
+            'hotel_review'    => $data['hotel_review'],
+            'hotel_latitude'    => $data['hotel_latitude'],
+            'hotel_longitude'    => $data['hotel_longitude'],
+            'cancel_days'    => $data['cancel_days'],
+            'hotel_description'    => $data['hotel_description'],
+            'cancellation_policy'    => $data['cancellation_policy'],
         ];
-        if (isset($password)) {
-            $UserArr['password'] = Hash::make($password);
+
+        $offlinehotel->update($HotelArr);
+
+        if (isset($data['hotel_amenities'])) {
+            $offlinehotel->hotelamenity()->detach();
+            $offlinehotel->hotelamenity()->attach($data['hotel_amenities']);
         }
 
-        if ($agent->user->update($UserArr)) {
 
-            $UserProfileArr = [];
-            foreach ($data as $key => $value) {
-                if ($key != "id" && $key != "_token") {
-                    if ($key == "agent_pan_card") {
-                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_pan_card', $agent->user->id);
-                    } else if ($key == "agent_company_certificate") {
-                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_certificate', $agent->user->id);
-                    } else if ($key == "agent_company_logo") {
-                        $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_logo', $agent->user->id);
-                    } else {
-                        $UserProfileArr[$key] = $data[$key];
-                    }
-                }
+        $images = [];
+        foreach ($data['hotel_gallery_image'] as $file) {
+            $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
+            $file->move(storage_path('app/upload/') . "/Hotel/". $offlinehotel->id."/gallery/", $fileName);
+            $images[] = ['file_path' => $fileName];
+        }
+        $offlinehotel->images()->createMany($images);
+
+        if ($data['hotel_image']) {
+            foreach ($data['hotel_image'] as $files) {
+                $Filename = $files->getClientOriginalName();
+                $files->move(storage_path('app/upload/') . "/Hotel/". $offlinehotel->id."/", $Filename);
             }
-
-            $agent->update($UserProfileArr);
-            //$agent->notify(new RegisterdEmailNotification($password,$agent));
+            $offlinehotel->update(['hotel_image_location'=>$Filename]);
         }
-        return $agent;
-        throw new Exception('User update failed.');
+
+        
+
+        return $offlinehotel;
+        throw new Exception('Offline Hotel update failed.');
     }
 
     /**
      * Method delete
      *
-     * @param Agent $agent [explicite description]
+     * @param OfflineHotel $offlinehotel [explicite description]
      *
      * @return bool
      * @throws Exception
      */
-    public function delete(Agent $agent): bool
+    public function delete(OfflineHotel $offlinehotel): bool
     {
-        if ($agent->user->forceDelete()) {
+        if ($offlinehotel->forceDelete()) {
             return true;
         }
 
-        throw new Exception('User delete failed.');
-    }
-
-
-    public function forgotPassword(array $input)
-    {
-        $token = \Illuminate\Support\Str::random(64);
-        DB::table('password_resets')->insert([
-            'email' => $input['email'],
-            'token' => $token,
-            'created_at' => Carbon::now()
-        ]);
-        $user = User::withTrashed()->where('email', $input['email'])->first();
-
-        // Event for forgot password
-        try {
-            if ($user->trashed()) {
-                $user->restore();
-            }
-
-            event(new ForgotPasswordEvent($user));
-        } catch (Exception $e) {
-            // Failed to dispatch event
-            report($e);
-        }
-    }
-
-    /**
-     * Method updatePassword
-     *
-     * @param array $input [explicite description]
-     * @param User $user [explicite description]
-     *
-     * @return void
-     */
-    public function updatePassword(array $input, User $user)
-    {
-        $UserArr = [
-            'password'    => Hash::make($input['password'])
-        ];
-
-        if ($user->update($UserArr)) {
-            return true;
-        }
-
-        throw new GeneralException('Change password failed.');
+        throw new Exception('Offline Hotel delete failed.');
     }
 
     /**
@@ -246,5 +214,16 @@ class OfflineHotelRepository
         }
 
         throw new Exception('User update failed.');
+    }
+
+    public function hotel_destroy(Request $request)
+    {
+        $filename =  $request->get('filename');
+        Gallery::where('filename',$filename)->delete();
+        $path = public_path('uploads/gallery/').$filename;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        return response()->json(['success'=>$filename]);
     }
 }

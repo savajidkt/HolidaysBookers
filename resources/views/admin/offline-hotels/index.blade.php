@@ -152,7 +152,7 @@
                 order: [
                     [1, 'desc']
                 ],
-                ajax: "{{ route('agents.index') }}",
+                ajax: "{{ route('offlinehotels.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'id',

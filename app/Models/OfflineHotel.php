@@ -47,6 +47,7 @@ class OfflineHotel extends Authenticatable
         'phone_number',
         'fax_number',
         'hotel_address',
+        'hotel_pincode',
         'currency',
         'hotel_image_location',
         'hotel_description',
@@ -77,12 +78,11 @@ class OfflineHotel extends Authenticatable
     public function getActionAttribute(): string
     {
         
-        $creditAction = '<a href="javascript:void(0);" class="HBCredit btn btn-success btn-sm" data-balance="' . availableBalance($this->id,'') . '" data-agent_code="' . $this->agent_code . '" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="HB Credit '.availableBalance($this->id).' " data-animation="false"><i class="fa fa-money" aria-hidden="true"></i></a>';
-        $transactionAction ='<a href="' . route('list-hb-credit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Transaction" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
-        $viewAction =  '<a href="' . route('view-profile', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';        
-        $editAction = '<a href="' . route('offlinehotels.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';        
-        $PasswordAction = '<a href="javascript:void(0);" class="currntBTN btn btn-info btn-sm" data-user_id="' . $this->id . '" data-toggle="tooltip" data-original-title="Change Password"><i class="fa fa-key" aria-hidden="true"></i></a>';
-        return $creditAction.' '.$editAction . ' ' . $PasswordAction . ' ' . $this->getDeleteButtonAttribute().' '.$transactionAction.' '.$viewAction;
+        $viewAction =  '<a href="#" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+        $editAction = '<a href="' . route('offlinehotels.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';
+        $addPriceAction = '<a href="' . route('add-room-price', $this->id) . '" class="edit btn btn-success btn-sm" data-toggle="tooltip" data-original-title="Add Price" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i></a>';
+        $priceListAction = '<a href="' . route('view-room-price', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Price" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
+        return $editAction . ' ' . $viewAction . ' '.$addPriceAction.' '. $priceListAction . ' ' . $this->getDeleteButtonAttribute();
     }
 
     /**
@@ -99,35 +99,33 @@ class OfflineHotel extends Authenticatable
     
     public function country()
     {
-        return $this->belongsTo(Country::class, 'agent_country', 'id');
+        return $this->belongsTo(Country::class, 'hotel_country', 'id');
     }
     public function state()
     {
-        return $this->belongsTo(State::class, 'agent_state', 'id');
+        return $this->belongsTo(State::class, 'hotel_state', 'id');
     }
     public function city()
     {
-        return $this->belongsTo(City::class, 'agent_city', 'id');
+        return $this->belongsTo(City::class, 'hotel_city', 'id');
     }
     
     public function rooms()
     {
         return $this->belongsTo(Room::class, 'hotel_id', 'id');
     }
-    public function reachus()
-    {
-        return $this->belongsTo(Reach::class, 'agent_know_about', 'id');
-    }
-    public function wallettransactions()
-    {
-        return $this->hasMany(WalletTransaction::class, 'agent_id', 'id');
-    }
-    public function getbalance()
-    {
-        return $this->hasOne(WalletTransaction::class,'agent_id', 'id')->orderBy('id','DESC');
-    }
+   
     public function images()
     {
         return $this->hasMany(HotelImage::class,'hotel_id', 'id');
+    }
+    public function amenity()
+    {
+        return $this->belongsTo(Amenity::class, 'amenities_id', 'id');
+    }
+
+    public function hotelamenity()
+    {
+        return $this->belongsToMany(Amenity::class, 'hotel_amenities', 'hotel_id', 'amenities_id');
     }
 }

@@ -14,18 +14,14 @@ use App\Exports\ExportAgents;
 use App\Imports\OfflineHotelsImport;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use App\Exports\ExportFailedAgents;
 use Illuminate\Support\Facades\App;
 use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\OfflineHotelRepository;
-use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Agent\EditRequest;
 use App\Http\Requests\OfflineHotel\CreateRequest;
-use App\Http\Requests\Agent\UpdatePasswordRequest;
 use App\Models\Amenity;
 use App\Models\HotelGroup;
 use App\Models\PropertyType;
@@ -49,10 +45,11 @@ class OfflineHotelsController extends Controller
 
         if ($request->ajax()) {
 
-            $data = OfflineHotel::all();
+            $data = OfflineHotel::where('hotel_type',OfflineHotel::OFFLINE);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('hotel_name', function (OfflineHotel $hotel) {
+                    //dd($hotel->hotel_name);
                     return $hotel->hotel_name;
                 })->addColumn('category', function (OfflineHotel $hotel) {
                     return $hotel->category;
@@ -98,8 +95,9 @@ class OfflineHotelsController extends Controller
             '4' => '4 Star',
             '5' => '5 Star',
         ];
+        $HotelsAmenitiesIDS =[];
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::HOTEL)->pluck('amenity_name', 'id')->toArray();
-        return view('admin.offline-hotels.create', ['model' => $rawData, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities]);
+        return view('admin.offline-hotels.create', ['model' => $rawData, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities,'HotelsAmenitiesIDs'=>$HotelsAmenitiesIDS]);
     }
     
     /**
@@ -126,35 +124,46 @@ class OfflineHotelsController extends Controller
         //
     }
 
+       
     /**
-     * Show the form for editing the specified resource.
+     * Method edit
      *
-     * @param \App\Models\Agent $agent [explicite description]
+     * @param OfflineHotel $offlinehotels [explicite description]
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return void
      */
-    public function edit(Agent $agent)
+    public function edit(OfflineHotel $offlinehotel)
     {
-        $companyType    = CompanyType::where('status', CompanyType::ACTIVE)->get();
-        $countries    =  Country::where('status', Country::ACTIVE)->get();
-        $reach    =  Reach::where('status', Reach::ACTIVE)->get();
-
-        return view('admin.offline-hotels.edit', ['model' => $agent, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
+        $HotelsAmenitiesIDS =[];
+        $hotelGroups    = HotelGroup::where('status', HotelGroup::ACTIVE)->get();
+        $propertyTypes  = PropertyType::where('status', PropertyType::ACTIVE)->get();
+        $countries      =  Country::where('status', Country::ACTIVE)->get();
+        $categories = [
+            '1' => '1 Star',
+            '2' => '2 Star',
+            '3' => '3 Star',
+            '4' => '4 Star',
+            '5' => '5 Star',
+        ];
+        $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::HOTEL)->pluck('amenity_name', 'id')->toArray();
+        $HotelsAmenitiesIDS  = $offlinehotel->hotelamenity()->pluck('amenities_id')->toArray();
+        return view('admin.offline-hotels.edit', ['model' =>$offlinehotel, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities,'HotelsAmenitiesIDs'=>$HotelsAmenitiesIDS]);
     }
 
     /**
      * Method update
      *
-     * @param \App\Http\Requests\Agent\EditRequest $request
-     * @param \App\Models\Agent $agent
+     * @param \App\Http\Requests\OfflineHotel\EditRequest $request
+     * @param \App\Models\OfflineHotel $offlinehotel
      *
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(EditRequest $request, Agent $agent)
+    public function update(EditRequest $request, OfflineHotel $offlinehotel)
     {
-        $this->agentRepository->update($request->all(), $agent);
+        dd('asdasdsadsadasdasdad');
+        $this->offlineHotelRepository->update($request->all(), $offlinehotel);
 
-        return redirect()->route('offlinehotels.index')->with('success', "Agent updated successfully!");
+        return redirect()->route('offlinehotels.index')->with('success', "Hotel updated successfully!");
     }
 
     /**
@@ -163,10 +172,10 @@ class OfflineHotelsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Agent $agent)
+    public function destroy(OfflineHotel $offlinehotel)
     {
-        $this->agentRepository->delete($agent);
-        return redirect()->route('offlinehotels.index')->with('success', "Agent deleted successfully!");
+        $this->offlineHotelRepository->delete($offlinehotel);
+        return redirect()->route('offlinehotels.index')->with('success', "Hotel deleted successfully!");
     }
 
     /**
