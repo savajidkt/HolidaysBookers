@@ -3,7 +3,7 @@ aria-hidden="true" data-backdrop="static">
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel120">Add Hotel Amenity</h5>
+            <h5 class="modal-title" id="myModalLabel120">Add Hotel Freebies</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -17,12 +17,12 @@ aria-hidden="true" data-backdrop="static">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-label"
-                                    for="basic-addon-amenity_name">Amenity Name</label>
+                                    for="basic-addon-amenity_name">Freebies Name</label>
                                 <input type="text" id="basic-addon-amenity_name"
                                     name="amenity_name" class="form-control"
-                                    placeholder="Amenity Name"
+                                    placeholder="Freebies Name"
                                     value="" aria-describedby="basic-addon-amenity_name"
-                                    data-error="Amenity Name" />
+                                    data-error="Freebies Name" />
                                 <input type="hidden" name="type" id="type" value="1">
 
                             </div>

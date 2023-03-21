@@ -209,9 +209,9 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="hotel_amenities">Hotel Amenities</label>
+            <label class="form-label" for="hotel_amenities">Hotel Freebies</label>
             <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
-                <i class="fa fa-plus" aria-hidden="true"></i> Add Amenities
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Freebies
             </a>
             <select class="select2 select2-hotel-amenities form-control" multiple name="hotel_amenities"></select>
             <div class="hotel_amenitiesCLS"></div>

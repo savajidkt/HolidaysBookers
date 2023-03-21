@@ -137,7 +137,7 @@ var FrmOfflineHotelPreference = function () {
             hotelAmenitiesData.push({ id: key, text: val });
         });
         selectAmenities.wrap('<div class="position-relative"></div>').select2({
-            placeholder: "Select Amenities",
+            placeholder: "Select Freebies",
             allowClear: true,
             dropdownAutoWidth: true,
             dropdownParent: selectAmenities.parent(),
