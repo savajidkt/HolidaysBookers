@@ -19,6 +19,7 @@ class CreateAgentsTable extends Migration
             $table->unsignedBigInteger('agent_country');
             $table->unsignedBigInteger('agent_state');
             $table->unsignedBigInteger('agent_city');
+            $table->unsignedBigInteger('agent_know_about')->nullable();
             $table->string('agent_code')->nullable();
             $table->string('agent_company_name')->nullable();
             $table->string('agent_company_type')->nullable();
@@ -53,7 +54,7 @@ class CreateAgentsTable extends Migration
             $table->string('agent_pan_card')->nullable();
             $table->string('agent_company_certificate')->nullable();
             $table->string('agent_company_logo')->nullable();
-            $table->unsignedBigInteger('agent_know_about')->nullable();
+            
             $table->string('othername')->nullable();
 
             //FOREIGN KEY CONSTRAINTS
