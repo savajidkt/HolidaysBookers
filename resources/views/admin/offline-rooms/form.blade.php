@@ -4,8 +4,13 @@
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
     var HotelsRoomID = "";
     var HotelsAmenitiesIDs = [];
-    var HotelID = "{!! $offlinehotel->id !!}";
+    var HotelID = "";
 </script>
+@if ($offlinehotel)
+<script>  
+    var HotelID = "{!! $offlinehotel->id !!}";
+</script>  
+@endif
 <div class="row">
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
