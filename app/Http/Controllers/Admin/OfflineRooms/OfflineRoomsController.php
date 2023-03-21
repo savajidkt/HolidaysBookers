@@ -85,7 +85,7 @@ class OfflineRoomsController extends Controller
         $HotelsList  = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->pluck('hotel_name', 'id')->toArray();
         $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
-        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities]);
+        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities,'offlinehotel'=>'']);
     }
 
     public function roomCreate(OfflineHotel $offlinehotel)
