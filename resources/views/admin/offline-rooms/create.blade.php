@@ -67,13 +67,12 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="modal fade text-left" id="roomAmenityBTN" tabindex="-1"
                             aria-labelledby="myModalLabel120" aria-hidden="true" data-backdrop="static">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="myModalLabel120">Add Freebies</h5>
+                                        <h5 class="modal-title" id="myModalLabel120">Add Amenity</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">×</span>
                                         </button>
@@ -87,12 +86,12 @@
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <label class="form-label"
-                                                                for="basic-addon-amenity_name">Freebies Name</label>
+                                                                for="basic-addon-amenity_name">Amenity Name</label>
                                                             <input type="text" id="basic-addon-amenity_name"
                                                                 name="amenity_name" class="form-control"
-                                                                placeholder="Freebies Name"
+                                                                placeholder="Amenity Name"
                                                                 value="" aria-describedby="basic-addon-amenity_name"
-                                                                data-error="Freebies name is required." />
+                                                                data-error="Amenity name is required." />
 
                                                         </div>
                                                     </div>                                                    

@@ -4,6 +4,7 @@
     var HotelsAmenities = "";
     var HotelsRoomID = "";
     var HotelsAmenitiesIDs = "";
+    var HotelID = "";
 </script>
 <div class="row">
     <div class="col-12">
@@ -311,9 +312,14 @@
     <!-- END: Page JS-->
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.time.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
+    
     <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
     <!-- BEGIN: Page JS-->
     <!-- BEGIN: Page JS-->
-    <script src="{{ asset('app-assets/js/scripts/forms/form-repeater.js') }}"></script>
+    
+    <script src="{{ asset('app-assets/js/scripts/forms/form-repeater-without-dropzone.js') }}"></script>
+    
     <!-- END: Page JS-->
 @endsection

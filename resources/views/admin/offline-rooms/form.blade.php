@@ -4,13 +4,14 @@
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
     var HotelsRoomID = "";
     var HotelsAmenitiesIDs = [];
-    var HotelID = "";
+    var HotelID = 0;
 </script>
 @if ($offlinehotel)
-<script>  
-    var HotelID = "{!! $offlinehotel->id !!}";
-</script>  
+    <script>
+        var HotelID = "{!! $offlinehotel->id !!}";
+    </script>
 @endif
+
 <div class="row">
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
@@ -28,6 +29,30 @@
             @error('hotel_id')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
+        </div>
+    </div>
+    <div class="col-12">
+        <hr class="my-2" />
+    </div>
+</div>
+<div class="row HotelWiseRooms">
+    <div class="col-12">
+        <div class="card-datatable pt-0 table-responsive">
+            <table class="hotel-rooms-list-table datatables-ajax table">
+                <thead class="thead-light">
+                    <tr>
+                        <th></th>
+                        <th>{{ __('core.id') }}</th>
+                        <th>Hotel Name</th>
+                        <th>Room Type</th>
+                        <th>Adult</th>
+                        <th>CWB</th>
+                        <th>CNB</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
     <div class="col-12">
@@ -70,9 +95,9 @@
             <div class="col-6">
                 <div class="col-md-12 col-12">
                     <div class="form-group">
-                        <label for="itemname">Freebies</label>
+                        <label for="itemname">Room Amenity</label>
                         <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New Freebies
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add New Amenity
                         </a>
                         <select class="select2 select2-room-amenities form-control" multiple
                             name="room_amenities"></select>
@@ -155,8 +180,9 @@
             <div class="col-3">
                 <div class="col-md-12 col-12">
                     <div class="form-group">
-                        <label class="form-label" for="cancel_days">Room Image</label>                       
-                        <div class="dropzone clsbox roomImageDropzone" id="roomImageDropzone_0" name="roomImageDropzone" dropzonename="roomImageDropzone">
+                        <label class="form-label" for="cancel_days">Room Image</label>
+                        <div class="dropzone clsbox roomImageDropzone" id="roomImageDropzone_0"
+                            name="roomImageDropzone" dropzonename="roomImageDropzone">
                         </div>
                     </div>
                 </div>
@@ -164,8 +190,9 @@
             <div class="col-9">
                 <div class="col-md-12 col-12">
                     <div class="form-group">
-                        <label class="form-label" for="cancel_days">Room Gallery</label>                        
-                        <div class="dropzone clsbox roomGalleryDropzone" id="roomGalleryDropzone_0" name="roomGalleryDropzone" dropzonegallery="roomGalleryDropzone">
+                        <label class="form-label" for="cancel_days">Room Gallery</label>
+                        <div class="dropzone clsbox roomGalleryDropzone" id="roomGalleryDropzone_0"
+                            name="roomGalleryDropzone" dropzonegallery="roomGalleryDropzone">
                         </div>
                     </div>
                 </div>
@@ -194,6 +221,7 @@
     </div>
 </div>
 @section('extra-script')
+<script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
     <script src="{{ asset('js/form/Offline-Room.js') }}"></script>
     <!-- BEGIN: Page Vendor JS-->
     <script src="{{ asset('app-assets/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
@@ -209,7 +237,7 @@
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
-        
+
         // Dropzone class:
         var roomImageDropzone = new Dropzone("div#roomImageDropzone_0", {
             url: "/file/post",
@@ -245,18 +273,18 @@
                 });
             }
         });
-        
+
 
         var roomGalleryDropzone = new Dropzone("div#roomGalleryDropzone_0", {
             url: "/file/post",
             autoProcessQueue: false,
             acceptedFiles: 'image/*',
             init: function() {
-                this.on('addedfile', function(file) {                   
+                this.on('addedfile', function(file) {
                     // Create the remove button
                     var removeButton = Dropzone.createElement(
                         "<button class='btn btn-outline-danger btn-sm' style='margin-left: 7px;margin-top: 7px;'>Remove file</button>"
-                        );
+                    );
                     // Capture the Dropzone instance as closure.
                     var _this = this;
                     // Listen to the click event
@@ -284,6 +312,8 @@
             addAmenityURL: "{!! route('add-amenity') !!}",
             addRoomsURL: "{!! route('offlinerooms.store') !!}",
             listRoomsURL: "{!! route('offlinerooms.index') !!}",
+            getHotelRoomsURL: "{!! route('get-hotel-rooms-url','') !!}",
+            changeRoomsStatusURL: "{!! route('change-offline-room-status','') !!}",
         };
     </script>
 @endsection

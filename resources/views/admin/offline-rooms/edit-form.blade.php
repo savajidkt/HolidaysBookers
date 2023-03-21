@@ -36,6 +36,53 @@
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
             <i data-feather="user" class="font-medium-3"></i>
+            <h4 class="mb-0 ml-75">HOTEL</h4>
+        </div>
+        <hr class="my-2" />
+    </div>
+    <div class="col-md-4 mb-1 hotelDrp">
+        <label>Select Hotel</label>
+        <div class="form-group">
+            <select class="select2-hotel form-control" name="hotel_id">
+            </select>
+            <div class="hotel_idCLS"></div>
+            @error('hotel_id')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-12">
+        <hr class="my-2" />
+    </div>
+</div>
+<div class="row HotelWiseRooms">
+    <div class="col-12">
+        <div class="card-datatable pt-0 table-responsive">
+            <table class="hotel-rooms-list-table datatables-ajax table">
+                <thead class="thead-light">
+                    <tr>
+                        <th></th>
+                        <th>{{ __('core.id') }}</th>
+                        <th>Hotel Name</th>
+                        <th>Room Type</th>
+                        <th>Adult</th>
+                        <th>CWB</th>
+                        <th>CNB</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="col-12">
+        <hr class="my-2" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex align-items-center mb-1 mt-1">
+            <i data-feather="user" class="font-medium-3"></i>
             <h4 class="mb-0 ml-75">ROOM DETAILS</h4>
         </div>
         <hr class="my-2" />
@@ -61,9 +108,9 @@
     <div class="col-6">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label for="itemname">Freebies</label>
+                <label for="itemname">Room Amenity</label>
                 <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Add New Freebies
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add New Amenity
                 </a>
                 <select class="select2 select2-room-amenities form-control" multiple name="room_amenities[]"></select>
                 <div class="room_amenitiesCLS"></div>
@@ -291,6 +338,7 @@
             addAmenityURL: "{!! route('add-amenity') !!}",
             editRoomURL: "{!! route('offlinerooms.update', $model) !!}",
             listRoomsURL: "{!! route('offlinerooms.index') !!}",
+            getHotelRoomsURL: "{!! route('get-hotel-rooms-url', '') !!}",
         };
     </script>
 @endsection

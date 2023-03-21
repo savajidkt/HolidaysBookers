@@ -82,7 +82,7 @@ class OfflineRoomRepository
      */
     public function update(Request $request, array $data, OfflineRoom $offlineroom): OfflineRoom
     {
-
+        
         $RoomArr['room_type_id'] = $data['room_type'];
         $RoomArr['total_adult'] = $data['no_of_adult'];
         $RoomArr['total_cwb'] = $data['no_of_cwb'];

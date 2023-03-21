@@ -1,3 +1,5 @@
+var dt_table_hotels;
+var varHotelsID = HotelID;
 var FrmOfflineRoomPreference = function () {
     var FrmOfflineRoomValidation = function () {
         var FrmOfflineRoomPreferenceForm = $('#FrmOfflineRoom');
@@ -277,9 +279,128 @@ var FrmOfflineRoomPreference = function () {
             width: '100%',
             data: hotelData
         });
-        
+
         $('.select2-hotel').val(HotelID);
         $('.select2-hotel').trigger('change');
+
+        $(".select2-hotel").on('change', function (e) {
+            var data = $(this).select2('data');
+            varHotelsID = data[0].id;
+            dt_table_hotels.ajax.reload();
+            // dt_table_hotels.draw();
+        });
+    }
+
+    var getHotelRooms = function () {
+        //console.log(data[0].id);
+        //return false;
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        dt_table_hotels = $('.hotel-rooms-list-table').DataTable({
+            processing: true,
+            serverSide: true,
+            searching: true,
+            order: [
+                [1, 'desc']
+            ],
+            ajax: {
+                'url': moduleConfig.getHotelRoomsURL + '/' + varHotelsID,
+                'data': function (data) {
+                    data.hotel_id = varHotelsID;
+                }
+
+            },
+            columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'id',
+                    orderable: false,
+                    searchable: false
+                },
+                { data: 'id', visible: false },
+                { data: 'hotel_name', name: 'hotel_name' },
+                { data: 'room_type', name: 'room_type' },
+                { data: 'total_adult', name: 'total_adult' },
+                { data: 'total_cwb', name: 'total_cwb' },
+                { data: 'total_cnb', name: 'total_cnb' },
+                { data: 'status', name: 'status' },
+                { data: 'action', name: 'action', orderable: false, searchable: false },
+            ]
+        }).on('click', '.delete_action', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won`t be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: "Cancel",
+                confirmButtonText: "Yes, delete it!",
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-danger ml-1'
+                },
+                buttonsStyling: false
+            }).then(function (result) {
+                if (result.value) {
+                    $this.find("form").trigger('submit');
+                }
+            });
+        }).on('click', '.status_update', function (e) {
+            e.preventDefault();
+            var $this = $(this),
+                offline_room_id = $this.data('offline_room_id'),
+
+                status = $this.data('status'),
+                message = status == 1 ?
+                    "Are you sure you want to deactivate room?" :
+                    "Are you sure you want to activate room?";
+
+
+            Swal.fire({
+                title: "Update Room status",
+                text: message,
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: "Cancel",
+                confirmButtonText: "Yes",
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-danger ml-1'
+                },
+                buttonsStyling: false
+            }).then(function (result) {
+                if (result.value) {
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: moduleConfig.changeRoomsStatusURL,
+                        dataType: 'json',
+                        data: {
+                            offline_room_id: offline_room_id,
+                            status: status
+                        },
+                        success: function (data) {
+                            if (data.status) {
+                                dt_table_hotels.ajax.reload();
+                            }
+                        }
+
+                    });
+                }
+            });
+
+            return false;
+        });
+
     }
 
     var OfflineHotelRooms = function () {
@@ -474,6 +595,7 @@ var FrmOfflineRoomPreference = function () {
             FrmAddRoomType();
             FrmOfflineRoomPriceValidation();
             FrmEditOfflineRoomValidation();
+            getHotelRooms();
         }
     };
 }();

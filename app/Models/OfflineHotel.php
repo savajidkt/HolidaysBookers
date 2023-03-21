@@ -111,7 +111,7 @@ class OfflineHotel extends Authenticatable
     
     public function rooms()
     {
-        return $this->belongsTo(Room::class, 'hotel_id', 'id');
+        return $this->belongsTo(OfflineRoom::class, 'hotel_id', 'id');
     }
    
     public function images()
