@@ -277,6 +277,9 @@ var FrmOfflineRoomPreference = function () {
             width: '100%',
             data: hotelData
         });
+        
+        $('.select2-hotel').val(HotelID);
+        $('.select2-hotel').trigger('change');
     }
 
     var OfflineHotelRooms = function () {

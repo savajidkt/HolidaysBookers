@@ -4,6 +4,7 @@
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
     var HotelsRoomID = "";
     var HotelsAmenitiesIDs = [];
+    var HotelID = "{!! $offlinehotel->id !!}";
 </script>
 <div class="row">
     <div class="col-12">
@@ -17,7 +18,6 @@
         <label>Select Hotel</label>
         <div class="form-group">
             <select class="select2-hotel form-control" name="hotel_id">
-
             </select>
             <div class="hotel_idCLS"></div>
             @error('hotel_id')
