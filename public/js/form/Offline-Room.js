@@ -322,7 +322,7 @@ var FrmOfflineRoomPreference = function () {
         });
 
         selectAmenities.wrap('<div class="position-relative"></div>').select2({
-            placeholder: "Select Amenities",
+            placeholder: "Select Freebies",
             allowClear: true,
             multiple: true,
             dropdownAutoWidth: true,

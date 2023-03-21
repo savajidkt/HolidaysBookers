@@ -75,7 +75,7 @@
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="myModalLabel120">Add Room Amenity</h5>
+                                    <h5 class="modal-title" id="myModalLabel120">Add Freebies</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">×</span>
                                     </button>
@@ -89,12 +89,12 @@
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label class="form-label"
-                                                            for="basic-addon-amenity_name">{{ __('amenity/amenity.form_amenity_name') }}</label>
+                                                            for="basic-addon-amenity_name">Freebies Name</label>
                                                         <input type="text" id="basic-addon-amenity_name"
                                                             name="amenity_name" class="form-control"
-                                                            placeholder="{{ __('amenity/amenity.form_amenity_name') }}"
+                                                            placeholder="Freebies Name"
                                                             value="" aria-describedby="basic-addon-amenity_name"
-                                                            data-error="{{ __('amenity/message.amenity_name_required') }}" />
+                                                            data-error="Freebies name is required." />
 
                                                     </div>
                                                 </div>

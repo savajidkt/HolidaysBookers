@@ -22,7 +22,9 @@
     var HotelsAmenitiesIDs = {!! json_encode($HotelsAmenitiesIDS) !!};
     var images = {!! json_encode($images) !!};
     var $imageMainPathjs = "{!! $imageMainPath !!}";
+    var HotelID = "{!! $model->hotel_id !!}";
 </script>
+
 <style>
     .dropzone .dz-preview .dz-image img {
         display: block;
@@ -59,9 +61,9 @@
     <div class="col-6">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label for="itemname">Room Amenities</label>
+                <label for="itemname">Freebies</label>
                 <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Add New Room Amenities
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add New Freebies
                 </a>
                 <select class="select2 select2-room-amenities form-control" multiple name="room_amenities[]"></select>
                 <div class="room_amenitiesCLS"></div>
