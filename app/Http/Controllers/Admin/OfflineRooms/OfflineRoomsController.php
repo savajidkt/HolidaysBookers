@@ -86,10 +86,10 @@ class OfflineRoomsController extends Controller
         $rawData    = new OfflineRoom;
         $HotelsList  = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->pluck('hotel_name', 'id')->toArray();
         $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
-        $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();        
+        $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
         $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
         $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::ROOM)->pluck('name', 'id')->toArray();
-        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities,'offlinehotel'=>"",'HotelsRoomMealPlan'=>$HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies ]);
+        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'offlinehotel' => "", 'HotelsRoomMealPlan' => $HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies]);
     }
 
     public function roomCreate(OfflineHotel $offlinehotel)
@@ -100,7 +100,7 @@ class OfflineRoomsController extends Controller
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
         $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
         $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::ROOM)->pluck('name', 'id')->toArray();
-        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities,'offlinehotel'=>$offlinehotel,'HotelsRoomMealPlan'=>$HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies]);
+        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'offlinehotel' => $offlinehotel, 'HotelsRoomMealPlan' => $HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies]);
     }
 
     /**
@@ -125,7 +125,7 @@ class OfflineRoomsController extends Controller
     {
         $amenitiesName = implode(' | ', $offlineroom->roomamenity()->pluck('amenity_name')->toArray());
         $freebiesName = implode(' | ', $offlineroom->roomfreebies()->pluck('name')->toArray());
-        return view('admin.offline-rooms.view', ['model' => $offlineroom, 'amenitiesName' => $amenitiesName,'freebiesName' => $freebiesName]);
+        return view('admin.offline-rooms.view', ['model' => $offlineroom, 'amenitiesName' => $amenitiesName, 'freebiesName' => $freebiesName]);
     }
 
     /**
@@ -141,11 +141,11 @@ class OfflineRoomsController extends Controller
         $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
         $HotelsAmenitiesIDS  = $offlineroom->roomamenity()->pluck('amenity_id')->toArray();
-        
+
         $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
         $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::ROOM)->pluck('name', 'id')->toArray();
         $HotelsFreebiesIDs  = $offlineroom->roomfreebies()->pluck('freebies_id')->toArray();
-        return view('admin.offline-rooms.edit', ['model' => $offlineroom, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDS' => $HotelsAmenitiesIDS,'HotelsRoomMealPlan'=>$HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies, 'HotelsFreebiesIDs'=>$HotelsFreebiesIDs]);
+        return view('admin.offline-rooms.edit', ['model' => $offlineroom, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDS' => $HotelsAmenitiesIDS, 'HotelsRoomMealPlan' => $HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies, 'HotelsFreebiesIDs' => $HotelsFreebiesIDs]);
     }
 
     /**
@@ -158,12 +158,12 @@ class OfflineRoomsController extends Controller
      */
     public function update(Request $request, OfflineRoom $offlineroom)
     {
-       
-        $this->offlineRoomRepository->update($request, $request->all(), $offlineroom);   
+
+        $this->offlineRoomRepository->update($request, $request->all(), $offlineroom);
         return response()->json([
             'status' => true,
             'message' => 'Offline Room updated successfully!'
-        ]);     
+        ]);
         //return redirect()->route('offlinerooms.index')->with('success', 'Offline Room updated successfully!');
     }
 
@@ -342,7 +342,7 @@ class OfflineRoomsController extends Controller
      */
     public function deleteRoomGalleryImage(Request $request)
     {
-        
+
         $filename = str_replace(url(Storage::url('app/upload/Hotel/')), '', $request->filename);
         $filesname =  explode('/', $filename);
         if (is_array($filesname) && count($filesname) > 0) {
@@ -360,42 +360,42 @@ class OfflineRoomsController extends Controller
 
     public function hotelWiseRooms(Request $request)
     {
-       // $data = OfflineHotel::find($id);
-       
-       if ($request->ajax()) {
-        $data = OfflineRoom::where('hotel_id',$request->hotel_id);
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('hotel_name', function (OfflineRoom $room) {
-                return $room->hotel->hotel_name;
-            })->filterColumn('hotel_name', function ($query, $keyword) {
-                $query->whereHas('hotel', function ($query) use ($keyword) {
-                    $query->where('hotel_name', 'LIKE', '%' . $keyword . '%');
-                });
-            })->addColumn('room_type', function (OfflineRoom $room) {
-                return $room->roomtype->room_type;
-            })->filterColumn('room_type', function ($query, $keyword) {
-                $query->whereHas('roomtype', function ($query) use ($keyword) {
-                    $query->where('room_type', 'LIKE', '%' . $keyword . '%');
-                });
-            })->addColumn('total_adult', function (OfflineRoom $room) {
-                return $room->total_adult;
-            })->filterColumn('total_adult', function ($query, $keyword) {
-                $query->where('total_adult', 'LIKE', '%' . $keyword . '%');
-            })->addColumn('total_cwb', function (OfflineRoom $room) {
-                return $room->total_cwb;
-            })->filterColumn('total_cwb', function ($query, $keyword) {
-                $query->where('total_cwb', 'LIKE', '%' . $keyword . '%');
-            })->addColumn('total_cnb', function (OfflineRoom $room) {
-                return $room->total_cnb;
-            })->filterColumn('total_cnb', function ($query, $keyword) {
-                $query->where('total_cnb', 'LIKE', '%' . $keyword . '%');
-            })->editColumn('status', function (OfflineRoom $room) {
-                return $room->status_name;
-            })->addColumn('action', function ($row) {
-                return $row->action;
-            })->rawColumns(['action', 'status'])->make(true);
-    }
-     //return view('admin.offline-rooms.create');
+        // $data = OfflineHotel::find($id);
+
+        if ($request->ajax()) {
+            $data = OfflineRoom::where('hotel_id', $request->hotel_id);
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('hotel_name', function (OfflineRoom $room) {
+                    return $room->hotel->hotel_name;
+                })->filterColumn('hotel_name', function ($query, $keyword) {
+                    $query->whereHas('hotel', function ($query) use ($keyword) {
+                        $query->where('hotel_name', 'LIKE', '%' . $keyword . '%');
+                    });
+                })->addColumn('room_type', function (OfflineRoom $room) {
+                    return $room->roomtype->room_type;
+                })->filterColumn('room_type', function ($query, $keyword) {
+                    $query->whereHas('roomtype', function ($query) use ($keyword) {
+                        $query->where('room_type', 'LIKE', '%' . $keyword . '%');
+                    });
+                })->addColumn('total_adult', function (OfflineRoom $room) {
+                    return $room->total_adult;
+                })->filterColumn('total_adult', function ($query, $keyword) {
+                    $query->where('total_adult', 'LIKE', '%' . $keyword . '%');
+                })->addColumn('total_cwb', function (OfflineRoom $room) {
+                    return $room->total_cwb;
+                })->filterColumn('total_cwb', function ($query, $keyword) {
+                    $query->where('total_cwb', 'LIKE', '%' . $keyword . '%');
+                })->addColumn('total_cnb', function (OfflineRoom $room) {
+                    return $room->total_cnb;
+                })->filterColumn('total_cnb', function ($query, $keyword) {
+                    $query->where('total_cnb', 'LIKE', '%' . $keyword . '%');
+                })->editColumn('status', function (OfflineRoom $room) {
+                    return $room->status_name;
+                })->addColumn('action', function ($row) {
+                    return $row->action;
+                })->rawColumns(['action', 'status'])->make(true);
+        }
+        //return view('admin.offline-rooms.create');
     }
 }

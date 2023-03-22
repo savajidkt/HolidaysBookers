@@ -24,7 +24,7 @@
                             <th></th>
                             <th>{{ __('core.id') }}</th>
                             <th>Hotel Name</th>
-                            <th>Room Type</th>
+                            <th>Room Type</th>                            
                             <th>Adult</th>
                             <th>CWB</th>
                             <th>CNB</th>
@@ -70,7 +70,7 @@
                     {
                         data: 'room_type',
                         name: 'room_type'
-                    },
+                    },                   
                     {
                         data: 'total_adult',
                         name: 'total_adult'
