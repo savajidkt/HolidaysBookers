@@ -18,7 +18,7 @@ $(function () {
       var TotalCount = $(this).closest("[data-repeater-item]").index();
       //var TotalCount = $(this).closest("[data-repeater-item]").index() + parseInt(1);
       $('.repeaterCLS .select2-container').remove();
-      $('.select2-room-types, .select2-room-amenities').select2({
+      $('.select2-room-types, .select2-room-amenities, .select2-room-freebies, .select2-room-meal-plan').select2({
         placeholder: "Select",
         allowClear: true
       });

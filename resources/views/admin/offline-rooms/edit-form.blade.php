@@ -22,10 +22,11 @@
     var HotelsFreebies = {!! json_encode($HotelsFreebies) !!};
     var HotelsRoomID = "{!! $model->room_type_id !!}";
     var HotelsAmenitiesIDs = {!! json_encode($HotelsAmenitiesIDS) !!};
-    var HotelsFreebiesIDs = {!! json_encode($HotelsFreebiesIDs) !!};
+    var HotelsFreebiesIDs = {!! json_encode($HotelsFreebiesIDs) !!};   
     var images = {!! json_encode($images) !!};
     var $imageMainPathjs = "{!! $imageMainPath !!}";
     var HotelID = "{!! $model->hotel_id !!}";
+    var HotelsRoomMealPlanID = "{!! $model->hotel_id !!}";
 </script>
 
 <style>
@@ -123,6 +124,40 @@
             </div>
         </div>
     </div>
+
+    <div class="col-6">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label for="itemname">Room Meal Plan</label>
+                <a class="badge badge-success roomMealPlanBTN" style="color:#FFF; float: right;">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add New Meal Plan
+                </a>
+                <select class="select2-room-meal-plan form-control" name="meal_plan"></select>
+                <div class="room_MealPlanCLS"></div>
+                @error('meal_plan')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label for="itemname">Room Freebies</label>
+                <a class="badge badge-success roomFreebiesBTN" style="color:#FFF; float: right;">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add New Freebies
+                </a>
+                <select class="select2 select2-room-freebies form-control" multiple
+                    name="room_freebies"></select>
+                <div class="room_freebiesCLS"></div>
+                @error('room_freebies')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+    </div>
+
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
             <h4 class="">Accommodation policy :</h4>

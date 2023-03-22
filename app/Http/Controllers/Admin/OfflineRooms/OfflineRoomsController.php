@@ -143,8 +143,7 @@ class OfflineRoomsController extends Controller
         
         $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
         $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::ROOM)->pluck('name', 'id')->toArray();
-        $HotelsFreebiesIDs  = $offlineroom->freebies()->pluck('id')->toArray();
-
+        $HotelsFreebiesIDs  = $offlineroom->roomfreebies()->pluck('freebies_id')->toArray();
         return view('admin.offline-rooms.edit', ['model' => $offlineroom, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDS' => $HotelsAmenitiesIDS,'HotelsRoomMealPlan'=>$HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies, 'HotelsFreebiesIDs'=>$HotelsFreebiesIDs]);
     }
 

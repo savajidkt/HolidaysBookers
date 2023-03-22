@@ -29,6 +29,7 @@ class OfflineRoomRepository
                 'hotel_id'    => $data['hotel_id'],
             ];
             foreach ($data['rooms'] as $key => $value) {
+               
 
                 $RoomArr['room_type_id'] = $value['room_type'];
                 $RoomArr['total_adult'] = $value['no_of_adult'];
@@ -40,6 +41,7 @@ class OfflineRoomRepository
                 $RoomArr['status'] = $value['status'];
                 $offlineRoom =  OfflineRoom::create($RoomArr);
                 $offlineRoom->roomamenity()->attach($value['room_amenities']);
+                $offlineRoom->roomfreebies()->attach($value['room_freebies']);
 
                 /**
                  * Room Image Add
@@ -67,7 +69,7 @@ class OfflineRoomRepository
                 }
                 $offlineRoom->images()->createMany($images);
             }
-        }
+        }        
         return $offlineRoom;
     }
 
