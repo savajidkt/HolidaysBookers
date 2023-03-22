@@ -1,9 +1,13 @@
 <script>
     var HotelsList = "";
     var HotelsRoomType = "";
+    var HotelsRoomMealPlan = "";
     var HotelsAmenities = "";
+    var HotelsFreebies = "";
     var HotelsRoomID = "";
+    var HotelsRoomMealPlanID = "";
     var HotelsAmenitiesIDs = "";
+    var HotelsFreebiesIDs = "";
     var HotelID = "";
 </script>
 <div class="row">
@@ -85,6 +89,11 @@
                         <label class="custom-control-label" for="Normal">Normal</label>
                     </div>
                     <div class="custom-control custom-radio">
+                        <input type="radio" id="Promotional" name="price_type" class="custom-control-input"
+                            value="3" {{ $pricemodel->price_type == 3 ? 'checked' : '' }}>
+                        <label class="custom-control-label" for="Promotional">Promotional</label>
+                    </div>
+                    <div class="custom-control custom-radio">
                         <input type="radio" id="BlackoutSale" name="price_type" class="custom-control-input"
                             value="2" {{ $pricemodel->price_type == 2 ? 'checked' : '' }}>
                         <label class="custom-control-label" for="BlackoutSale">Blackout Sale</label>
@@ -132,7 +141,7 @@
             </div>
         </div>
     </div>
-    <div class="col-4 is_stop_sale {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'hide' : '' }}">
+    <div class="col-4 is_stop_sale {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'show' : '' }}">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label for="itemcost">Double occupancy</label>
@@ -145,7 +154,7 @@
             </div>
         </div>
     </div>
-    <div class="col-4 is_stop_sale {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'hide' : '' }}">
+    <div class="col-4 is_stop_sale {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'show' : '' }}">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label for="itemcost">Single occupancy</label>
@@ -158,7 +167,7 @@
             </div>
         </div>
     </div>
-    <div class="col-4 is_stop_sale {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'hide' : '' }}">
+    <div class="col-4 is_stop_sale {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'show' : '' }}">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label for="itemcost">Extra Pax Price</label>
@@ -322,4 +331,16 @@
     <script src="{{ asset('app-assets/js/scripts/forms/form-repeater-without-dropzone.js') }}"></script>
     
     <!-- END: Page JS-->
+    <script type="text/javascript">
+        var moduleConfig = {
+            addRoomTypeURL: "{!! route('add-room-type') !!}",
+            addRoomMealPlanURL: "{!! route('add-meal-plan') !!}",
+            addAmenityURL: "{!! route('add-amenity') !!}",
+            addFreebiesURL: "{!! route('add-freebies') !!}",
+            addRoomsURL: "{!! route('offlinerooms.store') !!}",
+            listRoomsURL: "{!! route('offlinerooms.index') !!}",
+            getHotelRoomsURL: "{!! route('get-hotel-rooms-url', '') !!}",
+            changeRoomsStatusURL: "{!! route('change-offline-room-status', '') !!}",
+        };
+    </script>
 @endsection

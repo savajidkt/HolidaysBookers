@@ -15,6 +15,7 @@ class OfflineRoomPrice extends Authenticatable
     const NORMAL = 1;
     const BLACKOUTSALE = 2;
     const STOPSALE = 0;
+    const PROMOTIONAL = 3;
 
 
 
@@ -22,6 +23,7 @@ class OfflineRoomPrice extends Authenticatable
         self::NORMAL => 'NORMAL',
         self::BLACKOUTSALE => 'BLACKOUTSALE',
         self::STOPSALE => 'STOPSALE',
+        self::PROMOTIONAL => 'PROMOTIONAL',
     ];
 
     protected $fillable = [
@@ -73,6 +75,9 @@ class OfflineRoomPrice extends Authenticatable
                 break;
             case self::STOPSALE:
                 $price_type = '<a href="javascript:void(0)" class=""><span class="badge badge-danger " >Stop Sale</span></a>';
+                break;
+            case self::PROMOTIONAL:
+                $price_type = '<a href="javascript:void(0)" class=""><span class="badge badge-info " >Promotional</span></a>';
                 break;
             default:
                 $price_type = '<a href="javascript:void(0)" class=""><span class="badge badge-success ">Normal</span></a>';

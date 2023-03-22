@@ -218,31 +218,34 @@ return false;
                     required: true
                 },
                 double_occupancy: {
-                    required: function () {
-                        if ($("input[name='price_type']:checked").val() != 0) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
+                    // required: function () {
+                    //     if ($("input[name='price_type']:checked").val() != 0) {
+                    //         return true;
+                    //     } else {
+                    //         return false;
+                    //     }
+                    // }
+                    required: true
                 },
                 single_occupancy: {
-                    required: function () {
-                        if ($("input[name='price_type']:checked").val() != 0) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
+                    // required: function () {
+                    //     if ($("input[name='price_type']:checked").val() != 0) {
+                    //         return true;
+                    //     } else {
+                    //         return false;
+                    //     }
+                    // }
+                    required: true
                 },
                 extra_pax_price: {
-                    required: function () {
-                        if ($("input[name='price_type']:checked").val() != 0) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
+                    // required: function () {
+                    //     if ($("input[name='price_type']:checked").val() != 0) {
+                    //         return true;
+                    //     } else {
+                    //         return false;
+                    //     }
+                    // }
+                    required: true
                 }
             },
             messages: {
@@ -283,9 +286,9 @@ return false;
     var FrmOfflineRoomPriceType = function () {
         $('input:radio[name=price_type]').change(function () {
             if ($(this).val() == 0) {
-                $('.is_stop_sale').addClass('hide');
+               // $('.is_stop_sale').addClass('hide');
             } else {
-                $('.is_stop_sale').removeClass('hide');
+               // $('.is_stop_sale').removeClass('hide');
             }
         });
     }
