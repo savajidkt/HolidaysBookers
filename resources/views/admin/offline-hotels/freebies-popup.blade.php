@@ -1,9 +1,9 @@
-<div class="modal fade text-left" id="roomAmenityBTN" tabindex="-1" aria-labelledby="myModalLabel120"
+<div class="modal fade text-left" id="freebiesBTN" tabindex="-1" aria-labelledby="myModalLabel120"
 aria-hidden="true" data-backdrop="static">
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel120">Add Hotel Amenities</h5>
+            <h5 class="modal-title" id="myModalLabel120">Add Hotel Freebies</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -11,20 +11,19 @@ aria-hidden="true" data-backdrop="static">
         <div class="modal-body">
             <div class="row">
                 <div class="col-12">
-                    <form action="" method="post" id="FrmhotelAmenity"
+                    <form action="" method="post" id="FrmhotelFreebies"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-label"
-                                    for="basic-addon-amenity_name">Amenities Name</label>
-                                <input type="text" id="basic-addon-amenity_name"
-                                    name="amenity_name" class="form-control"
-                                    placeholder="Amenities Name"
-                                    value="" aria-describedby="basic-addon-amenity_name"
-                                    data-error="Amenities Name" />
+                                    for="basic-addon-freebies_name">Freebies Name</label>
+                                <input type="text" id="basic-addon-freebies_name"
+                                    name="name" class="form-control"
+                                    placeholder="Freebies Name"
+                                    value="" aria-describedby="basic-addon-freebies_name"
+                                    data-error="Freebies Name" />
                                 <input type="hidden" name="type" id="type" value="1">
-
                             </div>
                         </div>
                         <div class="modal-footer">

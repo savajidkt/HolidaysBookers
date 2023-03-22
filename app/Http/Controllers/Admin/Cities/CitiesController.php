@@ -190,11 +190,11 @@ class CitiesController extends Controller
     public function getCitiesList(Request $request): JsonResponse
     {
         $input = $request->all();
-        $state  = State::find($input['state_id']);
+        $country  = Country::find($input['country_id']);
         return response()->json([
             'status' => true,
-            'cities' => $state->cities,
-            'message' => __('city/message.success_state_list')
+            'cities' => $country->cities,
+            'message' => __('city/message.success_city_list')
         ]);
     }
 

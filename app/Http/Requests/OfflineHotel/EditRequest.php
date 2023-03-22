@@ -40,8 +40,20 @@ class EditRequest extends FormRequest
             'hotel_review'         => ['required'],
             'hotel_latitude'         => ['required'],
             'hotel_longitude'         => ['required'],
-            'cancel_days'         => ['required']
-        ];        
+            'cancel_days'         => ['required'],
+            'front_office_first_name'         => ['required'],
+            'front_office_designation'         => ['required'],
+            'front_office_contact_number'         => ['required'],
+            'front_office_email'         => ['required'],
+            'sales_first_name'         => ['required'],
+            'sales_designation'         => ['required'],
+            'sales_contact_number'         => ['required'],
+            'sales_email'         => ['required'],
+            'reservation_first_name'         => ['required'],
+            'reservation_designation'         => ['required'],
+            'reservation_contact_number'         => ['required'],
+            'reservation_email'         => ['required'],
+        ];
     }
 
     /**
@@ -67,7 +79,19 @@ class EditRequest extends FormRequest
             'hotel_review.required' => 'Review is required.',
             'hotel_latitude.required' => 'Latitude is required.',
             'hotel_longitude.required' => 'Longitude is required.',
-            'cancel_days.required' => 'Cancel day is required.'
+            'cancel_days.required' => 'Cancel day is required.',
+            'front_office_first_name.required' => 'Front office name is required.',
+            'front_office_designation.required' => 'Front office designation is required.',
+            'front_office_contact_number.required' => 'Front office contact number is required.',
+            'front_office_email.required' => 'Front office email is required.',
+            'sales_first_name.required' => 'Sales name is required.',
+            'sales_designation.required' => 'Sales designation is required.',
+            'sales_contact_number.required' => 'Sales contact number is required.',
+            'sales_email.required' => 'Sales email is required.',
+            'reservation_first_name.required' => 'Reservation name is required.',
+            'reservation_designation.required' => 'Reservation designation is required.',
+            'reservation_contact_number.required' => 'Reservation contact number is required.',
+            'reservation_email.required' => 'Reservation email is required.',
         ];
     }
 }

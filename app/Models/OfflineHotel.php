@@ -58,6 +58,18 @@ class OfflineHotel extends Authenticatable
         'is_new',
         'cancel_days',
         'cancellation_policy',
+        'front_office_first_name',
+        'front_office_designation',
+        'front_office_contact_number',
+        'front_office_email',
+        'sales_first_name',
+        'sales_designation',
+        'sales_contact_number',
+        'sales_email',
+        'reservation_first_name',
+        'reservation_designation',
+        'reservation_contact_number',
+        'reservation_email',
         'status',
 
     ];
@@ -126,5 +138,9 @@ class OfflineHotel extends Authenticatable
     public function hotelamenity()
     {
         return $this->belongsToMany(Amenity::class, 'hotel_amenities', 'hotel_id', 'amenities_id');
+    }
+    public function hotelfreebies()
+    {
+        return $this->belongsToMany(Freebies::class, 'hotel_freebies', 'hotel_id', 'freebies_id');
     }
 }

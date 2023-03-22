@@ -13,8 +13,10 @@
     
 @endphp
 <script>
+    var HotelsFreebies = {!! json_encode($HotelsFreebies) !!};
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
     var HotelsAmenitiesIDs = {!! json_encode($HotelsAmenitiesIDs) !!};
+    var HotelsFreebiesIDs = {!! json_encode($HotelsFreebiesIDs) !!};
     var images = {!! json_encode($images) !!};
     var $hotel_image_locationJS = "{!! $hotel_image_location !!}";
 </script>
@@ -49,7 +51,7 @@
 
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_country">Country</label>
             <select class="select2 form-control" id="hotel_country" name="hotel_country" data-error="Country">
@@ -66,7 +68,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    {{-- <div class="col-4">
         <div class="form-group myState">
             <label class="form-label" for="hotel_state">State</label>
             <select class="select2 form-control" id="hotel_state" name="hotel_state" data-error="State">
@@ -87,13 +89,13 @@
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
-    </div>
-    <div class="col-4">
+    </div> --}}
+    <div class="col-2">
         <div class="form-group myCity">
             <label class="form-label" for="hotel_city">City</label>
             <select class="select2 form-control" id="hotel_city" name="hotel_city" data-error="City">
                 <option value="">Select City</option>
-                @php $cities = getStateCities($model->hotel_state);  @endphp
+                @php $cities = getStateCities($model->hotel_country);  @endphp
                 @if ($cities->count() > 0)
                     @foreach ($cities as $city)
                         <option value="{{ $city->id }}" {{ $model->hotel_city == $city->id ? 'selected' : '' }}>
@@ -110,7 +112,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="category">Category</label>
             <select class="select2 form-control" id="category" name="category" data-error="Category">
@@ -127,7 +129,7 @@
 
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_group_id">Hotel Group</label>
             <a class="badge badge-success HotelGroupPopup" style="color:#FFF; float: right;">
@@ -145,11 +147,10 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="phone_number">Phone Number</label>
-            <input type="text" id="phone_number" name="phone_number" class="form-control"
-                placeholder="Phone Number"
+            <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Phone Number"
                 value="{{ isset($model->phone_number) ? $model->phone_number : old('phone_number') }}"
                 data-error="Phone Number" />
             <div class="valid-feedback">Looks good!</div>
@@ -158,7 +159,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="fax_number">Fax Number</label>
             <input type="text" id="fax_number" name="fax_number" class="form-control" placeholder="Fax Number"
@@ -181,7 +182,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_pincode">Pincode</label>
             <input type="text" id="hotel_pincode" name="hotel_pincode" class="form-control"
@@ -195,7 +196,7 @@
         </div>
     </div>
 
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_email">Email</label>
             <input type="text" id="hotel_email" name="hotel_email" class="form-control" placeholder="Email"
@@ -209,9 +210,23 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="hotel_amenities">Hotel Freebies</label>
-            <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
+            <label class="form-label" for="hotel_freebies">Hotel Freebies</label>
+            <a class="badge badge-success freebiesBTN" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Freebies
+            </a>
+            <select class="select2 select2-hotel-freebies form-control" multiple name="hotel_freebies"></select>
+            <div class="hotel_freebiesCLS"></div>
+            <div class="valid-feedback">Looks good!</div>
+            @error('hotel_freebies')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <label class="form-label" for="hotel_amenities">Hotel Amenities</label>
+            <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Amenities
             </a>
             <select class="select2 select2-hotel-amenities form-control" multiple name="hotel_amenities"></select>
             <div class="hotel_amenitiesCLS"></div>
@@ -221,7 +236,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="property_type_id">Property Type</label>
             <a class="badge badge-success PropertyPopup" style="color:#FFF; float: right;">
@@ -242,7 +257,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_review">Rating</label>
             <input type="text" id="hotel_review" name="hotel_review" class="form-control" placeholder="Rating"
@@ -254,7 +269,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_latitude">Latitude</label>
             <input type="text" id="hotel_latitude" name="hotel_latitude" class="form-control"
@@ -267,7 +282,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_longitude">Longitude</label>
             <input type="text" id="hotel_longitude" name="hotel_longitude" class="form-control"
@@ -280,7 +295,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="cancel_days">Cancel Days</label>
             <input type="text" id="cancel_days" name="cancel_days" class="form-control"
@@ -293,6 +308,195 @@
             @enderror
         </div>
     </div>
+
+</div>
+<div class="row">
+    <div class="col-4">
+        <div class="d-flex align-items-center mb-1 mt-1">
+            <i data-feather="user" class="font-medium-3"></i>
+            <h4 class="mb-0 ml-75">Front Office</h4>
+        </div>
+        <hr class="my-2" />
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label"
+                    for="front_office_first_name">Name</label>
+                <input type="text" id="front_office_first_name" name="front_office_first_name" class="form-control"
+                    placeholder="Name"
+                    value="{{ isset($model->front_office_first_name) ? $model->front_office_first_name : old('front_office_first_name') }}"
+                    data-error="Name" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('front_office_first_name')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label" for="front_office_designation">Designation</label>
+                <input type="text" id="front_office_designation" name="front_office_designation" class="form-control"
+                    placeholder="Designation"
+                    value="{{ isset($model->front_office_designation) ? $model->front_office_designation : old('front_office_designation') }}"
+                    data-error="Designation" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('front_office_designation')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label"
+                    for="front_office_contact_number">Contact Number</label>
+                <input type="text" id="front_office_contact_number" name="front_office_contact_number" class="form-control"
+                    placeholder="Contact Number"
+                    value="{{ isset($model->reserve_contact_number) ? $model->front_office_contact_number : old('front_office_contact_number') }}"
+                    data-error="Contact Number" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('front_office_contact_number')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label" for="front_office_email">Email</label>
+                <input type="text" id="front_office_email" name="front_office_email" class="form-control"
+                    placeholder="Email"
+                    value="{{ isset($model->front_office_email) ? $model->front_office_email : old('front_office_email') }}"
+                    data-error="Email" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('front_office_email')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="d-flex align-items-center mb-1 mt-1">
+            <i data-feather="user" class="font-medium-3"></i>
+            <h4 class="mb-0 ml-75">Sales & Management</h4>
+        </div>
+        <hr class="my-2" />
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label"
+                    for="sales_first_name">Name</label>
+                <input type="text" id="sales_first_name" name="sales_first_name" class="form-control"
+                    placeholder="Name"
+                    value="{{ isset($model->sales_first_name) ? $model->sales_first_name : old('sales_first_name') }}"
+                    data-error="Name" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('sales_first_name')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label" for="sales_designation">Designation</label>
+                <input type="text" id="sales_designation" name="sales_designation" class="form-control"
+                    placeholder="Designation"
+                    value="{{ isset($model->sales_designation) ? $model->sales_designation : old('sales_designation') }}"
+                    data-error="Designation" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('sales_designation')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label"
+                    for="sales_contact_number">Contact Number</label>
+                <input type="text" id="sales_contact_number" name="sales_contact_number" class="form-control"
+                    placeholder="Contact Number"
+                    value="{{ isset($model->reserve_contact_number) ? $model->sales_contact_number : old('sales_contact_number') }}"
+                    data-error="Contact Number" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('sales_contact_number')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label" for="sales_email">Email</label>
+                <input type="text" id="sales_email" name="sales_email" class="form-control"
+                    placeholder="Email"
+                    value="{{ isset($model->sales_email) ? $model->sales_email : old('sales_email') }}"
+                    data-error="Email" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('sales_email')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="d-flex align-items-center mb-1 mt-1">
+            <i data-feather="user" class="font-medium-3"></i>
+            <h4 class="mb-0 ml-75">Reservation</h4>
+        </div>
+        <hr class="my-2" />
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label"
+                    for="reservation_first_name">Name</label>
+                <input type="text" id="reservation_first_name" name="reservation_first_name" class="form-control"
+                    placeholder="Name"
+                    value="{{ isset($model->reservation_first_name) ? $model->reservation_first_name : old('reservation_first_name') }}"
+                    data-error="Name" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('reservation_first_name')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label" for="reservation_designation">Designation</label>
+                <input type="text" id="reservation_designation" name="reservation_designation" class="form-control"
+                    placeholder="Designation"
+                    value="{{ isset($model->reservation_designation) ? $model->reservation_designation : old('reservation_designation') }}"
+                    data-error="Designation" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('reservation_designation')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label"
+                    for="reservation_contact_number">Contact Number</label>
+                <input type="text" id="reservation_contact_number" name="reservation_contact_number" class="form-control"
+                    placeholder="Contact Number"
+                    value="{{ isset($model->reserve_contact_number) ? $model->reservation_contact_number : old('reservation_contact_number') }}"
+                    data-error="Contact Number" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('reservation_contact_number')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <label class="form-label" for="reservation_email">Email</label>
+                <input type="text" id="reservation_email" name="reservation_email" class="form-control"
+                    placeholder="Email"
+                    value="{{ isset($model->reservation_email) ? $model->reservation_email : old('reservation_email') }}"
+                    data-error="Email" />
+                <div class="valid-feedback">Looks good!</div>
+                @error('reservation_email')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
     <div class="col-6">
         <div class="form-group">
             <label class="form-label" for="hotel_description">Hotel Description</label>
@@ -353,6 +557,7 @@
             addGroupURL: "{!! route('add-group') !!}",
             addPropertyURL: "{!! route('add-property') !!}",
             // addStoreURL: "{!! route('offlinehotels.store') !!}",
+            addFreebiesURL: "{!! route('add-freebies') !!}",
             indexURL: "{!! route('offlinehotels.index') !!}",
         };
     </script>

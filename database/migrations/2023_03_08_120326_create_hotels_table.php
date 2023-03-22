@@ -36,7 +36,8 @@ class CreateHotelsTable extends Migration
             $table->string('hotel_latitude')->nullable();
             $table->string('hotel_longitude')->nullable();
             $table->string('is_new')->nullable();
-            $table->string('cancel_days')->nullable();
+            $table->string('cancel_days')->nullable();            
+
             $table->longText('cancellation_policy')->nullable();
             $table->string('hotel_type')->default(true)->comment('1=Offline, 2=API');            
             $table->boolean('status')->default(true)->comment('1=Active, 0=Inactive');

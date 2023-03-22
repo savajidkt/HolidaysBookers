@@ -11,21 +11,33 @@ var FrmOfflineHotelPreference = function () {
             ignore: "",
             rules: {
                 hotel_name: { required: true },
-                // hotel_country: { required: true },
+                 hotel_country: { required: true },
                 // hotel_state: { required: true },
-                // hotel_city: { required: true },
+                 hotel_city: { required: true },
                 category: { required: true },
                 hotel_group_id: { required: true },
-                phone_number: { required: true },
+                phone_number: {required: true, digits: true },
                 hotel_address: { required: true },
                 hotel_pincode: { required: true },
-                hotel_email: { required: true },
+                hotel_email: {required: true, email: true },
                 hotel_amenities: { required: true },
                 property_type_id: { required: true },
                 hotel_review: { required: true },
                 hotel_latitude: { required: true },
                 hotel_longitude: { required: true },
-                cancel_days: { required: true }
+                cancel_days: { required: true },
+                front_office_first_name: { required: true },
+                front_office_designation: { required: true },
+                front_office_contact_number: { required: true, digits: true },
+                front_office_email: { required: true, email: true },
+                sales_first_name: { required: true },
+                sales_designation: { required: true },
+                sales_contact_number: { required: true, digits: true },
+                sales_email: { required: true, email: true},
+                reservation_first_name: { required: true },
+                reservation_designation: { required: true },
+                reservation_contact_number: {required: true, digits: true },
+                reservation_email: {required: true, email: true },
             },
             messages: {
                 hotel_name: {
@@ -75,6 +87,42 @@ var FrmOfflineHotelPreference = function () {
                 },
                 cancel_days: {
                     required: 'Cancel day is required'
+                },
+                front_office_first_name: {
+                    required: 'Front office name is required'
+                },
+                front_office_designation: {
+                    required: 'Designation is required'
+                },
+                front_office_contact_number: {
+                    required: 'Contact number is required'
+                },
+                front_office_email: {
+                    required: 'Email is required'
+                },
+                sales_first_name: {
+                    required: 'Sales name is required'
+                },
+                sales_designation: {
+                    required: 'Sales designation is required'
+                },
+                sales_contact_number: {
+                    required: 'Sales Contact number is required'
+                },
+                sales_email: {
+                    required: 'Sales email is required'
+                },
+                reservation_first_name: {
+                    required: 'Reservation name is required'
+                },
+                reservation_designation: {
+                    required: 'Reservation designation is required'
+                },
+                reservation_contact_number: {
+                    required: 'Reservation contact number is required'
+                },
+                reservation_email: {
+                    required: 'Reservation email is required'
                 },
             },
             submitHandler: function (form) {
@@ -137,7 +185,7 @@ var FrmOfflineHotelPreference = function () {
             hotelAmenitiesData.push({ id: key, text: val });
         });
         selectAmenities.wrap('<div class="position-relative"></div>').select2({
-            placeholder: "Select Freebies",
+            placeholder: "Select Amenities",
             allowClear: true,
             dropdownAutoWidth: true,
             dropdownParent: selectAmenities.parent(),
@@ -147,6 +195,26 @@ var FrmOfflineHotelPreference = function () {
         $('.select2-hotel-amenities').val(HotelsAmenitiesIDs);
         $('.select2-hotel-amenities').trigger('change');
     }
+    var OfflineHotelFreebies = function () {
+        var selectFreebies = $('.select2-hotel-freebies');
+        var hotelFreebiesData = [
+            { id: '', text: '' }
+        ];
+        $.each(HotelsFreebies, function (key, val) {
+            hotelFreebiesData.push({ id: key, text: val });
+        });
+        selectFreebies.wrap('<div class="position-relative"></div>').select2({
+            placeholder: "Select Freebies",
+            allowClear: true,
+            dropdownAutoWidth: true,
+            dropdownParent: selectFreebies.parent(),
+            width: '100%',
+            data: hotelFreebiesData
+        });
+        $('.select2-hotel-freebies').val(HotelsFreebiesIDs);
+        $('.select2-hotel-freebies').trigger('change');
+    }
+
     var OfflineHotelGroups = function () {
         var selectGroups = $('#hotel_group_id');
         $(selectGroups).append($('<option>', {
@@ -201,10 +269,10 @@ var FrmOfflineHotelPreference = function () {
     }
 
     var getCityList = function () {
-        $(document).on('change', '#hotel_state', function () {
-            var state_id = $(this).val();
+        $(document).on('change', '#hotel_country', function () {
+            var country_id = $(this).val();
             $('#hotel_city').find('option:not(:first)').remove();
-            if (state_id) {
+            if (country_id) {
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -221,7 +289,7 @@ var FrmOfflineHotelPreference = function () {
                     url: moduleConfig.getCities,
                     dataType: 'json',
                     data: {
-                        state_id: state_id
+                        country_id: country_id
                     },
                     success: function (data) {
                         if (data.status) {
@@ -235,6 +303,70 @@ var FrmOfflineHotelPreference = function () {
             }
         });
     }
+
+    var FrmAddFreebies = function () {
+        var FrmHotelFreebiesPreferenceForm = $('#FrmhotelFreebies');
+        var error4 = $('.error-message', FrmHotelFreebiesPreferenceForm);
+        var success4 = $('.error-message', FrmHotelFreebiesPreferenceForm);
+
+        FrmHotelFreebiesPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                name: {
+                    required: true,
+                }
+            },
+            messages: {
+                name: {
+                    required: $("input[name=name]").attr('data-error')
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $("#FrmhotelFreebies .buttonLoader").removeClass('hide');
+                    },
+                    complete: function () {
+                        $("#FrmhotelFreebies .buttonLoader").addClass('hide');
+                    },
+                    type: 'POST',
+                    url: moduleConfig.addFreebiesURL,
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            HotelsFreebies = data.responce;
+                            //OfflineHotelFreebies();
+                            var datas = [];
+                            $.each(HotelsFreebies, function (key, val) {
+                                datas.push({
+                                    id: key,
+                                    text: val
+                                });
+                            });
+                            $(".select2-hotel-freebies").select2({
+                                data: datas
+                            });
+                            $('#freebiesBTN').modal('hide');
+                        }
+                        $("#FrmhotelFreebies .buttonLoader").addClass('hide');
+                    }
+                });
+            }
+        });
+    }
+
     var FrmAddAmenity = function () {
         var FrmHotelAmenityPreferenceForm = $('#FrmhotelAmenity');
         var error4 = $('.error-message', FrmHotelAmenityPreferenceForm);
@@ -396,10 +528,12 @@ var FrmOfflineHotelPreference = function () {
         init: function () {
             FrmOfflineHotelValidation();
             OfflineHotelAmenities();
+            OfflineHotelFreebies();
             FrmAddAmenity();
+            FrmAddFreebies();
             FrmAddGroup();
             FrmAddProperty();
-            getStateList();
+            //getStateList();
             getCityList();
         }
     };
@@ -416,5 +550,8 @@ $(document).ready(function () {
     });
     $(document).on('click', '.roomAmenityBTN', function () {
         $('#roomAmenityBTN').modal('show');
+    });
+    $(document).on('click', '.freebiesBTN', function () {
+        $('#freebiesBTN').modal('show');
     });
 });

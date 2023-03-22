@@ -34,4 +34,5 @@
 @include('admin.offline-hotels.hotel-group-popup')
 @include('admin.offline-hotels.property-popup')
 @include('admin.offline-hotels.amenity-popup')
+@include('admin.offline-hotels.freebies-popup')
 @endsection

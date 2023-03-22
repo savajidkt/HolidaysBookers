@@ -47,16 +47,29 @@ class OfflineHotelRepository
             'cancel_days'    => $data['cancel_days'],
             'hotel_description'    => $data['hotel_description'],
             'cancellation_policy'    => $data['cancellation_policy'],
+            'front_office_first_name'         => $data['front_office_first_name'],
+            'front_office_designation'         => $data['front_office_designation'],
+            'front_office_contact_number'         => $data['front_office_contact_number'],
+            'front_office_email'         => $data['front_office_email'],
+            'sales_first_name'         => $data['sales_first_name'],
+            'sales_designation'         => $data['sales_designation'],
+            'sales_contact_number'         => $data['sales_contact_number'],
+            'sales_email'         => $data['sales_email'],
+            'reservation_first_name'         => $data['reservation_first_name'],
+            'reservation_designation'         => $data['reservation_designation'],
+            'reservation_contact_number'         => $data['reservation_contact_number'],
+            'reservation_email'         => $data['reservation_email'],
             'status'    => OfflineHotel::ACTIVE,
         ];
 
         $OfflineHotel = OfflineHotel::create($HotelArr);
         $OfflineHotel->hotelamenity()->attach($data['hotel_amenities']);
+        $OfflineHotel->hotelfreebies()->attach($data['hotel_freebies']);
         $images = [];
 
         foreach ($request->hotel_gallery_image as $file) {
             $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
-            $file->move(storage_path('app/upload/') . "/Hotel/" . $OfflineHotel->id . "/gallery/", $fileName);
+            $file->move(storage_path('app/upload/')."/Hotel/". $OfflineHotel->id."/gallery/", $fileName);
             $images[] = ['file_path' => $fileName];
         }
         $OfflineHotel->images()->createMany($images);
@@ -121,6 +134,18 @@ class OfflineHotelRepository
             'cancel_days'    => $data['cancel_days'],
             'hotel_description'    => $data['hotel_description'],
             'cancellation_policy'    => $data['cancellation_policy'],
+            'front_office_first_name'         => $data['front_office_first_name'],
+            'front_office_designation'         => $data['front_office_designation'],
+            'front_office_contact_number'         => $data['front_office_contact_number'],
+            'front_office_email'         => $data['front_office_email'],
+            'sales_first_name'         => $data['sales_first_name'],
+            'sales_designation'         => $data['sales_designation'],
+            'sales_contact_number'         => $data['sales_contact_number'],
+            'sales_email'         => $data['sales_email'],
+            'reservation_first_name'         => $data['reservation_first_name'],
+            'reservation_designation'         => $data['reservation_designation'],
+            'reservation_contact_number'         => $data['reservation_contact_number'],
+            'reservation_email'         => $data['reservation_email'],
         ];
 
         $offlinehotel->update($HotelArr);
@@ -129,7 +154,10 @@ class OfflineHotelRepository
             $offlinehotel->hotelamenity()->detach();
             $offlinehotel->hotelamenity()->attach($data['hotel_amenities']);
         }
-
+        if (isset($data['hotel_freebies'])) {
+            $offlinehotel->hotelfreebies()->detach();
+            $offlinehotel->hotelfreebies()->attach($data['hotel_freebies']);
+        }
 
         $images = [];
         if ($request->hotel_gallery_image) {

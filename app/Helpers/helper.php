@@ -121,9 +121,9 @@ if (!function_exists('getStateCities')) {
     /**
      * getCountryState return cities lists
      */
-    function getStateCities($state_id)
+    function getStateCities($country_id)
     {
-        return City::where('state_id', $state_id)->where('status', 1)->get();
+        return City::where('country_id', $country_id)->where('status', 1)->get();
     }
 }
 

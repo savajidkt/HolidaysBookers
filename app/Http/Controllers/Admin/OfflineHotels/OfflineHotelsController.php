@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Agent\EditRequest;
 use App\Repositories\OfflineHotelRepository;
 use App\Http\Requests\OfflineHotel\CreateRequest;
+use App\Models\Freebies;
 use App\Models\HotelImage;
 
 class OfflineHotelsController extends Controller
@@ -98,8 +99,21 @@ class OfflineHotelsController extends Controller
             '5' => '5 Star',
         ];
         $HotelsAmenitiesIDS = [];
+        $HotelsFreebiesIDS = [];
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::HOTEL)->pluck('amenity_name', 'id')->toArray();
-        return view('admin.offline-hotels.create', ['model' => $rawData, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDs' => $HotelsAmenitiesIDS]);
+        $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::HOTEL)->pluck('name', 'id')->toArray();
+        return view('admin.offline-hotels.create',
+        [
+        'model' => $rawData,
+        'hotelGroups' => $hotelGroups,
+        'propertyTypes' => $propertyTypes,
+        'categories' => $categories,
+        'countries' => $countries,
+        'HotelsAmenities' => $HotelsAmenities,
+        'HotelsAmenitiesIDs' => $HotelsAmenitiesIDS,
+        'HotelsFreebies' => $HotelsFreebies,
+        'HotelsFreebiesIDs' => $HotelsFreebiesIDS
+        ]);
     }
 
     /**
@@ -137,6 +151,7 @@ class OfflineHotelsController extends Controller
     public function edit(OfflineHotel $offlinehotel)
     {
         $HotelsAmenitiesIDS = [];
+        $HotelsFreebiesIDS = [];
         $hotelGroups    = HotelGroup::where('status', HotelGroup::ACTIVE)->get();
         $propertyTypes  = PropertyType::where('status', PropertyType::ACTIVE)->get();
         $countries      =  Country::where('status', Country::ACTIVE)->get();
@@ -149,7 +164,21 @@ class OfflineHotelsController extends Controller
         ];
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::HOTEL)->pluck('amenity_name', 'id')->toArray();
         $HotelsAmenitiesIDS  = $offlinehotel->hotelamenity()->pluck('amenities_id')->toArray();
-        return view('admin.offline-hotels.edit', ['model' => $offlinehotel, 'hotelGroups' => $hotelGroups, 'propertyTypes' => $propertyTypes, 'categories' => $categories, 'countries' => $countries, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDs' => $HotelsAmenitiesIDS]);
+
+        $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::HOTEL)->pluck('name', 'id')->toArray();
+        $HotelsFreebiesIDS  = $offlinehotel->hotelfreebies()->pluck('freebies_id')->toArray();
+
+        return view('admin.offline-hotels.edit', 
+        ['model' => $offlinehotel,
+        'hotelGroups' => $hotelGroups,
+        'propertyTypes' => $propertyTypes,
+        'categories' => $categories,
+        'countries' => $countries,
+        'HotelsAmenities' => $HotelsAmenities,
+        'HotelsAmenitiesIDs' => $HotelsAmenitiesIDS,
+        'HotelsFreebies' => $HotelsFreebies,
+        'HotelsFreebiesIDs' => $HotelsFreebiesIDS
+        ]);
     }
 
     /**
