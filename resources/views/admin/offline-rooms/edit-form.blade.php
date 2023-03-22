@@ -26,7 +26,7 @@
     var images = {!! json_encode($images) !!};
     var $imageMainPathjs = "{!! $imageMainPath !!}";
     var HotelID = "{!! $model->hotel_id !!}";
-    var HotelsRoomMealPlanID = "{!! $model->hotel_id !!}";
+    var HotelsRoomMealPlanID = "{!! $model->meal_plan_id !!}";
 </script>
 
 <style>
@@ -149,7 +149,7 @@
                     <i class="fa fa-plus" aria-hidden="true"></i> Add New Freebies
                 </a>
                 <select class="select2 select2-room-freebies form-control" multiple
-                    name="room_freebies"></select>
+                    name="room_freebies[]"></select>
                 <div class="room_freebiesCLS"></div>
                 @error('room_freebies')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -373,7 +373,9 @@
     <script type="text/javascript">
         var moduleConfig = {
             addRoomTypeURL: "{!! route('add-room-type') !!}",
+            addRoomMealPlanURL: "{!! route('add-meal-plan') !!}",
             addAmenityURL: "{!! route('add-amenity') !!}",
+            addFreebiesURL: "{!! route('add-freebies') !!}",
             editRoomURL: "{!! route('offlinerooms.update', $model) !!}",
             listRoomsURL: "{!! route('offlinerooms.index') !!}",
             getHotelRoomsURL: "{!! route('get-hotel-rooms-url', '') !!}",

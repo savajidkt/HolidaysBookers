@@ -32,6 +32,7 @@ class OfflineRoomRepository
                
 
                 $RoomArr['room_type_id'] = $value['room_type'];
+                $RoomArr['meal_plan_id'] = $value['meal_plan'];
                 $RoomArr['total_adult'] = $value['no_of_adult'];
                 $RoomArr['total_cwb'] = $value['no_of_cwb'];
                 $RoomArr['total_cnb'] = $value['no_of_cnb'];
@@ -85,19 +86,26 @@ class OfflineRoomRepository
     public function update(Request $request, array $data, OfflineRoom $offlineroom): OfflineRoom
     {
         
+        
         $RoomArr['room_type_id'] = $data['room_type'];
+        $RoomArr['meal_plan_id'] = $data['meal_plan'];
         $RoomArr['total_adult'] = $data['no_of_adult'];
         $RoomArr['total_cwb'] = $data['no_of_cwb'];
         $RoomArr['total_cnb'] = $data['no_of_cnb'];
         $RoomArr['max_pax'] = $data['max_pax'];
         $RoomArr['min_pax'] = $data['min_pax'];
         $RoomArr['status'] = $data['status'];
-
+       
         $offlineroom->update($RoomArr);
-
+ 
         if (isset($data['room_amenities'])) {
             $offlineroom->roomamenity()->detach();
             $offlineroom->roomamenity()->attach($data['room_amenities']);
+        }
+
+        if (isset($data['room_freebies'])) {
+            $offlineroom->roomfreebies()->detach();
+            $offlineroom->roomfreebies()->attach($data['room_freebies']);
         }
 
         /**

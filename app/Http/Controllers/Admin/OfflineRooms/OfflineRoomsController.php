@@ -124,7 +124,8 @@ class OfflineRoomsController extends Controller
     public function show(Request $request, OfflineRoom $offlineroom)
     {
         $amenitiesName = implode(' | ', $offlineroom->roomamenity()->pluck('amenity_name')->toArray());
-        return view('admin.offline-rooms.view', ['model' => $offlineroom, 'amenitiesName' => $amenitiesName]);
+        $freebiesName = implode(' | ', $offlineroom->roomfreebies()->pluck('name')->toArray());
+        return view('admin.offline-rooms.view', ['model' => $offlineroom, 'amenitiesName' => $amenitiesName,'freebiesName' => $freebiesName]);
     }
 
     /**

@@ -5,6 +5,7 @@
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
     var HotelsFreebies = {!! json_encode($HotelsFreebies) !!};
     var HotelsRoomID = "";
+    var HotelsRoomMealPlanID = "";
     var HotelsAmenitiesIDs = [];
     var HotelsFreebiesIDs = [];
     var HotelID = 0;

@@ -66,18 +66,34 @@
                             <div class="tab-pane fade" id="account-vertical-room-details" role="tabpanel"
                                 aria-labelledby="account-pill-room-details-details" aria-expanded="false">
                                 <div class="row">
-                                    <div class="col-12 col-sm-4">
+                                    <div class="col-12 col-sm-6">
                                         <div class="form-group">
-                                            <label for="account-username">Room Type</label>
+                                            <label for="account-username">Type</label>
                                             <strong
                                                 class="disp-below">{{ isset($model->roomtype->room_type) ? $model->roomtype->room_type : '' }}</strong>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-4">
+                                    <div class="col-12 col-sm-6">
                                         <div class="form-group">
-                                            <label for="account-username">Room Amenities</label>
+                                            <label for="account-username">Meal Plan</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->mealplan->name) ? $model->mealplan->name : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="account-username">Amenities</label>
                                             <strong class="disp-below">
                                                 {{ $amenitiesName }}
+                                            </strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="account-username">Freebies</label>
+                                            <strong class="disp-below">
+                                                {{ $freebiesName }}
                                             </strong>
                                         </div>
                                     </div>
@@ -124,7 +140,7 @@
                                     <div class="col-12">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h4 class="card-title">Room Galleries</h4>
+                                                <h4 class="card-title">Galleries</h4>
                                             </div>
                                             <div class="card-body">
                                                 @if ($model->images->count() > 0)

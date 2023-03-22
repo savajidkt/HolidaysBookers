@@ -100,6 +100,36 @@ var FrmOfflineRoomPreference = function () {
                 hotel_id: {
                     required: true
                 },
+                room_type: {
+                    required: true
+                },
+                "room_amenities[]": {
+                    required: true
+                },
+                meal_plan: {
+                    required: true
+                },
+                "room_freebies[]": {
+                    required: true
+                },
+                max_pax: {
+                    required: true
+                },
+                min_pax: {
+                    required: true
+                },
+                no_of_cwb: {
+                    required: true
+                },
+                no_of_cnb: {
+                    required: true
+                },
+                no_of_adult: {
+                    required: true
+                },
+                status: {
+                    required: true
+                },
 
             },
             messages: {
@@ -123,7 +153,8 @@ var FrmOfflineRoomPreference = function () {
             submitHandler: function (form) {
                 //$(".buttonLoader").removeClass('hide');               
                 var form_data = new FormData(form);
-
+                alert('k');
+return false;
 
                 var fileUpload = $('#roomImageDropzone_0').get(0).dropzone;
                 var files = fileUpload.files;
@@ -455,7 +486,7 @@ var FrmOfflineRoomPreference = function () {
             width: '100%',
             data: hotelRoomData
         });
-        $('.select2-room-meal-plan').val(HotelsRoomID);
+        $('.select2-room-meal-plan').val(HotelsRoomMealPlanID);
         $('.select2-room-meal-plan').trigger('change');
 
     }

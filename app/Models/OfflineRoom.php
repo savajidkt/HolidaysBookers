@@ -42,6 +42,7 @@ class OfflineRoom extends Authenticatable
         'hotel_id',
         'room_type_id',
         'amenities_id',
+        'meal_plan_id',
         'total_adult',
         'total_cwb',
         'total_cnb',
@@ -140,6 +141,10 @@ class OfflineRoom extends Authenticatable
     public function roomtype()
     {
         return $this->belongsTo(RoomType::class, 'room_type_id', 'id');
+    }
+    public function mealplan()
+    {
+        return $this->belongsTo(MealPlan::class, 'meal_plan_id', 'id');
     }
     public function amenity()
     {
