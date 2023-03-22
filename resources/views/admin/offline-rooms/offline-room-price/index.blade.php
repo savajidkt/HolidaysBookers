@@ -30,8 +30,8 @@
                             <th>Hotel Name</th>
                             <th>Room Type</th>
                             <th>Price Type</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
+                            <th>Travel Date Validity</th>
+                            <th>Booking Date Validity</th>
                             <th>Adult Price</th>
                             <th>Extra Person Price</th>
                             <th>Action</th>
@@ -85,8 +85,8 @@
                         name: 'from_date'
                     },
                     {
-                        data: 'to_date',
-                        name: 'to_date'
+                        data: 'booking_start_date',
+                        name: 'booking_start_date'
                     },
                     {
                         data: 'adult_price',

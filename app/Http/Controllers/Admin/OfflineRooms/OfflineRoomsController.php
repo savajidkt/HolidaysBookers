@@ -224,9 +224,9 @@ class OfflineRoomsController extends Controller
                 })->addColumn('price_type', function (OfflineRoomPrice $price) {
                     return $price->price_type_name;
                 })->addColumn('from_date', function (OfflineRoomPrice $price) {
-                    return $price->from_date;
-                })->addColumn('to_date', function (OfflineRoomPrice $price) {
-                    return $price->to_date;
+                    return $price->from_date.' to '.$price->to_date;
+                })->addColumn('booking_start_date', function (OfflineRoomPrice $price) {                    
+                    return $price->booking_start_date.' to '. $price->booking_end_date;
                 })->addColumn('adult_price', function (OfflineRoomPrice $price) {
                     return $price->adult_price;
                 })->addColumn('extra_bed_price', function (OfflineRoomPrice $price) {

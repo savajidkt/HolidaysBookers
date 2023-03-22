@@ -185,6 +185,8 @@ class OfflineRoomRepository
             'room_id'     => $offlineroom->id,
             'from_date'     => $data['start_date'],
             'to_date'     => $data['end_date'],
+            'booking_start_date'     => $data['booking_start_date'],
+            'booking_end_date'     => $data['booking_end_date'],
             'single_adult_price'     => $data['single_occupancy'] ?? 0,
             'adult_price'     => $data['double_occupancy'] ?? 0,
             'extra_bed_price'     => $data['extra_pax_price'] ?? 0,
@@ -231,6 +233,8 @@ class OfflineRoomRepository
         $RoomPriceArr = [
             'from_date'     => $data['start_date'],
             'to_date'     => $data['end_date'],
+            'booking_start_date'     => $data['booking_start_date'],
+            'booking_end_date'     => $data['booking_end_date'],
             'single_adult_price'     => $data['single_occupancy'] ?? 0,
             'adult_price'     => $data['double_occupancy'] ?? 0,
             'extra_bed_price'     => $data['extra_pax_price'] ?? 0,

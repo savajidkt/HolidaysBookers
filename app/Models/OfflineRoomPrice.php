@@ -30,6 +30,8 @@ class OfflineRoomPrice extends Authenticatable
         'room_id',
         'from_date',
         'to_date',
+        'booking_start_date',
+        'booking_end_date',
         'single_adult_price',
         'adult_price',
         'extra_bed_price',

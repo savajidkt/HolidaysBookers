@@ -10,6 +10,13 @@
     var HotelsFreebiesIDs = "";
     var HotelID = "";
 </script>
+<style>
+    .input-group-addon {
+        padding: 10px;
+        background: #6E6B7B;
+        color: #FFF;
+    }
+</style>
 <div class="row">
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
@@ -100,7 +107,8 @@
                     </div>
                     <div class="custom-control custom-radio">
                         <input type="radio" id="StopSale" name="price_type" class="custom-control-input"
-                            value="0" {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'checked' : '' }}>
+                            value="0"
+                            {{ strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ? 'checked' : '' }}>
                         <label class="custom-control-label" for="StopSale">Stop Sale</label>
                     </div>
                 </div>
@@ -112,6 +120,50 @@
         </div>
     </div>
     <div class="col-6">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label for="itemcost">Travel Date Validity</label>
+                <div class="input-group input-daterange">
+                    <input type="text" id="fp-default" name="start_date"
+                        class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
+                        placeholder="Start Date"
+                        value="{{ isset($pricemodel->from_date) ? $pricemodel->from_date : old('start_date') }}"
+                        data-error="Start Date is required" />
+                    <div class="input-group-addon">to</div>
+                    <input type="text" id="fp-default" name="end_date"
+                        class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
+                        placeholder="End Date"
+                        value="{{ isset($pricemodel->to_date) ? $pricemodel->to_date : old('end_date') }}"
+                        data-error="End Date is required" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label for="itemcost">Booking Date Validity</label>
+                <div class="input-group input-daterange">
+                    <input type="text" id="fp-default" name="booking_start_date"
+                        class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
+                        value="{{ isset($pricemodel->booking_start_date) ? $pricemodel->booking_start_date : old('booking_start_date') }}"
+                        data-error="Booking start date is required" />
+                    @error('booking_start_date')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
+                    <div class="input-group-addon">to</div>
+                    <input type="text" id="fp-default" name="booking_end_date"
+                        class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
+                        value="{{ isset($pricemodel->booking_end_date) ? $pricemodel->booking_end_date : old('booking_end_date') }}"
+                        data-error="Booking end date is required" />
+                    @error('booking_end_date')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- <div class="col-6">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label for="itemcost">Start Date</label>
@@ -140,8 +192,9 @@
                 @enderror
             </div>
         </div>
-    </div>
-    <div class="col-4 is_stop_sale {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'show' : '' }}">
+    </div> --}}
+    <div
+        class="col-4 is_stop_sale {{ strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ? 'show' : '' }}">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label for="itemcost">Double occupancy</label>
@@ -154,7 +207,8 @@
             </div>
         </div>
     </div>
-    <div class="col-4 is_stop_sale {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'show' : '' }}">
+    <div
+        class="col-4 is_stop_sale {{ strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ? 'show' : '' }}">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label for="itemcost">Single occupancy</label>
@@ -167,7 +221,8 @@
             </div>
         </div>
     </div>
-    <div class="col-4 is_stop_sale {{ ( strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ) ? 'show' : '' }}">
+    <div
+        class="col-4 is_stop_sale {{ strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ? 'show' : '' }}">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label for="itemcost">Extra Pax Price</label>
@@ -185,11 +240,11 @@
 <div data-repeater-list="childrens" class="repeaterCLS">
     @if ($pricemodel->childprice->count() > 0)
         @foreach ($pricemodel->childprice as $childs)
-                    <input type="hidden" name="id[]" value="{{ $childs->id }}" />
-                    <input type="hidden" name="room_id" value="{{ $childs->room_id }}" />
-                    <input type="hidden" name="price_id" value="{{ $childs->price_id }}" />
+            <input type="hidden" name="id[]" value="{{ $childs->id }}" />
+            <input type="hidden" name="room_id" value="{{ $childs->room_id }}" />
+            <input type="hidden" name="price_id" value="{{ $childs->price_id }}" />
             <div data-repeater-item>
-                
+
                 <div class="row d-flex align-items-end">
                     <div class="col-12">
                         <div class="d-flex align-items-center mb-1 mt-1">
@@ -232,7 +287,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row col-4">
                         <div class="col-md-2 col-12 mb-50">
                             <div class="form-group">
@@ -323,13 +378,13 @@
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.time.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
-    
+
     <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
     <!-- BEGIN: Page JS-->
     <!-- BEGIN: Page JS-->
-    
+
     <script src="{{ asset('app-assets/js/scripts/forms/form-repeater-without-dropzone.js') }}"></script>
-    
+
     <!-- END: Page JS-->
     <script type="text/javascript">
         var moduleConfig = {
