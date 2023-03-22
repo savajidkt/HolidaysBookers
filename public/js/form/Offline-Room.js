@@ -288,11 +288,15 @@ var FrmOfflineRoomPreference = function () {
             varHotelsID = data[0].id;
             dt_table_hotels.ajax.reload();
             // dt_table_hotels.draw();
+            //    $('.HotelWiseRooms').removeClass('hide');
         });
     }
 
     var getHotelRooms = function () {
         //console.log(data[0].id);
+        // if (varHotelsID !== "" && varHotelsID !== 0) {
+        //     $('.HotelWiseRooms').removeClass('hide');
+        // } 
         //return false;
         $.ajaxSetup({
             headers: {
@@ -429,6 +433,32 @@ var FrmOfflineRoomPreference = function () {
         $('.select2-room-types').trigger('change');
 
     }
+    var OfflineHotelRoomsMealPlan = function () {
+        var selectRoomType = $('.select2-room-meal-plan');
+        var hotelRoomData = [{
+            id: '',
+            text: ''
+        }];
+        $.each(HotelsRoomMealPlan, function (key, val) {
+            hotelRoomData.push({
+                id: key,
+                text: val
+            });
+        });
+
+        selectRoomType.wrap('<div class="position-relative"></div>').select2({
+            placeholder: "Select Meal Plan",
+            allowClear: true,
+            tags: true,
+            dropdownAutoWidth: true,
+            dropdownParent: selectRoomType.parent(),
+            width: '100%',
+            data: hotelRoomData
+        });
+        $('.select2-room-meal-plan').val(HotelsRoomID);
+        $('.select2-room-meal-plan').trigger('change');
+
+    }
     var OfflineHotelAmenities = function () {
         var selectAmenities = $('.select2-room-amenities');
         var hotelAmenitiesData = [{
@@ -436,6 +466,33 @@ var FrmOfflineRoomPreference = function () {
             text: ''
         }];
         $.each(HotelsAmenities, function (key, val) {
+            hotelAmenitiesData.push({
+                id: key,
+                text: val
+            });
+        });
+
+        selectAmenities.wrap('<div class="position-relative"></div>').select2({
+            placeholder: "Select Amenities",
+            allowClear: true,
+            multiple: true,
+            dropdownAutoWidth: true,
+            dropdownParent: selectAmenities.parent(),
+            width: '100%',
+            data: hotelAmenitiesData
+        });
+
+        $('.select2-room-amenities').val(HotelsAmenitiesIDs);
+        $('.select2-room-amenities').trigger('change');
+    }
+
+    var OfflineHotelFreebies = function () {
+        var selectAmenities = $('.select2-room-freebies');
+        var hotelAmenitiesData = [{
+            id: '',
+            text: ''
+        }];
+        $.each(HotelsFreebies, function (key, val) {
             hotelAmenitiesData.push({
                 id: key,
                 text: val
@@ -452,8 +509,8 @@ var FrmOfflineRoomPreference = function () {
             data: hotelAmenitiesData
         });
 
-        $('.select2-room-amenities').val(HotelsAmenitiesIDs);
-        $('.select2-room-amenities').trigger('change');
+        $('.select2-room-freebies').val(HotelsFreebiesIDs);
+        $('.select2-room-freebies').trigger('change');
     }
 
     var FrmAddAmenity = function () {
@@ -583,6 +640,132 @@ var FrmOfflineRoomPreference = function () {
         });
     }
 
+    var FrmAddRoomMealPlan = function () {
+        var FrmMealPlanPreferenceForm = $('#FrmMealPlan');
+        var error4 = $('.error-message', FrmMealPlanPreferenceForm);
+        var success4 = $('.error-message', FrmMealPlanPreferenceForm);
+
+        FrmMealPlanPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                name: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: $("input[name=name]").attr('data-error')
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $("#FrmMealPlan .buttonLoader").removeClass('hide');
+                    },
+                    complete: function () {
+                        $("#FrmMealPlan .buttonLoader").addClass('hide');
+                    },
+                    type: 'POST',
+                    url: moduleConfig.addRoomMealPlanURL,
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            HotelsRoomType = data.responce;
+                            var datas = [];
+                            $.each(HotelsRoomType, function (key, val) {
+                                datas.push({
+                                    id: key,
+                                    text: val
+                                });
+                            });
+                            $(".select2-room-meal-plan").select2({
+                                data: datas
+                            });
+                            $('input[name="name"]').val('');
+                            $('#roomMealPlanBTN').modal('hide');
+                        }
+                        $("#FrmMealPlan .buttonLoader").addClass('hide');
+                    }
+                });
+            }
+        });
+    }
+
+    var FrmAddFreebies = function () {
+        var FrmFreebiesPreferenceForm = $('#FrmFreebies');
+        var error4 = $('.error-message', FrmFreebiesPreferenceForm);
+        var success4 = $('.error-message', FrmFreebiesPreferenceForm);
+
+        FrmFreebiesPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                name: {
+                    required: true,
+                }
+            },
+            messages: {
+                name: {
+                    required: $("#FrmFreebies input[name=name]").attr('data-error')
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element);
+            },
+            submitHandler: function (form) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                        $("#FrmFreebies .buttonLoader").removeClass('hide');
+                    },
+                    complete: function () {
+                        $("#FrmFreebies .buttonLoader").addClass('hide');
+                    },
+                    type: 'POST',
+                    url: moduleConfig.addFreebiesURL,
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            HotelsAmenities = data.responce;
+                            var datas = [];
+                            $.each(HotelsAmenities, function (key, val) {
+                                datas.push({
+                                    id: key,
+                                    text: val
+                                });
+                            });
+                            $(".select2-room-freebies").select2({
+                                data: datas
+                            });
+                            $('#FrmFreebies input[name="name"]').val('');
+                            $('#roomFreebiesBTN').modal('hide');
+                        }
+                        $("#FrmFreebies .buttonLoader").addClass('hide');
+                    }
+                });
+            }
+        });
+    }
+
     return {
         //main function to initiate the module
         init: function () {
@@ -590,22 +773,32 @@ var FrmOfflineRoomPreference = function () {
             FrmOfflineRoomPriceType();
             OfflineHotel();
             OfflineHotelRooms();
+            OfflineHotelRoomsMealPlan();
             OfflineHotelAmenities();
             FrmAddAmenity();
             FrmAddRoomType();
             FrmOfflineRoomPriceValidation();
             FrmEditOfflineRoomValidation();
             getHotelRooms();
+            OfflineHotelFreebies();
+            FrmAddRoomMealPlan();
+            FrmAddFreebies();
         }
     };
 }();
 
 $(document).ready(function () {
     FrmOfflineRoomPreference.init();
+    $(document).on('click', '.roomMealPlanBTN', function () {
+        $('#roomMealPlanBTN').modal('show');
+    });
     $(document).on('click', '.roomTypeBTN', function () {
         $('#roomTypeBTN').modal('show');
     });
     $(document).on('click', '.roomAmenityBTN', function () {
         $('#roomAmenityBTN').modal('show');
+    });
+    $(document).on('click', '.roomFreebiesBTN', function () {
+        $('#roomFreebiesBTN').modal('show');
     });
 });

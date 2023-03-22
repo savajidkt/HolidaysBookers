@@ -169,6 +169,7 @@
                             </a>
                         </li>
                     @endif
+
                     @if (
                         $admin->can('vehicle-type-create') ||
                             $admin->can('vehicle-type-edit') ||
@@ -296,6 +297,18 @@
                     <a class="d-flex align-items-center" href="{{ url('admin/mealplans') }}">
                         <i data-feather='columns'></i>
                         <span class="menu-title text-truncate" data-i18n="Meal Plans">Meal Plans</span>
+                    </a>
+                </li>
+            @endif
+            @if (
+                $admin->can('freebies-create') ||
+                    $admin->can('freebies-edit') ||
+                    $admin->can('freebies-delete') ||
+                    $admin->can('freebies-view'))
+                <li>
+                    <a class="d-flex align-items-center" href="{{ url('admin/freebies') }}">
+                        <i data-feather="circle"></i><span class="menu-item text-truncate"
+                            data-i18n="Freebies">Freebies</span>
                     </a>
                 </li>
             @endif

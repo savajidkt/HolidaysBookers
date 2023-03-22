@@ -1,9 +1,12 @@
 <script>
     var HotelsList = {!! json_encode($HotelsList) !!};
     var HotelsRoomType = {!! json_encode($HotelsRoomType) !!};
+    var HotelsRoomMealPlan = {!! json_encode($HotelsRoomMealPlan) !!};
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
+    var HotelsFreebies = {!! json_encode($HotelsFreebies) !!};
     var HotelsRoomID = "";
     var HotelsAmenitiesIDs = [];
+    var HotelsFreebiesIDs = [];
     var HotelID = 0;
 </script>
 @if ($offlinehotel)
@@ -35,7 +38,7 @@
         <hr class="my-2" />
     </div>
 </div>
-<div class="row HotelWiseRooms">
+<div class="row HotelWiseRooms ">
     <div class="col-12">
         <div class="card-datatable pt-0 table-responsive">
             <table class="hotel-rooms-list-table datatables-ajax table">
@@ -103,6 +106,37 @@
                             name="room_amenities"></select>
                         <div class="room_amenitiesCLS"></div>
                         @error('room_amenities')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="col-md-12 col-12">
+                    <div class="form-group">
+                        <label for="itemname">Room Meal Plan</label>
+                        <a class="badge badge-success roomMealPlanBTN" style="color:#FFF; float: right;">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add New Meal Plan
+                        </a>
+                        <select class="select2-room-meal-plan form-control" name="meal_plan"></select>
+                        <div class="room_MealPlanCLS"></div>
+                        @error('meal_plan')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="col-md-12 col-12">
+                    <div class="form-group">
+                        <label for="itemname">Room Freebies</label>
+                        <a class="badge badge-success roomFreebiesBTN" style="color:#FFF; float: right;">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add New Freebies
+                        </a>
+                        <select class="select2 select2-room-freebies form-control" multiple
+                            name="room_freebies"></select>
+                        <div class="room_freebiesCLS"></div>
+                        @error('room_freebies')
                             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
                         @enderror
                     </div>
@@ -221,7 +255,7 @@
     </div>
 </div>
 @section('extra-script')
-<script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
+    <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
     <script src="{{ asset('js/form/Offline-Room.js') }}"></script>
     <!-- BEGIN: Page Vendor JS-->
     <script src="{{ asset('app-assets/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
@@ -309,11 +343,13 @@
     <script type="text/javascript">
         var moduleConfig = {
             addRoomTypeURL: "{!! route('add-room-type') !!}",
+            addRoomMealPlanURL: "{!! route('add-meal-plan') !!}",
             addAmenityURL: "{!! route('add-amenity') !!}",
+            addFreebiesURL: "{!! route('add-freebies') !!}",
             addRoomsURL: "{!! route('offlinerooms.store') !!}",
             listRoomsURL: "{!! route('offlinerooms.index') !!}",
-            getHotelRoomsURL: "{!! route('get-hotel-rooms-url','') !!}",
-            changeRoomsStatusURL: "{!! route('change-offline-room-status','') !!}",
+            getHotelRoomsURL: "{!! route('get-hotel-rooms-url', '') !!}",
+            changeRoomsStatusURL: "{!! route('change-offline-room-status', '') !!}",
         };
     </script>
 @endsection

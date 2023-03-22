@@ -75,4 +75,15 @@ class MealPlanRepository
         $mealplan->status = !$input['status'];
         return $mealplan->save();
     }
+
+
+    public function addMealPlansPopup(array $data): MealPlan
+    {
+        $dataSave = [
+            'name'    => $data['name'],
+            'status'     => 1,
+        ];
+        $roomtype =  MealPlan::create($dataSave);
+        return $roomtype;
+    }
 }

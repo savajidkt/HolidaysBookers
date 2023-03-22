@@ -27,7 +27,7 @@ class MealPlansController extends Controller
      */
     public function index(Request $request)
     {
-       
+
         if ($request->ajax()) {
 
             $data = MealPlan::select('*');
@@ -56,7 +56,7 @@ class MealPlansController extends Controller
      */
     public function create()
     {
-        $rawData    = new MealPlan;        
+        $rawData    = new MealPlan;
         return view('admin.meal-plans.create', ['model' => $rawData]);
     }
 
@@ -83,7 +83,7 @@ class MealPlansController extends Controller
         //
     }
 
-       
+
     /**
      * Method edit
      *
@@ -96,7 +96,7 @@ class MealPlansController extends Controller
         return view('admin.meal-plans.edit', ['model' => $mealplan]);
     }
 
-       
+
     /**
      * Method update
      *
@@ -143,5 +143,16 @@ class MealPlansController extends Controller
         }
 
         throw new Exception('Meal plan status does not change. Please check sometime later.');
+    }
+
+
+    public function addMealPlansPopup(Request $request): JsonResponse
+    {
+        $this->mealPlanRepository->addMealPlansPopup($request->all());
+        return response()->json([
+            'status' => true,
+            'responce' => MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray(),
+            'message' => ''
+        ]);
     }
 }

@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
 use App\Http\Controllers\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\AgentMarkups\AgentMarkupsController;
 use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
+use App\Http\Controllers\Admin\Freebies\FreebiesController;
 use App\Http\Controllers\Admin\OfflineRooms\OfflineRoomsController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
@@ -115,6 +116,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/amenity/change-status', [AmenitiesController::class, 'changeStatus'])->name('change-amenity-status');
     Route::post('/amenity/add-amenity', [AmenitiesController::class, 'addAmenityPopup'])->name('add-amenity');
 
+    Route::resource('/freebies', FreebiesController::class);
+    Route::post('/freebies/change-status', [FreebiesController::class, 'changeStatus'])->name('change-freebies-status');
+    Route::post('/freebies/add-freebies', [FreebiesController::class, 'addFreebiesPopup'])->name('add-freebies');
+
     Route::resource('/vehicletypes', VehicleTypesController::class);
     Route::post('/vehicletype/change-status', [VehicleTypesController::class, 'changeStatus'])->name('change-vehicletype-status');
 
@@ -169,6 +174,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/mealplans', MealPlansController::class);
     Route::post('/mealplan/change-status', [MealPlansController::class, 'changeStatus'])->name('change-meal-plan-status');
+    Route::post('/mealplan/add-meal-plan', [MealPlansController::class, 'addMealPlansPopup'])->name('add-meal-plan');
 
     Route::resource('/currencies', CurrenciesController::class);
     Route::post('/currency/change-status', [CurrenciesController::class, 'changeStatus'])->name('change-currency-status');

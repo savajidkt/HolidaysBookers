@@ -17,9 +17,12 @@
 <script>
     var HotelsList = {!! json_encode($HotelsList) !!};
     var HotelsRoomType = {!! json_encode($HotelsRoomType) !!};
+    var HotelsRoomMealPlan = {!! json_encode($HotelsRoomMealPlan) !!};
     var HotelsAmenities = {!! json_encode($HotelsAmenities) !!};
+    var HotelsFreebies = {!! json_encode($HotelsFreebies) !!};
     var HotelsRoomID = "{!! $model->room_type_id !!}";
     var HotelsAmenitiesIDs = {!! json_encode($HotelsAmenitiesIDS) !!};
+    var HotelsFreebiesIDs = {!! json_encode($HotelsFreebiesIDs) !!};
     var images = {!! json_encode($images) !!};
     var $imageMainPathjs = "{!! $imageMainPath !!}";
     var HotelID = "{!! $model->hotel_id !!}";
@@ -55,7 +58,7 @@
         <hr class="my-2" />
     </div>
 </div>
-<div class="row HotelWiseRooms">
+<div class="row HotelWiseRooms ">
     <div class="col-12">
         <div class="card-datatable pt-0 table-responsive">
             <table class="hotel-rooms-list-table datatables-ajax table">

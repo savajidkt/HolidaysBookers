@@ -20,6 +20,8 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Repositories\OfflineRoomRepository;
 use App\Http\Requests\OfflineRoom\EditRequest;
 use App\Http\Requests\OfflineRoom\CreateRequest;
+use App\Models\Freebies;
+use App\Models\MealPlan;
 
 class OfflineRoomsController extends Controller
 {
@@ -85,7 +87,9 @@ class OfflineRoomsController extends Controller
         $HotelsList  = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->pluck('hotel_name', 'id')->toArray();
         $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();        
-        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities,'offlinehotel'=>""]);
+        $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
+        $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::ROOM)->pluck('name', 'id')->toArray();
+        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities,'offlinehotel'=>"",'HotelsRoomMealPlan'=>$HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies ]);
     }
 
     public function roomCreate(OfflineHotel $offlinehotel)
@@ -94,7 +98,9 @@ class OfflineRoomsController extends Controller
         $HotelsList  = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->pluck('hotel_name', 'id')->toArray();
         $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
-        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities,'offlinehotel'=>$offlinehotel]);
+        $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
+        $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::ROOM)->pluck('name', 'id')->toArray();
+        return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities,'offlinehotel'=>$offlinehotel,'HotelsRoomMealPlan'=>$HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies]);
     }
 
     /**
@@ -134,9 +140,12 @@ class OfflineRoomsController extends Controller
         $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
         $HotelsAmenitiesIDS  = $offlineroom->roomamenity()->pluck('amenity_id')->toArray();
+        
+        $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
+        $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::ROOM)->pluck('name', 'id')->toArray();
+        $HotelsFreebiesIDs  = $offlineroom->freebies()->pluck('id')->toArray();
 
-
-        return view('admin.offline-rooms.edit', ['model' => $offlineroom, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDS' => $HotelsAmenitiesIDS]);
+        return view('admin.offline-rooms.edit', ['model' => $offlineroom, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'HotelsAmenitiesIDS' => $HotelsAmenitiesIDS,'HotelsRoomMealPlan'=>$HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies, 'HotelsFreebiesIDs'=>$HotelsFreebiesIDs]);
     }
 
     /**
