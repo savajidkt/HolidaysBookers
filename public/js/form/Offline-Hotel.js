@@ -20,7 +20,7 @@ var FrmOfflineHotelPreference = function () {
                 hotel_address: { required: true },
                 hotel_pincode: { required: true },
                 hotel_email: {required: true, email: true },
-                hotel_amenities: { required: true },
+                'hotel_amenities[]': { required: true },
                 property_type_id: { required: true },
                 hotel_review: { required: true },
                 hotel_latitude: { required: true },
@@ -70,7 +70,7 @@ var FrmOfflineHotelPreference = function () {
                 hotel_email: {
                     required: 'Email is required'
                 },
-                hotel_amenities: {
+                'hotel_amenities[]': {
                     required: 'Amenity is required'
                 },
                 property_type_id: {

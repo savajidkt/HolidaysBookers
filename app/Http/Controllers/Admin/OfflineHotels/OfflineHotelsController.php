@@ -135,9 +135,11 @@ class OfflineHotelsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(OfflineHotel $offlinehotel)
     {
-        //
+        $amenitiesName = implode(' | ', $offlinehotel->hotelamenity()->pluck('amenity_name')->toArray());
+        $freebiesName = implode(' | ', $offlinehotel->hotelfreebies()->pluck('name')->toArray());
+        return view('admin.offline-hotels.view', ['model' => $offlinehotel, 'amenitiesName' => $amenitiesName, 'freebiesName' => $freebiesName]);
     }
 
 

@@ -214,7 +214,7 @@
             <a class="badge badge-success freebiesBTN" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Freebies
             </a>
-            <select class="select2 select2-hotel-freebies form-control" multiple name="hotel_freebies"></select>
+            <select class="select2 select2-hotel-freebies form-control" multiple name="hotel_freebies[]"></select>
             <div class="hotel_freebiesCLS"></div>
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_freebies')
@@ -228,7 +228,7 @@
             <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Amenities
             </a>
-            <select class="select2 select2-hotel-amenities form-control" multiple name="hotel_amenities"></select>
+            <select class="select2 select2-hotel-amenities form-control" multiple name="hotel_amenities[]"></select>
             <div class="hotel_amenitiesCLS"></div>
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_amenities')
@@ -350,7 +350,7 @@
                     for="front_office_contact_number">Contact Number</label>
                 <input type="text" id="front_office_contact_number" name="front_office_contact_number" class="form-control"
                     placeholder="Contact Number"
-                    value="{{ isset($model->reserve_contact_number) ? $model->front_office_contact_number : old('front_office_contact_number') }}"
+                    value="{{ isset($model->front_office_contact_number) ? $model->front_office_contact_number : old('front_office_contact_number') }}"
                     data-error="Contact Number" />
                 <div class="valid-feedback">Looks good!</div>
                 @error('front_office_contact_number')
@@ -411,7 +411,7 @@
                     for="sales_contact_number">Contact Number</label>
                 <input type="text" id="sales_contact_number" name="sales_contact_number" class="form-control"
                     placeholder="Contact Number"
-                    value="{{ isset($model->reserve_contact_number) ? $model->sales_contact_number : old('sales_contact_number') }}"
+                    value="{{ isset($model->sales_contact_number) ? $model->sales_contact_number : old('sales_contact_number') }}"
                     data-error="Contact Number" />
                 <div class="valid-feedback">Looks good!</div>
                 @error('sales_contact_number')
@@ -472,7 +472,7 @@
                     for="reservation_contact_number">Contact Number</label>
                 <input type="text" id="reservation_contact_number" name="reservation_contact_number" class="form-control"
                     placeholder="Contact Number"
-                    value="{{ isset($model->reserve_contact_number) ? $model->reservation_contact_number : old('reservation_contact_number') }}"
+                    value="{{ isset($model->reservation_contact_number) ? $model->reservation_contact_number : old('reservation_contact_number') }}"
                     data-error="Contact Number" />
                 <div class="valid-feedback">Looks good!</div>
                 @error('reservation_contact_number')

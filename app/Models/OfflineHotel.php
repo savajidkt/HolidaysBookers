@@ -90,7 +90,7 @@ class OfflineHotel extends Authenticatable
     public function getActionAttribute(): string
     {
         
-        $viewAction =  '<a href="#" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+        $viewAction =  '<a href="' . route('offlinehotels.show', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';
         $editAction = '<a href="' . route('offlinehotels.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';
         $addRoomAction = '<a href="'.route('room-create', $this->id).'" class="edit btn btn-success btn-sm" data-toggle="tooltip" data-original-title="Add Room" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i></a>';
         return $editAction . ' ' . $viewAction . ' '.$addRoomAction.' ' . $this->getDeleteButtonAttribute();
@@ -142,5 +142,13 @@ class OfflineHotel extends Authenticatable
     public function hotelfreebies()
     {
         return $this->belongsToMany(Freebies::class, 'hotel_freebies', 'hotel_id', 'freebies_id');
+    }
+    public function hotelgroup()
+    {
+        return $this->belongsTo(HotelGroup::class, 'hotel_group_id', 'id');
+    }
+    public function property()
+    {
+        return $this->belongsTo(PropertyType::class, 'property_type_id', 'id');
     }
 }

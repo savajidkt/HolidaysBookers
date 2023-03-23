@@ -27,11 +27,10 @@ class OfflineHotelRepository
      */
     public function create(Request $request, array $data): OfflineHotel
     {
-
+       
         $HotelArr = [
             'hotel_name'    => $data['hotel_name'],
             'hotel_country'  => $data['hotel_country'],
-            'hotel_state'    => $data['hotel_state'],
             'hotel_city'    => $data['hotel_city'],
             'category'      => $data['category'],
             'hotel_group_id'    => $data['hotel_group_id'],
@@ -118,7 +117,6 @@ class OfflineHotelRepository
         $HotelArr = [
             'hotel_name'    => $data['hotel_name'],
             'hotel_country'  => $data['hotel_country'],
-            'hotel_state'    => $data['hotel_state'],
             'hotel_city'    => $data['hotel_city'],
             'category'      => $data['category'],
             'hotel_group_id'    => $data['hotel_group_id'],
@@ -154,6 +152,7 @@ class OfflineHotelRepository
             $offlinehotel->hotelamenity()->detach();
             $offlinehotel->hotelamenity()->attach($data['hotel_amenities']);
         }
+        
         if (isset($data['hotel_freebies'])) {
             $offlinehotel->hotelfreebies()->detach();
             $offlinehotel->hotelfreebies()->attach($data['hotel_freebies']);

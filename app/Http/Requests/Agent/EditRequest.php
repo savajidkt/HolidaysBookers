@@ -27,7 +27,6 @@ class EditRequest extends FormRequest
         return [
             'hotel_name'        => ['required'],
              'hotel_country'        => ['required'],
-             'hotel_state'        => ['required'],
              'hotel_city'        => ['required'],
             'category'         => ['required'],
             'hotel_group_id'         => ['required'],
