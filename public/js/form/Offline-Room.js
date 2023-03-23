@@ -23,13 +23,15 @@ var FrmOfflineRoomPreference = function () {
                 },
             },
             errorPlacement: function (error, element) {
+
+
                 if (element.attr("name") == "price_type") {
                     error.insertAfter(".price_typeCLS");
                 } else if (element.attr("name") == "hotel_id") {
                     error.insertAfter(".hotel_idCLS");
-                } else if (element.attr("name") == "room_type") {
+                } else if (element.attr("name").indexOf('[room_type]') >= 0) {                    
                     error.insertAfter(".room_typeCLS");
-                } else if (element.attr("name") == "room_amenities") {
+                } else if (element.attr("name").indexOf('[room_amenities]') >= 0) {
                     error.insertAfter(".room_amenitiesCLS");
                 } else {
                     error.insertAfter(element);
@@ -153,8 +155,6 @@ var FrmOfflineRoomPreference = function () {
             submitHandler: function (form) {
                 //$(".buttonLoader").removeClass('hide');               
                 var form_data = new FormData(form);
-                alert('k');
-return false;
 
                 var fileUpload = $('#roomImageDropzone_0').get(0).dropzone;
                 var files = fileUpload.files;
@@ -217,61 +217,156 @@ return false;
                 end_date: {
                     required: true
                 },
-                double_occupancy: {
-                    // required: function () {
-                    //     if ($("input[name='price_type']:checked").val() != 0) {
-                    //         return true;
-                    //     } else {
-                    //         return false;
-                    //     }
-                    // }
+                booking_start_date: {
                     required: true
                 },
-                single_occupancy: {
-                    // required: function () {
-                    //     if ($("input[name='price_type']:checked").val() != 0) {
-                    //         return true;
-                    //     } else {
-                    //         return false;
-                    //     }
-                    // }
+                booking_end_date: {
                     required: true
                 },
-                extra_pax_price: {
-                    // required: function () {
-                    //     if ($("input[name='price_type']:checked").val() != 0) {
-                    //         return true;
-                    //     } else {
-                    //         return false;
-                    //     }
-                    // }
+                currency_id: {
                     required: true
-                }
+                },
+                cutoff_price: {
+                    required: true
+                },
+                min_nights: {
+                    required: true
+                },
+                min_overall_nights: {
+                    required: true
+                },
+                price_p_n_single_adult: {
+                    required: true
+                },
+                price_p_n_twin_sharing: {
+                    required: true
+                },
+                price_p_n_extra_adult: {
+                    required: true
+                },
+                price_p_n_cwb: {
+                    required: true
+                },
+                price_p_n_cob: {
+                    required: true
+                },
+                price_p_n_ccob: {
+                    required: true
+                },
+                tax_p_n_single_adult: {
+                    required: true
+                },
+                tax_p_n_twin_sharing: {
+                    required: true
+                },
+                tax_p_n_extra_adult: {
+                    required: true
+                },
+                tax_p_n_cwb: {
+                    required: true
+                },
+                tax_p_n_cob: {
+                    required: true
+                },
+                tax_p_n_ccob: {
+                    required: true
+                },
+                market_price: {
+                    required: true
+                },
+                'days_valid[]': {
+                    required: true
+                },
+
             },
+            groups: {
+                travelGroup: "start_date end_date",
+                bookingGroup: "booking_start_date booking_end_date",
+            },
+
             messages: {
 
                 price_type: {
                     required: 'Price type is required'
                 },
                 start_date: {
-                    required: 'Start date is required'
+                    required: 'Travel date validity is required'
                 },
                 end_date: {
-                    required: 'End date is required'
+                    required: 'Travel date validity is required'
                 },
-                double_occupancy: {
-                    required: 'Double occupancy is required'
+                booking_start_date: {
+                    required: 'Booking date validity is required'
                 },
-                single_occupancy: {
-                    required: 'Single occupancy is required'
+                booking_end_date: {
+                    required: 'Booking date validity is required'
                 },
-                extra_pax_price: {
-                    required: 'Extra Pax Price is required'
+                currency_id: {
+                    required: $("select[name=currency_id]").attr('data-error')
+                },
+                cutoff_price: {
+                    required: $("select[name=cutoff_price]").attr('data-error')
+                },
+                min_nights: {
+                    required: $("select[name=min_nights]").attr('data-error')
+                },
+                min_overall_nights: {
+                    required: $("select[name=min_overall_nights]").attr('data-error')
+                },
+                price_p_n_single_adult: {
+                    required: $("input[name=price_p_n_single_adult]").attr('data-error')
+                },
+                price_p_n_twin_sharing: {
+                    required: $("input[name=price_p_n_twin_sharing]").attr('data-error')
+                },
+                price_p_n_extra_adult: {
+                    required: $("input[name=price_p_n_extra_adult]").attr('data-error')
+                },
+                price_p_n_cwb: {
+                    required: $("input[name=price_p_n_cwb]").attr('data-error')
+                },
+                price_p_n_cob: {
+                    required: $("input[name=price_p_n_cob]").attr('data-error')
+                },
+                price_p_n_ccob: {
+                    required: $("input[name=price_p_n_ccob]").attr('data-error')
+                },
+                tax_p_n_single_adult: {
+                    required: $("input[name=tax_p_n_single_adult]").attr('data-error')
+                },
+                tax_p_n_twin_sharing: {
+                    required: $("input[name=tax_p_n_twin_sharing]").attr('data-error')
+                },
+                tax_p_n_extra_adult: {
+                    required: $("input[name=tax_p_n_extra_adult]").attr('data-error')
+                },
+                tax_p_n_cwb: {
+                    required: $("input[name=tax_p_n_cwb]").attr('data-error')
+                },
+                tax_p_n_cob: {
+                    required: $("input[name=tax_p_n_cob]").attr('data-error')
+                },
+                tax_p_n_ccob: {
+                    required: $("input[name=tax_p_n_ccob]").attr('data-error')
+                },
+                market_price: {
+                    required: $("input[name=market_price]").attr('data-error')
+                },
+                'days_valid[]': {
+                    required: 'Days valid is required'
                 },
             },
             errorPlacement: function (error, element) {
                 if (element.attr("name") == "price_type") {
                     error.insertAfter(".price_typeCLS");
+                } else if (element.attr("name") == "start_date" || element.attr("name") == "end_date") {
+                    error.insertAfter(".TravelDateValidity");
+                } else if (element.attr("name") == "booking_start_date" || element.attr("name") == "booking_end_date") {
+                    error.insertAfter(".BookingDateValidity");
+                } else if (element.attr("name") == "currency_id") {
+                    error.insertAfter(".CurrencyError");
+                } else if (element.attr("name") == "days_valid[]") {
+                    error.insertAfter(".days_validError");
                 } else {
                     error.insertAfter(element);
                 }
@@ -286,9 +381,9 @@ return false;
     var FrmOfflineRoomPriceType = function () {
         $('input:radio[name=price_type]').change(function () {
             if ($(this).val() == 0) {
-               // $('.is_stop_sale').addClass('hide');
+                // $('.is_stop_sale').addClass('hide');
             } else {
-               // $('.is_stop_sale').removeClass('hide');
+                // $('.is_stop_sale').removeClass('hide');
             }
         });
     }
@@ -361,9 +456,9 @@ return false;
                 { data: 'id', visible: false },
                 { data: 'hotel_name', name: 'hotel_name' },
                 { data: 'room_type', name: 'room_type' },
-                { data: 'total_adult', name: 'total_adult' },
-                { data: 'total_cwb', name: 'total_cwb' },
-                { data: 'total_cnb', name: 'total_cnb' },
+                { data: 'occ_sleepsmax', name: 'occ_sleepsmax' },
+                { data: 'occ_num_beds', name: 'occ_num_beds' },
+                { data: 'occ_max_adults', name: 'occ_max_adults' },
                 { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
             ]
@@ -800,6 +895,33 @@ return false;
         });
     }
 
+    var OfflineCurrency = function () {
+        var selectCurrency = $('.select2-room-currency');
+        var currencyData = [{
+            id: '',
+            text: ''
+        }];
+        $.each(currencyList, function (key, val) {
+            currencyData.push({
+                id: val.id,
+                text: val.name + '(' + val.code + ')'
+            });
+        });
+
+        selectCurrency.wrap('<div class="position-relative"></div>').select2({
+            placeholder: "Select Currency",
+            allowClear: true,
+            multiple: false,
+            dropdownAutoWidth: true,
+            dropdownParent: selectCurrency.parent(),
+            width: '100%',
+            data: currencyData
+        });
+
+        $('.select2-room-currency').val(currencyIDs);
+        $('.select2-room-currency').trigger('change');
+    }
+
     return {
         //main function to initiate the module
         init: function () {
@@ -817,6 +939,7 @@ return false;
             OfflineHotelFreebies();
             FrmAddRoomMealPlan();
             FrmAddFreebies();
+            OfflineCurrency();
         }
     };
 }();
@@ -834,5 +957,14 @@ $(document).ready(function () {
     });
     $(document).on('click', '.roomFreebiesBTN', function () {
         $('#roomFreebiesBTN').modal('show');
+    });
+
+
+    $('#rate_offered').change(function () {
+        if ($(this).val() == 'NET_RATE') {
+            $('.is_rate_offered').addClass('hide');
+        } else {
+            $('.is_rate_offered').removeClass('hide');
+        }
     });
 });

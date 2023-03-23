@@ -20,6 +20,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Repositories\OfflineRoomRepository;
 use App\Http\Requests\OfflineRoom\EditRequest;
 use App\Http\Requests\OfflineRoom\CreateRequest;
+use App\Models\Currency;
 use App\Models\Freebies;
 use App\Models\MealPlan;
 
@@ -54,18 +55,18 @@ class OfflineRoomsController extends Controller
                     $query->whereHas('roomtype', function ($query) use ($keyword) {
                         $query->where('room_type', 'LIKE', '%' . $keyword . '%');
                     });
-                })->addColumn('total_adult', function (OfflineRoom $room) {
-                    return $room->total_adult;
-                })->filterColumn('total_adult', function ($query, $keyword) {
-                    $query->where('total_adult', 'LIKE', '%' . $keyword . '%');
-                })->addColumn('total_cwb', function (OfflineRoom $room) {
-                    return $room->total_cwb;
-                })->filterColumn('total_cwb', function ($query, $keyword) {
-                    $query->where('total_cwb', 'LIKE', '%' . $keyword . '%');
-                })->addColumn('total_cnb', function (OfflineRoom $room) {
-                    return $room->total_cnb;
-                })->filterColumn('total_cnb', function ($query, $keyword) {
-                    $query->where('total_cnb', 'LIKE', '%' . $keyword . '%');
+                })->addColumn('occ_sleepsmax', function (OfflineRoom $room) {
+                    return $room->occ_sleepsmax;
+                })->filterColumn('occ_sleepsmax', function ($query, $keyword) {
+                    $query->where('occ_sleepsmax', 'LIKE', '%' . $keyword . '%');
+                })->addColumn('occ_num_beds', function (OfflineRoom $room) {
+                    return $room->occ_num_beds;
+                })->filterColumn('occ_num_beds', function ($query, $keyword) {
+                    $query->where('occ_num_beds', 'LIKE', '%' . $keyword . '%');
+                })->addColumn('occ_max_adults', function (OfflineRoom $room) {
+                    return $room->occ_max_adults;
+                })->filterColumn('occ_max_adults', function ($query, $keyword) {
+                    $query->where('occ_max_adults', 'LIKE', '%' . $keyword . '%');
                 })->editColumn('status', function (OfflineRoom $room) {
                     return $room->status_name;
                 })->addColumn('action', function ($row) {
@@ -224,13 +225,9 @@ class OfflineRoomsController extends Controller
                 })->addColumn('price_type', function (OfflineRoomPrice $price) {
                     return $price->price_type_name;
                 })->addColumn('from_date', function (OfflineRoomPrice $price) {
-                    return $price->from_date.' to '.$price->to_date;
-                })->addColumn('booking_start_date', function (OfflineRoomPrice $price) {                    
-                    return $price->booking_start_date.' to '. $price->booking_end_date;
-                })->addColumn('adult_price', function (OfflineRoomPrice $price) {
-                    return $price->adult_price;
-                })->addColumn('extra_bed_price', function (OfflineRoomPrice $price) {
-                    return $price->extra_bed_price;
+                    return $price->from_date . ' to ' . $price->to_date;
+                })->addColumn('booking_start_date', function (OfflineRoomPrice $price) {
+                    return $price->booking_start_date . ' to ' . $price->booking_end_date;
                 })->addColumn('action', function ($row) {
                     return $row->action;
                 })->rawColumns(['action', 'price_type'])->make(true);
@@ -249,7 +246,8 @@ class OfflineRoomsController extends Controller
     public function createPrice(OfflineRoom $offlineroom)
     {
         $roomPrice = new OfflineRoomPrice();
-        return view('admin.offline-rooms.offline-room-price.create', ['pricemodel' => $roomPrice, 'model' => $offlineroom]);
+        $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
+        return view('admin.offline-rooms.offline-room-price.create', ['pricemodel' => $roomPrice, 'model' => $offlineroom, 'currencyList' => $currencyList]);
     }
 
     /**
@@ -277,7 +275,8 @@ class OfflineRoomsController extends Controller
     {
         $roomPrice = OfflineRoomPrice::find($id);
         $OfflineRoom = $roomPrice->room;
-        return view('admin.offline-rooms.offline-room-price.edit', ['pricemodel' => $roomPrice, 'model' => $OfflineRoom]);
+        $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
+        return view('admin.offline-rooms.offline-room-price.edit', ['pricemodel' => $roomPrice, 'model' => $OfflineRoom, 'currencyList' => $currencyList]);
     }
 
     /**

@@ -17,12 +17,13 @@ class CreateOfflineroomsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('hotel_id');
             $table->unsignedBigInteger('room_type_id');
-           // $table->unsignedBigInteger('amenities_id');
-            $table->integer('total_adult')->default(0);
-            $table->integer('total_cwb')->default(0);
-            $table->integer('total_cnb')->default(0);
-            $table->integer('max_pax')->default(0);
-            $table->integer('min_pax')->default(0);
+            $table->unsignedBigInteger('meal_plan_id')->nullable();
+            // $table->unsignedBigInteger('amenities_id');
+            $table->integer('occ_sleepsmax')->default(0);
+            $table->integer('occ_num_beds')->default(0);
+            $table->integer('occ_max_adults')->default(0);
+            $table->integer('occ_max_child_w_max_adults')->default(0);
+            $table->integer('occ_max_child_wo_extra_bed')->default(0);
             $table->string('room_inclusion')->nullable();
             $table->string('allotment')->nullable();
             $table->string('cancel_policy')->nullable();
@@ -33,9 +34,10 @@ class CreateOfflineroomsTable extends Migration
             $table->boolean('status')->default(false)->comment('1=Active, 0=Inactive');
 
             //FOREIGN KEY CONSTRAINTS
-            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');            
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
             $table->foreign('room_type_id')->references('id')->on('room_types')->onDelete('cascade');
-            //$table->foreign('amenities_id')->references('id')->on('amenities')->onDelete('cascade');
+            $table->foreign('meal_plan_id')->references('id')->on('mealplans')->onDelete('cascade');
+
             $table->softDeletes();
             $table->timestamps();
         });

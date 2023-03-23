@@ -99,37 +99,37 @@
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">Max Pax</label>
+                                            <label for="account-username">Max Occupancy</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->max_pax) ? $model->max_pax : '' }}</strong>
+                                                class="disp-below">{{ isset($model->occ_sleepsmax) ? $model->occ_sleepsmax : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">Min Pax</label>
+                                            <label for="account-username">No. of Beds</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->min_pax) ? $model->min_pax : '' }}</strong>
+                                                class="disp-below">{{ isset($model->occ_num_beds) ? $model->occ_num_beds : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">No of Adult</label>
+                                            <label for="account-username">Max Adults</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->total_adult) ? $model->total_adult : '' }}</strong>
+                                                class="disp-below">{{ isset($model->occ_max_adults) ? $model->occ_max_adults : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">No of CWB</label>
+                                            <label for="account-username">Max Children When Max Adults</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->total_cwb) ? $model->total_cwb : '' }}</strong>
+                                                class="disp-below">{{ isset($model->occ_max_child_w_max_adults) ? $model->occ_max_child_w_max_adults : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">No of CNB</label>
+                                            <label for="account-username">Max Children Without Extra Bed</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->total_cnb) ? $model->total_cnb : '' }}</strong>
+                                                class="disp-below">{{ isset($model->occ_max_child_wo_extra_bed) ? $model->occ_max_child_wo_extra_bed : '' }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                             <div class="tab-pane fade" id="account-vertical-galleries-details" role="tabpanel"
                                 aria-labelledby="account-pill-galleries-details" aria-expanded="false">
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <div class="card">
                                             <div class="card-header">
                                                 <h4 class="card-title">Galleries</h4>
@@ -156,7 +156,7 @@
                                                                 @endphp
                                                                 <div class="carousel-item {{ $i == 1 ? 'active' : '' }}">
                                                                     <img src="{{ url('storage/app/upload/Hotel/' . $model->hotel_id . '/Room/' . $model->id . '/Gallery/' . $image['images']) }}"
-                                                                        class="img-fluid d-block w-100" alt="cf-img-1" />
+                                                                        class="img-fluid d-block w-100" alt="cf-img-1" style="width: 800px !important; height: 550px !important;" />
                                                                 </div>
                                                             @endforeach
                                                         </div>

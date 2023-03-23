@@ -9,6 +9,8 @@
     var HotelsAmenitiesIDs = [];
     var HotelsFreebiesIDs = [];
     var HotelID = 0;
+    var currencyList = [];
+    var currencyIDs = "";
 </script>
 @if ($offlinehotel)
     <script>
@@ -74,7 +76,7 @@
 </div>
 <div data-repeater-list="rooms" class="repeaterCLS">
     <div data-repeater-item>
-        <div class="row d-flex align-items-end">
+        <div class="row d-flex ">
             <div class="col-12">
                 <div class="d-flex align-items-center mb-1 mt-1">
                     <h5 class="roomTitile" id="room-1" room-title="room-name">Room 1</h5>
@@ -145,73 +147,80 @@
             </div>
             <div class="col-12">
                 <div class="d-flex align-items-center mb-1 mt-1">
-                    <h4 class="">Accommodation policy :</h4>
+                    <h4 class="">Max Occupancy :</h4>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="col-md-12 col-12">
-                    <div class="form-group">
-                        <label for="itemcost">Max Pax</label>
-                        <input type="number" class="form-control" name="max_pax" />
-                        @error('max_pax')
-                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-md-12 col-12">
-                    <div class="form-group">
-                        <label for="itemcost">Min Pax</label>
-                        <input type="number" class="form-control" name="min_pax" />
-                        @error('min_pax')
-                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
-                    </div>
+            <div class="col-md-4 col-4">
+                <div class="form-group">
+                    <label>Max Occupancy</label>
+                    <input type="number" class="form-control" name="occ_sleepsmax" value="{{ old('occ_sleepsmax') }}"
+                        data-error="Max Occupancy is required" />
+                    @error('occ_sleepsmax')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
-            <div class="col-4">
-                <div class="col-md-12 col-12">
-                    <div class="form-group">
-                        <label for="itemcost">No of CWB</label>
-                        <input type="number" class="form-control" name="no_of_cwb" />
-                        @error('no_of_cwb')
-                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-md-12 col-12">
-                    <div class="form-group">
-                        <label for="itemcost">No of CNB</label>
-                        <input type="number" class="form-control" name="no_of_cnb" />
-                        @error('no_of_cnb')
-                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
-                    </div>
+            <div class="col-md-4 col-4">
+                <div class="form-group">
+                    <label>No. of Beds</label>
+                    <input type="number" class="form-control" name="occ_num_beds" value="{{ old('occ_num_beds') }}"
+                        data-error="Max Occupancy is required" />
+                    <small class="text-muted" style="font-size: 10px;">No. of Beds Base occupancy for room price.
+                        Number of people who can be accommodated on existing bedding of the room. Leave it is as
+                        default 2 if unsure</small>
+                    @error('occ_num_beds')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
-            <div class="col-4">
-                <div class="col-md-12 col-12">
-                    <div class="form-group">
-                        <label for="itemcost">No of Adult</label>
-                        <input type="number" class="form-control" name="no_of_adult" />
-                        @error('no_of_adult')
-                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-md-12 col-12">
-                    <div class="form-group">
-                        <label class="form-label" for="role">Status</label>
-                        <select name="status" class="form-control" id="status" data-error="Status is required">
-                            <option value="">Select Status</option>
-                            <option value="1"> {{ __('core.active') }}</option>
-                            <option value="0"> {{ __('core.inactive') }}</option>
-                        </select>
-                        @error('status')
-                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
-                    </div>
+
+            <div class="col-md-4 col-4">
+                <div class="form-group">
+                    <label>Max Adults</label>
+                    <input type="number" class="form-control" name="occ_max_adults"
+                        value="{{ old('occ_max_adults') }}" data-error="Max Occupancy is required" />
+                    @error('occ_max_adults')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
+            <div class="col-md-4 col-4">
+                <div class="form-group">
+                    <label>Max Children When Max Adults</label>
+                    <input type="number" class="form-control" name="occ_max_child_w_max_adults"
+                        value="{{ old('occ_max_child_w_max_adults') }}" data-error="Max Occupancy is required" />
+                    @error('occ_max_child_w_max_adults')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+
+            <div class="col-md-4 col-4">
+                <div class="form-group">
+                    <label>Max Children Without Extra Bed</label>
+                    <input type="number" class="form-control" name="occ_max_child_wo_extra_bed"
+                        value="{{ old('occ_max_child_wo_extra_bed') }}" data-error="Max Occupancy is required" />
+                    <small class="text-muted" style="font-size: 10px;"></small>
+                    @error('occ_max_child_wo_extra_bed')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-md-4 col-4">
+                <div class="form-group">
+                    <label class="form-label" for="role">Status</label>
+                    <select name="status" class="form-control" id="status" data-error="Status is required">
+                        <option value="">Select Status</option>
+                        <option value="1"> {{ __('core.active') }}</option>
+                        <option value="0"> {{ __('core.inactive') }}</option>
+                    </select>
+                    @error('status')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
             <div class="col-3">
                 <div class="col-md-12 col-12">
                     <div class="form-group">

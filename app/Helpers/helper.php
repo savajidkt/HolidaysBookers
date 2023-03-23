@@ -85,10 +85,10 @@ if (!function_exists('FolderExists')) {
 }
 
 if (!function_exists('makeDirectory')) {
-    function makeDirectory($path,$id)
+    function makeDirectory($path, $id)
     {
-        if (!Storage::exists('/'.$path.'/' . $id)) {
-            return Storage::makeDirectory('/'.$path.'/' . $user_id, 0775, true);
+        if (!Storage::exists('/' . $path . '/' . $id)) {
+            return Storage::makeDirectory('/' . $path . '/' . $user_id, 0775, true);
         }
 
         return true;
@@ -218,5 +218,48 @@ if (!function_exists('excelDateConvert')) {
         $date_unix_date = ($excel_date - 25569) * 86400;
         $_date_excel_date = 25569 + ($date_unix_date / 86400);
         return Carbon::parse(($_date_excel_date - 25569) * 86400)->format('Y-m-d');
+    }
+}
+
+
+if (!function_exists('forLoopByNumber')) {
+
+    function forLoopByNumber($start, $end, $selected = null, $extra = null, $extraArr = null)
+    {
+        $optionDropdown = "";
+        for ($i = $start; $i <= $end; $i++) {
+            if ($selected == $i) {
+                $optionDropdown .= '<option value="' . $i . '" selected>' . $i . ' ' . $extra . '</option>';
+            } else {
+                $optionDropdown .= '<option value="' . $i . '">' . $i . ' ' . $extra . '</option>';
+            }
+        }
+        if (is_array($extraArr) && count($extraArr) > 0) {
+            foreach ($extraArr as $key => $value) {
+                if ($selected == $i) {
+                    $optionDropdown .= '<option value="' . $value . '" selected>' . $value . ' ' . $extra . '</option>';
+                } else {
+                    $optionDropdown .= '<option value="' . $value . '">' . $value . ' ' . $extra . '</option>';
+                }
+            }
+        }
+        return $optionDropdown;
+    }
+}
+
+
+if (!function_exists('dayChackboxChecked')) {
+
+    function dayChackboxChecked($days_valid, $values)
+    {
+        $days_valid_arr = unserialize($days_valid);
+        if (is_array($days_valid_arr) && count($days_valid_arr) > 0) {
+            foreach ($days_valid_arr as $key => $value) {
+                if ($value ==  $values) {
+                    return 'checked';
+                }
+            }
+        }
+        return '';
     }
 }

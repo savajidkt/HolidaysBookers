@@ -31,9 +31,7 @@
                             <th>Room Type</th>
                             <th>Price Type</th>
                             <th>Travel Date Validity</th>
-                            <th>Booking Date Validity</th>
-                            <th>Adult Price</th>
-                            <th>Extra Person Price</th>
+                            <th>Booking Date Validity</th>                            
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -87,15 +85,7 @@
                     {
                         data: 'booking_start_date',
                         name: 'booking_start_date'
-                    },
-                    {
-                        data: 'adult_price',
-                        name: 'adult_price'
-                    },
-                    {
-                        data: 'extra_bed_price',
-                        name: 'extra_bed_price'
-                    },
+                    },                    
                     {
                         data: 'action',
                         name: 'action',

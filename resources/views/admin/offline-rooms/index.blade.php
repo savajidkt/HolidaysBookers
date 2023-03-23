@@ -25,9 +25,9 @@
                             <th>{{ __('core.id') }}</th>
                             <th>Hotel Name</th>
                             <th>Room Type</th>                            
-                            <th>Adult</th>
-                            <th>CWB</th>
-                            <th>CNB</th>
+                            <th>Max Occupancy</th>
+                            <th>No. of Beds</th>
+                            <th>Max Adults</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -72,16 +72,16 @@
                         name: 'room_type'
                     },                   
                     {
-                        data: 'total_adult',
-                        name: 'total_adult'
+                        data: 'occ_sleepsmax',
+                        name: 'occ_sleepsmax'
                     },
                     {
-                        data: 'total_cwb',
-                        name: 'total_cwb'
+                        data: 'occ_num_beds',
+                        name: 'occ_num_beds'
                     },
                     {
-                        data: 'total_cnb',
-                        name: 'total_cnb'
+                        data: 'occ_max_adults',
+                        name: 'occ_max_adults'
                     },
                     {
                         data: 'status',
