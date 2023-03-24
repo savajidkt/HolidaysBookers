@@ -62,8 +62,8 @@
 <div class="row HotelWiseRooms ">
     <div class="col-12">
         <div class="card-datatable pt-0 table-responsive">
-            <table class="hotel-rooms-list-table datatables-ajax table">
-                <thead class="thead-light">
+            <table class="hotel-rooms-list-table datatables-ajax table dt-column-search-hotel-rooms-list">
+                <thead>
                     <tr>
                         <th></th>
                         <th>{{ __('core.id') }}</th>

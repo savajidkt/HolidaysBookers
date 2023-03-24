@@ -18,13 +18,13 @@
             </div>
 
             <div class="card-datatable pt-0 table-responsive">
-                <table class="user-list-table datatables-ajax table">
-                    <thead class="thead-light">
+                <table class="user-list-table datatables-ajax table dt-column-search">
+                    <thead>
                         <tr>
                             <th></th>
                             <th>{{ __('core.id') }}</th>
                             <th>Hotel Name</th>
-                            <th>Room Type</th>                            
+                            <th>Room Type</th>
                             <th>Max Occupancy</th>
                             <th>No. of Beds</th>
                             <th>Max Adults</th>
@@ -32,20 +32,55 @@
                             <th>Action</th>
                         </tr>
                     </thead>
+
                 </table>
             </div>
 
         </div>
         <!-- list section end -->
     </section>
-    <!-- users list ends -->   
+    <!-- users list ends -->
 
 @endsection
 @section('extra-script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
     <script type="text/javascript">
         $(function() {
-            var table = $('.user-list-table').DataTable({
+            var dt_filter_table = $('.dt-column-search');
+
+            if (dt_filter_table.length) {
+                // Setup - add a text input to each footer cell
+                $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
+                $('.dt-column-search thead tr:eq(0) th').each(function(i) {
+                    var title = $(this).text();
+                    
+                    if (i == 0) {
+
+                    } else if (i == 7) {
+                        $(this).html(
+                            '<select name="status" class="form-control form-control-sm" id="status"><option value="">Select Status</option><option value="1"> Active</option><option value="0"> Inactive</option></select>'
+                            );
+                        $('select', this).on('change', function() {
+                            if (room_table.column(i).search() !== this.value) {
+                                room_table.column(i).search(this.value).draw();
+                            }
+                        });
+                    } else if (i == 8) {
+                        $(this).html('');
+                    } else {
+                        $(this).html(
+                            '<input type="text" class="form-control form-control-sm" placeholder="Search ' +
+                            title + '" />');
+                        $('input', this).on('keyup change', function() {
+                            if (room_table.column(i).search() !== this.value) {
+                                room_table.column(i).search(this.value).draw();
+                            }
+                        });
+                    }
+                });
+            }
+
+            var room_table = $('.user-list-table').DataTable({
                 processing: true,
                 serverSide: true,
                 searching: true,
@@ -65,12 +100,12 @@
                     },
                     {
                         data: 'hotel_name',
-                        name: 'hotel_name'
+                        name: 'hotel_name',
                     },
                     {
                         data: 'room_type',
                         name: 'room_type'
-                    },                   
+                    },
                     {
                         data: 'occ_sleepsmax',
                         name: 'occ_sleepsmax'
@@ -85,8 +120,7 @@
                     },
                     {
                         data: 'status',
-                        name: 'status',
-                        searchable: false
+                        name: 'status',                        
                     },
                     {
                         data: 'action',
@@ -146,7 +180,8 @@
 
                         $.ajaxSetup({
                             headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                    'content')
                             }
                         });
                         $.ajax({
@@ -159,7 +194,7 @@
                             },
                             success: function(data) {
                                 if (data.status) {
-                                    table.ajax.reload();
+                                    room_table.ajax.reload();
                                 }
                             }
 

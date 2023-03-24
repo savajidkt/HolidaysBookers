@@ -132,13 +132,13 @@
             <div class="form-group">
                 <label for="itemcost">Travel Date Validity</label>
                 <div class="input-group input-daterange">
-                    <input type="text" id="fp-default" name="start_date"
+                    <input type="text" name="start_date"
                         class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
                         placeholder="Start Date"
                         value="{{ isset($pricemodel->from_date) ? $pricemodel->from_date : old('start_date') }}"
                         data-error="Start Date is required" />
                     <div class="input-group-addon">to</div>
-                    <input type="text" id="fp-default" name="end_date"
+                    <input type="text"  name="end_date"
                         class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
                         placeholder="End Date"
                         value="{{ isset($pricemodel->to_date) ? $pricemodel->to_date : old('end_date') }}"
@@ -153,12 +153,12 @@
             <div class="form-group">
                 <label for="itemcost">Booking Date Validity</label>
                 <div class="input-group input-daterange">
-                    <input type="text" id="fp-default" name="booking_start_date"
+                    <input type="text" name="booking_start_date"
                         class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
                         value="{{ isset($pricemodel->booking_start_date) ? $pricemodel->booking_start_date : old('booking_start_date') }}"
                         data-error="Booking start date is required" />
                     <div class="input-group-addon">to</div>
-                    <input type="text" id="fp-default" name="booking_end_date"
+                    <input type="text" name="booking_end_date"
                         class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
                         value="{{ isset($pricemodel->booking_end_date) ? $pricemodel->booking_end_date : old('booking_end_date') }}"
                         data-error="Booking end date is required" />
@@ -660,7 +660,6 @@
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.time.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
-
     <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
     <!-- BEGIN: Page JS-->
     <!-- BEGIN: Page JS-->

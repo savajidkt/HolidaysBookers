@@ -69,6 +69,8 @@ class OfflineRoomsController extends Controller
                     $query->where('occ_max_adults', 'LIKE', '%' . $keyword . '%');
                 })->addColumn('status', function (OfflineRoom $room) {
                     return $room->status_name;
+                })->filterColumn('status', function ($query, $keyword) {
+                    $query->where('status', '=', $keyword);
                 })->addColumn('action', function ($row) {
                     return $row->action;
                 })->rawColumns(['action', 'status'])->make(true);
@@ -225,12 +227,28 @@ class OfflineRoomsController extends Controller
                 })->addColumn('price_type', function (OfflineRoomPrice $price) {
                     return $price->price_type_name;
                 })->addColumn('from_date', function (OfflineRoomPrice $price) {
-                    return $price->from_date . ' to ' . $price->to_date;
+                    if ($price->from_date && $price->to_date) {
+                        return $price->from_date . ' <strong> to </strong> ' . $price->to_date;
+                    } else if ($price->from_date) {
+                        return $price->from_date;
+                    } else if ($price->to_date) {
+                        return $price->to_date;
+                    } else {
+                        return '';
+                    }
                 })->addColumn('booking_start_date', function (OfflineRoomPrice $price) {
-                    return $price->booking_start_date . ' to ' . $price->booking_end_date;
+                    if ($price->booking_start_date && $price->booking_end_date) {
+                        return $price->booking_start_date . '<strong> to </strong>' . $price->booking_end_date;
+                    } else if ($price->booking_start_date) {
+                        return $price->booking_start_date;
+                    } else if ($price->booking_end_date) {
+                        return $price->booking_end_date;
+                    } else {
+                        return '';
+                    }
                 })->addColumn('action', function ($row) {
                     return $row->action;
-                })->rawColumns(['action', 'price_type'])->make(true);
+                })->rawColumns(['action', 'price_type', 'booking_start_date', 'from_date'])->make(true);
         }
 
         return view('admin.offline-rooms.offline-room-price.index', ['model' => $offlineroom]);

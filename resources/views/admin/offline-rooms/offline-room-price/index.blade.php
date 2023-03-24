@@ -22,8 +22,8 @@
             </div>
 
             <div class="card-datatable pt-0 table-responsive">
-                <table class="user-list-table datatables-ajax table">
-                    <thead class="thead-light">
+                <table class="user-list-table datatables-ajax table dt-column-search">
+                    <thead>
                         <tr>
                             <th></th>
                             <th>{{ __('core.id') }}</th>
@@ -31,7 +31,7 @@
                             <th>Room Type</th>
                             <th>Price Type</th>
                             <th>Travel Date Validity</th>
-                            <th>Booking Date Validity</th>                            
+                            <th>Booking Date Validity</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -45,10 +45,59 @@
 
 @endsection
 @section('extra-script')
+    <!-- END: Page JS-->
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.time.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
+    <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
+    <!-- BEGIN: Page JS-->
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
+
     <script type="text/javascript">
         $(function() {
-            var table = $('.user-list-table').DataTable({
+
+            var dt_filter_table = $('.dt-column-search');
+
+            if (dt_filter_table.length) {
+                // Setup - add a text input to each footer cell
+                $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
+                $('.dt-column-search thead tr:eq(0) th').each(function(i) {
+                    var title = $(this).text();
+
+                    if (i == 0 || i == 7) {
+                        $(this).html('');
+                    } else if (i == 4) {
+                        $(this).html(
+                            '<select name="price_type" class="form-control form-control-sm" id="price_type"><option value="">Select Price Type</option><option value="1">NORMAL</option><option value="3">PROMOTIONAL</option><option value="2">BLACKOUT SALE</option><option value="0">STOPSALE</option></select>'
+                        );
+                        $('select', this).on('change', function() {
+                            if (room_table.column(i).search() !== this.value) {
+                                room_table.column(i).search(this.value).draw();
+                            }
+                        });
+                    } else if (i == 5) {
+                        $(this).html('');
+                        // $(this).html(
+                        //     '<div class="input-group input-daterange"><input type="text" name="start_date" class="form-control form-control-sm flatpickr-basic flatpickr-input"/><div class="input-group-addon" style="margin-top: 5px;">to</div><input type="text" name="end_date" class="form-control form-control-sm flatpickr-basic flatpickr-input"/></div>'
+                        //     );
+                    } else if (i == 6) {
+                        $(this).html('');
+                        //$(this).html('<div class="input-group input-daterange"><input type="text" name="start_date" class="form-control form-control-sm flatpickr-basic flatpickr-input"/><div class="input-group-addon" style="margin-top: 5px;">to</div><input type="text" name="end_date" class="form-control form-control-sm flatpickr-basic flatpickr-input"/></div>');
+                    } else {
+                        $(this).html(
+                            '<input type="text" class="form-control form-control-sm" placeholder="Search ' +
+                            title + '" />');
+                        $('input', this).on('keyup change', function() {
+                            if (room_table.column(i).search() !== this.value) {
+                                room_table.column(i).search(this.value).draw();
+                            }
+                        });
+                    }
+                });
+            }           
+
+            var room_table = $('.user-list-table').DataTable({
                 processing: true,
                 serverSide: true,
                 searching: true,
@@ -85,7 +134,7 @@
                     {
                         data: 'booking_start_date',
                         name: 'booking_start_date'
-                    },                    
+                    },
                     {
                         data: 'action',
                         name: 'action',

@@ -29,7 +29,7 @@ var FrmOfflineRoomPreference = function () {
                     error.insertAfter(".price_typeCLS");
                 } else if (element.attr("name") == "hotel_id") {
                     error.insertAfter(".hotel_idCLS");
-                } else if (element.attr("name").indexOf('[room_type]') >= 0) {                    
+                } else if (element.attr("name").indexOf('[room_type]') >= 0) {
                     error.insertAfter(".room_typeCLS");
                 } else if (element.attr("name").indexOf('[room_amenities]') >= 0) {
                     error.insertAfter(".room_amenitiesCLS");
@@ -427,11 +427,48 @@ var FrmOfflineRoomPreference = function () {
         //     $('.HotelWiseRooms').removeClass('hide');
         // } 
         //return false;
+
+        var dt_table_hdt_column_search_hotel_rooms = $('.dt-column-search-hotel-rooms-list');
+
+        if (dt_table_hdt_column_search_hotel_rooms.length) {
+            // Setup - add a text input to each footer cell
+            $('.dt-column-search-hotel-rooms-list thead tr').clone(true).appendTo('.dt-column-search-hotel-rooms-list thead');
+            $('.dt-column-search-hotel-rooms-list thead tr:eq(0) th').each(function (i) {
+                var title = $(this).text();
+
+                if (i == 0) {
+
+                } else if (i == 7) {
+                    $(this).html(
+                        '<select name="status" class="form-control form-control-sm" id="status"><option value="">Select Status</option><option value="1"> Active</option><option value="0"> Inactive</option></select>'
+                    );
+                    $('select', this).on('change', function () {
+                        if (dt_table_hotels.column(i).search() !== this.value) {
+                            dt_table_hotels.column(i).search(this.value).draw();
+                        }
+                    });
+                } else if (i == 8) {
+                    $(this).html('');
+                } else {
+                    $(this).html(
+                        '<input type="text" class="form-control form-control-sm" placeholder="Search ' +
+                        title + '" />');
+                    $('input', this).on('keyup change', function () {
+                        if (dt_table_hotels.column(i).search() !== this.value) {
+                            dt_table_hotels.column(i).search(this.value).draw();
+                        }
+                    });
+                }
+            });
+        }
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+
         dt_table_hotels = $('.hotel-rooms-list-table').DataTable({
             processing: true,
             serverSide: true,

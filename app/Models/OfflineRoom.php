@@ -18,7 +18,6 @@ class OfflineRoom extends Authenticatable
     const OFFLINE = 1;
     const API = 2;
 
-
     const STATUS = [
         self::ACTIVE => 'ACTIVE',
         self::INACTIVE => 'INACTIVE'
@@ -28,8 +27,6 @@ class OfflineRoom extends Authenticatable
         self::OFFLINE => 'Offline',
         self::API => 'API'
     ];
-
-
 
     protected $fillable = [
         'hotel_id',
@@ -49,7 +46,6 @@ class OfflineRoom extends Authenticatable
         'api_name',
         'room_image',
         'status'
-
     ];
 
     /**
@@ -85,7 +81,8 @@ class OfflineRoom extends Authenticatable
      */
     public function getStatusNameAttribute(): string
     {
-        $status = self::ACTIVE;
+        
+        $status = self::ACTIVE;        
         switch ($this->status) {
             case self::INACTIVE:
                 $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-offline_room_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.inactive') . '</span></a>';
