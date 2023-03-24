@@ -65,13 +65,15 @@
     <div class="col-12 col-sm-3">
         <div class="form-group">
             <label for="account-username">Max Children When Max Adults</label>
-            <strong class="disp-below">{{ isset($model->occ_max_child_w_max_adults) ? $model->occ_max_child_w_max_adults : '' }}</strong>
+            <strong
+                class="disp-below">{{ isset($model->occ_max_child_w_max_adults) ? $model->occ_max_child_w_max_adults : '' }}</strong>
         </div>
     </div>
     <div class="col-12 col-sm-3">
         <div class="form-group">
             <label for="account-username">Max Children Without Extra Bed</label>
-            <strong class="disp-below">{{ isset($model->occ_max_child_wo_extra_bed) ? $model->occ_max_child_wo_extra_bed : '' }}</strong>
+            <strong
+                class="disp-below">{{ isset($model->occ_max_child_wo_extra_bed) ? $model->occ_max_child_wo_extra_bed : '' }}</strong>
         </div>
     </div>
     <div class="col-12">
@@ -235,7 +237,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Single Adult</label>               
+                <label>Single Adult</label>
                 <input type="number" class="form-control" name="price_p_n_single_adult"
                     value="{{ isset($pricemodel->price_p_n_single_adult) ? $pricemodel->price_p_n_single_adult : old('price_p_n_single_adult') }}"
                     data-error="Single adult is required" />
@@ -466,37 +468,44 @@
                 <div class="demo-inline-spacing">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="monday" value="monday"
-                            name="days_valid[]" {{ dayChackboxChecked($pricemodel->days_valid, 'monday') }} />
+                            name="days_monday"
+                            {{ isset($pricemodel->days_monday) && $pricemodel->days_monday == 1 ? 'checked' : '' }} />
                         <label class="custom-control-label" for="monday">Monday</label>
                     </div>
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="tuesday" value="tuesday"
-                            name="days_valid[]" {{ dayChackboxChecked($pricemodel->days_valid, 'tuesday') }} />
+                            name="days_tuesday"
+                            {{ isset($pricemodel->days_tuesday) && $pricemodel->days_tuesday == 1 ? 'checked' : '' }} />
                         <label class="custom-control-label" for="tuesday">Tuesday</label>
                     </div>
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="wednesday" value="wednesday"
-                            name="days_valid[]" {{ dayChackboxChecked($pricemodel->days_valid, 'wednesday') }} />
+                            name="days_wednesday"
+                            {{ isset($pricemodel->days_wednesday) && $pricemodel->days_wednesday == 1 ? 'checked' : '' }} />
                         <label class="custom-control-label" for="wednesday">Wednesday</label>
                     </div>
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="thursday" value="thursday"
-                            name="days_valid[]" {{ dayChackboxChecked($pricemodel->days_valid, 'thursday') }} />
+                            name="days_thursday"
+                            {{ isset($pricemodel->days_thursday) && $pricemodel->days_thursday == 1 ? 'checked' : '' }} />
                         <label class="custom-control-label" for="thursday">Thursday</label>
                     </div>
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="friday" value="friday"
-                            name="days_valid[]" {{ dayChackboxChecked($pricemodel->days_valid, 'friday') }} />
+                            name="days_friday"
+                            {{ isset($pricemodel->days_friday) && $pricemodel->days_friday == 1 ? 'checked' : '' }} />
                         <label class="custom-control-label" for="friday">Friday</label>
                     </div>
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="saturday" value="saturday"
-                            name="days_valid[]" {{ dayChackboxChecked($pricemodel->days_valid, 'saturday') }} />
+                            name="days_saturday"
+                            {{ isset($pricemodel->days_saturday) && $pricemodel->days_saturday == 1 ? 'checked' : '' }} />
                         <label class="custom-control-label" for="saturday">Saturday</label>
                     </div>
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="sunday" value="sunday"
-                            name="days_valid[]" {{ dayChackboxChecked($pricemodel->days_valid, 'sunday') }} />
+                            name="days_sunday"
+                            {{ isset($pricemodel->days_sunday) && $pricemodel->days_sunday == 1 ? 'checked' : '' }} />
                         <label class="custom-control-label" for="sunday">Sunday</label>
                     </div>
                 </div>
@@ -657,7 +666,7 @@
     <!-- BEGIN: Page JS-->
 
     <script src="{{ asset('app-assets/js/scripts/forms/form-repeater-without-dropzone.js') }}"></script>
-    
+
 
     <!-- END: Page JS-->
     <script type="text/javascript">

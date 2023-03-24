@@ -177,6 +177,7 @@ class OfflineRoomRepository
     public function createPrice(array $data, OfflineRoom $offlineroom): OfflineRoom
     {
 
+        // dd($data);
         /**
          * Inser Room Price Data
          */
@@ -206,7 +207,13 @@ class OfflineRoomRepository
             'promo_code'     => $data['promo_code'] ?? '',
             'rate_offered'     => $data['rate_offered'],
             'commission'     => $data['commission'],
-            'days_valid'     => serialize($data['days_valid']),
+            'days_monday'     => isset($data['days_monday']) ? 1 : 0,
+            'days_tuesday'     => isset($data['days_tuesday']) ? 1 : 0,
+            'days_wednesday'     => isset($data['days_wednesday']) ? 1 : 0,
+            'days_thursday'     => isset($data['days_thursday']) ? 1 : 0,
+            'days_friday'     => isset($data['days_friday']) ? 1 : 0,
+            'days_saturday'     => isset($data['days_saturday']) ? 1 : 0,
+            'days_sunday'     => isset($data['days_sunday']) ? 1 : 0,
             'price_type'     => $data['price_type']
         ];
 
@@ -232,6 +239,7 @@ class OfflineRoomRepository
                 OfflineRoomChildPrice::create($RoomChildPriceArr);
             }
         }
+        
         return $offlineroom;
     }
 
@@ -270,7 +278,13 @@ class OfflineRoomRepository
             'promo_code'     => $data['promo_code'] ?? '',
             'rate_offered'     => $data['rate_offered'],
             'commission'     => $data['commission'],
-            'days_valid'     => serialize($data['days_valid']),
+            'days_monday'     => isset($data['days_monday']) ? 1 : 0,
+            'days_tuesday'     => isset($data['days_tuesday']) ? 1 : 0,
+            'days_wednesday'     => isset($data['days_wednesday']) ? 1 : 0,
+            'days_thursday'     => isset($data['days_thursday']) ? 1 : 0,
+            'days_friday'     => isset($data['days_friday']) ? 1 : 0,
+            'days_saturday'     => isset($data['days_saturday']) ? 1 : 0,
+            'days_sunday'     => isset($data['days_sunday']) ? 1 : 0,
             'price_type'     => $data['price_type']
         ];
         $offlineroomprice->update($RoomPriceArr);

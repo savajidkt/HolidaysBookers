@@ -247,41 +247,6 @@ if (!function_exists('forLoopByNumber')) {
     }
 }
 
-
-if (!function_exists('dayChackboxChecked')) {
-
-    function dayChackboxChecked($days_valid, $values)
-    {
-        $days_valid_arr = unserialize($days_valid);
-        if (is_array($days_valid_arr) && count($days_valid_arr) > 0) {
-            foreach ($days_valid_arr as $key => $value) {
-                if ($value ==  $values) {
-                    return 'checked';
-                }
-            }
-        }
-        return '';
-    }
-}
-
-if (!function_exists('dayChackboxCheckedWithDisabled')) {
-
-    function dayChackboxCheckedWithDisabled($days_valid, $values)
-    {
-        $days_valid_arr = unserialize($days_valid);
-        if (is_array($days_valid_arr) && count($days_valid_arr) > 0) {
-            foreach ($days_valid_arr as $key => $value) {
-                if ($value ==  $values) {
-                    return 'checked';
-                }
-            }
-        }
-
-        return 'disabled';
-    }
-}
-
-
 if (!function_exists('getSelectedCurrency')) {
 
     function getSelectedCurrency($currency, $select = null)

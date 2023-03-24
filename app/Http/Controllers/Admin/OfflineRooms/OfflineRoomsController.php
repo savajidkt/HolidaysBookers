@@ -67,7 +67,7 @@ class OfflineRoomsController extends Controller
                     return $room->occ_max_adults;
                 })->filterColumn('occ_max_adults', function ($query, $keyword) {
                     $query->where('occ_max_adults', 'LIKE', '%' . $keyword . '%');
-                })->editColumn('status', function (OfflineRoom $room) {
+                })->addColumn('status', function (OfflineRoom $room) {
                     return $room->status_name;
                 })->addColumn('action', function ($row) {
                     return $row->action;

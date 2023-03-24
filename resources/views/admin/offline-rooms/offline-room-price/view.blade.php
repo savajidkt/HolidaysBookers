@@ -193,43 +193,43 @@
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="monday"
                                                         value="monday"
-                                                        {{ dayChackboxCheckedWithDisabled($model->days_valid, 'monday') }} />
+                                                        {{ isset($model->days_monday) && $model->days_monday == 1 ? 'checked disabled' : 'disabled' }} />
                                                     <label class="custom-control-label" for="monday">Monday</label>
                                                 </div>
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="tuesday"
                                                         value="tuesday"
-                                                        {{ dayChackboxCheckedWithDisabled($model->days_valid, 'tuesday') }} />
+                                                        {{ isset($model->days_tuesday) && $model->days_tuesday == 1 ? 'checked disabled' : 'disabled' }} />
                                                     <label class="custom-control-label" for="tuesday">Tuesday</label>
                                                 </div>
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="wednesday"
                                                         value="wednesday"
-                                                        {{ dayChackboxCheckedWithDisabled($model->days_valid, 'wednesday') }} />
+                                                        {{ isset($model->days_wednesday) && $model->days_wednesday == 1 ? 'checked disabled' : 'disabled' }} />
                                                     <label class="custom-control-label" for="wednesday">Wednesday</label>
                                                 </div>
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="thursday"
                                                         value="thursday"
-                                                        {{ dayChackboxCheckedWithDisabled($model->days_valid, 'thursday') }} />
+                                                        {{ isset($model->days_thursday) && $model->days_thursday == 1 ? 'checked disabled' : 'disabled' }} />
                                                     <label class="custom-control-label" for="thursday">Thursday</label>
                                                 </div>
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="friday"
                                                         value="friday"
-                                                        {{ dayChackboxCheckedWithDisabled($model->days_valid, 'friday') }} />
+                                                        {{ isset($model->days_friday) && $model->days_friday == 1 ? 'checked disabled' : 'disabled' }} />
                                                     <label class="custom-control-label" for="friday">Friday</label>
                                                 </div>
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="saturday"
                                                         value="saturday"
-                                                        {{ dayChackboxCheckedWithDisabled($model->days_valid, 'saturday') }} />
+                                                        {{ isset($model->days_saturday) && $model->days_saturday == 1 ? 'checked disabled' : 'disabled' }} />
                                                     <label class="custom-control-label" for="saturday">Saturday</label>
                                                 </div>
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="sunday"
                                                         value="sunday"
-                                                        {{ dayChackboxCheckedWithDisabled($model->days_valid, 'sunday') }} />
+                                                        {{ isset($model->days_sunday) && $model->days_sunday == 1 ? 'checked disabled' : 'disabled' }} />
                                                     <label class="custom-control-label" for="sunday">Sunday</label>
                                                 </div>
                                             </div>

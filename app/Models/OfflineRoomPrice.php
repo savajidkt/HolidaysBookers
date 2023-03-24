@@ -52,7 +52,13 @@ class OfflineRoomPrice extends Authenticatable
         'promo_code',
         'rate_offered',
         'commission',
-        'days_valid',
+        'days_monday',
+        'days_tuesday',
+        'days_wednesday',
+        'days_thursday',
+        'days_friday',
+        'days_saturday',
+        'days_sunday',
         'price_type'
     ];
 
@@ -88,8 +94,9 @@ class OfflineRoomPrice extends Authenticatable
      */
     public function getPriceTypeNameAttribute(): string
     {       
-
+        
         $price_type = self::NORMAL;
+       
         switch ($this->price_type) {
             case self::BLACKOUTSALE:
                 $price_type = '<a href="javascript:void(0)" class=""><span class="badge badge-info " >Blackout Sale</span></a>';

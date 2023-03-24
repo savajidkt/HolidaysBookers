@@ -17,10 +17,7 @@ class OfflineRoom extends Authenticatable
 
     const OFFLINE = 1;
     const API = 2;
-    
-    const STOPSALE = 0;
-    const NORMAL = 1;  
-    const BLACKOUTSALE = 2;
+
 
     const STATUS = [
         self::ACTIVE => 'ACTIVE',
@@ -31,11 +28,7 @@ class OfflineRoom extends Authenticatable
         self::OFFLINE => 'Offline',
         self::API => 'API'
     ];
-    const PRICETYPE = [
-        self::NORMAL => 'Normal',
-        self::STOPSALE => 'Stop Sale',
-        self::BLACKOUTSALE => 'Blackout Sale'
-    ];
+
 
 
     protected $fillable = [
@@ -70,7 +63,7 @@ class OfflineRoom extends Authenticatable
         $editAction = '<a href="' . route('offlinerooms.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';
         $addPriceAction = '<a href="' . route('add-room-price', $this->id) . '" class="edit btn btn-success btn-sm" data-toggle="tooltip" data-original-title="Add Price" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i></a>';
         $priceListAction = '<a href="' . route('view-room-price', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Price" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
-        return $editAction . ' ' . $viewAction . ' '.$addPriceAction.' '. $priceListAction . ' ' . $this->getDeleteButtonAttribute();
+        return $editAction . ' ' . $viewAction . ' ' . $addPriceAction . ' ' . $priceListAction . ' ' . $this->getDeleteButtonAttribute();
     }
 
     /**
@@ -163,6 +156,6 @@ class OfflineRoom extends Authenticatable
 
     public function images()
     {
-        return $this->hasMany(OfflineRoomGallery::class,'room_id', 'id');
+        return $this->hasMany(OfflineRoomGallery::class, 'room_id', 'id');
     }
 }

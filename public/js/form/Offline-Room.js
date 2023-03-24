@@ -274,9 +274,9 @@ var FrmOfflineRoomPreference = function () {
                 // market_price: {
                 //     required: true
                 // },
-                'days_valid[]': {
-                    required: true
-                },
+                // 'days_valid[]': {
+                //     required: true
+                // },
 
             },
             groups: {
@@ -352,9 +352,9 @@ var FrmOfflineRoomPreference = function () {
                 // market_price: {
                 //     required: $("input[name=market_price]").attr('data-error')
                 // },
-                'days_valid[]': {
-                    required: 'Days valid is required'
-                },
+                // 'days_valid[]': {
+                //     required: 'Days valid is required'
+                // },
             },
             errorPlacement: function (error, element) {
                 if (element.attr("name") == "price_type") {
