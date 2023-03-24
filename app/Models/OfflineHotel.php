@@ -106,6 +106,24 @@ class OfflineHotel extends Authenticatable
     {
         return '<a href="' . route('offlinehotels.destroy', $this) . '" class="delete_action btn btn-danger btn-sm" data-method="delete" data-toggle="tooltip" data-original-title="Delete" data-animation="false"><i class="fa fa-trash" aria-hidden="true"></i></a>';
     }
+    /**
+     * Method getStatusAttribute
+     *
+     * @return string
+     */
+    public function getStatusNameAttribute(): string
+    {
+        $status = self::ACTIVE;
+        switch ($this->status) {
+            case self::INACTIVE:
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-hotel_id="' . $this->id . '" data-status="' . $this->status . '">'.self::STATUS[self::INACTIVE]. '</span></a>';
+                break;
+            default:
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-hotel_id="' . $this->id . '" data-status="' . $this->status . '">' .self::STATUS[self::ACTIVE]. '</span></a>';
+                break;
+        }
+        return $status;
+    }
 
     
     public function country()

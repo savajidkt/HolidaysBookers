@@ -23,28 +23,28 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="account-pill-hotel-details" data-toggle="pill"
                             href="#account-vertical-hotel-details" aria-expanded="true">
-                            <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                            <i data-feather='arrow-right-circle'></i>
                             <span class="font-weight-bold">Hotel Details</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-front-office" data-toggle="pill"
                             href="#account-vertical-front-office" aria-expanded="false">
-                            <i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
+                            <i data-feather='arrow-right-circle'></i>
                             <span class="font-weight-bold">Front Office</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-sales" data-toggle="pill"
                             href="#account-vertical-sales" aria-expanded="false">
-                            <i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
+                            <i data-feather='arrow-right-circle'></i>
                             <span class="font-weight-bold">Sales & Management</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-reservation" data-toggle="pill"
                             href="#account-vertical-reservation" aria-expanded="false">
-                            <i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
+                            <i data-feather='arrow-right-circle'></i>
                             <span class="font-weight-bold">Reservation</span>
                         </a>
                     </li>
@@ -52,8 +52,8 @@
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-galleries-details" data-toggle="pill"
                             href="#account-vertical-galleries-details" aria-expanded="false">
-                            <i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
-                            <span class="font-weight-bold">GALLERIES</span>
+                            <i data-feather='arrow-right-circle'></i>
+                            <span class="font-weight-bold">Gallery</span>
                         </a>
                     </li>
                 </ul>
@@ -317,13 +317,14 @@
                                                                 $i = 0;
                                                             @endphp
                                                             @foreach ($model->images as $image)
+                                                                
+                                                                <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
+                                                                    <img src="{{ url('storage/app/upload/Hotel/' . $model->id . '/gallery/'. $image['file_path']) }}"
+                                                                        class="img-fluid d-block w-100" alt="cf-img-1" />
+                                                                </div>
                                                                 @php
                                                                     $i++;
                                                                 @endphp
-                                                                <div class="carousel-item {{ $i == 1 ? 'active' : '' }}">
-                                                                    <img src="{{ url('storage/app/upload/Hotel/' . $model->hotel_id . '/Room/' . $model->id . '/Gallery/' . $image['images']) }}"
-                                                                        class="img-fluid d-block w-100" alt="cf-img-1" />
-                                                                </div>
                                                             @endforeach
                                                         </div>
                                                         <a class="carousel-control-prev" href="#carouselExampleFade"
@@ -341,7 +342,7 @@
                                                     </div>
                                                 @else
                                                     <p class="card-text">
-                                                        Room galleries not found!
+                                                        Hotel galleries not found!
                                                     </p>
                                                 @endif
 

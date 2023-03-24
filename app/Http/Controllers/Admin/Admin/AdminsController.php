@@ -75,9 +75,9 @@ class AdminsController extends Controller
     {
         permissionCheck('admin-staff-create');
         $rawData=[];
-        $rawData    = new Admin;
-        $roles    =  Role::all();
-        $permissions    =  Permission::where('status',Permission::ACTIVE)->all()->groupBy('module');
+        $rawData    = new Admin;        
+        $roles    =  Role::where('status',Role::ACTIVE); 
+        $permissions    =  Permission::all()->groupBy('module');
         return view('admin.admin.create', ['model' => $rawData,'roles'=>$roles,'permissions'=>$permissions]);
     }
 
@@ -115,7 +115,7 @@ class AdminsController extends Controller
     public function edit(Admin $admin)
     {
         permissionCheck('admin-staff-edit');
-        $roles    =  Role::all();
+        $roles    =  Role::where('status',Role::ACTIVE);
         $permissions    =  Permission::all()->groupBy('module');
         return view('admin.admin.edit', ['model' => $admin,'roles'=>$roles,'permissions'=>$permissions]);
     }
@@ -142,7 +142,7 @@ class AdminsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request,Admin $admin)
-    {   permissionCheck('admin-staff-delete');
+    {       permissionCheck('admin-staff-delete');
             $this->adminRepository->delete($admin);
             return redirect()->route('admins.index')->with('success', "Admin deleted successfully!");
     }

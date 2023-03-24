@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="card-datatable pt-0 table-responsive">
-                <table class="user-list-table datatables-ajax table">
+                <table class="dt-column-search user-list-table datatables-ajax table">
                     <thead class="thead-light">
                         <tr>
                             <th></th>
@@ -36,7 +36,6 @@
                             <th>Hotel Name</th>
                             <th>Category</th>
                             <th>City</th>
-                            <th>State</th>
                             <th>Country</th>
                             <th>Phone</th>
                             <th>Email</th>
@@ -132,7 +131,50 @@
         });
 
         $(function() {
-            table = $('.user-list-table').DataTable({
+            // Filter column wise function
+            var dt_filter_table = $('.dt-column-search');
+            // Column Search
+            // --------------------------------------------------------------------
+            if (dt_filter_table.length) {
+                // Setup - add a text input to each footer cell
+                $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
+                $('.dt-column-search thead tr:eq(0) th').each(function (i) {
+                    var title = $(this).text();
+                if(i!=0 && title!='Action'){
+                     if(title =='Category'){
+                        var categoryHtml= '<select class="form-control form-control-sm"><option value="">Category</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>';
+                        $(this).html(categoryHtml);
+                        $('select', this).on('change', function () {
+                            if (hotel_table.column(i).search() !== this.value) {
+                                hotel_table.column(i).search(this.value).draw();
+                            }
+                        });
+                     }else if(title =='Status'){
+                        var statusHtml= '<select class="form-control form-control-sm"><option value="">Status</option><option value="1">Active</option><option value="0">Inactive</option></select>';
+                        $(this).html(statusHtml);
+                        $('select', this).on('change', function () {
+                            if (hotel_table.column(i).search() !== this.value) {
+                                hotel_table.column(i).search(this.value).draw();
+                            }
+                        });
+                     }else{
+                        $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
+                        $('input', this).on('keyup change', function () {
+                            if (hotel_table.column(i).search() !== this.value) {
+                                hotel_table.column(i).search(this.value).draw();
+                            }
+                        });
+                     }
+                    
+                }
+                
+                });
+
+           
+            }
+
+
+            hotel_table = $('.user-list-table').DataTable({
                 language: {
                     emptyTable: '{{ __('core.table_no_data') }}',
                     info: '{{ __('core.table_info_data') }}',
@@ -172,16 +214,12 @@
                         name: 'category'
                     },
                     {
-                        data: 'city',
-                        name: 'city'
+                        data: 'hotel_city',
+                        name: 'hotel_city'
                     },
                     {
-                        data: 'state',
-                        name: 'state'
-                    },
-                    {
-                        data: 'country',
-                        name: 'country'
+                        data: 'hotel_country',
+                        name: 'hotel_country'
                     },
                     {
                         data: 'phone_number',
@@ -198,7 +236,6 @@
                     {
                         data: 'status',
                         name: 'status',
-                        searchable: false
                     },
                     {
                         data: 'action',
@@ -232,7 +269,7 @@
             }).on('click', '.status_update', function(e) {
                 e.preventDefault();
                 var $this = $(this),
-                    userId = $this.data('user_id'),
+                    hotel_id = $this.data('hotel_id'),
                     status = $this.data('status'),
                     message = status == 1 ? 'Are you sure you want to deactivate Hotel?' :
                     'Are you sure you want to activate Hotel?';
@@ -259,12 +296,12 @@
                             url: "{{ route('change-offlinehotels-status') }}",
                             dataType: 'json',
                             data: {
-                                user_id: userId,
+                                hotel_id: hotel_id,
                                 status: status
                             },
                             success: function(data) {
                                 if (data.status) {
-                                    table.ajax.reload();
+                                    hotel_table.ajax.reload();
                                 }
                             }
 

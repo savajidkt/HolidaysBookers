@@ -28,7 +28,7 @@ use App\Repositories\OfflineHotelRepository;
 use App\Http\Requests\OfflineHotel\CreateRequest;
 use App\Models\Freebies;
 use App\Models\HotelImage;
-
+use Illuminate\Database\Eloquent\Builder;
 class OfflineHotelsController extends Controller
 {
     /** \App\Repository\OfflineHotelRepository $offlineHotelRepository */
@@ -54,22 +54,35 @@ class OfflineHotelsController extends Controller
                 ->addColumn('hotel_name', function (OfflineHotel $hotel) {
                     //dd($hotel->hotel_name);
                     return $hotel->hotel_name;
+                })->filterColumn('hotel_name', function (Builder $query, $search) {
+                    return $query->where('hotel_name', 'like', '%' . $search . '%');
+
                 })->addColumn('category', function (OfflineHotel $hotel) {
-                    return $hotel->category;
-                })->addColumn('city', function (OfflineHotel $hotel) {
+                    return $hotel->category.' Star';
+                })->filterColumn('category', function ($query, $keyword) {
+                    $query->where('category',$keyword);
+                })->addColumn('hotel_city', function (OfflineHotel $hotel) {
                     return $hotel->city->name;
-                })->editColumn('state', function (OfflineHotel $hotel) {
-                    return $hotel->state->name;
-                })->addColumn('country', function (OfflineHotel $hotel) {
+                })->filterColumn('hotel_city', function ($query, $keyword) {
+                    $query->whereHas('city', function ($query) use ($keyword) {
+                        $query->where('name', 'LIKE', '%' . $keyword . '%');
+                    });
+                })->addColumn('hotel_country', function (OfflineHotel $hotel) {
                     return $hotel->country->name;
-                })->addColumn('phone_number', function (OfflineHotel $hotel) {
+                })->filterColumn('hotel_country', function ($query, $keyword) {
+                    $query->whereHas('country', function ($query) use ($keyword) {
+                        $query->where('name', 'LIKE', '%' . $keyword . '%');
+                    });
+                })->editColumn('phone_number', function (OfflineHotel $hotel) {
                     return $hotel->phone_number;
-                })->addColumn('hotel_email', function (OfflineHotel $hotel) {
+                })->editColumn('hotel_email', function (OfflineHotel $hotel) {
                     return $hotel->hotel_email;
-                })->addColumn('hotel_review', function (OfflineHotel $hotel) {
+                })->editColumn('hotel_review', function (OfflineHotel $hotel) {
                     return $hotel->hotel_review;
-                })->editColumn('status', function (OfflineHotel $hotel) {
-                    return $hotel->status_name;
+                })->addColumn('status', function (OfflineHotel $hotel) {
+                    return $hotel->statusName;
+                })->filterColumn('status', function ($query, $keyword) {
+                    $query->where('status',$keyword);
                 })->addColumn('action', function ($row) {
                     return $row->action;
                 })->rawColumns(['action', 'status'])->make(true);
@@ -219,15 +232,15 @@ class OfflineHotelsController extends Controller
     public function changeStatus(Request $request): JsonResponse
     {
         $input = $request->all();
-        $user  = User::find($input['user_id']);
-        if ($this->agentRepository->changeStatus($input, $user)) {
+        $user  = OfflineHotel::find($input['hotel_id']);
+        if ($this->offlineHotelRepository->changeStatus($input, $user)) {
             return response()->json([
                 'status' => true,
-                'message' => 'Agent status updated successfully.'
+                'message' => 'Hotel status updated successfully.'
             ]);
         }
 
-        throw new GeneralException('Agent status does not change. Please check sometime later.');
+        throw new GeneralException('Hotel status does not change. Please check sometime later.');
     }
 
 

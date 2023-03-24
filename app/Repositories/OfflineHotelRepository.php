@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Events\ForgotPasswordEvent;
 use App\Exceptions\GeneralException;
+use App\Models\HotelImage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\RegisterdEmailNotification;
@@ -207,50 +208,16 @@ class OfflineHotelRepository
      *
      * @return bool
      */
-    public function changeStatus(array $input, User $user): bool
+    public function changeStatus(array $input, OfflineHotel $offlinehotel): bool
     {
-        $user->status = !$input['status'];
-        return $user->save();
-    }
-
-    public function resetSurveyTime(array $input, UserSurvey $userSurvey): bool
-    {
-        return $userSurvey->delete();
-    }
-
-    /**
-     * Method demoformcreate
-     *
-     * @param array $data [explicite description]
-     * @param User $user [explicite description]
-     *
-     * @return User
-     * @throws Exception
-     */
-    public function demoformcreate(array $data): User
-    {
-        $user = auth()->user();
-        $data = [
-            'gender'    => $data['gender'],
-            'other_text'    => $data['other_text'] ?? null,
-            'age'     => $data['age'],
-            'ethnicity'     => $data['ethnicity'],
-            'job_level'     => $data['job_level'],
-            'years'       => $data['years']
-        ];
-
-
-        if ($user->update($data)) {
-            return $user;
-        }
-
-        throw new Exception('User update failed.');
+        $offlinehotel->status = !$input['status'];
+        return $offlinehotel->save();
     }
 
     public function hotel_destroy(Request $request)
     {
         $filename =  $request->get('filename');
-        Gallery::where('filename', $filename)->delete();
+        HotelImage::where('filename', $filename)->delete();
         $path = public_path('uploads/gallery/') . $filename;
         if (file_exists($path)) {
             unlink($path);
