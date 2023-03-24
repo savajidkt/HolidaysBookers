@@ -31,8 +31,28 @@ $(function () {
       }
     },
     hide: function (deleteElement) {
-
       if (confirm('Are you sure you want to delete this element?')) {
+        var deleteID = $(this).find('[data-repeater-delete]').attr('data-delete');
+        if (deleteID) {
+          $.ajax({
+            beforeSend: function () {
+              // $("#FrmroomType .buttonLoader").removeClass('hide');
+            },
+            complete: function () {
+              // $("#FrmroomType .buttonLoader").addClass('hide');
+            },
+            type: 'POST',
+            url: moduleConfig.deleteRepeterURL,
+            dataType: 'json',
+            data: {
+              id: $(this).find('[data-repeater-delete]').attr('data-delete'),
+            },
+            success: function (data) {
+              if (data.status) {
+              }
+            }
+          });
+        }
         $(this).slideUp(deleteElement);
         console.log($(this).closest("[data-repeater-item]").index());
       }

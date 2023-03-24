@@ -214,9 +214,9 @@ var FrmOfflineRoomPreference = function () {
                 start_date: {
                     required: true
                 },
-                end_date: {
-                    required: true
-                },
+                // end_date: {
+                //     required: true
+                // },
                 // booking_start_date: {
                 //     required: true
                 // },
@@ -280,7 +280,7 @@ var FrmOfflineRoomPreference = function () {
 
             },
             groups: {
-                travelGroup: "start_date end_date",
+                //travelGroup: "start_date end_date",
                 //bookingGroup: "booking_start_date booking_end_date",
             },
 
@@ -292,9 +292,9 @@ var FrmOfflineRoomPreference = function () {
                 start_date: {
                     required: 'Travel date validity is required'
                 },
-                end_date: {
-                    required: 'Travel date validity is required'
-                },
+                // end_date: {
+                //     required: 'Travel date validity is required'
+                // },
                 // booking_start_date: {
                 //     required: 'Booking date validity is required'
                 // },

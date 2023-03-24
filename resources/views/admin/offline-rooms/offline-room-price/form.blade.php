@@ -11,6 +11,11 @@
     var HotelID = "";
     var currencyList = {!! json_encode($currencyList) !!};
     var currencyIDs = "{!! $pricemodel->currency_id !!}";
+
+    var TravelStartDate = "{!! isset($pricemodel->from_date) ? $pricemodel->from_date : '' !!}";
+    var TravelEndDate = "{!! isset($pricemodel->to_date) ? $pricemodel->to_date : '' !!}";
+    var BookingStartDate = "{!! isset($pricemodel->booking_start_date) ? $pricemodel->booking_start_date : '' !!}";
+    var BookingEndDate = "{!! isset($pricemodel->booking_end_date) ? $pricemodel->booking_end_date : '' !!}";
 </script>
 <style>
     .input-group-addon {
@@ -132,17 +137,10 @@
             <div class="form-group">
                 <label for="itemcost">Travel Date Validity</label>
                 <div class="input-group input-daterange">
-                    <input type="text" name="start_date"
-                        class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
-                        placeholder="Start Date"
-                        value="{{ isset($pricemodel->from_date) ? $pricemodel->from_date : old('start_date') }}"
+                    <input type="text" id="start_date" name="start_date"
+                        class="form-control start-date-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
+                        placeholder="Start Date"                        
                         data-error="Start Date is required" />
-                    <div class="input-group-addon">to</div>
-                    <input type="text"  name="end_date"
-                        class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
-                        placeholder="End Date"
-                        value="{{ isset($pricemodel->to_date) ? $pricemodel->to_date : old('end_date') }}"
-                        data-error="End Date is required" />
                 </div>
                 <div class="TravelDateValidity"></div>
             </div>
@@ -154,14 +152,9 @@
                 <label for="itemcost">Booking Date Validity</label>
                 <div class="input-group input-daterange">
                     <input type="text" name="booking_start_date"
-                        class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
+                        class="form-control booking-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
                         value="{{ isset($pricemodel->booking_start_date) ? $pricemodel->booking_start_date : old('booking_start_date') }}"
                         data-error="Booking start date is required" />
-                    <div class="input-group-addon">to</div>
-                    <input type="text" name="booking_end_date"
-                        class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
-                        value="{{ isset($pricemodel->booking_end_date) ? $pricemodel->booking_end_date : old('booking_end_date') }}"
-                        data-error="Booking end date is required" />
                 </div>
                 <div class="BookingDateValidity"></div>
             </div>
@@ -522,10 +515,14 @@
 <div data-repeater-list="childrens" class="repeaterCLS">
     @if ($pricemodel->childprice->count() > 0)
         @foreach ($pricemodel->childprice as $childs)
-            <input type="hidden" name="id[]" value="{{ $childs->id }}" />
+        
+            
+        
+            <div data-repeater-item>
+
+                <input type="hidden" name="id" value="{{ $childs->id }}" />
             <input type="hidden" name="room_id" value="{{ $childs->room_id }}" />
             <input type="hidden" name="price_id" value="{{ $childs->price_id }}" />
-            <div data-repeater-item>
 
                 <div class="row d-flex align-items-end">
                     <div class="col-12">
@@ -573,7 +570,7 @@
                     <div class="row col-4">
                         <div class="col-md-2 col-12 mb-50">
                             <div class="form-group">
-                                <button class="btn btn-outline-danger btn-sm  text-nowrap px-1" data-repeater-delete
+                                <button data-delete="{{ $childs->id }}" class="btn btn-outline-danger btn-sm  text-nowrap px-1" data-repeater-delete
                                     type="button">
                                     <i data-feather="x" class="mr-25"></i>
                                     <span>Delete</span>
@@ -678,6 +675,42 @@
             listRoomsURL: "{!! route('offlinerooms.index') !!}",
             getHotelRoomsURL: "{!! route('get-hotel-rooms-url', '') !!}",
             changeRoomsStatusURL: "{!! route('change-offline-room-status', '') !!}",
+            deleteRepeterURL: "{!! route('delete-repeter') !!}",
         };
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            // $("#start_date").datepicker({
+            //     changeMonth: true,
+            //     changeYear: true,
+            //     dateFormat: 'dd-M-yy',
+            //     //   minDate: dateToday,
+            //     onClose: function(selected) {
+            //         if (selected.length <= 0) {
+            //             // selected is empty
+            //             $("#end_date").datepicker('disable');
+            //         } else {
+            //             $("#end_date").datepicker('enable');
+            //         }
+            //         $("#end_date").datepicker("option", "minDate", selected);
+            //     }
+            // });
+            // $("#end_date").datepicker({
+            //     changeMonth: true,
+            //     changeYear: true,
+            //     dateFormat: 'dd-M-yy',
+            //     // minDate: dateToday,
+            //     onClose: function(selected) {
+            //         if (selected.length <= 0) {
+            //             // selected is empty
+            //             $("#start_date").datepicker('disable');
+            //         } else {
+            //             $("#start_date").datepicker('enable');
+            //         }
+            //         $("#start_date").datepicker("option", "maxDate", selected);
+            //     }
+            // });
+        });
     </script>
 @endsection

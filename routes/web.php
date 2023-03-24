@@ -172,6 +172,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/offlineroom/{offlinehotel}/create', [OfflineRoomsController::class, 'roomCreate'])->name('room-create');     
     Route::get('/offlineroom/get-hotel-rooms/{id}', [OfflineRoomsController::class, 'hotelWiseRooms'])->name('get-hotel-rooms-url');     
     Route::get('/offlineroom/view/{offlineroomprice}/offlineroomprice', [OfflineRoomsController::class, 'showPrice'])->name('show-room-price');     
+    Route::post('/offlineroom/delete-child', [OfflineRoomsController::class, 'deleteChild'])->name('delete-repeter');
 
     Route::resource('/mealplans', MealPlansController::class);
     Route::post('/mealplan/change-status', [MealPlansController::class, 'changeStatus'])->name('change-meal-plan-status');

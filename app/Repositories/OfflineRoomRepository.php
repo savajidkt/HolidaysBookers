@@ -177,16 +177,17 @@ class OfflineRoomRepository
     public function createPrice(array $data, OfflineRoom $offlineroom): OfflineRoom
     {
 
-        // dd($data);
+        $TravelDate = explode(' to ', $data['start_date']);
+        $BookingDate = explode(' to ', $data['booking_start_date']);
         /**
          * Inser Room Price Data
          */
         $RoomPriceArr = [
             'room_id'     => $offlineroom->id,
-            'from_date'     => $data['start_date'],
-            'to_date'     => $data['end_date'],
-            'booking_start_date'     => $data['booking_start_date'],
-            'booking_end_date'     => $data['booking_end_date'],
+            'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
+            'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
+            'booking_start_date'     => isset($BookingDate[0]) ? $BookingDate[0] : '',
+            'booking_end_date'     => isset($BookingDate[1]) ? $BookingDate[1] : '',
             'currency_id'     => $data['currency_id'],
             'cutoff_price'     => $data['cutoff_price'],
             'min_nights'     => $data['min_nights'],
@@ -226,11 +227,11 @@ class OfflineRoomRepository
         $RoomChildPriceArr = [
             'room_id'     => $offlineroom->id,
             'price_id'     => $offlineRoomPrice->id,
-            'from_date'     => $data['start_date'],
-            'to_date'     => $data['end_date'],
+            'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
+            'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
         ];
 
-        if (is_array($data['childrens']) && count($data['childrens']) > 0) {
+        if (isset($data['childrens']) && is_array($data['childrens']) && count($data['childrens']) > 0) {
             foreach ($data['childrens'] as $key => $value) {
                 $RoomChildPriceArr['min_age'] = $value['main_age'];
                 $RoomChildPriceArr['max_age'] = $value['max_age'];
@@ -239,7 +240,6 @@ class OfflineRoomRepository
                 OfflineRoomChildPrice::create($RoomChildPriceArr);
             }
         }
-        
         return $offlineroom;
     }
 
@@ -253,11 +253,15 @@ class OfflineRoomRepository
      */
     public function updatePrice(array $data, OfflineRoomPrice $offlineroomprice): OfflineRoomPrice
     {
+
+        $TravelDate = explode(' to ', $data['start_date']);
+        $BookingDate = explode(' to ', $data['booking_start_date']);
+
         $RoomPriceArr = [
-            'from_date'     => $data['start_date'],
-            'to_date'     => $data['end_date'],
-            'booking_start_date'     => $data['booking_start_date'],
-            'booking_end_date'     => $data['booking_end_date'],
+            'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
+            'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
+            'booking_start_date'     => isset($BookingDate[0]) ? $BookingDate[0] : '',
+            'booking_end_date'     => isset($BookingDate[1]) ? $BookingDate[1] : '',
             'currency_id'     => $data['currency_id'],
             'cutoff_price'     => $data['cutoff_price'],
             'min_nights'     => $data['min_nights'],
@@ -290,8 +294,8 @@ class OfflineRoomRepository
         $offlineroomprice->update($RoomPriceArr);
 
         $RoomChildPriceArr = [
-            'from_date'     => $data['start_date'],
-            'to_date'     => $data['end_date'],
+            'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
+            'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
         ];
 
         if (is_array($data['childrens']) && count($data['childrens']) > 0) {
@@ -300,12 +304,12 @@ class OfflineRoomRepository
                 $RoomChildPriceArr['max_age'] = $value['max_age'];
                 $RoomChildPriceArr['cwb_price'] = $value['cwb_price'];
                 $RoomChildPriceArr['cnb_price'] = $value['cnb_price'];
-                if (!isset($data['id'][$key]) || strlen($data['id'][$key]) == 0 || $data['id'][$key] == "" || $data['id'][$key] == NULL) {
+                if (!isset($value['id']) || strlen($value['id']) == 0 || $value['id'] == "" || $value['id'] == NULL) {
                     $RoomChildPriceArr['room_id'] = $offlineroomprice->room_id;
                     $RoomChildPriceArr['price_id'] = $offlineroomprice->id;
                     OfflineRoomChildPrice::create($RoomChildPriceArr);
                 } else {
-                    OfflineRoomChildPrice::where('id', $data['id'][$key])->where('room_id', $data['room_id'])->where('price_id', $data['price_id'])->update($RoomChildPriceArr);
+                    OfflineRoomChildPrice::where('id', $value['id'])->where('room_id', $value['room_id'])->where('price_id', $value['price_id'])->update($RoomChildPriceArr);
                 }
             }
         }
@@ -327,5 +331,15 @@ class OfflineRoomRepository
         }
 
         throw new Exception('Offline Room Price deleted failed.');
+    }
+
+
+    public function deleteChild(OfflineRoomChildPrice $offlineroomchildprice): bool
+    {
+        if ($offlineroomchildprice->forceDelete()) {
+            return true;
+        }
+
+        throw new Exception('Offline Room child delete failed.');
     }
 }

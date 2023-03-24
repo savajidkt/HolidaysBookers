@@ -23,6 +23,7 @@ use App\Http\Requests\OfflineRoom\CreateRequest;
 use App\Models\Currency;
 use App\Models\Freebies;
 use App\Models\MealPlan;
+use App\Models\OfflineRoomChildPrice;
 
 class OfflineRoomsController extends Controller
 {
@@ -421,5 +422,18 @@ class OfflineRoomsController extends Controller
     {
         $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
         return view('admin.offline-rooms.offline-room-price.view', ['model' => $offlineroomprice, 'currencyList' => $currencyList]);
+    }
+
+    public function deleteChild(Request $request): JsonResponse
+    {
+        $input = $request->all();
+        $offlineroomchildprice  = OfflineRoomChildPrice::find($input['id']);
+        if ($this->offlineRoomRepository->deleteChild($offlineroomchildprice)) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Offline Room child remove successfully!'
+            ]);
+        }
+        throw new Exception('Offline Room child does not remove. Please check sometime later.');
     }
 }

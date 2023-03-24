@@ -17,11 +17,27 @@
     rangePickr = $('.flatpickr-range'),
     humanFriendlyPickr = $('.flatpickr-human-friendly'),
     disabledRangePickr = $('.flatpickr-disabled-range'),
-    inlineRangePickr = $('.flatpickr-inline');
+    inlineRangePickr = $('.flatpickr-inline'),
+    startBasicPickr = $('.start-date-basic'),
+    bookingBasicPickr = $('.booking-basic');
 
   // Default
   if (basicPickr.length) {
     basicPickr.flatpickr();
+  }
+  if (startBasicPickr.length) {
+    startBasicPickr.flatpickr({
+      minDate: "today",
+      mode: 'range',
+      defaultDate: [TravelStartDate, TravelEndDate]
+    });
+  }
+  if (bookingBasicPickr.length) {
+    bookingBasicPickr.flatpickr({
+      minDate: "today",
+      mode: 'range',
+      defaultDate: [BookingStartDate, BookingEndDate]
+    });
   }
 
   // Time
