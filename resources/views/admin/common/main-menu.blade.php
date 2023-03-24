@@ -213,13 +213,6 @@
                                     data-i18n="Offline Rooms">Offline Rooms</span>
                             </a>
                         </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="{{ url('admin/countries') }}">
-                                <i data-feather='map-pin'></i><span class="menu-item text-truncate"
-                                    data-i18n="API Rooms">API Rooms</span>
-                            </a>
-                        </li>
-
                         @if (
                             $admin->can('meal-plan-create') ||
                                 $admin->can('meal-plan-edit') ||

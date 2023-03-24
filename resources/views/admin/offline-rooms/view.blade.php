@@ -24,7 +24,7 @@
                         <a class="nav-link active" id="account-pill-hotel-details" data-toggle="pill"
                             href="#account-vertical-hotel-details" aria-expanded="true">
                             <i data-feather='arrow-right-circle'></i>
-                            <span class="font-weight-bold">Hotel</span>
+                            <span class="font-weight-bold">HOTEL DETAILS</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -137,7 +137,7 @@
                             <div class="tab-pane fade" id="account-vertical-galleries-details" role="tabpanel"
                                 aria-labelledby="account-pill-galleries-details" aria-expanded="false">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-12">
                                         <div class="card">
                                             <div class="card-header">
                                                 <h4 class="card-title">Galleries</h4>
@@ -156,7 +156,7 @@
                                                                 @endphp
                                                                 <div class="carousel-item {{ $i == 1 ? 'active' : '' }}">
                                                                     <img src="{{ url('storage/app/upload/Hotel/' . $model->hotel_id . '/Room/' . $model->id . '/Gallery/' . $image['images']) }}"
-                                                                        class="img-fluid d-block w-100" alt="cf-img-1" style="width: 800px !important; height: 550px !important;" />
+                                                                        class="img-fluid d-block w-100" alt="cf-img-1" style="height: 550px !important;" />
                                                                 </div>
                                                             @endforeach
                                                         </div>

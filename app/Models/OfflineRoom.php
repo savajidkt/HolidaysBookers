@@ -23,8 +23,8 @@ class OfflineRoom extends Authenticatable
     const BLACKOUTSALE = 2;
 
     const STATUS = [
-        self::ACTIVE => 'Active',
-        self::INACTIVE => 'Inactive'
+        self::ACTIVE => 'ACTIVE',
+        self::INACTIVE => 'INACTIVE'
     ];
 
     const TYPE = [

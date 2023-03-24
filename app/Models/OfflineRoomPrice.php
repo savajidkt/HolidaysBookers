@@ -87,7 +87,7 @@ class OfflineRoomPrice extends Authenticatable
      * @return string
      */
     public function getPriceTypeNameAttribute(): string
-    {
+    {       
 
         $price_type = self::NORMAL;
         switch ($this->price_type) {
