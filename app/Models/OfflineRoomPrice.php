@@ -35,7 +35,7 @@ class OfflineRoomPrice extends Authenticatable
         'currency_id',
         'cutoff_price',
         'min_nights',
-        'min_overall_nights',        
+        'min_overall_nights',
         'price_p_n_single_adult',
         'price_p_n_twin_sharing',
         'price_p_n_extra_adult',
@@ -52,7 +52,7 @@ class OfflineRoomPrice extends Authenticatable
         'promo_code',
         'rate_offered',
         'commission',
-        'days_valid',        
+        'days_valid',
         'price_type'
     ];
 
@@ -64,8 +64,9 @@ class OfflineRoomPrice extends Authenticatable
     public function getActionAttribute(): string
     {
 
-        $editAction = '<a href="' . route('edit-room-price', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';
-        return $editAction . ' ' . $this->getDeleteButtonAttribute();
+        $editAction = '<a href="' . route('edit-room-price', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a> ';
+        $viewAction =  '<a href="' . route('show-room-price', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+        return $editAction . '' . $viewAction . ' ' . $this->getDeleteButtonAttribute();
     }
 
     /**

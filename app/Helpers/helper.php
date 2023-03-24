@@ -263,3 +263,36 @@ if (!function_exists('dayChackboxChecked')) {
         return '';
     }
 }
+
+if (!function_exists('dayChackboxCheckedWithDisabled')) {
+
+    function dayChackboxCheckedWithDisabled($days_valid, $values)
+    {
+        $days_valid_arr = unserialize($days_valid);
+        if (is_array($days_valid_arr) && count($days_valid_arr) > 0) {
+            foreach ($days_valid_arr as $key => $value) {
+                if ($value ==  $values) {
+                    return 'checked';
+                }
+            }
+        }
+
+        return 'disabled';
+    }
+}
+
+
+if (!function_exists('getSelectedCurrency')) {
+
+    function getSelectedCurrency($currency, $select = null)
+    {
+        if (is_array($currency) && count($currency) > 0) {
+            foreach ($currency as $key => $value) {
+                if ($value['id'] ==  $select) {
+                    return $value['name'] . ' (' . $value['code'] . ')';
+                }
+            }
+        }
+        return '';
+    }
+}

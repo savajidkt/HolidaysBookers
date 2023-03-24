@@ -397,4 +397,14 @@ class OfflineRoomsController extends Controller
         }
         //return view('admin.offline-rooms.create');
     }
+
+
+    public function showPrice(Request $request, OfflineRoomPrice $offlineroomprice)
+    {   
+        //$OfflineRoom = $offlineroomprice->room;
+        //dd(OfflineRoomPrice::PRICE_TYPE);
+        
+        $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
+        return view('admin.offline-rooms.offline-room-price.view', ['model' => $offlineroomprice, 'currencyList' => $currencyList]);
+    }
 }

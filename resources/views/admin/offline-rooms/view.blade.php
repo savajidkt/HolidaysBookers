@@ -23,14 +23,14 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="account-pill-hotel-details" data-toggle="pill"
                             href="#account-vertical-hotel-details" aria-expanded="true">
-                            <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                            <i data-feather='arrow-right-circle'></i>
                             <span class="font-weight-bold">Hotel</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-room-details" data-toggle="pill"
                             href="#account-vertical-room-details" aria-expanded="false">
-                            <i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
+                            <i data-feather='arrow-right-circle'></i>
                             <span class="font-weight-bold">ROOM DETAILS</span>
                         </a>
                     </li>
@@ -38,7 +38,7 @@
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-galleries-details" data-toggle="pill"
                             href="#account-vertical-galleries-details" aria-expanded="false">
-                            <i class="fa fa-check-circle-o fa-2x" aria-hidden="true"></i>
+                            <i data-feather='arrow-right-circle'></i>
                             <span class="font-weight-bold">GALLERIES</span>
                         </a>
                     </li>

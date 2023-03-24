@@ -235,7 +235,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Single Adult</label>
+                <label>Single Adult</label>               
                 <input type="number" class="form-control" name="price_p_n_single_adult"
                     value="{{ isset($pricemodel->price_p_n_single_adult) ? $pricemodel->price_p_n_single_adult : old('price_p_n_single_adult') }}"
                     data-error="Single adult is required" />
@@ -657,6 +657,7 @@
     <!-- BEGIN: Page JS-->
 
     <script src="{{ asset('app-assets/js/scripts/forms/form-repeater-without-dropzone.js') }}"></script>
+    
 
     <!-- END: Page JS-->
     <script type="text/javascript">
