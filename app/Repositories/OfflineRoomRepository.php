@@ -23,6 +23,7 @@ class OfflineRoomRepository
         /**
          * Inser Room Data
          */
+       
 
         if (is_array($data['rooms']) && count($data['rooms']) > 0) {
             $RoomArr = [
@@ -41,7 +42,10 @@ class OfflineRoomRepository
                 $RoomArr['status'] = $value['status'];
                 $offlineRoom =  OfflineRoom::create($RoomArr);
                 $offlineRoom->roomamenity()->attach($value['room_amenities']);
-                $offlineRoom->roomfreebies()->attach($value['room_freebies']);
+                if( isset($value['room_freebies']) ){
+                    $offlineRoom->roomfreebies()->attach($value['room_freebies']);
+                }
+                
 
                 /**
                  * Room Image Add

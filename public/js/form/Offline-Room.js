@@ -129,9 +129,9 @@ var FrmOfflineRoomPreference = function () {
                 no_of_adult: {
                     required: true
                 },
-                status: {
-                    required: true
-                },
+                // status: {
+                //     required: true
+                // },
 
             },
             messages: {
