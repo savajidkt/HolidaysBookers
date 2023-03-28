@@ -14,9 +14,12 @@ class CreateApisTable extends Migration
     public function up()
     {
         Schema::create('apis', function (Blueprint $table) {
-            $table->id();            
-            $table->string('name');            
-            $table->text('api_url');            
+            $table->id();
+            $table->string('name');
+            $table->text('api_url');
+            $table->text('agent_code');
+            $table->text('username');
+            $table->text('password');
             $table->boolean('status')->default(false)->comment('1=Active, 0=Inactive');
             $table->softDeletes();
             $table->timestamps();

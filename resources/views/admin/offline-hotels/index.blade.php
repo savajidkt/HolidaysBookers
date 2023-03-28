@@ -12,6 +12,9 @@
                     <h4 class="card-title">Offline Hotels</h4>
                 </div>
                 <div class="col-md-6 text-right">
+                    <a href="{{ route('rezlive-api') }}" class="btn btn-outline-primary btn-sm waves-effect">
+                        Rezlive
+                    </a>
                     <button type="button" class="btn btn-outline-primary waves-effect btn-sm" id="DownloadOfflineHotel">
                        Download Sample
                     </button>

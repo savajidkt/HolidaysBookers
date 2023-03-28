@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\Permission\PermissionController;
 use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
 use App\Http\Controllers\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\AgentMarkups\AgentMarkupsController;
+use App\Http\Controllers\Admin\ApiHotels\ApiHotelsController;
 use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
 use App\Http\Controllers\Admin\Freebies\FreebiesController;
 use App\Http\Controllers\Admin\OfflineRooms\OfflineRoomsController;
@@ -97,17 +98,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/offlinehotels/export',[OfflineHotelsController::class, 'offlineHotelsExport'])->name('offline-hotels-export'); 
     Route::post('/offlinehotel/delete-hotel-image', [OfflineHotelsController::class, 'deleteHotelImage'])->name('delete-hotel-image');     
     Route::post('/offlinehotel/delete-hotel-gallery-image', [OfflineHotelsController::class, 'deleteHotelGalleryImage'])->name('delete-hotel-gallery-image');     
-    
+
+    // API Hotels
+    //Route::resource('apihotels', ApiHotelsController::class);
+    Route::get('/apihotels/rezlive-api',[ApiHotelsController::class, 'rezliveHotels'])->name('rezlive-api'); 
+
 
     Route::resource('/hotelgroups', HotelGroupsController::class);
     Route::post('/hotelgroup/change-status', [HotelGroupsController::class, 'changeStatus'])->name('change-hotel-group-status');
     Route::post('/hotelgroup/add-group', [HotelGroupsController::class, 'addGroupPopup'])->name('add-group');
-    
+
 
     Route::resource('/propertytypes', PropertyTypesController::class);
     Route::post('/propertytype/change-status', [PropertyTypesController::class, 'changeStatus'])->name('change-propertytype-status');
     Route::post('/propertytype/add-property', [PropertyTypesController::class, 'addPropertyPopup'])->name('add-property');
-    
+
     Route::resource('/roomtypes', RoomTypesController::class);
     Route::post('/roomtype/change-status', [RoomTypesController::class, 'changeStatus'])->name('change-roomtype-status');
     Route::post('/roomtype/add-room-type', [RoomTypesController::class, 'addRoomTypePopup'])->name('add-room-type');

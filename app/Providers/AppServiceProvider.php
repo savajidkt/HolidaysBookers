@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Api;
 use App\Services\Common;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
         //
         $this->app->singleton('common', function ($app) {
             return new Common();
+        });
+        view()->composer('*',function($view) {
+            $view->with('rezlive',Api::all());
         });
     }
 }
