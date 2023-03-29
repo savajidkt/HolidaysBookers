@@ -2,39 +2,27 @@
 
 namespace App\Http\Controllers\Admin\Packages;
 
-use Exception;
-use Carbon\Carbon;
+use App\Models\City;
 use App\Models\User;
-use App\Models\Agent;
-use App\Models\Reach;
 use App\Models\Country;
-use App\Models\CompanyType;
+use App\Models\Package;
 use Illuminate\Http\Request;
-use App\Exports\ExportAgents;
-use App\Imports\AgentsImport;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use App\Exports\ExportFailedAgents;
 use Illuminate\Support\Facades\App;
 use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Repositories\AgentRepository;
-use App\Http\Requests\Agent\PDFRequest;
-use Illuminate\Support\Facades\Session;
-use App\Http\Requests\Agent\EditRequest;
-use App\Http\Requests\Agent\CreateRequest;
-use App\Http\Requests\Agent\UpdatePasswordRequest;
+use App\Repositories\PackageRepository;
+use App\Http\Requests\Package\EditRequest;
+use App\Http\Requests\Package\CreateRequest;
 
 class PackagesController extends Controller
 {
     /** \App\Repository\AgentRepository $agentRepository */
-    protected $agentRepository;
-    public function __construct(AgentRepository $agentRepository)
+    protected $packageRepository;
+    public function __construct(PackageRepository $packageRepository)
     {
-        $this->agentRepository       = $agentRepository;
+        $this->packageRepository       = $packageRepository;
     }
 
     /**
@@ -46,59 +34,34 @@ class PackagesController extends Controller
     {
         // $user = auth()->user();   
         // dd($user->can('agents-create'));
-        
+
         if ($request->ajax()) {
 
-            $data = User::with('agents')->where('user_type', User::AGENT);
+            $data = Package::all();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('agent_code', function (User $user) {
-                    return $user->agents->agent_code ?? '-';
-                })->filterColumn('agent_code', function ($query, $keyword) {
-                    $query->whereHas('agents', function ($query) use ($keyword) {
-                        $query->where('agent_code', 'LIKE', '%' . $keyword . '%');
-                    });
-                })->addColumn('agent_company_name', function (User $user) {
-                    return $user->agents->agent_company_name;
-                })->filterColumn('agent_company_name', function ($query, $keyword) {
-                    $query->whereHas('agents', function ($query) use ($keyword) {
-                        $query->where('agent_company_name', 'LIKE', '%' . $keyword . '%');
-                    });
-                })->addColumn('full_name', function (User $user) {
-                    return $user->fullName;
-                })->filterColumn('full_name', function ($query, $keyword) {
-                    $sql = "CONCAT(users.first_name,'-',users.last_name)  like ?";
-                    $query->whereRaw($sql, ["%{$keyword}%"]);
-                })->editColumn('agent_mobile_number', function (User $user) {
-                    return $user->agents->agent_mobile_number;
-                })->filterColumn('agent_mobile_number', function ($query, $keyword) {
-                    $query->whereHas('agents', function ($query) use ($keyword) {
-                        $query->where('agent_mobile_number', 'LIKE', '%' . $keyword . '%');
-                    });
-                })->addColumn('agent_email', function (User $user) {
-                    return $user->agents->agent_email;
-                })->filterColumn('agent_email', function ($query, $keyword) {
-                    $query->whereHas('agents', function ($query) use ($keyword) {
-                        $query->where('agent_email', 'LIKE', '%' . $keyword . '%');
-                    });
-                })->addColumn('email', function (User $user) {
-                    return $user->email;
-                })->addColumn('balance', function(User $user)
-                {  
-                    //dd($user->agents->getbalance);
-                    return (isset($user->agents->getbalance)) ? $user->agents->getbalance->balance : '0';
-
-                })->editColumn('status', function (User $user) {
-                    return $user->status_name;
-                })->orderColumn('full_name', function ($query, $order) {
-                    $query->orderByRaw('CONCAT_WS(\' \', first_name, last_name) ' . $order);
+                ->addColumn('package_name', function (Package $package) {
+                    return $package->package_name ?? '-';
+                })->addColumn('package_code', function (Package $package) {
+                    return $package->package_code;
+                })->addColumn('city', function (Package $package) {
+                    return $package->city_name;
+                })->addColumn('country', function (Package $package) {
+                    return $package->country_name;
+                    //return implode(',',$package->packagecountry->pluck('name')->toArray());                    
+                })->addColumn('valid_from', function (Package $package) {
+                    return $package->valid_from;
+                })->addColumn('valid_till', function (Package $package) {
+                    return $package->valid_till;
+                })->addColumn('maximum_pax', function (Package $package) {
+                    return $package->maximum_pax;
+                })->editColumn('status', function (Package $package) {
+                    return $package->status_name;
                 })->addColumn('action', function ($row) {
-                    return $row->agents->action;
+                    return $row->action;
                 })->rawColumns(['action', 'status'])->make(true);
         }
-
-           
-        return view('admin.agent.index');
+        return view('admin.packages.index');
     }
 
     /**
@@ -109,66 +72,56 @@ class PackagesController extends Controller
     public function create()
     {
         //
-        $rawData    = new User;
-        $companyType    = CompanyType::where('status', CompanyType::ACTIVE)->get();
+        $rawData    = new Package;
         $countries    =  Country::where('status', Country::ACTIVE)->get();
-        $reach    =  Reach::where('status', Reach::ACTIVE)->get();
-
-        return view('admin.agent.create', ['model' => $rawData, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
+        return view('admin.packages.create', ['model' => $rawData, 'countries' => $countries, 'cities' => ""]);
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * Method store
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @param CreateRequest $request [explicite description]
+     *
+     * @return void
      */
     public function store(CreateRequest $request)
     {
-        $this->agentRepository->create($request->all());
-        return redirect()->route('agents.index')->with('success', "User created successfully!");
+        $this->packageRepository->create($request, $request->all());
+        return redirect()->route('packages.index')->with('success', "Packages created successfully!");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Agent $agent [explicite description]
-     *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function edit(Agent $agent)
+    public function show(Request $request, Package $package)
     {
-        $companyType    = CompanyType::where('status', CompanyType::ACTIVE)->get();
+
         $countries    =  Country::where('status', Country::ACTIVE)->get();
-        $reach    =  Reach::where('status', Reach::ACTIVE)->get();
-
-        return view('admin.agent.edit', ['model' => $agent, 'companies' => $companyType, 'reach' => $reach, 'countries' => $countries]);
+        $cities    =  City::whereIn('country_id', $package->packagecountry->pluck('id')->toArray())->get();
+        $nationality = Country::where('id', $package->nationality)->first();
+        return view('admin.packages.view', ['model' => $package, 'countries' => $countries, 'cities' => $cities, 'nationality' => $nationality->name]);
     }
+
+
+    public function edit(Package $package)
+    {
+        $countries    =  Country::where('status', Country::ACTIVE)->get();
+        $cities    =  City::whereIn('country_id', $package->packagecountry->pluck('id')->toArray())->get();
+        return view('admin.packages.edit', ['model' => $package, 'countries' => $countries, 'cities' => $cities]);
+    }
+
 
     /**
      * Method update
      *
-     * @param \App\Http\Requests\Agent\EditRequest $request
-     * @param \App\Models\Agent $agent
+     * @param EditRequest $request [explicite description]
+     * @param Package $package [explicite description]
      *
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @return void
      */
-    public function update(EditRequest $request, Agent $agent)
+    public function update(EditRequest $request, Package $package)
     {
-        $this->agentRepository->update($request->all(), $agent);
-
-        return redirect()->route('agents.index')->with('success', "Agent updated successfully!");
+        $this->packageRepository->update($request->all(), $package);
+        return redirect()->route('packages.index')->with('success', "Package updated successfully!");
     }
 
     /**
@@ -179,8 +132,8 @@ class PackagesController extends Controller
      */
     public function destroy(Agent $agent)
     {
-        $this->agentRepository->delete($agent);
-        return redirect()->route('agents.index')->with('success', "Agent deleted successfully!");
+        $this->packageRepository->delete($agent);
+        return redirect()->route('packages.index')->with('success', "Agent deleted successfully!");
     }
 
     /**
@@ -193,94 +146,32 @@ class PackagesController extends Controller
     public function changeStatus(Request $request): JsonResponse
     {
         $input = $request->all();
-        $user  = User::find($input['user_id']);
-        if ($this->agentRepository->changeStatus($input, $user)) {
+        $package  = Package::find($input['package_id']);
+        if ($this->packageRepository->changeStatus($input, $package)) {
             return response()->json([
                 'status' => true,
-                'message' => 'Agent status updated successfully.'
+                'message' => 'Package status updated successfully.'
             ]);
         }
 
-        throw new GeneralException('Agent status does not change. Please check sometime later.');
-    }
-
-    function invoice_num($input, $pad_len = 7, $prefix = null)
-    {
-        if ($pad_len <= strlen($input))
-            trigger_error('<strong>$pad_len</strong> cannot be less than or equal to the length of <strong>$input</strong> to generate invoice number', E_USER_ERROR);
-
-        if (is_string($prefix))
-            return sprintf("%s%s", $prefix, str_pad($input, $pad_len, "0", STR_PAD_LEFT));
-
-        return str_pad($input, $pad_len, "0", STR_PAD_LEFT);
+        throw new GeneralException('Package status does not change. Please check sometime later.');
     }
 
     /**
-     * Method updatePassword
-     *
-     * @param UpdatePasswordRequest $request [explicite description]
-     * @param Agent $agent [explicite description]
-     *
-     * @return void
-     */
-    public function updatePassword(UpdatePasswordRequest $request)
-    {
-        $input = $request->all();
-        $agent  = Agent::find($input['modal_user_id']);
-        $user  = $agent->user;
-        $this->agentRepository->updatePassword($input, $user);
-        return redirect()->route('agents.index')->with('success', "Agent password updated successfully!");
-    }
-
-    /**
-     * Method importAgents
+     * Method getCitiesByCountryList
      *
      * @param Request $request [explicite description]
      *
      * @return JsonResponse
      */
-    public function importAgents(Request $request): JsonResponse
+    public function getCitiesByCountryList(Request $request): JsonResponse
     {
-
-        if (session()->has('skip_row')) {
-            session()->forget('skip_row');
-        }
-
-        Excel::import(new AgentsImport, $request->file);
-
-
-        $html = false;
-        if (session()->has('skip_row')) {
-            $details = session()->get('skip_row');
-            $skipLink = "";
-
-            if (is_array($details['download_skip_data']) && count($details['download_skip_data']) > 0) {
-                $datefile = date('d_m_Y_H_i_s');
-                $filename = $datefile . '.xlsx';
-                Excel::store(new ExportFailedAgents($details['download_skip_data']), $filename);
-                $skipLinks = storage_path($filename);
-                $skipLink = "<li><b>Skip Agents Download : </b><a target='_blank' href='" . url('/storage/app') . '/' . $filename . "'>Download</a></li>";
-            }
-            $html = '<ul>
-                    <li><b>Skip Agents : </b> ' . count($details['skip']) . '</li>
-                    <li><b>Imported Agents : </b> ' . $details['sucess'] . '</li>
-                    <li><b>Total Agents : </b> ' . $details['total'] . '</li>                   
-                    ' . $skipLink . '
-                </ul>';
-        }
-
+        $input = $request->all();
+        $cities  = City::select('id', 'name')->whereIn('country_id', explode(',', $input['country_id']))->get();
         return response()->json([
             'status' => true,
-            'message' => 'Agents import Successfully.',
-            'html' => $html,
+            'cities' => $cities,
+            'message' => __('city/message.success_city_list')
         ]);
-    }
-    
-    
-    public function agentExcelExport()
-    {              
-       // $id= $user->id;
-       $agents    = Agent::all();               
-        return Excel::download(new ExportAgents($agents), 'agent-export.xlsx');
     }
 }

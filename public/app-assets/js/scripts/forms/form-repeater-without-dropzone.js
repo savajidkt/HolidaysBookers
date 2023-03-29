@@ -12,7 +12,7 @@ $(function () {
   'use strict';
 
   // form repeater jquery
-  $('.room-repeater, .repeater-default').repeater({
+  $('.room-repeater, .repeater-default, .package-repeater').repeater({
     show: function () {
       $(this).slideDown();
       var TotalCount = $(this).closest("[data-repeater-item]").index();
@@ -24,7 +24,13 @@ $(function () {
       });
       $('.repeaterCLS  .select2-container').css('width', '100%');
 
-
+      var options = {
+        filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+        filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+        filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+        filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+      };
+      CKEDITOR.replace('my-description-' + $(this).closest("[data-repeater-item]").index(), options);
       // Feather Icons
       if (feather) {
         feather.replace({ width: 14, height: 14 });

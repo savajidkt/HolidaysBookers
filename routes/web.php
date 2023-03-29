@@ -83,6 +83,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/packages', PackagesController::class);
     Route::post('/package/change-status', [PackagesController::class, 'changeStatus'])->name('change-package-status');
+    Route::post('/package/get-cities-by-country', [PackagesController::class, 'getCitiesByCountryList'])->name('get-cities-by-country-url');
+    Route::post('/package/change-status', [PackagesController::class, 'changeStatus'])->name('change-package-status');
 
     Route::resource('/customers', CustomersController::class);
     Route::post('/customer/change-status', [CustomersController::class, 'changeStatus'])->name('change-customer-status');

@@ -38,7 +38,7 @@ var FrmOfflineRoomPreference = function () {
                 }
             },
             submitHandler: function (form) {
-                //$(".buttonLoader").removeClass('hide');               
+                $(".buttonLoader").removeClass('hide');               
                 var form_data = new FormData(form);
 
                 jQuery('.roomImageDropzone').each(function (index, currentElement) {

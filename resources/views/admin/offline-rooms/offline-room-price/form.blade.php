@@ -12,6 +12,7 @@
     var currencyList = {!! json_encode($currencyList) !!};
     var currencyIDs = "{!! $pricemodel->currency_id !!}";
 
+    var RoomMinDate = "{!! date('Y-m-d') !!}";
     var TravelStartDate = "{!! isset($pricemodel->from_date) ? $pricemodel->from_date : '' !!}";
     var TravelEndDate = "{!! isset($pricemodel->to_date) ? $pricemodel->to_date : '' !!}";
     var BookingStartDate = "{!! isset($pricemodel->booking_start_date) ? $pricemodel->booking_start_date : '' !!}";
@@ -139,8 +140,7 @@
                 <div class="input-group input-daterange">
                     <input type="text" id="start_date" name="start_date"
                         class="form-control start-date-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
-                        placeholder="Start Date"                        
-                        data-error="Start Date is required" />
+                        placeholder="Start Date" data-error="Start Date is required" />
                 </div>
                 <div class="TravelDateValidity"></div>
             </div>
@@ -515,14 +515,11 @@
 <div data-repeater-list="childrens" class="repeaterCLS">
     @if ($pricemodel->childprice->count() > 0)
         @foreach ($pricemodel->childprice as $childs)
-        
-            
-        
             <div data-repeater-item>
 
                 <input type="hidden" name="id" value="{{ $childs->id }}" />
-            <input type="hidden" name="room_id" value="{{ $childs->room_id }}" />
-            <input type="hidden" name="price_id" value="{{ $childs->price_id }}" />
+                <input type="hidden" name="room_id" value="{{ $childs->room_id }}" />
+                <input type="hidden" name="price_id" value="{{ $childs->price_id }}" />
 
                 <div class="row d-flex align-items-end">
                     <div class="col-12">
@@ -570,7 +567,8 @@
                     <div class="row col-4">
                         <div class="col-md-2 col-12 mb-50">
                             <div class="form-group">
-                                <button data-delete="{{ $childs->id }}" class="btn btn-outline-danger btn-sm  text-nowrap px-1" data-repeater-delete
+                                <button data-delete="{{ $childs->id }}"
+                                    class="btn btn-outline-danger btn-sm  text-nowrap px-1" data-repeater-delete
                                     type="button">
                                     <i data-feather="x" class="mr-25"></i>
                                     <span>Delete</span>

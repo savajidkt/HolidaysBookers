@@ -1,666 +1,580 @@
+@php
+    $images = [];
+    if (isset($model->packageimages)) {
+        foreach ($model->packageimages as $key => $img) {
+            $images[$key]['images'] = url(Storage::url('app/upload/packages/' . $img['package_id'] . '/gallery/' . $img['images_path']));
+        }
+    }
+@endphp
+
+<style>
+    .ql-container {
+        min-height: 10rem;
+        height: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ql-editor {
+        height: 100%;
+        flex: 1;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    .alert-primary .close {
+        color: #EA5455 !important;
+    }
+
+    .dropzone .dz-preview .dz-image img {
+        display: block;
+        width: 120px;
+        height: 120px;
+    }
+</style>
+<script>
+    var currencyList = {!! json_encode($countries) !!};
+    var images = {!! json_encode($images) !!};
+    var cityList = {!! json_encode($cities) !!};
+    var currencyListIDs = {!! json_encode($model->packagecountry->pluck('id')->toArray()) !!};
+    var cityListIDs = {!! json_encode($model->packagecity->pluck('id')->toArray()) !!};
+    var nationalityIDs = "{!! $model->nationality !!}";
+    var PackageMinDate = "{!! date('Y-m-d') !!}";
+    var PackageStartDate = "{!! isset($model->valid_from) ? $model->valid_from : '' !!}";
+    var PackageEndDate = "{!! isset($model->valid_till) ? $model->valid_till : '' !!}";
+    var PackageItinerariesCount = "{!! isset($model->packageitineraries) ? $model->packageitineraries->count() : 0 !!}";
+</script>
 <div class="row">
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.company_details_title') }}</h4>
+            <i data-feather="arrow-right-circle" class="font-medium-3"></i>
+            <h4 class="mb-0 ml-75">PACKAGE DETAILS</h4>
         </div>
         <hr class="my-2" />
     </div>
-    <div class="col-4">
+</div>
+<div class="row">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_company_name">{{ __('agent/agent.agent_company_name') }}</label>
-            <input type="text" id="agent_company_name" name="agent_company_name" class="form-control"
-                placeholder="{{ __('agent/agent.agent_company_name') }}"
-                value="{{ isset($model->agent_company_name) ? $model->agent_company_name : old('agent_company_name') }}"
-                data-error="{{ __('agent/agent.agent_company_name') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_company_name')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_company_type">{{ __('agent/agent.agent_company_type') }}</label>
-            <select class="select2 form-control form-control-lg" id="agent_company_type" name="agent_company_type"
-                data-error="{{ __('agent/agent.agent_company_type') }}">
-                <option value="">Select Company Type</option>
-                @foreach ($companies as $key => $company)
-                    <option value="{{ $company->id }}"
-                        {{ $model->agent_company_type == $company->id ? 'selected' : '' }}>
-                        {{ $company->company_type }}</option>
-                @endforeach
-            </select>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_company_type')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="nature_of_business">{{ __('agent/agent.nature_of_business') }}</label>
-            <input type="text" id="nature_of_business" name="nature_of_business" class="form-control"
-                placeholder="{{ __('agent/agent.nature_of_business') }}"
-                value="{{ isset($model->nature_of_business) ? $model->nature_of_business : old('nature_of_business') }}"
-                data-error="{{ __('agent/agent.nature_of_business') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('nature_of_business')
+            <label>Package Name</label>
+            <input type="text" class="form-control" name="package_name"
+                value="{{ isset($model->package_name) ? $model->package_name : old('package_name') }}"
+                data-error="Package name is required" />
+            @error('package_name')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_first_name">{{ __('agent/agent.agent_first_name') }}</label>
-            <input type="text" id="agent_first_name" name="agent_first_name" class="form-control"
-                placeholder="{{ __('agent/agent.agent_first_name') }}"
-                value="{{ isset($model->agent_first_name) ? $model->agent_first_name : old('agent_first_name') }}"
-                data-error="{{ __('agent/agent.agent_first_name') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_first_name')
+            <label>Package Code</label>
+            <input type="text" class="form-control" name="package_code"
+                value="{{ isset($model->package_code) ? $model->package_code : old('package_code') }}"
+                data-error="Package code is required" />
+            @error('package_code')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_last_name">{{ __('agent/agent.agent_last_name') }}</label>
-            <input type="text" id="agent_last_name" name="agent_last_name" class="form-control"
-                placeholder="{{ __('agent/agent.agent_last_name') }}"
-                value="{{ isset($model->agent_last_name) ? $model->agent_last_name : old('agent_last_name') }}"
-                data-error="{{ __('agent/agent.agent_last_name') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_last_name')
+            <label for="itemcost">Package Validity</label>
+            <div class="input-group input-daterange">
+                <input type="text" name="package_validity" class="form-control package-basic flatpickr-input"
+                    placeholder="YYYY-MM-DD To YYYY-MM-DD"
+                    value="{{ isset($pricemodel->package_validity) ? $pricemodel->package_validity : old('package_validity') }}"
+                    data-error="Package validity is required" />
+            </div>
+            <div class="PackageValidity"></div>
+        </div>
+    </div>
+    <div class="col-md-4 col-4">
+        <div class="form-group">
+            <label for="itemname">Country</label>
+            {{-- <a class="badge badge-success addCountryBTN" style="color:#FFF; float: right;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add New Country
+            </a> --}}
+            <select class="select2-add-country form-control" name="country_ids" data-error="Country is required"
+                id="country_ids"></select>
+            <div class="addCountryCLS"></div>
+            @error('country_ids')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4 myCity">
         <div class="form-group">
-            <label class="form-label" for="agent_designation">{{ __('agent/agent.agent_designation') }}</label>
-            <input type="text" id="agent_designation" name="agent_designation" class="form-control"
-                placeholder="{{ __('agent/agent.agent_designation') }}"
-                value="{{ isset($model->agent_designation) ? $model->agent_designation : old('agent_designation') }}"
-                data-error="{{ __('agent/agent.agent_designation') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_designation')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_dob">{{ __('agent/agent.agent_dob') }}</label>
-            <input type="text" id="fp-default" name="agent_dob" class="form-control flatpickr-basic flatpickr-input"
-                placeholder="YYYY-MM-DD" placeholder="{{ __('agent/agent.agent_dob') }}"
-                value="{{ isset($model->agent_dob) ? $model->agent_dob : old('agent_dob') }}"
-                data-error="{{ __('agent/agent.agent_dob') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_dob')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_office_address">{{ __('agent/agent.agent_office_address') }}</label>
-            <input type="text" id="agent_office_address" name="agent_office_address" class="form-control"
-                placeholder="{{ __('agent/agent.agent_office_address') }}"
-                value="{{ isset($model->agent_office_address) ? $model->agent_office_address : old('agent_office_address') }}"
-                data-error="{{ __('agent/agent.agent_office_address') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_office_address')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_country">{{ __('agent/agent.agent_country') }}</label>
-            <select class="select2 form-control form-control-lg" id="agent_country" name="agent_country"
-                data-error="{{ __('agent/agent.agent_country') }}">
-                <option value="">Select Country</option>
-                @foreach ($countries as $country)
-                    <option value="{{ $country->id }}"
-                        {{ $model->agent_country == $country->id ? 'selected' : '' }}>
-                        {{ $country->name }}</option>
-                @endforeach
-            </select>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_country')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group myState">
-            <label class="form-label" for="agent_state">{{ __('agent/agent.agent_state') }}</label>
-            <select class="select2 form-control form-control-lg" id="agent_state" name="agent_state"
-                data-error="{{ __('agent/agent.agent_state') }}">
-                <option value="">Select State</option>
-                @php $states = getCountryStates($model->agent_country);  @endphp
-                @if ($states->count() > 0)
-                    @foreach ($states as $state)
-                        <option value="{{ $state->id }}"
-                            {{ $model->agent_state == $state->id ? 'selected' : '' }}>
-                            {{ $state->name }}</option>
-                    @endforeach
-                @endif
-            </select>
+            <label for="itemname">City</label>
+            {{-- <a class="badge badge-success addCityBTN" style="color:#FFF; float: right;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add New City
+            </a> --}}
+            <select class="select2-add-city form-control" name="city_ids" id="city_ids"
+                data-error="City is required"></select>
             <div class="spinner-border spinner-border-sm hide" role="status">
-                <span class="sr-only">{{ __('core.loading') }}</span>
+                <span class="sr-only">Loading...</span>
             </div>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_state')
+            <div class="addCityCLS"></div>
+            @error('city_ids')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
-    <div class="col-4">
-        <div class="form-group myCity">
-            <label class="form-label" for="agent_city">{{ __('agent/agent.agent_city') }}</label>
-            <select class="select2 form-control form-control-lg" id="agent_city" name="agent_city"
-                data-error="{{ __('agent/agent.agent_city') }}">
-                <option value="">Select City</option>
-                @php $cities = getStateCities($model->agent_state);  @endphp
-                @if ($cities->count() > 0)
-                    @foreach ($cities as $city)
-                        <option value="{{ $city->id }}" {{ $model->agent_city == $city->id ? 'selected' : '' }}>
-                            {{ $city->name }}</option>
-                    @endforeach
-                @endif
-            </select>
-            <div class="spinner-border spinner-border-sm hide" role="status">
-                <span class="sr-only">{{ __('core.loading') }}</span>
-            </div>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_city')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_pincode">{{ __('agent/agent.agent_pincode') }}</label>
-            <input type="text" id="agent_pincode" name="agent_pincode" class="form-control"
-                placeholder="{{ __('agent/agent.agent_pincode') }}"
-                value="{{ isset($model->agent_pincode) ? $model->agent_pincode : old('agent_pincode') }}"
-                data-error="{{ __('agent/agent.agent_pincode') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_pincode')
+            <label for="itemname">Nationality</label>
+            <select class="select2-nationality form-control" name="nationality"
+                data-error="Nationality is required"></select>
+            <div class="nationalityCLS"></div>
+            @error('nationality')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_telephone">{{ __('agent/agent.agent_telephone') }}</label>
-            <input type="text" id="agent_telephone" name="agent_telephone" class="form-control"
-                placeholder="{{ __('agent/agent.agent_telephone') }}"
-                value="{{ isset($model->agent_telephone) ? $model->agent_telephone : old('agent_telephone') }}"
-                data-error="{{ __('agent/agent.agent_telephone') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_telephone')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+            <label for="itemcost">Rate Per Adult</label>
+            <input type="number" name="rate_per_adult" class="form-control" data-error="Rate per adult is required"
+                value="{{ isset($model->rate_per_adult) ? $model->rate_per_adult : old('rate_per_adult') }}" />
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_mobile_number">{{ __('agent/agent.agent_mobile_number') }}</label>
-            <input type="text" id="agent_mobile_number" name="agent_mobile_number" class="form-control"
-                placeholder="{{ __('agent/agent.agent_mobile_number') }}"
-                value="{{ isset($model->agent_mobile_number) ? $model->agent_mobile_number : old('agent_mobile_number') }}"
-                data-error="{{ __('agent/agent.agent_mobile_number') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_mobile_number')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+            <label for="itemcost">Rate per child (CWB)</label>
+            <input type="number" name="rate_per_child_cwb" class="form-control"
+                data-error="Rate per child (CWB) is required"
+                value="{{ isset($model->rate_per_child_cwb) ? $model->rate_per_child_cwb : old('rate_per_child_cwb') }}" />
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_email">{{ __('agent/agent.agent_email') }}</label>
-            <input type="text" id="agent_email" name="agent_email" class="form-control"
-                placeholder="{{ __('agent/agent.agent_email') }}"
-                value="{{ isset($model->agent_email) ? $model->agent_email : old('agent_email') }}"
-                data-error="{{ __('agent/agent.agent_email') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_email')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+            <label for="itemcost">Rate per child (CNB)</label>
+            <input type="number" name="rate_per_child_cnb" class="form-control"
+                data-error="Rate per child (CNB) is required"
+                value="{{ isset($model->rate_per_child_cnb) ? $model->rate_per_child_cnb : old('rate_per_child_cnb') }}" />
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_website">{{ __('agent/agent.agent_website') }}</label>
-            <input type="text" id="agent_website" name="agent_website" class="form-control"
-                placeholder="{{ __('agent/agent.agent_website') }}"
-                value="{{ isset($model->agent_website) ? $model->agent_website : old('agent_website') }}"
-                data-error="{{ __('agent/agent.agent_website') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_website')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+            <label for="itemcost">Rate Per Infant(0-2)</label>
+            <input type="number" name="rate_per_infant" class="form-control"
+                data-error="Rate Per Infant(0-2) is required"
+                value="{{ isset($model->rate_per_infant) ? $model->rate_per_infant : old('rate_per_infant') }}" />
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_iata">{{ __('agent/agent.agent_iata') }}</label>
-            <div class="demo-inline-spacing">
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="agent_iata-yes" name="agent_iata" class="custom-control-input"
-                        value="yes"
-                        {{ $model->agent_iata == 'yes' || old('agent_iata') == 'yes' ? 'checked' : '' }} />
-                    <label class="custom-control-label" for="agent_iata-yes">Yes</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="agent_iata-no" name="agent_iata" class="custom-control-input"
-                        value="no"
-                        {{ $model->agent_iata == 'no' || old('agent_iata') == 'no' ? 'checked' : '' }} />
-                    <label class="custom-control-label" for="agent_iata-no">No</label>
-                </div>
-            </div>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_iata')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+            <label for="itemcost">Minimum PAX</label>
+            <input type="number" name="minimum_pax" class="form-control" data-error="Minimum Pax is required"
+                value="{{ isset($model->minimum_pax) ? $model->minimum_pax : old('minimum_pax') }}" />
         </div>
     </div>
-    @php
-        $hide = isset($model->agent_iata_number) ? '' : 'hide';
-    @endphp
-    <div class="col-4 iata_number_hide {{ $hide }}" id="iata_number_hide">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_iata_number">{{ __('agent/agent.agent_iata_number') }}</label>
-            <input type="text" id="agent_iata_number" name="agent_iata_number" class="form-control"
-                placeholder="{{ __('agent/agent.agent_iata_number') }}"
-                value="{{ isset($model->agent_iata_number) ? $model->agent_iata_number : old('agent_iata_number') }}"
-                data-error="{{ __('agent/agent.agent_iata_number') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_iata_number')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+            <label for="itemcost">Maximum PAX</label>
+            <input type="number" name="maximum_pax" class="form-control" data-error="Maximum Pax is required"
+                value="{{ isset($model->maximum_pax) ? $model->maximum_pax : old('maximum_pax') }}" />
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label"
-                for="agent_other_certification">{{ __('agent/agent.agent_other_certification') }}</label>
-            <input type="text" id="agent_other_certification" name="agent_other_certification"
-                class="form-control" placeholder="{{ __('agent/agent.agent_other_certification') }}"
-                value="{{ isset($model->agent_other_certification) ? $model->agent_other_certification : old('agent_other_certification') }}"
-                data-error="{{ __('agent/agent.agent_other_certification') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_other_certification')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+            <label for="itemcost">Cancel Day</label>
+            <input type="number" name="cancel_day" class="form-control" data-error="Cancel Day is required"
+                value="{{ isset($model->cancel_day) ? $model->cancel_day : old('cancel_day') }}" />
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_pan_number">{{ __('agent/agent.agent_pan_number') }}</label>
-            <input type="text" id="agent_pan_number" name="agent_pan_number" class="form-control"
-                placeholder="{{ __('agent/agent.agent_pan_number') }}"
-                value="{{ isset($model->agent_pan_number) ? $model->agent_pan_number : old('agent_pan_number') }}"
-                data-error="{{ __('agent/agent.agent_pan_number') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_pan_number')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
+            <label for="itemcost">Terms and Conditions (only pdf) </label>
+            @if (strlen($model->terms_and_conditions_pdf) > 0)
+                <a target="_blank" title="{{ $model->package_name }}"
+                    href="{{ url('storage/app/upload/packages/' . $model->id . '/' . $model->terms_and_conditions_pdf) }}"
+                    class="badge badge-success" style="color:#FFF; float: right;">
+                    <i class="fa fa-eye" aria-hidden="true"></i> View
+                </a>
+            @endif
+            <input type="file" name="terms_and_conditions_pdf" class="form-control" />
         </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_gst_number">{{ __('agent/agent.agent_gst_number') }}</label>
-            <input type="text" id="agent_gst_number" name="agent_gst_number" class="form-control"
-                placeholder="{{ __('agent/agent.agent_gst_number') }}"
-                value="{{ isset($model->agent_gst_number) ? $model->agent_gst_number : old('agent_gst_number') }}"
-                data-error="{{ __('agent/agent.agent_gst_number') }}" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_gst_number')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-    @php
-        $hide = 'hide';
-    @endphp
-    <div class="col-4">
-        <div class="form-group">
-            <label class="form-label" for="agent_know_about">{{ __('agent/agent.agent_know_about') }}</label>
-            <select class="select2 form-control form-control-lg" id="agent_know_about" name="agent_know_about"
-                data-error="{{ __('agent/agent.agent_know_about') }}">
-                <option value="">Select Reach Us</option>
-                @foreach ($reach as $rech)
-                    <option value="{{ $rech->id }}" data-name="{{ $rech->textbox_lable }}"
-                        data-other="{{ $rech->show_other_textbox }}"
-                        {{ $model->id == $rech->id ? 'selected' : '' }}>
-                        {{ $rech->name }}</option>
-                    @php
-                        $hide = $model->id == $rech->id ? '' : 'hide';
-                    @endphp
-                @endforeach
-            </select>
-            <div class="valid-feedback">Looks good!</div>
-            @error('agent_know_about')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
 
-    <div class="col-4 otherData {{ $hide }}">
+    </div>
+    <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="agent_know_about">{{ __('agent/agent.agent_know_about') }}</label>
-            <input type="text" id="othername" name="othername" class="form-control"
-                value="{{ isset($model->othername) ? $model->othername : old('othername') }}" />
+            <label class="form-label" for="role">Status</label>
+            <select name="status" class="form-control" id="status" data-error="Status is required">
+                <option value="">Select Status</option>
+                <option value="1" {{ isset($model->id) && $model->status == 1 ? 'selected' : '' }}>
+                    {{ __('core.active') }}</option>
+                <option value="0" {{ isset($model->id) && $model->status == 0 ? 'selected' : '' }}>
+                    {{ __('core.inactive') }}</option>
+            </select>
+            @error('status')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-md-4 col-4">
+        <div class="form-group">
+            <label for="itemcost">Origin City</label>
+            <a class="badge badge-success textBoxCityAdd" data-name="origin_city" style="color:#FFF; float: right;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add City
+            </a>
+            <input type="text" name="origin_city" class="form-control" data-error="Origin city is required" />
+            <input type="hidden" name="total_origin_city" id="total_origin_city"
+                value="{{ isset($model->origincityname) ? count($model->origincityname) : 0 }}">
+                <div class="total_origin_city_req"></div>
+        </div>
+        <div class="demo-spacing-0 hide_origin_city {{ isset($model->origincityname) ? '' : 'hide' }}">
+            @if (count($model->origincityname) > 0)
+                @foreach ($model->origincityname as $origincityname)
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <div class="alert-body">{{ $origincityname->city_name }}</div>
+                        <button data-dismiss="alert" aria-label="Close" type="button" class="close"
+                            data-id="1" data-name="origin_city">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <input type="hidden" name="origin_city_arr[]"
+                            value="{{ isset($origincityname->city_name) ? $origincityname->city_name : '' }}">
+                    </div>
+                @endforeach
+            @endif
+        </div>
+    </div>
+    <div class="col-md-4 col-4">
+        <div class="form-group">
+            <label for="itemcost">Inclusion</label>
+            <a class="badge badge-success textBoxInclusionAdd" data-name="inclusion"
+                style="color:#FFF; float: right;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Inclusion
+            </a>
+            <input type="text" name="inclusion" class="form-control" data-error="Inclusion is required" />
+            <input type="hidden" name="total_inclusion" id="total_inclusion"
+                value="{{ isset($model->inclusionname) ? count($model->inclusionname) : 0 }}">
+        </div>
+
+        <div class="demo-spacing-0 hide_inclusion {{ isset($model->inclusionname) ? '' : 'hide' }}">
+            @if (count($model->inclusionname) > 0)
+                @foreach ($model->inclusionname as $inclusionname)
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <div class="alert-body">{{ $inclusionname->inclusion_name }}</div>
+                        <button data-dismiss="alert" aria-label="Close" type="button" class="close"
+                            data-id="1" data-name="inclusion">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <input type="hidden" name="inclusion_arr[]"
+                            value="{{ isset($inclusionname->inclusion_name) ? $inclusionname->inclusion_name : '' }}">
+                    </div>
+                @endforeach
+            @endif
+        </div>
+
+    </div>
+    <div class="col-md-4 col-4">
+        <div class="form-group">
+            <label for="itemcost">Exclusion</label>
+            <a class="badge badge-success textBoxExclusionAdd" data-name="exclusion"
+                style="color:#FFF; float: right;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add Exclusion
+            </a>
+            <input type="text" name="exclusion" class="form-control" data-error="Exclusion is required" />
+            <input type="hidden" name="total_exclusion" id="total_exclusion"
+                value="{{ isset($model->exclusionname) ? count($model->exclusionname) : 0 }}">
+        </div>
+        <div class="demo-spacing-0 hide_exclusion {{ isset($model->exclusionname) ? '' : 'hide' }}">
+
+            @if (count($model->exclusionname) > 0)
+                @foreach ($model->exclusionname as $exclusionname)
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <div class="alert-body">{{ $exclusionname->exclusion_name }}</div>
+                        <button data-dismiss="alert" aria-label="Close" type="button" class="close"
+                            data-id="1" data-name="exclusion">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <input type="hidden" name="exclusion_arr[]"
+                            value="{{ isset($exclusionname->exclusion_name) ? $exclusionname->exclusion_name : '' }}">
+                    </div>
+                @endforeach
+            @endif
+
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-6">
+        <div class="form-group">
+            <label class="form-label" for="Highlights">Highlights</label>
+            <textarea name="highlights" class="my-highlights" id="highlights" cols="30" rows="10">{{ isset($model->highlights) ? $model->highlights : '' }}</textarea>
+            <div class="valid-feedback">Looks good!</div>
+            @error('highlights')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+            <div class="highlightsErr"></div>
+        </div>
+    </div>
+    <div class="col-md-6 col-6">
+        <div class="form-group">
+            <label class="form-label" for="Terms_and_Conditions">Terms and Conditions</label>
+            <textarea name="terms_and_conditions" class="my-terms_and_conditions" id="terms_and_conditions" cols="30"
+                rows="10">{{ isset($model->terms_and_conditions) ? $model->terms_and_conditions : '' }}</textarea>
+            <div class="valid-feedback">Looks good!</div>
+            @error('terms_and_conditions')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+            <div class="terms_and_conditionsErr"></div>
+        </div>
+    </div>
+    <div class="col-md-12 col-12">
+        <div class="form-group">
+            <label class="form-label" for="image_upload">Image Upload (gif, jpg, png)</label>
+            <div class="dropzone clsbox packageGalleryDropzone" id="packageGalleryDropzone" name="package_gallery"
+                dropzonegallery="packageGalleryDropzone">
+            </div>
         </div>
     </div>
 </div>
-
-
 <div class="row">
-    <div class="col-4">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.management_details_title') }}</h4>
-        </div>
+    <div class="col-12">
         <hr class="my-2" />
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="mgmt_first_name">{{ __('agent/agent.mgmt_first_name') }}</label>
-                <input type="text" id="mgmt_first_name" name="mgmt_first_name" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_first_name') }}"
-                    value="{{ isset($model->mgmt_first_name) ? $model->mgmt_first_name : old('mgmt_first_name') }}"
-                    data-error="{{ __('agent/agent.mgmt_first_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('mgmt_first_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
+    </div>
+</div>
+<div data-repeater-list="packages" class="repeaterCLS">
+    @if ($model->packageitineraries->count() > 0)
+        @php
+            $i = 0;
+        @endphp
+        @foreach ($model->packageitineraries as $childs)
+            <div data-repeater-item>
+                <div class="row d-flex ">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center mb-1 mt-1">
+                            <h5 class="packageTitile" id="package-1" package-title="package-name">Itinerary Item 1
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6">
+                        <div class="form-group">
+                            <label>Heading</label>
+                            <input type="hidden" name="edit_id" value="{{ $childs->id }}" />
+                            <input type="hidden" name="edit_package_id" value="{{ $childs->package_id }}" />
+                            <input type="text" class="form-control" name="heading"
+                                value="{{ isset($childs->heading) ? $childs->heading : old('heading') }}"
+                                data-error="Heading is required" />
+                            @error('heading')
+                                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6">
+                        <div class="form-group">
+                            <label>Display Order</label>
+                            <input type="number" class="form-control" name="display_order"
+                                value="{{ isset($childs->display_order) ? $childs->display_order : old('display_order') }}"
+                                data-error="Display order is required" />
+                            @error('display_order')
+                                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-12">
+                        <div class="form-group">
+                            <label class="form-label" for="description">Description</label>
+                            <textarea name="description" data-desc="description" class="my-description" id="my-description-{{ $i }}"
+                                cols="30" rows="10">{{ isset($childs->description) ? $childs->description : old('description') }}</textarea>
+                            <div class="valid-feedback">Looks good!</div>
+                            @error('description')
+                                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row col-4">
+                        <div class="col-md-2 col-12 mb-50">
+                            <div class="form-group">
+                                <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete
+                                    type="button">
+                                    <i data-feather="x" class="mr-25"></i>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="mgmt_last_name">{{ __('agent/agent.mgmt_last_name') }}</label>
-                <input type="text" id="mgmt_last_name" name="mgmt_last_name" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_last_name') }}"
-                    value="{{ isset($model->mgmt_last_name) ? $model->mgmt_last_name : old('mgmt_last_name') }}"
-                    data-error="{{ __('agent/agent.mgmt_last_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('mgmt_last_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
+            @php
+                $i++;
+            @endphp
+        @endforeach
+    @else
+        <div data-repeater-item>
+            <div class="row d-flex ">
+                <div class="col-12">
+                    <div class="d-flex align-items-center mb-1 mt-1">
+                        <h5 class="packageTitile" id="package-1" package-title="package-name">Itinerary Item 1</h5>
+                    </div>
+                </div>
+                <div class="col-md-6 col-6">
+                    <div class="form-group">
+                        <label>Heading</label>
+                        <input type="text" class="form-control" name="heading" value="{{ old('heading') }}"
+                            data-error="Heading is required" />
+                        @error('heading')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6 col-6">
+                    <div class="form-group">
+                        <label>Display Order</label>
+                        <input type="number" class="form-control" name="display_order"
+                            value="{{ old('display_order') }}" data-error="Display order is required" />
+                        @error('display_order')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-12 col-12">
+                    <div class="form-group">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea name="description" data-desc="description" class="my-description" id="my-description-0" cols="30"
+                            rows="10"></textarea>
+                        <div class="valid-feedback">Looks good!</div>
+                        @error('description')
+                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row col-4">
+                    <div class="col-md-2 col-12 mb-50">
+                        <div class="form-group">
+                            <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete
+                                type="button">
+                                <i data-feather="x" class="mr-25"></i>
+                                <span>Delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <hr />
         </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="mgmt_contact_number">{{ __('agent/agent.mgmt_contact_number') }}</label>
-                <input type="text" id="mgmt_contact_number" name="mgmt_contact_number" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_contact_number') }}"
-                    value="{{ isset($model->mgmt_contact_number) ? $model->mgmt_contact_number : old('mgmt_contact_number') }}"
-                    data-error="{{ __('agent/agent.mgmt_contact_number') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('mgmt_contact_number')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="mgmt_email">{{ __('agent/agent.mgmt_email') }}</label>
-                <input type="text" id="mgmt_email" name="mgmt_email" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_email') }}"
-                    value="{{ isset($model->mgmt_email) ? $model->mgmt_email : old('mgmt_email') }}"
-                    data-error="{{ __('agent/agent.mgmt_email') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('mgmt_email')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
+    @endif
 
-    </div>
-    <div class="col-4">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.account_details_title') }}</h4>
-        </div>
-        <hr class="my-2" />
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="account_first_name">{{ __('agent/agent.account_first_name') }}</label>
-                <input type="text" id="account_first_name" name="account_first_name" class="form-control"
-                    placeholder="{{ __('agent/agent.account_first_name') }}"
-                    value="{{ isset($model->account_first_name) ? $model->account_first_name : old('account_first_name') }}"
-                    data-error="{{ __('agent/agent.account_first_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('account_first_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="account_last_name">{{ __('agent/agent.account_last_name') }}</label>
-                <input type="text" id="account_last_name" name="account_last_name" class="form-control"
-                    placeholder="{{ __('agent/agent.account_last_name') }}"
-                    value="{{ isset($model->account_last_name) ? $model->account_last_name : old('account_last_name') }}"
-                    data-error="{{ __('agent/agent.account_last_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('account_last_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="account_contact_number">{{ __('agent/agent.mgmt_contact_number') }}</label>
-                <input type="text" id="account_contact_number" name="account_contact_number" class="form-control"
-                    placeholder="{{ __('agent/agent.account_contact_number') }}"
-                    value="{{ isset($model->account_contact_number) ? $model->account_contact_number : old('account_contact_number') }}"
-                    data-error="{{ __('agent/agent.account_contact_number') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('account_contact_number')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="account_email">{{ __('agent/agent.account_email') }}</label>
-                <input type="text" id="account_email" name="account_email" class="form-control"
-                    placeholder="{{ __('agent/agent.account_email') }}"
-                    value="{{ isset($model->account_email) ? $model->account_email : old('account_email') }}"
-                    data-error="{{ __('agent/agent.account_email') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('account_email')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.reservation_details_title') }}</h4>
-        </div>
-        <hr class="my-2" />
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="reserve_first_name">{{ __('agent/agent.reserve_first_name') }}</label>
-                <input type="text" id="reserve_first_name" name="reserve_first_name" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_first_name') }}"
-                    value="{{ isset($model->reserve_first_name) ? $model->reserve_first_name : old('reserve_first_name') }}"
-                    data-error="{{ __('agent/agent.reserve_first_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('reserve_first_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="reserve_last_name">{{ __('agent/agent.account_last_name') }}</label>
-                <input type="text" id="reserve_last_name" name="reserve_last_name" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_last_name') }}"
-                    value="{{ isset($model->reserve_last_name) ? $model->reserve_last_name : old('reserve_last_name') }}"
-                    data-error="{{ __('agent/agent.reserve_last_name') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('reserve_last_name')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="reserve_contact_number">{{ __('agent/agent.reserve_contact_number') }}</label>
-                <input type="text" id="reserve_contact_number" name="reserve_contact_number" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_contact_number') }}"
-                    value="{{ isset($model->reserve_contact_number) ? $model->reserve_contact_number : old('reserve_contact_number') }}"
-                    data-error="{{ __('agent/agent.reserve_contact_number') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('reserve_contact_number')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="reserve_email">{{ __('agent/agent.reserve_email') }}</label>
-                <input type="text" id="reserve_email" name="reserve_email" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_email') }}"
-                    value="{{ isset($model->reserve_email) ? $model->reserve_email : old('reserve_email') }}"
-                    data-error="{{ __('agent/agent.reserve_email') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('reserve_email')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-    </div>
 
 </div>
-<div class="row">
-    <div class="col-4">
-        <input type="hidden" value="{{ isset($model->id) ? 'yes' : 'no' }}" class="editPage" id="editPage">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.access_details_title') }}</h4>
-        </div>
-        <hr class="my-2" />
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="agent_username">{{ __('agent/agent.agent_username') }}</label>
-                <input type="text" id="agent_username" name="agent_username" class="form-control"
-                    placeholder="{{ __('agent/agent.agent_username') }}"
-                    value="{{ isset($model->user->email) ? $model->user->email : old('agent_username') }}"
-                    data-error="{{ __('agent/agent.agent_username') }}"  autocomplete="off"/>
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_username')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label" for="agent_password">{{ __('agent/agent.agent_password') }}</label>
-                <input type="password" id="agent_password" name="agent_password" class="form-control"
-                    placeholder="{{ __('agent/agent.agent_password') }}"
-                    value=""
-                    data-error="{{ __('agent/agent.agent_password') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_password')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label class="form-label"
-                    for="agent_confirm_password">{{ __('agent/agent.agent_confirm_password') }}</label>
-                <input type="password" id="agent_confirm_password" name="agent_confirm_password"
-                    class="form-control" placeholder="{{ __('agent/agent.agent_confirm_password') }}"
-                    value=""
-                    data-error="{{ __('agent/agent.agent_confirm_password') }}" />
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_confirm_password')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-    </div>
-    <div class="col-8">
-        <div class="d-flex align-items-center mb-1 mt-1">
-            <i data-feather="user" class="font-medium-3"></i>
-            <h4 class="mb-0 ml-75">{{ __('agent/agent.document_details_title') }}</h4>
-        </div>
-        <hr class="my-2" />
-        <div class="col-3">
-            <div class="form-group">
-                <label class="form-label" for="agent_pan_card">{{ __('agent/agent.agent_pan_card') }}</label><br>
-                <input type="file" name="agent_pan_card" id="agent_pan_card">
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_pan_card')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-            @if (strlen($model->agent_pan_card) > 0)
-                <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_pan_card) }}"
-                    alt="{{ $model->agent_first_name }}" title="{{ $model->agent_first_name }}" width="100px;">
-            @endif
-        </div>
-        <div class="col-3">
-            <div class="form-group">
-                <label class="form-label"
-                    for="agent_company_certificate">{{ __('agent/agent.agent_company_certificate') }}</label><br>
-                <input type="file" name="agent_company_certificate" id="agent_company_certificate">
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_company_certificate')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-            @if (strlen($model->agent_company_certificate) > 0)
-                <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_certificate) }}"
-                    alt="{{ $model->agent_company_name }}" title="{{ $model->agent_company_name }}"
-                    width="100px;">
-            @endif
-        </div>
-        <div class="col-3">
-            <div class="form-group">
-                <label class="form-label"
-                    for="agent_company_logo">{{ __('agent/agent.agent_company_logo') }}</label><br>
-                <input type="file" name="agent_company_logo" id="agent_company_logo">
-                <div class="valid-feedback">Looks good!</div>
-                @error('agent_company_logo')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
-            </div>
-            @if (strlen($model->agent_company_logo) > 0)
-                <img src="{{ url('storage/app/upload/' . $model->user_id . '/' . $model->agent_company_logo) }}"
-                    alt="{{ $model->agent_company_name }}" title="{{ $model->agent_company_name }}"
-                    width="100px;">
-            @endif
-        </div>
+<div class="row mb-2">
+    <div class="col-12">
+        <button class="btn btn-icon btn-primary " type="button" data-repeater-create>
+            <i data-feather="plus"></i>
+            <span>Add More Itinerary</span>
+        </button>
     </div>
 </div>
 @section('extra-script')
-    <script src="{{ asset('js/form/Agent.js') }}"></script>
+    <script src="{{ asset('js/form/Packages.js') }}"></script>
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="{{ asset('app-assets/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="{{ asset('app-assets/js/scripts/forms/form-select2.js') }}"></script>
+    <!-- END: Page JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="{{ asset('app-assets/js/scripts/forms/form-repeater-without-dropzone.js') }}"></script>
+    <!-- END: Page JS-->
+    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    {{-- <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script> --}}
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
-    <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
-    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.time.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+
+    <script type="text/javascript">
+       
+
+
+
+        var packageBasic = $('.package-basic');
+        if (packageBasic.length) {
+            packageBasic.flatpickr({
+                minDate: PackageMinDate,
+                mode: 'range',
+                defaultDate: [PackageStartDate, PackageEndDate]
+            });
+        }
+
+        Dropzone.autoDiscover = false;
+        var packageGalleryDropzone = new Dropzone("div#packageGalleryDropzone", {
+            url: "/file/post",
+            autoProcessQueue: false,
+            acceptedFiles: 'image/*',
+            init: function() {
+                this.on('addedfile', function(file) {
+                    // Create the remove button
+                    var removeButton = Dropzone.createElement(
+                        "<button class='btn btn-outline-danger btn-sm' style='margin-left: 7px;margin-top: 7px;'>Remove file</button>"
+                    );
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+                    // Listen to the click event
+                    removeButton.addEventListener("click", function(e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Remove the file preview.
+                        _this.removeFile(file);
+                        // If you want to the delete the file on the server as well,
+                        // you can do the AJAX request here.
+                        this.on("maxfilesexceeded", function(file) {
+                            this.removeFile(file);
+                        });
+                    });
+                    // Add the button to the file preview element.
+                    file.previewElement.appendChild(removeButton);
+                });
+            }
+        });
+
+        // If you use jQuery, you can use the jQuery plugin Dropzone ships with:
+        for (let i = 0; i < images.length; i++) {
+            let img = images[i];
+            // Create the mock file:
+            var mockFile = {
+                url: img.images
+            };
+            // Call the default addedfile event handler
+            packageGalleryDropzone.emit("addedfile", mockFile);
+            // And optionally show the thumbnail of the file:
+            packageGalleryDropzone.emit("thumbnail", mockFile, img.images);
+            // Make sure that there is no progress bar, etc...
+            packageGalleryDropzone.emit("complete", mockFile);
+            // If you use the maxFiles option, make sure you adjust it to the
+            // correct amount:
+            var existingFileCount = 1; // The number of files already uploaded
+            packageGalleryDropzone.options.maxFiles = packageGalleryDropzone.options.maxFiles - existingFileCount;
+
+        }
+
+        var options = {
+            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+        };
+        CKEDITOR.replace('highlights', options);
+        CKEDITOR.replace('terms_and_conditions', options);
+        if (PackageItinerariesCount) {
+            for (let i = 0; i <= PackageItinerariesCount; i++) {
+                CKEDITOR.replace('my-description-' + i, options);
+            }
+        } else {
+            CKEDITOR.replace('my-description-0', options);
+        }
+    </script>
     <script type="text/javascript">
         var moduleConfig = {
-            redirectUrl: "{!! route('get-state-list') !!}",
-            getCities: "{!! route('get-city-list') !!}",
+            getCitiesByCountryURL: "{!! route('get-cities-by-country-url', '') !!}",
+            addPackageURL: "{{ isset($model->id) ? route('packages.update', $model) : route('packages.store') }}",
+            listPackageURL: "{!! route('packages.index') !!}",
         };
     </script>
 @endsection

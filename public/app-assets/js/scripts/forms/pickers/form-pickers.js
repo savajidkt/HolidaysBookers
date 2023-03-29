@@ -27,14 +27,14 @@
   }
   if (startBasicPickr.length) {
     startBasicPickr.flatpickr({
-      minDate: "today",
+      minDate: RoomMinDate,
       mode: 'range',
       defaultDate: [TravelStartDate, TravelEndDate]
     });
   }
   if (bookingBasicPickr.length) {
     bookingBasicPickr.flatpickr({
-      minDate: "today",
+      minDate: RoomMinDate,
       mode: 'range',
       defaultDate: [BookingStartDate, BookingEndDate]
     });
