@@ -16,6 +16,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\City\EditRequest;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\City\CreateRequest;
+use App\Imports\RezliveCitiesImport;
+use Illuminate\Support\Facades\Storage;
+use App\Jobs\RezliveCityCodeUpdate;
 
 class CitiesController extends Controller
 {
@@ -205,5 +208,54 @@ class CitiesController extends Controller
             'status' => true,
             'message' => 'Cities import Successfully.'
         ]);
+    }
+    public function importRezliveCities(Request $request)
+    { 
+        
+        // $file = storage_path('app/cities.csv');
+        // if (($handle = fopen($file, "r")) === FALSE)
+        // {
+        //     echo "readJobsFromFile: Failed to open file [$file]\n";
+        //     die;
+        // }
+
+        // $header=true;
+        // $fieldArray=[];
+        // $index=0;
+        // while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+        // {
+        //     if($index !=0){
+        //         $firstCol = explode('|', $data[0]);
+        //         $cityName = $firstCol[1]; // City Name
+               
+        //         if(count($firstCol)>2){
+        //             $cityCode = $firstCol[2]; // City Code
+        //         }else{
+        //             $SecCol = explode('|', $data[1]);
+        //             if(count($SecCol)>1){
+        //                 $cityCode = $SecCol[1];
+        //             }else{
+        //                 $ThirdCol = explode('|', $data[2]); 
+        //                 $cityCode = $ThirdCol[1];
+        //             }
+                    
+        //         }
+
+
+        //        $city = City::where('name','LIKE','%'.$cityName.'%')->first();
+        //        if($city){
+        //             $city->update(['rezlive_city_code'=>$cityCode]);
+        //        }else{
+        //             $fieldArray[]= $cityName;
+        //             $city->update(['rezlive_failed'=>1]);
+        //        }
+        //     }
+        //     $index++;
+        // }
+
+        // fclose($handle);
+
+        RezliveCityCodeUpdate::dispatch();
+        
     }
 }

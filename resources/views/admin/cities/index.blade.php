@@ -18,6 +18,9 @@
                         data-target="#ImportCities" data-backdrop="false">
                         {{ __('core.import_excel') }}
                     </button>
+                    <button type="button" class="btn btn-outline-primary waves-effect" data-toggle="modal"
+                        data-target="#RezliveImportCities" data-backdrop="false">Rezlive Import
+                    </button>
                     <a href="{{ route('cities.create') }}"><button type="reset"
                             class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ __('city/city.add_new') }}</button></a>
                 </div>
@@ -41,6 +44,40 @@
         <!-- list section end -->
     </section>
     <!-- users list ends -->
+    <div class="modal fade text-left" id="RezliveImportCities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel33">{{ __('city/city.modal_title') }}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- single file upload starts -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="{{ route('imporRezlivetCities') }}" class="dropzone dropzone-area"
+                                    id="dpz-single-file" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="dz-message">{{ __('core.drop_files') }}</div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- single file upload ends -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="import-cities" class="btn btn-primary">{{ __('core.import') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="modal fade text-left" id="ImportCities" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

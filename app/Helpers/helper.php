@@ -267,7 +267,8 @@ if (!function_exists('rezeliveHotels')) {
 
     function rezeliveHotels($config)
     {
-        set_time_limit(0); 
+        
+            set_time_limit(0); 
             $str = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
             <HotelFindRequest>
             <Authentication>
@@ -276,8 +277,8 @@ if (!function_exists('rezeliveHotels')) {
             <Password>'.$config->password.'</Password>
             </Authentication>
             <Booking>
-            <ArrivalDate>05/04/2023</ArrivalDate>
-            <DepartureDate>10/04/2023</DepartureDate>
+            <ArrivalDate>01/04/2023</ArrivalDate>
+            <DepartureDate>05/04/2023</DepartureDate>
             <CountryCode>ID</CountryCode>
             <City>326</City>
             <GuestNationality>IN</GuestNationality>
@@ -299,7 +300,7 @@ if (!function_exists('rezeliveHotels')) {
             </HotelFindRequest>';
 
             file_put_contents("xml/resquest".time().".xml", $str); 
-            $url = $config->api_url."/findhotel";
+            $url = $config->api_url."findhotel";
 
             $ch = curl_init();
             //set the url, number of POST vars, POST data 
@@ -310,16 +311,18 @@ if (!function_exists('rezeliveHotels')) {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=UTF8')); 
             $result = curl_exec($ch); 
+            
             if ($result === false) { 
             echo 'Curl error: ' . curl_error($ch); 
             }
              //curl_close($ch); 
-           // print_r($result);
+        //    print_r($result);
+        //    die;
             //$result = str_replace("world","Peter","Hello world!");
             $xml = simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
             
-            $json = json_encode($xml);
-            $arr = json_decode($json,true);
-            echo "<pre>";print_r($arr);exit;
+             $json = json_encode($xml);
+             $arr = json_decode($json,true);
+             echo "<pre>";print_r($arr);exit;
     }
 }

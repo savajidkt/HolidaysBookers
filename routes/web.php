@@ -140,7 +140,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/city/change-status', [CitiesController::class, 'changeStatus'])->name('change-city-status');
     Route::post('/city/get-state', [CitiesController::class, 'getStateList'])->name('get-state-list');
     Route::post('/city/get-cities', [CitiesController::class, 'getCitiesList'])->name('get-city-list');
-    Route::post('/state/import-cities', [CitiesController::class, 'importCities'])->name('importsCities');
+    Route::post('/city/import-cities', [CitiesController::class, 'importCities'])->name('importsCities');
+    Route::get('/city/rezelive-import-cities', [CitiesController::class, 'importRezliveCities'])->name('importRezliveCities');
 
     Route::resource('/apis', ApisController::class);
     Route::post('/api/change-status', [ApisController::class, 'changeStatus'])->name('change-api-status');

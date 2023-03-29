@@ -27,6 +27,7 @@ use App\Models\Freebies;
 use App\Models\HotelImage;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Traits\GlobalTrait;
+use SimpleXMLElement;
 
 class ApiHotelsController extends Controller
 {
@@ -41,8 +42,9 @@ class ApiHotelsController extends Controller
 
     public function rezliveHotels()
     {
+    
         rezeliveHotels($this->settings);
-        dd($this->settings);
+        
     }
    
     public function show(OfflineHotel $offlinehotel)
