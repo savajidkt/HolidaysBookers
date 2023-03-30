@@ -66,13 +66,14 @@ class CreatePackagesTable extends Migration
             $table->boolean('status')->default(false)->comment('1=Active, 0=Inactive');
             $table->text('highlights');
             $table->text('terms_and_conditions');
-            $table->boolean('type')->default(false)->comment('0=Admin, 1=Vendor');            
+            $table->boolean('type')->default(false)->comment('0=Admin, 1=Vendor'); 
+                       
             $table->foreign('hotel_name_id')->references('id')->on('hotels');
             $table->foreign('room_type_id')->references('id')->on('room_types');
             $table->foreign('meal_plan_id')->references('id')->on('mealplans');
             $table->foreign('currency_id')->references('id')->on('currencies');
-            $table->foreign('user_id')->references('id')->on('users')->nullable();
-            $table->foreign('vendor_id')->references('id')->on('vendors')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('vendor_id')->references('id')->on('vendors');
 
             $table->softDeletes();
             $table->timestamps();
