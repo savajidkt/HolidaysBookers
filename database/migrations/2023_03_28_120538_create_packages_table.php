@@ -59,7 +59,7 @@ class CreatePackagesTable extends Migration
             // $table->integer('rate_per_child_cwb');
             // $table->integer('rate_per_child_cnb');
             // $table->integer('rate_per_infant');
-            // $table->integer('minimum_pax');
+            // $table->integer('minimum_pax'); 
             // $table->integer('maximum_pax');
             $table->integer('cancel_day');
             $table->string('terms_and_conditions_pdf')->nullable();
