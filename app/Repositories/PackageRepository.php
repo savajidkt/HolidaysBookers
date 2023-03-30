@@ -128,7 +128,8 @@ class PackageRepository
     }
 
     public function update(array $data, Package $package): Package
-    {        
+    {      
+        
         $package_validity = explode(' to ', $data['package_validity']);
         $travel_validity = explode(' to ', $data['travel_validity']);
         $sold_out_validity = explode(' to ', $data['sold_out_dates']);
@@ -181,9 +182,11 @@ class PackageRepository
             'cobtax'    => $data['cobtax'],
             'ccobtax'    => $data['ccobtax'],
         ];
-
+     
+        
         if ($package->update($packageArr)) {
 
+            
             if (isset($data['terms_and_conditions_pdf'])) {
                 $filename = $this->uploadDoc($data, 'terms_and_conditions_pdf', $package->id);
                 if ($filename) {

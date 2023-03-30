@@ -967,14 +967,35 @@
             filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
             filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
         };
-        CKEDITOR.replace('highlights', options);
-        CKEDITOR.replace('terms_and_conditions', options);
-        if (PackageItinerariesCount) {
+
+
+        var highlights = CKEDITOR.replace('highlights');
+        highlights.on('change', function() {
+            highlights.updateElement();
+        });
+        var terms_and_conditions = CKEDITOR.replace('terms_and_conditions');
+        terms_and_conditions.on('change', function() {
+            terms_and_conditions.updateElement();
+        });
+
+        var myVar = [];
+       
+        if (PackageItinerariesCount) {     
+               
             for (let i = 0; i <= PackageItinerariesCount; i++) {
-                CKEDITOR.replace('my-description-' + i, options);
+                              
+                myVar[i] = CKEDITOR.replace('my-description-' + i);
+                myVar[i].on('change', function() {
+                    myVar[i].updateElement();
+                });
+               
+                
             }
         } else {
-            CKEDITOR.replace('my-description-0', options);
+            myVar[0] = CKEDITOR.replace('my-description-0');
+            myVar[0].on('change', function() {
+                myVar[0].updateElement();
+            });
         }
     </script>
     <script type="text/javascript">

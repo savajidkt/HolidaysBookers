@@ -196,14 +196,14 @@
                                         <div class="form-group">
                                             <label for="account-username">Highlights</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->highlights) ? $model->highlights : '' }}</strong>
+                                                class="disp-below">{{ isset($model->highlights) ? strip_tags($model->highlights) : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group">
                                             <label for="account-username">Terms and Conditions</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->terms_and_conditions) ? $model->terms_and_conditions : '' }}</strong>
+                                                class="disp-below">{{ isset($model->terms_and_conditions) ? strip_tags($model->terms_and_conditions) : '' }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -493,7 +493,7 @@
                                                 <div class="form-group">
                                                     <label for="account-username">Description</label>
                                                     <strong
-                                                        class="disp-below">{{ isset($childs->description) ? $childs->description : old('description') }}</strong>
+                                                        class="disp-below">{{ isset($childs->description) ? strip_tags($childs->description) : '' }}</strong>
                                                 </div>
                                             </div>
                                         @endforeach
