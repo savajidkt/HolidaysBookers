@@ -94,7 +94,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/customer/update-password', [CustomersController::class, 'updatePassword'])->name('update-customer-password');
     Route::post('/customer/import-customers', [CustomersController::class, 'importCustomers'])->name('importsCustomers');
     Route::get('/customer/export', [CustomersController::class, 'customerExcelExport'])->name('customerExport');
-
+    
     // Hotels Route
     Route::resource('/offlinehotels', OfflineHotelsController::class);
     Route::post('/offlinehotels/change-status', [OfflineHotelsController::class, 'changeStatus'])->name('change-offlinehotels-status');
@@ -102,7 +102,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/offlinehotels/export', [OfflineHotelsController::class, 'offlineHotelsExport'])->name('offline-hotels-export');
     Route::post('/offlinehotel/delete-hotel-image', [OfflineHotelsController::class, 'deleteHotelImage'])->name('delete-hotel-image');
     Route::post('/offlinehotel/delete-hotel-gallery-image', [OfflineHotelsController::class, 'deleteHotelGalleryImage'])->name('delete-hotel-gallery-image');
-
+    Route::get('/offlinehotel/rezelive-import', [OfflineHotelsController::class, 'importRezliveHotels'])->name('importRezliveHotels');
     // API Hotels
     //Route::resource('apihotels', ApiHotelsController::class);
     Route::get('/apihotels/rezlive-api', [ApiHotelsController::class, 'rezliveHotels'])->name('rezlive-api');

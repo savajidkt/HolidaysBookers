@@ -26,8 +26,11 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Agent\EditRequest;
 use App\Repositories\OfflineHotelRepository;
 use App\Http\Requests\OfflineHotel\CreateRequest;
+use App\Jobs\RezliveHotelsImports;
+use App\Models\City;
 use App\Models\Freebies;
 use App\Models\HotelImage;
+use App\Models\RezliveHotel;
 use Illuminate\Database\Eloquent\Builder;
 class OfflineHotelsController extends Controller
 {
@@ -337,5 +340,10 @@ class OfflineHotelsController extends Controller
             }
             throw new Exception('Offline hotel gallery image does not deleted. Please check sometime later.');
         }
+    }
+    public function importRezliveHotels(Request $request)
+    {
+        RezliveHotelsImports::dispatch();
+
     }
 }

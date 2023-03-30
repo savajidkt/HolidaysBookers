@@ -62,7 +62,7 @@ class RezliveCityCodeUpdate implements ShouldQueue
                 }
 
 
-               $city = City::where('name','LIKE','%'.$cityName.'%')->first();
+               $city = City::where('name','LIKE','%'.$cityName.'%')->whereNotNull('rezlive_city_code')->first();
                if($city){
                     $city->update(['rezlive_city_code'=>$cityCode,'rezlive_failed'=>1]);
                }else{
