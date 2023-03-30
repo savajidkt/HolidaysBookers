@@ -212,7 +212,7 @@ Auth::routes();
 // ]);
 # Front Routes
 Route::group(['authGrouping' => 'users.auth'], function () {
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('checkSurveyStatus');
+    //Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/change-password', [ResetPasswordController::class, 'firstTimePasswordChange'])->name('change-password');
     //Route::resource('/survey', SurveyController::class);
     // Route::get('/thank-you', [App\Http\Controllers\SurveyController::class, 'thankYou'])->name('thank-you')->middleware('checkSurveyStatus');
@@ -233,4 +233,4 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 
 // Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

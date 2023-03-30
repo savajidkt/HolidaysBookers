@@ -36,12 +36,7 @@
         @yield('content')
     </main>
     @include('common.footer')
-    <script type="text/javascript">
-        var configData = {
-            url: "{!!route('get-question')!!}",
-            type: '-1'
-        }
-    </script>
+    
     @include('layouts.front-scripts')
     @yield('page-script')
 </body>

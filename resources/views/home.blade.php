@@ -24,7 +24,7 @@ You are a leader of an IT helpdesk response team, where your team's primary func
                             <li>Do nothing. You are the most experienced person on the team, and you should get the job easily.</li>
                         </ul> -->
                      </p>
-                        <p class="card-text text-center"><a href="{{ route('demo-survey') }}" class="btn btn-primary">Try a Sample Question</a></p>
+                        <p class="card-text text-center"><a href="#" class="btn btn-primary">Try a Sample Question</a></p>
 
                     </div>
                 </div>
