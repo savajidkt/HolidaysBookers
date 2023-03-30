@@ -17,10 +17,10 @@ var FrmPackagePreference = function () {
                 country_ids: { required: true },
                 city_ids: { required: true },
                 nationality: { required: true },
-                rate_per_adult: { required: true },
-                rate_per_child_cwb: { required: true },
-                rate_per_child_cnb: { required: true },
-                rate_per_infant: { required: true },
+                // rate_per_adult: { required: true },
+                // rate_per_child_cwb: { required: true },
+                // rate_per_child_cnb: { required: true },
+                // rate_per_infant: { required: true },
                 minimum_pax: { required: true },
                 maximum_pax: { required: true },
                 cancel_day: { required: true },
@@ -36,6 +36,34 @@ var FrmPackagePreference = function () {
                 status: { required: true },
                 highlights: { required: true },
                 terms_and_conditions: { required: true },
+                hotel_name_id: { required: true },
+                room_type: { required: true },
+                meal_plan: { required: true },
+                travel_validity: { required: true },
+                cutoff_price: { required: true },
+                duration: { required: true },
+                sold_out_dates: { required: true },
+                sleepsmax: { required: true },
+                maxadults: { required: true },
+                maxchildwmaxadults: { required: true },
+                maxchildwoextrabed: { required: true },
+                mincwbage: { required: true },
+                mincwobage: { required: true },
+                currency_id: { required: true },
+                marketprice: { required: true },
+                rate_offered: { required: true },
+                singleadult: { required: true },
+                twinsharing: { required: true },
+                extraadult: { required: true },
+                cwb: { required: true },
+                cob: { required: true },
+                ccob: { required: true },
+                singleadulttax: { required: true },
+                twinsharingtax: { required: true },
+                extraadulttax: { required: true },
+                cwbtax: { required: true },
+                cobtax: { required: true },
+                ccobtax: { required: true },
             },
             messages: {
                 package_name: {
@@ -101,10 +129,26 @@ var FrmPackagePreference = function () {
                     error.insertAfter(".PackageValidity");
                 } else if (element.attr("name") == "highlights") {
                     error.insertAfter(".highlightsErr");
-
                 } else if (element.attr("name") == "terms_and_conditions") {
                     error.insertAfter(".terms_and_conditionsErr");
-
+                } else if (element.attr("name") == "currency_id") {
+                    error.insertAfter(".CurrencyError");
+                } else if (element.attr("name") == "hotel_name_id") {
+                    error.insertAfter(".hotelNameIDCLS");
+                } else if (element.attr("name") == "room_type") {
+                    error.insertAfter(".room_typeCLS");
+                } else if (element.attr("name") == "meal_plan") {
+                    error.insertAfter(".meal_planCLS");
+                } else if (element.attr("name") == "travel_validity") {
+                    error.insertAfter(".travel_validity");
+                } else if (element.attr("name") == "sold_out_dates") {
+                    error.insertAfter(".sold_out_dates");
+                } else if (element.attr("name") == "city_ids") {
+                    error.insertAfter(".addCityCLS");
+                } else if (element.attr("name") == "country_ids") {
+                    error.insertAfter(".addCountryCLS");
+                } else if (element.attr("name") == "nationality") {
+                    error.insertAfter(".nationalityCLS");
                 } else {
                     error.insertAfter(element);
                 }
@@ -156,7 +200,7 @@ var FrmPackagePreference = function () {
     var PackageCountry = function () {
         var selectCountry = $('.select2-add-country');
         var currenciesData = [];
-        $.each(currencyList, function (key, val) {
+        $.each(countriesList, function (key, val) {
             currenciesData.push({
                 id: val.id,
                 text: val.name
@@ -174,7 +218,7 @@ var FrmPackagePreference = function () {
             data: currenciesData
         });
 
-        $('.select2-add-country').val(currencyListIDs);
+        $('.select2-add-country').val(countrListIDs);
         $('.select2-add-country').trigger('change');
     }
     var PackageCity = function () {
@@ -204,7 +248,7 @@ var FrmPackagePreference = function () {
     var PackageNationality = function () {
         var selectNationality = $('.select2-nationality');
         var NationalitiesData = [];
-        $.each(currencyList, function (key, val) {
+        $.each(countriesList, function (key, val) {
             NationalitiesData.push({
                 id: val.id,
                 text: val.name
@@ -223,6 +267,104 @@ var FrmPackagePreference = function () {
         $('.select2-nationality').val(nationalityIDs);
         $('.select2-nationality').trigger('change');
     }
+
+
+    var PackageHotel = function () {
+        var selectHotel = $('.select2-hotel-name');
+        var HotelData = [];
+        $.each(hotelList, function (key, val) {
+
+            HotelData.push({
+                id: val.id,
+                text: val.hotel_name
+            });
+        });
+        selectHotel.wrap('<div class="position-relative"></div>').select2({
+            placeholder: "Select Hotel",
+            allowClear: true,
+            multiple: false,
+            dropdownAutoWidth: true,
+            dropdownParent: selectHotel.parent(),
+            width: '100%',
+            data: HotelData
+        });
+
+        $('.select2-hotel-name').val(hotelID);
+        $('.select2-hotel-name').trigger('change');
+    }
+
+    var PackageRoomType = function () {
+        var selectHotel = $('.select2-hotel-room-type');
+        var HotelData = [];
+
+        $.each(RoomTypeList, function (key, val) {
+
+            HotelData.push({
+                id: key,
+                text: val
+            });
+        });
+        selectHotel.wrap('<div class="position-relative"></div>').select2({
+            placeholder: "Select Room Type",
+            allowClear: true,
+            multiple: false,
+            dropdownAutoWidth: true,
+            dropdownParent: selectHotel.parent(),
+            width: '100%',
+            data: HotelData
+        });
+
+        $('.select2-hotel-room-type').val(RoomTypeID);
+        $('.select2-hotel-room-type').trigger('change');
+    }
+    var PackageMealPlan = function () {
+        var selectHotel = $('.select2-hotel-meal-paln');
+        var HotelData = [];
+        $.each(MealPlanList, function (key, val) {
+
+            HotelData.push({
+                id: key,
+                text: val
+            });
+        });
+        selectHotel.wrap('<div class="position-relative"></div>').select2({
+            placeholder: "Select Meal Plan",
+            allowClear: true,
+            multiple: false,
+            dropdownAutoWidth: true,
+            dropdownParent: selectHotel.parent(),
+            width: '100%',
+            data: HotelData
+        });
+
+        $('.select2-hotel-meal-paln').val(mealPalnID);
+        $('.select2-hotel-meal-paln').trigger('change');
+    }
+    var PackageCurrency = function () {
+        var selectHotel = $('.select2-room-currency');
+        var HotelData = [];
+
+        $.each(currencyList, function (key, val) {
+
+            HotelData.push({
+                id: val.id,
+                text: val.name
+            });
+        });
+        selectHotel.wrap('<div class="position-relative"></div>').select2({
+            placeholder: "Select Currency",
+            allowClear: true,
+            multiple: false,
+            dropdownAutoWidth: true,
+            dropdownParent: selectHotel.parent(),
+            width: '100%',
+            data: HotelData
+        });
+
+        $('.select2-room-currency').val(currencyID);
+        $('.select2-room-currency').trigger('change');
+    }
+
 
     var PackageCitiesList = function () {
         $('#country_ids').on('change', function () {
@@ -265,7 +407,46 @@ var FrmPackagePreference = function () {
                 }
             })
         });
-    };
+    }
+    var PackageRoomTypeList = function () {
+        $('#hotel_name_id').on('change', function () {
+            $('.select2-hotel-room-type').find('option').remove();
+            $('.select2-hotel-meal-paln').find('option').remove();
+            var hotel_name_id = $('#hotel_name_id').val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function () {
+                    // $(".myCity .spinner-border").removeClass('hide');
+                },
+                complete: function (data) {
+                    // $(".myCity .spinner-border").addClass('hide');
+                },
+                error: function (data) {
+                },
+                type: "post",
+                url: moduleConfig.getHotelWiseRoomTypeURL,
+                dataType: 'json',
+                data: {
+                    hotel_name_id: hotel_name_id
+                },
+                success: function (data) {
+                    //console.log(data);
+                    RoomTypeList = data.roomTypes;
+                    MealPlanList = data.mealPlan;
+                    console.log(MealPlanList);
+                    PackageRoomType();
+                    PackageMealPlan();
+                    // $(".myCity .spinner-border").hide();
+                },
+                error: function (x, t, m) {
+                }
+            })
+        });
+    }
     return {
         //main function to initiate the module
         init: function () {
@@ -274,6 +455,11 @@ var FrmPackagePreference = function () {
             PackageCity();
             PackageCitiesList();
             PackageNationality();
+            PackageHotel();
+            PackageRoomTypeList();
+            PackageRoomType();
+            PackageMealPlan();
+            PackageCurrency();
         }
     };
 }();
@@ -326,7 +512,7 @@ $(document).ready(function () {
 
     jQuery.validator.addMethod("package_validation_origin_city",
         function (value, element) {
-            console.log($('#total_origin_city').val());
+
             if ($('#total_origin_city').val() == '0' || $('#total_origin_city').val() == 'NuN') {
                 return false;
             }
@@ -349,4 +535,12 @@ $(document).ready(function () {
             return true;
         },
         "Exclusion is required");
+
+    $('#rate_offered').change(function () {
+        if ($(this).val() == 'NET_RATE') {
+            $('.is_rate_offered').addClass('hide');
+        } else {
+            $('.is_rate_offered').removeClass('hide');
+        }
+    });
 });

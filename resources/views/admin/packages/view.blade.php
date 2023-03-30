@@ -28,6 +28,34 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link " id="account-pill-hotel-detailss" data-toggle="pill"
+                            href="#account-vertical-hotel-detailss" aria-expanded="true">
+                            <i data-feather='arrow-right-circle'></i>
+                            <span class="font-weight-bold">HOTEL DETAILS</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="account-pill-room-occupancy" data-toggle="pill"
+                            href="#account-vertical-room-occupancy" aria-expanded="true">
+                            <i data-feather='arrow-right-circle'></i>
+                            <span class="font-weight-bold">ROOM OCCUPANCY</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="account-pill-add-pricing" data-toggle="pill"
+                            href="#account-vertical-add-pricing" aria-expanded="true">
+                            <i data-feather='arrow-right-circle'></i>
+                            <span class="font-weight-bold">PER ROOM PER NIGHT</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="account-pill-tax-included" data-toggle="pill"
+                            href="#account-vertical-tax-included" aria-expanded="true">
+                            <i data-feather='arrow-right-circle'></i>
+                            <span class="font-weight-bold">TAX INCLUDED (PER ROOM PER NIGHT)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="account-pill-room-details" data-toggle="pill"
                             href="#account-vertical-room-details" aria-expanded="false">
                             <i data-feather='arrow-right-circle'></i>
@@ -94,48 +122,6 @@
                                         <div class="form-group">
                                             <label for="account-username">Nationality</label>
                                             <strong class="disp-below">{{ $nationality }}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group">
-                                            <label for="account-username">Rate Per Adult</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->rate_per_adult) ? $model->rate_per_adult : '' }}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group">
-                                            <label for="account-username">Rate per child (CWB)</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->rate_per_child_cwb) ? $model->rate_per_child_cwb : '' }}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group">
-                                            <label for="account-username">Rate per child (CNB)</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->rate_per_child_cnb) ? $model->rate_per_child_cnb : '' }}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group">
-                                            <label for="account-username">Rate Per Infant(0-2)</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->rate_per_infant) ? $model->rate_per_infant : '' }}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group">
-                                            <label for="account-username">Minimum PAX</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->minimum_pax) ? $model->minimum_pax : '' }}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-4">
-                                        <div class="form-group">
-                                            <label for="account-username">Maximum PAX</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->maximum_pax) ? $model->maximum_pax : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -222,6 +208,255 @@
                                     </div>
                                 </div>
                             </div>
+                            <div role="tabpanel" class="tab-pane" id="account-vertical-hotel-detailss"
+                                aria-labelledby="account-pill-hotel-detailss" aria-expanded="true">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Hotel Name</label>
+                                            <strong
+                                                class="disp-below">{{ isset($hotel->hotel_name) ? $hotel->hotel_name : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Room Type</label>
+                                            <strong
+                                                class="disp-below">{{ isset($roomTypes->room_type) ? $roomTypes->room_type : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Meal Plan</label>
+                                            <strong
+                                                class="disp-below">{{ isset($mealPlan->name) ? $mealPlan->name : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Travel Valid Date</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->travel_valid_from) ? $model->travel_valid_from : '' }}
+                                                To
+                                                {{ isset($model->travel_valid_till) ? $model->travel_valid_till : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Cut-off for Booking</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->cutoff_price) ? $model->cutoff_price . ' Days' : '0 Day' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Min length of stay</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->duration) ? $model->duration : '0 Day' }}
+                                                @php
+                                                    if (isset($model->duration)) {
+                                                        if ($model->duration == 1) {
+                                                            echo 'One Night';
+                                                        } elseif ($model->duration == 2) {
+                                                            echo 'Two Night';
+                                                        } elseif ($model->duration == 3) {
+                                                            echo 'Three Night';
+                                                        } elseif ($model->duration == 4) {
+                                                            echo 'Four Night';
+                                                        } elseif ($model->duration == 5) {
+                                                            echo 'Five Night';
+                                                        } elseif ($model->duration == 6) {
+                                                            echo 'Six Night';
+                                                        } elseif ($model->duration == 7) {
+                                                            echo 'One Week';
+                                                        } elseif ($model->duration == 14) {
+                                                            echo 'Two Weeks';
+                                                        }
+                                                    }
+                                                @endphp
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Sold out dates (if any)</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->sold_out_from) ? $model->sold_out_from : '' }}
+                                                To
+                                                {{ isset($model->sold_out_till) ? $model->sold_out_till : '' }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="account-vertical-room-occupancy"
+                                aria-labelledby="account-pill-room-occupancy" aria-expanded="true">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Max Allowed (Adults + Child)</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->sleepsmax) ? $model->sleepsmax : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Max adults allowed in the room</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->maxadults) ? $model->maxadults : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Max children when max adults</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->maxchildwmaxadults) ? $model->maxchildwmaxadults : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Max children without extra bed</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->maxchildwoextrabed) ? $model->maxchildwoextrabed : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Min. Child with bed age</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->mincwbage) ? $model->mincwbage : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Min. Child w/o bed age</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->mincwobage) ? $model->mincwobage : '' }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="account-vertical-add-pricing"
+                                aria-labelledby="account-pill-add-pricing" aria-expanded="true">
+                                <div class="row">
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Currency</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->currency_id) ? getSelectedCurrency($currencyList, $model->currency_id) : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Market Price Per Night</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->marketprice) ? $model->marketprice : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Rate Offered</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->rate_offered) ? $model->rate_offered : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Commission %</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->commission) ? $model->commission : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Single Sharing</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->singleadult) ? $model->singleadult : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Twin Sharing</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->twinsharing) ? $model->twinsharing : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Extra Adult</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->extraadult) ? $model->extraadult : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Child with bed</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->cwb) ? $model->cwb : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Child without bed</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->cob) ? $model->cob : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Infant/Complimentary child</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->ccob) ? $model->ccob : '' }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="account-vertical-tax-included"
+                                aria-labelledby="account-pill-tax-included" aria-expanded="true">
+                                <div class="row">                                    
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Single Sharing</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->singleadulttax) ? $model->singleadulttax : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Twin Sharing</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->twinsharingtax) ? $model->twinsharingtax : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Extra Adult</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->extraadulttax) ? $model->extraadulttax : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Child with bed</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->cwbtax) ? $model->cwbtax : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Child without bed</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->cobtax) ? $model->cobtax : '' }}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Infant/Complimentary child</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->ccobtax) ? $model->ccobtax : '' }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="tab-pane fade" id="account-vertical-room-details" role="tabpanel"
                                 aria-labelledby="account-pill-room-details-details" aria-expanded="false">
                                 <div class="row">
@@ -283,7 +518,7 @@
                                                             @endphp
                                                             @foreach ($model->packageimages as $image)
                                                                 @php
-
+                                                                    
                                                                     $i++;
                                                                 @endphp
                                                                 <div class="carousel-item {{ $i == 1 ? 'active' : '' }}">

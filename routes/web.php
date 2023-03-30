@@ -79,31 +79,33 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/agent/change-status', [AgentsController::class, 'changeStatus'])->name('change-agent-status');
     Route::post('/agent/update-password', [AgentsController::class, 'updatePassword'])->name('update-agent-password');
     Route::post('/agent/import-agents', [AgentsController::class, 'importAgents'])->name('importsAgents');
-    Route::get('/agent/export',[AgentsController::class, 'agentExcelExport'])->name('agentExport');    
+    Route::get('/agent/export', [AgentsController::class, 'agentExcelExport'])->name('agentExport');
 
     Route::resource('/packages', PackagesController::class);
     Route::post('/package/change-status', [PackagesController::class, 'changeStatus'])->name('change-package-status');
     Route::post('/package/get-cities-by-country', [PackagesController::class, 'getCitiesByCountryList'])->name('get-cities-by-country-url');
     Route::post('/package/change-status', [PackagesController::class, 'changeStatus'])->name('change-package-status');
+    Route::post('/package/get-room-type-by-hotel', [PackagesController::class, 'getRoomTypeByHotel'])->name('get-room-type-by-hotel-url');
+    Route::post('/package/get-meal-plan-by-hotel', [PackagesController::class, 'getMealPlanByHotel'])->name('get-meal-plan-by-hotel-url');
 
     Route::resource('/customers', CustomersController::class);
     Route::post('/customer/change-status', [CustomersController::class, 'changeStatus'])->name('change-customer-status');
-    Route::get('/customer/view/{customer}/customer', [CustomersController::class, 'show'])->name('view-profile-customer'); 
+    Route::get('/customer/view/{customer}/customer', [CustomersController::class, 'show'])->name('view-profile-customer');
     Route::post('/customer/update-password', [CustomersController::class, 'updatePassword'])->name('update-customer-password');
     Route::post('/customer/import-customers', [CustomersController::class, 'importCustomers'])->name('importsCustomers');
-    Route::get('/customer/export',[CustomersController::class, 'customerExcelExport'])->name('customerExport');   
+    Route::get('/customer/export', [CustomersController::class, 'customerExcelExport'])->name('customerExport');
 
     // Hotels Route
     Route::resource('/offlinehotels', OfflineHotelsController::class);
     Route::post('/offlinehotels/change-status', [OfflineHotelsController::class, 'changeStatus'])->name('change-offlinehotels-status');
     Route::post('/offlinehotels/import-offilnehotels', [OfflineHotelsController::class, 'importOfflineHotels'])->name('import-offline-hotels');
-    Route::get('/offlinehotels/export',[OfflineHotelsController::class, 'offlineHotelsExport'])->name('offline-hotels-export'); 
-    Route::post('/offlinehotel/delete-hotel-image', [OfflineHotelsController::class, 'deleteHotelImage'])->name('delete-hotel-image');     
-    Route::post('/offlinehotel/delete-hotel-gallery-image', [OfflineHotelsController::class, 'deleteHotelGalleryImage'])->name('delete-hotel-gallery-image');     
+    Route::get('/offlinehotels/export', [OfflineHotelsController::class, 'offlineHotelsExport'])->name('offline-hotels-export');
+    Route::post('/offlinehotel/delete-hotel-image', [OfflineHotelsController::class, 'deleteHotelImage'])->name('delete-hotel-image');
+    Route::post('/offlinehotel/delete-hotel-gallery-image', [OfflineHotelsController::class, 'deleteHotelGalleryImage'])->name('delete-hotel-gallery-image');
 
     // API Hotels
     //Route::resource('apihotels', ApiHotelsController::class);
-    Route::get('/apihotels/rezlive-api',[ApiHotelsController::class, 'rezliveHotels'])->name('rezlive-api'); 
+    Route::get('/apihotels/rezlive-api', [ApiHotelsController::class, 'rezliveHotels'])->name('rezlive-api');
 
 
     Route::resource('/hotelgroups', HotelGroupsController::class);
@@ -161,25 +163,25 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/agentmarkup/change-status', [AgentmarkupsController::class, 'changeStatus'])->name('change-agent-markup-status');
 
 
-   // Route::resource('/wallettransactions', WalletTransactionsController::class);    
-    Route::post('/wallettransaction/update-hb-credit', [WalletTransactionsController::class, 'updateHBCredit'])->name('update-hb-credit');    
-    Route::get('/wallettransaction/{agent}/agent', [WalletTransactionsController::class, 'index'])->name('list-hb-credit');    
-    Route::get('/wallettransaction/view/{agent}/agent', [WalletTransactionsController::class, 'show'])->name('view-profile'); 
-       
+    // Route::resource('/wallettransactions', WalletTransactionsController::class);    
+    Route::post('/wallettransaction/update-hb-credit', [WalletTransactionsController::class, 'updateHBCredit'])->name('update-hb-credit');
+    Route::get('/wallettransaction/{agent}/agent', [WalletTransactionsController::class, 'index'])->name('list-hb-credit');
+    Route::get('/wallettransaction/view/{agent}/agent', [WalletTransactionsController::class, 'show'])->name('view-profile');
+
     Route::resource('/offlinerooms', OfflineRoomsController::class);
     Route::post('/offlineroom/change-status', [OfflineRoomsController::class, 'changeStatus'])->name('change-offline-room-status');
-    Route::get('/offlineroom/view/{offlineroom}/offlineroom', [OfflineRoomsController::class, 'show'])->name('view-room');     
-    Route::get('/offlineroom/{offlineroom}/price', [OfflineRoomsController::class, 'viewPrice'])->name('view-room-price');     
-    Route::get('/offlineroom/{offlineroom}/price/add', [OfflineRoomsController::class, 'createPrice'])->name('add-room-price');     
-    Route::post('/offlineroom/{offlineroom}/price/add', [OfflineRoomsController::class, 'storePrice'])->name('add-room-price');     
-    Route::get('/offlineroom/{id}/price/edit', [OfflineRoomsController::class, 'editPrice'])->name('edit-room-price');     
-    Route::post('/offlineroom/{offlineroomprice}/price/edit', [OfflineRoomsController::class, 'updatePrice'])->name('edit-room-price');     
-    Route::delete('/offlineroom/{offlineroomprice}/price/delete', [OfflineRoomsController::class, 'destroyPrice'])->name('delete-room-price');     
-    Route::post('/offlineroom/delete-room-image', [OfflineRoomsController::class, 'deleteRoomImage'])->name('delete-room-image');     
-    Route::post('/offlineroom/delete-room-gallery-image', [OfflineRoomsController::class, 'deleteRoomGalleryImage'])->name('delete-room-gallery-image');     
-    Route::get('/offlineroom/{offlinehotel}/create', [OfflineRoomsController::class, 'roomCreate'])->name('room-create');     
-    Route::get('/offlineroom/get-hotel-rooms/{id}', [OfflineRoomsController::class, 'hotelWiseRooms'])->name('get-hotel-rooms-url');     
-    Route::get('/offlineroom/view/{offlineroomprice}/offlineroomprice', [OfflineRoomsController::class, 'showPrice'])->name('show-room-price');     
+    Route::get('/offlineroom/view/{offlineroom}/offlineroom', [OfflineRoomsController::class, 'show'])->name('view-room');
+    Route::get('/offlineroom/{offlineroom}/price', [OfflineRoomsController::class, 'viewPrice'])->name('view-room-price');
+    Route::get('/offlineroom/{offlineroom}/price/add', [OfflineRoomsController::class, 'createPrice'])->name('add-room-price');
+    Route::post('/offlineroom/{offlineroom}/price/add', [OfflineRoomsController::class, 'storePrice'])->name('add-room-price');
+    Route::get('/offlineroom/{id}/price/edit', [OfflineRoomsController::class, 'editPrice'])->name('edit-room-price');
+    Route::post('/offlineroom/{offlineroomprice}/price/edit', [OfflineRoomsController::class, 'updatePrice'])->name('edit-room-price');
+    Route::delete('/offlineroom/{offlineroomprice}/price/delete', [OfflineRoomsController::class, 'destroyPrice'])->name('delete-room-price');
+    Route::post('/offlineroom/delete-room-image', [OfflineRoomsController::class, 'deleteRoomImage'])->name('delete-room-image');
+    Route::post('/offlineroom/delete-room-gallery-image', [OfflineRoomsController::class, 'deleteRoomGalleryImage'])->name('delete-room-gallery-image');
+    Route::get('/offlineroom/{offlinehotel}/create', [OfflineRoomsController::class, 'roomCreate'])->name('room-create');
+    Route::get('/offlineroom/get-hotel-rooms/{id}', [OfflineRoomsController::class, 'hotelWiseRooms'])->name('get-hotel-rooms-url');
+    Route::get('/offlineroom/view/{offlineroomprice}/offlineroomprice', [OfflineRoomsController::class, 'showPrice'])->name('show-room-price');
     Route::post('/offlineroom/delete-child', [OfflineRoomsController::class, 'deleteChild'])->name('delete-repeter');
 
     Route::resource('/mealplans', MealPlansController::class);
@@ -188,7 +190,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/currencies', CurrenciesController::class);
     Route::post('/currency/change-status', [CurrenciesController::class, 'changeStatus'])->name('change-currency-status');
-    
+
     Route::get('/generate-pdf/{id}', [UsersController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/chart-image/{id}', [UsersController::class, 'generateChartImage'])->name('chart-image');
     Route::post('/user/change-status', [UsersController::class, 'changeStatus'])->name('change-user-status');

@@ -39,7 +39,7 @@
                             <th>Country</th>
                             <th>From Date</th>
                             <th>End Date</th>
-                            <th>Max PAX</th>
+                            
                             <th>{{ __('core.status') }}</th>
                             <th>{{ __('core.table_action') }}</th>
                         </tr>
@@ -113,11 +113,7 @@
                     {
                         data: 'valid_till',
                         name: 'valid_till'
-                    },
-                    {
-                        data: 'maximum_pax',
-                        name: 'maximum_pax'
-                    },
+                    },                   
                     {
                         data: 'status',
                         name: 'status',

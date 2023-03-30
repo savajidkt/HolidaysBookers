@@ -12,24 +12,58 @@ class PackageRepository
 {
 
     public function create(Request $request, array $data): Package
-    {        
+    {
+
         $package_validity = explode(' to ', $data['package_validity']);
+        $travel_validity = explode(' to ', $data['travel_validity']);
+        $sold_out_validity = explode(' to ', $data['sold_out_dates']);
         $packageArr = [
             'package_name'    => $data['package_name'],
             'package_code'    => $data['package_code'],
             'valid_from'    => ($package_validity[0]) ? $package_validity[0] : '',
             'valid_till'    => ($package_validity[1]) ? $package_validity[1] : '',
             'nationality'    => $data['nationality'],
-            'rate_per_adult'    => $data['rate_per_adult'],
-            'rate_per_child_cwb'    => $data['rate_per_child_cwb'],
-            'rate_per_child_cnb'    => $data['rate_per_child_cnb'],
-            'rate_per_infant'    => $data['rate_per_infant'],
-            'minimum_pax'    => $data['minimum_pax'],
-            'maximum_pax'    => $data['maximum_pax'],
+            // 'rate_per_adult'    => $data['rate_per_adult'],
+            // 'rate_per_child_cwb'    => $data['rate_per_child_cwb'],
+            // 'rate_per_child_cnb'    => $data['rate_per_child_cnb'],
+            // 'rate_per_infant'    => $data['rate_per_infant'],
+            // 'minimum_pax'    => $data['minimum_pax'],
+            // 'maximum_pax'    => $data['maximum_pax'],
             'cancel_day'    => $data['cancel_day'],
             'highlights'    => $data['highlights'],
             'terms_and_conditions'    => $data['terms_and_conditions'],
             'status'    => Package::ACTIVE,
+            'hotel_name_id'    => $data['hotel_name_id'],
+            'room_type_id'    => $data['room_type'],
+            'meal_plan_id'    => $data['meal_plan'],
+            'travel_valid_from'    => ($travel_validity[0]) ? $travel_validity[0] : '',
+            'travel_valid_till'    => ($travel_validity[1]) ? $travel_validity[1] : '',
+            'cutoff_price'    => $data['cutoff_price'],
+            'duration'    => $data['duration'],
+            'sold_out_from'    => ($sold_out_validity[0]) ? $sold_out_validity[0] : '',
+            'sold_out_till'    => ($sold_out_validity[1]) ? $sold_out_validity[1] : '',
+            'sleepsmax'    => $data['sleepsmax'],
+            'maxadults'    => $data['maxadults'],
+            'maxchildwmaxadults'    => $data['maxchildwmaxadults'],
+            'maxchildwoextrabed'    => $data['maxchildwoextrabed'],
+            'mincwbage'    => $data['mincwbage'],
+            'mincwobage'    => $data['mincwobage'],
+            'currency_id'    => $data['currency_id'],
+            'marketprice'    => $data['marketprice'],
+            'rate_offered'    => $data['rate_offered'],
+            'commission'    => $data['commission'],
+            'singleadult'    => $data['singleadult'],
+            'twinsharing'    => $data['twinsharing'],
+            'extraadult'    => $data['extraadult'],
+            'cwb'    => $data['cwb'],
+            'cob'    => $data['cob'],
+            'ccob'    => $data['ccob'],
+            'singleadulttax'    => $data['singleadulttax'],
+            'twinsharingtax'    => $data['twinsharingtax'],
+            'extraadulttax'    => $data['extraadulttax'],
+            'cwbtax'    => $data['cwbtax'],
+            'cobtax'    => $data['cobtax'],
+            'ccobtax'    => $data['ccobtax'],
         ];
         $package =  Package::create($packageArr);
         if (isset($request->terms_and_conditions_pdf)) {
@@ -67,6 +101,7 @@ class PackageRepository
             }
         }
         $package->packageimages()->createMany($images);
+
         return $package;
     }
 
@@ -89,25 +124,60 @@ class PackageRepository
     }
 
     public function update(array $data, Package $package): Package
-    {         
-        
+    {
+
+
         $package_validity = explode(' to ', $data['package_validity']);
+        $travel_validity = explode(' to ', $data['travel_validity']);
+        $sold_out_validity = explode(' to ', $data['sold_out_dates']);
+
         $packageArr = [
             'package_name'    => $data['package_name'],
             'package_code'    => $data['package_code'],
             'valid_from'    => ($package_validity[0]) ? $package_validity[0] : '',
             'valid_till'    => ($package_validity[1]) ? $package_validity[1] : '',
             'nationality'    => $data['nationality'],
-            'rate_per_adult'    => $data['rate_per_adult'],
-            'rate_per_child_cwb'    => $data['rate_per_child_cwb'],
-            'rate_per_child_cnb'    => $data['rate_per_child_cnb'],
-            'rate_per_infant'    => $data['rate_per_infant'],
-            'minimum_pax'    => $data['minimum_pax'],
-            'maximum_pax'    => $data['maximum_pax'],
+            // 'rate_per_adult'    => $data['rate_per_adult'],
+            // 'rate_per_child_cwb'    => $data['rate_per_child_cwb'],
+            // 'rate_per_child_cnb'    => $data['rate_per_child_cnb'],
+            // 'rate_per_infant'    => $data['rate_per_infant'],
+            // 'minimum_pax'    => $data['minimum_pax'],
+            // 'maximum_pax'    => $data['maximum_pax'],
             'cancel_day'    => $data['cancel_day'],
             'highlights'    => $data['highlights'],
             'terms_and_conditions'    => $data['terms_and_conditions'],
             'status'    => Package::ACTIVE,
+            'hotel_name_id'    => $data['hotel_name_id'],
+            'room_type_id'    => $data['room_type'],
+            'meal_plan_id'    => $data['meal_plan'],
+            'travel_valid_from'    => ($travel_validity[0]) ? $travel_validity[0] : '',
+            'travel_valid_till'    => ($travel_validity[1]) ? $travel_validity[1] : '',
+            'cutoff_price'    => $data['cutoff_price'],
+            'duration'    => $data['duration'],
+            'sold_out_from'    => ($sold_out_validity[0]) ? $sold_out_validity[0] : '',
+            'sold_out_till'    => ($sold_out_validity[1]) ? $sold_out_validity[1] : '',
+            'sleepsmax'    => $data['sleepsmax'],
+            'maxadults'    => $data['maxadults'],
+            'maxchildwmaxadults'    => $data['maxchildwmaxadults'],
+            'maxchildwoextrabed'    => $data['maxchildwoextrabed'],
+            'mincwbage'    => $data['mincwbage'],
+            'mincwobage'    => $data['mincwobage'],
+            'currency_id'    => $data['currency_id'],
+            'marketprice'    => $data['marketprice'],
+            'rate_offered'    => $data['rate_offered'],
+            'commission'    => $data['commission'],
+            'singleadult'    => $data['singleadult'],
+            'twinsharing'    => $data['twinsharing'],
+            'extraadult'    => $data['extraadult'],
+            'cwb'    => $data['cwb'],
+            'cob'    => $data['cob'],
+            'ccob'    => $data['ccob'],
+            'singleadulttax'    => $data['singleadulttax'],
+            'twinsharingtax'    => $data['twinsharingtax'],
+            'extraadulttax'    => $data['extraadulttax'],
+            'cwbtax'    => $data['cwbtax'],
+            'cobtax'    => $data['cobtax'],
+            'ccobtax'    => $data['ccobtax'],
         ];
 
         if ($package->update($packageArr)) {
@@ -138,15 +208,15 @@ class PackageRepository
 
             if (is_array($data['packages']) && count($data['packages']) > 0) {
                 foreach ($data['packages'] as $key => $value) {
-                    
+
                     $PackageItineraries['heading'] = $value['heading'];
                     $PackageItineraries['display_order'] = $value['display_order'];
                     $PackageItineraries['description'] = $value['description'];
 
-                    if (!isset($value['edit_id']) || strlen($value['edit_id']) == 0 || $value['edit_id'] == "" || $value['edit_id'] == NULL) {                       
-                        $PackageItineraries['package_id'] = $package->id;                        
+                    if (!isset($value['edit_id']) || strlen($value['edit_id']) == 0 || $value['edit_id'] == "" || $value['edit_id'] == NULL) {
+                        $PackageItineraries['package_id'] = $package->id;
                         PackageItineraries::create($PackageItineraries);
-                    } else {                        
+                    } else {
                         PackageItineraries::where('id', $value['edit_id'])->where('package_id', $value['edit_package_id'])->update($PackageItineraries);
                     }
                 }
@@ -163,8 +233,6 @@ class PackageRepository
 
             $package->packageimages()->createMany($images);
         }
-        
-
         return $package;
         throw new Exception('Package update failed.');
     }

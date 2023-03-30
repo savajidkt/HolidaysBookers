@@ -6,6 +6,11 @@ use App\Models\City;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Package;
+use App\Models\Currency;
+use App\Models\MealPlan;
+use App\Models\RoomType;
+use App\Models\OfflineRoom;
+use App\Models\OfflineHotel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
@@ -53,8 +58,6 @@ class PackagesController extends Controller
                     return $package->valid_from;
                 })->addColumn('valid_till', function (Package $package) {
                     return $package->valid_till;
-                })->addColumn('maximum_pax', function (Package $package) {
-                    return $package->maximum_pax;
                 })->editColumn('status', function (Package $package) {
                     return $package->status_name;
                 })->addColumn('action', function ($row) {
@@ -71,10 +74,11 @@ class PackagesController extends Controller
      */
     public function create()
     {
-        //
         $rawData    = new Package;
         $countries    =  Country::where('status', Country::ACTIVE)->get();
-        return view('admin.packages.create', ['model' => $rawData, 'countries' => $countries, 'cities' => ""]);
+        $offlinehotel    =  OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->where('status', OfflineHotel::ACTIVE)->get();
+        $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
+        return view('admin.packages.create', ['model' => $rawData, 'countries' => $countries, 'cities' => "", 'offlinehotel' => $offlinehotel, 'currencyList' => $currencyList, 'roomTypes' => '', 'mealPlan' => '']);
     }
 
 
@@ -94,19 +98,29 @@ class PackagesController extends Controller
 
     public function show(Request $request, Package $package)
     {
-
         $countries    =  Country::where('status', Country::ACTIVE)->get();
+        $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
         $cities    =  City::whereIn('country_id', $package->packagecountry->pluck('id')->toArray())->get();
         $nationality = Country::where('id', $package->nationality)->first();
-        return view('admin.packages.view', ['model' => $package, 'countries' => $countries, 'cities' => $cities, 'nationality' => $nationality->name]);
+        $hotel  = OfflineHotel::where('id', $package->hotel_name_id)->first();
+        $roomTypes = RoomType::where('id', $package->room_type_id)->first();
+        $mealPlan = MealPlan::where('id', $package->meal_plan_id)->first();
+
+        return view('admin.packages.view', ['model' => $package, 'countries' => $countries, 'cities' => $cities, 'nationality' => $nationality->name, 'hotel' => $hotel, 'roomTypes' => $roomTypes, 'mealPlan' => $mealPlan, 'currencyList' => $currencyList]);
     }
 
 
     public function edit(Package $package)
     {
         $countries    =  Country::where('status', Country::ACTIVE)->get();
+        $offlinehotel    =  OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->where('status', OfflineHotel::ACTIVE)->get();
         $cities    =  City::whereIn('country_id', $package->packagecountry->pluck('id')->toArray())->get();
-        return view('admin.packages.edit', ['model' => $package, 'countries' => $countries, 'cities' => $cities]);
+        $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
+        $rooms  = OfflineRoom::where('hotel_id', $package->hotel_name_id)->pluck('room_type_id')->toArray();
+        $roomTypes = RoomType::whereIn('id', $rooms)->pluck('room_type', 'id')->toArray();
+        $roomsMeal  = OfflineRoom::where('hotel_id', $package->hotel_name_id)->pluck('meal_plan_id')->toArray();
+        $mealPlan = MealPlan::whereIn('id', $roomsMeal)->pluck('name', 'id')->toArray();
+        return view('admin.packages.edit', ['model' => $package, 'countries' => $countries, 'cities' => $cities, 'offlinehotel' => $offlinehotel, 'currencyList' => $currencyList, 'roomTypes' => $roomTypes, 'mealPlan' => $mealPlan]);
     }
 
 
@@ -124,16 +138,19 @@ class PackagesController extends Controller
         return redirect()->route('packages.index')->with('success', "Package updated successfully!");
     }
 
+    
+       
     /**
-     * Remove the specified resource from storage.
+     * Method destroy
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Package $package [explicite description]
+     *
+     * @return void
      */
-    public function destroy(Agent $agent)
+    public function destroy(Package $package)
     {
-        $this->packageRepository->delete($agent);
-        return redirect()->route('packages.index')->with('success', "Agent deleted successfully!");
+        $this->packageRepository->delete($package);
+        return redirect()->route('packages.index')->with('success', "Package deleted successfully!");
     }
 
     /**
@@ -171,7 +188,25 @@ class PackagesController extends Controller
         return response()->json([
             'status' => true,
             'cities' => $cities,
-            'message' => __('city/message.success_city_list')
+            'message' => ""
+        ]);
+    }
+
+    public function getRoomTypeByHotel(Request $request): JsonResponse
+    {
+        $input = $request->all();
+        $rooms  = OfflineRoom::where('hotel_id', $input['hotel_name_id'])->pluck('room_type_id')->toArray();
+        $roomTypes = RoomType::whereIn('id', $rooms)->pluck('room_type', 'id')->toArray();
+
+        $roomsMeal  = OfflineRoom::where('hotel_id', $input['hotel_name_id'])->pluck('meal_plan_id')->toArray();
+        $mealPlan = MealPlan::whereIn('id', $roomsMeal)->pluck('name', 'id')->toArray();
+
+
+        return response()->json([
+            'status' => true,
+            'roomTypes' => $roomTypes,
+            'mealPlan' => $mealPlan,
+            'message' => ""
         ]);
     }
 }
