@@ -22,6 +22,8 @@ class Package extends Model
 
     //protected $table = "packages";
     protected $fillable = [
+        'user_id',
+        'vendor_id',
         'package_name',
         'package_code',
         'valid_from',

@@ -1,11 +1,12 @@
 <?php
 
-use App\Exceptions\GeneralException;
+use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Reach;
 use App\Models\State;
 use App\Models\WalletTransaction;
-use Carbon\Carbon;
+use App\Exceptions\GeneralException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('home_route')) {
@@ -267,14 +268,14 @@ if (!function_exists('rezeliveHotels')) {
 
     function rezeliveHotels($config)
     {
-        
-            set_time_limit(0); 
-            $str = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+        set_time_limit(0);
+        $str = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
             <HotelFindRequest>
             <Authentication>
-            <AgentCode>'.$config->agent_code.'</AgentCode>
-            <UserName>'.$config->username.'</UserName>
-            <Password>'.$config->password.'</Password>
+            <AgentCode>' . $config->agent_code . '</AgentCode>
+            <UserName>' . $config->username . '</UserName>
+            <Password>' . $config->password . '</Password>
             </Authentication>
             <Booking>
             <ArrivalDate>01/04/2023</ArrivalDate>
@@ -299,30 +300,45 @@ if (!function_exists('rezeliveHotels')) {
             </Booking>
             </HotelFindRequest>';
 
-            file_put_contents("xml/resquest".time().".xml", $str); 
-            $url = $config->api_url."findhotel";
+        file_put_contents("xml/resquest" . time() . ".xml", $str);
+        $url = $config->api_url . "findhotel";
 
-            $ch = curl_init();
-            //set the url, number of POST vars, POST data 
-            curl_setopt($ch, CURLOPT_URL, $url); 
-            curl_setopt($ch, CURLOPT_POST, 1); 
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "XML=".urlencode($str)); 
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=UTF8')); 
-            $result = curl_exec($ch); 
-            
-            if ($result === false) { 
-            echo 'Curl error: ' . curl_error($ch); 
-            }
-             //curl_close($ch); 
+        $ch = curl_init();
+        //set the url, number of POST vars, POST data 
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "XML=" . urlencode($str));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=UTF8'));
+        $result = curl_exec($ch);
+
+        if ($result === false) {
+            echo 'Curl error: ' . curl_error($ch);
+        }
+        //curl_close($ch); 
         //    print_r($result);
         //    die;
-            //$result = str_replace("world","Peter","Hello world!");
-            $xml = simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
-            
-             $json = json_encode($xml);
-             $arr = json_decode($json,true);
-             echo "<pre>";print_r($arr);exit;
+        //$result = str_replace("world","Peter","Hello world!");
+        $xml = simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+        $json = json_encode($xml);
+        $arr = json_decode($json, true);
+        echo "<pre>";
+        print_r($arr);
+        exit;
+    }
+}
+
+
+if (!function_exists('getLoginUserDetails')) {
+
+    function getLoginUserDetails()
+    {       
+        if (Auth::guard('admin')->check()) {            
+            return 0;
+        } elseif (Auth::guard('user')->check()) {
+            return 1;
+        }        
     }
 }

@@ -14,10 +14,11 @@ class PackageRepository
     public function create(Request $request, array $data): Package
     {
 
+      
         $package_validity = explode(' to ', $data['package_validity']);
         $travel_validity = explode(' to ', $data['travel_validity']);
         $sold_out_validity = explode(' to ', $data['sold_out_dates']);
-        $packageArr = [
+        $packageArr = [            
             'package_name'    => $data['package_name'],
             'package_code'    => $data['package_code'],
             'valid_from'    => ($package_validity[0]) ? $package_validity[0] : '',
@@ -64,8 +65,11 @@ class PackageRepository
             'cwbtax'    => $data['cwbtax'],
             'cobtax'    => $data['cobtax'],
             'ccobtax'    => $data['ccobtax'],
+            'type'    => getLoginUserDetails(),
         ];
+        
         $package =  Package::create($packageArr);
+        
         if (isset($request->terms_and_conditions_pdf)) {
             $filename = $this->uploadDoc($data, 'terms_and_conditions_pdf', $package->id);
             if ($filename) {
@@ -124,9 +128,7 @@ class PackageRepository
     }
 
     public function update(array $data, Package $package): Package
-    {
-
-
+    {        
         $package_validity = explode(' to ', $data['package_validity']);
         $travel_validity = explode(' to ', $data['travel_validity']);
         $sold_out_validity = explode(' to ', $data['sold_out_dates']);
