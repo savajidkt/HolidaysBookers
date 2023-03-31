@@ -34,7 +34,8 @@ class CitiesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   $user = auth()->user();
+    {
+        $user = auth()->user();
         if ($request->ajax()) {
 
             $data = City::select('*');
@@ -58,7 +59,7 @@ class CitiesController extends Controller
                 ->rawColumns(['action', 'status'])->make(true);
         }
 
-        return view('admin.cities.index',['user'=>$user]);
+        return view('admin.cities.index', ['user' => $user]);
     }
 
     /**
@@ -71,7 +72,7 @@ class CitiesController extends Controller
         permissionCheck('location-create');
         $statesData = [];
         $rawData    = new City;
-        $countryData    = Country::where('status',Country::ACTIVE)->get();
+        $countryData    = Country::where('status', Country::ACTIVE)->get();
         return view('admin.cities.create', ['model' => $rawData, 'countries' => $countryData, 'states' => $statesData]);
     }
 
@@ -82,7 +83,8 @@ class CitiesController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(CreateRequest $request)
-    {   permissionCheck('location-create');
+    {
+        permissionCheck('location-create');
         $this->cityRepository->create($request->all());
         return redirect()->route('cities.index')->with('success', __('city/message.created_success'));
     }
@@ -109,7 +111,7 @@ class CitiesController extends Controller
     {
         permissionCheck('location-edit');
         $statesData = [];
-        $countryData    = Country::where('status',Country::ACTIVE)->get();
+        $countryData    = Country::where('status', Country::ACTIVE)->get();
         $statesData    = $city->state->country->states;
 
         return view('admin.cities.edit', ['model' => $city, 'countries' => $countryData, 'states' => $statesData]);
@@ -193,12 +195,21 @@ class CitiesController extends Controller
     public function getCitiesList(Request $request): JsonResponse
     {
         $input = $request->all();
-        $country  = Country::find($input['country_id']);
-        return response()->json([
-            'status' => true,
-            'cities' => $country->cities,
-            'message' => __('city/message.success_city_list')
-        ]);
+        if (isset($input['country_id'])) {
+            $country  = Country::find($input['country_id']);
+            return response()->json([
+                'status' => true,
+                'cities' => $country->cities,
+                'message' => __('city/message.success_city_list')
+            ]);
+        } else if (isset($input['state_id'])) {
+            $state  = State::find($input['state_id']);
+            return response()->json([
+                'status' => true,
+                'cities' => $state->cities,
+                'message' => __('city/message.success_city_list')
+            ]);
+        }
     }
 
     public function importCities(Request $request): JsonResponse
@@ -210,8 +221,8 @@ class CitiesController extends Controller
         ]);
     }
     public function importRezliveCities(Request $request)
-    { 
-        
+    {
+
         // $file = storage_path('app/cities.csv');
         // if (($handle = fopen($file, "r")) === FALSE)
         // {
@@ -227,7 +238,7 @@ class CitiesController extends Controller
         //     if($index !=0){
         //         $firstCol = explode('|', $data[0]);
         //         $cityName = $firstCol[1]; // City Name
-               
+
         //         if(count($firstCol)>2){
         //             $cityCode = $firstCol[2]; // City Code
         //         }else{
@@ -238,7 +249,7 @@ class CitiesController extends Controller
         //                 $ThirdCol = explode('|', $data[2]); 
         //                 $cityCode = $ThirdCol[1];
         //             }
-                    
+
         //         }
 
 
@@ -256,6 +267,5 @@ class CitiesController extends Controller
         // fclose($handle);
 
         RezliveCityCodeUpdate::dispatch();
-        
     }
 }

@@ -83,8 +83,7 @@ class AgentsController extends Controller
                     });
                 })->addColumn('email', function (User $user) {
                     return $user->email;
-                })->addColumn('balance', function(User $user)
-                {
+                })->addColumn('balance', function(User $user){
                     //dd($user->agents->getbalance);
                     return (isset($user->agents->getbalance)) ? $user->agents->getbalance->balance : '0';
 

@@ -1,66 +1,45 @@
 @extends('layouts.app')
 @section('page_title', 'Forgot Password')
 @section('content')
-<main class="login-bg">
-    <div class="container">
-        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-9 d-flex flex-column align-items-center justify-content-center">
-                        <div class="card">
-                            <div class="card-body">
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="p-5">
-                                            @if (session('status'))
-                                            <div class="alert alert-success" role="alert">
-                                                {{ session('status') }}
-                                            </div>
-                                            @endif
-                                            <form class="row g-3 needs-validation p-3" method="POST" action="{{ route('forgot-password') }}">
-                                                @csrf
-                                                <h1 class="card-title pt-0 pb-0 mb-0">{{ __('Reset Password') }}</h1>
-                                                <div class="col-12">
-                                                    <div class="input-group has-validation">
-                                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required  placeholder="{{ __('Email Address') }}">
-                                                    </div>
-                                                    @error('email')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-                                                </div>
-
-                                               
-                                                <div class="col-12">
-                                                    <button class="btn btn-primary w-100" type="submit">{{ __('Send Password Reset Link') }}</button>
-                                                </div>
-                                                <div class="col-12">
-                                                <a href="{{route('login')}}" class="logo d-flex align-items-center w-auto">
-                                                    <button class="btn btn-primary w-100" type="button">{{ __('Login') }}</button>
-                                                </a>
-
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="d-flex justify-content-center pt-3">
-                                                        <a href="{{ route('login') }}" class="logo d-flex align-items-center w-auto">
-                                                            <img src="{{asset('front/assets/img/logo.png')}}" alt="">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+    <div class="header-margin"></div>
+    <section class="layout-pt-lg layout-pb-lg bg-blue-2">
+        <div class="container">
+            <div class="row justify-center">
+                <div class="col-xl-6 col-lg-7 col-md-9">
+                    <form class="row g-3 needs-validation p-3" method="POST" action="{{ route('forgot-password') }}">
+                        @csrf
+                        <div class="px-50 py-50 sm:px-20 sm:py-20 bg-white shadow-4 rounded-4">
+                            <div class="row y-gap-20">
+                                <div class="col-12">
+                                    <h1 class="text-22 fw-500">{{ __('Reset Password') }}</h1>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-input ">
+                                        <input id="email" type="email"
+                                            class="form-control @error('email') is-invalid @enderror" name="email"
+                                            value="{{ old('email') }}" placeholder="{{ __('Email Address') }}">
+                                        <label class="lh-1 text-14 text-light-1">{{ __('Email Address') }}</label>
                                     </div>
-                                    <div class="col-md-6 login-form-img"></div>
+                                    @error('email')
+                                        <div class="invalid-feedback text-red-1" style="display: block;">{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-12">
+                                    <p class="small text-right"><a class="btn-link" href="{{ route('login') }}">
+                                            {{ __('Login') }}
+                                        </a></p>
+                                </div>
+                                <div class="col-12">
+                                    <input class="button py-20 -dark-1 bg-blue-1 text-white" type="submit"
+                                        value="{{ __('Send Password Reset Link') }}">
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </section>
-    </div>
-</main>
-
+        </div>
+    </section>
 @endsection

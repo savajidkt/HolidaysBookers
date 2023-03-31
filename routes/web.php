@@ -36,6 +36,8 @@ use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
 use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
 use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
+use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +96,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/customer/update-password', [CustomersController::class, 'updatePassword'])->name('update-customer-password');
     Route::post('/customer/import-customers', [CustomersController::class, 'importCustomers'])->name('importsCustomers');
     Route::get('/customer/export', [CustomersController::class, 'customerExcelExport'])->name('customerExport');
-    
+
     // Hotels Route
     Route::resource('/offlinehotels', OfflineHotelsController::class);
     Route::post('/offlinehotels/change-status', [OfflineHotelsController::class, 'changeStatus'])->name('change-offlinehotels-status');
@@ -206,12 +208,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 });
 
 Auth::routes();
+Route::group(['prefix' => 'users', 'middleware' => 'auth.users'], function () {
+   dd('asdasdsa');
+    Route::get('/dashboard', [AgentDashboardController::class, 'dashboard'])->name('dashboard');
+});
+
+
+
+
 // Route::post('/login', [
 //     'uses'          => 'App\Http\Controllers\Auth\LoginController@login',
 //     'middleware'    => 'checkstatus',
 // ]);
 # Front Routes
 Route::group(['authGrouping' => 'users.auth'], function () {
+    //Route::get('/dashboard', [AgentDashboardController::class, 'dashboard'])->name('dashboard');
     //Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/change-password', [ResetPasswordController::class, 'firstTimePasswordChange'])->name('change-password');
     //Route::resource('/survey', SurveyController::class);
@@ -233,4 +244,4 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 
 // Auth::routes();
 
- Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

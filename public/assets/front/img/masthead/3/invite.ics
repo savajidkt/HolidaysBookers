@@ -1,0 +1,132 @@
+BEGIN:VCALENDAR
+METHOD:REQUEST
+PRODID:Microsoft Exchange Server 2010
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:India Standard Time
+BEGIN:STANDARD
+DTSTART:16010101T000000
+TZOFFSETFROM:+0530
+TZOFFSETTO:+0530
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:16010101T000000
+TZOFFSETFROM:+0530
+TZOFFSETTO:+0530
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+ORGANIZER;CN=Upassana Choubey:mailto:uchoubey@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Savji Rath
+ od:mailto:srathod@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=jj.parejiy
+ a@gmail.com:mailto:jj.parejiya@gmail.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Kumar Push
+ pak:mailto:kumar@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Maneesh Jh
+ a:mailto:mjha@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Prathima K
+ alpane:mailto:pkalpane@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Snehal She
+ rkane:mailto:ssherkhane@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Mayank Gup
+ ta:mailto:mgupta@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Nirmal J M
+ angaly:mailto:nmangaly@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Shamanth K
+ R:mailto:krshamanth@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Sumit Roy:
+ mailto:sroy@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Senthil Kr
+ ishnan:mailto:skrishnan@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Harinder D
+ aksh:mailto:hdaksh@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Nitish Kum
+ ar:mailto:nkumar@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Suman Kuma
+ r Thakur:mailto:sthakur@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Jyoti Kuma
+ ri:mailto:jkumari@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Gayathri  
+ Devi:mailto:gdevi@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Raghu Basv
+ araj:mailto:rbasvaraj@ijonaservices.com
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Suvra Bora
+ h:mailto:sborah@ijonaservices.com
+DESCRIPTION;LANGUAGE=en-US:\n\n\n________________________________________\n
+ From: Upassana Choubey <uchoubey@ijonaservices.com>\nSent: Wednesday\, Mar
+ ch 29\, 2023 4:28:05 PM (UTC+05:30) Chennai\, Kolkata\, Mumbai\, New Delhi
+ \nTo: Kumar Pushpak\; Maneesh Jha\; Prathima Kalpane\; Snehal Sherkane\; M
+ ayank Gupta\; Nirmal J Mangaly\; Shamanth KR\; Sumit Roy\; Senthil Krishna
+ n\; Harinder Daksh\; Nitish Kumar\; Suman Kumar Thakur\; Jyoti Kumari\; Ga
+ yathri  Devi\; Upassana Choubey\; Raghu Basvaraj\; Suvra Borah\nSubject: M
+ eeting with CEO\nWhen: Thursday\, March 30\, 2023 5:00 PM-5:30 PM.\nWhere:
+  Microsoft Teams Meeting\n\nHello Everyone\,\n\nA meeting has been organiz
+ ed for tomorrow at 5:00 PM IST.\n\nAgenda:\n\n  1.  Company updates\n  2. 
+  Appraisal process\n  3.  Q&A\n\nKindly accept the inviitation to stay boo
+ ked.\n\nThank you!\n\n\nRegards\,\nUpasana\n\n\n\n________________________
+ ________________________________________________________\nMicrosoft Teams 
+ meeting\nJoin on your computer\, mobile app or room device\nClick here to 
+ join the meeting<https://teams.microsoft.com/l/meetup-join/19%3ameeting_Y2
+ NiMWI3YTYtM2FkYy00ZDhmLTgwMTctZDk2MTczYWMxNGVl%40thread.v2/0?context=%7b%2
+ 2Tid%22%3a%22e8c61e66-9bd7-4472-876c-a3aab49241d7%22%2c%22Oid%22%3a%221ce5
+ 5f87-8d21-4936-b9ef-d0201081a4d5%22%7d>\nMeeting ID: 454 899 517 229\nPass
+ code: Ypqjwj\nDownload Teams<https://www.microsoft.com/en-us/microsoft-tea
+ ms/download-app> | Join on the web<https://www.microsoft.com/microsoft-tea
+ ms/join-a-meeting>\nLearn More<https://aka.ms/JoinTeamsMeeting> | Meeting 
+ options<https://teams.microsoft.com/meetingOptions/?organizerId=1ce55f87-8
+ d21-4936-b9ef-d0201081a4d5&tenantId=e8c61e66-9bd7-4472-876c-a3aab49241d7&t
+ hreadId=19_meeting_Y2NiMWI3YTYtM2FkYy00ZDhmLTgwMTctZDk2MTczYWMxNGVl@thread
+ .v2&messageId=0&language=en-US>\n_________________________________________
+ _______________________________________\n
+UID:040000008200E00074C5B7101A82E008000000000A9C36552D62D901000000000000000
+ 010000000054B75417C0E7149BD6E5978F0CA4401
+SUMMARY;LANGUAGE=en-US:FW: Meeting with CEO
+DTSTART;TZID=India Standard Time:20230330T170000
+DTEND;TZID=India Standard Time:20230330T173000
+CLASS:PUBLIC
+PRIORITY:5
+DTSTAMP:20230329T111303Z
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+SEQUENCE:1
+LOCATION;LANGUAGE=en-US:Microsoft Teams Meeting
+X-MICROSOFT-CDO-APPT-SEQUENCE:1
+X-MICROSOFT-CDO-OWNERAPPTID:2121525514
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:0
+X-MICROSOFT-ONLINEMEETINGINFORMATION:{"OnlineMeetingChannelId":null\,"Onlin
+ eMeetingProvider":3}
+X-MICROSOFT-SKYPETEAMSMEETINGURL:https://teams.microsoft.com/l/meetup-join/
+ 19%3ameeting_Y2NiMWI3YTYtM2FkYy00ZDhmLTgwMTctZDk2MTczYWMxNGVl%40thread.v2/
+ 0?context=%7b%22Tid%22%3a%22e8c61e66-9bd7-4472-876c-a3aab49241d7%22%2c%22O
+ id%22%3a%221ce55f87-8d21-4936-b9ef-d0201081a4d5%22%7d
+X-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https://api.scheduler.teams.microsof
+ t.com/teams/e8c61e66-9bd7-4472-876c-a3aab49241d7/1ce55f87-8d21-4936-b9ef-d
+ 0201081a4d5/19_meeting_Y2NiMWI3YTYtM2FkYy00ZDhmLTgwMTctZDk2MTczYWMxNGVl@th
+ read.v2/0
+X-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:meeting_Y2NiMWI3YTYtM2FkYy00ZDh
+ mLTgwMTctZDk2MTczYWMxNGVl@thread.v2"\,"rid":0\,"mid":0\,"uid":null\,"priva
+ te":true\,"type":0}
+X-MICROSOFT-ONLINEMEETINGCONFLINK:conf:sip:uchoubey@ijonaservices.com\;gruu
+ \;opaque=app:conf:focus:id:teams:2:0!19:meeting_Y2NiMWI3YTYtM2FkYy00ZDhmLT
+ gwMTctZDk2MTczYWMxNGVl-thread.v2!1ce55f878d214936b9efd0201081a4d5!e8c61e66
+ 9bd74472876ca3aab49241d7
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-LOCATIONDISPLAYNAME:Microsoft Teams Meeting
+X-MICROSOFT-LOCATIONSOURCE:None
+X-MICROSOFT-LOCATIONS:[{"DisplayName":"Microsoft Teams Meeting"\,"LocationA
+ nnotation":""\,"LocationUri":""\,"LocationStreet":""\,"LocationCity":""\,"
+ LocationState":""\,"LocationCountry":""\,"LocationPostalCode":""\,"Locatio
+ nFullAddress":""}]
+BEGIN:VALARM
+DESCRIPTION:REMINDER
+TRIGGER;RELATED=START:-PT5M
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
