@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
@@ -23,15 +24,19 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
         $webRoute = Route::getCurrentRoute()->getAction('authGrouping') === 'users.auth';
-
         foreach ($guards as $guard) {
 
             if (Auth::guard($guard)->check()) {
-                if($webRoute){
+                if(auth()->user()->user_type == User::AGENT){
+                    return redirect(route('agent.dashboard'));
+                }else if(auth()->user()->user_type == User::VENDOR){
+                    return redirect(route('vendor.dashboard'));
+                }else if(auth()->user()->user_type == User::CORPORATE){
+                    return redirect(route('corporate.dashboard'));
+                }else{
                     return redirect(RouteServiceProvider::HOME);
                 }
-
-                return redirect(RouteServiceProvider::adminHOME);    
+                return redirect(RouteServiceProvider::adminHOME);
             }
         }
         //dd(Auth::guard($guard)->check());

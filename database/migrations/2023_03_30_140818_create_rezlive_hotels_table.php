@@ -19,10 +19,11 @@ class CreateRezliveHotelsTable extends Migration
             $table->unsignedBigInteger('hotel_city');
 
             $table->string('hotel_code')->nullable();
-            $table->string('hotel_name');
+            $table->string('hotel_name')->nullable();
             $table->string('hotel_review')->nullable();
             $table->longText('hotel_address')->nullable();
-
+            $table->string('CityId')->nullable();
+            $table->string('CountryId')->nullable();
             $table->foreign('hotel_country')->references('id')->on('countries')->onDelete('cascade');
             $table->foreign('hotel_city')->references('id')->on('cities')->onDelete('cascade');
             $table->timestamps();

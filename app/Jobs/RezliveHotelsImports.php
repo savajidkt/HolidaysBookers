@@ -56,28 +56,22 @@ class RezliveHotelsImports implements ShouldQueue
             if($index>0){
                 $data = explode('|',$hotels[0]);
                 $hotelCode = $data[0];
-                $hotelName = $data[1]; 
-                $hotelCity = $data[2]; 
-                $CityId = $data[3]; 
-                $CountryId = $data[5]; 
-                $CountryCode = $data[4]; 
-                $Rating = $data[6]; 
-                $HotelAddress = $data[7]; 
+                $hotelName = $data[1] ?? NULL; 
+                // $hotelCity = $data[2] ?? NULL; 
+                // $CityId = $data[3] ?? NULL; 
+                // $CountryId = $data[5] ?? NULL; 
+                // $CountryCode = $data[4] ?? NULL; 
+                // $Rating = $data[6] ?? NULL; 
+                // $HotelAddress = $data[7] ?? NULL; 
                 // $HotelPostalCode = $data[8]; 
                 // $Latitude = $data[9]; 
                 // $Longitude = $data[10]; 
                 // $Desc = $data[11];
-                $country = Country::where('code',$CountryCode)->first();
-                $city = City::where('name',$hotelCity)->first();
+                //$country = Country::where('code',$CountryCode)->first();
+                //$city = City::where('name',$hotelCity)->first();
                 $HotelArr = [
-                    'hotel_name'    => $hotelName,
-                    'hotel_country'  => $country->id,
-                    'hotel_city'    => $city->id ?? NULL,
+                    'hotel_name'    => $hotelName ?? NULL,
                     'hotel_code'      => $hotelCode,
-                    'hotel_address'    =>$HotelAddress,
-                    'hotel_review'    =>$Rating,
-                    'CityId'=>$CityId,
-                    'CountryId'=>$CountryId
                 ];
         
                 RezliveHotel::create($HotelArr);
