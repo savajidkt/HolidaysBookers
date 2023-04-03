@@ -89,112 +89,22 @@
                                                 <div data-x-dd-click="searchMenu-loc">
                                                     <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
                                                     <div class="text-15 text-light-1 ls-2 lh-16">
-                                                        <input autocomplete="off" type="search"
+                                                        <input autocomplete="off" type="search" id="location"
                                                             placeholder="Where are you going?"
-                                                            class="js-search js-dd-focus" />
+                                                            class="js-search js-dd-focus ui-autocomplete-input" />
+                                                            <input type="hidden"  id="hidden_city" name="search_city" value="">
+                                                            <input type="hidden"  id="hidden_country" name="search_country" value="">
                                                     </div>
                                                 </div>
-                                                <div class="searchMenu-loc__field shadow-2 js-popup-window"
+                                                <div class="locationSearchList searchMenu-loc__field shadow-2 js-popup-window"
                                                     data-x-dd="searchMenu-loc" data-x-dd-toggle="-is-active">
                                                     <div class="bg-white px-30 py-30 sm:px-0 sm:py-15 rounded-4">
-                                                        <div class="y-gap-5 js-results">
-                                                            <div>
-                                                                <button
-                                                                    class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
-                                                                    <div class="d-flex">
-                                                                        <div
-                                                                            class="icon-location-2 text-light-1 text-20 pt-4">
-                                                                        </div>
-                                                                        <div class="ml-10">
-                                                                            <div
-                                                                                class="text-15 lh-12 fw-500 js-search-option-target">
-                                                                                London</div>
-                                                                            <div class="text-14 lh-12 text-light-1 mt-5">
-                                                                                Greater London, United Kingdom</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-                                                            <div>
-                                                                <button
-                                                                    class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
-                                                                    <div class="d-flex">
-                                                                        <div
-                                                                            class="icon-location-2 text-light-1 text-20 pt-4">
-                                                                        </div>
-                                                                        <div class="ml-10">
-                                                                            <div
-                                                                                class="text-15 lh-12 fw-500 js-search-option-target">
-                                                                                New York</div>
-                                                                            <div class="text-14 lh-12 text-light-1 mt-5">New
-                                                                                York State, United States</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-
-                                                            <div>
-                                                                <button
-                                                                    class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
-                                                                    <div class="d-flex">
-                                                                        <div
-                                                                            class="icon-location-2 text-light-1 text-20 pt-4">
-                                                                        </div>
-                                                                        <div class="ml-10">
-                                                                            <div
-                                                                                class="text-15 lh-12 fw-500 js-search-option-target">
-                                                                                Paris</div>
-                                                                            <div class="text-14 lh-12 text-light-1 mt-5">
-                                                                                France</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-
-                                                            <div>
-                                                                <button
-                                                                    class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
-                                                                    <div class="d-flex">
-                                                                        <div
-                                                                            class="icon-location-2 text-light-1 text-20 pt-4">
-                                                                        </div>
-                                                                        <div class="ml-10">
-                                                                            <div
-                                                                                class="text-15 lh-12 fw-500 js-search-option-target">
-                                                                                Madrid</div>
-                                                                            <div class="text-14 lh-12 text-light-1 mt-5">
-                                                                                Spain</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-
-                                                            <div>
-                                                                <button
-                                                                    class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
-                                                                    <div class="d-flex">
-                                                                        <div
-                                                                            class="icon-location-2 text-light-1 text-20 pt-4">
-                                                                        </div>
-                                                                        <div class="ml-10">
-                                                                            <div
-                                                                                class="text-15 lh-12 fw-500 js-search-option-target">
-                                                                                Santorini</div>
-                                                                            <div class="text-14 lh-12 text-light-1 mt-5">
-                                                                                Greece</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-
-                                                        </div>
+                                                        <div class="y-gap-5 js-results"></div>
                                                     </div>
                                                 </div>
                                             </div>
 
-
                                             <div class="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
-
                                                 <div data-x-dd-click="searchMenu-date">
                                                     <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
                                                     <div class="text-15 text-light-1 ls-2 lh-16">
@@ -413,7 +323,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="swiper-slide">
                                                                     <div class="text-28 fw-500 text-center mb-10">February
                                                                         2022</div>
@@ -430,94 +339,55 @@
                                                                         </div>
 
                                                                         <div class="table-calendar__grid overflow-hidden">
-
                                                                             <div data-index="38" data-week="Sun"
                                                                                 data-month="Jan"
                                                                                 class="table-calendar__cell lh-1 text-light-1">
                                                                                 <span class="js-date">30</span>
-
-
                                                                             </div>
-
-
                                                                             <div data-index="39" data-week="Mon"
                                                                                 data-month="Jan"
                                                                                 class="table-calendar__cell lh-1 text-light-1">
                                                                                 <span class="js-date">31</span>
-
-
                                                                             </div>
-
-
                                                                             <div data-index="40" data-week="Tue"
                                                                                 data-month="Feb"
                                                                                 class="table-calendar__cell lh-1 ">
                                                                                 <span class="js-date">1</span>
-
-
                                                                             </div>
-
-
                                                                             <div data-index="41" data-week="Wed"
                                                                                 data-month="Feb"
                                                                                 class="table-calendar__cell lh-1 ">
                                                                                 <span class="js-date">2</span>
-
-
                                                                             </div>
-
-
                                                                             <div data-index="42" data-week="Thu"
                                                                                 data-month="Feb"
                                                                                 class="table-calendar__cell lh-1 ">
                                                                                 <span class="js-date">3</span>
-
-
                                                                             </div>
-
-
                                                                             <div data-index="43" data-week="Fri"
                                                                                 data-month="Feb"
                                                                                 class="table-calendar__cell lh-1 ">
                                                                                 <span class="js-date">4</span>
-
-
                                                                             </div>
-
-
                                                                             <div data-index="44" data-week="Sat"
                                                                                 data-month="Feb"
                                                                                 class="table-calendar__cell lh-1 ">
                                                                                 <span class="js-date">5</span>
-
-
                                                                             </div>
-
-
                                                                             <div data-index="45" data-week="Sun"
                                                                                 data-month="Feb"
                                                                                 class="table-calendar__cell lh-1 ">
                                                                                 <span class="js-date">6</span>
-
-
                                                                             </div>
-
-
                                                                             <div data-index="46" data-week="Mon"
                                                                                 data-month="Feb"
                                                                                 class="table-calendar__cell lh-1 ">
                                                                                 <span class="js-date">7</span>
-
-
                                                                             </div>
-
-
                                                                             <div data-index="47" data-week="Tue"
                                                                                 data-month="Feb"
                                                                                 class="table-calendar__cell lh-1 ">
                                                                                 <span class="js-date">8</span>
-
-
                                                                             </div>
 
 
@@ -704,15 +574,10 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
-                                                               
-
                                                             </div>
-
                                                             <button class="calendar-icon -left js-calendar-prev z-2">
                                                                 <i class="icon-arrow-left text-24"></i>
                                                             </button>
-
                                                             <button class="calendar-icon -right js-calendar-next z-2">
                                                                 <i class="icon-arrow-right text-24"></i>
                                                             </button>
@@ -724,16 +589,14 @@
 
                                             <div
                                                 class="searchMenu-guests px-30 lg:py-20 lg:px-0 js-form-dd js-form-counters">
-
                                                 <div data-x-dd-click="searchMenu-guests">
                                                     <h4 class="text-15 fw-500 ls-2 lh-16">Guest</h4>
-
                                                     <div class="text-15 text-light-1 ls-2 lh-16">
-                                                        <span class="js-count-adult">2</span> adults
+                                                        <span class="js-count-adult">0</span> adults
                                                         -
-                                                        <span class="js-count-child">1</span> childeren
+                                                        <span class="js-count-child">0</span> childeren
                                                         -
-                                                        <span class="js-count-room">1</span> room
+                                                        <span class="js-count-room">0</span> room
                                                     </div>
                                                 </div>
 
@@ -755,7 +618,7 @@
                                                                     </button>
 
                                                                     <div class="flex-center size-20 ml-15 mr-15">
-                                                                        <div class="text-15 js-count">2</div>
+                                                                        <div class="text-15 js-count">0</div>
                                                                     </div>
 
                                                                     <button
@@ -784,7 +647,7 @@
                                                                     </button>
 
                                                                     <div class="flex-center size-20 ml-15 mr-15">
-                                                                        <div class="text-15 js-count">1</div>
+                                                                        <div class="text-15 js-count">0</div>
                                                                     </div>
 
                                                                     <button
@@ -811,7 +674,7 @@
                                                                     </button>
 
                                                                     <div class="flex-center size-20 ml-15 mr-15">
-                                                                        <div class="text-15 js-count">1</div>
+                                                                        <div class="text-15 js-count">0</div>
                                                                     </div>
 
                                                                     <button
@@ -848,7 +711,7 @@
                                                     <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
 
                                                     <div class="text-15 text-light-1 ls-2 lh-16">
-                                                        <input autocomplete="off" type="search"
+                                                        <input autocomplete="off" type="search" id="location"
                                                             placeholder="Where are you going?"
                                                             class="js-search js-dd-focus" />
                                                     </div>
@@ -15355,8 +15218,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="136" data-week="Sun"
                                                                                 data-month="May"
@@ -15656,8 +15518,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="167" data-week="Sun"
                                                                                 data-month="May"
@@ -15975,8 +15836,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="200" data-week="Sun"
                                                                                 data-month="Jun"
@@ -16321,8 +16181,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="236" data-week="Sun"
                                                                                 data-month="Jul"
@@ -16631,8 +16490,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="268" data-week="Sun"
                                                                                 data-month="Aug"
@@ -16959,8 +16817,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="302" data-week="Sun"
                                                                                 data-month="Sep"
@@ -17377,8 +17234,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="346" data-week="Sun"
                                                                                 data-month="Oct"
@@ -17750,8 +17606,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="385" data-week="Sun"
                                                                                 data-month="Nov"
@@ -18397,8 +18252,8 @@
                                                 </div>
 
 
-                                                <div class="searchMenu-date__field shadow-2"
-                                                    data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">
+                                                <div class="searchMenu-date__field shadow-2" data-x-dd="searchMenu-date"
+                                                    data-x-dd-toggle="-is-active">
                                                     <div class="bg-white px-30 py-30 rounded-4">
                                                         <div class="overflow-hidden js-calendar-slider">
                                                             <div class="swiper-wrapper">
@@ -18419,8 +18274,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="1" data-week="Sun"
                                                                                 data-month="Dec"
@@ -18774,8 +18628,7 @@
                                                                             <div>Sat</div>
                                                                         </div>
 
-                                                                        <div
-                                                                            class="table-calendar__grid overflow-hidden">
+                                                                        <div class="table-calendar__grid overflow-hidden">
 
                                                                             <div data-index="38" data-week="Sun"
                                                                                 data-month="Jan"
@@ -29692,7 +29545,13 @@
 
 @endsection
 @section('page-script')
-    <script type="text/javascript">
-        $(document).ready(function() {});
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
+    <script type="text/javascript">      
+       
+       var moduleConfig = {
+            searchLocationByName: "{!! route('city-hotel-list') !!}",            
+        };
     </script>
 @endsection

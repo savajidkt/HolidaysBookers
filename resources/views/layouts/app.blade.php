@@ -17,6 +17,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/vendors.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <!-- Main-StyleSheet include -->
 </head>
 

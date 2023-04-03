@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\HotelListController;
 use App\Http\Controllers\Admin\Apis\ApisController;
 use App\Http\Controllers\Admin\User\UsersController;
@@ -210,17 +211,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'agent','middleware' => ['agentauth']], function () {
+Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/dashboard', [AgentDashboardController::class, 'dashboard'])->name('agent.dashboard');
     Route::get('/booking', [AgentDashboardController::class, 'booking'])->name('agent.booking');
 });
 
 # Front Routes
 Route::group(['authGrouping' => 'users.auth'], function () {
-    
+
 
     Route::get('/change-password', [ResetPasswordController::class, 'firstTimePasswordChange'])->name('change-password');
-    
 });
 
 
@@ -228,3 +228,4 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
+Route::post('/city-hotel-list', [SearchController::class, 'getLocations'])->name('city-hotel-list');

@@ -3,7 +3,8 @@
         <div class="row justify-between items-center">
             <div class="col-auto">
                 <div class="d-flex items-center">
-                    <a href="{{ url('/') }}" class="header-logo mr-30" data-x="header-logo" data-x-toggle="is-logo-dark">
+                    <a href="{{ url('/') }}" class="header-logo mr-30" data-x="header-logo"
+                        data-x-toggle="is-logo-dark">
                         <img src="{{ asset('assets/front') }}/img/general/logo-dark.svg" alt="logo icon">
                         <img src="{{ asset('assets/front') }}/img/general/logo-dark.svg" alt="logo icon">
                     </a>
@@ -15,19 +16,6 @@
 
                             <div class="menu js-navList">
                                 <ul class="menu__nav text-dark-1 -is-active">
-
-                                    <li class="menu-item-has-children">
-                                        <a data-barba href="">
-                                            <span class="mr-10">Home</span>
-                                            <i class="icon icon-chevron-sm-down"></i>
-                                        </a>
-                                        <ul class="subnav">
-                                            <li class="subnav__backBtn js-nav-list-back">
-                                                <a href="#"><i class="icon icon-chevron-sm-down"></i> Home</a>
-                                            </li>
-                                            <li><a href="index.html">Home 1</a></li>
-                                        </ul>
-                                    </li>
                                     <li class="menu-item-has-children -has-mega-menu">
                                         <a data-barba href="#">
                                             <span class="mr-10">Categories</span>
@@ -701,17 +689,28 @@
 
 
                     <div class="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
-                        <a href="{{ route('adminLogin') }}" class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white">Become
-                            An Expert</a>
+
+                        @guest
+
+                            <a href="{{ route('adminLogin') }}"
+                                class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white">Become
+                                An Expert</a>
+                        @else
+                            <a class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white"
+                                href="{{ route('agent.dashboard') }}" >
+                                {{ __('Dashboard') }}
+                            </a>
+                        @endguest
                         @guest
                             @if (Route::has('login'))
                                 <a href="{{ route('login') }}"
                                     class="button -outline-blue-1 px-30 fw-400 text-14 h-50 text-blue-1 ml-20">Sign In</a>
                             @endif
                         @else
-                            <a class="button -outline-blue-1 px-30 fw-400 text-14 h-50 text-blue-1 ml-20 logout" href="{{ route('logout') }}"
+                            <a class="button -outline-blue-1 px-30 fw-400 text-14 h-50 text-blue-1 ml-20 logout"
+                                href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">                                
+                                                     document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
