@@ -17,10 +17,15 @@ class AgentAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        //dd(Auth::guard('admin')->user());
+       
         if(Auth::guard('admin')->user()){
             return redirect(route('login'));
-        }else if(auth()->check() && auth()->user()->user_type == User::CUSTOMER){
+        }else if(auth()->check()){
+            if(auth()->user()->user_type == User::CUSTOMER){
+                return redirect(route('login'));
+            }
+
+        }else{
             return redirect(route('login'));
         }
 
