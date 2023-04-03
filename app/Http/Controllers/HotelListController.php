@@ -18,10 +18,12 @@ class HotelListController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->paginate(10);
-        $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_type', OfflineHotel::OFFLINE)->count();
+      
+
+        $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_country', $request->search_country)->where('hotel_city', $request->search_city)->paginate(10);        
+        $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_type', OfflineHotel::OFFLINE)->where('hotel_country', $request->search_country)->where('hotel_city', $request->search_city)->count();
         //$hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_type', OfflineHotel::OFFLINE)->count();
         return view('hotel-list', ['hotelList' => $hotelList, 'hotelCount' => $hotelCount]);
     }

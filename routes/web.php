@@ -227,5 +227,5 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 // Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
+Route::post('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
 Route::post('/city-hotel-list', [SearchController::class, 'getLocations'])->name('city-hotel-list');

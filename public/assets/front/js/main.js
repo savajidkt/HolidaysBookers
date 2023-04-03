@@ -54,7 +54,7 @@ function initComponents() {
   carsSlider()
   cruiseSlider()
   singleMenu()
-  calendarInteraction()
+  //calendarInteraction()
   testimonialsSlider3()
   calendarSlider()
   mastheadSlider9()
@@ -124,6 +124,7 @@ function priceSwitch() {
 }
 
 function liveSearch() {
+  
   const targets = document.querySelectorAll('.js-liverSearch')
   if (!targets) return
 
