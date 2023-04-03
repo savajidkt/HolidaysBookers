@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HotelListController;
 use App\Http\Controllers\Admin\Apis\ApisController;
 use App\Http\Controllers\Admin\User\UsersController;
 use App\Http\Controllers\Admin\Roles\RolesController;
@@ -14,8 +15,10 @@ use App\Http\Controllers\Admin\States\StatesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Reachus\ReachusController;
+use App\Http\Controllers\Admin\Freebies\FreebiesController;
 use App\Http\Controllers\Admin\Packages\PackagesController;
 use App\Http\Controllers\Admin\Amenities\AmenitiesController;
+use App\Http\Controllers\Admin\ApiHotels\ApiHotelsController;
 use App\Http\Controllers\Admin\Countries\CountriesController;
 use App\Http\Controllers\Admin\Customers\CustomersController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
@@ -27,9 +30,7 @@ use App\Http\Controllers\Admin\Permission\PermissionController;
 use App\Http\Controllers\Admin\HotelGroups\HotelGroupsController;
 use App\Http\Controllers\Admin\Permissions\PermissionsController;
 use App\Http\Controllers\Admin\AgentMarkups\AgentMarkupsController;
-use App\Http\Controllers\Admin\ApiHotels\ApiHotelsController;
 use App\Http\Controllers\Admin\CompanyTypes\CompanyTypesController;
-use App\Http\Controllers\Admin\Freebies\FreebiesController;
 use App\Http\Controllers\Admin\OfflineRooms\OfflineRoomsController;
 use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
@@ -226,3 +227,4 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 // Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');

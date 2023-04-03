@@ -82,6 +82,7 @@ class OfflineHotelRepository
             $OfflineHotel->update(['hotel_image_location' => $Filename]);
         }
         //$user->notify(new RegisterdEmailNotification($password,$user));
+        
         return $OfflineHotel;
     }
 
