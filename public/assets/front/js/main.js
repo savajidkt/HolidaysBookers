@@ -54,7 +54,7 @@ function initComponents() {
   carsSlider()
   cruiseSlider()
   singleMenu()
-  //calendarInteraction()
+  calendarInteraction()
   testimonialsSlider3()
   calendarSlider()
   mastheadSlider9()
@@ -123,8 +123,7 @@ function priceSwitch() {
 
 }
 
-function liveSearch() {
-  
+function liveSearch() {  
   const targets = document.querySelectorAll('.js-liverSearch')
   if (!targets) return
 
@@ -142,11 +141,12 @@ function liveSearch() {
     let searchTerm = ''
 
     results.querySelectorAll('.js-search-option').forEach(option => {
+      
       const title = option.querySelector('.js-search-option-target').innerHTML
-
       option.addEventListener('click', () => {
-        search.value = title
-        el.querySelector('.js-popup-window').classList.remove('-is-active')
+       
+        search.value = title.replace(/^\s+|\s+$/gm,'')        
+        el.querySelector('.js-popup-window').classList.remove('-is-active')        
       })
     })
 
@@ -158,7 +158,7 @@ function liveSearch() {
         const title = option.querySelector('.js-search-option-target').innerHTML
 
         option.addEventListener('click', () => {
-          search.value = title
+          search.value = title.replace(/^\s+|\s+$/gm,'')
           el.querySelector('.js-popup-window').classList.remove('-is-active')
         })
       })
@@ -197,7 +197,7 @@ function countChange() {
   targets.forEach(item => {
     const counters = item.querySelectorAll('.js-counter')
 
-    counters.forEach(el => {
+    counters.forEach(el => {      
       const count = el.querySelector('.js-count')
       const buttonDown = el.querySelector('.js-down')
       const buttonUp = el.querySelector('.js-up')
@@ -1231,7 +1231,7 @@ const Select = (function() {
     const button = target.querySelector('.js-button')
     const title = button.querySelector('.js-button-title')
     
-    if (target.classList.contains('js-liveSearch')) {
+    if (target.classList.contains('js-liveSearch')) {      
       liveSearch(target)
     }
 
@@ -1263,6 +1263,7 @@ const Select = (function() {
   }
 
   function liveSearch(target) {
+    
     const search = target.querySelector('.js-search')
     const options = target.querySelectorAll('.js-options > *')
     

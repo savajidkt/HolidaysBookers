@@ -1007,7 +1007,7 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1062,7 +1062,7 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1117,7 +1117,7 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1172,7 +1172,7 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1227,7 +1227,7 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1282,7 +1282,7 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1337,7 +1337,7 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
                             </div>
                         </div>
 

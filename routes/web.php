@@ -228,4 +228,6 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
+Route::get('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
 Route::post('/city-hotel-list', [SearchController::class, 'getLocations'])->name('city-hotel-list');
+Route::post('/hotel-list-ajax', [SearchController::class, 'ajaxHotelListing'])->name('hotel-list-ajax');
