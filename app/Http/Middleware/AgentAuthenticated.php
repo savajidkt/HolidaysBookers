@@ -24,6 +24,12 @@ class AgentAuthenticated
             if(auth()->user()->user_type == User::CUSTOMER){
                 return redirect(route('login'));
             }
+            if(auth()->user()->user_type == User::VENDOR){
+                return redirect(route('login'));
+            }
+            if(auth()->user()->user_type == User::CORPORATE){
+                return redirect(route('login'));
+            }
 
         }else{
             return redirect(route('login'));

@@ -32,6 +32,8 @@ use App\Models\Freebies;
 use App\Models\HotelImage;
 use App\Models\RezliveHotel;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\LazyCollection;
+
 class OfflineHotelsController extends Controller
 {
     /** \App\Repository\OfflineHotelRepository $offlineHotelRepository */
@@ -343,8 +345,63 @@ class OfflineHotelsController extends Controller
     }
     public function importRezliveHotels(Request $request)
     {
+        //ini_set('memory_limit', '-1');
 
         $file = storage_path('app/hotels.csv');
+
+        LazyCollection::make(function () {
+        $handle = fopen(storage_path('app/hotels.csv'), 'r');
+        
+        while (($line = fgetcsv($handle, 4096)) !== false) {
+            $dataString = implode(", ", $line);
+            $row = explode(';', $dataString);
+            yield $row;
+        }
+
+        fclose($handle);
+        })
+    ->skip(1)
+    ->chunk(100000)
+    ->each(function (LazyCollection $chunk) {
+      $records = $chunk->map(function ($row) {
+                    $data = explode('|',$row[0]);
+                    $hotelCode = $data[0];
+                    $hotelName = $data[1] ?? NULL; 
+                 
+                    return  [
+                        'hotel_name'    => $hotelName ?? NULL,
+                        'hotel_code'      => $hotelCode,
+                    ];
+
+      })->toArray();
+      //dd($records);
+      RezliveHotel::create($records);
+      //DB::table('products')->insert($records);
+    });
+    die;
+        Excel::filter('chunk')->load(database_path('app/hotels.csv'))->chunk(100, function($results) {
+            $index=0;
+            foreach ($results as $row) {
+                dd($row);
+                if($index>0){
+                    $data = explode('|',$row[0]);
+                    $hotelCode = $data[0];
+                    $hotelName = $data[1] ?? NULL; 
+                 
+                    $HotelArr[] = [
+                        'hotel_name'    => $hotelName ?? NULL,
+                        'hotel_code'      => $hotelCode,
+                    ];
+    
+                   
+                    //RezliveHotel::create($HotelArr);
+                    
+                }
+                $index++;
+            }
+        });
+
+
         if (($handle = fopen($file, "r")) === FALSE)
         {
             echo "readJobsFromFile: Failed to open file [$file]\n";
@@ -353,10 +410,12 @@ class OfflineHotelsController extends Controller
 
         $header=true;
         $fieldArray=[];
+        $HotelArr = [];
         $index=0;
+        
         while (($hotels = fgetcsv($handle, 1000, ",")) !== FALSE)
         {
-            $HotelArr = [];
+           
                 // echo '<pre>';
                 // print_r($hotels[0]);
                 // echo '</pre>';
@@ -377,18 +436,28 @@ class OfflineHotelsController extends Controller
                 // $Desc = $data[11];
                 //$country = Country::where('code',$CountryCode)->first();
                 //$city = City::where('name',$hotelCity)->first();
-                $HotelArr = [
+                $HotelArr[] = [
                     'hotel_name'    => $hotelName ?? NULL,
                     'hotel_code'      => $hotelCode,
                 ];
-        
-                RezliveHotel::create($HotelArr);
+
+                // echo '<pre>';
+                // print_r($data);
+                // echo '</pre>';
+                if($index>100000){
+                    echo '<pre>';
+                    print_r($HotelArr);
+                    die;
+                    
+                }
+                //RezliveHotel::create($HotelArr);
                 
             }
             
             $index++;
         }
-
+        
+        
         fclose($handle);
         die;
         RezliveHotelsImports::dispatch();
