@@ -20,6 +20,7 @@
     <script>
         var check_in_startDate = "{!! $search_from !!}";
         var check_in_endDate = "{!! $search_to !!}";
+        var extraParamHotel = [];
     </script>
     <style>
         #overlay {
@@ -252,8 +253,8 @@
         <div class="container">
             <div class="row y-gap-30">
                 <div class="col-xl-3 col-lg-4 lg:d-none">
-                    <aside class="sidebar y-gap-40">                        
-                        
+                    <aside class="sidebar y-gap-40">
+
                         <div class="sidebar__item">
                             <h5 class="text-18 fw-500 mb-10">Deals</h5>
                             <div class="sidebar-checkbox">
@@ -880,7 +881,8 @@
                 <div class="col-xl-9 col-lg-8">
                     <div class="row y-gap-10 items-center justify-between">
                         <div class="col-auto">
-                            <div class="text-18"><span class="fw-500">500 properties</span> in
+                            <div class="text-18"><span class="fw-500"><span class="foundPropertyCount"></span>
+                                    properties</span> in
                                 {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
                             </div>
                         </div>
@@ -1580,7 +1582,6 @@
                             </div>
                         </div>
                         <div class="row y-gap-30 ajax-list-display">
-                            HOTEL
                         </div>
                     </div>
                 </div>
@@ -1631,25 +1632,50 @@
     <script type="text/javascript">
         var moduleConfig = {
             searchLocationByName: "{!! route('city-hotel-list') !!}",
+            ajaxURL: "{!! route('hotel-list-ajax') !!}",
         };
+
+        $(document).ready(function() {
+
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+                extraParamHotel = [];
+                // $('li').removeClass('active');
+                // $(this).parent('li').addClass('active');               
+                var page = $(this).attr('href').split('page=')[1];
+                extraParamHotel.push({
+                    'page': page,
+                    'city_id': "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}",
+                    'country_id': "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}",
+                    'search_from': "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}",
+                    'search_to': "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}",
+                    'adult': "{!! $requestedArr['adult'] ? $requestedArr['adult'] : '' !!}",
+                    'child': "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}",
+                    'room': "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}"
+                });
+                getAllHotelList(extraParamHotel);
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
-            var extraParamHotel = [];
             extraParamHotel.push({
-                'city_id': "{!! ($requestedArr['city_id']) ? $requestedArr['city_id'] : '' !!}",
-                'country_id': "{!! ($requestedArr['country_id']) ? $requestedArr['country_id'] : '' !!}",
-                'search_from': "{!! ($requestedArr['search_from']) ? $requestedArr['search_from'] : '' !!}",
-                'search_to': "{!! ($requestedArr['search_to']) ? $requestedArr['search_to'] : '' !!}",
-                'adult': "{!! ($requestedArr['adult']) ? $requestedArr['adult'] : '' !!}",
-                'child': "{!! ($requestedArr['child']) ? $requestedArr['child'] : '' !!}",
-                'room': "{!! ($requestedArr['room']) ? $requestedArr['room'] : '' !!}"
-            });            
+                'page': 1,
+                'city_id': "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}",
+                'country_id': "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}",
+                'search_from': "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}",
+                'search_to': "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}",
+                'adult': "{!! $requestedArr['adult'] ? $requestedArr['adult'] : '' !!}",
+                'child': "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}",
+                'room': "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}"
+            });
             getAllHotelList(extraParamHotel);
         }, false);
 
         function getAllHotelList(requested) {
+
             $.ajax({
-                type: 'POST',
-                url: "{{ route('hotel-list-ajax') }}",
+                type: 'GET',
+                url: moduleConfig.ajaxURL + '?page=' + requested[0].page,
                 dataType: 'json',
                 beforeSend: function() {
                     $("#overlay").show();
@@ -1666,11 +1692,16 @@
                     searchParam: requested
                 },
                 success: function(data) {
+                    console.log(data);
                     if (data.status == 200) {
+                        $('.foundPropertyCount').html('');
+                        $('.foundPropertyCount').html(data.count);
                         $('.ajax-list-display').html('');
                         $('.ajax-list-display').html(data.data);
                     }
-
+                    jQuery('html, body').animate({
+                        scrollTop: jQuery(".topScroll").offset().top
+                    }, 777);
                 }
             });
         }

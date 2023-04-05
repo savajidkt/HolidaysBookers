@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\HotelListController;
 use App\Http\Controllers\Admin\Apis\ApisController;
 use App\Http\Controllers\Admin\User\UsersController;
@@ -229,5 +228,5 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
 Route::get('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
-Route::post('/city-hotel-list', [SearchController::class, 'getLocations'])->name('city-hotel-list');
-Route::post('/hotel-list-ajax', [SearchController::class, 'ajaxHotelListing'])->name('hotel-list-ajax');
+Route::post('/city-hotel-list', [HotelListController::class, 'getLocations'])->name('city-hotel-list');
+Route::get('/hotel-list-ajax', [HotelListController::class, 'ajaxHotelListing'])->name('hotel-list-ajax');

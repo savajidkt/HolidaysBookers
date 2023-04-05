@@ -1,6 +1,6 @@
 @if ($hotelList->count() > 0)
     @foreach ($hotelList as $hotel)
-        <div class="col-12">
+        <div class="col-12 topScroll" data-hot="{{ $hotel->id }}">
             <div class="border-top-light pt-30">
                 <div class="row x-gap-20 y-gap-20">
                     <div class="col-md-auto">
@@ -99,4 +99,5 @@
         </div>
     @endforeach
 @endif
-{{-- {{ $hotelList->withQueryString()->links('common.pagination', ['hotelCount' => $hotelCount]) }} --}}
+{{-- {{ $hotelList->render() }} --}}
+{{ $hotelList->withQueryString()->links('common.pagination', ['hotelCount' => $hotelCount]) }}

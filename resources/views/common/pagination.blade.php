@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <div class="border-top-light mt-30 pt-30">
+    <div class="border-top-light mt-30 pt-30 pagination">
         <div class="row x-gap-10 y-gap-20 justify-between md:justify-center">
             <div class="col-auto md:order-1">
                 @if ($paginator->onFirstPage())
@@ -70,9 +70,10 @@
                     <div class="col-auto">
                         <div class="size-40 flex-center rounded-full">3</div>
                     </div>
-                </div> 
-                 <div class="text-center mt-30 md:mt-10">
-                    <div class="text-14 text-light-1">1 – {{ $paginator->lastPage() }} of {{ $hotelCount }}+ properties found</div>
+                </div>
+                <div class="text-center mt-30 md:mt-10">
+                    <div class="text-14 text-light-1">1 – {{ $paginator->lastPage() }} of {{ $hotelCount }}+
+                        properties found</div>
                 </div>
             </div>
 

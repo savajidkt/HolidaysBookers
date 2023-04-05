@@ -34,28 +34,29 @@ class SearchController extends Controller
     }
 
     public function ajaxHotelListing(Request $request)
-    {        
-        $page = 1;
-
-        $hotelList = "";
-        $hotelCount = "";
-        if (isset($request->searchParam) && strlen($request->searchParam[0]['city_id']) > 0 && $request->searchParam[0]['country_id'] > 0) {
-            $searchParamArr = $request->searchParam[0];
-            $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_country', $searchParamArr['country_id'])->where('hotel_city', $searchParamArr['city_id'])->paginate(10);
-            $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_type')->where('hotel_country', $searchParamArr['country_id'])->where('hotel_city', $searchParamArr['city_id'])->count();
-        } else {
-            $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->paginate(10);
-            $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->count();
+    {
+        
+        if ($request->ajax()) {
+            $page = $request->searchParam[0]['page'];
+            $hotelList = "";
+            $hotelCount = "";
+            if (isset($request->searchParam) && strlen($request->searchParam[0]['city_id']) > 0 && $request->searchParam[0]['country_id'] > 0) {
+                $searchParamArr = $request->searchParam[0];
+                $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_country', $searchParamArr['country_id'])->where('hotel_city', $searchParamArr['city_id'])->paginate(10);
+                $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_type')->where('hotel_country', $searchParamArr['country_id'])->where('hotel_city', $searchParamArr['city_id'])->count();
+            } else {
+                $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->paginate(10);
+                $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->count();
+            }
+            return response()->json([
+                'status'        => 200,
+                'message'       => 'successfully.',
+                'page'          => $page,
+                'data'          => view('hotel.hotel-block-list', [
+                    'hotelList'         => $hotelList,
+                    'hotelCount'         => $hotelCount
+                ])->render()
+            ]);
         }
-
-        return response()->json([
-            'status'        => 200,
-            'message'       => 'successfully.',
-            'page'          => $page + 1,
-            'data'          => view('hotel.hotel-block-list', [
-                'hotelList'         => $hotelList,
-                'hotelCount'         => $hotelCount
-            ])->render()
-        ]);
     }
 }
