@@ -82,7 +82,7 @@ var FrmSearchPreference = function () {
 
 $(document).ready(function () {
     FrmSearchPreference.init();
-    $(function () {        
+    $(function () {
         $('input[name="daterange"]').daterangepicker({
             startDate: check_in_startDate,
             endDate: check_in_endDate,
@@ -91,10 +91,66 @@ $(document).ready(function () {
         }, function (start, end, label) {
             $('#hidden_from').val(start.format('YYYY-MM-DD'));
             $('#hidden_to').val(end.format('YYYY-MM-DD'));
-            console.log('u');
-        });       
+        });
     });
+
+
+    $(document).on('click', '.viewMoreRooms', function () {
+
+        var hotel_id = $(this).attr('data-hotel-id');
+        if ($('.slide-out-div-' + hotel_id).is(":hidden")) {
+            getAllRoomslList(hotel_id);
+        } else {
+            $('.slide-out-div-' + hotel_id).slideUp('slow');
+        }       
+
+
+    });
+
 });
+
+function getAllRoomslList(hotel_id) {
+
+    $.ajax({
+        type: 'POST',
+        url: moduleConfig.ajaxRoomURL,
+        dataType: 'json',
+        beforeSend: function () {
+            $(".slide-out-div-h-" + hotel_id).removeClass('is-hide');
+            $("#overlay-" + hotel_id).show();
+            //$('.ajax-list-display').hide();
+        },
+        complete: function () {
+            // $('.ajax-list-display').show();
+            $("#overlay-" + hotel_id).hide();
+            $(".slide-out-div-h-" + hotel_id).addClass('is-hide');
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            id: hotel_id
+        },
+        success: function (data) {
+            if (data.status == 200) {
+                //$('.foundPropertyCount').html('');
+                // $('.foundPropertyCount').html(data.count);
+                //$('.ajax-list-display').html('');
+                //$('.ajax-list-display').html(data.data);
+
+                $('.slide-out-div-' + hotel_id).html('');
+                $('.slide-out-div-' + hotel_id).html(data.data);
+
+                if ($('.slide-out-div-' + hotel_id).is(":hidden")) {
+                    $('.slide-out-div-' + hotel_id).slideDown("slow");
+                } else {
+                    $('.slide-out-div-' + hotel_id).slideUp('slow');
+                }
+
+            }
+        }
+    });
+}
 
 function liveSearches(data) {
     const targets = document.querySelectorAll('.js-liverSearch')

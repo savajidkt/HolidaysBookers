@@ -15,12 +15,25 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input ">
-                                        <input id="name" type="text"
-                                            class="form-control @error('name') is-invalid @enderror" name="name"
-                                            value="{{ old('name') }}">
+                                        <input id="first_name" type="text"
+                                            class="form-control @error('first_name') is-invalid @enderror" name="first_name"
+                                            value="{{ old('first_name') }}">
                                         <label class="lh-1 text-14 text-light-1">First Name</label>
                                     </div>
-                                    @error('name')
+                                    @error('first_name')
+                                        <span class="invalid-feedback" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-input ">
+                                        <input id="last_name" type="text"
+                                            class="form-control @error('last_name') is-invalid @enderror" name="last_name"
+                                            value="{{ old('last_name') }}">
+                                        <label class="lh-1 text-14 text-light-1">Last Name</label>
+                                    </div>
+                                    @error('last_name')
                                         <span class="invalid-feedback" role="alert">
                                             {{ $message }}
                                         </span>
@@ -39,6 +52,44 @@
                                         </span>
                                     @enderror
                                 </div>
+                                <div class="col-4">
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="type" value="1">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-14 lh-1 ml-10">Agent</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="type" value="2">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-14 lh-1 ml-10">Customer</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-radio d-flex items-center ">
+                                        <div class="radio">
+                                            <input type="radio" name="type" value="4">
+                                            <div class="radio__mark">
+                                                <div class="radio__icon"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-14 lh-1 ml-10">Corporate</div>
+                                    </div>
+                                </div>
+                                @error('type')
+                                        <span class="invalid-feedback" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 <div class="col-12">
                                     <div class="form-input ">
                                         <input id="password" type="password"

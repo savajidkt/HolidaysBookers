@@ -230,3 +230,4 @@ Route::post('/hotel-list', [HotelListController::class, 'index'])->name('hotel-l
 Route::get('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
 Route::post('/city-hotel-list', [HotelListController::class, 'getLocations'])->name('city-hotel-list');
 Route::get('/hotel-list-ajax', [HotelListController::class, 'ajaxHotelListing'])->name('hotel-list-ajax');
+Route::post('/room-list-ajax', [HotelListController::class, 'ajaxRoomListing'])->name('room-list-ajax');

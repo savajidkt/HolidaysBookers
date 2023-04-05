@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Country;
+use App\Models\OfflineRoom;
 use App\Models\OfflineHotel;
 use Illuminate\Http\Request;
 
@@ -71,6 +72,7 @@ class HotelListController extends Controller
                 $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->paginate(10);
                 $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->count();
             }
+            //$hotelList->loadMissing(['rooms']);
             return response()->json([
                 'status'        => 200,
                 'message'       => 'successfully.',
@@ -79,6 +81,21 @@ class HotelListController extends Controller
                 'data'          => view('hotel.hotel-block-list', [
                     'hotelList'         => $hotelList,
                     'hotelCount'         => $hotelCount
+                ])->render()
+            ]);
+        }
+    }
+
+    public function ajaxRoomListing(Request $request)
+    {
+
+        if ($request->ajax()) {           
+            $hotelRooms = OfflineRoom::where('status', OfflineRoom::ACTIVE)->where('hotel_id', $request->id)->get();            
+            return response()->json([
+                'status'        => 200,
+                'message'       => 'successfully.',
+                'data'          => view('hotel.hotel-rooms-block-list', [
+                    'hotelRooms'         => $hotelRooms
                 ])->render()
             ]);
         }

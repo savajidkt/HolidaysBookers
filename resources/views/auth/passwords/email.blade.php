@@ -9,6 +9,13 @@
                 <div class="col-xl-6 col-lg-7 col-md-9">
                     <form class="row g-3 needs-validation p-3" method="POST" action="{{ route('forgot-password') }}">
                         @csrf
+                        @if (session('status'))
+                            <div class="col-12">
+                                <div class="d-flex items-center justify-between bg-success-1 pl-30 pr-20 py-30 rounded-8">
+                                    <div class="text-success-2 lh-1 fw-500">{{ session('status') }}</div>                                    
+                                </div>
+                            </div>
+                        @endif
                         <div class="px-50 py-50 sm:px-20 sm:py-20 bg-white shadow-4 rounded-4">
                             <div class="row y-gap-20">
                                 <div class="col-12">

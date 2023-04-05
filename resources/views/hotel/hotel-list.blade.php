@@ -22,44 +22,6 @@
         var check_in_endDate = "{!! $search_to !!}";
         var extraParamHotel = [];
     </script>
-    <style>
-        #overlay {
-            position: relative;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            display: none;
-            background: transparent;
-        }
-
-        .cv-spinner {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px #ddd solid;
-            border-top: 4px #2e93e6 solid;
-            border-radius: 50%;
-            animation: sp-anime 0.8s infinite linear;
-        }
-
-        @keyframes sp-anime {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .is-hide {
-            display: none;
-        }
-    </style>
-
     <div class="header-margin"></div>
     <section class="pt-40 pb-40 bg-light-2">
         <div class="container">
@@ -1588,7 +1550,6 @@
             </div>
         </div>
     </section>
-
     <section class="layout-pt-md layout-pb-md bg-dark-2">
         <div class="container">
             <div class="row y-gap-30 justify-between items-center">
@@ -1633,6 +1594,7 @@
         var moduleConfig = {
             searchLocationByName: "{!! route('city-hotel-list') !!}",
             ajaxURL: "{!! route('hotel-list-ajax') !!}",
+            ajaxRoomURL: "{!! route('room-list-ajax') !!}",
         };
 
         $(document).ready(function() {
@@ -1668,7 +1630,7 @@
                 'child': "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}",
                 'room': "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}"
             });
-            getAllHotelList(extraParamHotel);
+             getAllHotelList(extraParamHotel);
         }, false);
 
         function getAllHotelList(requested) {
@@ -1692,7 +1654,7 @@
                     searchParam: requested
                 },
                 success: function(data) {
-                    console.log(data);
+
                     if (data.status == 200) {
                         $('.foundPropertyCount').html('');
                         $('.foundPropertyCount').html(data.count);

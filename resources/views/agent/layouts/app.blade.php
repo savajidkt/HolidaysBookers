@@ -21,53 +21,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Main-StyleSheet include -->
     <style>
-        .help-block-error, .invalid-feedback {
+        .help-block-error {
             color: #EA5455;
         }
-
-        .overlay, #overlay {
-            position: relative;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            display: none;
-            background: transparent;
-        }
-
-        .cv-spinner {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px #ddd solid;
-            border-top: 4px #2e93e6 solid;
-            border-radius: 50%;
-            animation: sp-anime 0.8s infinite linear;
-        }
-
-        @keyframes sp-anime {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        .is-hide {
-            display: none;
-        }
-
     </style>
 </head>
 
-
-
-<body>
-
-
+<body data-barba="wrapper">
     <div class="preloader js-preloader">
         <div class="preloader__wrap">
             <div class="preloader__icon">
@@ -89,19 +49,23 @@
         </div>
         <div class="preloader__title">HB</div>
     </div>
+    @include('agent.common.header')
+    <div class="dashboard" data-x="dashboard" data-x-toggle="-is-sidebar-open">
+        @include('agent.common.main-menu')
+        <div class="dashboard__main">
+            @yield('content')
+        </div>
+    </div>
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+        integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 
-    {{-- @if (!(Route::is('login') || Route::is('password.request') || Route::is('password.reset')))
-        @include('common.header')
-    @endif --}}
-    <main>
-        @include('common.header')
-        @yield('content')
-        @include('common.footer')
-    </main>
-
-    @include('layouts.front-scripts')
+    <script src="{{ asset('assets/front/js/vendors.js') }}"></script>
+    <script src="{{ asset('assets/front/js/main.js') }}"></script>
     @yield('page-script')
-
 </body>
 
 </html>

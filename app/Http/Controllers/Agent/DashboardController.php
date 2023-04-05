@@ -24,14 +24,6 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
-        
-        echo "Agent DashBoard";
-        die;
-    }
-    public function booking()
-    {
-        
-        echo "Agent Booking";
-        die;
-    }
+        return view('agent.dashboard.index');
+    }   
 }

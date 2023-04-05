@@ -89,13 +89,27 @@
                             </div>
                             <div class="text-22 lh-12 fw-600 mt-5">US$72</div>
                             <div class="text-14 text-light-1 mt-5">+US$828 taxes and charges</div>
-                            <a href="#" class="button -md -dark-1 bg-blue-1 text-white mt-24">
-                                See Availability <div class="icon-arrow-top-right ml-15"></div>
+                            <a href="javascript:void(0);" data-hotel-id="{{ $hotel->id }}"
+                                class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
+                                See More <div class="icon-eye ml-15"></div>
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        @php
+            
+        @endphp
+        <div class="col-12 is-hide slide-out-div-h-{{ $hotel->id }}">
+            <div class="overlay" id="overlay-{{ $hotel->id }}">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 is-hide slide-out-div-{{ $hotel->id }}">
+
         </div>
     @endforeach
 @endif
