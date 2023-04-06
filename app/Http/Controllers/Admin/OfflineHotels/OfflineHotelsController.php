@@ -26,21 +26,27 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Agent\EditRequest;
 use App\Repositories\OfflineHotelRepository;
 use App\Http\Requests\OfflineHotel\CreateRequest;
+use App\Http\Traits\GlobalTrait;
 use App\Jobs\RezliveHotelsImports;
 use App\Models\City;
 use App\Models\Freebies;
 use App\Models\HotelImage;
 use App\Models\RezliveHotel;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\LazyCollection;
 
 class OfflineHotelsController extends Controller
 {
-    /** \App\Repository\OfflineHotelRepository $offlineHotelRepository */
+    use GlobalTrait;
+    
     protected $offlineHotelRepository;
+    public $settings;
+
     public function __construct(OfflineHotelRepository $offlineHotelRepository)
     {
         $this->offlineHotelRepository       = $offlineHotelRepository;
+        $this->settings = $this->getAllSettings(5);
     }
 
     /**
@@ -346,14 +352,22 @@ class OfflineHotelsController extends Controller
     public function importRezliveHotels(Request $request)
     {
         //ini_set('memory_limit', '-1');
-
-        $file = storage_path('app/hotels.csv');
-
+        $rezlive = RezliveHotel::limit(10)->get();
+        foreach($rezlive as $hotel){
+            $hotelResult = rezeliveGetHotelsDetails($this->settings,$hotel->hotel_code);
+            //$this->offlineHotelRepository->rezliveHotelSave($hotelResult['Hotels']);
+            echo '<pre>';
+            print_r($hotelResult);
+            echo '</pre>';
+        }
+        
+        die;
+        //$file = storage_path('app/csv/H1.csv');
         LazyCollection::make(function () {
-        $handle = fopen(storage_path('app/hotels.csv'), 'r');
+        $handle = fopen(storage_path('app/csv/H2.csv'), 'r');
         
         while (($line = fgetcsv($handle, 4096)) !== false) {
-            $dataString = implode(", ", $line);
+            $dataString = implode(",", $line);
             $row = explode(';', $dataString);
             yield $row;
         }
@@ -361,13 +375,12 @@ class OfflineHotelsController extends Controller
         fclose($handle);
         })
     ->skip(1)
-    ->chunk(100000)
+    ->chunk(100)
     ->each(function (LazyCollection $chunk) {
       $records = $chunk->map(function ($row) {
                     $data = explode('|',$row[0]);
                     $hotelCode = $data[0];
-                    $hotelName = $data[1] ?? NULL; 
-                 
+                    $hotelName = $data[1] ?? NULL;
                     return  [
                         'hotel_name'    => $hotelName ?? NULL,
                         'hotel_code'      => $hotelCode,
@@ -375,8 +388,8 @@ class OfflineHotelsController extends Controller
 
       })->toArray();
       //dd($records);
-      RezliveHotel::create($records);
-      //DB::table('products')->insert($records);
+      //RezliveHotel::create($records);
+      DB::table('rezlive_hotels')->insert($records);
     });
     die;
         Excel::filter('chunk')->load(database_path('app/hotels.csv'))->chunk(100, function($results) {

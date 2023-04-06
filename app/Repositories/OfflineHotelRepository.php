@@ -225,4 +225,9 @@ class OfflineHotelRepository
         }
         return response()->json(['success' => $filename]);
     }
+
+    public function rezliveHotelSave(array $hotel)
+    {
+        
+    }
 }

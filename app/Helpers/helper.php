@@ -330,6 +330,51 @@ if (!function_exists('rezeliveHotels')) {
     }
 }
 
+if (!function_exists('rezeliveGetHotelsDetails')) {
+
+    function rezeliveGetHotelsDetails($config,$hotel_code)
+    {
+        
+        set_time_limit(0);
+        $str='<HotelDetailsRequest>
+        <Authentication>
+        <AgentCode>' . $config->agent_code . '</AgentCode>
+            <UserName>' . $config->username . '</UserName>
+            <Password>' . $config->password . '</Password>
+        </Authentication>
+        <Hotels>
+        <HotelId>'.$hotel_code.'</HotelId>
+        </Hotels></HotelDetailsRequest>';
+
+        file_put_contents("xml/resquest" . time() . ".xml", $str);
+       $url = $config->api_url . "gethoteldetails";
+        //http://test.xmlhub.com/testpanel.php/action/gethoteldetails
+        $ch = curl_init();
+        //set the url, number of POST vars, POST data 
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "XML=" . urlencode($str));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=UTF8'));
+        $result = curl_exec($ch);
+
+        if ($result === false) {
+            echo 'Curl error: ' . curl_error($ch);
+        }
+        //curl_close($ch); 
+        //    print_r($result);
+        //    die;
+        //$result = str_replace("world","Peter","Hello world!");
+        $xml = simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+        $json = json_encode($xml);
+        $arr = json_decode($json, true);
+        return $arr;
+        
+    }
+}
+
 
 if (!function_exists('getLoginUserDetails')) {
 
