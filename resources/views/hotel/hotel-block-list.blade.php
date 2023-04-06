@@ -59,6 +59,18 @@
                             <div class="">You can cancel later, so lock in this great price
                                 today.
                             </div>
+                            <a href="javascript:void(0);" data-hotel-id="{{ $hotel->id }}" data-type="map"
+                                class="viewMoreRooms bg-blue-1 text-white mt-24">
+                                Map
+                            </a>
+                            <a href="javascript:void(0);" data-hotel-id="{{ $hotel->id }}" data-type="images"
+                                class="viewMoreRooms bg-blue-1 text-white mt-24">
+                                Images
+                            </a>
+                            <a href="javascript:void(0);" data-hotel-id="{{ $hotel->id }}" data-type="description"
+                                class="viewMoreRooms bg-blue-1 text-white mt-24">
+                                Description
+                            </a>
                         </div>
                         @if ($hotel->hotelamenity->count() > 0)
                             <div class="row x-gap-10 y-gap-10 pt-20">
@@ -89,7 +101,7 @@
                             </div>
                             <div class="text-22 lh-12 fw-600 mt-5">US$72</div>
                             <div class="text-14 text-light-1 mt-5">+US$828 taxes and charges</div>
-                            <a href="javascript:void(0);" data-hotel-id="{{ $hotel->id }}"
+                            <a href="javascript:void(0);" data-hotel-id="{{ $hotel->id }}" data-type="see"
                                 class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
                                 See More <div class="icon-eye ml-15"></div>
                             </a>
@@ -98,9 +110,7 @@
                 </div>
             </div>
         </div>
-        @php
-            
-        @endphp
+
         <div class="col-12 is-hide slide-out-div-h-{{ $hotel->id }}">
             <div class="overlay" id="overlay-{{ $hotel->id }}">
                 <div class="cv-spinner">
@@ -110,6 +120,61 @@
         </div>
         <div class="col-12 is-hide slide-out-div-{{ $hotel->id }}">
 
+        </div>
+        <div class="col-12 is-hide map-{{ $hotel->id }}">
+            <div class="px-10 py-10 border-light">
+                <div class="d-flex items-center">
+                    <div class="button text-dark-1">Map</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 is-hide images-{{ $hotel->id }}">
+            <div class="px-10 py-10 border-light">
+                <div class="d-flex items-center">
+                    <div class="galleryGrid -type-2">
+                        <div class="galleryGrid__item relative d-flex justify-end items-end">
+
+                            @if (strlen($hotel->hotel_image_location) > 0)
+                                <img class="rounded-4"
+                                    src="{{ url(Storage::url('app/upload/Hotel/' . $hotel->id . '/' . $hotel->hotel_image_location)) }}"
+                                    alt="{{ $hotel->hotel_name }}">
+                            @endif
+
+                            @if ($hotel->images->count() > 0)
+                                @php
+                                    $i = 0;
+                                @endphp
+                                <div class="absolute px-20 py-20">
+                                    @foreach ($hotel->images as $key => $img)
+                                        @php
+                                            $i++;
+                                        @endphp
+                                        @if ($i == 1)
+                                            <a href="{{ url(Storage::url('app/upload/Hotel/' . $hotel->id . '/gallery/' . $img['file_path'])) }}"
+                                                class="button -blue-1 px-24 py-15 bg-white text-dark-1 js-gallery myGallery"
+                                                data-gallery="gallery2">
+                                                See All {{ $hotel->images->count() }} Photos
+                                            </a>
+                                        @else
+                                            <a href="{{ url(Storage::url('app/upload/Hotel/' . $hotel->id . '/gallery/' . $img['file_path'])) }}"
+                                                class="js-gallery" data-gallery="gallery2"></a>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 is-hide description-{{ $hotel->id }}">
+            <div class="px-10 py-10 border-light">
+                <div class="d-flex items-center">
+                    {{ $hotel->hotel_description }}
+                </div>
+            </div>
         </div>
     @endforeach
 @endif

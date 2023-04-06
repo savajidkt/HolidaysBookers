@@ -426,7 +426,7 @@ function pinOnScroll() {
   });
 }
 
-function galleryInit() {
+function galleryInit() {  
   GLightbox({
     selector: '.js-gallery',
     touchNavigation: true,

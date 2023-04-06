@@ -21,6 +21,19 @@
         var check_in_startDate = "{!! $search_from !!}";
         var check_in_endDate = "{!! $search_to !!}";
         var extraParamHotel = [];
+        var filterObj = {};
+        filterObj.hotel_amenities = "";
+        filterObj.room_amenities = "";
+        filterObj.star = "";
+        filterObj.price_range = "";
+        filterObj.requested_page = 1;
+        filterObj.requested_city_id = "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}";
+        filterObj.requested_country_id = "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}";
+        filterObj.requested_search_from = "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}";
+        filterObj.requested_search_to = "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}";
+        filterObj.requested_adult = "{!! $requestedArr['adult'] ? $requestedArr['adult'] : '' !!}";
+        filterObj.requested_child = "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}";
+        filterObj.requested_room = "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}";
     </script>
     <div class="header-margin"></div>
     <section class="pt-40 pb-40 bg-light-2">
@@ -216,135 +229,28 @@
             <div class="row y-gap-30">
                 <div class="col-xl-3 col-lg-4 lg:d-none">
                     <aside class="sidebar y-gap-40">
-
                         <div class="sidebar__item">
-                            <h5 class="text-18 fw-500 mb-10">Deals</h5>
-                            <div class="sidebar-checkbox">
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox">
-                                                <input type="checkbox">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-                                            <div class="text-15 ml-10">Free cancellation</div>
-                                        </div>
-                                    </div>
+                            <h5 class="text-18 fw-500 mb-10">Star Rating</h5>
+                            <div class="row x-gap-10 y-gap-10 pt-10">
+                                <div class="col-auto">
+                                    <a href="#"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">1</a>
                                 </div>
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox">
-                                                <input type="checkbox">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-                                            <div class="text-15 ml-10">Reserve now, pay at stay </div>
-                                        </div>
-                                    </div>
+                                <div class="col-auto">
+                                    <a href="#"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">2</a>
                                 </div>
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox">
-                                                <input type="checkbox">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-                                            <div class="text-15 ml-10">Properties with special offers</div>
-                                        </div>
-                                    </div>
+                                <div class="col-auto">
+                                    <a href="#"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">3</a>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="sidebar__item">
-                            <h5 class="text-18 fw-500 mb-10">Popular Filters</h5>
-                            <div class="sidebar-checkbox">
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox">
-                                                <input type="checkbox">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-                                            <div class="text-15 ml-10">Breakfast Included</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">92</div>
-                                    </div>
+                                <div class="col-auto">
+                                    <a href="#"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">4</a>
                                 </div>
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox">
-                                                <input type="checkbox">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-                                            <div class="text-15 ml-10">Romantic</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">45</div>
-                                    </div>
-                                </div>
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox">
-                                                <input type="checkbox">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-                                            <div class="text-15 ml-10">Airport Transfer</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">21</div>
-                                    </div>
-                                </div>
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox">
-                                                <input type="checkbox">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-                                            <div class="text-15 ml-10">WiFi Included </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">78</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox">
-                                                <input type="checkbox">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-                                            <div class="text-15 ml-10">5 Star</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">679</div>
-                                    </div>
+                                <div class="col-auto">
+                                    <a href="#"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">5</a>
                                 </div>
                             </div>
                         </div>
@@ -369,472 +275,54 @@
                             </div>
                         </div>
                         <div class="sidebar__item">
-                            <h5 class="text-18 fw-500 mb-10">Amenities</h5>
+                            <h5 class="text-18 fw-500 mb-10">Hotel Amenities</h5>
                             <div class="sidebar-checkbox">
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
+                                @if ($amenitiesArr->count() > 0)
+                                    @foreach ($amenitiesArr as $key => $value)
+                                        @if ($value->type == 1)
+                                            <div class="row y-gap-10 items-center justify-between hotel_amenities">
+                                                <div class="col-auto">
+                                                    <div class="d-flex items-center">
+                                                        <div class="form-checkbox ">
+                                                            <input type="checkbox" name="hotel_amenities[]"
+                                                                value="{{ $value->id }}" class="hotel_amenity">
+                                                            <div class="form-checkbox__mark">
+                                                                <div class="form-checkbox__icon icon-check"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-15 ml-10">{{ $value->amenity_name }}</div>
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                            <div class="text-15 ml-10">Breakfast Included</div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">92</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">WiFi Included </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">45</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Pool</div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">21</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Restaurant </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">78</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Air conditioning </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">679</div>
-                                    </div>
-                                </div>
-
+                                        @endif
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
 
                         <div class="sidebar__item">
-                            <h5 class="text-18 fw-500 mb-10">Star Rating</h5>
-                            <div class="row x-gap-10 y-gap-10 pt-10">
-
-                                <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">1</a>
-                                </div>
-
-                                <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">2</a>
-                                </div>
-
-                                <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">3</a>
-                                </div>
-
-                                <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">4</a>
-                                </div>
-
-                                <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">5</a>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="sidebar__item">
-                            <h5 class="text-18 fw-500 mb-10">Guest Rating</h5>
+                            <h5 class="text-18 fw-500 mb-10">Room Amenities</h5>
                             <div class="sidebar-checkbox">
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="form-radio d-flex items-center ">
-                                            <div class="radio">
-                                                <input type="radio" name="name">
-                                                <div class="radio__mark">
-                                                    <div class="radio__icon"></div>
+                                @if ($amenitiesArr->count() > 0)
+                                    @foreach ($amenitiesArr as $key => $value)
+                                        @if ($value->type == 2)
+                                            <div class="row y-gap-10 items-center justify-between room_amenities">
+                                                <div class="col-auto">
+                                                    <div class="d-flex items-center">
+                                                        <div class="form-checkbox ">
+                                                            <input type="checkbox" name="room_amenities[]"
+                                                                value="{{ $value->id }}" class="room_amenity">
+                                                            <div class="form-checkbox__mark">
+                                                                <div class="form-checkbox__icon icon-check"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-15 ml-10">{{ $value->amenity_name }}</div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="ml-10">Any</div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">92</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="form-radio d-flex items-center ">
-                                            <div class="radio">
-                                                <input type="radio" name="name">
-                                                <div class="radio__mark">
-                                                    <div class="radio__icon"></div>
-                                                </div>
-                                            </div>
-                                            <div class="ml-10">Wonderful 4.5+</div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">45</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="form-radio d-flex items-center ">
-                                            <div class="radio">
-                                                <input type="radio" name="name">
-                                                <div class="radio__mark">
-                                                    <div class="radio__icon"></div>
-                                                </div>
-                                            </div>
-                                            <div class="ml-10">Very good 4+</div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">21</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="form-radio d-flex items-center ">
-                                            <div class="radio">
-                                                <input type="radio" name="name">
-                                                <div class="radio__mark">
-                                                    <div class="radio__icon"></div>
-                                                </div>
-                                            </div>
-                                            <div class="ml-10">Good 3.5+ </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">78</div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="sidebar__item">
-                            <h5 class="text-18 fw-500 mb-10">Style</h5>
-                            <div class="sidebar-checkbox">
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Budget</div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">92</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Mid-range </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">45</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Luxury</div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">21</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Family-friendly </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">78</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Business </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">679</div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="sidebar__item">
-                            <h5 class="text-18 fw-500 mb-10">Neighborhood</h5>
-                            <div class="sidebar-checkbox">
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Central London</div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">92</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Guests&#39; favourite area </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">45</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Westminster Borough</div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">21</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Kensington and Chelsea </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">78</div>
-                                    </div>
-                                </div>
-
-                                <div class="row y-gap-10 items-center justify-between">
-                                    <div class="col-auto">
-
-                                        <div class="d-flex items-center">
-                                            <div class="form-checkbox ">
-                                                <input type="checkbox" name="name">
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-15 ml-10">Oxford Street </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="text-15 text-light-1">679</div>
-                                    </div>
-                                </div>
-
+                                        @endif
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </aside>
@@ -1602,8 +1090,7 @@
             $(document).on('click', '.pagination a', function(event) {
                 event.preventDefault();
                 extraParamHotel = [];
-                // $('li').removeClass('active');
-                // $(this).parent('li').addClass('active');               
+
                 var page = $(this).attr('href').split('page=')[1];
                 extraParamHotel.push({
                     'page': page,
@@ -1617,27 +1104,42 @@
                 });
                 getAllHotelList(extraParamHotel);
             });
+
+            $(document).on('change', '.hotel_amenity', function(e) {
+                filterObj.hotel_amenities = "";
+                $(".hotel_amenities input.hotel_amenity:checked").each(function() {
+                    filterObj.hotel_amenities += ', ' + $(this).val();
+                });
+                getAllHotelList(filterObj);
+            });
+            $(document).on('change', '.room_amenity', function() {
+                filterObj.room_amenities = "";
+                $(".room_amenities input.room_amenity:checked").each(function() {
+                    filterObj.room_amenities += ', ' + $(this).val();
+                });
+                getAllHotelList(filterObj);
+
+            });
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            extraParamHotel.push({
-                'page': 1,
-                'city_id': "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}",
-                'country_id': "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}",
-                'search_from': "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}",
-                'search_to': "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}",
-                'adult': "{!! $requestedArr['adult'] ? $requestedArr['adult'] : '' !!}",
-                'child': "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}",
-                'room': "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}"
-            });
-             getAllHotelList(extraParamHotel);
+            // extraParamHotel.push({
+            //     'page': 1,
+            //     'city_id': "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}",
+            //     'country_id': "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}",
+            //     'search_from': "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}",
+            //     'search_to': "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}",
+            //     'adult': "{!! $requestedArr['adult'] ? $requestedArr['adult'] : '' !!}",
+            //     'child': "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}",
+            //     'room': "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}"
+            // });
+            getAllHotelList(filterObj);
         }, false);
 
         function getAllHotelList(requested) {
-
             $.ajax({
                 type: 'GET',
-                url: moduleConfig.ajaxURL + '?page=' + requested[0].page,
+                url: moduleConfig.ajaxURL + '?page=' + requested.requested_page,
                 dataType: 'json',
                 beforeSend: function() {
                     $("#overlay").show();
@@ -1651,7 +1153,18 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data: {
-                    searchParam: requested
+                    hotel_amenities: requested.hotel_amenities,
+                    price_range: requested.price_range,
+                    requested_adult: requested.requested_adult,
+                    requested_child: requested.requested_child,
+                    requested_city_id: requested.requested_city_id,
+                    requested_country_id: requested.requested_country_id,
+                    requested_page: requested.requested_page,
+                    requested_room: requested.requested_room,
+                    requested_search_from: requested.requested_search_from,
+                    requested_search_to: requested.requested_search_to,
+                    room_amenities: requested.room_amenities,
+                    star: requested.star
                 },
                 success: function(data) {
 
@@ -1661,6 +1174,14 @@
                         $('.ajax-list-display').html('');
                         $('.ajax-list-display').html(data.data);
                     }
+
+                    GLightbox({
+                        selector: '.js-gallery',
+                        touchNavigation: true,
+                        loop: false,
+                        autoplayVideos: true,
+                    });
+
                     jQuery('html, body').animate({
                         scrollTop: jQuery(".topScroll").offset().top
                     }, 777);

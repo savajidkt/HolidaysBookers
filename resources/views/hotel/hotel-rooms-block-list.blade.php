@@ -6,7 +6,7 @@
                 <div class="bg-white rounded-4 ">
                     <div class="row">
                         <div class="col-lg col-md-6">
-                            <div class="text-15 fw-500 ">Junior leisure suite twin</div>
+                            <div class="text-15 fw-500 ">{{ $room->roomtype->room_type }}</div>
                             <div class="">
                                 <div class="d-flex items-center text-green-2">
                                     <i class="icon-check text-14 mr-10"></i>
@@ -40,8 +40,8 @@
         </div>
     @endforeach
 @else
-    <div class="accordion__item px-20 py-20 border-light rounded-4 is-active">
-        <div class="accordion__button d-flex items-center">
+    <div class="px-10 py-10 border-light">
+        <div class="d-flex items-center">
             <div class="button text-dark-1">No room found!</div>
         </div>
     </div>

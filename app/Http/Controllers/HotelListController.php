@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amenity;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\OfflineRoom;
@@ -25,6 +26,7 @@ class HotelListController extends Controller
     {
         $country =  [];
         $requestedArr = [];
+        $amenitiesArr = Amenity::all();
         if (isset($request->country_id)) {
             $country = Country::find($request->country_id);
             $requestedArr = $request->all();
@@ -40,7 +42,7 @@ class HotelListController extends Controller
         }
 
 
-        return view('hotel.hotel-list', ['requestedArr' => $requestedArr, 'country' => $country]);
+        return view('hotel.hotel-list', ['requestedArr' => $requestedArr, 'country' => $country, 'amenitiesArr' => $amenitiesArr]);
     }
 
     public function getLocations(Request $request)
@@ -60,16 +62,34 @@ class HotelListController extends Controller
     public function ajaxHotelListing(Request $request)
     {
 
+
         if ($request->ajax()) {
-            $page = $request->searchParam[0]['page'];
+            $page = $request->page;
             $hotelList = "";
             $hotelCount = "";
-            if (isset($request->searchParam) && strlen($request->searchParam[0]['city_id']) > 0 && $request->searchParam[0]['country_id'] > 0) {
-                $searchParamArr = $request->searchParam[0];
-                $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_country', $searchParamArr['country_id'])->where('hotel_city', $searchParamArr['city_id'])->paginate(10);
-                $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_country', $searchParamArr['country_id'])->where('hotel_city', $searchParamArr['city_id'])->count();
+            $hotel_amenities = "";
+            $room_amenities = "";
+            if (strlen($request->hotel_amenities) > 0) {
+                $hotel_amenities = trim($request->hotel_amenities, ', ');
+            }
+            if (strlen($request->room_amenities) > 0) {
+                $room_amenities = trim($request->room_amenities, ', ');
+            }
+            if (isset($request->city_id) && strlen($request->city_id) > 0 && $request->requested_country_id > 0) {
+                $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_country', $request->requested_country_id)->where('hotel_city', $request->city_id)->paginate(10);
+                $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->where('hotel_country', $request->requested_country_id)->where('hotel_city', $request->city_id)->count();
             } else {
                 $hotelList = OfflineHotel::where('status', OfflineHotel::ACTIVE)->paginate(10);
+                // if (strlen($hotel_amenities) > 0) {
+                //     $hotelList->whereHas(
+                //         'hotel_amenities',
+                //         function ($query, $hotel_amenities) {
+                //             $query->whereIn('amenities_id', explode(', ', $hotel_amenities));
+                //         }
+                //     );
+                // }
+                //$hotelList->paginate(10);
+dd($hotelList);
                 $hotelCount = OfflineHotel::where('status', OfflineHotel::ACTIVE)->count();
             }
             //$hotelList->loadMissing(['rooms']);
@@ -89,8 +109,8 @@ class HotelListController extends Controller
     public function ajaxRoomListing(Request $request)
     {
 
-        if ($request->ajax()) {           
-            $hotelRooms = OfflineRoom::where('status', OfflineRoom::ACTIVE)->where('hotel_id', $request->id)->get();            
+        if ($request->ajax()) {
+            $hotelRooms = OfflineRoom::where('status', OfflineRoom::ACTIVE)->where('hotel_id', $request->id)->get();
             return response()->json([
                 'status'        => 200,
                 'message'       => 'successfully.',

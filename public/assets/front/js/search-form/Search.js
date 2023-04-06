@@ -93,16 +93,60 @@ $(document).ready(function () {
             $('#hidden_to').val(end.format('YYYY-MM-DD'));
         });
     });
-
+    
 
     $(document).on('click', '.viewMoreRooms', function () {
 
         var hotel_id = $(this).attr('data-hotel-id');
-        if ($('.slide-out-div-' + hotel_id).is(":hidden")) {
-            getAllRoomslList(hotel_id);
-        } else {
-            $('.slide-out-div-' + hotel_id).slideUp('slow');
-        }       
+        var type = $(this).attr('data-type');
+
+        if (type == "see") {
+            if ($('.slide-out-div-' + hotel_id).is(":hidden")) {
+                $('.images-' + hotel_id).slideUp('slow');
+                $('.map-' + hotel_id).slideUp('slow');
+                $('.description-' + hotel_id).slideUp('slow');
+                getAllRoomslList(hotel_id);
+            } else {
+                $('.slide-out-div-' + hotel_id).slideUp('slow');
+            }
+        } else if (type == "map") {
+            if ($('.map-' + hotel_id).is(":hidden")) {
+                $('.map-' + hotel_id).slideDown('slow');
+
+                $('.slide-out-div-' + hotel_id).slideUp('slow');
+                $('.images-' + hotel_id).slideUp('slow');
+                $('.description-' + hotel_id).slideUp('slow');
+            } else {
+                $('.map-' + hotel_id).slideUp('slow');
+            }
+        } else if (type == "images") {
+            if ($('.images-' + hotel_id).is(":hidden")) {
+                $('.images-' + hotel_id).slideDown('slow');
+
+                $('.slide-out-div-' + hotel_id).slideUp('slow');
+                $('.map-' + hotel_id).slideUp('slow');
+                $('.description-' + hotel_id).slideUp('slow');
+
+            } else {
+                $('.images-' + hotel_id).slideUp('slow');
+            }
+        } else if (type == "description") {
+            if ($('.description-' + hotel_id).is(":hidden")) {
+                $('.description-' + hotel_id).slideDown('slow');
+
+                $('.slide-out-div-' + hotel_id).slideUp('slow');
+                $('.map-' + hotel_id).slideUp('slow');
+                $('.images-' + hotel_id).slideUp('slow');
+
+            } else {
+                $('.description-' + hotel_id).slideUp('slow');
+            }
+        }
+
+
+       
+
+
 
 
     });
