@@ -93,7 +93,6 @@ $(document).ready(function () {
             $('#hidden_to').val(end.format('YYYY-MM-DD'));
         });
     });
-    
 
     $(document).on('click', '.viewMoreRooms', function () {
 
@@ -142,15 +141,7 @@ $(document).ready(function () {
                 $('.description-' + hotel_id).slideUp('slow');
             }
         }
-
-
-       
-
-
-
-
     });
-
 });
 
 function getAllRoomslList(hotel_id) {
@@ -258,4 +249,40 @@ function liveSearches(data) {
                 resultsEl.appendChild(div)
             })
     }
+}
+
+function priceRangeSlider() {
+    const targets = document.querySelectorAll('.js-price-rangeSlider')
+
+    targets.forEach(el => {
+        const slider = el.querySelector('.js-slider')
+
+        noUiSlider.create(slider, {
+            start: [0, 500],
+            step: 100,
+            connect: true,
+            range: {
+                'min': 0,
+                'max': 2000
+            },
+            format: {
+                to: function (value) {
+                    return "$" + value
+                },
+
+                from: function (value) {
+                    return value;
+                }
+            }
+        })
+
+        const snapValues = [
+            el.querySelector('.js-lower'),
+            el.querySelector('.js-upper')
+        ]
+
+        slider.noUiSlider.on('update', function (values, handle) {
+            snapValues[handle].innerHTML = values[handle];
+        })
+    })
 }

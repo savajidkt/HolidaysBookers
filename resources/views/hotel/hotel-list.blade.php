@@ -26,7 +26,7 @@
         filterObj.room_amenities = "";
         filterObj.star = "";
         filterObj.price_range = "";
-        filterObj.requested_page = 1;
+        filterObj.page = 1;
         filterObj.requested_city_id = "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}";
         filterObj.requested_country_id = "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}";
         filterObj.requested_search_from = "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}";
@@ -34,6 +34,8 @@
         filterObj.requested_adult = "{!! $requestedArr['adult'] ? $requestedArr['adult'] : '' !!}";
         filterObj.requested_child = "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}";
         filterObj.requested_room = "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}";
+        filterObj.start_price_range = "";
+        filterObj.end_price_range = "";
     </script>
     <div class="header-margin"></div>
     <section class="pt-40 pb-40 bg-light-2">
@@ -263,7 +265,7 @@
                             <h5 class="text-18 fw-500 mb-10">Nightly Price</h5>
                             <div class="row x-gap-10 y-gap-30">
                                 <div class="col-12">
-                                    <div class="js-price-rangeSlider">
+                                    <div class="js-price-rangeSlider" id="js-price-rangeSlider">
                                         <div class="text-14 fw-500"></div>
                                         <div class="d-flex justify-between mb-20">
                                             <div class="text-15 text-dark-1">
@@ -1095,7 +1097,7 @@
             $(document).on('click', '.pagination a', function(event) {
                 event.preventDefault();
                 var page = $(this).attr('href').split('page=')[1];
-                filterObj.requested_page = page;
+                filterObj.page = page;
                 getAllHotelList(filterObj);
             });
 
@@ -1120,6 +1122,28 @@
                 getAllHotelList(filterObj);
 
             });
+
+            var slider = document.querySelector('.js-slider');
+            const snapValues = [
+                slider.querySelector('.js-lower'),
+                slider.querySelector('.js-upper')
+            ]
+            slider.noUiSlider.on('change', function(values, handle) {
+                //snapValues[handle].innerHTML = values[handle];
+                $.each(values, function(index, value) {
+                    if (index == 0) {
+                        filterObj.start_price_range = value;
+                    }
+                    if (index == 1) {
+                        filterObj.end_price_range = value;
+                    }
+                });                
+                getAllHotelList(filterObj);
+            })
+
+            // slider.noUiSlider.on('update', function(values, handle) {
+            // snapValues[handle].innerHTML = values[handle];          
+            // })
         });
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1129,7 +1153,7 @@
         function getAllHotelList(requested) {
             $.ajax({
                 type: 'GET',
-                url: moduleConfig.ajaxURL + '?page=' + requested.requested_page,
+                url: moduleConfig.ajaxURL + '?page=' + requested.page,
                 dataType: 'json',
                 beforeSend: function() {
                     $("#overlay").show();
@@ -1149,16 +1173,16 @@
                     requested_child: requested.requested_child,
                     requested_city_id: requested.requested_city_id,
                     requested_country_id: requested.requested_country_id,
-                    requested_page: requested.requested_page,
+                    page: requested.page,
                     requested_room: requested.requested_room,
                     requested_search_from: requested.requested_search_from,
                     requested_search_to: requested.requested_search_to,
                     room_amenities: requested.room_amenities,
-                    star: requested.star
+                    star: requested.star,
+                    start_price_range: requested.start_price_range,
+                    end_price_range: requested.end_price_range,
                 },
                 success: function(data) {
-                    console.log(data.status);
-                    console.log(data.data);
                     if (data.status == 200) {
                         $('.foundPropertyCount').html('');
                         $('.foundPropertyCount').html(data.count);

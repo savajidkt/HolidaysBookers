@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\OfflineRoom;
 use App\Models\OfflineHotel;
 use Illuminate\Http\Request;
+use App\Repositories\HotelListingRepository;
 
 class HotelListController extends Controller
 {
@@ -16,11 +17,11 @@ class HotelListController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    protected $hotelListingRepository;
+    public function __construct(HotelListingRepository $hotelListingRepository)
     {
-        //$this->middleware('auth');
+        $this->hotelListingRepository       = $hotelListingRepository;
     }
-
 
     public function index(Request $request)
     {
@@ -62,108 +63,10 @@ class HotelListController extends Controller
     public function ajaxHotelListing(Request $request)
     {
 
-       
-      
         if ($request->ajax()) {
             $page = $request->page;
-            $hotelList = "";
-            $hotelCount = "";
-            $hotel_amenities = "";
-            $room_amenities = "";
-            if (strlen($request->hotel_amenities) > 0) {
-                $hotel_amenities = trim($request->hotel_amenities, ', ');
-            }
-            if (strlen($request->room_amenities) > 0) {
-                $room_amenities = trim($request->room_amenities, ', ');
-            }
-            if (isset($request->requested_city_id) && strlen($request->requested_city_id) > 0 && $request->requested_country_id > 0) {
-
-                if (strlen($hotel_amenities) > 0) {
-                   
-                    $hotelList = OfflineHotel::with('hotelamenity')
-                        ->whereHas('hotelamenity', function ($query) use ($hotel_amenities) {
-                            $query->whereIn('amenities_id', explode(', ', $hotel_amenities));
-                        })
-                        ->where(function ($query) use ($request) {
-                            if (strlen($request->star) > 0) {
-                                $query->where('hotels.category', '<=', $request->star);
-                            }
-                        })
-                        ->where('hotel_country', $request->requested_country_id)
-                        ->where('hotel_city', $request->requested_city_id)
-                        ->paginate(10);
-                    $hotelCount = OfflineHotel::with('hotelamenity')
-                        ->whereHas('hotelamenity', function ($query) use ($hotel_amenities) {
-                            $query->whereIn('amenities_id', explode(', ', $hotel_amenities));
-                        })
-                        ->where(function ($query) use ($request) {
-                            if (strlen($request->star) > 0) {
-                                $query->where('hotels.category', '<=', $request->star);
-                            }
-                        })
-                        ->where('hotel_country', $request->requested_country_id)
-                        ->where('hotel_city', $request->requested_city_id)
-                        ->count();
-                } else {
-                    
-                    $hotelList = OfflineHotel::where(function ($query) use ($request) {
-                        if (strlen($request->star) > 0) {
-                            $query->where('hotels.category', '<=', $request->star);
-                        }
-                    })
-                        ->where('status', OfflineHotel::ACTIVE)
-                        ->where('hotel_country', $request->requested_country_id)
-                        ->where('hotel_city', $request->requested_city_id)
-                        ->paginate(10);
-                    $hotelCount = OfflineHotel::where(function ($query) use ($request) {
-                        if (strlen($request->star) > 0) {
-                            $query->where('hotels.category', '<=', $request->star);
-                        }
-                    })
-                        ->where('status', OfflineHotel::ACTIVE)
-                        ->where('hotel_country', $request->requested_country_id)
-                        ->where('hotel_city', $request->requested_city_id)
-                        ->count();
-                }
-            } else {
-                if (strlen($hotel_amenities) > 0) {
-                    $hotelList = OfflineHotel::with('hotelamenity')
-                        ->whereHas('hotelamenity', function ($query) use ($hotel_amenities, $request) {
-                            $query->whereIn('amenities_id', explode(', ', $hotel_amenities));
-                        })
-                        ->where(function ($query) use ($request) {
-                            if (strlen($request->star) > 0) {
-                                $query->where('hotels.category', '<=', $request->star);
-                            }
-                        })
-                        ->paginate(10);
-                    $hotelCount = OfflineHotel::with('hotelamenity')
-                        ->whereHas('hotelamenity', function ($query) use ($hotel_amenities) {
-                            $query->whereIn('amenities_id', explode(', ', $hotel_amenities));
-                        })
-                        ->where(function ($query) use ($request) {
-                            if (strlen($request->star) > 0) {
-                                $query->where('hotels.category', '<=', $request->star);
-                            }
-                        })
-                        ->count();
-                } else {
-                    $hotelList = OfflineHotel::where(function ($query) use ($request) {
-                        if (strlen($request->star) > 0) {
-                            $query->where('hotels.category', '<=', $request->star);
-                        }
-                    })
-                        ->where('status', OfflineHotel::ACTIVE)
-                        ->paginate(10);
-                    $hotelCount = OfflineHotel::where(function ($query) use ($request) {
-                        if (strlen($request->star) > 0) {
-                            $query->where('hotels.category', '<=', $request->star);
-                        }
-                    })
-                        ->where('status', OfflineHotel::ACTIVE)
-                        ->count();
-                }
-            }
+            $hotelList = $this->hotelListingRepository->hotelLists($request);
+            $hotelCount = $this->hotelListingRepository->hotelCount($request);
             //$hotelList->loadMissing(['rooms']);
             return response()->json([
                 'status'        => 200,
