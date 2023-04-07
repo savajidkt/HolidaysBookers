@@ -471,11 +471,11 @@ var check_in_startDate = "{!! date('m-d-Y') !!}";
                                                     <div data-x-dd-click="searchMenu-guests">
                                                         <h4 class="text-15 fw-500 ls-2 lh-16">Guest</h4>
                                                         <div class="text-15 text-light-1 ls-2 lh-16">
-                                                            <span class="js-count-adult">0</span> adults
+                                                            <span class="js-count-adult">1</span> adults
                                                             -
                                                             <span class="js-count-child">0</span> childeren
                                                             -
-                                                            <span class="js-count-room">0</span> room                                                            
+                                                            <span class="js-count-room">1</span> room                                                            
                                                         </div>
                                                         <span id="basic-addon-guest-error" class="help-block help-block-error"></span>
                                                     </div>
@@ -494,7 +494,7 @@ var check_in_startDate = "{!! date('m-d-Y') !!}";
                                                                             <i class="icon-minus text-12"></i>
                                                                         </button>
                                                                         <div class="flex-center size-20 ml-15 mr-15">
-                                                                            <div class="text-15 js-count count-adults">0</div>
+                                                                            <div class="text-15 js-count count-adults">1</div>
                                                                         </div>
                                                                         <button type="button"
                                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
@@ -541,7 +541,7 @@ var check_in_startDate = "{!! date('m-d-Y') !!}";
                                                                             <i class="icon-minus text-12"></i>
                                                                         </button>
                                                                         <div class="flex-center size-20 ml-15 mr-15">
-                                                                            <div class="text-15 js-count count-rooms">0</div>
+                                                                            <div class="text-15 js-count count-rooms">1</div>
                                                                         </div>
                                                                         <button type="button"
                                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">

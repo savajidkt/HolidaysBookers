@@ -21,7 +21,7 @@ class HotelListingRepository
                     $query->whereIn('amenities_id', explode(', ', $request->hotel_amenities));
                 });
             }
-        })
+            })
             ->where(function ($query) use ($request) {
                 if (strlen($request->requested_country_id) > 0) {
                     $query->where('hotels.hotel_country', '=', $request->requested_country_id);

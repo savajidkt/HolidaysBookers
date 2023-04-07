@@ -62,7 +62,6 @@ class HotelListController extends Controller
 
     public function ajaxHotelListing(Request $request)
     {
-
         if ($request->ajax()) {
             $page = $request->page;
             $hotelList = $this->hotelListingRepository->hotelLists($request);
