@@ -15,7 +15,9 @@ class HotelListingRepository
 
     public function hotelLists($request)
     {
-        return OfflineHotel::where(function ($query) use ($request) {
+
+        
+        $hotels = OfflineHotel::with(['rooms.price'])->where(function ($query) use ($request) {
             if (strlen($request->hotel_amenities) > 0) {
                 $query->whereHas('hotelamenity', function ($query) use ($request) {
                     $query->whereIn('amenities_id', explode(', ', $request->hotel_amenities));
@@ -38,6 +40,8 @@ class HotelListingRepository
                 }
             })
             ->paginate(10);
+        
+        return $hotels;
     }
 
     public function hotelCount($request)

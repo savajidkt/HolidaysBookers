@@ -99,7 +99,7 @@
                         <div class="">
                             <div class="text-14 text-light-1 mt-50 md:mt-20">8 nights, 2 adult
                             </div>
-                            <div class="text-22 lh-12 fw-600 mt-5">US$72</div>
+                            <div class="text-22 lh-12 fw-600 mt-5">$ {{ ($hotel->rooms->count() > 0) ? $hotel->rooms->skip(0)->take(1)[0]->price->min('price_p_n_single_adult') : 00}}</div>
                             <div class="text-14 text-light-1 mt-5">+US$828 taxes and charges</div>
                             <a href="javascript:void(0);" data-hotel-id="{{ $hotel->id }}" data-type="see"
                                 class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
