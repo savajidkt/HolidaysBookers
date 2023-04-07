@@ -177,6 +177,20 @@
             </div>
         </div>
     @endforeach
+@else
+    <div class="col-12 topScroll">
+        <div class="border-top-light pt-30">
+            <div class="row x-gap-20 y-gap-20">
+                <div class="col-md-auto">
+                    <div class="cardImage ratio ratio-1:1 w-250 md:w-1/1 rounded-4">
+                        <div class="cardImage__content">
+                            Result not found!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 @endif
 {{-- {{ $hotelList->render() }} --}}
 {{ $hotelList->withQueryString()->links('common.pagination', ['hotelCount' => $hotelCount]) }}

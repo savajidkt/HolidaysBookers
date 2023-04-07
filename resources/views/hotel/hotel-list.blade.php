@@ -233,24 +233,29 @@
                             <h5 class="text-18 fw-500 mb-10">Star Rating</h5>
                             <div class="row x-gap-10 y-gap-10 pt-10">
                                 <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">1</a>
+                                    <a href="javascript:void(0);"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100 starClick"
+                                        data-star="1">1</a>
                                 </div>
                                 <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">2</a>
+                                    <a href="javascript:void(0);"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100 starClick"
+                                        data-star="2">2</a>
                                 </div>
                                 <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">3</a>
+                                    <a href="javascript:void(0);"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100 starClick"
+                                        data-star="3">3</a>
                                 </div>
                                 <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">4</a>
+                                    <a href="javascript:void(0);"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100 starClick"
+                                        data-star="4">4</a>
                                 </div>
                                 <div class="col-auto">
-                                    <a href="#"
-                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100">5</a>
+                                    <a href="javascript:void(0);"
+                                        class="button -blue-1 bg-blue-1-05 text-blue-1 py-5 px-20 rounded-100 starClick"
+                                        data-star="5">5</a>
                                 </div>
                             </div>
                         </div>
@@ -300,7 +305,7 @@
                             </div>
                         </div>
 
-                        <div class="sidebar__item">
+                        {{-- <div class="sidebar__item">
                             <h5 class="text-18 fw-500 mb-10">Room Amenities</h5>
                             <div class="sidebar-checkbox">
                                 @if ($amenitiesArr->count() > 0)
@@ -324,7 +329,7 @@
                                     @endforeach
                                 @endif
                             </div>
-                        </div>
+                        </div> --}}
                     </aside>
                 </div>
 
@@ -1089,20 +1094,9 @@
 
             $(document).on('click', '.pagination a', function(event) {
                 event.preventDefault();
-                extraParamHotel = [];
-
                 var page = $(this).attr('href').split('page=')[1];
-                extraParamHotel.push({
-                    'page': page,
-                    'city_id': "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}",
-                    'country_id': "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}",
-                    'search_from': "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}",
-                    'search_to': "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}",
-                    'adult': "{!! $requestedArr['adult'] ? $requestedArr['adult'] : '' !!}",
-                    'child': "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}",
-                    'room': "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}"
-                });
-                getAllHotelList(extraParamHotel);
+                filterObj.requested_page = page;
+                getAllHotelList(filterObj);
             });
 
             $(document).on('change', '.hotel_amenity', function(e) {
@@ -1112,6 +1106,7 @@
                 });
                 getAllHotelList(filterObj);
             });
+
             $(document).on('change', '.room_amenity', function() {
                 filterObj.room_amenities = "";
                 $(".room_amenities input.room_amenity:checked").each(function() {
@@ -1120,19 +1115,14 @@
                 getAllHotelList(filterObj);
 
             });
+            $(document).on('click', '.starClick', function() {
+                filterObj.star = $(this).attr('data-star');
+                getAllHotelList(filterObj);
+
+            });
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // extraParamHotel.push({
-            //     'page': 1,
-            //     'city_id': "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}",
-            //     'country_id': "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}",
-            //     'search_from': "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}",
-            //     'search_to': "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}",
-            //     'adult': "{!! $requestedArr['adult'] ? $requestedArr['adult'] : '' !!}",
-            //     'child': "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}",
-            //     'room': "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}"
-            // });
             getAllHotelList(filterObj);
         }, false);
 
@@ -1167,24 +1157,27 @@
                     star: requested.star
                 },
                 success: function(data) {
-
+                    console.log(data.status);
+                    console.log(data.data);
                     if (data.status == 200) {
                         $('.foundPropertyCount').html('');
                         $('.foundPropertyCount').html(data.count);
                         $('.ajax-list-display').html('');
                         $('.ajax-list-display').html(data.data);
+
+                        GLightbox({
+                            selector: '.js-gallery',
+                            touchNavigation: true,
+                            loop: false,
+                            autoplayVideos: true,
+                        });
+
+                        jQuery('html, body').animate({
+                            scrollTop: jQuery(".topScroll").offset().top
+                        }, 777);
                     }
 
-                    GLightbox({
-                        selector: '.js-gallery',
-                        touchNavigation: true,
-                        loop: false,
-                        autoplayVideos: true,
-                    });
 
-                    jQuery('html, body').animate({
-                        scrollTop: jQuery(".topScroll").offset().top
-                    }, 777);
                 }
             });
         }
