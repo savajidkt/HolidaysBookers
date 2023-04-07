@@ -319,10 +319,9 @@
         <hr class="my-2" />
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label"
-                    for="front_office_first_name">Name</label>
-                <input type="text" id="front_office_first_name" name="front_office_first_name" class="form-control"
-                    placeholder="Name"
+                <label class="form-label" for="front_office_first_name">Name</label>
+                <input type="text" id="front_office_first_name" name="front_office_first_name"
+                    class="form-control" placeholder="Name"
                     value="{{ isset($model->front_office_first_name) ? $model->front_office_first_name : old('front_office_first_name') }}"
                     data-error="Name" />
                 <div class="valid-feedback">Looks good!</div>
@@ -334,8 +333,8 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="form-label" for="front_office_designation">Designation</label>
-                <input type="text" id="front_office_designation" name="front_office_designation" class="form-control"
-                    placeholder="Designation"
+                <input type="text" id="front_office_designation" name="front_office_designation"
+                    class="form-control" placeholder="Designation"
                     value="{{ isset($model->front_office_designation) ? $model->front_office_designation : old('front_office_designation') }}"
                     data-error="Designation" />
                 <div class="valid-feedback">Looks good!</div>
@@ -346,10 +345,9 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label"
-                    for="front_office_contact_number">Contact Number</label>
-                <input type="text" id="front_office_contact_number" name="front_office_contact_number" class="form-control"
-                    placeholder="Contact Number"
+                <label class="form-label" for="front_office_contact_number">Contact Number</label>
+                <input type="text" id="front_office_contact_number" name="front_office_contact_number"
+                    class="form-control" placeholder="Contact Number"
                     value="{{ isset($model->front_office_contact_number) ? $model->front_office_contact_number : old('front_office_contact_number') }}"
                     data-error="Contact Number" />
                 <div class="valid-feedback">Looks good!</div>
@@ -380,8 +378,7 @@
         <hr class="my-2" />
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label"
-                    for="sales_first_name">Name</label>
+                <label class="form-label" for="sales_first_name">Name</label>
                 <input type="text" id="sales_first_name" name="sales_first_name" class="form-control"
                     placeholder="Name"
                     value="{{ isset($model->sales_first_name) ? $model->sales_first_name : old('sales_first_name') }}"
@@ -407,8 +404,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label"
-                    for="sales_contact_number">Contact Number</label>
+                <label class="form-label" for="sales_contact_number">Contact Number</label>
                 <input type="text" id="sales_contact_number" name="sales_contact_number" class="form-control"
                     placeholder="Contact Number"
                     value="{{ isset($model->sales_contact_number) ? $model->sales_contact_number : old('sales_contact_number') }}"
@@ -422,8 +418,7 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="form-label" for="sales_email">Email</label>
-                <input type="text" id="sales_email" name="sales_email" class="form-control"
-                    placeholder="Email"
+                <input type="text" id="sales_email" name="sales_email" class="form-control" placeholder="Email"
                     value="{{ isset($model->sales_email) ? $model->sales_email : old('sales_email') }}"
                     data-error="Email" />
                 <div class="valid-feedback">Looks good!</div>
@@ -441,8 +436,7 @@
         <hr class="my-2" />
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label"
-                    for="reservation_first_name">Name</label>
+                <label class="form-label" for="reservation_first_name">Name</label>
                 <input type="text" id="reservation_first_name" name="reservation_first_name" class="form-control"
                     placeholder="Name"
                     value="{{ isset($model->reservation_first_name) ? $model->reservation_first_name : old('reservation_first_name') }}"
@@ -456,8 +450,8 @@
         <div class="col-12">
             <div class="form-group">
                 <label class="form-label" for="reservation_designation">Designation</label>
-                <input type="text" id="reservation_designation" name="reservation_designation" class="form-control"
-                    placeholder="Designation"
+                <input type="text" id="reservation_designation" name="reservation_designation"
+                    class="form-control" placeholder="Designation"
                     value="{{ isset($model->reservation_designation) ? $model->reservation_designation : old('reservation_designation') }}"
                     data-error="Designation" />
                 <div class="valid-feedback">Looks good!</div>
@@ -468,10 +462,9 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label"
-                    for="reservation_contact_number">Contact Number</label>
-                <input type="text" id="reservation_contact_number" name="reservation_contact_number" class="form-control"
-                    placeholder="Contact Number"
+                <label class="form-label" for="reservation_contact_number">Contact Number</label>
+                <input type="text" id="reservation_contact_number" name="reservation_contact_number"
+                    class="form-control" placeholder="Contact Number"
                     value="{{ isset($model->reservation_contact_number) ? $model->reservation_contact_number : old('reservation_contact_number') }}"
                     data-error="Contact Number" />
                 <div class="valid-feedback">Looks good!</div>
@@ -498,38 +491,29 @@
 </div>
 <div class="row">
     <div class="col-6">
+
         <div class="form-group">
             <label class="form-label" for="hotel_description">Hotel Description</label>
-            <div id="full-wrapper">
-                <div id="hdescription">
-                    <div class="editor">
-                        {{ $model->hotel_description }}
-                    </div>
-                </div>
-                <textarea style="display: none" id="hotel_description" name="hotel_description">{{ $model->hotel_description }}</textarea>
-            </div>
+            <textarea name="hotel_description" class="my_hotel_description" id="my_hotel_description" cols="30"
+                rows="10">{{ isset($model->hotel_description) ? $model->hotel_description : '' }}</textarea>
             <div class="valid-feedback">Looks good!</div>
-            @error('hotel_review')
+            @error('hotel_description')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
+            <div class="hotel_description_Err"></div>
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
             <label class="form-label" for="cancellation_policy">Cancellation Policy</label>
-            <div id="full-wrapper">
-                <div id="cpolicy">
-                    <div class="editor">
-                        {{ $model->cancellation_policy }}
-                    </div>
-                </div>
-                <textarea style="display: none" id="cancellation_policy" name="cancellation_policy">{{ $model->cancellation_policy }}</textarea>
-            </div>
+            <textarea name="cancellation_policy" class="my_cancellation_policy" id="my_cancellation_policy" cols="30"
+                rows="10">{{ isset($model->cancellation_policy) ? $model->cancellation_policy : '' }}</textarea>
             <div class="valid-feedback">Looks good!</div>
-            @error('hotel_review')
+            @error('cancellation_policy')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
-        </div>
+            <div class="cancellation_policy_Err"></div>
+        </div>        
     </div>
     <div class="col-4">
         <div class="form-group">
@@ -573,15 +557,22 @@
     <script type="text/javascript">
         console.log(moduleConfig);
     </script>
-    <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
-    <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
-    <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
-    <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
-
 
     <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+
     <script type="text/javascript">
+        var hotel_description = CKEDITOR.replace('hotel_description');
+        hotel_description.on('change', function() {
+            hotel_description.updateElement();
+        });
+
+        var cancellation_policy = CKEDITOR.replace('cancellation_policy');
+        cancellation_policy.on('change', function() {
+            cancellation_policy.updateElement();
+        });
+
         Dropzone.autoDiscover = false;
         var myDropzone = new Dropzone("div#mydropzone", {
             url: "/file/post",
@@ -679,88 +670,6 @@
             var existingFileCount = 1; // The number of files already uploaded
             myHotelDropzone.options.maxFiles = myHotelDropzone.options.maxFiles - existingFileCount;
 
-        }
-
-        (function(window, document, $) {
-            'use strict';
-            var Font = Quill.import('formats/font');
-            Font.whitelist = ['sofia', 'slabo', 'roboto', 'inconsolata', 'ubuntu'];
-            Quill.register(Font, true);
-            var modulesSettings = {
-                formula: true,
-                syntax: true,
-                toolbar: [
-                    [{
-                        font: []
-                    }, {
-                        size: []
-                    }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{
-                            color: []
-                        },
-                        {
-                            background: []
-                        }
-                    ],
-                    [{
-                            script: 'super'
-                        },
-                        {
-                            script: 'sub'
-                        }
-                    ],
-                    [{
-                            header: '1'
-                        },
-                        {
-                            header: '2'
-                        },
-                        'blockquote',
-                        'code-block'
-                    ],
-                    [{
-                            list: 'ordered'
-                        },
-                        {
-                            list: 'bullet'
-                        },
-                        {
-                            indent: '-1'
-                        },
-                        {
-                            indent: '+1'
-                        }
-                    ],
-                    [
-                        'direction',
-                        {
-                            align: []
-                        }
-                    ],
-                    ['link', 'image', 'video', 'formula'],
-                    ['clean']
-                ]
-            };
-            var hotel_description = new Quill('#hdescription .editor', {
-                bounds: '#hdescription .editor',
-                modules: modulesSettings,
-                theme: 'snow'
-            });
-            var cancellation_policy = new Quill('#cpolicy .editor', {
-                bounds: '#cpolicy .editor',
-                modules: modulesSettings,
-                theme: 'snow'
-            });
-
-            hotel_description.on('text-change', function(delta, oldDelta, source) {
-                $('#hotel_description').val(hotel_description.container.firstChild.innerHTML);
-            });
-            cancellation_policy.on('text-change', function(delta, oldDelta, source) {
-                $('#cancellation_policy').val(cancellation_policy.container.firstChild.innerHTML);
-            });
-
-            var editors = [hotel_description, cancellation_policy];
-        })(window, document, jQuery);
+        }        
     </script>
 @endsection

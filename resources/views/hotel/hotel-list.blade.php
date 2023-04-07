@@ -1137,7 +1137,7 @@
                     if (index == 1) {
                         filterObj.end_price_range = value;
                     }
-                });                
+                });
                 getAllHotelList(filterObj);
             })
 

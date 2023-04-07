@@ -124,7 +124,12 @@
         <div class="col-12 is-hide map-{{ $hotel->id }}">
             <div class="px-10 py-10 border-light">
                 <div class="d-flex items-center">
-                    <div class="button text-dark-1">Map</div>
+                    @if (strlen($hotel->hotel_latitude) > 0 && strlen($hotel->hotel_longitude) > 0)
+                    <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={{ $hotel->hotel_latitude }},{{ $hotel->hotel_longitude }}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>    
+                    @else                        
+                        <div class="button text-dark-1">Hotel map not found!</div>
+                    @endif
+                    
                 </div>
             </div>
         </div>
@@ -171,9 +176,7 @@
         </div>
         <div class="col-12 is-hide description-{{ $hotel->id }}">
             <div class="px-10 py-10 border-light">
-                <div class="d-flex items-center">
-                    {{ $hotel->hotel_description }}
-                </div>
+                {!! $hotel->hotel_description !!}
             </div>
         </div>
     @endforeach
