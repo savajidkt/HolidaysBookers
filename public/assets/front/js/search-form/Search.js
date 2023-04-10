@@ -82,6 +82,7 @@ var FrmSearchPreference = function () {
 
 $(document).ready(function () {
     FrmSearchPreference.init();
+    var daterange_transfer_returns = check_in_startDate;
     $(function () {
         $('input[name="daterange"]').daterangepicker({
             startDate: check_in_startDate,
@@ -91,6 +92,23 @@ $(document).ready(function () {
         }, function (start, end, label) {
             $('#hidden_from').val(start.format('YYYY-MM-DD'));
             $('#hidden_to').val(end.format('YYYY-MM-DD'));
+        });
+
+        $('input[name="daterange_transfer_departure"]').daterangepicker({
+            singleDatePicker: true,
+            opens: 'left',
+            minDate: new Date()
+        }, function (start, end, label) {
+            daterange_transfer_returns = start.format('MM-DD-YYYY');
+            $('#daterange_transfer_departure_from').val(start.format('YYYY-MM-DD'));
+        });
+        $('input[name="daterange_transfer_return"]').daterangepicker({
+            startDate: daterange_transfer_returns,
+            singleDatePicker: true,
+            opens: 'left',
+            minDate: new Date()
+        }, function (start, end, label) {
+            $('#daterange_transfer_return').val(start.format('YYYY-MM-DD'));
         });
     });
 
@@ -140,6 +158,14 @@ $(document).ready(function () {
             } else {
                 $('.description-' + hotel_id).slideUp('slow');
             }
+        }
+    });
+
+    $('.round-trip').on('change.bootstrapSwitch', function (e) {
+        if (e.target.checked == true) {
+            $('.transfer_return_round').show();
+        } else {
+            $('.transfer_return_round').hide();
         }
     });
 });

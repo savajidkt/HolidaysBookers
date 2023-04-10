@@ -60,6 +60,10 @@
             display: none;
         }
 
+        .mainSearch.-col-4 .button-grid.transfer-cls {
+    grid-template-columns: 1fr 1fr auto auto auto auto;
+}
+
     </style>
 </head>
 

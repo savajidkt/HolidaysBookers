@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\HotelListController;
 use App\Http\Controllers\Admin\Apis\ApisController;
 use App\Http\Controllers\Admin\User\UsersController;
@@ -240,3 +243,6 @@ Route::get('/hotel-list', [HotelListController::class, 'index'])->name('hotel-li
 Route::post('/city-hotel-list', [HotelListController::class, 'getLocations'])->name('city-hotel-list');
 Route::get('/hotel-list-ajax', [HotelListController::class, 'ajaxHotelListing'])->name('hotel-list-ajax');
 Route::post('/room-list-ajax', [HotelListController::class, 'ajaxRoomListing'])->name('room-list-ajax');
+Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us');
+Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-us');
+Route::get('/offers', [OfferController::class, 'index'])->name('offers');
