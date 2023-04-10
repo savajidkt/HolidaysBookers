@@ -27,13 +27,15 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
 
             if (Auth::guard($guard)->check()) {
-                if(auth()->user()->user_type == User::AGENT){
+                if (auth()->user()->user_type == User::AGENT) {
                     return redirect(route('agent.dashboard'));
-                }else if(auth()->user()->user_type == User::VENDOR){
+                } else if (auth()->user()->user_type == User::VENDOR) {
                     return redirect(route('vendor.dashboard'));
-                }else if(auth()->user()->user_type == User::CORPORATE){
+                } else if (auth()->user()->user_type == User::CORPORATE) {
                     return redirect(route('corporate.dashboard'));
-                }else{
+                } else if (auth()->user()->user_type == User::CUSTOMER) {                    
+                    return redirect(route('customer.dashboard'));
+                } else {
                     return redirect(RouteServiceProvider::HOME);
                 }
                 return redirect(RouteServiceProvider::adminHOME);

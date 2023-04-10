@@ -38,6 +38,8 @@ use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
 use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
 use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
+use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+use App\Http\Controllers\Corporate\DashboardController as CorporateDashboardController;
 
 
 /*
@@ -215,9 +217,16 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/booking', [AgentDashboardController::class, 'booking'])->name('agent.booking');
 });
 
+Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {
+    Route::get('/dashboard', [CustomerDashboardController::class, 'dashboard'])->name('customer.dashboard');
+});
+
+Route::group(['prefix' => 'corporate', 'middleware' => ['corporateauth']], function () {
+    Route::get('/dashboard', [CorporateDashboardController::class, 'dashboard'])->name('corporate.dashboard');
+});
+
 # Front Routes
 Route::group(['authGrouping' => 'users.auth'], function () {
-
 
     Route::get('/change-password', [ResetPasswordController::class, 'firstTimePasswordChange'])->name('change-password');
 });

@@ -99,7 +99,9 @@
                         <div class="">
                             <div class="text-14 text-light-1 mt-50 md:mt-20">8 nights, 2 adult
                             </div>
-                            <div class="text-22 lh-12 fw-600 mt-5">$ {{ ($hotel->rooms->count() > 0) ? $hotel->rooms->skip(0)->take(1)[0]->price->min('price_p_n_single_adult') : 00}}</div>
+                            <div class="text-22 lh-12 fw-600 mt-5">$
+                                {{ $hotel->rooms->count() > 0? $hotel->rooms->skip(0)->take(1)[0]->price->min('price_p_n_single_adult'): 00 }}
+                            </div>
                             <div class="text-14 text-light-1 mt-5">+US$828 taxes and charges</div>
                             <a href="javascript:void(0);" data-hotel-id="{{ $hotel->id }}" data-type="see"
                                 class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
@@ -119,21 +121,21 @@
             </div>
         </div>
         <div class="col-12 is-hide slide-out-div-{{ $hotel->id }}">
-
         </div>
         <div class="col-12 is-hide map-{{ $hotel->id }}">
             <div class="px-10 py-10 border-light">
                 <div class="d-flex items-center">
                     @if (strlen($hotel->hotel_latitude) > 0 && strlen($hotel->hotel_longitude) > 0)
-                    <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={{ $hotel->hotel_latitude }},{{ $hotel->hotel_longitude }}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>    
-                    @else                        
+                        <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0"
+                            marginwidth="0"
+                            src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={{ $hotel->hotel_latitude }},{{ $hotel->hotel_longitude }}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+                    @else
                         <div class="button text-dark-1">Hotel map not found!</div>
                     @endif
-                    
+
                 </div>
             </div>
         </div>
-
         <div class="col-12 is-hide images-{{ $hotel->id }}">
             <div class="px-10 py-10 border-light">
                 <div class="d-flex items-center">

@@ -2,7 +2,7 @@
     <div class="sidebar -dashboard">
         <div class="sidebar__item">
             <div class="sidebar__button -is-active">
-                <a href="{{ route('agent.dashboard') }}" class="d-flex items-center text-15 lh-1 fw-500">
+                <a href="{{ route('customer.dashboard') }}" class="d-flex items-center text-15 lh-1 fw-500">
                     <img src="{{ asset('assets/front') }}/img/dashboard/sidebar/compass.svg" alt="image" class="mr-15">
                     Dashboard
                 </a>

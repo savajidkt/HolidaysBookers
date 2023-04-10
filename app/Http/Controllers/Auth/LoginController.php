@@ -69,15 +69,36 @@ class LoginController extends Controller
             if ($request->hasSession()) {
                 $request->session()->put('auth.password_confirmed_at', time());
             }
-            return $this->sendLoginResponse($request);
+            $user = $this->guard()->getLastAttempted();
+
+
+            if ($user->status == User::ACTIVE && $this->attemptLogin($request)) {
+                
+                // Send the normal successful login response
+                return $this->sendLoginResponse($request);
+            } else {                
+                // Increment the failed login attempts and redirect back to the
+                // login form with an error message.
+                // $this->incrementLoginAttempts($request);
+                // return redirect()
+                //     ->back()
+                //     ->withInput($request->only($this->username(), 'remember'))
+                //     ->withErrors(['active' => 'You must be active to login.']);
+
+                $this->incrementLoginAttempts($request);
+
+                return $this->sendFailedLoginResponse($request);
+            }
+
+            //return $this->sendLoginResponse($request);
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
-        $this->incrementLoginAttempts($request);
+        //  $this->incrementLoginAttempts($request);
 
-        return $this->sendFailedLoginResponse($request);
+        // return $this->sendFailedLoginResponse($request);
     }
 
     /**
@@ -90,7 +111,7 @@ class LoginController extends Controller
     {
         $request->session()->regenerate();
         $this->clearLoginAttempts($request);
-       
+
         if ($response = $this->authenticated($request, $this->guard()->user())) {
             return $response;
         }

@@ -14,9 +14,7 @@ class HotelListingRepository
 
 
     public function hotelLists($request)
-    {
-
-        
+    {        
         $hotels = OfflineHotel::with(['rooms.price'])->where(function ($query) use ($request) {
             if (strlen($request->hotel_amenities) > 0) {
                 $query->whereHas('hotelamenity', function ($query) use ($request) {

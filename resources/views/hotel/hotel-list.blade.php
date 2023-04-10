@@ -113,13 +113,13 @@
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Guest</h4>
                                         <div class="text-15 text-light-1 ls-2 lh-16">
                                             <span
-                                                class="js-count-adult">{{ isset($requestedArr['adult']) ? $requestedArr['adult'] : 1 }}</span>
+                                                class="js-count-adult">{{ ($requestedArr['adult']) ? $requestedArr['adult'] : 1 }}</span>
                                             adults -
                                             <span
-                                                class="js-count-child">{{ isset($requestedArr['child']) ? $requestedArr['child'] : 0 }}</span>
+                                                class="js-count-child">{{ ($requestedArr['child']) ? $requestedArr['child'] : 0 }}</span>
                                             childeren -
                                             <span
-                                                class="js-count-room">{{ isset($requestedArr['room']) ? $requestedArr['room'] : 1 }}</span>
+                                                class="js-count-room">{{ ($requestedArr['room']) ? $requestedArr['room'] : 1 }}</span>
                                             room
                                         </div>
                                     </div>
@@ -141,7 +141,7 @@
 
                                                         <div class="flex-center size-20 ml-15 mr-15">
                                                             <div class="text-15 js-count count-adults">
-                                                                {{ isset($requestedArr['adult']) ? $requestedArr['adult'] : 1 }}
+                                                                {{ ($requestedArr['adult']) ? $requestedArr['adult'] : 1 }}
                                                             </div>
                                                         </div>
 
@@ -171,7 +171,7 @@
 
                                                         <div class="flex-center size-20 ml-15 mr-15">
                                                             <div class="text-15 js-count count-childs">
-                                                                {{ isset($requestedArr['child']) ? $requestedArr['child'] : 0 }}
+                                                                {{ ($requestedArr['child']) ? $requestedArr['child'] : 0 }}
                                                             </div>
                                                         </div>
 
@@ -197,7 +197,7 @@
 
                                                         <div class="flex-center size-20 ml-15 mr-15">
                                                             <div class="text-15 js-count count-rooms">
-                                                                {{ isset($requestedArr['room']) ? $requestedArr['room'] : 1 }}
+                                                                {{ ($requestedArr['room']) ? $requestedArr['room'] : 1 }}
                                                             </div>
                                                         </div>
                                                         <button type="button"

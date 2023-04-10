@@ -66,6 +66,7 @@ class HotelListController extends Controller
             $page = $request->page;
             $hotelList = $this->hotelListingRepository->hotelLists($request);
             $hotelCount = $this->hotelListingRepository->hotelCount($request);
+           
             //$hotelList->loadMissing(['rooms']);
             return response()->json([
                 'status'        => 200,
