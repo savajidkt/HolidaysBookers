@@ -7,22 +7,26 @@
 
                     <div class="row y-gap-30 justify-between pt-30">
                         <div class="col-sm-6">
-                            <div class="text-14">Toll Free Customer Care</div>
-                            <a href="#" class="text-18 fw-500 text-dark-1 mt-5">+(1) 123 456 7890</a>
+                            <div class="text-14">Phone</div>
+                            <a href="tel:+9910560003" class="text-18 fw-500 text-dark-1 mt-5">+ 9910560003</a>
                         </div>
 
                         <div class="col-sm-5">
                             <div class="text-14">Need live support?</div>
-                            <a href="#" class="text-18 fw-500 text-dark-1 mt-5">info@holidaysbookers.com</a>
+                            <a href="mailto: info@holidaysbookers.com" class="text-18 fw-500 text-dark-1 mt-5">info@holidaysbookers.com</a>
                         </div>
                     </div>
                     <div class="mt-60">
                         <h5 class="text-16 fw-500 mb-10">Follow us on social media</h5>
                         <div class="d-flex x-gap-20 items-center">
-                            <a href="#"><i class="icon-facebook text-14"></i></a>
-                            <a href="#"><i class="icon-twitter text-14"></i></a>
-                            <a href="#"><i class="icon-instagram text-14"></i></a>
-                            <a href="#"><i class="icon-linkedin text-14"></i></a>
+                            <a target="_blank" href="https://www.facebook.com/holidaysbookers"><i
+                                    class="icon-facebook text-14"></i></a>
+                            <a target="_blank" href="https://twitter.com/Viveshkat"><i
+                                    class="icon-twitter text-14"></i></a>
+                            <a target="_blank" href="https://www.instagram.com/holidaysbookersdmc/"><i
+                                    class="icon-instagram text-14"></i></a>
+                            <a target="_blank" href="https://www.youtube.com/channel/UCi2tUiEPlCTIJvz_bJdbZLA"><i
+                                    class="icon-play text-14"></i></a>
                         </div>
                     </div>
                 </div>

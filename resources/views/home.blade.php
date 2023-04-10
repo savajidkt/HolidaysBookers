@@ -836,7 +836,7 @@
 
                 <div data-anim-child="slide-up delay-3" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="hotel-single-1.html" class="hotelsCard -type-1 ">
+                    <a href="{{ route('home') }}" class="hotelsCard -type-1 ">
                         <div class="hotelsCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -891,7 +891,7 @@
 
                 <div data-anim-child="slide-up delay-4" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="hotel-single-1.html" class="hotelsCard -type-1 ">
+                    <a href="{{ route('home') }}" class="hotelsCard -type-1 ">
                         <div class="hotelsCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -971,7 +971,7 @@
 
                 <div data-anim-child="slide-up delay-5" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="hotel-single-1.html" class="hotelsCard -type-1 ">
+                    <a href="{{ route('home') }}" class="hotelsCard -type-1 ">
                         <div class="hotelsCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1026,7 +1026,7 @@
 
                 <div data-anim-child="slide-up delay-6" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="hotel-single-1.html" class="hotelsCard -type-1 ">
+                    <a href="{{ route('home') }}" class="hotelsCard -type-1 ">
                         <div class="hotelsCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1106,7 +1106,7 @@
 
                 <div data-anim-child="slide-up delay-1" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="tour-single.html" class="tourCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="tourCard -type-1 rounded-4 ">
                         <div class="tourCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1184,7 +1184,7 @@
 
                 <div data-anim-child="slide-up delay-2" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="tour-single.html" class="tourCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="tourCard -type-1 rounded-4 ">
                         <div class="tourCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1287,7 +1287,7 @@
 
                 <div data-anim-child="slide-up delay-3" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="tour-single.html" class="tourCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="tourCard -type-1 rounded-4 ">
                         <div class="tourCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1365,7 +1365,7 @@
 
                 <div data-anim-child="slide-up delay-4" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="tour-single.html" class="tourCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="tourCard -type-1 rounded-4 ">
                         <div class="tourCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1468,7 +1468,7 @@
 
                 <div data-anim-child="slide-up delay-1" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="activity-single.html" class="activityCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="activityCard -type-1 rounded-4 ">
                         <div class="activityCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1532,7 +1532,7 @@
 
                 <div data-anim-child="slide-up delay-2" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="activity-single.html" class="activityCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="activityCard -type-1 rounded-4 ">
                         <div class="activityCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1630,7 +1630,7 @@
 
                 <div data-anim-child="slide-up delay-3" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="activity-single.html" class="activityCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="activityCard -type-1 rounded-4 ">
                         <div class="activityCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1694,7 +1694,7 @@
 
                 <div data-anim-child="slide-up delay-4" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="activity-single.html" class="activityCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="activityCard -type-1 rounded-4 ">
                         <div class="activityCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1783,7 +1783,7 @@
 
                 <div data-anim-child="slide-up delay-1" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="rental-single.html" class="rentalCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="rentalCard -type-1 rounded-4 ">
                         <div class="rentalCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1841,7 +1841,7 @@
 
                 <div data-anim-child="slide-up delay-2" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="rental-single.html" class="rentalCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="rentalCard -type-1 rounded-4 ">
                         <div class="rentalCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1931,7 +1931,7 @@
 
                 <div data-anim-child="slide-up delay-3" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="rental-single.html" class="rentalCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="rentalCard -type-1 rounded-4 ">
                         <div class="rentalCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -1996,7 +1996,7 @@
 
                 <div data-anim-child="slide-up delay-4" class="col-xl-3 col-lg-3 col-sm-6">
 
-                    <a href="rental-single.html" class="rentalCard -type-1 rounded-4 ">
+                    <a href="{{ route('home') }}" class="rentalCard -type-1 rounded-4 ">
                         <div class="rentalCard__image">
 
                             <div class="cardImage ratio ratio-1:1">
@@ -2062,1158 +2062,6 @@
             </div>
         </div>
     </section>
-
-    <section class="layout-pt-md layout-pb-md">
-        <div data-anim-wrap class="container">
-            <div data-anim-child="slide-up" class="row y-gap-20 justify-between items-end">
-                <div class="col-auto">
-                    <div class="sectionTitle -md">
-                        <h2 class="sectionTitle__title">Popular Car Hire</h2>
-                        <p class=" sectionTitle__text mt-5 sm:mt-0">Interdum et malesuada fames ac ante ipsum</p>
-                    </div>
-                </div>
-
-                <div class="col-auto">
-
-                    <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
-                        More <div class="icon-arrow-top-right ml-15"></div>
-                    </a>
-
-                </div>
-            </div>
-
-            <div class="row y-gap-30 pt-40 sm:pt-20">
-
-                <div data-anim-child="slide-up delay-1" class="col-xl-3 col-lg-3 col-sm-6">
-
-                    <a href="car-single.html" class="carCard -type-1 d-block rounded-4 ">
-                        <div class="carCard__image">
-
-                            <div class="cardImage ratio border-light ratio-6:5">
-                                <div class="cardImage__content">
-
-                                    <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/cars/1.png"
-                                        alt="image">
-
-
-                                </div>
-
-                                <div class="cardImage__wishlist">
-                                    <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                                        <i class="icon-heart text-12"></i>
-                                    </button>
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-                        <div class="carCard__content mt-10">
-                            <div class="d-flex items-center lh-14 mb-5">
-                                <div class="text-14 text-light-1">Heathrow Airport</div>
-                                <div class="size-3 bg-light-1 rounded-full ml-10 mr-10"></div>
-                                <div class="text-14 text-light-1 uppercase">Luxury</div>
-                            </div>
-
-                            <h4 class="text-dark-1 text-18 lh-16 fw-500">
-                                Mercedes-Benz E-Class <span class="text-15 text-light-1 fw-400">or similar</span>
-                            </h4>
-                            <p class="text-light-1 lh-14 text-14 mt-5"></p>
-
-                            <div class="row x-gap-20 y-gap-10 items-center pt-5">
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-user-2 mr-10"></i>
-                                        <div class="lh-14">4</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-luggage mr-10"></i>
-                                        <div class="lh-14">1</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-transmission mr-10"></i>
-                                        <div class="lh-14">Automatic </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-speedometer mr-10"></i>
-                                        <div class="lh-14">Unlimited</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex items-center mt-20">
-                                <div class="flex-center bg-yellow-1 rounded-4 size-30 text-12 fw-600 text-dark-1">4.8
-                                </div>
-                                <div class="text-14 text-dark-1 fw-500 ml-10">Exceptional</div>
-                                <div class="text-14 text-light-1 ml-10">3,014 reviews</div>
-                            </div>
-
-                            <div class="mt-5">
-                                <div class="text-light-1">
-                                    <span class="fw-500 text-dark-1">US$72</span> total
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-
-                <div data-anim-child="slide-up delay-2" class="col-xl-3 col-lg-3 col-sm-6">
-
-                    <a href="car-single.html" class="carCard -type-1 d-block rounded-4 ">
-                        <div class="carCard__image">
-
-                            <div class="cardImage ratio border-light ratio-6:5">
-                                <div class="cardImage__content">
-
-
-                                    <div class="cardImage-slider rounded-4 overflow-hidden js-cardImage-slider">
-                                        <div class="swiper-wrapper">
-
-                                            <div class="swiper-slide">
-                                                <img class="col-12" src="{{ asset('assets/front') }}/img/cars/2.png"
-                                                    alt="image">
-                                            </div>
-
-                                            <div class="swiper-slide">
-                                                <img class="col-12" src="{{ asset('assets/front') }}/img/cars/3.png"
-                                                    alt="image">
-                                            </div>
-
-                                            <div class="swiper-slide">
-                                                <img class="col-12" src="{{ asset('assets/front') }}/img/cars/1.png"
-                                                    alt="image">
-                                            </div>
-
-                                        </div>
-
-                                        <div class="cardImage-slider__pagination js-pagination"></div>
-
-                                        <div class="cardImage-slider__nav -prev">
-                                            <button class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-prev">
-                                                <i class="icon-chevron-left text-10"></i>
-                                            </button>
-                                        </div>
-
-                                        <div class="cardImage-slider__nav -next">
-                                            <button class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-next">
-                                                <i class="icon-chevron-right text-10"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="cardImage__wishlist">
-                                    <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                                        <i class="icon-heart text-12"></i>
-                                    </button>
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-                        <div class="carCard__content mt-10">
-                            <div class="d-flex items-center lh-14 mb-5">
-                                <div class="text-14 text-light-1">Heathrow Airport</div>
-                                <div class="size-3 bg-light-1 rounded-full ml-10 mr-10"></div>
-                                <div class="text-14 text-light-1 uppercase">Suv</div>
-                            </div>
-
-                            <h4 class="text-dark-1 text-18 lh-16 fw-500">
-                                Jaguar F-Pace <span class="text-15 text-light-1 fw-400">or similar</span>
-                            </h4>
-                            <p class="text-light-1 lh-14 text-14 mt-5"></p>
-
-                            <div class="row x-gap-20 y-gap-10 items-center pt-5">
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-user-2 mr-10"></i>
-                                        <div class="lh-14">4</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-luggage mr-10"></i>
-                                        <div class="lh-14">1</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-transmission mr-10"></i>
-                                        <div class="lh-14">Automatic </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-speedometer mr-10"></i>
-                                        <div class="lh-14">Unlimited</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex items-center mt-20">
-                                <div class="flex-center bg-yellow-1 rounded-4 size-30 text-12 fw-600 text-dark-1">4.8
-                                </div>
-                                <div class="text-14 text-dark-1 fw-500 ml-10">Exceptional</div>
-                                <div class="text-14 text-light-1 ml-10">3,014 reviews</div>
-                            </div>
-
-                            <div class="mt-5">
-                                <div class="text-light-1">
-                                    <span class="fw-500 text-dark-1">US$72</span> total
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-
-                <div data-anim-child="slide-up delay-3" class="col-xl-3 col-lg-3 col-sm-6">
-
-                    <a href="car-single.html" class="carCard -type-1 d-block rounded-4 ">
-                        <div class="carCard__image">
-
-                            <div class="cardImage ratio border-light ratio-6:5">
-                                <div class="cardImage__content">
-
-                                    <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/cars/3.png"
-                                        alt="image">
-
-
-                                </div>
-
-                                <div class="cardImage__wishlist">
-                                    <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                                        <i class="icon-heart text-12"></i>
-                                    </button>
-                                </div>
-
-
-                                <div class="cardImage__leftBadge">
-                                    <div
-                                        class="py-5 px-15 rounded-right-4 text-12 lh-16 fw-500 uppercase bg-blue-1 text-white">
-                                        Best Seller
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="carCard__content mt-10">
-                            <div class="d-flex items-center lh-14 mb-5">
-                                <div class="text-14 text-light-1">Heathrow Airport</div>
-                                <div class="size-3 bg-light-1 rounded-full ml-10 mr-10"></div>
-                                <div class="text-14 text-light-1 uppercase">Suv</div>
-                            </div>
-
-                            <h4 class="text-dark-1 text-18 lh-16 fw-500">
-                                Volvo XC90 <span class="text-15 text-light-1 fw-400">or similar</span>
-                            </h4>
-                            <p class="text-light-1 lh-14 text-14 mt-5"></p>
-
-                            <div class="row x-gap-20 y-gap-10 items-center pt-5">
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-user-2 mr-10"></i>
-                                        <div class="lh-14">4</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-luggage mr-10"></i>
-                                        <div class="lh-14">1</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-transmission mr-10"></i>
-                                        <div class="lh-14">Automatic </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-speedometer mr-10"></i>
-                                        <div class="lh-14">Unlimited</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex items-center mt-20">
-                                <div class="flex-center bg-yellow-1 rounded-4 size-30 text-12 fw-600 text-dark-1">4.8
-                                </div>
-                                <div class="text-14 text-dark-1 fw-500 ml-10">Exceptional</div>
-                                <div class="text-14 text-light-1 ml-10">3,014 reviews</div>
-                            </div>
-
-                            <div class="mt-5">
-                                <div class="text-light-1">
-                                    <span class="fw-500 text-dark-1">US$72</span> total
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-
-                <div data-anim-child="slide-up delay-4" class="col-xl-3 col-lg-3 col-sm-6">
-
-                    <a href="car-single.html" class="carCard -type-1 d-block rounded-4 ">
-                        <div class="carCard__image">
-
-                            <div class="cardImage ratio border-light ratio-6:5">
-                                <div class="cardImage__content">
-
-                                    <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/cars/4.png"
-                                        alt="image">
-
-
-                                </div>
-
-                                <div class="cardImage__wishlist">
-                                    <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                                        <i class="icon-heart text-12"></i>
-                                    </button>
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-                        <div class="carCard__content mt-10">
-                            <div class="d-flex items-center lh-14 mb-5">
-                                <div class="text-14 text-light-1">Heathrow Airport</div>
-                                <div class="size-3 bg-light-1 rounded-full ml-10 mr-10"></div>
-                                <div class="text-14 text-light-1 uppercase">Luxury</div>
-                            </div>
-
-                            <h4 class="text-dark-1 text-18 lh-16 fw-500">
-                                BMW 5 Series <span class="text-15 text-light-1 fw-400">or similar</span>
-                            </h4>
-                            <p class="text-light-1 lh-14 text-14 mt-5"></p>
-
-                            <div class="row x-gap-20 y-gap-10 items-center pt-5">
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-user-2 mr-10"></i>
-                                        <div class="lh-14">4</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-luggage mr-10"></i>
-                                        <div class="lh-14">1</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-transmission mr-10"></i>
-                                        <div class="lh-14">Automatic </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="d-flex items-center text-14 text-dark-1">
-                                        <i class="icon-speedometer mr-10"></i>
-                                        <div class="lh-14">Unlimited</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex items-center mt-20">
-                                <div class="flex-center bg-yellow-1 rounded-4 size-30 text-12 fw-600 text-dark-1">4.8
-                                </div>
-                                <div class="text-14 text-dark-1 fw-500 ml-10">Exceptional</div>
-                                <div class="text-14 text-light-1 ml-10">3,014 reviews</div>
-                            </div>
-
-                            <div class="mt-5">
-                                <div class="text-light-1">
-                                    <span class="fw-500 text-dark-1">US$72</span> total
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="layout-pt-md layout-pb-md">
-        <div data-anim-wrap class="container">
-            <div data-anim-child="slide-up" class="row y-gap-20 justify-between items-end">
-                <div class="col-auto">
-                    <div class="sectionTitle -md">
-                        <h2 class="sectionTitle__title">Featured Cruise Deals</h2>
-                        <p class=" sectionTitle__text mt-5 sm:mt-0">Interdum et malesuada fames ac ante ipsum</p>
-                    </div>
-                </div>
-
-                <div class="col-auto">
-
-                    <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
-                        More <div class="icon-arrow-top-right ml-15"></div>
-                    </a>
-
-                </div>
-            </div>
-
-            <div class="row y-gap-30 pt-40 sm:pt-20">
-
-                <div data-anim-child="slide-up delay-1" class="col-xl-3 col-lg-3 col-sm-6">
-
-                    <a href="cruise-single.html" class="cruiseCard -type-1 rounded-4 ">
-                        <div class="cruiseCard__image">
-
-                            <div class="cardImage ratio ratio-6:5">
-                                <div class="cardImage__content">
-
-                                    <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/cruises/1.png"
-                                        alt="image">
-
-
-                                </div>
-
-                                <div class="cardImage__wishlist">
-                                    <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                                        <i class="icon-heart text-12"></i>
-                                    </button>
-                                </div>
-
-
-                                <div class="cardImage__leftBadge">
-                                    <div
-                                        class="py-5 px-15 rounded-right-4 text-12 lh-16 fw-500 uppercase bg-dark-1 text-white">
-                                        Cruise only
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="cruiseCard__content mt-10">
-                            <div class="text-14 lh-14 text-light-1 mb-5">Norwegian Getawayy</div>
-
-                            <h4 class="cruiseCard__title text-dark-1 text-18 lh-16 fw-500">
-                                <span>7 Night Cruise to the Western Mediterranean</span>
-                            </h4>
-
-                            <p class="text-light-1 lh-14 text-14 mt-5"></p>
-
-                            <div class="row y-gap-10 justify-between items-center">
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Sailing Date</div>
-                                    <div class="text-14 text-light-1">18/06/2022</div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Departs</div>
-                                    <div class="text-14 text-light-1">Southampton</div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Ports (7)</div>
-                                    <div class="text-14 text-light-1">Sete, Toulon...</div>
-                                </div>
-
-                            </div>
-
-                            <div class="row y-gap-20 justify-between items-center pt-5">
-                                <div class="col-auto">
-                                    <div class="d-flex items-center">
-                                        <div class="icon-star text-yellow-1 text-10 mr-5"></div>
-
-                                        <div class="text-14 text-light-1">
-                                            <span class="text-15 text-dark-1 fw-500">4.82</span>
-                                            94 reviews
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-light-1">
-                                        From
-                                        <span class="text-16 fw-500 text-dark-1">US$72</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-
-                <div data-anim-child="slide-up delay-2" class="col-xl-3 col-lg-3 col-sm-6">
-
-                    <a href="cruise-single.html" class="cruiseCard -type-1 rounded-4 ">
-                        <div class="cruiseCard__image">
-
-                            <div class="cardImage ratio ratio-6:5">
-                                <div class="cardImage__content">
-
-
-                                    <div class="cardImage-slider rounded-4 overflow-hidden js-cardImage-slider">
-                                        <div class="swiper-wrapper">
-
-                                            <div class="swiper-slide">
-                                                <img class="col-12" src="{{ asset('assets/front') }}/img/cruises/2.png"
-                                                    alt="image">
-                                            </div>
-
-                                            <div class="swiper-slide">
-                                                <img class="col-12" src="{{ asset('assets/front') }}/img/cruises/3.png"
-                                                    alt="image">
-                                            </div>
-
-                                            <div class="swiper-slide">
-                                                <img class="col-12" src="{{ asset('assets/front') }}/img/cruises/1.png"
-                                                    alt="image">
-                                            </div>
-
-                                        </div>
-
-                                        <div class="cardImage-slider__pagination js-pagination"></div>
-
-                                        <div class="cardImage-slider__nav -prev">
-                                            <button class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-prev">
-                                                <i class="icon-chevron-left text-10"></i>
-                                            </button>
-                                        </div>
-
-                                        <div class="cardImage-slider__nav -next">
-                                            <button class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-next">
-                                                <i class="icon-chevron-right text-10"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="cardImage__wishlist">
-                                    <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                                        <i class="icon-heart text-12"></i>
-                                    </button>
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-                        <div class="cruiseCard__content mt-10">
-                            <div class="text-14 lh-14 text-light-1 mb-5">Norwegian Getaway</div>
-
-                            <h4 class="cruiseCard__title text-dark-1 text-18 lh-16 fw-500">
-                                <span>12 Night Cruise to the British Isles & Western Europe</span>
-                            </h4>
-
-                            <p class="text-light-1 lh-14 text-14 mt-5"></p>
-
-                            <div class="row y-gap-10 justify-between items-center">
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Sailing Date</div>
-                                    <div class="text-14 text-light-1">18/06/2022</div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Departs</div>
-                                    <div class="text-14 text-light-1">Southampton</div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Ports (7)</div>
-                                    <div class="text-14 text-light-1">Sete, Toulon...</div>
-                                </div>
-
-                            </div>
-
-                            <div class="row y-gap-20 justify-between items-center pt-5">
-                                <div class="col-auto">
-                                    <div class="d-flex items-center">
-                                        <div class="icon-star text-yellow-1 text-10 mr-5"></div>
-
-                                        <div class="text-14 text-light-1">
-                                            <span class="text-15 text-dark-1 fw-500">4.82</span>
-                                            94 reviews
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-light-1">
-                                        From
-                                        <span class="text-16 fw-500 text-dark-1">US$72</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-
-                <div data-anim-child="slide-up delay-3" class="col-xl-3 col-lg-3 col-sm-6">
-
-                    <a href="cruise-single.html" class="cruiseCard -type-1 rounded-4 ">
-                        <div class="cruiseCard__image">
-
-                            <div class="cardImage ratio ratio-6:5">
-                                <div class="cardImage__content">
-
-                                    <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/cruises/3.png"
-                                        alt="image">
-
-
-                                </div>
-
-                                <div class="cardImage__wishlist">
-                                    <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                                        <i class="icon-heart text-12"></i>
-                                    </button>
-                                </div>
-
-
-                                <div class="cardImage__leftBadge">
-                                    <div
-                                        class="py-5 px-15 rounded-right-4 text-12 lh-16 fw-500 uppercase bg-blue-1 text-white">
-                                        Best Seller
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="cruiseCard__content mt-10">
-                            <div class="text-14 lh-14 text-light-1 mb-5">Norwegian Getaway</div>
-
-                            <h4 class="cruiseCard__title text-dark-1 text-18 lh-16 fw-500">
-                                <span>11 Night Cruise to the Eastern Mediterranean</span>
-                            </h4>
-
-                            <p class="text-light-1 lh-14 text-14 mt-5"></p>
-
-                            <div class="row y-gap-10 justify-between items-center">
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Sailing Date</div>
-                                    <div class="text-14 text-light-1">18/06/2022</div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Departs</div>
-                                    <div class="text-14 text-light-1">Southampton</div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Ports (7)</div>
-                                    <div class="text-14 text-light-1">Sete, Toulon...</div>
-                                </div>
-
-                            </div>
-
-                            <div class="row y-gap-20 justify-between items-center pt-5">
-                                <div class="col-auto">
-                                    <div class="d-flex items-center">
-                                        <div class="icon-star text-yellow-1 text-10 mr-5"></div>
-
-                                        <div class="text-14 text-light-1">
-                                            <span class="text-15 text-dark-1 fw-500">4.82</span>
-                                            94 reviews
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-light-1">
-                                        From
-                                        <span class="text-16 fw-500 text-dark-1">US$72</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-
-                <div data-anim-child="slide-up delay-4" class="col-xl-3 col-lg-3 col-sm-6">
-
-                    <a href="cruise-single.html" class="cruiseCard -type-1 rounded-4 ">
-                        <div class="cruiseCard__image">
-
-                            <div class="cardImage ratio ratio-6:5">
-                                <div class="cardImage__content">
-
-                                    <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/cruises/4.png"
-                                        alt="image">
-
-
-                                </div>
-
-                                <div class="cardImage__wishlist">
-                                    <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
-                                        <i class="icon-heart text-12"></i>
-                                    </button>
-                                </div>
-
-
-                                <div class="cardImage__leftBadge">
-                                    <div
-                                        class="py-5 px-15 rounded-right-4 text-12 lh-16 fw-500 uppercase bg-yellow-1 text-dark-1">
-                                        Top Rated
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="cruiseCard__content mt-10">
-                            <div class="text-14 lh-14 text-light-1 mb-5">Norwegian Getawayy</div>
-
-                            <h4 class="cruiseCard__title text-dark-1 text-18 lh-16 fw-500">
-                                <span>13 Night Cruise to the Baltic Sea Western Europe</span>
-                            </h4>
-
-                            <p class="text-light-1 lh-14 text-14 mt-5"></p>
-
-                            <div class="row y-gap-10 justify-between items-center">
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Sailing Date</div>
-                                    <div class="text-14 text-light-1">18/06/2022</div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Departs</div>
-                                    <div class="text-14 text-light-1">Southampton</div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-dark-1 fw-500">Ports (7)</div>
-                                    <div class="text-14 text-light-1">Sete, Toulon...</div>
-                                </div>
-
-                            </div>
-
-                            <div class="row y-gap-20 justify-between items-center pt-5">
-                                <div class="col-auto">
-                                    <div class="d-flex items-center">
-                                        <div class="icon-star text-yellow-1 text-10 mr-5"></div>
-
-                                        <div class="text-14 text-light-1">
-                                            <span class="text-15 text-dark-1 fw-500">4.82</span>
-                                            94 reviews
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-auto">
-                                    <div class="text-14 text-light-1">
-                                        From
-                                        <span class="text-16 fw-500 text-dark-1">US$72</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="layout-pt-md layout-pb-lg">
-        <div data-anim-wrap class="container">
-            <div data-anim-child="slide-up" class="row y-gap-20 justify-between items-end">
-                <div class="col-auto">
-                    <div class="sectionTitle -md">
-                        <h2 class="sectionTitle__title">Popular Routes</h2>
-                        <p class=" sectionTitle__text mt-5 sm:mt-0">Interdum et malesuada fames ac ante ipsum</p>
-                    </div>
-                </div>
-
-                <div class="col-auto">
-
-                    <a href="#" class="button -md -blue-1 bg-blue-1-05 text-blue-1">
-                        More <div class="icon-arrow-top-right ml-15"></div>
-                    </a>
-
-                </div>
-            </div>
-
-            <div class="row y-gap-30 pt-40 sm:pt-20">
-
-                <div data-anim-child="slide-up delay-1" class="col-12">
-                    <div class="px-20 py-20 rounded-4 border-light">
-                        <div class="row y-gap-30 justify-between xl:justify-">
-
-                            <div class="col-xl-4 col-lg-6">
-                                <div class="row y-gap-10 items-center">
-                                    <div class="col-sm-auto">
-                                        <img class="size-40" src="{{ asset('assets/front') }}/img/flightIcons/1.png"
-                                            alt="image">
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="row x-gap-20 items-end">
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">14:00</div>
-                                                <div class="text-15 lh-15 text-light-1">SAW</div>
-                                            </div>
-
-                                            <div class="col text-center">
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
-                                                </div>
-                                                <div class="text-15 lh-15 text-light-1 mt-10">4h 05m- Nonstop</div>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">22:00</div>
-                                                <div class="text-15 lh-15 text-light-1">STN</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6">
-                                <div class="row y-gap-10 items-center">
-                                    <div class="col-sm-auto">
-                                        <img class="size-40" src="{{ asset('assets/front') }}/img/flightIcons/2.png"
-                                            alt="image">
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="row x-gap-20 items-end">
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">14:00</div>
-                                                <div class="text-15 lh-15 text-light-1">SAW</div>
-                                            </div>
-
-                                            <div class="col text-center">
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
-                                                </div>
-                                                <div class="text-15 lh-15 text-light-1 mt-10">4h 05m- Nonstop</div>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">22:00</div>
-                                                <div class="text-15 lh-15 text-light-1">STN</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-auto">
-                                <div class="d-flex items-center">
-                                    <div class="text-right mr-24">
-                                        <div class="lh-15 fw-500">US$934</div>
-                                        <div class="text-15 lh-15 text-light-1">16 deals</div>
-                                    </div>
-
-
-                                    <a href="#" class="button -outline-blue-1 px-30 h-50 text-blue-1">
-                                        View Deal <div class="icon-arrow-top-right ml-15"></div>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div data-anim-child="slide-up delay-2" class="col-12">
-                    <div class="px-20 py-20 rounded-4 border-light">
-                        <div class="row y-gap-30 justify-between xl:justify-">
-
-                            <div class="col-xl-4 col-lg-6">
-                                <div class="row y-gap-10 items-center">
-                                    <div class="col-sm-auto">
-                                        <img class="size-40" src="{{ asset('assets/front') }}/img/flightIcons/1.png"
-                                            alt="image">
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="row x-gap-20 items-end">
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">14:00</div>
-                                                <div class="text-15 lh-15 text-light-1">SAW</div>
-                                            </div>
-
-                                            <div class="col text-center">
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
-                                                </div>
-                                                <div class="text-15 lh-15 text-light-1 mt-10">4h 05m- Nonstop</div>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">22:00</div>
-                                                <div class="text-15 lh-15 text-light-1">STN</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6">
-                                <div class="row y-gap-10 items-center">
-                                    <div class="col-sm-auto">
-                                        <img class="size-40" src="{{ asset('assets/front') }}/img/flightIcons/2.png"
-                                            alt="image">
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="row x-gap-20 items-end">
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">14:00</div>
-                                                <div class="text-15 lh-15 text-light-1">SAW</div>
-                                            </div>
-
-                                            <div class="col text-center">
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
-                                                </div>
-                                                <div class="text-15 lh-15 text-light-1 mt-10">4h 05m- Nonstop</div>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">22:00</div>
-                                                <div class="text-15 lh-15 text-light-1">STN</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-auto">
-                                <div class="d-flex items-center">
-                                    <div class="text-right mr-24">
-                                        <div class="lh-15 fw-500">US$934</div>
-                                        <div class="text-15 lh-15 text-light-1">16 deals</div>
-                                    </div>
-
-
-                                    <a href="#" class="button -outline-blue-1 px-30 h-50 text-blue-1">
-                                        View Deal <div class="icon-arrow-top-right ml-15"></div>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div data-anim-child="slide-up delay-3" class="col-12">
-                    <div class="px-20 py-20 rounded-4 border-light">
-                        <div class="row y-gap-30 justify-between xl:justify-">
-
-                            <div class="col-xl-4 col-lg-6">
-                                <div class="row y-gap-10 items-center">
-                                    <div class="col-sm-auto">
-                                        <img class="size-40" src="{{ asset('assets/front') }}/img/flightIcons/1.png"
-                                            alt="image">
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="row x-gap-20 items-end">
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">14:00</div>
-                                                <div class="text-15 lh-15 text-light-1">SAW</div>
-                                            </div>
-
-                                            <div class="col text-center">
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
-                                                </div>
-                                                <div class="text-15 lh-15 text-light-1 mt-10">4h 05m- Nonstop</div>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">22:00</div>
-                                                <div class="text-15 lh-15 text-light-1">STN</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6">
-                                <div class="row y-gap-10 items-center">
-                                    <div class="col-sm-auto">
-                                        <img class="size-40" src="{{ asset('assets/front') }}/img/flightIcons/2.png"
-                                            alt="image">
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="row x-gap-20 items-end">
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">14:00</div>
-                                                <div class="text-15 lh-15 text-light-1">SAW</div>
-                                            </div>
-
-                                            <div class="col text-center">
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
-                                                </div>
-                                                <div class="text-15 lh-15 text-light-1 mt-10">4h 05m- Nonstop</div>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">22:00</div>
-                                                <div class="text-15 lh-15 text-light-1">STN</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-auto">
-                                <div class="d-flex items-center">
-                                    <div class="text-right mr-24">
-                                        <div class="lh-15 fw-500">US$934</div>
-                                        <div class="text-15 lh-15 text-light-1">16 deals</div>
-                                    </div>
-
-
-                                    <a href="#" class="button -outline-blue-1 px-30 h-50 text-blue-1">
-                                        View Deal <div class="icon-arrow-top-right ml-15"></div>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div data-anim-child="slide-up delay-4" class="col-12">
-                    <div class="px-20 py-20 rounded-4 border-light">
-                        <div class="row y-gap-30 justify-between xl:justify-">
-
-                            <div class="col-xl-4 col-lg-6">
-                                <div class="row y-gap-10 items-center">
-                                    <div class="col-sm-auto">
-                                        <img class="size-40" src="{{ asset('assets/front') }}/img/flightIcons/1.png"
-                                            alt="image">
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="row x-gap-20 items-end">
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">14:00</div>
-                                                <div class="text-15 lh-15 text-light-1">SAW</div>
-                                            </div>
-
-                                            <div class="col text-center">
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
-                                                </div>
-                                                <div class="text-15 lh-15 text-light-1 mt-10">4h 05m- Nonstop</div>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">22:00</div>
-                                                <div class="text-15 lh-15 text-light-1">STN</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xl-4 col-lg-6">
-                                <div class="row y-gap-10 items-center">
-                                    <div class="col-sm-auto">
-                                        <img class="size-40" src="{{ asset('assets/front') }}/img/flightIcons/2.png"
-                                            alt="image">
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="row x-gap-20 items-end">
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">14:00</div>
-                                                <div class="text-15 lh-15 text-light-1">SAW</div>
-                                            </div>
-
-                                            <div class="col text-center">
-                                                <div class="flightLine">
-                                                    <div></div>
-                                                    <div></div>
-                                                </div>
-                                                <div class="text-15 lh-15 text-light-1 mt-10">4h 05m- Nonstop</div>
-                                            </div>
-
-                                            <div class="col-auto">
-                                                <div class="lh-15 fw-500">22:00</div>
-                                                <div class="text-15 lh-15 text-light-1">STN</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-auto">
-                                <div class="d-flex items-center">
-                                    <div class="text-right mr-24">
-                                        <div class="lh-15 fw-500">US$934</div>
-                                        <div class="text-15 lh-15 text-light-1">16 deals</div>
-                                    </div>
-
-
-                                    <a href="#" class="button -outline-blue-1 px-30 h-50 text-blue-1">
-                                        View Deal <div class="icon-arrow-top-right ml-15"></div>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
 @endsection
 @section('page-script')
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
