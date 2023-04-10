@@ -69,11 +69,14 @@ class HotelListingRepository
             $hotelRoomArray =[];
             $roomsIds = $hotel->rooms->pluck('id')->toArray();
 
-            $roomPrice = OfflineRoomPrice::whereIn('room_id',$roomsIds)->get();
-            dd($roomPrice->orderBy('price_p_n_single_adult','asc')->limit(1));
+            $roomPrice = OfflineRoomPrice::whereIn('room_id',$roomsIds)->orderBy('price_p_n_single_adult')->limit(1)->get()->toArray();
+            $hotelsListingArray[$key]['hotel_amenities'] = $hotel->hotelamenity->toArray();
+            $hotelsListingArray[$key]['hotel_groups'] =  $hotel->hotelgroup->toArray();
+            $hotelsListingArray[$key]['hotel_images'] = $hotel->images->toArray();
             $hotelsListingArray[$key]['room'] = $roomPrice;
+
         }
-        return $hotelsListingArray;
+        return ['model'=>$hotels,'data'=>$hotelsListingArray];
     }
 
     public function hotelCount($request)

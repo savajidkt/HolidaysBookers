@@ -64,9 +64,9 @@ class HotelListController extends Controller
     {
         if ($request->ajax()) {
             $page = $request->page;
-            $hotelList = $this->hotelListingRepository->hotelLists($request);
+            $hotelListArray = $this->hotelListingRepository->hotelLists($request);
             $hotelCount = $this->hotelListingRepository->hotelCount($request);
-           dd($hotelList);
+            //$hotelList = (object) $hotelListArray;
             //$hotelList->loadMissing(['rooms']);
             return response()->json([
                 'status'        => 200,
@@ -74,7 +74,8 @@ class HotelListController extends Controller
                 'page'          => $page,
                 'count'          => $hotelCount,
                 'data'          => view('hotel.hotel-block-list', [
-                    'hotelList'         => $hotelList,
+                    'hotelList'         => $hotelListArray['data'],
+                    'hotelListModel'         => $hotelListArray['model'],
                     'hotelCount'         => $hotelCount
                 ])->render()
             ]);
