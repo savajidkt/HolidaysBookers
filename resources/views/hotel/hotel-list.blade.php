@@ -38,12 +38,12 @@
         filterObj.end_price_range = "";
     </script>
     <div class="header-margin"></div>
-    <section class="pt-40 pb-40 bg-light-2">
+    <section class="pt-40 pb-40 bg-dark-2">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="text-center">
-                        <h1 class="text-30 fw-600">Find Your Dream Luxury Hotel</h1>
+                        <h1 class="text-30 fw-600 text-white">Find Your Dream Luxury Hotel</h1>
                     </div>
                     <form class="" id="SearchFrm" method="get" enctype="multipart/form-data"
                         action="{{ route('hotel-list') }}">

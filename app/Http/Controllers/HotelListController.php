@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Amenity;
 use App\Models\City;
 use App\Models\Country;
@@ -9,6 +10,8 @@ use App\Models\OfflineRoom;
 use App\Models\OfflineHotel;
 use Illuminate\Http\Request;
 use App\Repositories\HotelListingRepository;
+
+use App\Libraries\Safeencryption;
 
 class HotelListController extends Controller
 {
@@ -63,6 +66,7 @@ class HotelListController extends Controller
     public function ajaxHotelListing(Request $request)
     {
         if ($request->ajax()) {
+            $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
             $hotelListArray = $this->hotelListingRepository->hotelLists($request);
             $hotelCount = $this->hotelListingRepository->hotelCount($request);
@@ -73,10 +77,12 @@ class HotelListController extends Controller
                 'message'       => 'successfully.',
                 'page'          => $page,
                 'count'          => $hotelCount,
+
                 'data'          => view('hotel.hotel-block-list', [
                     'hotelList'         => $hotelListArray['data'],
                     'hotelListModel'         => $hotelListArray['model'],
-                    'hotelCount'         => $hotelCount
+                    'hotelCount'         => $hotelCount,
+                    'safeencryptionObj'          => $SafeencryptionObj,
                 ])->render()
             ]);
         }
@@ -95,5 +101,15 @@ class HotelListController extends Controller
                 ])->render()
             ]);
         }
+    }
+
+    public function show($id)
+    {
+        $safeencryptionObj = new Safeencryption;
+        $id = $safeencryptionObj->decode($id);
+        $hotelsDetails = OfflineHotel::find($id);
+        //dd($hotelsDetails->hotelfreebies);
+        //exit;
+        return view('hotel.hotel-details',['hotelsDetails' => $hotelsDetails]);
     }
 }

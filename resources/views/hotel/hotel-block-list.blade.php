@@ -8,6 +8,7 @@
                     <div class="col-md-auto">
                         <div class="cardImage ratio ratio-1:1 w-250 md:w-1/1 rounded-4">
                             <div class="cardImage__content">
+                                <a href="{{ route('hotel-details', $safeencryptionObj->encode($hotel['id'])) }}">
                                 @if (strlen($hotel['hotel_image_location']) > 0)
                                     <img class="rounded-4 col-12"
                                         src="{{ url(Storage::url('app/upload/Hotel/' . $hotel['id'] . '/' . $hotel['hotel_image_location'])) }}"
@@ -16,6 +17,7 @@
                                     <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/hotel/1.png"
                                         alt="{{ $hotel['hotel_name'] }}">
                                 @endif
+                                </a>
                             </div>
                             <div class="cardImage__wishlist">
                                 <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
@@ -25,6 +27,7 @@
                         </div>
                     </div>
                     <div class="col-md">
+                        <a href="{{ route('hotel-details', $safeencryptionObj->encode($hotel['id'])) }}">
                         <h3 class="text-18 lh-16 fw-500">
                             {{ $hotel['hotel_name'] }}<br class="lg:d-none">
                             {{ $hotel['property_type_id'] }},
@@ -37,6 +40,7 @@
                                 </div>
                             @endif
                         </h3>
+                        </a>
                         <div class="row x-gap-10 y-gap-10 items-center pt-10">
                             <div class="col-auto">
                                 <p class="text-14">Westminster Borough, London</p>

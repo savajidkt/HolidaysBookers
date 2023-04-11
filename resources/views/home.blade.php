@@ -96,7 +96,6 @@
                                                     </div>
                                                     <div style="display: none" class="searchMenu-date__field shadow-2"
                                                         data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">
-
                                                     </div>
                                                 </div>
                                                 <div

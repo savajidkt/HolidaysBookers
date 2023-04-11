@@ -21,11 +21,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Main-StyleSheet include -->
     <style>
-        .help-block-error, .invalid-feedback {
+        .help-block-error,
+        .invalid-feedback {
             color: #EA5455;
         }
 
-        .overlay, #overlay {
+        .overlay,
+        #overlay {
             position: relative;
             top: 0;
             z-index: 100;
@@ -56,14 +58,14 @@
                 transform: rotate(360deg);
             }
         }
+
         .is-hide {
             display: none;
         }
 
         .mainSearch.-col-4 .button-grid.transfer-cls {
-    grid-template-columns: 1fr 1fr auto auto auto auto;
-}
-
+            grid-template-columns: 1fr 1fr auto auto auto auto;
+        }
     </style>
 </head>
 
@@ -98,6 +100,9 @@
         @include('common.header')
     @endif --}}
     <main>
+        @if (Route::has('hotel-details'))
+            <div class="header-margin"></div>
+        @endif
         @include('common.header')
         @yield('content')
         @include('common.footer')

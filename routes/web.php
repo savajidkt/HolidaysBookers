@@ -246,3 +246,4 @@ Route::post('/room-list-ajax', [HotelListController::class, 'ajaxRoomListing'])-
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us');
 Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-us');
 Route::get('/offers', [OfferController::class, 'index'])->name('offers');
+Route::get('/hotel-details/{id}', [HotelListController::class, 'show'])->name('hotel-details');
