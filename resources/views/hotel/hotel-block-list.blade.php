@@ -95,7 +95,7 @@
                         <div class="row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
                             <div class="col-auto">
                                 <div class="text-14 lh-14 fw-500">Exceptional</div>
-                                <div class="text-14 lh-14 text-light-1">3,014 reviews</div>
+                                <div class="text-14 lh-14 text-light-1"> {{ $hotel['hotel_review'] }} reviews</div>
                             </div>
                             <div class="col-auto">
                                 <div class="flex-center text-white fw-600 text-14 size-40 rounded-4 bg-blue-1">
@@ -108,7 +108,10 @@
                             <div class="text-22 lh-12 fw-600 mt-5">
                                 {{ $hotel['room']['price']?? 00 }}
                             </div>
-                            <div class="text-14 text-light-1 mt-5">+US$828 taxes and charges</div>
+                                @if(isset($hotel['room']['tax_price']) && $hotel['room']['tax_price'] > 0)
+                                <div class="text-14 text-light-1 mt-5">{{ $hotel['room']['currency'] }} {{ $hotel['room']['tax_price'] }}  with all taxes and charges</div>
+                                @endif
+                           
                             <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see"
                                 class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
                                 See More <div class="icon-eye ml-15"></div>

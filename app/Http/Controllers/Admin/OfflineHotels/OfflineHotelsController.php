@@ -354,19 +354,19 @@ class OfflineHotelsController extends Controller
     public function importRezliveHotels(Request $request)
     {
         //ini_set('memory_limit', '-1');
-        $rezlive = RezliveHotel::limit(10)->get();
-        foreach($rezlive as $hotel){
-            $hotelResult = rezeliveGetHotelsDetails($this->settings,$hotel->hotel_code);
-            //$this->offlineHotelRepository->rezliveHotelSave($hotelResult['Hotels']);
-            echo '<pre>';
-            print_r($hotelResult);
-            echo '</pre>';
-        }
+        // $rezlive = RezliveHotel::limit(10)->get();
+        // foreach($rezlive as $hotel){
+        //     $hotelResult = rezeliveGetHotelsDetails($this->settings,$hotel->hotel_code);
+        //     //$this->offlineHotelRepository->rezliveHotelSave($hotelResult['Hotels']);
+        //     echo '<pre>';
+        //     print_r($hotelResult);
+        //     echo '</pre>';
+        // }
         
-        die;
-        //$file = storage_path('app/csv/H1.csv');
+        // die;
+        $file = storage_path('app/csv/H5.csv');
         LazyCollection::make(function () {
-        $handle = fopen(storage_path('app/csv/H2.csv'), 'r');
+        $handle = fopen(storage_path('app/csv/H1.csv'), 'r');
         
         while (($line = fgetcsv($handle, 4096)) !== false) {
             $dataString = implode(",", $line);
@@ -377,7 +377,7 @@ class OfflineHotelsController extends Controller
         fclose($handle);
         })
     ->skip(1)
-    ->chunk(100)
+    ->chunk(10)
     ->each(function (LazyCollection $chunk) {
       $records = $chunk->map(function ($row) {
                     $data = explode('|',$row[0]);

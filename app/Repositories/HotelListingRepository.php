@@ -79,7 +79,13 @@ class HotelListingRepository
                 $hotelRoomArray['occ_num_beds'] = $roomPrice->room->occ_num_beds;
                 $hotelRoomArray['min_nights'] = $roomPrice->min_nights;
                 $hotelRoomArray['occ_max_adults'] = $roomPrice->room->occ_max_adults;
+                $hotelRoomArray['currency'] = $roomPrice->currency->code;
                 $hotelRoomArray['price'] = numberFormat($roomPrice->price_p_n_single_adult,$roomPrice->currency->code);
+                $hotelRoomArray['tax_price']=0;
+                if($roomPrice->tax_p_n_single_adult){
+                    $hotelRoomArray['tax_price'] = numberFormat($roomPrice->tax_p_n_single_adult);
+                }
+                
             }
             
             
