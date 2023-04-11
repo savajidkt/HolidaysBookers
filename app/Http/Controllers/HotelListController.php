@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Amenity;
 use App\Models\City;
+use App\Models\Amenity;
 use App\Models\Country;
 use App\Models\OfflineRoom;
 use App\Models\OfflineHotel;
 use Illuminate\Http\Request;
-use App\Repositories\HotelListingRepository;
+use App\Models\OfflineRoomPrice;
 
 use App\Libraries\Safeencryption;
+use App\Repositories\HotelListingRepository;
 
 class HotelListController extends Controller
 {
@@ -107,9 +108,17 @@ class HotelListController extends Controller
     {
         $safeencryptionObj = new Safeencryption;
         $id = $safeencryptionObj->decode($id);
-        $hotelsDetails = OfflineHotel::find($id);
-        //dd($hotelsDetails->hotelfreebies);
-        //exit;
-        return view('hotel.hotel-details',['hotelsDetails' => $hotelsDetails]);
+        
+        if (!$id) {
+            return redirect()->route('home');
+        }
+
+        $hotelsRelated = [];
+        $hotelsDetails = $this->hotelListingRepository->hotelDetails($id);        
+        if ($hotelsDetails) {
+            $hotelsRelated = $this->hotelListingRepository->hotelRelated($hotelsDetails['hotel']);
+        }   
+            
+        return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' =>$safeencryptionObj]);
     }
 }
