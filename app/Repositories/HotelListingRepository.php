@@ -69,13 +69,26 @@ class HotelListingRepository
             $hotelRoomArray =[];
             $roomsIds = $hotel->rooms->pluck('id')->toArray();
 
-            $roomPrice = OfflineRoomPrice::whereIn('room_id',$roomsIds)->orderBy('price_p_n_single_adult')->limit(1)->get()->toArray();
+            $roomPrice = OfflineRoomPrice::whereIn('room_id',$roomsIds)->orderBy('price_p_n_single_adult')->limit(1)->first();
             $hotelsListingArray[$key]['hotel_amenities'] = $hotel->hotelamenity->toArray();
             $hotelsListingArray[$key]['hotel_groups'] =  $hotel->hotelgroup->toArray();
             $hotelsListingArray[$key]['hotel_images'] = $hotel->images->toArray();
-            $hotelsListingArray[$key]['room'] = $roomPrice;
+            if($roomPrice){
+                $hotelRoomArray['room_id'] = $roomPrice->room_id;
+                $hotelRoomArray['room_name'] = $roomPrice->room->roomtype->room_type;
+                $hotelRoomArray['occ_num_beds'] = $roomPrice->room->occ_num_beds;
+                $hotelRoomArray['min_nights'] = $roomPrice->min_nights;
+                $hotelRoomArray['occ_max_adults'] = $roomPrice->room->occ_max_adults;
+                $hotelRoomArray['price'] = numberFormat($roomPrice->price_p_n_single_adult,$roomPrice->currency->code);
+            }
+            
+            
+            
+           
+            $hotelsListingArray[$key]['room'] = $hotelRoomArray;
 
         }
+       
         return ['model'=>$hotels,'data'=>$hotelsListingArray];
     }
 

@@ -127,4 +127,8 @@ class OfflineRoomPrice extends Authenticatable
     {
         return $this->hasMany(OfflineRoomChildPrice::class, 'price_id', 'id');
     }
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id', 'id');
+    }
 }

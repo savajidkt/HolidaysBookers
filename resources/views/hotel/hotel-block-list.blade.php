@@ -53,8 +53,8 @@
                             </div>
                         </div>
                         <div class="text-14 lh-15 mt-20">
-                            <div class="fw-500">King Room</div>
-                            <div class="text-light-1">1 extra-large double bed</div>
+                            <div class="fw-500">{{ $hotel['room']['room_name']?? '' }}</div>
+                            <div class="text-light-1">{{ $hotel['room']['occ_num_beds']?? '' }} Beds</div>
                         </div>
                         <div class="text-14 text-green-2 lh-15 mt-10">
                             <div class="fw-500">Free cancellation</div>
@@ -99,10 +99,10 @@
                             </div>
                         </div>
                         <div class="">
-                            <div class="text-14 text-light-1 mt-50 md:mt-20">8 nights, 2 adult
+                            <div class="text-14 text-light-1 mt-50 md:mt-20">{{ $hotel['room']['min_nights']?? 0 }} nights, {{ $hotel['room']['occ_max_adults']?? 0 }} adult
                             </div>
-                            <div class="text-22 lh-12 fw-600 mt-5">$
-                                3000
+                            <div class="text-22 lh-12 fw-600 mt-5">
+                                {{ $hotel['room']['price']?? 00 }}
                             </div>
                             <div class="text-14 text-light-1 mt-5">+US$828 taxes and charges</div>
                             <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see"
