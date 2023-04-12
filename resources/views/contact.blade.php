@@ -3,7 +3,8 @@
 @section('content')
     <div class="ratio ratio-16:9">
         <div class="map-ratio">
-            <div class="map js-map-single"></div>
+            <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112136.11226056251!2d77.06815442966133!3d28.56214930914976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b006d9cfa0f%3A0xfe799dbfd221a850!2sHolidays%20Bookers%20DMC!5e0!3m2!1sen!2sin!4v1681277336322!5m2!1sen!2sin"></iframe>
         </div>
     </div>
 
@@ -15,48 +16,63 @@
                         <div class="text-22 fw-500">
                             Send a message
                         </div>
-
-                        <div class="row y-gap-20 pt-20">
-                            <div class="col-12">
-
-                                <div class="form-input ">
-                                    <input type="text" required>
-                                    <label class="lh-1 text-16 text-light-1">Full Name</label>
+                        @if (Session::has('success'))
+                            <div class="d-flex items-center justify-between bg-success-1 pl-30 pr-20 py-30 rounded-8">
+                                <div class="text-success-2 lh-1 fw-500">{{ Session::get('success') }}</div>
+                            </div>
+                        @endif
+                        @if (Session::has('error'))
+                            <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
+                                <div class="text-error-2 lh-1 fw-500">{{ Session::get('error') }}</div>
+                            </div>
+                        @endif
+                        <form class="" id="ContactFrm" method="post" enctype="multipart/form-data"
+                            action="{{ route('contact-us-submit') }}">
+                            @csrf
+                            <div class="row y-gap-20 pt-20">
+                                <div class="col-12">
+                                    <div class="form-input frmName">
+                                        <input type="text" name="name" value="{{ old('name') }}">
+                                        <label class="lh-1 text-16 text-light-1">Full Name</label>
+                                    </div>
+                                    @if ($errors->has('name'))
+                                        <span class="text-error-2">{{ $errors->first('name') }}</span>
+                                    @endif
                                 </div>
-
-                            </div>
-                            <div class="col-12">
-
-                                <div class="form-input ">
-                                    <input type="text" required>
-                                    <label class="lh-1 text-16 text-light-1">Email</label>
+                                <div class="col-12">
+                                    <div class="form-input frmEmail">
+                                        <input type="text" name="email" value="{{ old('email') }}">
+                                        <label class="lh-1 text-16 text-light-1">Email</label>
+                                    </div>
+                                    @if ($errors->has('email'))
+                                        <span class="text-error-2">{{ $errors->first('email') }}</span>
+                                    @endif
                                 </div>
-
-                            </div>
-                            <div class="col-12">
-
-                                <div class="form-input ">
-                                    <input type="text" required>
-                                    <label class="lh-1 text-16 text-light-1">Contact Number</label>
+                                <div class="col-12">
+                                    <div class="form-input frmPhone">
+                                        <input type="text" name="phone" value="{{ old('phone') }}">
+                                        <label class="lh-1 text-16 text-light-1">Contact Number</label>
+                                    </div>
+                                    @if ($errors->has('phone'))
+                                        <span class="text-error-2">{{ $errors->first('phone') }}</span>
+                                    @endif
                                 </div>
-
-                            </div>
-                            <div class="col-12">
-
-                                <div class="form-input ">
-                                    <textarea required rows="4"></textarea>
-                                    <label class="lh-1 text-16 text-light-1">Your Messages</label>
+                                <div class="col-12">
+                                    <div class="form-input frmMessage">
+                                        <textarea name="message" rows="4">{{ old('message') }}</textarea>
+                                        <label class="lh-1 text-16 text-light-1">Your Messages</label>
+                                    </div>
+                                    @if ($errors->has('message'))
+                                        <span class="text-error-2">{{ $errors->first('message') }}</span>
+                                    @endif
                                 </div>
-
+                                <div class="col-auto">
+                                    <button type="submit" class="button px-24 h-50 -dark-1 bg-blue-1 text-white">
+                                        Send a Messsage <div class="icon-arrow-top-right ml-15"></div>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-auto">
-
-                                <a href="#" class="button px-24 h-50 -dark-1 bg-blue-1 text-white">
-                                    Send a Messsage <div class="icon-arrow-top-right ml-15"></div>
-                                </a>
-
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -89,24 +105,24 @@
                     <div class="text-14 text-light-1">Follow us on social media</div>
                     <div class="d-flex x-gap-20 items-center mt-10">
                         <a target="_blank" href="https://www.facebook.com/holidaysbookers"><i
-                            class="icon-facebook text-14"></i></a>
-                    <a target="_blank" href="https://twitter.com/Viveshkat"><i
-                            class="icon-twitter text-14"></i></a>
-                    <a target="_blank" href="https://www.instagram.com/holidaysbookersdmc/"><i
-                            class="icon-instagram text-14"></i></a>
-                    <a target="_blank" href="https://www.youtube.com/channel/UCi2tUiEPlCTIJvz_bJdbZLA"><i
-                            class="icon-play text-14"></i></a>
+                                class="icon-facebook text-14"></i></a>
+                        <a target="_blank" href="https://twitter.com/Viveshkat"><i class="icon-twitter text-14"></i></a>
+                        <a target="_blank" href="https://www.instagram.com/holidaysbookersdmc/"><i
+                                class="icon-instagram text-14"></i></a>
+                        <a target="_blank" href="https://www.youtube.com/channel/UCi2tUiEPlCTIJvz_bJdbZLA"><i
+                                class="icon-play text-14"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    
-    
+
+
 
 @endsection
 @section('page-script')
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
+    <script src="{{ asset('assets/front/js/Contact.js') }}"></script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Http\Requests\Contact\CreateRequest;
 
 class ContactUsController extends Controller
 {
@@ -26,5 +27,10 @@ class ContactUsController extends Controller
     {
        
         return view('contact');
+    }
+
+    public function submitForm(CreateRequest $request)
+    {                               
+        return redirect()->route('contact-us')->with('success', 'Thank you for contact us. we will contact you shortly.');
     }
 }

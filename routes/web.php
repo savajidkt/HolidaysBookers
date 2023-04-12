@@ -245,5 +245,6 @@ Route::get('/hotel-list-ajax', [HotelListController::class, 'ajaxHotelListing'])
 Route::post('/room-list-ajax', [HotelListController::class, 'ajaxRoomListing'])->name('room-list-ajax');
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us');
 Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-us');
+Route::post('/contact-us', [ContactUsController::class, 'submitForm'])->name('contact-us-submit');
 Route::get('/offers', [OfferController::class, 'index'])->name('offers');
 Route::get('/hotel-details/{id}', [HotelListController::class, 'show'])->name('hotel-details');
