@@ -136,6 +136,13 @@ class HotelListingRepository
         $hotelsListingArray['hotel']['hotel_groups'] =  $hotel->hotelgroup->toArray();
         $hotelsListingArray['hotel']['hotel_images'] = $hotel->images->toArray();
 
+        $roomsIds = $hotel->rooms->pluck('id')->toArray();
+        $roomPrice = OfflineRoomPrice::whereIn('room_id',$roomsIds)->orderBy('price_p_n_single_adult')->limit(1)->first();
+        if($roomPrice){           
+            $hotelsListingArray['hotel']['price'] = numberFormat($roomPrice->price_p_n_single_adult,$roomPrice->currency->code);
+        }   
+
+
         foreach ($hotel->rooms as $key => $room) {
             $hotelRoomTempArray['room'] = $room->toArray();
             $hotelRoomTempArray['room']['amenities'] =  $room->roomamenity->toArray();

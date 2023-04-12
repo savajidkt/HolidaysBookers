@@ -30,144 +30,148 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="mainSearch bg-white px-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4">
-                        <div class="button-grid items-center">
+                    <form class="" id="SearchFrm" method="get" enctype="multipart/form-data"
+                        action="{{ route('hotel-list') }}">
+                        {{-- @csrf --}}
+                        <div class="mainSearch bg-white px-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4">
+                            <div class="button-grid items-center">
+                                <div class="searchMenu-loc pl-10 pr-30 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
 
-                            <div class="searchMenu-loc pl-10 pr-30 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
+                                    <div data-x-dd-click="searchMenu-loc">
+                                        <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
 
-                                <div data-x-dd-click="searchMenu-loc">
-                                    <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
-
-                                    <div class="text-15 text-light-1 ls-2 lh-16">
-                                        <input autocomplete="off" type="search" placeholder="Where are you going?"
-                                            class="js-search js-dd-focus" name="location" id="location" />
-                                        <input type="hidden" class="hidden_city_id" name="city_id" />
-                                        <input type="hidden" class="hidden_country_id" name="country_id" />
+                                        <div class="text-15 text-light-1 ls-2 lh-16">
+                                            <input autocomplete="off" type="search" placeholder="Where are you going?"
+                                                class="js-search js-dd-focus" name="location" id="location" />
+                                            <input type="hidden" class="hidden_city_id" name="city_id" />
+                                            <input type="hidden" class="hidden_country_id" name="country_id" />
+                                        </div>
+                                        <span id="basic-addon-location-error" class="help-block help-block-error"></span>
                                     </div>
-                                    <span id="basic-addon-location-error" class="help-block help-block-error"></span>
-                                </div>
 
-                                <div class="searchMenu-loc__field shadow-2 js-popup-window" data-x-dd="searchMenu-loc"
-                                    data-x-dd-toggle="-is-active">
-                                    <div class="bg-white px-30 py-30 sm:px-0 sm:py-15 rounded-4">
-                                        <div class="y-gap-5 js-results">
+                                    <div class="searchMenu-loc__field shadow-2 js-popup-window" data-x-dd="searchMenu-loc"
+                                        data-x-dd-toggle="-is-active">
+                                        <div class="bg-white px-30 py-30 sm:px-0 sm:py-15 rounded-4">
+                                            <div class="y-gap-5 js-results">
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
-                                <div data-x-dd-click="searchMenu-date">
-                                    <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
-                                    <div class="text-15 text-light-1 ls-2 lh-16">
-                                        <input class="form-control" placeholder="Check in - Check out" name="daterange" />
-                                        <input type="hidden" id="hidden_from" name="search_from" value="">
-                                        <input type="hidden" id="hidden_to" name="search_to" value="">
+                                <div class="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                                    <div data-x-dd-click="searchMenu-date">
+                                        <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
+                                        <div class="text-15 text-light-1 ls-2 lh-16">
+                                            <input class="form-control" placeholder="Check in - Check out"
+                                                name="daterange" />
+                                            <input type="hidden" id="hidden_from" name="search_from" value="">
+                                            <input type="hidden" id="hidden_to" name="search_to" value="">
+                                        </div>
+                                        <span id="basic-addon-date-error" class="help-block help-block-error"></span>
                                     </div>
-                                    <span id="basic-addon-date-error" class="help-block help-block-error"></span>
-                                </div>
-                                <div style="display: none" class="searchMenu-date__field shadow-2"
-                                    data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">
-                                </div>
-                            </div>
-                            <div class="searchMenu-guests px-30 lg:py-20 lg:px-0 js-form-dd js-form-counters">
-                                <div data-x-dd-click="searchMenu-guests">
-                                    <h4 class="text-15 fw-500 ls-2 lh-16">Guest</h4>
-                                    <div class="text-15 text-light-1 ls-2 lh-16">
-                                        <span class="js-count-adult">1</span> adults
-                                        -
-                                        <span class="js-count-child">0</span> childeren
-                                        -
-                                        <span class="js-count-room">1</span> room
+                                    <div style="display: none" class="searchMenu-date__field shadow-2"
+                                        data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">
                                     </div>
-                                    <span id="basic-addon-guest-error" class="help-block help-block-error"></span>
                                 </div>
-                                <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests"
-                                    data-x-dd-toggle="-is-active">
-                                    <div class="bg-white px-30 py-30 rounded-4">
-                                        <div class="row y-gap-10 justify-between items-center">
-                                            <div class="col-auto">
-                                                <div class="text-15 fw-500">Adults</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="d-flex items-center js-counter"
-                                                    data-value-change=".js-count-adult">
-                                                    <button type="button"
-                                                        class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
-                                                        <i class="icon-minus text-12"></i>
-                                                    </button>
-                                                    <div class="flex-center size-20 ml-15 mr-15">
-                                                        <div class="text-15 js-count count-adults">1
+                                <div class="searchMenu-guests px-30 lg:py-20 lg:px-0 js-form-dd js-form-counters">
+                                    <div data-x-dd-click="searchMenu-guests">
+                                        <h4 class="text-15 fw-500 ls-2 lh-16">Guest</h4>
+                                        <div class="text-15 text-light-1 ls-2 lh-16">
+                                            <span class="js-count-adult">1</span> adults
+                                            -
+                                            <span class="js-count-child">0</span> childeren
+                                            -
+                                            <span class="js-count-room">1</span> room
+                                        </div>
+                                        <span id="basic-addon-guest-error" class="help-block help-block-error"></span>
+                                    </div>
+                                    <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests"
+                                        data-x-dd-toggle="-is-active">
+                                        <div class="bg-white px-30 py-30 rounded-4">
+                                            <div class="row y-gap-10 justify-between items-center">
+                                                <div class="col-auto">
+                                                    <div class="text-15 fw-500">Adults</div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="d-flex items-center js-counter"
+                                                        data-value-change=".js-count-adult">
+                                                        <button type="button"
+                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
+                                                            <i class="icon-minus text-12"></i>
+                                                        </button>
+                                                        <div class="flex-center size-20 ml-15 mr-15">
+                                                            <div class="text-15 js-count count-adults">1
+                                                            </div>
                                                         </div>
+                                                        <button type="button"
+                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
+                                                            <i class="icon-plus text-12"></i>
+                                                        </button>
                                                     </div>
-                                                    <button type="button"
-                                                        class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
-                                                        <i class="icon-plus text-12"></i>
-                                                    </button>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="border-top-light mt-24 mb-24"></div>
-                                        <div class="row y-gap-10 justify-between items-center">
-                                            <div class="col-auto">
-                                                <div class="text-15 lh-12 fw-500">Children</div>
-                                                <div class="text-14 lh-12 text-light-1 mt-5">Ages 0 -
-                                                    17
+                                            <div class="border-top-light mt-24 mb-24"></div>
+                                            <div class="row y-gap-10 justify-between items-center">
+                                                <div class="col-auto">
+                                                    <div class="text-15 lh-12 fw-500">Children</div>
+                                                    <div class="text-14 lh-12 text-light-1 mt-5">Ages 0 -
+                                                        17
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="d-flex items-center js-counter"
-                                                    data-value-change=".js-count-child">
-                                                    <button type="button"
-                                                        class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
-                                                        <i class="icon-minus text-12"></i>
-                                                    </button>
-                                                    <div class="flex-center size-20 ml-15 mr-15">
-                                                        <div class="text-15 js-count count-childs">0
+                                                <div class="col-auto">
+                                                    <div class="d-flex items-center js-counter"
+                                                        data-value-change=".js-count-child">
+                                                        <button type="button"
+                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
+                                                            <i class="icon-minus text-12"></i>
+                                                        </button>
+                                                        <div class="flex-center size-20 ml-15 mr-15">
+                                                            <div class="text-15 js-count count-childs">0
+                                                            </div>
                                                         </div>
+                                                        <button type="button"
+                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
+                                                            <i class="icon-plus text-12"></i>
+                                                        </button>
                                                     </div>
-                                                    <button type="button"
-                                                        class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
-                                                        <i class="icon-plus text-12"></i>
-                                                    </button>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="border-top-light mt-24 mb-24"></div>
-                                        <div class="row y-gap-10 justify-between items-center">
-                                            <div class="col-auto">
-                                                <div class="text-15 fw-500">Rooms</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="d-flex items-center js-counter"
-                                                    data-value-change=".js-count-room">
-                                                    <button type="button"
-                                                        class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
-                                                        <i class="icon-minus text-12"></i>
-                                                    </button>
-                                                    <div class="flex-center size-20 ml-15 mr-15">
-                                                        <div class="text-15 js-count count-rooms">1
+                                            <div class="border-top-light mt-24 mb-24"></div>
+                                            <div class="row y-gap-10 justify-between items-center">
+                                                <div class="col-auto">
+                                                    <div class="text-15 fw-500">Rooms</div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="d-flex items-center js-counter"
+                                                        data-value-change=".js-count-room">
+                                                        <button type="button"
+                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
+                                                            <i class="icon-minus text-12"></i>
+                                                        </button>
+                                                        <div class="flex-center size-20 ml-15 mr-15">
+                                                            <div class="text-15 js-count count-rooms">1
+                                                            </div>
                                                         </div>
+                                                        <button type="button"
+                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
+                                                            <i class="icon-plus text-12"></i>
+                                                        </button>
                                                     </div>
-                                                    <button type="button"
-                                                        class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
-                                                        <i class="icon-plus text-12"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="button-item">
-                                <button
-                                    class="mainSearch__submit button -dark-1 py-15 px-35 h-60 col-12 rounded-4 bg-blue-1 text-white">
-                                    <i class="icon-search text-20 mr-10"></i>
-                                    Search
-                                </button>
+                                <div class="button-item">
+                                    <button
+                                        class="mainSearch__submit button -dark-1 py-15 px-35 h-60 col-12 rounded-4 bg-blue-1 text-white">
+                                        <i class="icon-search text-20 mr-10"></i>
+                                        Search
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -296,10 +300,13 @@
                         </div>
 
                         <div class="col-auto">
-                            <div class="text-14 text-right">
-                                From
-                                <span class="text-22 text-dark-1 fw-500">US$72</span>
-                            </div>
+                            @if (isset($hotelsDetails['hotel']['price']))
+                                <div class="text-14 text-right">
+                                    From
+                                    <span
+                                        class="text-22 text-dark-1 fw-500">{{ isset($hotelsDetails['hotel']['price']) ? $hotelsDetails['hotel']['price'] : '' }}</span>
+                                </div>
+                            @endif
 
 
                             <a href="#" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
@@ -609,15 +616,50 @@
             <div class="row y-gap-30 pt-40 sm:pt-20">
 
                 @if (count($hotelsRelated) > 0)
-                    @foreach ($hotelsRelated as $key=> $value)
-                    
+                    @foreach ($hotelsRelated as $key => $value)
                         <div class="col-xl-3 col-lg-3 col-sm-6">
-                            <a href="{{ route('hotel-details', $safeencryptionObj->encode($value['id'])) }}" class="hotelsCard -type-1 ">
+                            <a href="{{ route('hotel-details', $safeencryptionObj->encode($value['id'])) }}"
+                                class="hotelsCard -type-1 ">
                                 <div class="hotelsCard__image">
                                     <div class="cardImage ratio ratio-1:1">
                                         <div class="cardImage__content">
-                                            <img class="rounded-4 col-12"
-                                                src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image">
+                                            @if (count($value['hotel_images']) > 0)
+                                                <div
+                                                    class="cardImage-slider rounded-4 overflow-hidden js-cardImage-slider">
+                                                    <div class="swiper-wrapper">
+                                                        @foreach ($value['hotel_images'] as $key => $img)
+                                                            <div class="swiper-slide">
+                                                                <img class="col-12"
+                                                                    src="{{ url(Storage::url('app/upload/Hotel/' . $img['hotel_id'] . '/gallery/' . $img['file_path'])) }}"
+                                                                    alt="{{ $hotelsDetails['hotel']['hotel_name'] }}">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <div class="cardImage-slider__pagination js-pagination"></div>
+                                                    <div class="cardImage-slider__nav -prev">
+                                                        <button
+                                                            class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-prev">
+                                                            <i class="icon-chevron-left text-10"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="cardImage-slider__nav -next">
+                                                        <button
+                                                            class="button -blue-1 bg-white size-30 rounded-full shadow-2 js-next">
+                                                            <i class="icon-chevron-right text-10"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                @if (strlen($hotelsDetails['hotel']['hotel_image_location']) > 0)
+                                                    <img class="rounded-4 col-12"
+                                                        src="{{ url(Storage::url('app/upload/Hotel/' . $hotelsDetails['hotel']['id'] . '/' . $hotelsDetails['hotel']['hotel_image_location'])) }}"
+                                                        alt="{{ $hotelsDetails['hotel']['hotel_name'] }}">
+                                                @else
+                                                    <img src="{{ asset('assets/front') }}/img/gallery/1/1.png"
+                                                        alt="{{ $hotelsDetails['hotel']['hotel_name'] }}"
+                                                        class="rounded-4 col-12">
+                                                @endif
+                                            @endif
                                         </div>
                                         <div class="cardImage__wishlist">
                                             <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
@@ -638,16 +680,20 @@
                                     </h4>
                                     <p class="text-light-1 lh-14 text-14 mt-5">{{ $value['hotel_address'] }}</p>
                                     <div class="d-flex items-center mt-20">
-                                        <div class="flex-center bg-blue-1 rounded-4 size-30 text-12 fw-600 text-white">{{ $value['hotel_review'] }}
+                                        <div class="flex-center bg-blue-1 rounded-4 size-30 text-12 fw-600 text-white">
+                                            {{ $value['hotel_review'] }}
                                         </div>
                                         <div class="text-14 text-dark-1 fw-500 ml-10">Exceptional</div>
                                         <div class="text-14 text-light-1 ml-10">3,014 reviews</div>
                                     </div>
-                                    <div class="mt-5">
-                                        <div class="fw-500">
-                                            Starting from <span class="text-blue-1">US$72</span>
+                                    @if (isset($value['room']['price']))
+                                        <div class="mt-5">
+                                            <div class="fw-500">
+                                                Starting from <span
+                                                    class="text-blue-1">{{ isset($value['room']['price']) ? $value['room']['price'] : '' }}</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 </div>
                             </a>
                         </div>

@@ -117,7 +117,7 @@ class HotelListController extends Controller
         $hotelsDetails = $this->hotelListingRepository->hotelDetails($id);        
         if ($hotelsDetails) {
             $hotelsRelated = $this->hotelListingRepository->hotelRelated($hotelsDetails['hotel']);
-        }   
+        }           
             
         return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' =>$safeencryptionObj]);
     }
