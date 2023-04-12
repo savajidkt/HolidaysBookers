@@ -24,17 +24,25 @@ class ContactUsController extends Controller
         //$this->middleware('auth');
     }
 
+       
     /**
-     * Show the application dashboard.
+     * Method index
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return void
      */
     public function index()
     {
        
         return view('contact');
     }
-
+    
+    /**
+     * Method submitForm
+     *
+     * @param CreateRequest $request [explicite description]
+     *
+     * @return void
+     */
     public function submitForm(CreateRequest $request)
     {
         $contact = new Contact();        
