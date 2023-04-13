@@ -207,7 +207,84 @@
         <div class="container">
             <div class="hotelSingleGrid">
                 <div>
-                    <div class="galleryGrid -type-2">
+                   
+                    <div class="row justify-between">
+                        <div class="col-auto">
+                            <div class="row x-gap-20 y-gap-20 items-center">
+                                <div class="col-auto">
+                                    <h1 class="text-26 fw-600">{{ $hotelsDetails['hotel']['hotel_name'] }}</h1>
+                                </div>
+                                @if ($hotelsDetails['hotel']['category'] > 0)
+                                    <div class="col-auto">
+                                        @for ($i = 1; $i <= $hotelsDetails['hotel']['category']; $i++)
+                                            <i class="icon-star text-10 text-yellow-1"></i>
+                                        @endfor
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="row x-gap-20 y-gap-20 items-center">
+                                <div class="col-auto">
+                                    <div class="text-15 text-light-1">{{ $hotelsDetails['hotel']['hotel_address'] }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            @if (isset($hotelsDetails['hotel']['price']))
+                                <div class="text-14 text-right">
+                                    From
+                                    <span
+                                        class="text-22 text-dark-1 fw-500">{{ isset($hotelsDetails['hotel']['price']) ? $hotelsDetails['hotel']['price'] : '' }}</span>
+                                </div>
+                            @endif
+
+
+                            <a href="#" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
+                                Select Room <div class="icon-arrow-top-right ml-15"></div>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div id="overview" class="row y-gap-40 pt-40">
+                        <div class="col-12">
+                            <h3 class="text-22 fw-500 pt-40 border-top-light">Overview</h3>
+                            <p class="text-dark-1 text-15 mt-20">
+                                {!! $hotelsDetails['hotel']['hotel_description'] !!}
+                            </p>
+                        </div>
+                        @if (count($hotelsDetails['hotel']['hotel_amenities']) > 0)
+                            <div class="col-12">
+                                <h3 class="text-22 fw-500 pt-40 border-top-light">Most Popular Hotel Amenities</h3>
+                                <div class="row y-gap-10 pt-20">
+                                    @foreach ($hotelsDetails['hotel']['hotel_amenities'] as $hotelamenities)
+                                        <div class="col-md-5">
+                                            <div class="d-flex x-gap-15 y-gap-15 items-center">
+                                                <i class="icon-check"></i>
+                                                <div class="text-15">{{ $hotelamenities['amenity_name'] }}</div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        @if (count($hotelsDetails['hotel']['hotel_freebies']) > 0)
+                            <div class="col-12">
+                                <h3 class="text-22 fw-500 pt-40 border-top-light">Most Popular Hotel Freebies</h3>
+                                <div class="row y-gap-10 pt-20">
+                                    @foreach ($hotelsDetails['hotel']['hotel_freebies'] as $hotelfreebies)
+                                        <div class="col-md-5">
+                                            <div class="d-flex x-gap-15 y-gap-15 items-center">
+                                                <i class="icon-check"></i>
+                                                <div class="text-15">{{ $hotelfreebies['name'] }}</div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="galleryGrid -type-2 pt-40">
                         <div class="galleryGrid__item relative d-flex justify-end">
                             @if (strlen($hotelsDetails['hotel']['hotel_image_location']) > 0)
                                 <img class="rounded-4"
@@ -272,83 +349,6 @@
                                         @php
                                             $k++;
                                         @endphp
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="row justify-between items-end pt-40">
-                        <div class="col-auto">
-                            <div class="row x-gap-20 y-gap-20 items-center">
-                                <div class="col-auto">
-                                    <h1 class="text-26 fw-600">{{ $hotelsDetails['hotel']['hotel_name'] }}</h1>
-                                </div>
-                                @if ($hotelsDetails['hotel']['category'] > 0)
-                                    <div class="col-auto">
-                                        @for ($i = 1; $i <= $hotelsDetails['hotel']['category']; $i++)
-                                            <i class="icon-star text-10 text-yellow-1"></i>
-                                        @endfor
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="row x-gap-20 y-gap-20 items-center">
-                                <div class="col-auto">
-                                    <div class="text-15 text-light-1">{{ $hotelsDetails['hotel']['hotel_address'] }}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-auto">
-                            @if (isset($hotelsDetails['hotel']['price']))
-                                <div class="text-14 text-right">
-                                    From
-                                    <span
-                                        class="text-22 text-dark-1 fw-500">{{ isset($hotelsDetails['hotel']['price']) ? $hotelsDetails['hotel']['price'] : '' }}</span>
-                                </div>
-                            @endif
-
-
-                            <a href="#" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
-                                Select Room <div class="icon-arrow-top-right ml-15"></div>
-                            </a>
-
-                        </div>
-                    </div>
-
-                    <div id="overview" class="row y-gap-40 pt-40">
-                        <div class="col-12">
-                            <h3 class="text-22 fw-500 pt-40 border-top-light">Overview</h3>
-                            <p class="text-dark-1 text-15 mt-20">
-                                {!! $hotelsDetails['hotel']['hotel_description'] !!}
-                            </p>
-                        </div>
-                        @if (count($hotelsDetails['hotel']['hotel_amenities']) > 0)
-                            <div class="col-12">
-                                <h3 class="text-22 fw-500 pt-40 border-top-light">Most Popular Hotel Amenities</h3>
-                                <div class="row y-gap-10 pt-20">
-                                    @foreach ($hotelsDetails['hotel']['hotel_amenities'] as $hotelamenities)
-                                        <div class="col-md-5">
-                                            <div class="d-flex x-gap-15 y-gap-15 items-center">
-                                                <i class="icon-check"></i>
-                                                <div class="text-15">{{ $hotelamenities['amenity_name'] }}</div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                        @if (count($hotelsDetails['hotel']['hotel_freebies']) > 0)
-                            <div class="col-12">
-                                <h3 class="text-22 fw-500 pt-40 border-top-light">Most Popular Hotel Freebies</h3>
-                                <div class="row y-gap-10 pt-20">
-                                    @foreach ($hotelsDetails['hotel']['hotel_freebies'] as $hotelfreebies)
-                                        <div class="col-md-5">
-                                            <div class="d-flex x-gap-15 y-gap-15 items-center">
-                                                <i class="icon-check"></i>
-                                                <div class="text-15">{{ $hotelfreebies['name'] }}</div>
-                                            </div>
-                                        </div>
                                     @endforeach
                                 </div>
                             </div>

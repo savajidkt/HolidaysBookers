@@ -13,6 +13,7 @@ use App\Models\OfflineRoomPrice;
 
 use App\Libraries\Safeencryption;
 use App\Repositories\HotelListingRepository;
+use App\Repositories\HotelRoomListingRepository;
 
 class HotelListController extends Controller
 {
@@ -22,9 +23,11 @@ class HotelListController extends Controller
      * @return void
      */
     protected $hotelListingRepository;
-    public function __construct(HotelListingRepository $hotelListingRepository)
+    protected $hotelRoomListingRepository;
+    public function __construct(HotelListingRepository $hotelListingRepository, HotelRoomListingRepository $hotelRoomListingRepository)
     {
         $this->hotelListingRepository       = $hotelListingRepository;
+        $this->hotelRoomListingRepository       = $hotelRoomListingRepository;
     }
 
     public function index(Request $request)
@@ -91,9 +94,8 @@ class HotelListController extends Controller
 
     public function ajaxRoomListing(Request $request)
     {
-
         if ($request->ajax()) {
-            $hotelRooms = OfflineRoom::where('status', OfflineRoom::ACTIVE)->where('hotel_id', $request->id)->get();
+            $hotelRooms = $this->hotelRoomListingRepository->hotelRoomLists($request->all());
             return response()->json([
                 'status'        => 200,
                 'message'       => 'successfully.',
@@ -108,17 +110,17 @@ class HotelListController extends Controller
     {
         $safeencryptionObj = new Safeencryption;
         $id = $safeencryptionObj->decode($id);
-        
+
         if (!$id) {
             return redirect()->route('home');
         }
 
         $hotelsRelated = [];
-        $hotelsDetails = $this->hotelListingRepository->hotelDetails($id);        
+        $hotelsDetails = $this->hotelListingRepository->hotelDetails($id);
         if ($hotelsDetails) {
             $hotelsRelated = $this->hotelListingRepository->hotelRelated($hotelsDetails['hotel']);
-        }           
-            
-        return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' =>$safeencryptionObj]);
+        }
+
+        return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj]);
     }
 }

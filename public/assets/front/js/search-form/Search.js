@@ -190,7 +190,14 @@ function getAllRoomslList(hotel_id) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         data: {
-            id: hotel_id
+            filterObjParamHotelID: hotel_id,
+            filterObjParamStartDate: moduleConfig.filterObjParamStartDate,
+            filterObjParamEndDate: moduleConfig.filterObjParamEndDate,
+            filterObjParamAdult: moduleConfig.filterObjParamAdult,
+            filterObjParamChild: moduleConfig.filterObjParamChild,
+            filterObjParamRoom: moduleConfig.filterObjParamRoom,
+            filterObjParamStartPrice: moduleConfig.filterObjParamStartPrice,
+            filterObjParamEndPrice: moduleConfig.filterObjParamEndPrice,
         },
         success: function (data) {
             if (data.status == 200) {

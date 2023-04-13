@@ -1089,6 +1089,13 @@
         var moduleConfig = {
             searchLocationByName: "{!! route('city-hotel-list') !!}",
             ajaxURL: "{!! route('hotel-list-ajax') !!}",
+            filterObjParamStartDate: filterObj.requested_search_from,
+            filterObjParamEndDate: filterObj.requested_search_to,
+            filterObjParamAdult: filterObj.requested_adult,
+            filterObjParamChild: filterObj.requested_child,
+            filterObjParamRoom: filterObj.requested_room,
+            filterObjParamStartPrice: filterObj.start_price_range,
+            filterObjParamEndPrice: filterObj.end_price_range,
             ajaxRoomURL: "{!! route('room-list-ajax') !!}",
         };
 
