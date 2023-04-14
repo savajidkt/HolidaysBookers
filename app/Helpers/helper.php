@@ -332,22 +332,22 @@ if (!function_exists('rezeliveHotels')) {
 
 if (!function_exists('rezeliveGetHotelsDetails')) {
 
-    function rezeliveGetHotelsDetails($config,$hotel_code)
+    function rezeliveGetHotelsDetails($config, $hotel_code)
     {
-        
+
         set_time_limit(0);
-        $str='<HotelDetailsRequest>
+        $str = '<HotelDetailsRequest>
         <Authentication>
         <AgentCode>' . $config->agent_code . '</AgentCode>
             <UserName>' . $config->username . '</UserName>
             <Password>' . $config->password . '</Password>
         </Authentication>
         <Hotels>
-        <HotelId>'.$hotel_code.'</HotelId>
+        <HotelId>' . $hotel_code . '</HotelId>
         </Hotels></HotelDetailsRequest>';
 
         file_put_contents("xml/resquest" . time() . ".xml", $str);
-       $url = $config->api_url . "gethoteldetails";
+        $url = $config->api_url . "gethoteldetails";
         //http://test.xmlhub.com/testpanel.php/action/gethoteldetails
         $ch = curl_init();
         //set the url, number of POST vars, POST data 
@@ -371,7 +371,6 @@ if (!function_exists('rezeliveGetHotelsDetails')) {
         $json = json_encode($xml);
         $arr = json_decode($json, true);
         return $arr;
-        
     }
 }
 
@@ -379,11 +378,40 @@ if (!function_exists('rezeliveGetHotelsDetails')) {
 if (!function_exists('getLoginUserDetails')) {
 
     function getLoginUserDetails()
-    {       
-        if (Auth::guard('admin')->check()) {            
+    {
+        if (Auth::guard('admin')->check()) {
             return 0;
         } elseif (Auth::guard('user')->check()) {
             return 1;
-        }        
+        }
+    }
+}
+
+if (!function_exists('getChildCount')) {
+
+    function getChildCount($data)
+    {
+        $returnChildArr = [];
+        $returnChildArr['child_age_1'] = 0;
+        $returnChildArr['child_age_2'] = 0;
+        $returnChildArr['child_younger'] = 0;
+        $returnChildArr['child_older'] = 0;
+
+        if ($data['child'] == 1) {
+            if (is_array($data['child_age']) && count($data['child_age']) > 0) {
+                $returnChildArr['child_age_1'] = isset($data['child_age'][0]) ? $data['child_age'][0] : 0;
+            }
+        } else if ($data['child'] == 2) {
+            if (is_array($data['child_age']) && count($data['child_age']) > 0) {
+                $returnChildArr['child_age_1'] = isset($data['child_age'][0]) ? $data['child_age'][0] : 0;
+                $returnChildArr['child_age_2'] = isset($data['child_age'][1]) ? $data['child_age'][1] : 0;
+            }
+        } else if ($data['child'] > 2) {
+            if (is_array($data['child_age']) && count($data['child_age']) > 0) {
+                $returnChildArr['child_younger'] = isset($data['child_age'][0]) ? $data['child_age'][0] : 0;
+                $returnChildArr['child_older'] = isset($data['child_age'][1]) ? $data['child_age'][1] : 0;
+            }
+        }
+        return $returnChildArr;
     }
 }

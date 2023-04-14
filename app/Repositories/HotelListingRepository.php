@@ -35,8 +35,8 @@ class HotelListingRepository
                 }
             })
             ->where(function ($query) use ($request) {
-                if (strlen($request->star) > 0) {
-                    $query->where('hotels.category', '<=', $request->star);
+                if (strlen($request->star) > 0 && $request->star != "all") {
+                    $query->whereIn('hotels.category', explode(', ', $request->star));
                 }
             })
             ->paginate(10);
