@@ -140,10 +140,7 @@
                                                             <div class="border-top-light mt-24 mb-24"></div>
                                                             <div class="row y-gap-10 justify-between items-center">
                                                                 <div class="col-auto">
-                                                                    <div class="text-15 lh-12 fw-500">Children</div>
-                                                                    <div class="text-14 lh-12 text-light-1 mt-5">Ages 0 -
-                                                                        17
-                                                                    </div>
+                                                                    <div class="text-15 lh-12 fw-500">Children</div>                                                                   
                                                                 </div>
                                                                 <div class="col-auto">
                                                                     <div class="d-flex items-center js-counter"
@@ -161,6 +158,9 @@
                                                                             <i class="icon-plus text-12"></i>
                                                                         </button>
                                                                     </div>
+                                                                </div>
+                                                                <div class="row addChildList">
+
                                                                 </div>
                                                             </div>
                                                             <div class="border-top-light mt-24 mb-24"></div>

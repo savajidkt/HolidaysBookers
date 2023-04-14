@@ -112,6 +112,22 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on('change', '.childMore', function () {
+        var totalChild = this.attributes['data-child'].value;
+        var selectedChild = $('option:selected', this).val();
+        var unSelectedChild = parseInt(totalChild) - parseInt(selectedChild);
+        if (this.id == "child_age_younger") {
+            $('#child_age_younger').val(selectedChild);
+            $('#child_age_older').val(unSelectedChild);
+        } else if (this.id == "child_age_older") {
+            $('#child_age_older').val(selectedChild);
+            $('#child_age_younger').val(unSelectedChild);            
+        } else {
+            $('#child_age_older').val('0');
+            $('#child_age_younger').val('0');   
+        }
+    });
+
     $(document).on('click', '.viewMoreRooms', function () {
 
         var hotel_id = $(this).attr('data-hotel-id');

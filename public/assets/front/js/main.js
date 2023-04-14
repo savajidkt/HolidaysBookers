@@ -201,10 +201,10 @@
         const buttonDown = el.querySelector('.js-down')
         const buttonUp = el.querySelector('.js-up')
         buttonDown.addEventListener('click', () => {
-          
+
           if (count.innerHTML != 0 && el.getAttribute('data-value-change') == ".js-count-child") {
             count.innerHTML = parseInt(count.innerHTML) - 1
-            
+            addChildDynamic(count.innerHTML, 'minus');
             if (el.getAttribute('data-value-change')) {
               item.querySelector(el.getAttribute('data-value-change')).innerHTML = parseInt(count.innerHTML)
             }
@@ -223,12 +223,94 @@
         })
         buttonUp.addEventListener('click', () => {
           count.innerHTML = parseInt(count.innerHTML) + 1
-          if (el.getAttribute('data-value-change')) {
-            item.querySelector(el.getAttribute('data-value-change')).innerHTML = parseInt(count.innerHTML)
+          if (count.innerHTML != 0 && el.getAttribute('data-value-change') == ".js-count-child") {
+            addChildDynamic(count.innerHTML, 'add');
+            if (el.getAttribute('data-value-change')) {
+              item.querySelector(el.getAttribute('data-value-change')).innerHTML = parseInt(count.innerHTML)
+            }
+          } else {
+            if (el.getAttribute('data-value-change')) {
+              item.querySelector(el.getAttribute('data-value-change')).innerHTML = parseInt(count.innerHTML)
+            }
           }
+
         })
       });
     })
+  }
+
+  function addChildDynamic(count, action) {
+
+    var contentString = ``;
+    if (count == 1) {
+      var optionStr = ``;
+      for (var i = 0; i <= 12; i++) {
+        optionStr += `<option value="` + i + `">` + i + `</option>`;
+      }
+      contentString = `
+      <div class="col-lg-6">
+	<label class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Age of
+		child
+		1</label>    
+	<select name="child_age[]" id="child_age">
+  `+ optionStr + `
+	</select>
+</div>
+      `;
+    } else if (count == 2) {
+
+      var optionStr = ``;
+      for (var i = 0; i <= 12; i++) {
+        optionStr += `<option value="` + i + `">` + i + `</option>`;
+      }
+
+      contentString = `
+      <div class="col-lg-6">
+	<label class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Age of
+		child
+		1</label>    
+	<select name="child_age[]" id="child_age">
+  `+ optionStr + `
+  	</select>
+</div>
+      <div class="col-lg-6">
+	<label class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Age of
+		child
+		2</label>    
+	<select name="child_age[]" id="child_age">
+  `+ optionStr + `
+	</select>
+</div>
+      `;
+    } else if (count > 2) {
+      var optionStr = ``;
+      for (var i = 0; i <= count; i++) {
+        optionStr += `<option value="` + i + `">` + i + `</option>`;
+      }
+
+      contentString = `
+      <div class="col-lg-6">
+	<label class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Younger Children</label>
+  <div class="text-14 lh-12 text-light-1 mt-5">Age : 0-6 yrs</div>
+	<select name="child_age[]" id="child_age_younger" class="childMore" data-child="`+ count + `">
+		`+ optionStr + `
+	</select>
+</div>
+<div class="col-lg-6">
+	<label class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Older Children</label>
+  <div class="text-14 lh-12 text-light-1 mt-5">Age : 7-12 yrs</div>
+	<select name="child_age[]" id="child_age_older" class="childMore" data-child="`+ count + `">
+  `+ optionStr + `
+	</select>
+</div>
+      `;
+    } else {
+      contentString = ``;
+    }
+    $('.addChildList').html('');
+    $('.addChildList').html(contentString);
+    return true
+
   }
 
   function timeRangeSliderInit() {

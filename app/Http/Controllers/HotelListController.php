@@ -48,8 +48,7 @@ class HotelListController extends Controller
             $requestedArr['child'] = 0;
             $requestedArr['room'] = 0;
         }
-
-
+        $requestedArr['extra_data'] = getChildCount($request->all());        
         return view('hotel.hotel-list', ['requestedArr' => $requestedArr, 'country' => $country, 'amenitiesArr' => $amenitiesArr]);
     }
 
@@ -69,6 +68,7 @@ class HotelListController extends Controller
 
     public function ajaxHotelListing(Request $request)
     {
+        
         if ($request->ajax()) {
             $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
