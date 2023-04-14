@@ -46,7 +46,8 @@ class OfflineHotelsController extends Controller
     public function __construct(OfflineHotelRepository $offlineHotelRepository)
     {
         $this->offlineHotelRepository       = $offlineHotelRepository;
-        $this->settings = $this->getAllSettings(5);
+        $this->settings = $this->getAllSettings(1);
+      
     }
 
     /**
@@ -353,46 +354,49 @@ class OfflineHotelsController extends Controller
     }
     public function importRezliveHotels(Request $request)
     {
-        //ini_set('memory_limit', '-1');
-        // $rezlive = RezliveHotel::limit(10)->get();
-        // foreach($rezlive as $hotel){
-        //     $hotelResult = rezeliveGetHotelsDetails($this->settings,$hotel->hotel_code);
-        //     //$this->offlineHotelRepository->rezliveHotelSave($hotelResult['Hotels']);
-        //     echo '<pre>';
-        //     print_r($hotelResult);
-        //     echo '</pre>';
-        // }
-        
-        // die;
-        $file = storage_path('app/csv/H5.csv');
-        LazyCollection::make(function () {
-        $handle = fopen(storage_path('app/csv/H1.csv'), 'r');
-        
-        while (($line = fgetcsv($handle, 4096)) !== false) {
-            $dataString = implode(",", $line);
-            $row = explode(';', $dataString);
-            yield $row;
+        ini_set('memory_limit', '-1');
+        $rezlive = RezliveHotel::limit(10)->get();
+        $hotelArray =[];
+        $apiConfig = $this->settings;
+        foreach($rezlive as $hotel){
+            $hotelResult = rezeliveGetHotelsDetails($apiConfig,$hotel->hotel_code);
+             $hotelArray[] = $this->offlineHotelRepository->rezliveHotelSave($hotelResult['Hotels']);
+
         }
+           // OfflineHotel::create($hotelArray);
+        
+         //$file = storage_path('app/csv/H15.csv');
+          $lazyCollection = LazyCollection::make(function () {
 
-        fclose($handle);
-        })
-    ->skip(1)
-    ->chunk(10)
-    ->each(function (LazyCollection $chunk) {
-      $records = $chunk->map(function ($row) {
-                    $data = explode('|',$row[0]);
-                    $hotelCode = $data[0];
-                    $hotelName = $data[1] ?? NULL;
-                    return  [
-                        'hotel_name'    => $hotelName ?? NULL,
-                        'hotel_code'      => $hotelCode,
-                    ];
-
-      })->toArray();
-      //dd($records);
-      //RezliveHotel::create($records);
-      DB::table('rezlive_hotels')->insert($records);
-    });
+                for($i=11; $i<=14; $i++){
+                    $csvName = 'app/csv/H'.$i.'.csv';
+                    $handle = fopen(storage_path($csvName), 'r');
+                    while (($line = fgetcsv($handle, 4096)) !== false) {
+                        $dataString = implode(",", $line);
+                        $row = explode(';', $dataString);
+                        yield $row;
+                    }
+                    fclose($handle);
+                }
+            })
+        ->skip(1)
+        ->chunk(100)
+        ->each(function (LazyCollection $chunk) {
+          $records = $chunk->map(function ($row) {
+                        $data = explode('|',$row[0]);
+                        $hotelCode = $data[0];
+                        $hotelName = $data[1] ?? NULL;
+                        return  [
+                            // 'hotel_name'    => $hotelName ?? NULL,
+                            'hotel_code'      => $hotelCode,
+                        ];
+    
+          })->toArray();
+          //dd($records);
+          //RezliveHotel::create($records);
+          DB::table('rezlive_hotels')->insert($records);
+        });
+    
     die;
         Excel::filter('chunk')->load(database_path('app/hotels.csv'))->chunk(100, function($results) {
             $index=0;

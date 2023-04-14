@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Events\ForgotPasswordEvent;
 use App\Exceptions\GeneralException;
+use App\Models\City;
+use App\Models\Country;
 use App\Models\HotelImage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -228,6 +230,25 @@ class OfflineHotelRepository
 
     public function rezliveHotelSave(array $hotel)
     {
-        
+        $HotelAmenities = explode(',',$hotel['HotelAmenities']);
+        $country = Country::where('name', 'like', '%'.$hotel['Country'].'%')->first();
+        $city = City::where('name', 'like', '%'.$hotel['City'].'%')->first();
+        $hotelArray['hotel_country'] = $country->id;
+        $hotelArray['hotel_city'] = $city->id;
+        $hotelArray['hotel_code'] = $hotel['HotelId'];
+        $hotelArray['hotel_name'] = $hotel['HotelName'];
+        $hotelArray['category'] = $hotel['Rating'];
+        $hotelArray['phone_number'] = $hotel['Phone'];
+        $hotelArray['fax_number'] = $hotel['Fax'];
+        $hotelArray['hotel_address'] = $hotel['HotelAddress'];
+        $hotelArray['hotel_pincode'] = $hotel['HotelPostalCode'];
+        $hotelArray['hotel_image_location'] = $hotel['MainImage'];
+        $hotelArray['hotel_description'] = $hotel['Description'];
+        $hotelArray['hotel_email'] = $hotel['Email'];
+        $hotelArray['hotel_latitude'] = $hotel['Latitude'];
+        $hotelArray['hotel_longitude'] = $hotel['Longitude'];
+        $hotelArray['api_hotel_amenities'] = $hotel['HotelAmenities'];
+        $hotelArray['hotel_type'] = 2;
+        return $hotelArray;
     }
 }

@@ -16,11 +16,10 @@ class HotelRoomListingRepository
     public function hotelRoomLists(array $param)
     {
 
-        $hotelRooms = OfflineRoom::with(['price'])->whereHas('price', function ($query) use ($param) {            
-            $query->whereDate('offline_room_prices.from_date', '>=', $param['filterObjParamStartDate']);
-            $query->whereDate('offline_room_prices.to_date', '<=', $param['filterObjParamEndDate']);
+        $hotelRooms = OfflineRoom::whereHas('price', function ($query) use ($param) {
+            $query->whereBetween('from_date', [$param['filterObjParamStartDate'], $param['filterObjParamEndDate']]);
         })->where('status', OfflineRoom::ACTIVE)->where('hotel_id', $param['filterObjParamHotelID'])->get();
-
+dd($hotelRooms);
         // ->where(function ($query) use ($param) {
         //     if (strlen($param['filterObjParamAdult']) > 0 && strlen($param['filterObjParamAdult']) > 0) {
         //         $query->where('hotels.hotel_country', '=', $param['filterObjParamAdult']);
