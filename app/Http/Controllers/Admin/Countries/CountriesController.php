@@ -16,6 +16,7 @@ use App\Http\Requests\Country\EditRequest;
 use App\Http\Requests\Country\CreateRequest;
 use App\Http\Requests\Country\ImportRequest;
 use App\Models\City;
+use Illuminate\Support\LazyCollection;
 
 class CountriesController extends Controller
 {
@@ -178,4 +179,39 @@ class CountriesController extends Controller
             'message' => 'Countries import Successfully.'
         ]);
     }
+    public function importRezliveCountry(){
+        $lazyCollection = LazyCollection::make(function () {
+
+            for($i=11; $i<=14; $i++){
+                $csvName = 'app/csv/countries.csv';
+                $handle = fopen(storage_path($csvName), 'r');
+                while (($line = fgetcsv($handle, 4096)) !== false) {
+                    $dataString = implode(",", $line);
+                    $row = explode(';', $dataString);
+                    yield $row;
+                }
+                fclose($handle);
+            }
+        })
+    ->skip(1)
+    ->chunk(50)
+    ->each(function (LazyCollection $chunk) {
+    $records = $chunk->map(function ($row) {
+                    $data = explode('|',$row[0]);
+                    $counrtyID = $data[0];
+                    $countryName = $data[1] ?? NULL;
+                    $countryCode = $data[2] ?? NULL;
+                    return  [
+                        'id'    => $counrtyID ?? NULL,
+                        'name'      => $countryName,
+                        'code'      => $countryCode,
+                    ];
+
+    })->toArray();
+    //dd($records);
+    //RezliveHotel::create($records);
+    DB::table('countries')->insert($records);
+    });
+    }
+            
 }
