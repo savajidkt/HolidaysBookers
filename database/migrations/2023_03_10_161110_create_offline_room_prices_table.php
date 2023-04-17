@@ -16,6 +16,7 @@ class CreateOfflineRoomPricesTable extends Migration
         Schema::create('offline_room_prices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('room_id');
+            $table->unsignedBigInteger('meal_plan_id');
             $table->unsignedBigInteger('currency_id');
             $table->date('from_date')->comment('Start Date');
             $table->date('to_date')->comment('End Date');
@@ -51,6 +52,7 @@ class CreateOfflineRoomPricesTable extends Migration
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('room_id')->references('id')->on('offline_rooms')->onDelete('cascade');
             $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
+            $table->foreign('meal_plan_id')->references('id')->on('mealplans')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -144,9 +144,10 @@ class HotelListingRepository
 
 
         foreach ($hotel->rooms as $key => $room) {
+            
             $hotelRoomTempArray['room'] = $room->toArray();
             $hotelRoomTempArray['room']['amenities'] =  $room->roomamenity->toArray();
-            $hotelRoomTempArray['room']['mealplans'] =  $room->mealplan->toArray();
+           // $hotelRoomTempArray['room']['mealplans'] =  $room->mealplan->toArray();
             $hotelRoomTempArray['room']['freebies'] =  $room->roomfreebies->toArray();
             $hotelRoomTempArray['room']['images'] =  $room->images->toArray();
             $hotelRoomTempArray['room']['types'] =  $room->roomtype->toArray();

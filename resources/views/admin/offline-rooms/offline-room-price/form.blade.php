@@ -1,11 +1,12 @@
+
 <script>
     var HotelsList = "";
     var HotelsRoomType = "";
-    var HotelsRoomMealPlan = "";
+    var HotelsRoomMealPlan = {!! json_encode($HotelsRoomMealPlan) !!};
     var HotelsAmenities = "";
     var HotelsFreebies = "";
     var HotelsRoomID = "";
-    var HotelsRoomMealPlanID = "";
+    var HotelsRoomMealPlanID = "{!! $pricemodel->meal_plan_id !!}";    
     var HotelsAmenitiesIDs = "";
     var HotelsFreebiesIDs = "";
     var HotelID = "";
@@ -164,6 +165,21 @@
     <div class="col-3">
         <div class="col-md-12 col-12">
             <div class="form-group">
+                <label for="itemname">Room Meal Plan</label>
+                <a class="badge badge-success roomMealPlanBTN" style="color:#FFF; float: right;">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add New Meal Plan
+                </a>
+                <select class="select2-room-meal-plan form-control" name="meal_plan"></select>
+                <div class="room_MealPlanCLS"></div>
+                @error('meal_plan')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
                 <label class="form-label" for="role">Currency</label>
                 <select class="select2-room-currency form-control" name="currency_id"
                     data-error="Currency is required"></select>
@@ -175,7 +191,7 @@
 
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label class="form-label" for="role">Cut-off for Price</label>
@@ -189,7 +205,7 @@
             </div>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label class="form-label" for="role">Minimum Nights</label>
@@ -203,7 +219,7 @@
             </div>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label class="form-label" for="role">Minimum Overall Nights</label>
@@ -675,40 +691,5 @@
             changeRoomsStatusURL: "{!! route('change-offline-room-status', '') !!}",
             deleteRepeterURL: "{!! route('delete-repeter') !!}",
         };
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            // $("#start_date").datepicker({
-            //     changeMonth: true,
-            //     changeYear: true,
-            //     dateFormat: 'dd-M-yy',
-            //     //   minDate: dateToday,
-            //     onClose: function(selected) {
-            //         if (selected.length <= 0) {
-            //             // selected is empty
-            //             $("#end_date").datepicker('disable');
-            //         } else {
-            //             $("#end_date").datepicker('enable');
-            //         }
-            //         $("#end_date").datepicker("option", "minDate", selected);
-            //     }
-            // });
-            // $("#end_date").datepicker({
-            //     changeMonth: true,
-            //     changeYear: true,
-            //     dateFormat: 'dd-M-yy',
-            //     // minDate: dateToday,
-            //     onClose: function(selected) {
-            //         if (selected.length <= 0) {
-            //             // selected is empty
-            //             $("#start_date").datepicker('disable');
-            //         } else {
-            //             $("#start_date").datepicker('enable');
-            //         }
-            //         $("#start_date").datepicker("option", "maxDate", selected);
-            //     }
-            // });
-        });
-    </script>
+    </script>    
 @endsection

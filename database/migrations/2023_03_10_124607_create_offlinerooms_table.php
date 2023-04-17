@@ -17,7 +17,7 @@ class CreateOfflineroomsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('hotel_id');
             $table->unsignedBigInteger('room_type_id');
-            $table->unsignedBigInteger('meal_plan_id')->nullable();
+            //$table->unsignedBigInteger('meal_plan_id')->nullable();
             // $table->unsignedBigInteger('amenities_id');
             $table->integer('occ_sleepsmax')->default(0);
             $table->integer('occ_num_beds')->default(0);
@@ -36,7 +36,7 @@ class CreateOfflineroomsTable extends Migration
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
             $table->foreign('room_type_id')->references('id')->on('room_types')->onDelete('cascade');
-            $table->foreign('meal_plan_id')->references('id')->on('mealplans')->onDelete('cascade');
+           // $table->foreign('meal_plan_id')->references('id')->on('mealplans')->onDelete('cascade');
 
             $table->softDeletes();
             $table->timestamps();

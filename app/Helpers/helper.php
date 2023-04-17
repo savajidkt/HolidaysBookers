@@ -89,7 +89,7 @@ if (!function_exists('makeDirectory')) {
     function makeDirectory($path, $id)
     {
         if (!Storage::exists('/' . $path . '/' . $id)) {
-            return Storage::makeDirectory('/' . $path . '/' . $user_id, 0775, true);
+            return Storage::makeDirectory('/' . $path . '/' . $id, 0775, true);
         }
 
         return true;
@@ -397,16 +397,16 @@ if (!function_exists('getChildCount')) {
         $returnChildArr['child_younger'] = 0;
         $returnChildArr['child_older'] = 0;
 
-        if ($data['child'] == 1) {
+        if ( isset($data['child']) && $data['child'] == 1) {
             if (is_array($data['child_age']) && count($data['child_age']) > 0) {
                 $returnChildArr['child_age_1'] = isset($data['child_age'][0]) ? $data['child_age'][0] : 0;
             }
-        } else if ($data['child'] == 2) {
+        } else if ( isset($data['child']) && $data['child'] == 2) {
             if (is_array($data['child_age']) && count($data['child_age']) > 0) {
                 $returnChildArr['child_age_1'] = isset($data['child_age'][0]) ? $data['child_age'][0] : 0;
                 $returnChildArr['child_age_2'] = isset($data['child_age'][1]) ? $data['child_age'][1] : 0;
             }
-        } else if ($data['child'] > 2) {
+        } else if ( isset($data['child']) && $data['child'] > 2) {
             if (is_array($data['child_age']) && count($data['child_age']) > 0) {
                 $returnChildArr['child_younger'] = isset($data['child_age'][0]) ? $data['child_age'][0] : 0;
                 $returnChildArr['child_older'] = isset($data['child_age'][1]) ? $data['child_age'][1] : 0;

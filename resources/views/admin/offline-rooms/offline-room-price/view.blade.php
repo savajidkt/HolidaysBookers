@@ -128,6 +128,13 @@
                                                 class="disp-below">{{ isset($model->booking_start_date) ? $model->booking_start_date . ' to ' . $model->booking_end_date : '' }}</strong>
                                         </div>
                                     </div>
+                                     <div class="col-12 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="account-username">Meal Plan</label>
+                                            <strong
+                                                class="disp-below">{{ isset($model->mealplan->name) ? $model->mealplan->name : '' }}</strong>
+                                        </div>
+                                    </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">Currency</label>

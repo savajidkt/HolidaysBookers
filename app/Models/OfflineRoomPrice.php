@@ -28,6 +28,7 @@ class OfflineRoomPrice extends Authenticatable
 
     protected $fillable = [
         'room_id',
+        'meal_plan_id',
         'from_date',
         'to_date',
         'booking_start_date',
@@ -130,5 +131,9 @@ class OfflineRoomPrice extends Authenticatable
     public function currency()
     {
         return $this->belongsTo(Currency::class, 'currency_id', 'id');
+    }
+    public function mealplan()
+    {
+        return $this->belongsTo(MealPlan::class, 'meal_plan_id', 'id');
     }
 }

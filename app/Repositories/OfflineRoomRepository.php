@@ -32,7 +32,7 @@ class OfflineRoomRepository
             foreach ($data['rooms'] as $key => $value) {
 
                 $RoomArr['room_type_id'] = $value['room_type'];
-                $RoomArr['meal_plan_id'] = $value['meal_plan'];
+               // $RoomArr['meal_plan_id'] = $value['meal_plan'];
                 $RoomArr['occ_sleepsmax'] = $value['occ_sleepsmax'];
                 $RoomArr['occ_num_beds'] = $value['occ_num_beds'];
                 $RoomArr['occ_max_adults'] = $value['occ_max_adults'];
@@ -91,7 +91,7 @@ class OfflineRoomRepository
 
 
         $RoomArr['room_type_id'] = $data['room_type'];
-        $RoomArr['meal_plan_id'] = $data['meal_plan'];
+        //$RoomArr['meal_plan_id'] = $data['meal_plan'];
         $RoomArr['occ_sleepsmax'] = $data['occ_sleepsmax'];
         $RoomArr['occ_num_beds'] = $data['occ_num_beds'];
         $RoomArr['occ_max_adults'] = $data['occ_max_adults'];
@@ -188,6 +188,7 @@ class OfflineRoomRepository
          */
         $RoomPriceArr = [
             'room_id'     => $offlineroom->id,
+            'meal_plan_id'     => $data['meal_plan'],            
             'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
             'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
             'booking_start_date'     => isset($BookingDate[0]) ? $BookingDate[0] : '',
@@ -258,10 +259,12 @@ class OfflineRoomRepository
     public function updatePrice(array $data, OfflineRoomPrice $offlineroomprice): OfflineRoomPrice
     {
 
+        
         $TravelDate = explode(' to ', $data['start_date']);
         $BookingDate = explode(' to ', $data['booking_start_date']);
 
         $RoomPriceArr = [
+            'meal_plan_id'     => $data['meal_plan'],            
             'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
             'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
             'booking_start_date'     => isset($BookingDate[0]) ? $BookingDate[0] : '',

@@ -266,7 +266,8 @@ class OfflineRoomsController extends Controller
     {
         $roomPrice = new OfflineRoomPrice();
         $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
-        return view('admin.offline-rooms.offline-room-price.create', ['pricemodel' => $roomPrice, 'model' => $offlineroom, 'currencyList' => $currencyList]);
+        $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
+        return view('admin.offline-rooms.offline-room-price.create', ['pricemodel' => $roomPrice, 'model' => $offlineroom, 'currencyList' => $currencyList, 'HotelsRoomMealPlan' => $HotelsRoomMealPlan]);
     }
 
     /**
@@ -293,9 +294,10 @@ class OfflineRoomsController extends Controller
     public function editPrice($id)
     {
         $roomPrice = OfflineRoomPrice::find($id);
-        $OfflineRoom = $roomPrice->room;
+        $OfflineRoom = $roomPrice->room;         
         $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
-        return view('admin.offline-rooms.offline-room-price.edit', ['pricemodel' => $roomPrice, 'model' => $OfflineRoom, 'currencyList' => $currencyList]);
+        $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
+        return view('admin.offline-rooms.offline-room-price.edit', ['pricemodel' => $roomPrice, 'model' => $OfflineRoom, 'currencyList' => $currencyList, 'HotelsRoomMealPlan' => $HotelsRoomMealPlan]);
     }
 
     /**

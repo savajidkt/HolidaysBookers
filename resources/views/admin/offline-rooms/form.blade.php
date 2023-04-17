@@ -113,22 +113,7 @@
                         @enderror
                     </div>
                 </div>
-            </div>
-            <div class="col-6">
-                <div class="col-md-12 col-12">
-                    <div class="form-group">
-                        <label for="itemname">Room Meal Plan</label>
-                        <a class="badge badge-success roomMealPlanBTN" style="color:#FFF; float: right;">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New Meal Plan
-                        </a>
-                        <select class="select2-room-meal-plan form-control" name="meal_plan"></select>
-                        <div class="room_MealPlanCLS"></div>
-                        @error('meal_plan')
-                            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-            </div>
+            </div>           
             <div class="col-6">
                 <div class="col-md-12 col-12">
                     <div class="form-group">
