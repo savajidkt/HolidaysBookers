@@ -143,7 +143,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('/countries', CountriesController::class);
     Route::post('/country/change-status', [CountriesController::class, 'changeStatus'])->name('change-country-status');
     Route::post('/country/import-countries', [CountriesController::class, 'importCountries'])->name('importsCountries');
-
+    Route::get('/country/import-rezlive-country', [CountriesController::class, 'importRezliveCountry'])->name('import-rezlive-country');
+    
     Route::resource('/states', StatesController::class);
     Route::post('/state/change-status', [StatesController::class, 'changeStatus'])->name('change-state-status');
     Route::post('/state/import-states', [StatesController::class, 'importStates'])->name('importsStates');
