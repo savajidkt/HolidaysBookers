@@ -12056,5 +12056,5 @@ table.table-5 td {
       opacity: 1;
       
     }
-    .new-check-box input[type="checkbox"]:checked + label span{color: #fff; position: absolute;}
-        
+    .new-check-box input[type="checkbox"]:checked + label span{color: #fff; position: absolute;}   
+    
