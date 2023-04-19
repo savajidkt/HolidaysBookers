@@ -363,6 +363,8 @@ class OfflineHotelsController extends Controller
              $hotelArray[] = $this->offlineHotelRepository->rezliveHotelSave($hotelResult['Hotels']);
 
         }
+        dd($hotelArray);
+        die;
            // OfflineHotel::create($hotelArray);
         
          //$file = storage_path('app/csv/H15.csv');

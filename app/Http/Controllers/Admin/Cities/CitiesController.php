@@ -19,6 +19,7 @@ use App\Http\Requests\City\CreateRequest;
 use App\Imports\RezliveCitiesImport;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\RezliveCityCodeUpdate;
+use Illuminate\Support\LazyCollection;
 
 class CitiesController extends Controller
 {
@@ -221,8 +222,79 @@ class CitiesController extends Controller
         ]);
     }
     public function importRezliveCities(Request $request)
-    {
+    {die;
+        ini_set('memory_limit', '-1');
+        $lazyCollection = LazyCollection::make(function () {
 
+            $csvName = 'app/csv/cities-80-100.csv';
+                $handle = fopen(storage_path($csvName), 'r');
+                while (($line = fgetcsv($handle, 4096)) !== false) {
+                    $dataString = implode(",", $line);
+                    $row = explode(';', $dataString);
+                    yield $row;
+                }
+                fclose($handle);
+        })
+    ->skip(1)
+    ->chunk(50)
+    ->each(function (LazyCollection $chunk) {
+    $records = $chunk->map(function ($row) {
+                    $firstCol = explode('|',$row[0]);                   
+                    
+                    $cityName = $firstCol[1]; // City Name
+                    $country_id = 0;
+                    
+                    
+                    if(count($firstCol)>2){
+                        $cityCode = $firstCol[2]; // City Code
+                        $contryCode = str_replace(",","",$firstCol[3]); // Contry Code
+                        $country = Country::where('code',$contryCode)->first();
+                        if($country){
+                            $country_id = $country->id;
+                        }else{
+                            $country_id = 246;
+                        }
+                        
+                      
+                    }else{
+                        $SecCol = explode('|', $row[1]);
+                        if(count($SecCol)>1){
+                            $cityCode = $SecCol[1];
+                            $contryCode = str_replace(",","",$SecCol[2]); // Contry Code
+                            $country = Country::where('code',$contryCode)->first();
+                            if($country){
+                                $country_id = $country->id;
+                            }else{
+                                $country_id = 246;
+                            }
+                        }else{
+                            $ThirdCol = explode('|', $row[2]); 
+                            $cityCode = $ThirdCol[1];
+                            $contryCode = str_replace(",","",$ThirdCol[2]); // Contry Code
+                            $country = Country::where('code',$contryCode)->first();
+                            if($country){
+                                $country_id = $country->id;
+                            }else{
+                                $country_id = 246;
+                            }
+                        }
+
+                    }
+
+                    return  [
+                        'country_id'    => $country_id ?? NULL,
+                        'name'      => $cityName,
+                        'country_id'      => $country_id,
+                        'rezlive_city_code'=> $cityCode,
+                        'status'=>1
+                    ];
+
+    })->toArray();
+    //dd($records);
+    //RezliveHotel::create($records);
+    DB::table('cities')->insert($records);
+    });
+    
         // $file = storage_path('app/cities.csv');
         // if (($handle = fopen($file, "r")) === FALSE)
         // {

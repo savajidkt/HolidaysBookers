@@ -20,12 +20,25 @@ class HotelRoomListingRepository
         $hotelRooms = OfflineRoom::with(['price'])->where(function ($query) use ($param) {
             if (strlen($param['filterObjParamStartDate']) > 0 && strlen($param['filterObjParamEndDate']) > 0) {
                 $query->whereHas('price', function ($query) use ($param) {
-                    $query->whereBetween('from_date', [$param['filterObjParamStartDate'], $param['filterObjParamEndDate']]);
+
+                    $startDate = Carbon::createFromFormat('Y-m-d', $param['filterObjParamStartDate']);
+                    $endDate = Carbon::createFromFormat('Y-m-d', $param['filterObjParamEndDate']);
+                    $query->whereDate('from_date','<=', $startDate);
+                    $query->whereDate('to_date','>=', $endDate);
+                    //$query->where('price_type1','!=',OfflineRoomPrice::STOPSALE);
                 });
+
+                $query->doesntHave('price', function ($query) use ($param) {
+                   dd(OfflineRoomPrice::STOPSALE);
+                    $query->where('price_type',OfflineRoomPrice::STOPSALE);
+                });
+
+                
+                //$query->orderBy('price_p_n_single_adult')->orderBy('price_p_n_single_adult','asc');
             }
         })->where('status', OfflineRoom::ACTIVE)->where('hotel_id', $param['filterObjParamHotelID'])->get();
-
-        
+        $hotelRooms->loadMissing('price');
+        //dd($hotelRooms);
 
         // whereHas('price', function ($query) use ($param) {
         //     $query->whereBetween('from_date', [$param['filterObjParamStartDate'], $param['filterObjParamEndDate']]);
@@ -72,25 +85,33 @@ class HotelRoomListingRepository
         //     $hotelsListingArray['hotel']['price'] = numberFormat($roomPrice->price_p_n_single_adult,$roomPrice->currency->code);
         // }   
 
+        $roomListingArray=[];
+        $roomPriceListingArray=[];
+        foreach ($hotelRooms as $key => $roomPrice) {
+            $roomPriceListingArray=[];
+            $roomListingArray[$key]['hotel_id'] = $roomPrice->hotel_id;
+            $roomListingArray[$key]['room_id'] = $roomPrice->id;
+            $roomListingArray[$key]['room_type'] = $roomPrice->roomtype->room_type;
+            $roomListingArray[$key]['room_type'] = $roomPrice->roomtype->room_type;
+            //$roomPriceListingArray = $roomPrice->price->toArray();
 
-        // foreach ($hotel->rooms as $key => $room) {
-        //     $hotelRoomTempArray['room'] = $room->toArray();
-        //     $hotelRoomTempArray['room']['amenities'] =  $room->roomamenity->toArray();
-        //     $hotelRoomTempArray['room']['mealplans'] =  $room->mealplan->toArray();
-        //     $hotelRoomTempArray['room']['freebies'] =  $room->roomfreebies->toArray();
-        //     $hotelRoomTempArray['room']['images'] =  $room->images->toArray();
-        //     $hotelRoomTempArray['room']['types'] =  $room->roomtype->toArray();
-        //     $hotelRoomTempArray['room']['child'] = [];
-        //     if ($room->price->count() > 0) {
-        //         foreach ($room->price as $r_key => $r_room) {
-        //             $roomArr = $r_room->toArray();
-        //             $roomArr['price'] = numberFormat($r_room->price_p_n_single_adult, $r_room->currency->code);;
-        //             $hotelRoomTempArray['room']['child'][] = $roomArr;
-        //         }
-        //     }
-        //     $hotelsListingArray['roomDetails'][] = $hotelRoomTempArray;
-        // }        
-        return $hotelRooms;
+            // room price array loop
+            foreach($roomPrice->price as $pkey=> $price){
+                $roomPriceListingArray[$pkey]['price_id'] = $price->id;
+                $roomPriceListingArray[$pkey]['meal_plan'] = $price->mealplan->name;
+                $roomPriceListingArray[$pkey]['currency'] = $price->currency->code;
+                $roomPriceListingArray[$pkey]['price_p_n_single_adult'] = numberFormat($price->price_p_n_single_adult);
+                
+            }
+
+            usort($roomPriceListingArray, function ($item1, $item2) {
+                return $item1['price_p_n_single_adult'] <=> $item2['price_p_n_single_adult'];
+            });
+            $roomListingArray[$key]['room_price'] = $roomPriceListingArray;
+            
+            
+        }
+        return $roomListingArray;
     }
 
     public function hotelRelated(array $hotelsDetails)

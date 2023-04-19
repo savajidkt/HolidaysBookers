@@ -182,8 +182,7 @@ class CountriesController extends Controller
     public function importRezliveCountry(){
         $lazyCollection = LazyCollection::make(function () {
 
-            for($i=11; $i<=14; $i++){
-                $csvName = 'app/csv/countries.csv';
+            $csvName = 'app/csv/countries.csv';
                 $handle = fopen(storage_path($csvName), 'r');
                 while (($line = fgetcsv($handle, 4096)) !== false) {
                     $dataString = implode(",", $line);
@@ -191,20 +190,20 @@ class CountriesController extends Controller
                     yield $row;
                 }
                 fclose($handle);
-            }
         })
     ->skip(1)
     ->chunk(50)
     ->each(function (LazyCollection $chunk) {
     $records = $chunk->map(function ($row) {
                     $data = explode('|',$row[0]);
+                    
                     $counrtyID = $data[0];
                     $countryName = $data[1] ?? NULL;
                     $countryCode = $data[2] ?? NULL;
                     return  [
                         'id'    => $counrtyID ?? NULL,
                         'name'      => $countryName,
-                        'code'      => $countryCode,
+                        'code'      => substr($countryCode, 0, -1),
                     ];
 
     })->toArray();

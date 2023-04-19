@@ -1,33 +1,32 @@
-@if ($hotelRooms->count() > 0)
+@if (count($hotelRooms) > 0)
 
     @foreach ($hotelRooms as $room)
         <div class="row bg-blue-2 mt-20">
             <h3 class="text-18 fw-500 mb-10 mt-10">
-                @if (isset($room->roomtype->room_type))
-                    {{ $room->roomtype->room_type }}
-                @endif
+                {{ $room['room_type'] }}
             </h3>
-            <div class="col-xl-auto">
-                <div class="">
-                    <div class="text-18 fw-500 mt-10">
-                        @php
-                            if (isset($room->mealplan->name)) {
-                                $string = $room->mealplan->name;
-                                preg_match_all('/\b\w/', $string, $matches);
-                                echo implode('', $matches[0]);
-                            } else {
-                                echo "-";
-                            }
-                        @endphp
-                    </div>
-                </div>
-            </div>
+           
             <div class="col-xl">
                 <div class="bg-dark rounded-4 px-30 py-30 mt-10">
-                    @if ($room->price->count() > 0)
-                        @foreach ($room->price as $price)
+                    @if (count($room['room_price']) > 0)
+                        @foreach ($room['room_price'] as $price)
                         
                             <div class="row y-gap-30 border-top-light">
+                                <div class="col-md-2">
+                                    <ul class="text-15 pt-10">
+                                        <li class="d-flex items-center">
+                                            <div class="col-xl-auto">
+                                                <div class="">
+                                                    <div class="text-18 fw-500 mt-10">
+                                                        {{ $price['meal_plan'] }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </li>
+                                      
+                                    </ul>
+                                </div>
                                 <div class="col-lg col-md-6">
                                     <ul class="text-15 pt-10">
                                         <li class="d-flex items-center">
@@ -40,11 +39,11 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-lg-auto col-md-6 border-left-light lg:border-none">
+                                <div class="col-lg-auto col-md-4 border-left-light lg:border-none">
                                     <div class="px-40 lg:px-0">
-                                        <div class="text-12 text-red-2">2 Left!</div>
-                                        <div class="text-12 text-red-2"><del>{{ numberFormat($price->price_p_n_single_adult, $price->currency->code) }}</del></div>
-                                        <div class="text-15 fw-500 ">{{ numberFormat($price->price_p_n_single_adult, $price->currency->code) }}</div>
+                                        <div class="text-12 text-red-2">2 Left! (Static)</div>
+                                        <div class="text-12 text-red-2"><del> {{ $price['currency']}} {{ $price['price_p_n_single_adult']}}</del></div>
+                                        <div class="text-15 fw-500 ">{{ $price['currency']}} {{ $price['price_p_n_single_adult']}}</div>
                                     </div>
                                 </div>
                                 <div
