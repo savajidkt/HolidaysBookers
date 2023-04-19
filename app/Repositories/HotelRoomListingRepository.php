@@ -28,8 +28,7 @@ class HotelRoomListingRepository
                     //$query->where('price_type1','!=',OfflineRoomPrice::STOPSALE);
                 });
 
-                $query->doesntHave('price', function ($query) use ($param) {
-                   dd(OfflineRoomPrice::STOPSALE);
+                $query->whereDoesntHave('price', function ($query) use ($param) {
                     $query->where('price_type',OfflineRoomPrice::STOPSALE);
                 });
 
@@ -40,10 +39,7 @@ class HotelRoomListingRepository
         $hotelRooms->loadMissing('price');
         //dd($hotelRooms);
 
-        // whereHas('price', function ($query) use ($param) {
-        //     $query->whereBetween('from_date', [$param['filterObjParamStartDate'], $param['filterObjParamEndDate']]);
-        // })->where('status', OfflineRoom::ACTIVE)->where('hotel_id', $param['filterObjParamHotelID'])->get();
-
+        
         // ->where(function ($query) use ($param) {
         //     if (strlen($param['filterObjParamAdult']) > 0 && strlen($param['filterObjParamAdult']) > 0) {
         //         $query->where('hotels.hotel_country', '=', $param['filterObjParamAdult']);
@@ -99,7 +95,11 @@ class HotelRoomListingRepository
             foreach($roomPrice->price as $pkey=> $price){
                 $roomPriceListingArray[$pkey]['price_id'] = $price->id;
                 $roomPriceListingArray[$pkey]['meal_plan'] = $price->mealplan->name;
+                $roomPriceListingArray[$pkey]['meal_plan_short'] = getCharacterOfString($price->mealplan->name);
+                
                 $roomPriceListingArray[$pkey]['currency'] = $price->currency->code;
+                $roomPriceListingArray[$pkey]['market_price'] = numberFormat($price->market_price);
+                
                 $roomPriceListingArray[$pkey]['price_p_n_single_adult'] = numberFormat($price->price_p_n_single_adult);
                 
             }

@@ -414,4 +414,18 @@ if (!function_exists('getChildCount')) {
         }
         return $returnChildArr;
     }
+    
+}
+if (!function_exists('getCharacterOfString')) {
+
+    function getCharacterOfString($string)
+    {
+        $words = explode(" ",$string);
+        $acronym = "";
+        
+        foreach ($words as $w) {
+          $acronym .= mb_substr($w, 0, 1);
+        }
+        return $acronym;
+    }
 }
