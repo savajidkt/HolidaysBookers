@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\Cities\CitiesController;
 use App\Http\Controllers\Admin\States\StatesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
+use App\Http\Controllers\Admin\Orders\OrdersController;
 use App\Http\Controllers\Admin\Reachus\ReachusController;
 use App\Http\Controllers\Admin\Freebies\FreebiesController;
 use App\Http\Controllers\Admin\Packages\PackagesController;
@@ -212,6 +213,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::get('index', [LocalizationController::class, 'index'])->name('index');
     Route::get('change/lang', [LocalizationController::class, 'lang_change'])->name('LangChange');
+
+    Route::resource('/orders', OrdersController::class);
+    Route::post('/order/change-status', [OrdersController::class, 'changeStatus'])->name('change-order-status');
 });
 
 Auth::routes();
@@ -231,7 +235,6 @@ Route::group(['prefix' => 'corporate', 'middleware' => ['corporateauth']], funct
 
 # Front Routes
 Route::group(['authGrouping' => 'users.auth'], function () {
-
     Route::get('/change-password', [ResetPasswordController::class, 'firstTimePasswordChange'])->name('change-password');
 });
 

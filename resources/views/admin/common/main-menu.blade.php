@@ -229,6 +229,26 @@
                     </ul>
                 </li>
             @endif
+
+
+            <li class="navigation-header"><span data-i18n="Order Management">Order Management</span><i
+                    data-feather="more-horizontal"></i>
+            </li>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                    <i data-feather='map'></i><span class="menu-title text-truncate"
+                        data-i18n="Order">Order</span></a>
+                <ul class="menu-content">
+                    <li>
+                        <a class="d-flex align-items-center" href="{{ url('admin/orders') }}">
+                            <i data-feather='circle'></i><span class="menu-item text-truncate"
+                                data-i18n="Hotel Orders">Hotel Orders</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+
             <li class="navigation-header"><span data-i18n="Package Module">Package Module</span><i
                     data-feather="more-horizontal"></i>
             </li>
@@ -238,6 +258,7 @@
                     <span class="menu-title text-truncate" data-i18n="Rooms">Package Management</span>
                 </a>
             </li>
+
             <li class="navigation-header"><span
                     data-i18n="Master Modules">{{ __('core.menu_header_master_modules') }}</span><i
                     data-feather="more-horizontal"></i>

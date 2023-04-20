@@ -145,52 +145,7 @@
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
-    </div>
-    {{-- <div class="col-md-4 col-4">
-        <div class="form-group">
-            <label for="itemcost">Rate Per Adult</label>
-            <input type="number" name="rate_per_adult" class="form-control" data-error="Rate per adult is required"
-                value="{{ isset($model->rate_per_adult) ? $model->rate_per_adult : old('rate_per_adult') }}" />
-        </div>
-    </div>
-    <div class="col-md-4 col-4">
-        <div class="form-group">
-            <label for="itemcost">Rate per child (CWB)</label>
-            <input type="number" name="rate_per_child_cwb" class="form-control"
-                data-error="Rate per child (CWB) is required"
-                value="{{ isset($model->rate_per_child_cwb) ? $model->rate_per_child_cwb : old('rate_per_child_cwb') }}" />
-        </div>
-    </div>
-    <div class="col-md-4 col-4">
-        <div class="form-group">
-            <label for="itemcost">Rate per child (CNB)</label>
-            <input type="number" name="rate_per_child_cnb" class="form-control"
-                data-error="Rate per child (CNB) is required"
-                value="{{ isset($model->rate_per_child_cnb) ? $model->rate_per_child_cnb : old('rate_per_child_cnb') }}" />
-        </div>
-    </div>
-    <div class="col-md-4 col-4">
-        <div class="form-group">
-            <label for="itemcost">Rate Per Infant(0-2)</label>
-            <input type="number" name="rate_per_infant" class="form-control"
-                data-error="Rate Per Infant(0-2) is required"
-                value="{{ isset($model->rate_per_infant) ? $model->rate_per_infant : old('rate_per_infant') }}" />
-        </div>
-    </div>
-    <div class="col-md-4 col-4">
-        <div class="form-group">
-            <label for="itemcost">Minimum PAX</label>
-            <input type="number" name="minimum_pax" class="form-control" data-error="Minimum Pax is required"
-                value="{{ isset($model->minimum_pax) ? $model->minimum_pax : old('minimum_pax') }}" />
-        </div>
-    </div>
-    <div class="col-md-4 col-4">
-        <div class="form-group">
-            <label for="itemcost">Maximum PAX</label>
-            <input type="number" name="maximum_pax" class="form-control" data-error="Maximum Pax is required"
-                value="{{ isset($model->maximum_pax) ? $model->maximum_pax : old('maximum_pax') }}" />
-        </div>
-    </div> --}}
+    </div>    
     <div class="col-md-4 col-4">
         <div class="form-group">
             <label for="itemcost">Cancel Day</label>
