@@ -10,11 +10,18 @@ class Order extends Model
     use HasFactory;
     const ACTIVE = 1;
     const INACTIVE = 0;
+    const YES = 1;
+    const NO = 0;
 
 
     const STATUS = [
         self::ACTIVE => 'Active',
         self::INACTIVE => 'Inactive'
+    ];
+
+    const PAYMENT = [
+        self::YES => 'Yes',
+        self::NO => 'No'
     ];
 
 
@@ -117,6 +124,20 @@ class Order extends Model
         return $status;
     }
 
+    public function getPaymentNameAttribute(): string
+    {
+        $payment = self::YES;
+        switch ($this->payment) {
+            case self::NO:
+                $payment = '<a href="javascript:void(0)" class=""><span class="badge badge-danger " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">No</span></a>';
+                break;
+            default:
+                $payment = '<a href="javascript:void(0)" class=""><span class="badge badge-success " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">Yes</span></a>';
+                break;
+        }
+        return $payment;
+    }
+
     public function getShowOtherTextboxNameAttribute(): string
     {
 
@@ -125,5 +146,15 @@ class Order extends Model
         } else {
             return '<span class="badge badge-success" >' . __('core.yes') . '</span>';
         }
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'hotel_id', 'id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
     }
 }

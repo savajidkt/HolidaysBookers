@@ -24,20 +24,10 @@
                             <th>Booking Date</th>
                             <th>Check-in</th>
                             <th>Check-out</th>
-                            <th>Lead Guest</th>
-                            <th>Cancel Upto</th>
+                            <th>Lead Guest</th>                            
                             <th>No. Of Rooms</th>
                             <th>Total Nights</th>
-                            <th>Hotel Supplier</th>
-                            <th>HCN</th>
-                            <th>Agency Name</th>
-                            <th>Agency Code</th>
-                            <th>Remarks</th>
-                            <th>Pay Received</th>
-                            <th>Sales</th>
-                            <th>Purchase</th>
-                            <th>Profit</th>
-                            <th>Currency</th>
+                            <th>Pay Received</th>                           
                             <th>{{ __('core.status') }}</th>
                             <th>{{ __('core.action') }}</th>
                         </tr>
@@ -74,8 +64,8 @@
                         visible: false,
                     },
                     {
-                        data: 'country_id',
-                        name: 'country_id'
+                        data: 'hotel_id',
+                        name: 'hotel_id'
                     },
                     {
                         data: 'city_id',
@@ -97,11 +87,7 @@
                         data: 'guest_lead',
                         name: 'guest_lead'
                     },
-                    {
-                        data: 'cancelled_date',
-                        name: 'cancelled_date'
-                    },
-                    {
+                                       {
                         data: 'total_rooms',
                         name: 'total_rooms'
                     },
@@ -110,13 +96,9 @@
                         name: 'total_nights'
                     },
                     {
-                        data: 'type',
-                        name: 'type'
-                    },
-                    {
-                        data: 'agent_code',
-                        name: 'agent_code'
-                    },
+                        data: 'payment',
+                        name: 'payment'
+                    },                    
                     {
                         data: 'status',
                         name: 'status',

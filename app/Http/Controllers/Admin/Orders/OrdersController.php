@@ -27,11 +27,11 @@ class OrdersController extends Controller
                 ->editColumn('prn_no', function (Order $order) {
                     return $order->prn_no;
                 })
-                ->editColumn('country_id', function (Order $order) {
-                    return $order->country_id;
+                ->editColumn('hotel_id', function (Order $order) {
+                    return $order->country->name;
                 })
                 ->editColumn('city_id', function (Order $order) {
-                    return $order->city_id;
+                    return $order->city->name;
                 })
                 ->editColumn('created_at', function (Order $order) {
                     return $order->created_at;
@@ -45,20 +45,14 @@ class OrdersController extends Controller
                 ->editColumn('guest_lead', function (Order $order) {
                     return $order->guest_lead;
                 })
-                ->editColumn('cancelled_date', function (Order $order) {
-                    return $order->cancelled_date;
-                })
                 ->editColumn('total_rooms', function (Order $order) {
                     return $order->total_rooms;
                 })
                 ->editColumn('total_nights', function (Order $order) {
                     return $order->total_nights;
-                })
-                ->editColumn('type', function (Order $order) {
-                    return $order->type;
-                })
-                ->editColumn('agent_code', function (Order $order) {
-                    return $order->agent_code;
+                })               
+                ->editColumn('payment', function (Order $order) {
+                    return $order->payment_name;
                 })                
                 ->editColumn('status', function (Order $order) {
                     return $order->status_name;
@@ -66,7 +60,7 @@ class OrdersController extends Controller
                 ->addColumn('action', function (Order $order) {
                     return $order->action;
                 })
-                ->rawColumns(['action', 'status'])->make(true);
+                ->rawColumns(['action', 'status', 'payment'])->make(true);
         }
 
         return view('admin.order.index', ['user' => $user]);
@@ -74,8 +68,8 @@ class OrdersController extends Controller
 
     public function create()
     {
-        permissionCheck('reach-us-create');
-        $rawData    = new Reach;
-        return view('admin.reach.create', ['model' => $rawData]);
+       // permissionCheck('reach-us-create');
+       
+        return view('admin.reach.create');
     }
 }
