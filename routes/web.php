@@ -145,7 +145,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/country/change-status', [CountriesController::class, 'changeStatus'])->name('change-country-status');
     Route::post('/country/import-countries', [CountriesController::class, 'importCountries'])->name('importsCountries');
     Route::get('/country/import-rezlive-country', [CountriesController::class, 'importRezliveCountry'])->name('import-rezlive-country');
-    
+
     Route::resource('/states', StatesController::class);
     Route::post('/state/change-status', [StatesController::class, 'changeStatus'])->name('change-state-status');
     Route::post('/state/import-states', [StatesController::class, 'importStates'])->name('importsStates');
@@ -215,6 +215,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('change/lang', [LocalizationController::class, 'lang_change'])->name('LangChange');
 
     Route::resource('/orders', OrdersController::class);
+    Route::post('/order/update-order-payment', [OrdersController::class, 'updatePayment'])->name('update-order-payment');
+    Route::get('/order/order-invoice/{order}', [OrdersController::class, 'orderInvoice'])->name('order-invoice');
+    Route::get('/order/order-invoice-download/{order}', [OrdersController::class, 'orderInvoiceDownload'])->name('order-invoice-download');
+    Route::get('/order/order-voucher/{order}', [OrdersController::class, 'orderVoucher'])->name('order-voucher');
+    Route::get('/order/order-itinerary/{order}', [OrdersController::class, 'orderItinerary'])->name('order-itinerary');
+
     Route::post('/order/change-status', [OrdersController::class, 'changeStatus'])->name('change-order-status');
 });
 

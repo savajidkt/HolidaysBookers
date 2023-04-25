@@ -8,15 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    const ACTIVE = 1;
+    const PROCESSED = 1;
+    const CONFIRMED = 2;
+    const CANCELLED = 3;
+
     const INACTIVE = 0;
     const YES = 1;
     const NO = 0;
 
 
     const STATUS = [
-        self::ACTIVE => 'Active',
-        self::INACTIVE => 'Inactive'
+        self::PROCESSED => 'Processed',
+        self::CONFIRMED => 'Confirmed',
+        self::CANCELLED => 'Cancelled'
     ];
 
     const PAYMENT = [
@@ -28,13 +32,14 @@ class Order extends Model
 
     //protected $table = "reachus";
     protected $fillable = [
+        'hotel_country_id',
+        'hotel_city_id',
         'package_id',
         'hotel_id',
-        'country_id',
-        'city_id',
-        'room_id',
-        'confirmation_no',
         'booking_id',
+        'booking_code',
+        'confirmation_no',
+        'status',
         'voucher',
         'original_amount',
         'original_currency',
@@ -50,24 +55,21 @@ class Order extends Model
         'total_rooms',
         'total_nights',
         'rating',
-        'adult_child_details',
-        'child_age_details',
-        'child_bad_details',
+        'payment',
         'comments',
-        'cancel_policy',
         'guest_lead',
         'guest_phone',
-        'pax_info',
-        'reference_id',
+        'mail_sent',
+        'booked_by',
+        'prebook_response',
+        'booking_response',
+        'deadline_date',
         'agent_markup_type',
         'agent_markup_val',
         'id_proof_type',
         'id_proof_no',
         'total_price_markup',
-        'booked_by',
-        'mail_sent',
-        'payment',
-        'status'
+        'is_pay_using'
     ];
 
     /**
@@ -76,19 +78,20 @@ class Order extends Model
      * @return string
      */
     public function getActionAttribute(): string
-    {   $admin = auth()->user();
-        $action ='';
-        $viewAction = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">' . __('core.view') . '</a>';
+    {
+        $admin = auth()->user();
+        $action = '';
+        $viewAction = '<a href="'.route('orders.show', $this->id).'" class="edit btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
         $editAction = '<a href="' . route('orders.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a> ';
         //if($admin->can('reach-us-view')){
-            $action .= $viewAction;
-       // }
-       // if($admin->can('reach-us-edit')){
-            $action .= $editAction;
-       // } 
+        $action .= $viewAction;
+        // }
+        // if($admin->can('reach-us-edit')){
+        $action .= $editAction;
+        // } 
 
-       // if($admin->can('reach-us-delete')){
-             $action .= $this->getDeleteButtonAttribute();
+        // if($admin->can('reach-us-delete')){
+        $action .= $this->getDeleteButtonAttribute();
         // }
         return $action;
     }
@@ -112,13 +115,16 @@ class Order extends Model
      */
     public function getStatusNameAttribute(): string
     {
-        $status = self::ACTIVE;
+        $status = self::PROCESSED;
         switch ($this->status) {
-            case self::INACTIVE:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger status_update" data-reach_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.inactive') . '</span></a>';
+            case self::CONFIRMED:
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success " data-reach_id="' . $this->id . '" data-status="' . $this->status . '">Confirmed</span></a>';
+                break;
+            case self::CANCELLED:
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger " data-reach_id="' . $this->id . '" data-status="' . $this->status . '">Cancelled</span></a>';
                 break;
             default:
-                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-success status_update" data-reach_id="' . $this->id . '" data-status="' . $this->status . '">' . __('core.active') . '</span></a>';
+                $status = '<a href="javascript:void(0)" class=""><span class="badge badge-info" data-reach_id="' . $this->id . '" data-status="' . $this->status . '">Processed</span></a>';
                 break;
         }
         return $status;
@@ -150,11 +156,35 @@ class Order extends Model
 
     public function country()
     {
-        return $this->belongsTo(Country::class, 'hotel_id', 'id');
+        return $this->belongsTo(Country::class, 'hotel_country_id', 'id');
     }
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'city_id', 'id');
+        return $this->belongsTo(City::class, 'hotel_city_id', 'id');
     }
+
+    public function hotel()
+    {
+        return $this->belongsTo(OfflineHotel::class, 'hotel_id', 'id');
+    }    
+
+    public function adult()
+    {
+        return $this->hasMany(Order_Adult::class, 'order_id', 'id');
+    }
+    public function child()
+    {
+        return $this->hasMany(Order_Child::class, 'order_id', 'id');
+    }
+
+    public function booking_payment()
+    {
+        return $this->belongsTo(Booking_payment_details::class, 'id', 'order_id');
+    }
+   
+    // public function childBed()
+    // {
+    //     return $this->hasMany(Order_Child_Bed::class, 'order_id', 'id');
+    // }
 }

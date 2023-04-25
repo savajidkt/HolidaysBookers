@@ -158,9 +158,13 @@ if (!function_exists('dateFormat')) {
     /**
      * numberFormat return number with two decimals
      */
-    function dateFormat($date)
+    function dateFormat($date, $format = NULL)
     {
-        return date("d M, Y h:i:s A", strtotime($date));
+        if ($format) {
+            return date($format, strtotime($date));
+        } else {
+            return date("d M, Y h:i:s A", strtotime($date));
+        }
     }
 }
 
@@ -397,16 +401,16 @@ if (!function_exists('getChildCount')) {
         $returnChildArr['child_younger'] = 0;
         $returnChildArr['child_older'] = 0;
 
-        if ( isset($data['child']) && $data['child'] == 1) {
+        if (isset($data['child']) && $data['child'] == 1) {
             if (is_array($data['child_age']) && count($data['child_age']) > 0) {
                 $returnChildArr['child_age_1'] = isset($data['child_age'][0]) ? $data['child_age'][0] : 0;
             }
-        } else if ( isset($data['child']) && $data['child'] == 2) {
+        } else if (isset($data['child']) && $data['child'] == 2) {
             if (is_array($data['child_age']) && count($data['child_age']) > 0) {
                 $returnChildArr['child_age_1'] = isset($data['child_age'][0]) ? $data['child_age'][0] : 0;
                 $returnChildArr['child_age_2'] = isset($data['child_age'][1]) ? $data['child_age'][1] : 0;
             }
-        } else if ( isset($data['child']) && $data['child'] > 2) {
+        } else if (isset($data['child']) && $data['child'] > 2) {
             if (is_array($data['child_age']) && count($data['child_age']) > 0) {
                 $returnChildArr['child_younger'] = isset($data['child_age'][0]) ? $data['child_age'][0] : 0;
                 $returnChildArr['child_older'] = isset($data['child_age'][1]) ? $data['child_age'][1] : 0;
@@ -414,18 +418,73 @@ if (!function_exists('getChildCount')) {
         }
         return $returnChildArr;
     }
-    
 }
 if (!function_exists('getCharacterOfString')) {
 
     function getCharacterOfString($string)
     {
-        $words = explode(" ",$string);
+        $words = explode(" ", $string);
         $acronym = "";
-        
+
         foreach ($words as $w) {
-          $acronym .= mb_substr($w, 0, 1);
+            $acronym .= mb_substr($w, 0, 1);
         }
         return $acronym;
+    }
+}
+
+
+if (!function_exists('getIDProofName')) {
+
+    function getIDProofName($id)
+    {
+        if ($id == 1) {
+            return 'Aadhaar Card';
+        } else if ($id == 2) {
+            return 'Passport';
+        } else if ($id == 3) {
+            return 'Driving Licence';
+        } else if ($id == 4) {
+            return 'Voters ID Card';
+        } else if ($id == 5) {
+            return 'PAN Card';
+        } else if ($id == 6) {
+            return 'Other';
+        }
+        return '';
+    }
+}
+
+
+if (!function_exists('getOrderStatus')) {
+
+    function getOrderStatus($status)
+    {
+        if ($status == 1) {
+            return 'Processed';
+        } else if ($status == 2) {
+            return 'Confirmed';
+        } else if ($status == 3) {
+            return 'Cancelled';
+        } 
+        return '';
+    }
+}
+
+if (!function_exists('getOrderBookedBy')) {
+
+    function getOrderBookedBy($id)
+    {       
+
+        if ($id == 1) {
+            return 'Agent';
+        } else if ($id == 2) {
+            return 'Customer';
+        } else if ($id == 3) {
+            return 'Vendor';
+        } else if ($id == 4) {
+            return 'Corporate';
+        } 
+        return '';
     }
 }
