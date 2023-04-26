@@ -6,6 +6,7 @@ use App\Models\Reach;
 use App\Models\State;
 use App\Models\WalletTransaction;
 use App\Exceptions\GeneralException;
+use App\Models\OfflineRoomChildPrice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -501,4 +502,49 @@ if (!function_exists('dateDiffInDays')) {
       // 24 * 60 * 60 = 86400 seconds
       return abs(round($diff / 86400));
   }
+}
+
+function get_day_wise_children_price($room_price_id,$param){
+   $child_age1 = $param['filterObjParamChildAge1'];
+   $child_age2 = $param['filterObjParamChildAge2'];
+
+   $child_younger = $param['filterObjParamChildYounger'];
+   $child_older = $param['filterObjParamChildOlder'];
+   $chilldPrice=0;
+
+    if($param['filterObjParamChild'] <=2){
+        $roomChildPrice = OfflineRoomChildPrice::query();
+        $roomChildPrice = $roomChildPrice->where(function ($query) use ($param){
+            $query->whereRaw("'".$param['filterObjParamChildAge1']."' between min_age and max_age");
+            if($param['filterObjParamChildAge2']>0){
+                $query->orWhereRaw("'".$param['filterObjParamChildAge2']."' between min_age and max_age");
+            }
+
+        });
+        $roomChildPrice = $roomChildPrice->where('price_id',$room_price_id)->get();
+        $childPrice = $roomChildPrice->sum('cwb_price');
+
+    }else{
+        $roomChildPrice = OfflineRoomChildPrice::query();
+
+        $roomChildPrice = $roomChildPrice->where(function ($query) use ($param){
+            if($param['filterObjParamChildYounger'] > 0 ){
+                $query->whereRaw(" '6' between min_age and max_age");
+             }
+             if($param['filterObjParamChildAge2']>0){
+                $query->whereRaw(" '7' between min_age and max_age");
+            }
+
+
+        });
+
+
+        $roomChildPrice = $roomChildPrice->where('price_id',$room_price_id)->get();
+
+       dd($roomChildPrice);
+        die;
+    }
+
+    return $childPrice;
+
 }

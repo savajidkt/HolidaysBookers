@@ -59,7 +59,9 @@ class HotelRoomListingRepository
                 if($price->price_type == OfflineRoomPrice::NORMAL){
                     $normalDays = $normalDays + dateDiffInDays($startDate,$endDate);
                     $normalDaysPrice = $price->price_p_n_single_adult;
-                    
+                    if($param['filterObjParamChild'] >0){
+                        //get_day_wise_children_price($price->id,$param); 
+                    }
                     $normalCWBPrice = $price->price_p_n_cwb;
                     $normalCOBPrice = $price->price_p_n_cob;
                     $normalCCOBPrice = $price->price_p_n_ccob;
@@ -147,25 +149,5 @@ class HotelRoomListingRepository
         return $hotelsListingArray;
     }
 
-    function get_day_wise_children_price($room_price_id,$filter_date){
-
-        $roomChildPrice = OfflineRoomChildPrice::where('price_id', $room_price_id);
-
-        $roomChildPrice->where(function ($query) use ($filter_date) {
-            $startDate = Carbon::createFromFormat('Y-m-d', $filter_date['filterObjParamStartDate']);
-            $endDate = Carbon::createFromFormat('Y-m-d', $filter_date['filterObjParamEndDate']);                    
-            $query->whereDate('from_date','<=', $startDate);
-            $query->whereDate('to_date','>=', $endDate);
-            //$query->groupBy('meal_plan_id');
-            //$query->where('price_type1','!=',OfflineRoomPrice::STOPSALE);
-        })->get();
-
-        // $sql = "SELECT *
-        // FROM room_child_price
-        // WHERE room_child_price.`room_price_id`='$room_price_id' AND (room_child_price.`from_date`>='$filter_date' OR room_child_price.`to_date`>='$filter_date') AND room_child_price.`from_date`<='$filter_date'
-        // ORDER BY room_child_price.min_age ASC";
-        // // echo"<pre>";print_r($sql);echo"</pre>"; exit;
-        // $query = $this->db->query($sql);
-        // return $query->result_array();
-    }
+    
 }
