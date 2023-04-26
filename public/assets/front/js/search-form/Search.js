@@ -187,6 +187,7 @@ $(document).ready(function () {
 });
 
 function getAllRoomslList(hotel_id) {
+    console.log(moduleConfig.filterObj);
 
     $.ajax({
         type: 'POST',
@@ -211,9 +212,15 @@ function getAllRoomslList(hotel_id) {
             filterObjParamEndDate: moduleConfig.filterObjParamEndDate,
             filterObjParamAdult: moduleConfig.filterObjParamAdult,
             filterObjParamChild: moduleConfig.filterObjParamChild,
+
+            filterObjParamChildAge1: moduleConfig.filterObjParamChildAge1,
+            filterObjParamChildAge2: moduleConfig.filterObjParamChildAge2,
+            filterObjParamChildYounger: moduleConfig.filterObjParamChildYounger,
+            filterObjParamChildOlder: moduleConfig.filterObjParamChildOlder,
             filterObjParamRoom: moduleConfig.filterObjParamRoom,
             filterObjParamStartPrice: moduleConfig.filterObjParamStartPrice,
             filterObjParamEndPrice: moduleConfig.filterObjParamEndPrice,
+
         },
         success: function (data) {
             if (data.status == 200) {

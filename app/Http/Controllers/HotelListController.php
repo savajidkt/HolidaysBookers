@@ -34,6 +34,7 @@ class HotelListController extends Controller
     {
         $country =  [];
         $requestedArr = [];
+       
         $amenitiesArr = Amenity::all();
         if (isset($request->country_id)) {
             $country = Country::find($request->country_id);

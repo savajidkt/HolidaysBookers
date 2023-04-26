@@ -18,7 +18,14 @@
                                             <div class="col-xl-auto">
                                                 <div class="">
                                                     <div class="text-18 fw-500 mt-10">
-                                                        {{ $price['meal_plan_short'] }}
+                                                        <div class="tooltip -top h-50">
+                                                            <div class="tooltip__text">
+                                                                <i
+                                                                    class="input-icon field-icon icofont-ruler-compass-alt"></i>
+                                                                <span>{{ $price['meal_plan_short'] }}</span>
+                                                            </div>
+                                                            <div class="tooltip__content">{{ $price['meal_plan'] }}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -43,7 +50,7 @@
                                     <div class="px-40 lg:px-0">
                                         {{-- <div class="text-12 text-red-2">2 Left! (Static)</div> --}}
                                         <div class="text-12 text-red-2"><del> {{ $price['currency']}} {{ $price['market_price']}}</del></div>
-                                        <div class="text-15 fw-500 ">{{ $price['currency']}} {{ $price['price_p_n_single_adult']}}</div>
+                                        <div class="text-15 fw-500 ">{{ $price['currency']}} {{ $price['total_price']}}</div>
                                     </div>
                                 </div>
                                 <div

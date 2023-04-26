@@ -16,7 +16,6 @@
             $search_to = $requestedArr['search_to'] ? date('m-d-Y', strtotime($requestedArr['search_to'])) : date('m-d-Y', strtotime(date('Y-m-d')));
         @endphp
     @endif
-
     <script>
         var check_in_startDate = "{!! $search_from !!}";
         var check_in_endDate = "{!! $search_to !!}";
@@ -33,6 +32,12 @@
         filterObj.requested_search_to = "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}";
         filterObj.requested_adult = "{!! $requestedArr['adult'] ? $requestedArr['adult'] : '' !!}";
         filterObj.requested_child = "{!! $requestedArr['child'] ? $requestedArr['child'] : '' !!}";
+
+        filterObj.child_age_1 = "{!! $requestedArr['extra_data']['child_age_1'] ? $requestedArr['extra_data']['child_age_1'] : 0 !!}";
+        filterObj.child_age_2 = "{!! $requestedArr['extra_data']['child_age_2'] ? $requestedArr['extra_data']['child_age_2'] : 0 !!}";
+        filterObj.child_younger = "{!! $requestedArr['extra_data']['child_younger'] ? $requestedArr['extra_data']['child_younger'] : 0 !!}";
+        filterObj.child_older = "{!! $requestedArr['extra_data']['child_older'] ? $requestedArr['extra_data']['child_older'] : 0 !!}";
+
         filterObj.requested_room = "{!! $requestedArr['room'] ? $requestedArr['room'] : '' !!}";
         filterObj.start_price_range = "";
         filterObj.end_price_range = "";
@@ -1205,11 +1210,18 @@
             filterObjParamEndDate: filterObj.requested_search_to,
             filterObjParamAdult: filterObj.requested_adult,
             filterObjParamChild: filterObj.requested_child,
+            
+            filterObjParamChildAge1: filterObj.child_age_1,
+            filterObjParamChildAge2: filterObj.child_age_2,
+            filterObjParamChildYounger: filterObj.child_younger,
+            filterObjParamChildOlder: filterObj.child_older,
+
             filterObjParamRoom: filterObj.requested_room,
             filterObjParamStartPrice: filterObj.start_price_range,
             filterObjParamEndPrice: filterObj.end_price_range,
             ajaxRoomURL: "{!! route('room-list-ajax') !!}",
         };
+    
 
         $(document).ready(function() {
 
