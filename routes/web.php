@@ -219,7 +219,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/order/order-invoice/{order}', [OrdersController::class, 'orderInvoice'])->name('order-invoice');
     Route::get('/order/order-invoice-download/{order}', [OrdersController::class, 'orderInvoiceDownload'])->name('order-invoice-download');
     Route::get('/order/order-voucher/{order}', [OrdersController::class, 'orderVoucher'])->name('order-voucher');
+    Route::get('/order/order-voucher-download/{order}', [OrdersController::class, 'orderVoucherDownload'])->name('order-voucher-download');
     Route::get('/order/order-itinerary/{order}', [OrdersController::class, 'orderItinerary'])->name('order-itinerary');
+    Route::get('/order/order-itinerary-download/{order}', [OrdersController::class, 'orderItineraryDownload'])->name('order-itinerary-download');
 
     Route::post('/order/change-status', [OrdersController::class, 'changeStatus'])->name('change-order-status');
 });

@@ -37,6 +37,13 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <!-- END: Custom CSS-->
+    <style>
+        @media print {
+            .btn {
+                display: none;
+            }
+        }
+    </style>
 
 </head>
 <!-- END: Head-->
@@ -50,7 +57,19 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
-            <div class="content-header row">
+            <div class="content-header row demo-inline-spacing">
+                <div class="card">
+                    <div class="card-body">
+                        <a class="btn btn-outline-secondary waves-effect"
+                            href="{{ route('orders.show',$model) }}"> Back </a>
+                        <a class="btn btn-outline-secondary waves-effect"
+                            href="javascript:void(0);" onclick='window.print();'>
+                            Print
+                        </a>
+                        <a class="btn btn-outline-secondary waves-effect" target="_blank"
+                            href="{{ route('order-itinerary-download',$model) }}"> Download </a>
+                    </div>
+                </div>               
             </div>
             <div class="content-body">
                 <div class="invoice-print p-3">
@@ -240,7 +259,7 @@
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <script src="{{ asset('app-assets/js/scripts/pages/app-invoice-print.js') }}"></script>
+    {{-- <script src="{{ asset('app-assets/js/scripts/pages/app-invoice-print.js') }}"></script> --}}
     <!-- END: Page JS-->
 
     <script>
