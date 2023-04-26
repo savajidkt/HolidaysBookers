@@ -104,9 +104,9 @@
                                             <input class="form-control daterange" placeholder="Check in - Check out"
                                                 name="daterange" />
                                             <input type="hidden" id="hidden_from" name="search_from"
-                                                value="{{ $search_from }}">
+                                                value="{{ date('Y-m-d', strtotime($requestedArr['search_from'])) }}">
                                             <input type="hidden" id="hidden_to" name="search_to"
-                                                value="{{ $search_to }}">
+                                                value="{{ date('Y-m-d', strtotime($requestedArr['search_to'])) }}">
                                         </div>
                                     </div>
                                     <div style="display: none" class="searchMenu-date__field shadow-2"
