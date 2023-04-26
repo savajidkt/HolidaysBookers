@@ -56,10 +56,19 @@
                             </div>
                         </div>
                     </form>
-                    <a class="btn btn btn-info waves-effect" href="{{ route('order-voucher', $model) }}">Generate voucher &
-                        send mail</a>
-                    <a class="btn btn btn-info waves-effect" href="{{ route('order-itinerary', $model) }}">Itinerary</a>
-                    <a class="btn btn btn-info waves-effect" href="{{ route('order-invoice', $model) }}">Invoice</a>
+                    @if ($model->mail_sent == 1)
+                        <a target="_blank" class="btn btn btn-info waves-effect"
+                            href="{{ url('storage/app/public/order/' . $model->id . '/vouchers/order-vouchers-' . $model->id . '.pdf') }}">Voucher</a>
+                        <a class="btn btn btn-info waves-effect" href="{{ route('order-itinerary', $model) }}">Itinerary</a>
+                        <a class="btn btn btn-info waves-effect" href="{{ route('order-invoice', $model) }}">Invoice</a>
+                    @else
+                        <a class="btn btn btn-info waves-effect"
+                            href="{{ route('order-voucher-download', $model) }}">Generate
+                            voucher &
+                            send mail</a>
+                    @endif
+
+
                 </div>
             </div>
         </div>

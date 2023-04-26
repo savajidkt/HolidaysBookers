@@ -7,11 +7,7 @@
         <!-- list section start -->
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                <h4 class="card-title">Hotel Orders List</h4>
-                @if ($user->can('reach-us-create'))
-                    <a href="{{ route('reachus.create') }}"><button type="reset"
-                            class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ __('reach-us/reach-us.add_new') }}</button></a>
-                @endif
+                <h4 class="card-title">Hotel Orders List</h4>              
             </div>
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">

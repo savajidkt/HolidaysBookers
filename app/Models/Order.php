@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
     const PROCESSED = 1;
     const CONFIRMED = 2;
     const CANCELLED = 3;
@@ -83,8 +85,17 @@ class Order extends Model
         $action = '';
         $viewAction = '<a href="'.route('orders.show', $this->id).'" class="edit btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
         $editAction = '<a href="' . route('orders.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a> ';
+        if( $this->mail_sent == 1 ){
+            $voucherAction = '<a target="_blank" href="'.url('storage/app/public/order/' . $this->id . '/vouchers/order-vouchers-' . $this->id . '.pdf').'" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+        } else {
+            $voucherAction = '<a href="'.route('order-voucher-download', $this->id).'" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+        }
+        
         //if($admin->can('reach-us-view')){
         $action .= $viewAction;
+        // }
+        //if($admin->can('reach-us-view')){
+        $action .= $voucherAction;
         // }
         // if($admin->can('reach-us-edit')){
         $action .= $editAction;

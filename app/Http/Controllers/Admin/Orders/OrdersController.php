@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Repositories\OrderRepository;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Order\EditRequest;
+use App\Notifications\OrderNotification;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -753,10 +755,15 @@ PNR No.:	7224<br />
 		</div>
 	</body>
 </html>';
+
         $dompdf->loadHtml($htmlTemplate);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-        return $dompdf->stream();
+        Storage::put('public/order/' . $order->id . '/vouchers/order-vouchers-' . $order->id . '.pdf', $dompdf->output());
+        $filePath = storage_path('app/public/order/' . $order->id . '/vouchers/order-vouchers-' . $order->id . '.pdf');
+        $order->notify(new OrderNotification($order, $filePath));
+        $order->update(array('mail_sent' => 1));
+        return redirect()->route('orders.index')->with('success', "Order generate voucher & send mail successfully!");
     }
     /**
      * Method orderItinerary
@@ -1044,7 +1051,7 @@ PNR No.:	7224<br />
 		</div>
 	</body>
 </html>';
-        
+
         $dompdf->loadHtml($htmlTemplate);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
