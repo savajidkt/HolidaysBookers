@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\HotelListController;
 use App\Http\Controllers\Admin\Apis\ApisController;
@@ -14,10 +15,10 @@ use App\Http\Controllers\Admin\Admin\AdminsController;
 use App\Http\Controllers\Admin\Agent\AgentsController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\Cities\CitiesController;
+use App\Http\Controllers\Admin\Orders\OrdersController;
 use App\Http\Controllers\Admin\States\StatesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
-use App\Http\Controllers\Admin\Orders\OrdersController;
 use App\Http\Controllers\Admin\Reachus\ReachusController;
 use App\Http\Controllers\Admin\Freebies\FreebiesController;
 use App\Http\Controllers\Admin\Packages\PackagesController;
@@ -215,6 +216,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('change/lang', [LocalizationController::class, 'lang_change'])->name('LangChange');
 
     Route::resource('/orders', OrdersController::class);
+    Route::get('/order/view-order-payment/{order}', [OrdersController::class, 'viewPayment'])->name('view-order-payment');
     Route::post('/order/update-order-payment', [OrdersController::class, 'updatePayment'])->name('update-order-payment');
     Route::get('/order/order-invoice/{order}', [OrdersController::class, 'orderInvoice'])->name('order-invoice');
     Route::get('/order/order-invoice-download/{order}', [OrdersController::class, 'orderInvoiceDownload'])->name('order-invoice-download');
@@ -224,6 +226,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/order/order-itinerary-download/{order}', [OrdersController::class, 'orderItineraryDownload'])->name('order-itinerary-download');
 
     Route::post('/order/change-status', [OrdersController::class, 'changeStatus'])->name('change-order-status');
+
+    
 });
 
 Auth::routes();
@@ -260,3 +264,4 @@ Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-
 Route::post('/contact-us', [ContactUsController::class, 'submitForm'])->name('contact-us-submit');
 Route::get('/offers', [OfferController::class, 'index'])->name('offers');
 Route::get('/hotel-details/{id}', [HotelListController::class, 'show'])->name('hotel-details');
+Route::get('/review-your-booking', [CheckoutController::class, 'index'])->name('review-your-booking');

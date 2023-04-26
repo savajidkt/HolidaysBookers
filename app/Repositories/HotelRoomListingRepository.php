@@ -59,9 +59,7 @@ class HotelRoomListingRepository
                 if($price->price_type == OfflineRoomPrice::NORMAL){
                     $normalDays = $normalDays + dateDiffInDays($startDate,$endDate);
                     $normalDaysPrice = $price->price_p_n_single_adult;
-                    if(){
-                        
-                    }
+                    
                     $normalCWBPrice = $price->price_p_n_cwb;
                     $normalCOBPrice = $price->price_p_n_cob;
                     $normalCCOBPrice = $price->price_p_n_ccob;

@@ -578,9 +578,9 @@
                                                     <div class="text-14 lh-14 text-light-1 mb-5">Min
                                                         {{ $value_child['min_nights'] }} night</div>
                                                     <div class="text-20 lh-14 fw-500">{{ $value_child['price'] }}</div>
-                                                    <a href="#"
+                                                    <a href="{{ route('review-your-booking') }}"
                                                         class="button h-50 px-35 -dark-1 bg-blue-1 text-white mt-10">
-                                                        Reserve <div class="icon-arrow-top-right ml-15"></div>
+                                                        SELECT ROOM <div class="icon-arrow-top-right ml-15"></div>
                                                     </a>
                                                 </div>
                                             </div>

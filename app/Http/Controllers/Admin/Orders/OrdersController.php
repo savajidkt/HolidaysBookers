@@ -110,10 +110,15 @@ class OrdersController extends Controller
         return view('admin.order.view', ['model' => $order]);
     }
 
+    public function viewPayment(Order $order)
+    {        
+        return view('admin.order.paymentDetails', ['model' => $order]);
+    }
+
     public function updatePayment(EditRequest $request, Order $order)
     {
         $this->orderRepository->updatePayment($request->all(), $order);
-        return redirect()->route('orders.show', $request->order_id)->with('success', "Order updated successfully!");
+        return redirect()->route('view-order-payment', $request->order_id)->with('success', "Order updated successfully!");
     }
 
 
@@ -1057,4 +1062,6 @@ PNR No.:	7224<br />
         $dompdf->render();
         return $dompdf->stream();
     }
+
+    
 }

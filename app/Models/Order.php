@@ -85,6 +85,7 @@ class Order extends Model
         $action = '';
         $viewAction = '<a href="'.route('orders.show', $this->id).'" class="edit btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
         $editAction = '<a href="' . route('orders.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a> ';
+        $paymentAction = '<a href="'.route('view-order-payment', $this->id).'" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Payment Details" data-animation="false"><i class="fa fa-check-square-o" aria-hidden="true"></i></a> ';
         if( $this->mail_sent == 1 ){
             $voucherAction = '<a target="_blank" href="'.url('storage/app/public/order/' . $this->id . '/vouchers/order-vouchers-' . $this->id . '.pdf').'" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
         } else {
@@ -96,6 +97,7 @@ class Order extends Model
         // }
         //if($admin->can('reach-us-view')){
         $action .= $voucherAction;
+        $action .= $paymentAction;
         // }
         // if($admin->can('reach-us-edit')){
         $action .= $editAction;
