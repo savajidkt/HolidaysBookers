@@ -29,9 +29,9 @@ var FrmSearchPreference = function () {
                 error.insertAfter(element);
             },
             submitHandler: function (form) {
-                $("<input />").attr("type", "hidden").attr("name", "adult").attr("value", $('.count-adults').html()).appendTo("#SearchFrm");
-                $("<input />").attr("type", "hidden").attr("name", "child").attr("value", $('.count-childs').html()).appendTo("#SearchFrm");
-                $("<input />").attr("type", "hidden").attr("name", "room").attr("value", $('.count-rooms').html()).appendTo("#SearchFrm");
+                $("<input />").attr("type", "hidden").attr("name", "adult").attr("value", $('.count-adults').html().trim()).appendTo("#SearchFrm");
+                $("<input />").attr("type", "hidden").attr("name", "child").attr("value", $('.count-childs').html().trim()).appendTo("#SearchFrm");
+                $("<input />").attr("type", "hidden").attr("name", "room").attr("value", $('.count-rooms').html().trim()).appendTo("#SearchFrm");
                 form.submit();
             }
         });
