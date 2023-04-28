@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use App\Models\OfflineRoomFacilitiesPrice;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class OfflineRoomPrice extends Authenticatable
 {
@@ -128,6 +129,12 @@ class OfflineRoomPrice extends Authenticatable
     {
         return $this->hasMany(OfflineRoomChildPrice::class, 'price_id', 'id');
     }
+
+    public function facilities()
+    {
+        return $this->hasMany(OfflineRoomFacilitiesPrice::class, 'price_id', 'id');
+    }
+    
     public function currency()
     {
         return $this->belongsTo(Currency::class, 'currency_id', 'id');

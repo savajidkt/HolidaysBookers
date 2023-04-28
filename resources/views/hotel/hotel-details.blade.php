@@ -207,7 +207,7 @@
         <div class="container">
             <div class="hotelSingleGrid">
                 <div>
-                   
+
                     <div class="row justify-between">
                         <div class="col-auto">
                             <div class="row x-gap-20 y-gap-20 items-center">
@@ -556,21 +556,26 @@
                                         @endif
                                         <div class="row y-gap-30">
                                             <div class="col-lg col-md-6">
-                                                <div class="text-15 fw-500 mb-10">Your price includes:</div>
+                                               
                                                 <div class="y-gap-5">
-                                                    <div class="d-flex items-center text-green-2">
-                                                        <i class="icon-check text-12 mr-10"></i>
-                                                        <div class="text-15">Pay at the hotel</div>
-                                                    </div>
-                                                    <div class="d-flex items-center text-green-2">
-                                                        <i class="icon-check text-12 mr-10"></i>
-                                                        <div class="text-15">Pay nothing until March 30, 2022</div>
-                                                    </div>
-                                                    <div class="d-flex items-center text-green-2">
-                                                        <i class="icon-check text-12 mr-10"></i>
-                                                        <div class="text-15">Free cancellation before April 1, 2022</div>
-                                                    </div>
+                                                
+                                                    @foreach ($value_child['facilities'] as $key_facilities => $value_facilities)
+                                                      
+                                                            @if ($value_facilities['status'] == '0')
+                                                            <div class="d-flex items-center text-red-2">
+                                                                <i class="icon-close text-12 mr-10"></i>                                                                
+                                                                <div class="text-15">{{ $value_facilities['title'] }}</div>
+                                                            </div>
+                                                            @else
+                                                            <div class="d-flex items-center text-green-2">
+                                                                <i class="icon-check text-12 mr-10"></i>
+                                                                <div class="text-15">{{ $value_facilities['title'] }}</div>
+                                                            </div>
+                                                            @endif
+                                                            
+                                                    @endforeach
                                                 </div>
+
                                             </div>
                                             <div
                                                 class="col-lg-auto col-md-6 border-left-light lg:border-none text-right lg:text-left">
@@ -578,7 +583,10 @@
                                                     <div class="text-14 lh-14 text-light-1 mb-5">Min
                                                         {{ $value_child['min_nights'] }} night</div>
                                                     <div class="text-20 lh-14 fw-500">{{ $value_child['price'] }}</div>
-                                                    <a href="{{ route('review-your-booking') }}"
+                                                    @php
+                                                    $bookingParam = array('hotel_id' => $hotelsDetails['hotel']['id'], 'room_id' => $value_child['room_id'], 'price_id' => $value_child['id']);
+                                                    @endphp
+                                                    <a href="{{ route('review-your-booking', selectRoomBooking($bookingParam)) }}"
                                                         class="button h-50 px-35 -dark-1 bg-blue-1 text-white mt-10">
                                                         SELECT ROOM <div class="icon-arrow-top-right ml-15"></div>
                                                     </a>

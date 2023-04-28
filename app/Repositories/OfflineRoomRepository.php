@@ -13,6 +13,7 @@ use App\Models\OfflineRoomPrice;
 use App\Exceptions\GeneralException;
 use Illuminate\Support\Facades\Hash;
 use App\Models\OfflineRoomChildPrice;
+use App\Models\OfflineRoomFacilitiesPrice;
 use Illuminate\Support\Facades\Storage;
 
 class OfflineRoomRepository
@@ -23,7 +24,7 @@ class OfflineRoomRepository
         /**
          * Inser Room Data
          */
-       
+
 
         if (is_array($data['rooms']) && count($data['rooms']) > 0) {
             $RoomArr = [
@@ -32,7 +33,7 @@ class OfflineRoomRepository
             foreach ($data['rooms'] as $key => $value) {
 
                 $RoomArr['room_type_id'] = $value['room_type'];
-               // $RoomArr['meal_plan_id'] = $value['meal_plan'];
+                // $RoomArr['meal_plan_id'] = $value['meal_plan'];
                 $RoomArr['occ_sleepsmax'] = $value['occ_sleepsmax'];
                 $RoomArr['occ_num_beds'] = $value['occ_num_beds'];
                 $RoomArr['occ_max_adults'] = $value['occ_max_adults'];
@@ -42,10 +43,10 @@ class OfflineRoomRepository
                 $RoomArr['status'] = $value['status'];
                 $offlineRoom =  OfflineRoom::create($RoomArr);
                 $offlineRoom->roomamenity()->attach($value['room_amenities']);
-                if( isset($value['room_freebies']) ){
+                if (isset($value['room_freebies'])) {
                     $offlineRoom->roomfreebies()->attach($value['room_freebies']);
                 }
-                
+
 
                 /**
                  * Room Image Add
@@ -188,7 +189,7 @@ class OfflineRoomRepository
          */
         $RoomPriceArr = [
             'room_id'     => $offlineroom->id,
-            'meal_plan_id'     => $data['meal_plan'],            
+            'meal_plan_id'     => $data['meal_plan'],
             'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
             'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
             'booking_start_date'     => isset($BookingDate[0]) ? $BookingDate[0] : '',
@@ -197,18 +198,30 @@ class OfflineRoomRepository
             'cutoff_price'     => $data['cutoff_price'],
             'min_nights'     => $data['min_nights'],
             'min_overall_nights'     => $data['min_overall_nights'],
-            'price_p_n_single_adult'     => $data['price_p_n_single_adult'],
-            'price_p_n_twin_sharing'     => $data['price_p_n_twin_sharing'],
-            'price_p_n_extra_adult'     => $data['price_p_n_extra_adult'],
-            'price_p_n_cwb'     => $data['price_p_n_cwb'],
-            'price_p_n_cob'     => $data['price_p_n_cob'],
-            'price_p_n_ccob'     => $data['price_p_n_ccob'],
-            'tax_p_n_single_adult'     => $data['tax_p_n_single_adult'],
-            'tax_p_n_twin_sharing'     => $data['tax_p_n_twin_sharing'],
-            'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
-            'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
-            'tax_p_n_cob'     => $data['tax_p_n_cob'],
-            'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
+            // 'price_p_n_single_adult'     => $data['price_p_n_single_adult'],
+            // 'price_p_n_twin_sharing'     => $data['price_p_n_twin_sharing'],
+            // 'price_p_n_extra_adult'     => $data['price_p_n_extra_adult'],
+            // 'price_p_n_cwb'     => $data['price_p_n_cwb'],
+            // 'price_p_n_cob'     => $data['price_p_n_cob'],
+            // 'price_p_n_ccob'     => $data['price_p_n_ccob'],
+            // 'tax_p_n_single_adult'     => $data['tax_p_n_single_adult'],
+            // 'tax_p_n_twin_sharing'     => $data['tax_p_n_twin_sharing'],
+            // 'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
+            // 'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
+            // 'tax_p_n_cob'     => $data['tax_p_n_cob'],
+            // 'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
+            'price_p_n_single_adult'     => 0,
+            'price_p_n_twin_sharing'     => 0,
+            'price_p_n_extra_adult'     => 0,
+            'price_p_n_cwb'     => 0,
+            'price_p_n_cob'     => 0,
+            'price_p_n_ccob'     => 0,
+            'tax_p_n_single_adult'     => 0,
+            'tax_p_n_twin_sharing'     => 0,
+            'tax_p_n_extra_adult'     => 0,
+            'tax_p_n_cwb'     => 0,
+            'tax_p_n_cob'     => 0,
+            'tax_p_n_ccob'     => 0,
             'market_price'     => $data['market_price'],
             'promo_code'     => $data['promo_code'] ?? '',
             'rate_offered'     => $data['rate_offered'],
@@ -245,6 +258,16 @@ class OfflineRoomRepository
                 OfflineRoomChildPrice::create($RoomChildPriceArr);
             }
         }
+        if (isset($data['facilities']) && is_array($data['facilities']) && count($data['facilities']) > 0) {
+            foreach ($data['facilities'] as $key => $value) {
+                $facilitiesArr['room_id'] = $offlineroom->id;
+                $facilitiesArr['price_id'] =$offlineRoomPrice->id;
+                $facilitiesArr['title'] = $value['title'];
+                $facilitiesArr['description'] = $value['description'];
+                $facilitiesArr['status'] = $value['status'];
+                OfflineRoomFacilitiesPrice::create($facilitiesArr);
+            }
+        }
         return $offlineroom;
     }
 
@@ -259,12 +282,12 @@ class OfflineRoomRepository
     public function updatePrice(array $data, OfflineRoomPrice $offlineroomprice): OfflineRoomPrice
     {
 
-        
+
         $TravelDate = explode(' to ', $data['start_date']);
         $BookingDate = explode(' to ', $data['booking_start_date']);
 
         $RoomPriceArr = [
-            'meal_plan_id'     => $data['meal_plan'],            
+            'meal_plan_id'     => $data['meal_plan'],
             'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
             'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
             'booking_start_date'     => isset($BookingDate[0]) ? $BookingDate[0] : '',
@@ -273,18 +296,30 @@ class OfflineRoomRepository
             'cutoff_price'     => $data['cutoff_price'],
             'min_nights'     => $data['min_nights'],
             'min_overall_nights'     => $data['min_overall_nights'],
-            'price_p_n_single_adult'     => $data['price_p_n_single_adult'],
-            'price_p_n_twin_sharing'     => $data['price_p_n_twin_sharing'],
-            'price_p_n_extra_adult'     => $data['price_p_n_extra_adult'],
-            'price_p_n_cwb'     => $data['price_p_n_cwb'],
-            'price_p_n_cob'     => $data['price_p_n_cob'],
-            'price_p_n_ccob'     => $data['price_p_n_ccob'],
-            'tax_p_n_single_adult'     => $data['tax_p_n_single_adult'],
-            'tax_p_n_twin_sharing'     => $data['tax_p_n_twin_sharing'],
-            'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
-            'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
-            'tax_p_n_cob'     => $data['tax_p_n_cob'],
-            'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
+            // 'price_p_n_single_adult'     => $data['price_p_n_single_adult'],
+            // 'price_p_n_twin_sharing'     => $data['price_p_n_twin_sharing'],
+            // 'price_p_n_extra_adult'     => $data['price_p_n_extra_adult'],
+            // 'price_p_n_cwb'     => $data['price_p_n_cwb'],
+            // 'price_p_n_cob'     => $data['price_p_n_cob'],
+            // 'price_p_n_ccob'     => $data['price_p_n_ccob'],
+            // 'tax_p_n_single_adult'     => $data['tax_p_n_single_adult'],
+            // 'tax_p_n_twin_sharing'     => $data['tax_p_n_twin_sharing'],
+            // 'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
+            // 'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
+            // 'tax_p_n_cob'     => $data['tax_p_n_cob'],
+            // 'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
+            'price_p_n_single_adult'     => 0,
+            'price_p_n_twin_sharing'     => 0,
+            'price_p_n_extra_adult'     => 0,
+            'price_p_n_cwb'     => 0,
+            'price_p_n_cob'     => 0,
+            'price_p_n_ccob'     => 0,
+            'tax_p_n_single_adult'     => 0,
+            'tax_p_n_twin_sharing'     => 0,
+            'tax_p_n_extra_adult'     => 0,
+            'tax_p_n_cwb'     => 0,
+            'tax_p_n_cob'     => 0,
+            'tax_p_n_ccob'     => 0,
             'market_price'     => $data['market_price'],
             'promo_code'     => $data['promo_code'] ?? '',
             'rate_offered'     => $data['rate_offered'],
@@ -320,6 +355,22 @@ class OfflineRoomRepository
                 }
             }
         }
+
+        if (is_array($data['facilities']) && count($data['facilities']) > 0) {
+            foreach ($data['facilities'] as $key => $value) {
+                
+                $facilitiesArr['title'] = $value['title'];
+                $facilitiesArr['description'] = $value['description'];
+                $facilitiesArr['status'] = $value['status'];
+                if (!isset($value['id']) || strlen($value['id']) == 0 || $value['id'] == "" || $value['id'] == NULL) {                   
+                    $facilitiesArr['room_id'] = $offlineroomprice->room_id;
+                    $facilitiesArr['price_id'] =$offlineroomprice->id;
+                    OfflineRoomFacilitiesPrice::create($facilitiesArr);
+                } else {
+                    OfflineRoomFacilitiesPrice::where('id', $value['id'])->where('room_id', $value['room_id'])->where('price_id', $value['price_id'])->update($facilitiesArr);
+                }
+            }
+        }        
 
         return $offlineroomprice;
     }

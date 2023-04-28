@@ -5,6 +5,7 @@ namespace App\Models;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\OfflineRoomGallery;
 use Illuminate\Notifications\Notifiable;
+use App\Models\OfflineRoomFacilitiesPrice;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -123,6 +124,12 @@ class OfflineRoom extends Authenticatable
     {
         return $this->hasMany(OfflineRoomChildPrice::class, 'room_id', 'id');
     }
+
+    public function facilities()
+    {
+        return $this->hasMany(OfflineRoomFacilitiesPrice::class, 'room_id', 'id');               
+    }
+   
 
     public function hotel()
     {

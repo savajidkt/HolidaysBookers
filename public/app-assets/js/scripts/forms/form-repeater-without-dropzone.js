@@ -12,7 +12,7 @@ $(function () {
   'use strict';
 
   // form repeater jquery
-  $('.room-repeater, .repeater-default, .package-repeater').repeater({
+  $('.room-repeater, .repeater-default, .package-repeater, .room-facilities-repeater').repeater({
     show: function () {
       $(this).slideDown();
       var TotalCount = $(this).closest("[data-repeater-item]").index();

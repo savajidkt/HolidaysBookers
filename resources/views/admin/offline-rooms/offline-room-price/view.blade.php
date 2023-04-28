@@ -243,7 +243,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12">
+                                    {{-- <div class="col-12">
                                         <div class="d-flex align-items-center mb-1 mt-1">
                                             <h4 class="">Price per night (including all taxes) :</h4>
                                         </div>
@@ -338,7 +338,7 @@
                                             <strong
                                                 class="disp-below">{{ isset($model->tax_p_n_ccob) ? $model->tax_p_n_ccob : '' }}</strong>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="account-vertical-galleries-details" role="tabpanel"

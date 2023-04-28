@@ -1,4 +1,3 @@
-
 <script>
     var HotelsList = "";
     var HotelsRoomType = "";
@@ -6,7 +5,7 @@
     var HotelsAmenities = "";
     var HotelsFreebies = "";
     var HotelsRoomID = "";
-    var HotelsRoomMealPlanID = "{!! $pricemodel->meal_plan_id !!}";    
+    var HotelsRoomMealPlanID = "{!! $pricemodel->meal_plan_id !!}";
     var HotelsAmenitiesIDs = "";
     var HotelsFreebiesIDs = "";
     var HotelID = "";
@@ -235,7 +234,7 @@
     </div>
 
 
-    <div class="col-12">
+    {{-- <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
             <h4 class="">Price per night (including all taxes) :</h4>
         </div>
@@ -409,7 +408,7 @@
     </div>
     <div class="col-12">
         <hr class="my-2" />
-    </div>
+    </div> --}}
     <div class="col-3">
         <div class="col-md-12 col-12">
             <div class="form-group">
@@ -528,63 +527,92 @@
     </div>
 </div>
 <hr class="my-2" />
-<div data-repeater-list="childrens" class="repeaterCLS">
-    @if ($pricemodel->childprice->count() > 0)
-        @foreach ($pricemodel->childprice as $childs)
+<div class="room-facilities-repeater">
+    <div data-repeater-list="facilities" class="repeaterFacilitiesCLS">
+        @if ($pricemodel->facilities->count() > 0)
+            @foreach ($pricemodel->facilities as $facility)           
+
+                <div data-repeater-item>
+                    <input type="hidden" name="id" value="{{ $facility->id }}" />
+            <input type="hidden" name="room_id" value="{{ $facility->room_id }}" />
+            <input type="hidden" name="price_id" value="{{ $facility->price_id }}" />
+                    <div class="row d-flex align-items-end">
+                        <div class="col-4">
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="itemcost">Title</label>
+                                    <input type="text" class="form-control" name="title" value="{{ isset($facility->title) ? $facility->title : old('title') }}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="itemcost">Short Description</label>
+                                    <textarea class="form-control" name="description">{{ isset($facility->description) ? $facility->description : old('description') }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="itemcost">Display</label>
+                                    <select name="status" class="form-control" id="status">
+                                        <option value="0" {{ $facility->status == '0' ? 'selected' : '' }}>No</option>
+                                        <option value="1" {{ $facility->status == '1' ? 'selected' : '' }}>Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-2">
+                            <div class="col-md-2 col-12 mb-50">
+                                <div class="form-group">
+                                    <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete
+                                        type="button">
+                                        <i data-feather="x" class="mr-25"></i>
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            @endforeach
+        @else
             <div data-repeater-item>
-
-                <input type="hidden" name="id" value="{{ $childs->id }}" />
-                <input type="hidden" name="room_id" value="{{ $childs->room_id }}" />
-                <input type="hidden" name="price_id" value="{{ $childs->price_id }}" />
-
                 <div class="row d-flex align-items-end">
-                    <div class="col-12">
-                        <div class="d-flex align-items-center mb-1 mt-1">
-                            <h5 class="childTitile" id="child-1" child-title="child-name">Children Details 1</h5>
-                        </div>
-                    </div>
-                    <div class="col-2">
+                    <div class="col-4">
                         <div class="col-md-12 col-12">
                             <div class="form-group">
-                                <label for="itemcost">Minimum child age</label>
-                                <input type="number" class="form-control" name="main_age"
-                                    value="{{ isset($childs->min_age) ? $childs->min_age : old('min_age') }}" />
+                                <label for="itemcost">Title</label>
+                                <input type="text" class="form-control" name="title" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label for="itemcost">Short Description</label>
+                                <textarea class="form-control" name="description"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="col-md-12 col-12">
                             <div class="form-group">
-                                <label for="itemcost">Maximum child age</label>
-                                <input type="number" class="form-control" name="max_age"
-                                    value="{{ isset($childs->max_age) ? $childs->max_age : old('max_age') }}" />
+                                <label for="itemcost">Display</label>
+                                <select name="status" class="form-control" id="status">
+                                    <option value="0">No</option>
+                                    <option value="1" selected>Yes</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-2">
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label for="itemcost">Child with bed price</label>
-                                <input type="number" class="form-control" name="cwb_price"
-                                    value="{{ isset($childs->cwb_price) ? $childs->cwb_price : old('cwb_price') }}" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label for="itemcost">Child without bed price</label>
-                                <input type="number" class="form-control" name="cnb_price"
-                                    value="{{ isset($childs->cnb_price) ? $childs->cnb_price : old('cnb_price') }}" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row col-4">
+                    <div class="row col-2">
                         <div class="col-md-2 col-12 mb-50">
                             <div class="form-group">
-                                <button data-delete="{{ $childs->id }}"
-                                    class="btn btn-outline-danger btn-sm  text-nowrap px-1" data-repeater-delete
+                                <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete
                                     type="button">
                                     <i data-feather="x" class="mr-25"></i>
                                     <span>Delete</span>
@@ -595,70 +623,155 @@
                 </div>
                 <hr />
             </div>
-        @endforeach
-    @else
-        <div data-repeater-item>
-            <div class="row d-flex align-items-end">
-                <div class="col-12">
-                    <div class="d-flex align-items-center mb-1 mt-1">
-                        <h5 class="childTitile" id="child-1" child-title="child-name">Children Details 1</h5>
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="col-md-12 col-12">
-                        <div class="form-group">
-                            <label for="itemcost">Minimum child age</label>
-                            <input type="number" class="form-control" name="main_age" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="col-md-12 col-12">
-                        <div class="form-group">
-                            <label for="itemcost">Maximum child age</label>
-                            <input type="number" class="form-control" name="max_age" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="col-md-12 col-12">
-                        <div class="form-group">
-                            <label for="itemcost">Child with bed price</label>
-                            <input type="number" class="form-control" name="cwb_price" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="col-md-12 col-12">
-                        <div class="form-group">
-                            <label for="itemcost">Child without bed price</label>
-                            <input type="number" class="form-control" name="cnb_price" />
-                        </div>
-                    </div>
-                </div>
+        @endif
+    </div>
 
-                <div class="row col-4">
-                    <div class="col-md-2 col-12 mb-50">
-                        <div class="form-group">
-                            <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete
-                                type="button">
-                                <i data-feather="x" class="mr-25"></i>
-                                <span>Delete</span>
-                            </button>
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-icon btn-primary " type="button" data-repeater-create>
+                <i data-feather="plus" class="mr-25"></i>
+                <span>Add More Facilities</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<hr class="my-2" />
+<div class="room-repeater">
+    <div data-repeater-list="childrens" class="repeaterCLS">
+        @if ($pricemodel->childprice->count() > 0)
+            @foreach ($pricemodel->childprice as $childs)
+                <div data-repeater-item>
+
+                    <input type="hidden" name="id" value="{{ $childs->id }}" />
+                    <input type="hidden" name="room_id" value="{{ $childs->room_id }}" />
+                    <input type="hidden" name="price_id" value="{{ $childs->price_id }}" />
+
+                    <div class="row d-flex align-items-end">
+                        <div class="col-12">
+                            <div class="d-flex align-items-center mb-1 mt-1">
+                                <h5 class="childTitile" id="child-1" child-title="child-name">Children Details 1
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="itemcost">Minimum child age</label>
+                                    <input type="number" class="form-control" name="main_age"
+                                        value="{{ isset($childs->min_age) ? $childs->min_age : old('min_age') }}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="itemcost">Maximum child age</label>
+                                    <input type="number" class="form-control" name="max_age"
+                                        value="{{ isset($childs->max_age) ? $childs->max_age : old('max_age') }}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="itemcost">Child with bed price</label>
+                                    <input type="number" class="form-control" name="cwb_price"
+                                        value="{{ isset($childs->cwb_price) ? $childs->cwb_price : old('cwb_price') }}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="col-md-12 col-12">
+                                <div class="form-group">
+                                    <label for="itemcost">Child without bed price</label>
+                                    <input type="number" class="form-control" name="cnb_price"
+                                        value="{{ isset($childs->cnb_price) ? $childs->cnb_price : old('cnb_price') }}" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row col-4">
+                            <div class="col-md-2 col-12 mb-50">
+                                <div class="form-group">
+                                    <button data-delete="{{ $childs->id }}"
+                                        class="btn btn-outline-danger btn-sm  text-nowrap px-1" data-repeater-delete
+                                        type="button">
+                                        <i data-feather="x" class="mr-25"></i>
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            @endforeach
+        @else
+            <div data-repeater-item>
+                <div class="row d-flex align-items-end">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center mb-1 mt-1">
+                            <h5 class="childTitile" id="child-1" child-title="child-name">Children Details 1</h5>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label for="itemcost">Minimum child age</label>
+                                <input type="number" class="form-control" name="main_age" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label for="itemcost">Maximum child age</label>
+                                <input type="number" class="form-control" name="max_age" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label for="itemcost">Child with bed price</label>
+                                <input type="number" class="form-control" name="cwb_price" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-md-12 col-12">
+                            <div class="form-group">
+                                <label for="itemcost">Child without bed price</label>
+                                <input type="number" class="form-control" name="cnb_price" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row col-4">
+                        <div class="col-md-2 col-12 mb-50">
+                            <div class="form-group">
+                                <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete
+                                    type="button">
+                                    <i data-feather="x" class="mr-25"></i>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <hr />
             </div>
-            <hr />
+        @endif
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-icon btn-primary " type="button" data-repeater-create>
+                <i data-feather="plus" class="mr-25"></i>
+                <span>Add More Children</span>
+            </button>
         </div>
-    @endif
-</div>
-<div class="row">
-    <div class="col-12">
-        <button class="btn btn-icon btn-primary " type="button" data-repeater-create>
-            <i data-feather="plus" class="mr-25"></i>
-            <span>Add More Children</span>
-        </button>
     </div>
 </div>
 @section('extra-script')
@@ -691,5 +804,5 @@
             changeRoomsStatusURL: "{!! route('change-offline-room-status', '') !!}",
             deleteRepeterURL: "{!! route('delete-repeter') !!}",
         };
-    </script>    
+    </script>
 @endsection

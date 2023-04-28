@@ -30,8 +30,18 @@ class CheckoutController extends Controller
         $this->hotelRoomListingRepository       = $hotelRoomListingRepository;
     }
 
-    public function index(Request $request)
-    {               
-        return view('checkout.checkout');        
-    }   
+    public function index($id)
+    {
+        try {
+            $SafeencryptionObj = new Safeencryption;
+            $requiredParamArr = explode('&', $SafeencryptionObj->decode($id));
+            // dd($requiredParamArr);
+            if (is_array($requiredParamArr) && count($requiredParamArr) > 0) {
+                return view('checkout.checkout');
+            }
+        } catch (\Throwable $th) {
+            return redirect()->route('home')->with('error', 'Internal problem');
+        }
+        
+    }
 }

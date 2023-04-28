@@ -137,14 +137,15 @@ class HotelListingRepository
         $hotelsListingArray['hotel']['hotel_images'] = $hotel->images->toArray();
 
         $roomsIds = $hotel->rooms->pluck('id')->toArray();
-        $roomPrice = OfflineRoomPrice::whereIn('room_id',$roomsIds)->orderBy('price_p_n_single_adult')->limit(1)->first();
+        $roomPrice = OfflineRoomPrice::whereIn('room_id',$roomsIds)->orderBy('price_p_n_single_adult')->limit(1)->first();        
+  
         if($roomPrice){           
             $hotelsListingArray['hotel']['price'] = numberFormat($roomPrice->price_p_n_single_adult,$roomPrice->currency->code);
         }   
 
 
-        foreach ($hotel->rooms as $key => $room) {
-            
+        foreach ($hotel->rooms as $key => $room) {  
+                    
             $hotelRoomTempArray['room'] = $room->toArray();
             $hotelRoomTempArray['room']['amenities'] =  $room->roomamenity->toArray();
            // $hotelRoomTempArray['room']['mealplans'] =  $room->mealplan->toArray();
@@ -152,8 +153,11 @@ class HotelListingRepository
             $hotelRoomTempArray['room']['images'] =  $room->images->toArray();
             $hotelRoomTempArray['room']['types'] =  $room->roomtype->toArray();
             $hotelRoomTempArray['room']['child'] = [];
+            $hotelRoomTempArray['room']['facilities'] = [];
+            
             if ($room->price->count() > 0) {
                 foreach ($room->price as $r_key => $r_room) {
+                    $hotelRoomTempArray['room']['facilities'] = $r_room->facilities->toArray();
                     $roomArr = $r_room->toArray();
                     $roomArr['price'] = numberFormat($r_room->price_p_n_single_adult, $r_room->currency->code);;
                     $hotelRoomTempArray['room']['child'][] = $roomArr;
@@ -161,6 +165,8 @@ class HotelListingRepository
             }
             $hotelsListingArray['roomDetails'][] = $hotelRoomTempArray;
         }
+
+        
         return $hotelsListingArray;
     }
 

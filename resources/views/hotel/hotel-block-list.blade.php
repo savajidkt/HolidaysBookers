@@ -8,7 +8,8 @@
                     <div class="col-md-auto">
                         <div class="cardImage ratio ratio-1:1 w-250 md:w-1/1 rounded-4">
                             <div class="cardImage__content">
-                                <a href="{{ route('hotel-details', $safeencryptionObj->encode($hotel['id'])) }}">
+                                
+                                <a href="{{ route('hotel-details', selectRoomBooking($requestParam)) }}">
                                 @if (strlen($hotel['hotel_image_location']) > 0)
                                     <img class="rounded-4 col-12"
                                         src="{{ url(Storage::url('app/upload/Hotel/' . $hotel['id'] . '/' . $hotel['hotel_image_location'])) }}"

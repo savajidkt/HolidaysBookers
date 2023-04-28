@@ -235,24 +235,24 @@ var FrmOfflineRoomPreference = function () {
                 min_overall_nights: {
                     required: true
                 },
-                price_p_n_single_adult: {
-                    required: true
-                },
-                price_p_n_twin_sharing: {
-                    required: true
-                },
-                price_p_n_extra_adult: {
-                    required: true
-                },
-                price_p_n_cwb: {
-                    required: true
-                },
-                price_p_n_cob: {
-                    required: true
-                },
-                price_p_n_ccob: {
-                    required: true
-                },
+                // price_p_n_single_adult: {
+                //     required: true
+                // },
+                // price_p_n_twin_sharing: {
+                //     required: true
+                // },
+                // price_p_n_extra_adult: {
+                //     required: true
+                // },
+                // price_p_n_cwb: {
+                //     required: true
+                // },
+                // price_p_n_cob: {
+                //     required: true
+                // },
+                // price_p_n_ccob: {
+                //     required: true
+                // },
                 // tax_p_n_single_adult: {
                 //     required: true
                 // },

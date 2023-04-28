@@ -88,6 +88,7 @@ class HotelListController extends Controller
                     'hotelListModel'         => $hotelListArray['model'],
                     'hotelCount'         => $hotelCount,
                     'safeencryptionObj'          => $SafeencryptionObj,
+                    'requestParam'          => $request->all(),
                 ])->render()
             ]);
         }
@@ -118,9 +119,11 @@ class HotelListController extends Controller
 
         $hotelsRelated = [];
         $hotelsDetails = $this->hotelListingRepository->hotelDetails($id);
+        
         if ($hotelsDetails) {
             $hotelsRelated = $this->hotelListingRepository->hotelRelated($hotelsDetails['hotel']);
         }
+        
 
         return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj]);
     }

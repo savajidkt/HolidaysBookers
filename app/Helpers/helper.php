@@ -4,10 +4,11 @@ use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Reach;
 use App\Models\State;
+use App\Libraries\Safeencryption;
 use App\Models\WalletTransaction;
 use App\Exceptions\GeneralException;
-use App\Models\OfflineRoomChildPrice;
 use Illuminate\Support\Facades\Auth;
+use App\Models\OfflineRoomChildPrice;
 use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('home_route')) {
@@ -467,7 +468,7 @@ if (!function_exists('getOrderStatus')) {
             return 'Confirmed';
         } else if ($status == 3) {
             return 'Cancelled';
-        } 
+        }
         return '';
     }
 }
@@ -475,7 +476,7 @@ if (!function_exists('getOrderStatus')) {
 if (!function_exists('getOrderBookedBy')) {
 
     function getOrderBookedBy($id)
-    {       
+    {
 
         if ($id == 1) {
             return 'Agent';
@@ -485,7 +486,7 @@ if (!function_exists('getOrderBookedBy')) {
             return 'Vendor';
         } else if ($id == 4) {
             return 'Corporate';
-        } 
+        }
         return '';
     }
 }
@@ -493,58 +494,75 @@ if (!function_exists('getOrderBookedBy')) {
 
 if (!function_exists('dateDiffInDays')) {
 
-    function dateDiffInDays($date1, $date2) 
-  {
-      // Calculating the difference in timestamps
-      $diff = strtotime($date2) - strtotime($date1);
-  
-      // 1 day = 24 hours
-      // 24 * 60 * 60 = 86400 seconds
-      return abs(round($diff / 86400));
-  }
+    function dateDiffInDays($date1, $date2)
+    {
+        // Calculating the difference in timestamps
+        $diff = strtotime($date2) - strtotime($date1);
+
+        // 1 day = 24 hours
+        // 24 * 60 * 60 = 86400 seconds
+        return abs(round($diff / 86400));
+    }
 }
 
-function get_day_wise_children_price($room_price_id,$param){
-   $child_age1 = $param['filterObjParamChildAge1'];
-   $child_age2 = $param['filterObjParamChildAge2'];
+function get_day_wise_children_price($room_price_id, $param)
+{
+    $child_age1 = $param['filterObjParamChildAge1'];
+    $child_age2 = $param['filterObjParamChildAge2'];
 
-   $child_younger = $param['filterObjParamChildYounger'];
-   $child_older = $param['filterObjParamChildOlder'];
-   $chilldPrice=0;
+    $child_younger = $param['filterObjParamChildYounger'];
+    $child_older = $param['filterObjParamChildOlder'];
+    $chilldPrice = 0;
 
-    if($param['filterObjParamChild'] <=2){
+    if ($param['filterObjParamChild'] <= 2) {
         $roomChildPrice = OfflineRoomChildPrice::query();
-        $roomChildPrice = $roomChildPrice->where(function ($query) use ($param){
-            $query->whereRaw("'".$param['filterObjParamChildAge1']."' between min_age and max_age");
-            if($param['filterObjParamChildAge2']>0){
-                $query->orWhereRaw("'".$param['filterObjParamChildAge2']."' between min_age and max_age");
+        $roomChildPrice = $roomChildPrice->where(function ($query) use ($param) {
+            $query->whereRaw("'" . $param['filterObjParamChildAge1'] . "' between min_age and max_age");
+            if ($param['filterObjParamChildAge2'] > 0) {
+                $query->orWhereRaw("'" . $param['filterObjParamChildAge2'] . "' between min_age and max_age");
             }
-
         });
-        $roomChildPrice = $roomChildPrice->where('price_id',$room_price_id)->get();
+        $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
         $childPrice = $roomChildPrice->sum('cwb_price');
-
-    }else{
+    } else {
         $roomChildPrice = OfflineRoomChildPrice::query();
 
-        $roomChildPrice = $roomChildPrice->where(function ($query) use ($param){
-            if($param['filterObjParamChildYounger'] > 0 ){
+        $roomChildPrice = $roomChildPrice->where(function ($query) use ($param) {
+            if ($param['filterObjParamChildYounger'] > 0) {
                 $query->whereRaw(" '6' between min_age and max_age");
-             }
-             if($param['filterObjParamChildAge2']>0){
+            }
+            if ($param['filterObjParamChildAge2'] > 0) {
                 $query->whereRaw(" '7' between min_age and max_age");
             }
-
-
         });
 
 
-        $roomChildPrice = $roomChildPrice->where('price_id',$room_price_id)->get();
+        $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
 
-       dd($roomChildPrice);
+        dd($roomChildPrice);
         die;
     }
 
     return $childPrice;
+}
 
+
+
+if (!function_exists('selectRoomBooking')) {
+
+    function selectRoomBooking($paramArr)
+    {
+       
+        $SafeencryptionObj = new Safeencryption;
+        $id = "";
+        if (is_array($paramArr) && count($paramArr) > 0) {
+            $string = "";
+            foreach ($paramArr as $key => $value) {
+                $string .= $key."=".$value ."&";
+            }
+            $string = trim($string,'&');
+            $id = $SafeencryptionObj->encode($string);            
+        }
+        return $id;
+    }
 }

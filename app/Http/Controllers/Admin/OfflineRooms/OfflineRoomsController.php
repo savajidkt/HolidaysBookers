@@ -280,6 +280,7 @@ class OfflineRoomsController extends Controller
      */
     public function storePrice(Request $request, OfflineRoom $offlineroom)
     {
+        
         $this->offlineRoomRepository->createPrice($request->all(), $offlineroom);
         return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price created successfully!');
     }
@@ -293,7 +294,8 @@ class OfflineRoomsController extends Controller
      */
     public function editPrice($id)
     {
-        $roomPrice = OfflineRoomPrice::find($id);
+        $roomPrice = OfflineRoomPrice::find($id);  
+        
         $OfflineRoom = $roomPrice->room;         
         $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
         $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
