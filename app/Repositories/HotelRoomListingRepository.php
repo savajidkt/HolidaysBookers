@@ -55,35 +55,36 @@ class HotelRoomListingRepository
             $normalDaysPrice=0;
             $promoDaysPrice=0;
             $blackDaysPrice=0;
+            $childPrice=0;
             foreach($roomPrice->price as $pkey=> $price){
                 if($price->price_type == OfflineRoomPrice::NORMAL){
                     $normalDays = $normalDays + dateDiffInDays($startDate,$endDate);
                     $normalDaysPrice = $price->price_p_n_single_adult;
                     if($param['filterObjParamChild'] >0){
-                        //get_day_wise_children_price($price->id,$param); 
+                        $childPrice = get_day_wise_children_price($price->id,$param);
                     }
-                    $normalCWBPrice = $price->price_p_n_cwb;
-                    $normalCOBPrice = $price->price_p_n_cob;
-                    $normalCCOBPrice = $price->price_p_n_ccob;
+                    
                 }
                 if($price->price_type == OfflineRoomPrice::PROMOTIONAL){
                     $promoDays = $promoDays + dateDiffInDays($price->from_date,$price->to_date);
                     $promoDaysPrice = $price->price_p_n_single_adult * $promoDays;
-                    $promoCWBPrice = $price->price_p_n_cwb * $promoDays;
-                    $promoCOBPrice = $price->price_p_n_cob * $promoDays;
-                    $promoCCOBPrice = $price->price_p_n_ccob * $promoDays;
+                    if($param['filterObjParamChild'] >0){
+                        $childPrice = get_day_wise_children_price($price->id,$param);
+                    }
+                   
                 }
                 if($price->price_type == OfflineRoomPrice::BLACKOUTSALE){
                     $blackDays = $blackDays + dateDiffInDays($price->from_date,$price->to_date);
                     $blackDaysPrice = $price->price_p_n_single_adult * $blackDays;
-                    $blackCWBPrice = $price->price_p_n_cwb * $blackDays;
-                    $blackCOBPrice = $price->price_p_n_cob * $blackDays;
-                    $blackCCOBPrice = $price->price_p_n_ccob * $blackDays;
+                    if($param['filterObjParamChild'] >0){
+                        $childPrice = get_day_wise_children_price($price->id,$param);
+                    }
+                    
                 }
             }
             $normalDays = ($normalDays - ($promoDays + $blackDays));
             $normalDaysPrice = $normalDaysPrice * $normalDays;
-            $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice);
+            $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice + $childPrice);
 
             $GroupByPrices = OfflineRoomPrice::where('room_id',$roomPrice->id)->groupBy('meal_plan_id')->get();
 
