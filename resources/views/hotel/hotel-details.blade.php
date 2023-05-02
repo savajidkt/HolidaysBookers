@@ -556,23 +556,23 @@
                                         @endif
                                         <div class="row y-gap-30">
                                             <div class="col-lg col-md-6">
-                                               
+
                                                 <div class="y-gap-5">
-                                                
+
                                                     @foreach ($value_child['facilities'] as $key_facilities => $value_facilities)
-                                                      
-                                                            @if ($value_facilities['status'] == '0')
+                                                        @if ($value_facilities['status'] == '0')
                                                             <div class="d-flex items-center text-red-2">
-                                                                <i class="icon-close text-12 mr-10"></i>                                                                
-                                                                <div class="text-15">{{ $value_facilities['title'] }}</div>
+                                                                <i class="icon-close text-12 mr-10"></i>
+                                                                <div class="text-15">{{ $value_facilities['title'] }}
+                                                                </div>
                                                             </div>
-                                                            @else
+                                                        @else
                                                             <div class="d-flex items-center text-green-2">
                                                                 <i class="icon-check text-12 mr-10"></i>
-                                                                <div class="text-15">{{ $value_facilities['title'] }}</div>
+                                                                <div class="text-15">{{ $value_facilities['title'] }}
+                                                                </div>
                                                             </div>
-                                                            @endif
-                                                            
+                                                        @endif
                                                     @endforeach
                                                 </div>
 
@@ -584,7 +584,7 @@
                                                         {{ $value_child['min_nights'] }} night</div>
                                                     <div class="text-20 lh-14 fw-500">{{ $value_child['price'] }}</div>
                                                     @php
-                                                    $bookingParam = array('hotel_id' => $hotelsDetails['hotel']['id'], 'room_id' => $value_child['room_id'], 'price_id' => $value_child['id']);
+                                                        $bookingParam = ['hotel_id' => $hotelsDetails['hotel']['id'], 'room_id' => $value_child['room_id'], 'price_id' => $value_child['id']];
                                                     @endphp
                                                     <a href="{{ route('review-your-booking', selectRoomBooking($bookingParam)) }}"
                                                         class="button h-50 px-35 -dark-1 bg-blue-1 text-white mt-10">

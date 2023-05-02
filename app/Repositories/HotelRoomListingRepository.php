@@ -107,9 +107,9 @@ class HotelRoomListingRepository
             usort($roomPriceListingArray, function ($item1, $item2) {
                 return $item1['total_price'] <=> $item2['total_price'];
             });
-
+            $roomListingArray[$key]['room_facilities'] = $price->facilities->toArray();
             $roomListingArray[$key]['room_price'] = $roomPriceListingArray;
-
+            
         }
         //dd($roomListingArray);
         return $roomListingArray;

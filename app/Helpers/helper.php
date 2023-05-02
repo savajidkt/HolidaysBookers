@@ -553,9 +553,9 @@ function get_day_wise_children_price($room_price_id,$param){
                 $childOlderPrice = $rcprice->cwb_price * $param['filterObjParamChildOlder'] ;
             }
         }
-      
-    }
         $childPrice = ($childYoungerPrice + $childOlderPrice);
+    }
+        
     return $childPrice;
 
 }

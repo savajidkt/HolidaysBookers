@@ -32,4 +32,9 @@ class OfflineRoomChildPrice extends Authenticatable
         'cwb_price',
         'cnb_price'
     ];
+
+    public function facilities()
+    {
+        return $this->hasMany(OfflineRoomFacilitiesPrice::class, 'price_id', 'id');
+    }
 }
