@@ -561,17 +561,25 @@ function get_day_wise_children_price($room_price_id,$param){
 }
 if (!function_exists('selectRoomBooking')) {
 
-    function selectRoomBooking($paramArr)
+    function selectRoomBooking($paramArr, $isArray = false)
     {
        
         $SafeencryptionObj = new Safeencryption;
         $id = "";
+
+        if( $isArray ){
+           return $SafeencryptionObj->encode(serialize($paramArr));
+        } 
+        
         if (is_array($paramArr) && count($paramArr) > 0) {
             $string = "";
+            
+          
             foreach ($paramArr as $key => $value) {
                 $string .= $key."=".$value ."&";
             }
             $string = trim($string,'&');
+           
             $id = $SafeencryptionObj->encode($string);            
         }
         return $id;

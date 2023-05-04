@@ -177,33 +177,7 @@
         </div>
     </section>
 
-    {{-- <section class="py-10 d-flex items-center bg-light-2">
-        <div class="container">
-            <div class="row y-gap-10 items-center justify-between">
-                <div class="col-auto">
-                    <div class="row x-gap-10 y-gap-5 items-center text-14 text-light-1">
-                        <div class="col-auto">
-                            <div class="">Home</div>
-                        </div>
-                        <div class="col-auto">
-                            <div class="">></div>
-                        </div>
-                        <div class="col-auto">
-                            <div class="">{{ $hotelsDetails->country->name }} Hotels</div>
-                        </div>
-                        <div class="col-auto">
-                            <div class="">></div>
-                        </div>
-                        <div class="col-auto">
-                            <div class="text-dark-1">{{ $hotelsDetails->hotel_name }}</div>
-                        </div>
-                    </div>
-                </div>               
-            </div>
-        </div>
-    </section> --}}
-
-    <section class="pt-40">
+        <section class="pt-40">
         <div class="container">
             <div class="hotelSingleGrid">
                 <div>
@@ -584,9 +558,21 @@
                                                         {{ $value_child['min_nights'] }} night</div>
                                                     <div class="text-20 lh-14 fw-500">{{ $value_child['price'] }}</div>
                                                     @php
-                                                        $bookingParam = ['hotel_id' => $hotelsDetails['hotel']['id'], 'room_id' => $value_child['room_id'], 'price_id' => $value_child['id']];
+                                                    $bookingParam = array(
+                                                        'hotel_id' => $hotelsDetails['hotel']['id'], 
+                                                        'room_id' => $value_child['room_id'], 
+                                                        'price_id' => $value_child['id'],
+                                                        'adult' => $requestParam['adult'], 
+                                                        'child' => $requestParam['child'],
+                                                        'room' => $requestParam['room'],
+                                                        'city_id' => $requestParam['city_id'],
+                                                        'search_from' => $requestParam['search_from'],
+                                                        'search_to' => $requestParam['search_to'],
+                                                    );
+                                                  
                                                     @endphp
-                                                    <a href="{{ route('review-your-booking', selectRoomBooking($bookingParam)) }}"
+                                                    
+                                                    <a href="{{ route('review-your-booking', selectRoomBooking($bookingParam,true)) }}"
                                                         class="button h-50 px-35 -dark-1 bg-blue-1 text-white mt-10">
                                                         SELECT ROOM <div class="icon-arrow-top-right ml-15"></div>
                                                     </a>

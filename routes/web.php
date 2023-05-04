@@ -264,4 +264,6 @@ Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-
 Route::post('/contact-us', [ContactUsController::class, 'submitForm'])->name('contact-us-submit');
 Route::get('/offers', [OfferController::class, 'index'])->name('offers');
 Route::get('/hotel-details/{id}', [HotelListController::class, 'show'])->name('hotel-details');
-Route::get('/review-your-booking/{id}', [CheckoutController::class, 'index'])->name('review-your-booking');
+
+Route::resource('/checkout', CheckoutController::class);
+Route::get('/review-your-booking/{id}', [CheckoutController::class, 'checkout'])->name('review-your-booking');

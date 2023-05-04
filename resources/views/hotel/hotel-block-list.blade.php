@@ -28,7 +28,21 @@
                         </div>
                     </div>
                     <div class="col-md">
-                        <a href="{{ route('hotel-details', $safeencryptionObj->encode($hotel['id'])) }}">
+                      
+
+                        @php
+                        $singlePageParam = array(
+                            'hotel_id' => $hotel['id'], 
+                            'adult' => $requestParam['requested_adult'], 
+                            'child' => $requestParam['requested_child'],
+                            'room' => $requestParam['requested_room'],
+                            'city_id' => $requestParam['requested_city_id'],
+                            'search_from' => $requestParam['requested_search_from'],
+                            'search_to' => $requestParam['requested_search_to'],
+                        );
+                        @endphp
+
+                        <a href="{{ route('hotel-details', selectRoomBooking($singlePageParam, true)) }}">
                         <h3 class="text-18 lh-16 fw-500">
                             {{ $hotel['hotel_name'] }}<br class="lg:d-none">
                             {{ $hotel['property_type_id'] }},

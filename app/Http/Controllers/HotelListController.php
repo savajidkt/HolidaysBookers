@@ -111,20 +111,20 @@ class HotelListController extends Controller
     public function show($id)
     {
         $safeencryptionObj = new Safeencryption;
-        $id = $safeencryptionObj->decode($id);
+        $requestParam = unserialize($safeencryptionObj->decode($id));
 
-        if (!$id) {
+        if (!$requestParam['hotel_id']) {
             return redirect()->route('home');
         }
 
         $hotelsRelated = [];
-        $hotelsDetails = $this->hotelListingRepository->hotelDetails($id);
+        $hotelsDetails = $this->hotelListingRepository->hotelDetails($requestParam['hotel_id']);
         
         if ($hotelsDetails) {
             $hotelsRelated = $this->hotelListingRepository->hotelRelated($hotelsDetails['hotel']);
         }
         
 
-        return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj]);
+        return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj, 'requestParam' => $requestParam]);
     }
 }
