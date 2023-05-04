@@ -13,8 +13,9 @@ use App\Models\OfflineRoomPrice;
 use App\Exceptions\GeneralException;
 use Illuminate\Support\Facades\Hash;
 use App\Models\OfflineRoomChildPrice;
-use App\Models\OfflineRoomFacilitiesPrice;
 use Illuminate\Support\Facades\Storage;
+use App\Models\OfflineRoomFacilitiesPrice;
+use App\Models\OfflineRoomCancelationPolicies;
 
 class OfflineRoomRepository
 {
@@ -198,18 +199,18 @@ class OfflineRoomRepository
             'cutoff_price'     => $data['cutoff_price'],
             'min_nights'     => $data['min_nights'],
             'min_overall_nights'     => $data['min_overall_nights'],
-            // 'price_p_n_single_adult'     => $data['price_p_n_single_adult'],
-            // 'price_p_n_twin_sharing'     => $data['price_p_n_twin_sharing'],
-            // 'price_p_n_extra_adult'     => $data['price_p_n_extra_adult'],
-            // 'price_p_n_cwb'     => $data['price_p_n_cwb'],
-            // 'price_p_n_cob'     => $data['price_p_n_cob'],
-            // 'price_p_n_ccob'     => $data['price_p_n_ccob'],
-            // 'tax_p_n_single_adult'     => $data['tax_p_n_single_adult'],
-            // 'tax_p_n_twin_sharing'     => $data['tax_p_n_twin_sharing'],
-            // 'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
-            // 'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
-            // 'tax_p_n_cob'     => $data['tax_p_n_cob'],
-            // 'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
+            'price_p_n_single_adult'     => $data['price_p_n_single_adult'],
+            'price_p_n_twin_sharing'     => $data['price_p_n_twin_sharing'],
+            'price_p_n_extra_adult'     => $data['price_p_n_extra_adult'],
+            'price_p_n_cwb'     => $data['price_p_n_cwb'],
+            'price_p_n_cob'     => $data['price_p_n_cob'],
+            'price_p_n_ccob'     => $data['price_p_n_ccob'],
+            'tax_p_n_single_adult'     => $data['tax_p_n_single_adult'],
+            'tax_p_n_twin_sharing'     => $data['tax_p_n_twin_sharing'],
+            'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
+            'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
+            'tax_p_n_cob'     => $data['tax_p_n_cob'],
+            'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
             'price_p_n_single_adult'     => 0,
             'price_p_n_twin_sharing'     => 0,
             'price_p_n_extra_adult'     => 0,
@@ -226,6 +227,7 @@ class OfflineRoomRepository
             'promo_code'     => $data['promo_code'] ?? '',
             'rate_offered'     => $data['rate_offered'],
             'commission'     => $data['commission'],
+            'cancelation_policy'     => $data['cancelation_policy'],
             'days_monday'     => isset($data['days_monday']) ? 1 : 0,
             'days_tuesday'     => isset($data['days_tuesday']) ? 1 : 0,
             'days_wednesday'     => isset($data['days_wednesday']) ? 1 : 0,
@@ -258,14 +260,14 @@ class OfflineRoomRepository
                 OfflineRoomChildPrice::create($RoomChildPriceArr);
             }
         }
-        if (isset($data['facilities']) && is_array($data['facilities']) && count($data['facilities']) > 0) {
-            foreach ($data['facilities'] as $key => $value) {
-                $facilitiesArr['room_id'] = $offlineroom->id;
-                $facilitiesArr['price_id'] =$offlineRoomPrice->id;
-                $facilitiesArr['title'] = $value['title'];
-                $facilitiesArr['description'] = $value['description'];
-                $facilitiesArr['status'] = $value['status'];
-                OfflineRoomFacilitiesPrice::create($facilitiesArr);
+        if (isset($data['cancelation-policies']) && is_array($data['cancelation-policies']) && count($data['cancelation-policies']) > 0) {
+            foreach ($data['cancelation-policies'] as $key => $value) {
+                $cancelationArr['room_id'] = $offlineroom->id;
+                $cancelationArr['price_id'] = $offlineRoomPrice->id;
+                $cancelationArr['start_date'] = $value['start_date'];
+                $cancelationArr['end_date'] = $value['end_date'];
+                $cancelationArr['description'] = $value['description'];
+                OfflineRoomCancelationPolicies::create($cancelationArr);
             }
         }
         return $offlineroom;
@@ -296,18 +298,18 @@ class OfflineRoomRepository
             'cutoff_price'     => $data['cutoff_price'],
             'min_nights'     => $data['min_nights'],
             'min_overall_nights'     => $data['min_overall_nights'],
-            // 'price_p_n_single_adult'     => $data['price_p_n_single_adult'],
-            // 'price_p_n_twin_sharing'     => $data['price_p_n_twin_sharing'],
-            // 'price_p_n_extra_adult'     => $data['price_p_n_extra_adult'],
-            // 'price_p_n_cwb'     => $data['price_p_n_cwb'],
-            // 'price_p_n_cob'     => $data['price_p_n_cob'],
-            // 'price_p_n_ccob'     => $data['price_p_n_ccob'],
-            // 'tax_p_n_single_adult'     => $data['tax_p_n_single_adult'],
-            // 'tax_p_n_twin_sharing'     => $data['tax_p_n_twin_sharing'],
-            // 'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
-            // 'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
-            // 'tax_p_n_cob'     => $data['tax_p_n_cob'],
-            // 'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
+            'price_p_n_single_adult'     => $data['price_p_n_single_adult'],
+            'price_p_n_twin_sharing'     => $data['price_p_n_twin_sharing'],
+            'price_p_n_extra_adult'     => $data['price_p_n_extra_adult'],
+            'price_p_n_cwb'     => $data['price_p_n_cwb'],
+            'price_p_n_cob'     => $data['price_p_n_cob'],
+            'price_p_n_ccob'     => $data['price_p_n_ccob'],
+            'tax_p_n_single_adult'     => $data['tax_p_n_single_adult'],
+            'tax_p_n_twin_sharing'     => $data['tax_p_n_twin_sharing'],
+            'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
+            'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
+            'tax_p_n_cob'     => $data['tax_p_n_cob'],
+            'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
             'price_p_n_single_adult'     => 0,
             'price_p_n_twin_sharing'     => 0,
             'price_p_n_extra_adult'     => 0,
@@ -356,22 +358,17 @@ class OfflineRoomRepository
             }
         }
 
-        if (is_array($data['facilities']) && count($data['facilities']) > 0) {
-            foreach ($data['facilities'] as $key => $value) {
-                
-                $facilitiesArr['title'] = $value['title'];
-                $facilitiesArr['description'] = $value['description'];
-                $facilitiesArr['status'] = $value['status'];
-                if (!isset($value['id']) || strlen($value['id']) == 0 || $value['id'] == "" || $value['id'] == NULL) {                   
-                    $facilitiesArr['room_id'] = $offlineroomprice->room_id;
-                    $facilitiesArr['price_id'] =$offlineroomprice->id;
-                    OfflineRoomFacilitiesPrice::create($facilitiesArr);
-                } else {
-                    OfflineRoomFacilitiesPrice::where('id', $value['id'])->where('room_id', $value['room_id'])->where('price_id', $value['price_id'])->update($facilitiesArr);
-                }
+        if (is_array($data['cancelation-policies']) && count($data['cancelation-policies']) > 0) {
+            OfflineRoomCancelationPolicies::where('room_id', $offlineroomprice->room_id)->where('price_id', $offlineroomprice->id)->delete();
+            foreach ($data['cancelation-policies'] as $key => $value) {
+                $cancelationArr['start_date'] = $value['start_date'];
+                $cancelationArr['end_date'] = $value['end_date'];
+                $cancelationArr['description'] = $value['description'];
+                $cancelationArr['room_id'] = $offlineroomprice->room_id;
+                $cancelationArr['price_id'] = $offlineroomprice->id;
+                OfflineRoomCancelationPolicies::create($cancelationArr);
             }
         }        
-
         return $offlineroomprice;
     }
 

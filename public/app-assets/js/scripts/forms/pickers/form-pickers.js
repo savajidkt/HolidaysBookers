@@ -8,7 +8,7 @@
 ==========================================================================================*/
 (function (window, document, $) {
   'use strict';
-
+  
   /*******  Flatpickr  *****/
   var basicPickr = $('.flatpickr-basic'),
     timePickr = $('.flatpickr-time'),
@@ -19,7 +19,8 @@
     disabledRangePickr = $('.flatpickr-disabled-range'),
     inlineRangePickr = $('.flatpickr-inline'),
     startBasicPickr = $('.start-date-basic'),
-    bookingBasicPickr = $('.booking-basic');
+    bookingBasicPickr = $('.booking-basic'),    
+    RangeBasicPickr = $('.rage-date-basic');
 
   // Default
   if (basicPickr.length) {
@@ -37,6 +38,15 @@
       minDate: RoomMinDate,
       mode: 'range',
       defaultDate: [BookingStartDate, BookingEndDate]
+    });
+  }
+
+  
+  if (RangeBasicPickr.length) {
+    
+    RangeBasicPickr.flatpickr({      
+      enableTime: true,      
+      minDate: RoomMinDate  
     });
   }
 

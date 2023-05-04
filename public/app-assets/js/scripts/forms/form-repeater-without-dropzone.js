@@ -12,7 +12,7 @@ $(function () {
   'use strict';
 
   // form repeater jquery
-  $('.room-repeater, .repeater-default, .package-repeater, .room-facilities-repeater').repeater({
+  $('.room-repeater, .repeater-default, .package-repeater, .room-cancelation-policies-repeater').repeater({
     show: function () {
       $(this).slideDown();
       var TotalCount = $(this).closest("[data-repeater-item]").index();
@@ -30,11 +30,14 @@ $(function () {
         filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
         filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
       };
-      CKEDITOR.replace('my-description-' + $(this).closest("[data-repeater-item]").index(), options);
+      //CKEDITOR.replace('my-description-' + $(this).closest("[data-repeater-item]").index(), options);
       // Feather Icons
       if (feather) {
         feather.replace({ width: 14, height: 14 });
       }
+
+      $('.testd').filter(":last").find('.rage-date-basic').flatpickr({enableTime: true});
+
     },
     hide: function (deleteElement) {
       if (confirm('Are you sure you want to delete this element?')) {

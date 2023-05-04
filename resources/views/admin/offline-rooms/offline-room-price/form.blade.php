@@ -472,6 +472,183 @@
     <div class="col-12">
         <div class="col-md-12 col-12">
             <div class="form-group">
+                <label for="itemcost">Cancelation Policy </label>
+                <div class="demo-inline-spacing Cancelation-Policy">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="refundeble" value="refundeble"
+                            name="cancelation_policy"
+                            {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'refundeble' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="refundeble">Refundeble</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="non_refundeble"
+                            value="non_refundeble" name="cancelation_policy"
+                            {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'non_refundeble' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="non_refundeble">Non Refundeble</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="early_birdoffer"
+                            value="early_birdoffer" name="cancelation_policy"
+                            {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'early_birdoffer' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="early_birdoffer">Early birdoffer</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="pre_purchasep_rate"
+                            value="pre_purchasep_rate" name="cancelation_policy"
+                            {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'pre_purchasep_rate' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="pre_purchasep_rate">Pre Purchase Rate</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input " id="rates_valid_for_package_only"
+                            value="rates_valid_for_package_only" name="cancelation_policy"
+                            {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'rates_valid_for_package_only' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="rates_valid_for_package_only">Rates Valid for Package
+                            only</label>
+                    </div>
+                </div>
+                @error('cancelation_policy')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="days_validError"></div>
+        </div>
+    </div>
+    <div
+        class="col-12 div_cancelation_policy {{ strlen($pricemodel->cancelation_policy) > 0 && $pricemodel->cancelation_policy == 'refundeble' ? 'show' : 'hide' }}">
+        <div class="room-cancelation-policies-repeater">
+            <div data-repeater-list="cancelation-policies" class="repeaterCancelationPoliciesCLS">
+                @if ($pricemodel->cancelationpolicies->count() > 0)
+                    @foreach ($pricemodel->cancelationpolicies as $policies)
+                        
+
+                        <div data-repeater-item class="testd">
+                            <input type="hidden" name="id" value="{{ $policies->id }}" />
+                        <input type="hidden" name="room_id" value="{{ $policies->room_id }}" />
+                        <input type="hidden" name="price_id" value="{{ $policies->price_id }}" />
+                            <div class="row d-flex align-items-end">
+                                <div class="col-3">
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="itemcost">Start Date</label>
+                                            <div class="input-group input-daterange">
+                                                <input type="text" name="start_date"
+                                                    class="form-control rage-date-basic flatpickr"
+                                                    placeholder="YYYY-MM-DD HH:MM"
+                                                    value="{{ isset($policies->start_date) ? $policies->start_date : old('start_date') }}"
+                                                    data-error="Start date is required" data-input />
+                                            </div>
+                                            <div class="StartDateValidity"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="itemcost">End Date</label>
+                                            <div class="input-group input-daterange">
+                                                <input type="text" name="end_date"
+                                                    class="form-control rage-date-basic flatpickr"
+                                                    placeholder="YYYY-MM-DD HH:MM"
+                                                    value="{{ isset($policies->end_date) ? $policies->end_date : old('end_date') }}"
+                                                    data-error="End date is required" data-input />
+                                            </div>
+                                            <div class="EndDateValidity"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="itemcost">Short Description</label>
+                                            <textarea class="form-control" name="description">{{ isset($policies->description) ? $policies->description : old('description') }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row col-2">
+                                    <div class="col-md-2 col-12 mb-50">
+                                        <div class="form-group">
+                                            <button class="btn btn-outline-danger btn-sm text-nowrap px-1"
+                                                data-repeater-delete type="button">
+                                                <i data-feather="x" class="mr-25"></i>
+                                                <span>Delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                    @endforeach
+                @else
+                    <div data-repeater-item class="testd">
+                        <div class="row d-flex align-items-end">
+                            <div class="col-3">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="itemcost">Start Date</label>
+                                        <div class="input-group input-daterange">
+                                            <input type="text" name="start_date"
+                                                class="form-control rage-date-basic flatpickr"
+                                                placeholder="YYYY-MM-DD HH:MM"
+                                                value="{{ isset($pricemodel->start_date) ? $pricemodel->start_date : old('start_date') }}"
+                                                data-error="Start date is required" data-input />
+                                        </div>
+                                        <div class="StartDateValidity"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="itemcost">End Date</label>
+                                        <div class="input-group input-daterange">
+                                            <input type="text" name="end_date"
+                                                class="form-control rage-date-basic flatpickr"
+                                                placeholder="YYYY-MM-DD HH:MM"
+                                                value="{{ isset($pricemodel->end_date) ? $pricemodel->end_date : old('end_date') }}"
+                                                data-error="End date is required" data-input />
+                                        </div>
+                                        <div class="EndDateValidity"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="itemcost">Short Description</label>
+                                        <textarea class="form-control" name="description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-2">
+                                <div class="col-md-2 col-12 mb-50">
+                                    <div class="form-group">
+                                        <button class="btn btn-outline-danger btn-sm text-nowrap px-1"
+                                            data-repeater-delete type="button">
+                                            <i data-feather="x" class="mr-25"></i>
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                @endif
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-icon btn-primary " type="button" data-repeater-create>
+                        <i data-feather="plus" class="mr-25"></i>
+                        <span>Add More</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-2">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
                 <label for="itemcost">Days Valid</label>
                 <div class="demo-inline-spacing">
                     <div class="custom-control custom-checkbox">
@@ -526,116 +703,6 @@
         </div>
     </div>
 </div>
-<hr class="my-2" />
-<div class="room-facilities-repeater">
-    <div data-repeater-list="facilities" class="repeaterFacilitiesCLS">
-        @if ($pricemodel->facilities->count() > 0)
-            @foreach ($pricemodel->facilities as $facility)           
-
-                <div data-repeater-item>
-                    <input type="hidden" name="id" value="{{ $facility->id }}" />
-            <input type="hidden" name="room_id" value="{{ $facility->room_id }}" />
-            <input type="hidden" name="price_id" value="{{ $facility->price_id }}" />
-                    <div class="row d-flex align-items-end">
-                        <div class="col-4">
-                            <div class="col-md-12 col-12">
-                                <div class="form-group">
-                                    <label for="itemcost">Title</label>
-                                    <input type="text" class="form-control" name="title" value="{{ isset($facility->title) ? $facility->title : old('title') }}" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="col-md-12 col-12">
-                                <div class="form-group">
-                                    <label for="itemcost">Short Description</label>
-                                    <textarea class="form-control" name="description">{{ isset($facility->description) ? $facility->description : old('description') }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="col-md-12 col-12">
-                                <div class="form-group">
-                                    <label for="itemcost">Display</label>
-                                    <select name="status" class="form-control" id="status">
-                                        <option value="0" {{ $facility->status == '0' ? 'selected' : '' }}>No</option>
-                                        <option value="1" {{ $facility->status == '1' ? 'selected' : '' }}>Yes</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row col-2">
-                            <div class="col-md-2 col-12 mb-50">
-                                <div class="form-group">
-                                    <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete
-                                        type="button">
-                                        <i data-feather="x" class="mr-25"></i>
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                </div>
-            @endforeach
-        @else
-            <div data-repeater-item>
-                <div class="row d-flex align-items-end">
-                    <div class="col-4">
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label for="itemcost">Title</label>
-                                <input type="text" class="form-control" name="title" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label for="itemcost">Short Description</label>
-                                <textarea class="form-control" name="description"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="col-md-12 col-12">
-                            <div class="form-group">
-                                <label for="itemcost">Display</label>
-                                <select name="status" class="form-control" id="status">
-                                    <option value="0">No</option>
-                                    <option value="1" selected>Yes</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row col-2">
-                        <div class="col-md-2 col-12 mb-50">
-                            <div class="form-group">
-                                <button class="btn btn-outline-danger btn-sm text-nowrap px-1" data-repeater-delete
-                                    type="button">
-                                    <i data-feather="x" class="mr-25"></i>
-                                    <span>Delete</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr />
-            </div>
-        @endif
-    </div>
-
-    <div class="row">
-        <div class="col-12">
-            <button class="btn btn-icon btn-primary " type="button" data-repeater-create>
-                <i data-feather="plus" class="mr-25"></i>
-                <span>Add More Facilities</span>
-            </button>
-        </div>
-    </div>
-</div>
-
 <hr class="my-2" />
 <div class="room-repeater">
     <div data-repeater-list="childrens" class="repeaterCLS">

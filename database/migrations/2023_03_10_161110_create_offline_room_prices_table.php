@@ -39,8 +39,9 @@ class CreateOfflineRoomPricesTable extends Migration
             $table->integer('tax_p_n_ccob')->default(0)->nullable();
             $table->integer('market_price')->default(0)->nullable();
             $table->string('promo_code')->nullable();
-            $table->string('rate_offered')->default(0)->nullable();
-            $table->integer('commission')->default(0)->nullable();            
+            $table->string('rate_offered')->default(0)->nullable();            
+            $table->integer('commission')->default(0)->nullable();   
+            $table->string('cancelation_policy')->nullable();         
             $table->integer('days_monday')->default(0)->nullable();
             $table->integer('days_tuesday')->default(0)->nullable();
             $table->integer('days_wednesday')->default(0)->nullable();

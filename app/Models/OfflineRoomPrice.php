@@ -6,6 +6,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Models\OfflineRoomFacilitiesPrice;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\OfflineRoomCancelationPolicies;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -54,6 +55,7 @@ class OfflineRoomPrice extends Authenticatable
         'promo_code',
         'rate_offered',
         'commission',
+        'cancelation_policy',
         'days_monday',
         'days_tuesday',
         'days_wednesday',
@@ -130,10 +132,10 @@ class OfflineRoomPrice extends Authenticatable
         return $this->hasMany(OfflineRoomChildPrice::class, 'price_id', 'id');
     }
 
-    public function facilities()
+    public function cancelationpolicies()
     {
-        return $this->hasMany(OfflineRoomFacilitiesPrice::class, 'price_id', 'id');
-    }
+        return $this->hasMany(OfflineRoomCancelationPolicies::class, 'price_id', 'id');
+    }   
     
     public function currency()
     {

@@ -38,7 +38,7 @@ var FrmOfflineRoomPreference = function () {
                 }
             },
             submitHandler: function (form) {
-                $(".buttonLoader").removeClass('hide');               
+                $(".buttonLoader").removeClass('hide');
                 var form_data = new FormData(form);
 
                 jQuery('.roomImageDropzone').each(function (index, currentElement) {
@@ -385,6 +385,21 @@ var FrmOfflineRoomPreference = function () {
             } else {
                 // $('.is_stop_sale').removeClass('hide');
             }
+        });
+    }
+
+    var FrmOfflineRoomPriceCancelationPolicy = function () {
+
+        $('.Cancelation-Policy input[type=radio]').change(function () {
+
+            if ($(this).val() == 'refundeble') {
+               
+                    $('.div_cancelation_policy').removeClass('hide');
+                
+            } else {
+                $('.div_cancelation_policy').addClass('hide');
+            }
+
         });
     }
 
@@ -977,6 +992,7 @@ var FrmOfflineRoomPreference = function () {
             FrmAddRoomMealPlan();
             FrmAddFreebies();
             OfflineCurrency();
+            FrmOfflineRoomPriceCancelationPolicy();
         }
     };
 }();

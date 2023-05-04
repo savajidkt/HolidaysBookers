@@ -151,7 +151,7 @@ class OfflineRoom extends Authenticatable
     public function roomamenity()
     {
         return $this->belongsToMany(Amenity::class, 'room_amenities', 'room_id', 'amenity_id');
-    }
+    }    
 
     public function roomfreebies()
     {
