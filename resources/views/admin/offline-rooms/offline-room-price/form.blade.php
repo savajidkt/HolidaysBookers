@@ -234,7 +234,7 @@
     </div>
 
 
-    {{-- <div class="col-12">
+    <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
             <h4 class="">Price per night (including all taxes) :</h4>
         </div>
@@ -408,7 +408,7 @@
     </div>
     <div class="col-12">
         <hr class="my-2" />
-    </div> --}}
+    </div>
     <div class="col-3">
         <div class="col-md-12 col-12">
             <div class="form-group">
