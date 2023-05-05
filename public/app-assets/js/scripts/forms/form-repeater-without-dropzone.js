@@ -15,6 +15,7 @@ $(function () {
   $('.room-repeater, .repeater-default, .package-repeater, .room-cancelation-policies-repeater').repeater({
     show: function () {
       $(this).slideDown();
+      //console.log($(this).attr('data-cls'));
       var TotalCount = $(this).closest("[data-repeater-item]").index();
       //var TotalCount = $(this).closest("[data-repeater-item]").index() + parseInt(1);
       $('.repeaterCLS .select2-container').remove();
@@ -24,19 +25,24 @@ $(function () {
       });
       $('.repeaterCLS  .select2-container').css('width', '100%');
 
-      var options = {
-        filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-        filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
-        filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-        filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
-      };
-      //CKEDITOR.replace('my-description-' + $(this).closest("[data-repeater-item]").index(), options);
+      if (is_package) {
+        var options = {
+          filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+          filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+          filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+          filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+        };
+
+        CKEDITOR.replace('my-description-' + $(this).closest("[data-repeater-item]").index(), options);
+      }
       // Feather Icons
       if (feather) {
         feather.replace({ width: 14, height: 14 });
       }
 
-      $('.testd').filter(":last").find('.rage-date-basic').flatpickr({enableTime: true});
+      if($(this).attr('data-cls') != 'repeaterChilds'){
+        $('.testd').filter(":last").find('.rage-date-basic').flatpickr({ enableTime: true });
+      }      
 
     },
     hide: function (deleteElement) {
@@ -63,7 +69,7 @@ $(function () {
           });
         }
         $(this).slideUp(deleteElement);
-        console.log($(this).closest("[data-repeater-item]").index());
+        //console.log($(this).closest("[data-repeater-item]").index());
       }
     }
   });

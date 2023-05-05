@@ -371,7 +371,7 @@ var FrmOfflineRoomPreference = function () {
                     error.insertAfter(element);
                 }
             },
-            submitHandler: function (form) {
+            submitHandler: function (form) {               
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }

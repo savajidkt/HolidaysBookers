@@ -266,6 +266,7 @@ class OfflineRoomRepository
                 $cancelationArr['price_id'] = $offlineRoomPrice->id;
                 $cancelationArr['start_date'] = $value['start_date'];
                 $cancelationArr['end_date'] = $value['end_date'];
+                $cancelationArr['night'] = $value['night'];
                 $cancelationArr['description'] = $value['description'];
                 OfflineRoomCancelationPolicies::create($cancelationArr);
             }
@@ -363,6 +364,7 @@ class OfflineRoomRepository
             foreach ($data['cancelation-policies'] as $key => $value) {
                 $cancelationArr['start_date'] = $value['start_date'];
                 $cancelationArr['end_date'] = $value['end_date'];
+                $cancelationArr['night'] = $value['night'];
                 $cancelationArr['description'] = $value['description'];
                 $cancelationArr['room_id'] = $offlineroomprice->room_id;
                 $cancelationArr['price_id'] = $offlineroomprice->id;

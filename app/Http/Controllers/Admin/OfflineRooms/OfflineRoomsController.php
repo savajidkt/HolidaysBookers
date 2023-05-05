@@ -279,9 +279,28 @@ class OfflineRoomsController extends Controller
      * @return void
      */
     public function storePrice(Request $request, OfflineRoom $offlineroom)
-    {        
-        $this->offlineRoomRepository->createPrice($request->all(), $offlineroom);
-        return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price created successfully!');
+    {
+        if ($request->save == "save and new") {
+
+            $this->offlineRoomRepository->createPrice($request->all(), $offlineroom);
+
+            $roomPrice = new OfflineRoomPrice();
+            $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
+            $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
+
+            $TravelDate = explode(' to ', $request->start_date);
+            $BookingDate = explode(' to ', $request->booking_start_date);
+
+            $request['from_date'] = isset($TravelDate[0]) ? $TravelDate[0] : '';
+            $request['to_date'] = isset($TravelDate[1]) ? $TravelDate[1] : '';
+            $request['booking_from_date'] = isset($BookingDate[0]) ? $BookingDate[0] : '';
+            $request['booking_to_date'] = isset($BookingDate[1]) ? $BookingDate[1] : '';
+
+            return view('admin.offline-rooms.offline-room-price.createNew', ['pricemodel' => $roomPrice, 'model' => $offlineroom, 'currencyList' => $currencyList, 'HotelsRoomMealPlan' => $HotelsRoomMealPlan, 'requestData' => $request->all()]);
+        } else {
+            $this->offlineRoomRepository->createPrice($request->all(), $offlineroom);
+            return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price created successfully!');
+        }
     }
 
     /**
@@ -293,8 +312,8 @@ class OfflineRoomsController extends Controller
      */
     public function editPrice($id)
     {
-        $roomPrice = OfflineRoomPrice::find($id);  
-        $OfflineRoom = $roomPrice->room;         
+        $roomPrice = OfflineRoomPrice::find($id);
+        $OfflineRoom = $roomPrice->room;
         $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
         $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
         return view('admin.offline-rooms.offline-room-price.edit', ['pricemodel' => $roomPrice, 'model' => $OfflineRoom, 'currencyList' => $currencyList, 'HotelsRoomMealPlan' => $HotelsRoomMealPlan]);
@@ -309,7 +328,7 @@ class OfflineRoomsController extends Controller
      * @return void
      */
     public function updatePrice(Request $request, OfflineRoomPrice $offlineroomprice)
-    {        
+    {
         $offlineroom =  $offlineroomprice->room;
         $this->offlineRoomRepository->updatePrice($request->all(), $offlineroomprice);
         return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price updated successfully!');

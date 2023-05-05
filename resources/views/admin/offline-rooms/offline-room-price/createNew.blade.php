@@ -13,7 +13,7 @@
                         <form id="FrmOfflineRoomPrice" class="" method="post" enctype="multipart/form-data"
                             action="{{ route('add-room-price', $model) }}">
                             @csrf
-                            @include('admin.offline-rooms.offline-room-price.form')
+                            @include('admin.offline-rooms.offline-room-price.formNew')
                             <div class="row mt-3">
                                 <div class="col-12">
                                     <a class="btn btn-outline-secondary btn-sm  waves-effect"

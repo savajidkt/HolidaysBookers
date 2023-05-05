@@ -19,6 +19,7 @@ class OfflineRoomCancelationPolicies extends Authenticatable
         'price_id',
         'start_date',
         'end_date',
+        'night',
         'description'        
     ];
 }

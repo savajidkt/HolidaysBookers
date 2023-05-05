@@ -19,6 +19,7 @@ class CreateOfflineRoomPricesCancelationPoliciesTable extends Migration
             $table->unsignedBigInteger('price_id');
             $table->timestamps('start_date');
             $table->timestamps('end_date');
+            $table->integer('night')->default(0);
             $table->text('description')->nullable();            
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('room_id')->references('id')->on('offline_rooms')->onDelete('cascade');

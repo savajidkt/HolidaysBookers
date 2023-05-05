@@ -1,6 +1,9 @@
 @extends('admin.layout.app')
 @section('page_title', 'Edit Package')
 @section('content')
+<script>
+    var is_package = true;
+</script>
     <section class="bs-validation">
         <div class="row">
             <!-- Bootstrap Validation -->
