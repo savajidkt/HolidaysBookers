@@ -66,6 +66,13 @@
         .mainSearch.-col-4 .button-grid.transfer-cls {
             grid-template-columns: 1fr 1fr auto auto auto auto;
         }
+        .guestModal{
+					height: 70vh !important;
+					overflow: hidden;  
+					overflow-y: scroll;
+				}
+                .dynamicChilds, .ddynamicChilds { display: flex;}
+                .floatright { float: right;}
     </style>
 </head>
 

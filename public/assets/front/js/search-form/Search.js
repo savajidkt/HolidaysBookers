@@ -29,9 +29,9 @@ var FrmSearchPreference = function () {
                 error.insertAfter(element);
             },
             submitHandler: function (form) {
-                $("<input />").attr("type", "hidden").attr("name", "adult").attr("value", $('.count-adults').html().trim()).appendTo("#SearchFrm");
-                $("<input />").attr("type", "hidden").attr("name", "child").attr("value", $('.count-childs').html().trim()).appendTo("#SearchFrm");
-                $("<input />").attr("type", "hidden").attr("name", "room").attr("value", $('.count-rooms').html().trim()).appendTo("#SearchFrm");
+                //$("<input />").attr("type", "hidden").attr("name", "adult").attr("value", $('.count-adults').html().trim()).appendTo("#SearchFrm");
+                //$("<input />").attr("type", "hidden").attr("name", "child").attr("value", $('.count-childs').html().trim()).appendTo("#SearchFrm");
+                //$("<input />").attr("type", "hidden").attr("name", "room").attr("value", $('.count-rooms').html().trim()).appendTo("#SearchFrm");
                 form.submit();
             }
         });
@@ -76,11 +76,13 @@ var FrmSearchPreference = function () {
         init: function () {
             FrmSearchFormValidation();
             FrmAutocomplete();
+            FrmAddMoreGuest();
         }
     };
 }();
 
 $(document).ready(function () {
+
     FrmSearchPreference.init();
     var daterange_transfer_returns = check_in_startDate;
     $(function () {
@@ -121,10 +123,10 @@ $(document).ready(function () {
             $('#child_age_older').val(unSelectedChild);
         } else if (this.id == "child_age_older") {
             $('#child_age_older').val(selectedChild);
-            $('#child_age_younger').val(unSelectedChild);            
+            $('#child_age_younger').val(unSelectedChild);
         } else {
             $('#child_age_older').val('0');
-            $('#child_age_younger').val('0');   
+            $('#child_age_younger').val('0');
         }
     });
 
@@ -185,6 +187,183 @@ $(document).ready(function () {
         }
     });
 });
+
+var createCookie = function (cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+var readCookie = function (cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function FrmAddMoreGuest() {
+
+    $(document).on('click', '.addMore', function () {
+        var numbers = $('.optionBox:last').find('.roomNumber').html();
+        var totalNub = parseInt(numbers) + parseInt(1);
+        var moreSting = `<div class="row optionBox">
+        <div class="col-lg-6 ddynamicChilds">
+            <div class="col-lg-2  py-20">
+                <div class="accordion__icon size-40 flex-center bg-error-1 rounded-full mr-20 remove"
+                    data-action="remove">
+                    <i class="icon-minus"></i>
+                </div>
+            </div>
+            <div class="col-lg-3 text-center">
+                <div class="fw-500 mb-4">Room</div>
+                <div class="">
+                    <label class="lh-1 text-16 fw-500 text-dark-1 roomNumber">`+ totalNub + `</label>
+                </div>
+            </div>
+            <div class="col-lg-3 text-center">
+                <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Adult</label>
+                <select name="adult" id="adult" class="adult text-center">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="col-lg-3 text-center">
+                <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Child</label>
+                <select name="child" id="child" class="addDynamicChilds text-center child">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+        </div>
+        <div class="dynamicChilds col-lg-6 text-center">                              
+        </div>
+        <hr>
+    </div>
+    `;
+        $('.row-block:last').before(moreSting);
+    });
+
+    jQuery(document).on('click', '.remove', function () {
+        var numbers = $(this).closest('.optionBox').find('.roomNumber').html();
+        $(this).closest('.optionBox').remove();
+        changeNumber();
+    });
+
+    jQuery(document).on('click', '.SearchDone', function () {
+
+        var RoomsCount = 0;
+        var AdultCount = 0;
+        var ChildCount = 0;
+
+        var collection = $(".optionBox");
+        var totalArray = new Array();
+        collection.each(function (index) {
+
+            var tempChildArr = [];
+            RoomsCount = parseInt(RoomsCount) + parseInt(1);
+            AdultCount = parseInt(AdultCount) + parseInt($(this).find(".adult :selected").val());
+            ChildCount = parseInt(ChildCount) + parseInt($(this).find(".child :selected").val());
+
+            var collectionAge = $(this).find('.agess');
+            collectionAge.each(function (index) {
+                var tempArr = [];
+                var cwb = "no";
+                if ($(this).find(".ageCWB").prop('checked') == true) {
+                    cwb = "yes";
+                }
+                // tempArr.push({
+                //     cwb: cwb,
+                //     age: parseInt($(this).find(".age :selected").val())
+                // });
+              // tempArr['cwb'] = cwb;
+               //tempArr['age'] = parseInt($(this).find(".age :selected").val());
+
+
+                tempChildArr.push({
+                    cwb: cwb,
+                    age: parseInt($(this).find(".age :selected").val())
+                });
+                
+            });
+            totalArray.push(
+                {
+                    room: RoomsCount,
+                    adult: parseInt($(this).find(".adult :selected").val()),
+                    child: parseInt($(this).find(".child :selected").val()),
+                    childAge: tempChildArr
+                }
+            );
+        });
+        createCookie('searchGuestArr', JSON.stringify(totalArray), 1);
+        createCookie('searchGuestRoomCount', JSON.stringify(RoomsCount), 1);
+        createCookie('searchGuestChildCount', JSON.stringify(ChildCount), 1);
+        createCookie('searchGuestAdultCount', JSON.stringify(AdultCount), 1);
+        $('.js-count-adult').html(AdultCount);
+        $('.js-count-child').html(ChildCount);
+        $('.js-count-room').html(RoomsCount);
+
+        //$(".guestModal .pointer").trigger('click');
+        $(".guestModal").addClass('is-hidden');
+    });
+
+    jQuery(document).on('change', '.addDynamicChilds', function () {
+        $(this).closest('.optionBox').find('.dynamicChilds').html('');
+        for (var i = 1; i <= $(this).val(); i++) {
+            var agess = `<div class="col-lg-2 agess">
+            <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age</label>
+            <select name="age" id="age" class="age ">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+            </select>
+            <div class="d-flex px-5 py-5">
+                  <div class="form-checkbox ">
+                    <input type="checkbox" name="ageCWB" class="ageCWB">
+                    <div class="form-checkbox__mark">
+                      <div class="form-checkbox__icon icon-check"></div>
+                    </div>
+                  </div>
+                  <div class="text-14 lh-12 ml-10">CWB</div>
+                </div>
+        </div>  `;
+            $(this).closest('.optionBox').find('.dynamicChilds').append(agess);
+        }
+    });
+}
+
+function changeNumber() {
+
+    var collection = $(".optionBox");
+    collection.each(function (index) {
+        var t = parseInt(index) + parseInt(1);
+        $(this).find('.roomNumber').html(t);
+    });
+}
 
 function getAllRoomslList(hotel_id) {
     console.log(moduleConfig.filterObj);

@@ -421,6 +421,7 @@ if (!function_exists('getChildCount')) {
         return $returnChildArr;
     }
 }
+
 if (!function_exists('getCharacterOfString')) {
 
     function getCharacterOfString($string)
@@ -468,7 +469,7 @@ if (!function_exists('getOrderStatus')) {
             return 'Confirmed';
         } else if ($status == 3) {
             return 'Cancelled';
-        } 
+        }
         return '';
     }
 }
@@ -476,7 +477,7 @@ if (!function_exists('getOrderStatus')) {
 if (!function_exists('getOrderBookedBy')) {
 
     function getOrderBookedBy($id)
-    {       
+    {
 
         if ($id == 1) {
             return 'Agent';
@@ -486,7 +487,7 @@ if (!function_exists('getOrderBookedBy')) {
             return 'Vendor';
         } else if ($id == 4) {
             return 'Corporate';
-        } 
+        }
         return '';
     }
 }
@@ -494,94 +495,101 @@ if (!function_exists('getOrderBookedBy')) {
 
 if (!function_exists('dateDiffInDays')) {
 
-    function dateDiffInDays($date1, $date2) 
-  {
-      // Calculating the difference in timestamps
-      $diff = strtotime($date2) - strtotime($date1);
-  
-      // 1 day = 24 hours
-      // 24 * 60 * 60 = 86400 seconds
-      return abs(round($diff / 86400));
-  }
+    function dateDiffInDays($date1, $date2)
+    {
+        // Calculating the difference in timestamps
+        $diff = strtotime($date2) - strtotime($date1);
+
+        // 1 day = 24 hours
+        // 24 * 60 * 60 = 86400 seconds
+        return abs(round($diff / 86400));
+    }
 }
 
-function get_day_wise_children_price($room_price_id,$param){
-   $child_age1 = $param['filterObjParamChildAge1'];
-   $child_age2 = $param['filterObjParamChildAge2'];
+function get_day_wise_children_price($room_price_id, $param)
+{
+    $child_age1 = $param['filterObjParamChildAge1'];
+    $child_age2 = $param['filterObjParamChildAge2'];
 
-   $child_younger = $param['filterObjParamChildYounger'];
-   $child_older = $param['filterObjParamChildOlder'];
-   $chilldPrice=0;
+    $child_younger = $param['filterObjParamChildYounger'];
+    $child_older = $param['filterObjParamChildOlder'];
+    $chilldPrice = 0;
 
-    if($param['filterObjParamChild'] <=2){
+    if ($param['filterObjParamChild'] <= 2) {
         $roomChildPrice = OfflineRoomChildPrice::query();
-        $roomChildPrice = $roomChildPrice->where(function ($query) use ($param){
-            $query->whereRaw("'".$param['filterObjParamChildAge1']."' between min_age and max_age");
-            if($param['filterObjParamChildAge2']>0){
-                $query->orWhereRaw("'".$param['filterObjParamChildAge2']."' between min_age and max_age");
+        $roomChildPrice = $roomChildPrice->where(function ($query) use ($param) {
+            $query->whereRaw("'" . $param['filterObjParamChildAge1'] . "' between min_age and max_age");
+            if ($param['filterObjParamChildAge2'] > 0) {
+                $query->orWhereRaw("'" . $param['filterObjParamChildAge2'] . "' between min_age and max_age");
             }
-
         });
-        $roomChildPrice = $roomChildPrice->where('price_id',$room_price_id)->get();
-        if($param['filterObjParamChildAge1'] > 6 || $param['filterObjParamChildAge2'] > 6){
+        $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
+        if ($param['filterObjParamChildAge1'] > 6 || $param['filterObjParamChildAge2'] > 6) {
             $childPrice = $roomChildPrice->sum('cwb_price');
-        }else{
-            $childPrice = $roomChildPrice->sum('cnb_price'); 
+        } else {
+            $childPrice = $roomChildPrice->sum('cnb_price');
         }
-        
-
-    }else{
+    } else {
         $roomChildPrice = OfflineRoomChildPrice::query();
 
-        $roomChildPrice->where(function ($query) use ($param){
-            if($param['filterObjParamChildYounger'] > 0 ){
+        $roomChildPrice->where(function ($query) use ($param) {
+            if ($param['filterObjParamChildYounger'] > 0) {
                 $query->whereRaw(" '6' between min_age and max_age");
-             }
-             if($param['filterObjParamChildOlder']>0){
+            }
+            if ($param['filterObjParamChildOlder'] > 0) {
                 $query->orWhereRaw(" '7' between min_age and max_age");
             }
         });
-        $roomChildPrice = $roomChildPrice->where('price_id',$room_price_id)->get();
-        $childOlderPrice =0;
-        $childYoungerPrice =0;
-        foreach($roomChildPrice as $rcprice){
-            if($param['filterObjParamChildYounger'] > 0 && ($rcprice->min_age>=0 && $rcprice->max_age<=6)){
-                 $childYoungerPrice = $rcprice->cnb_price * $param['filterObjParamChildYounger'];
-                 
-                
-            }else{
-                $childOlderPrice = $rcprice->cwb_price * $param['filterObjParamChildOlder'] ;
+        $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
+        $childOlderPrice = 0;
+        $childYoungerPrice = 0;
+        foreach ($roomChildPrice as $rcprice) {
+            if ($param['filterObjParamChildYounger'] > 0 && ($rcprice->min_age >= 0 && $rcprice->max_age <= 6)) {
+                $childYoungerPrice = $rcprice->cnb_price * $param['filterObjParamChildYounger'];
+            } else {
+                $childOlderPrice = $rcprice->cwb_price * $param['filterObjParamChildOlder'];
             }
         }
         $childPrice = ($childYoungerPrice + $childOlderPrice);
     }
-        
-    return $childPrice;
 
+    return $childPrice;
 }
 if (!function_exists('selectRoomBooking')) {
 
     function selectRoomBooking($paramArr, $isArray = false)
     {
-       
+
         $SafeencryptionObj = new Safeencryption;
         $id = "";
 
-        if( $isArray ){
-           return $SafeencryptionObj->encode(serialize($paramArr));
-        } 
-        
+        if ($isArray) {
+            return $SafeencryptionObj->encode(serialize($paramArr));
+        }
+
         if (is_array($paramArr) && count($paramArr) > 0) {
             $string = "";
-            
-          
+
+
             foreach ($paramArr as $key => $value) {
-                $string .= $key."=".$value ."&";
+                $string .= $key . "=" . $value . "&";
             }
-            $string = trim($string,'&');
-           
-            $id = $SafeencryptionObj->encode($string);            
+            $string = trim($string, '&');
+
+            $id = $SafeencryptionObj->encode($string);
         }
         return $id;
+    }
+}
+
+
+if (!function_exists('getSearchCookies')) {
+
+    function getSearchCookies($name)
+    {
+        if (isset($_COOKIE[$name])) {
+            return json_decode($_COOKIE[$name]);
+        }
+        return false;
     }
 }

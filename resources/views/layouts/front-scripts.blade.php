@@ -1,3 +1,174 @@
+<div class="langMenu is-hidden js-langMenu guestModal" data-x="guest" data-x-toggle="is-hidden">
+    <div class="langMenu__bg" data-x-click="guest"></div>
+
+    <div class="langMenu__content bg-white rounded-4">
+        <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+            <div class="text-20 fw-500 lh-15">Select guest</div>
+            <button class="pointer" data-x-click="guest">
+                <i class="icon-close"></i>
+            </button>
+        </div>
+
+        <div class=" px-30 py-5 sm:px-15 sm:py-15">
+
+            @if (is_array(getSearchCookies('searchGuestArr')) && count(getSearchCookies('searchGuestArr')) > 0)
+                @php
+                    $i = 0;
+                @endphp
+                @foreach (getSearchCookies('searchGuestArr') as $guest)
+                    @php
+                        $i++;
+                    @endphp
+                    <div class="row optionBox">
+                        <div class="col-lg-6 ddynamicChilds">
+                            <div class="col-lg-2  py-20">
+                                @if ($i == 1)
+                                    <div class="accordion__icon size-40 flex-center rounded-full mr-20">
+                                    </div>
+                                @else
+                                    <div class="accordion__icon size-40 flex-center bg-error-1 rounded-full mr-20 remove"
+                                        data-action="remove">
+                                        <i class="icon-minus"></i>
+                                    </div>
+                                @endif
+
+                            </div>
+                            <div class="col-lg-3 text-center">
+                                <div class="fw-500 mb-4">Room</div>
+                                <div class="">
+                                    <label
+                                        class="lh-1 text-16 fw-500 text-dark-1 roomNumber">{{ $guest->room }}</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 text-center">
+                                <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Adult</label>
+                                <select name="adult" id="adult" class="adult text-center">
+                                    <option value="1" {{ $guest->adult == 1 ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ $guest->adult == 2 ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ $guest->adult == 3 ? 'selected' : '' }}>3</option>
+                                    <option value="4" {{ $guest->adult == 4 ? 'selected' : '' }}>4</option>
+                                    <option value="5" {{ $guest->adult == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="6" {{ $guest->adult == 6 ? 'selected' : '' }}>6</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 text-center">
+                                <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Child</label>
+                                <select name="child" id="child" class="addDynamicChilds text-center child">
+                                    <option value="0" {{ $guest->child == 0 ? 'selected' : '' }}>0</option>
+                                    <option value="1" {{ $guest->child == 1 ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ $guest->child == 2 ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ $guest->child == 3 ? 'selected' : '' }}>3</option>
+                                    <option value="4" {{ $guest->child == 4 ? 'selected' : '' }}>4</option>
+                                    <option value="5" {{ $guest->child == 5 ? 'selected' : '' }}>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="dynamicChilds col-lg-6 text-center">
+                            @if (is_array($guest->childAge) && count($guest->childAge) > 0)
+                                @foreach ($guest->childAge as $key => $childAge)
+                                    
+                                    <div class="col-lg-2 agess">
+                                        <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age</label>
+                                        <select name="age" id="age" class="age text-center">
+                                            <option value="2" {{ $childAge->age == 2 ? 'selected' : '' }}>2
+                                            </option>
+                                            <option value="3" {{ $childAge->age == 3 ? 'selected' : '' }}>3
+                                            </option>
+                                            <option value="4" {{ $childAge->age == 4 ? 'selected' : '' }}>4
+                                            </option>
+                                            <option value="5" {{ $childAge->age == 5 ? 'selected' : '' }}>5
+                                            </option>
+                                            <option value="6" {{ $childAge->age == 6 ? 'selected' : '' }}>6
+                                            </option>
+                                            <option value="7" {{ $childAge->age == 7 ? 'selected' : '' }}>7
+                                            </option>
+                                            <option value="8" {{ $childAge->age == 8 ? 'selected' : '' }}>8
+                                            </option>
+                                            <option value="9" {{ $childAge->age == 9 ? 'selected' : '' }}>9
+                                            </option>
+                                            <option value="10" {{ $childAge->age == 10 ? 'selected' : '' }}>10
+                                            </option>
+                                            <option value="11" {{ $childAge->age == 11 ? 'selected' : '' }}>11
+                                            </option>
+                                        </select>
+
+                                        <div class="d-flex px-5 py-5">
+                                            <div class="form-checkbox ">
+                                                <input type="checkbox" name="ageCWB" class="ageCWB"
+                                                    {{ $childAge->cwb == 'yes' ? 'checked' : '' }}>
+                                                <div class="form-checkbox__mark">
+                                                    <div class="form-checkbox__icon icon-check"></div>
+                                                </div>
+                                            </div>
+                                            <div class="text-14 lh-12 ml-10">CWB</div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                        <hr>
+                    </div>
+                @endforeach
+            @else
+                <div class="row optionBox">
+                    <div class="col-lg-6 ddynamicChilds">
+                        <div class="col-lg-2  py-20">
+                            <div class="accordion__icon size-40 flex-center rounded-full mr-20">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 text-center">
+                            <div class="fw-500 mb-4">Room</div>
+                            <div class="">
+                                <label class="lh-1 text-16 fw-500 text-dark-1 roomNumber">1</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 text-center">
+                            <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Adult</label>
+                            <select name="adult" id="adult" class="adult text-center">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 text-center">
+                            <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Child</label>
+                            <select name="child" id="child" class="addDynamicChilds text-center child">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dynamicChilds col-lg-6 text-center">
+                    </div>
+                    <hr>
+                </div>
+            @endif
+            <div class="row py-30 sm:px-15 sm:py-15 row-block">
+                <div class="col-lg-6">
+                    <div class="accordion__icon size-40 flex-center bg-success-1 rounded-full mr-20 addMore"
+                        data-action="add">
+                        <i class="icon-plus"></i>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="accordion__icon size-40 flex-center bg-success-1 rounded-full mr-20 SearchDone floatright"
+                        data-action="add">
+                        <i class="icon-check"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="langMenu is-hidden js-langMenu" data-x="lang" data-x-toggle="is-hidden">
     <div class="langMenu__bg" data-x-click="lang"></div>
 
@@ -1007,7 +1178,8 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image"
+                                    class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1062,7 +1234,8 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image"
+                                    class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1117,7 +1290,8 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image"
+                                    class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1172,7 +1346,8 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image"
+                                    class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1227,7 +1402,8 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image"
+                                    class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1282,7 +1458,8 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image"
+                                    class="img-ratio rounded-4">
                             </div>
                         </div>
 
@@ -1337,7 +1514,8 @@
                     <div class="row x-gap-20 y-gap-20">
                         <div class="col-md-auto">
                             <div class="ratio ratio-1:1 size-120">
-                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image" class="img-ratio rounded-4">
+                                <img src="{{ asset('assets/front') }}/img/hotels/1.png" alt="image"
+                                    class="img-ratio rounded-4">
                             </div>
                         </div>
 

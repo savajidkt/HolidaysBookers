@@ -32,9 +32,12 @@ class HotelListController extends Controller
 
     public function index(Request $request)
     {
+
+        //dd(getSearchCookies('searchGuestArr'));
+
         $country =  [];
         $requestedArr = [];
-       
+
         $amenitiesArr = Amenity::all();
         if (isset($request->country_id)) {
             $country = Country::find($request->country_id);
@@ -45,11 +48,15 @@ class HotelListController extends Controller
             $requestedArr['country_id'] = "";
             $requestedArr['search_from'] = "";
             $requestedArr['search_to'] = "";
-            $requestedArr['adult'] = 0;
-            $requestedArr['child'] = 0;
-            $requestedArr['room'] = 0;
         }
-        $requestedArr['extra_data'] = getChildCount($request->all());        
+
+        // $requestedArr['extra_data'] = getChildCount($request->all());   
+        $requestedArr['adult'] = getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 1;
+        $requestedArr['child'] = getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0;
+        $requestedArr['room'] = getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1;
+        $requestedArr['extra_data'] = getSearchCookies('searchGuestArr');
+        
+
         return view('hotel.hotel-list', ['requestedArr' => $requestedArr, 'country' => $country, 'amenitiesArr' => $amenitiesArr]);
     }
 
@@ -69,7 +76,7 @@ class HotelListController extends Controller
 
     public function ajaxHotelListing(Request $request)
     {
-        
+
         if ($request->ajax()) {
             $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
@@ -119,11 +126,11 @@ class HotelListController extends Controller
 
         $hotelsRelated = [];
         $hotelsDetails = $this->hotelListingRepository->hotelDetails($requestParam['hotel_id']);
-        
+
         if ($hotelsDetails) {
             $hotelsRelated = $this->hotelListingRepository->hotelRelated($hotelsDetails['hotel']);
         }
-        
+
 
         return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj, 'requestParam' => $requestParam]);
     }
