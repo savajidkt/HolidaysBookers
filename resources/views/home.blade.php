@@ -101,19 +101,91 @@
                                                 <div
                                                     class="searchMenu-guests px-30 lg:py-20 lg:px-0 js-form-dd js-form-counters">
                                                     <div data-x-dd-click="searchMenu-guests">
-                                                        <h4 class="text-15 fw-500 ls-2 lh-16">Guest</h4>                                                        
-                                                        <span id="basic-addon-guest-error"
-                                                            class="help-block help-block-error"></span>
-                                                    </div>
-                                                    <button type="button" class="d-flex items-center text-14 text-dark-1" data-x-click="guest">
-                                                        <div class="text-15 text-light-1 ls-2 lh-16">
+                                                        <h4 class="text-15 fw-500 ls-2 lh-16">Guest</h4>
+                                                        <div class="text-15 text-light-1 ls-2 lh-16" data-x-click="guest">
                                                             <span class="js-count-adult">{{ getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 1 }}</span> adults
                                                             -
                                                             <span class="js-count-child">{{ getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0 }}</span> childeren
                                                             -
                                                             <span class="js-count-room">{{ getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1 }}</span> room
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div style="display: none;" class="searchMenu-guests__field shadow-2"
+                                                        data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
+                                                        <div class="bg-white px-30 py-30 rounded-4">
+                                                            <div class="row y-gap-10 justify-between items-center">
+                                                                <div class="col-auto">
+                                                                    <div class="text-15 fw-500">Adults</div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <div class="d-flex items-center js-counter"
+                                                                        data-value-change=".js-count-adult">
+                                                                        <button type="button"
+                                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
+                                                                            <i class="icon-minus text-12"></i>
+                                                                        </button>
+                                                                        <div class="flex-center size-20 ml-15 mr-15">
+                                                                            <div class="text-15 js-count count-adults">1
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="button"
+                                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
+                                                                            <i class="icon-plus text-12"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="border-top-light mt-24 mb-24"></div>
+                                                            <div class="row y-gap-10 justify-between items-center">
+                                                                <div class="col-auto">
+                                                                    <div class="text-15 lh-12 fw-500">Children</div>                                                                   
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <div class="d-flex items-center js-counter"
+                                                                        data-value-change=".js-count-child">
+                                                                        <button type="button"
+                                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
+                                                                            <i class="icon-minus text-12"></i>
+                                                                        </button>
+                                                                        <div class="flex-center size-20 ml-15 mr-15">
+                                                                            <div class="text-15 js-count count-childs">0
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="button"
+                                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
+                                                                            <i class="icon-plus text-12"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row addChildList">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="border-top-light mt-24 mb-24"></div>
+                                                            <div class="row y-gap-10 justify-between items-center">
+                                                                <div class="col-auto">
+                                                                    <div class="text-15 fw-500">Rooms</div>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <div class="d-flex items-center js-counter"
+                                                                        data-value-change=".js-count-room">
+                                                                        <button type="button"
+                                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
+                                                                            <i class="icon-minus text-12"></i>
+                                                                        </button>
+                                                                        <div class="flex-center size-20 ml-15 mr-15">
+                                                                            <div class="text-15 js-count count-rooms">1
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="button"
+                                                                            class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
+                                                                            <i class="icon-plus text-12"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                      </button>
+                                                    </div>
                                                 </div>
                                                 <div class="button-item">
                                                     <button
@@ -1244,7 +1316,7 @@
 
                         <div class="tourCard__content mt-10">
                             <div class="d-flex items-center lh-14 mb-5">
-                                <div class="text-14 text-light-1">40–55 minutes</div>
+                                <div class="text-14 text-light-1">40â€“55 minutes</div>
                                 <div class="size-3 bg-light-1 rounded-full ml-10 mr-10"></div>
                                 <div class="text-14 text-light-1">Private and Luxury</div>
                             </div>
@@ -1589,7 +1661,7 @@
                             <div class="text-14 lh-14 text-light-1 mb-5">6+ hours</div>
 
                             <h4 class="activityCard__title lh-16 fw-500 text-dark-1 text-18">
-                                <span>Natural Crystal Blue Ice Cave Tour of Vatnajökull Glacier</span>
+                                <span>Natural Crystal Blue Ice Cave Tour of VatnajÃ¶kull Glacier</span>
                             </h4>
 
                             <p class="text-light-1 text-14 lh-14 mt-5">Manhattan, New York</p>
