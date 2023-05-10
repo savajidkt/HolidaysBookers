@@ -210,19 +210,7 @@ class OfflineRoomRepository
             'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
             'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
             'tax_p_n_cob'     => $data['tax_p_n_cob'],
-            'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
-            'price_p_n_single_adult'     => 0,
-            'price_p_n_twin_sharing'     => 0,
-            'price_p_n_extra_adult'     => 0,
-            'price_p_n_cwb'     => 0,
-            'price_p_n_cob'     => 0,
-            'price_p_n_ccob'     => 0,
-            'tax_p_n_single_adult'     => 0,
-            'tax_p_n_twin_sharing'     => 0,
-            'tax_p_n_extra_adult'     => 0,
-            'tax_p_n_cwb'     => 0,
-            'tax_p_n_cob'     => 0,
-            'tax_p_n_ccob'     => 0,
+            'tax_p_n_ccob'     => $data['tax_p_n_ccob'],          
             'market_price'     => $data['market_price'],
             'promo_code'     => $data['promo_code'] ?? '',
             'rate_offered'     => $data['rate_offered'],
@@ -264,9 +252,9 @@ class OfflineRoomRepository
             foreach ($data['cancelation-policies'] as $key => $value) {
                 $cancelationArr['room_id'] = $offlineroom->id;
                 $cancelationArr['price_id'] = $offlineRoomPrice->id;
-                $cancelationArr['start_date'] = $value['start_date'];
-                $cancelationArr['end_date'] = $value['end_date'];
+                $cancelationArr['before_check_in_days'] = $value['before_check_in_days'];                
                 $cancelationArr['night'] = $value['night'];
+                $cancelationArr['night_charge'] = $value['night_charge'];
                 $cancelationArr['description'] = $value['description'];
                 OfflineRoomCancelationPolicies::create($cancelationArr);
             }
@@ -310,19 +298,7 @@ class OfflineRoomRepository
             'tax_p_n_extra_adult'     => $data['tax_p_n_extra_adult'],
             'tax_p_n_cwb'     => $data['tax_p_n_cwb'],
             'tax_p_n_cob'     => $data['tax_p_n_cob'],
-            'tax_p_n_ccob'     => $data['tax_p_n_ccob'],
-            'price_p_n_single_adult'     => 0,
-            'price_p_n_twin_sharing'     => 0,
-            'price_p_n_extra_adult'     => 0,
-            'price_p_n_cwb'     => 0,
-            'price_p_n_cob'     => 0,
-            'price_p_n_ccob'     => 0,
-            'tax_p_n_single_adult'     => 0,
-            'tax_p_n_twin_sharing'     => 0,
-            'tax_p_n_extra_adult'     => 0,
-            'tax_p_n_cwb'     => 0,
-            'tax_p_n_cob'     => 0,
-            'tax_p_n_ccob'     => 0,
+            'tax_p_n_ccob'     => $data['tax_p_n_ccob'],            
             'market_price'     => $data['market_price'],
             'promo_code'     => $data['promo_code'] ?? '',
             'rate_offered'     => $data['rate_offered'],
@@ -362,9 +338,9 @@ class OfflineRoomRepository
         if (is_array($data['cancelation-policies']) && count($data['cancelation-policies']) > 0) {
             OfflineRoomCancelationPolicies::where('room_id', $offlineroomprice->room_id)->where('price_id', $offlineroomprice->id)->delete();
             foreach ($data['cancelation-policies'] as $key => $value) {
-                $cancelationArr['start_date'] = $value['start_date'];
-                $cancelationArr['end_date'] = $value['end_date'];
+                $cancelationArr['before_check_in_days'] = $value['before_check_in_days'];                
                 $cancelationArr['night'] = $value['night'];
+                $cancelationArr['night_charge'] = $value['night_charge'];
                 $cancelationArr['description'] = $value['description'];
                 $cancelationArr['room_id'] = $offlineroomprice->room_id;
                 $cancelationArr['price_id'] = $offlineroomprice->id;

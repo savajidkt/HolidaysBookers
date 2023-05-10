@@ -477,7 +477,7 @@
                     <div class="custom-control custom-radio">
                         <input type="radio" class="custom-control-input" id="refundeble" value="refundeble"
                             name="cancelation_policy"
-                            {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'refundeble' || $pricemodel->cancelation_policy == null ? 'checked' : '' }} />
+                            {{ (isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'refundeble') || $pricemodel->cancelation_policy == null ? 'checked' : '' }} />
                         <label class="custom-control-label" for="refundeble">Refundeble</label>
                     </div>
                     <div class="custom-control custom-radio">
@@ -514,54 +514,41 @@
         </div>
     </div>
     <div
-        class="col-12 div_cancelation_policy {{ strlen($pricemodel->cancelation_policy) > 0 && $pricemodel->cancelation_policy == 'refundeble' || $pricemodel->cancelation_policy == null ? 'show' : 'hide' }}">
+        class="col-12 div_cancelation_policy {{ (strlen($pricemodel->cancelation_policy) > 0 && $pricemodel->cancelation_policy == 'refundeble') || $pricemodel->cancelation_policy == null ? 'show' : 'hide' }}">
         <div class="room-cancelation-policies-repeater">
             <div data-repeater-list="cancelation-policies" class="repeaterCancelationPoliciesCLS">
                 @if ($pricemodel->cancelationpolicies->count() > 0)
                     @foreach ($pricemodel->cancelationpolicies as $policies)
-                        
-
                         <div data-repeater-item class="testd">
                             <input type="hidden" name="id" value="{{ $policies->id }}" />
-                        <input type="hidden" name="room_id" value="{{ $policies->room_id }}" />
-                        <input type="hidden" name="price_id" value="{{ $policies->price_id }}" />
+                            <input type="hidden" name="room_id" value="{{ $policies->room_id }}" />
+                            <input type="hidden" name="price_id" value="{{ $policies->price_id }}" />
                             <div class="row d-flex align-items-end">
                                 <div class="col-2">
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
-                                            <label for="itemcost">Start Date</label>
-                                            <div class="input-group input-daterange">
-                                                <input type="text" name="start_date"
-                                                    class="form-control rage-date-basic flatpickr"
-                                                    placeholder="YYYY-MM-DD HH:MM"
-                                                    value="{{ isset($policies->start_date) ? $policies->start_date : old('start_date') }}"
-                                                    data-error="Start date is required" data-input />
-                                            </div>
-                                            <div class="StartDateValidity"></div>
+                                            <label for="itemcost">Before Check-In Days</label>
+                                            <select name="before_check_in_days" class="form-control before_check_in_days" id=""
+                                                data-error="Before Check-In Days" aria-invalid="false">                                                
+                                                @php echo forLoopByNumber(0, $pricemodel->cutoff_price - 1,  isset($policies->before_check_in_days) ? $policies->before_check_in_days : '' ,'Days'); @endphp                                                                                           
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
-                                            <label for="itemcost">End Date</label>
-                                            <div class="input-group input-daterange">
-                                                <input type="text" name="end_date"
-                                                    class="form-control rage-date-basic flatpickr"
-                                                    placeholder="YYYY-MM-DD HH:MM"
-                                                    value="{{ isset($policies->end_date) ? $policies->end_date : old('end_date') }}"
-                                                    data-error="End date is required" data-input />
-                                            </div>
-                                            <div class="EndDateValidity"></div>
+                                            <label for="itemcost">Night</label>
+                                            <input type="number" class="form-control" name="night"
+                                                value="{{ isset($policies->night) ? $policies->night : old('night') }}" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-2">
-                                    <div class="col-md-12 col-12">                                    
+                                    <div class="col-md-12 col-12">
                                         <div class="form-group">
-                                            <label for="itemcost">Night</label>
-                                            <input type="number" class="form-control" name="night"
-                                                value="{{ isset($policies->night) ? $policies->night : old('night') }}" />
+                                            <label for="itemcost">Per Night Charge</label>
+                                            <input type="number" class="form-control" name="night_charge" value="{{ isset($policies->night_charge) ? $policies->night_charge : old('night_charge') }}" />
                                         </div>
                                     </div>
                                 </div>
@@ -594,43 +581,31 @@
                             <div class="col-2">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label for="itemcost">Start Date</label>
-                                        <div class="input-group input-daterange">
-                                            <input type="text" name="start_date"
-                                                class="form-control rage-date-basic flatpickr"
-                                                placeholder="YYYY-MM-DD HH:MM"
-                                                value="{{ old('start_date') }}"
-                                                data-error="Start date is required" data-input />
-                                        </div>
-                                        <div class="StartDateValidity"></div>
+                                        <label for="itemcost">Before Check-In Days</label>
+                                        <select name="before_check_in_days" class="form-control before_check_in_days" id=""
+                                            data-error="Before Check-In Days" aria-invalid="false">
+                                            <option value="0">0 Days</option>                                            
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label for="itemcost">End Date</label>
-                                        <div class="input-group input-daterange">
-                                            <input type="text" name="end_date"
-                                                class="form-control rage-date-basic flatpickr"
-                                                placeholder="YYYY-MM-DD HH:MM"
-                                                value="{{ old('end_date') }}"
-                                                data-error="End date is required" data-input />
-                                        </div>
-                                        <div class="EndDateValidity"></div>
+                                        <label for="itemcost">Night</label>
+                                        <input type="number" class="form-control" name="night" value="" />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-2">
-                                <div class="col-md-12 col-12">                                    
+                                <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label for="itemcost">Night</label>
-                                        <input type="number" class="form-control" name="night"
-                                            value="" />
+                                        <label for="itemcost">Per Night Charge</label>
+                                        <input type="number" class="form-control" name="night_charge" value="" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label for="itemcost">Short Description</label>

@@ -521,42 +521,23 @@
         <div class="room-cancelation-policies-repeater">
             <div data-repeater-list="cancelation-policies" class="repeaterCancelationPoliciesCLS">
                 @if (count($requestData['cancelation-policies']) > 0)
-                    @foreach ($requestData['cancelation-policies'] as $policies)
-                    
+                    @foreach ($requestData['cancelation-policies'] as $policies)                    
                         <div data-repeater-item class="testd">                            
                             <div class="row d-flex align-items-end">
                                 <div class="col-2">
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
-                                            <label for="itemcost">Start Date</label>
-                                            <div class="input-group input-daterange">
-                                                <input type="text" name="start_date"
-                                                    class="form-control rage-date-basic flatpickr"
-                                                    placeholder="YYYY-MM-DD HH:MM"
-                                                    value="{{ isset($policies['start_date']) ? $policies['start_date'] : old('start_date') }}"
-                                                    data-error="Start date is required" data-input />
-                                            </div>
-                                            <div class="StartDateValidity"></div>
+                                            <label for="itemcost">Before Check-In Days</label>
+                                            <select name="before_check_in_days" class="form-control" id="before_check_in_days"
+                                                data-error="Before Check-In Days" aria-invalid="false">
+                                                @php echo forLoopByNumber(0, $requestData['cutoff_price'] - 1,  isset($policies['before_check_in_days']) ? $policies['before_check_in_days'] : '' ,'Days'); @endphp
+                                                                                           
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="col-md-12 col-12">
-                                        <div class="form-group">
-                                            <label for="itemcost">End Date</label>
-                                            <div class="input-group input-daterange">
-                                                <input type="text" name="end_date"
-                                                    class="form-control rage-date-basic flatpickr"
-                                                    placeholder="YYYY-MM-DD HH:MM"
-                                                    value="{{ isset($policies['end_date']) ? $policies['end_date'] : old('end_date') }}"
-                                                    data-error="End date is required" data-input />
-                                            </div>
-                                            <div class="EndDateValidity"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="col-md-12 col-12">                                    
                                         <div class="form-group">
                                             <label for="itemcost">Night</label>
                                             <input type="number" class="form-control" name="night"
@@ -564,6 +545,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-2">
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="itemcost">Per Night Charge</label>
+                                            <input type="number" class="form-control" name="night_charge" 
+                                            value="{{ isset($policies['night_charge']) ? $policies['night_charge'] : old('night_charge') }}" />
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-4">
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">

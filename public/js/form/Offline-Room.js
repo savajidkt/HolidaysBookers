@@ -1020,4 +1020,17 @@ $(document).ready(function () {
             $('.is_rate_offered').removeClass('hide');
         }
     });
+    $('#cutoff_price').change(function () {
+        $('.before_check_in_days').html('');
+        var optionStr = "";
+        if( $(this).val() > 1 ){            
+            for (let index = 0; index <  $(this).val(); index++) {
+                optionStr += "<option value=\""+index+"\">"+index+" Days</option>";                
+            }           
+            $('.before_check_in_days').html(optionStr);
+        } else {
+            optionStr += "<option value=\"0\">0 Days</option>"; 
+            $('.before_check_in_days').html(optionStr);
+        }
+    });
 });

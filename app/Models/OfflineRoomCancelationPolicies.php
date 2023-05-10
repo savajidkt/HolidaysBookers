@@ -17,9 +17,9 @@ class OfflineRoomCancelationPolicies extends Authenticatable
     protected $fillable = [
         'room_id',
         'price_id',
-        'start_date',
-        'end_date',
+        'before_check_in_days',        
         'night',
+        'night_charge',
         'description'        
     ];
 }

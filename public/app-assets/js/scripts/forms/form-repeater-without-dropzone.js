@@ -40,10 +40,18 @@ $(function () {
         feather.replace({ width: 14, height: 14 });
       }
 
-      if($(this).attr('data-cls') != 'repeaterChilds'){
+      if ($(this).attr('data-cls') != 'repeaterChilds') {
         $('.testd').filter(":last").find('.rage-date-basic').flatpickr({ enableTime: true });
-      }      
+      }
 
+      if ($('#cutoff_price').val() > 1) {
+        var optionStr = "";
+        for (let i = 0; i < $('#cutoff_price').val(); i++) {
+          optionStr += "<option value=\"" + i + "\">" + i + " Days</option>";
+        }
+        $(this).closest('.testd').find('.before_check_in_days').html('');
+        $(this).closest('.testd').find('.before_check_in_days').html(optionStr);
+      }
     },
     hide: function (deleteElement) {
       if (confirm('Are you sure you want to delete this element?')) {
