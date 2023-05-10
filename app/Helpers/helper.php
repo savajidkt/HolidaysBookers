@@ -508,6 +508,12 @@ if (!function_exists('dateDiffInDays')) {
 
 function get_day_wise_children_price($room_price_id, $param)
 {
+
+    $searchGuestRoomCount = getSearchCookies('searchGuestRoomCount');
+    $searchGuestChildCount = getSearchCookies('searchGuestChildCount');
+    $searchGuestAdultCount = getSearchCookies('searchGuestAdultCount');
+    $searchGuestArr = getSearchCookies('searchGuestArr');
+    
     $child_age1 = $param['filterObjParamChildAge1'];
     $child_age2 = $param['filterObjParamChildAge2'];
 

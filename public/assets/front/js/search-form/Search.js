@@ -285,23 +285,16 @@ function FrmAddMoreGuest() {
             var collectionAge = $(this).find('.agess');
             collectionAge.each(function (index) {
                 var tempArr = [];
-                var cwb = "no";
-                if ($(this).find(".ageCWB").prop('checked') == true) {
+                var cwb = "no";                
+                if ($(this).find(".ageCWB").prop('checked') == true && $(this).find(".age :selected").val() > 2) {
                     cwb = "yes";
-                }
-                // tempArr.push({
-                //     cwb: cwb,
-                //     age: parseInt($(this).find(".age :selected").val())
-                // });
-              // tempArr['cwb'] = cwb;
-               //tempArr['age'] = parseInt($(this).find(".age :selected").val());
-
+                }               
 
                 tempChildArr.push({
                     cwb: cwb,
                     age: parseInt($(this).find(".age :selected").val())
                 });
-                
+
             });
             totalArray.push(
                 {
@@ -341,7 +334,7 @@ function FrmAddMoreGuest() {
                 <option value="10">10</option>
                 <option value="11">11</option>
             </select>
-            <div class="d-flex px-5 py-5">
+            <div class="d-flex px-5 py-5 ageCWBCHK is-hide">
                   <div class="form-checkbox ">
                     <input type="checkbox" name="ageCWB" class="ageCWB">
                     <div class="form-checkbox__mark">
@@ -353,6 +346,19 @@ function FrmAddMoreGuest() {
         </div>  `;
             $(this).closest('.optionBox').find('.dynamicChilds').append(agess);
         }
+    });
+
+    jQuery(document).on('change', '.age', function () {
+
+        if ($(this).val() > 2) {            
+            $(this).closest('.optionBox .agess').find('.ageCWBCHK').removeClass('is-hide');
+            $(this).closest('.optionBox .agess').find('.ageCWBCHK').addClass('is-show');
+        } else {
+            $(this).closest('.optionBox .agess').find('.ageCWBCHK .ageCWB').attr('checked', false);
+            $(this).closest('.optionBox .agess').find('.ageCWBCHK').removeClass('is-show');            
+            $(this).closest('.optionBox .agess').find('.ageCWBCHK').addClass('is-hide');            
+        }
+
     });
 }
 

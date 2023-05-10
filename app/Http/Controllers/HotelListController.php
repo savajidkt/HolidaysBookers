@@ -31,12 +31,10 @@ class HotelListController extends Controller
     }
 
     public function index(Request $request)
-    {
-
-        //dd(getSearchCookies('searchGuestArr'));
+    {       
 
         $country =  [];
-        $requestedArr = [];
+        $requestedArr = [];       
 
         $amenitiesArr = Amenity::all();
         if (isset($request->country_id)) {
@@ -48,6 +46,12 @@ class HotelListController extends Controller
             $requestedArr['country_id'] = "";
             $requestedArr['search_from'] = "";
             $requestedArr['search_to'] = "";
+        }
+
+        if( $request->search_from == null || $request->search_to == null ){
+            $dateArr = explode(' - ', $request->daterange);
+            $requestedArr['search_from'] = date('Y-m-d', strtotime($dateArr[0]));
+            $requestedArr['search_to'] = date('Y-m-d', strtotime($dateArr[1]));
         }
 
         // $requestedArr['extra_data'] = getChildCount($request->all());   

@@ -60,7 +60,10 @@
         }
 
         .is-hide {
-            display: none;
+            display: none !important;
+        }
+        .is-show {
+            display: flex !important;
         }
 
         .mainSearch.-col-4 .button-grid.transfer-cls {

@@ -17,7 +17,8 @@ class HotelRoomListingRepository
     public function hotelRoomLists(array $param)
     {
 
-        $adults = $param['filterObjParamAdult'];
+        
+        $adults = getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 1;
         $hotelRooms = OfflineRoom::with(['price'])->where(function ($query) use ($param) {
             if (strlen($param['filterObjParamStartDate']) > 0 && strlen($param['filterObjParamEndDate']) > 0) {
                 $query->whereHas('price', function ($query) use ($param) {
@@ -57,27 +58,29 @@ class HotelRoomListingRepository
             $blackDaysPrice=0;
             $childPrice=0;
             foreach($roomPrice->price as $pkey=> $price){
+                $filterObjParamChild = getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0;
                 if($price->price_type == OfflineRoomPrice::NORMAL){
                     $normalDays = $normalDays + dateDiffInDays($startDate,$endDate);
                     $normalDaysPrice = $price->price_p_n_single_adult;
-                    if($param['filterObjParamChild'] >0){
-                        $childPrice = get_day_wise_children_price($price->id,$param);
+                   
+                    if($filterObjParamChild >0){
+                        //$childPrice = get_day_wise_children_price($price->id,$param);
                     }
                     
                 }
                 if($price->price_type == OfflineRoomPrice::PROMOTIONAL){
                     $promoDays = $promoDays + dateDiffInDays($price->from_date,$price->to_date);
                     $promoDaysPrice = $price->price_p_n_single_adult * $promoDays;
-                    if($param['filterObjParamChild'] >0){
-                        $childPrice = get_day_wise_children_price($price->id,$param);
+                    if($filterObjParamChild >0){
+                        //$childPrice = get_day_wise_children_price($price->id,$param);
                     }
                    
                 }
                 if($price->price_type == OfflineRoomPrice::BLACKOUTSALE){
                     $blackDays = $blackDays + dateDiffInDays($price->from_date,$price->to_date);
                     $blackDaysPrice = $price->price_p_n_single_adult * $blackDays;
-                    if($param['filterObjParamChild'] >0){
-                        $childPrice = get_day_wise_children_price($price->id,$param);
+                    if($filterObjParamChild >0){
+                        //$childPrice = get_day_wise_children_price($price->id,$param);
                     }
                     
                 }

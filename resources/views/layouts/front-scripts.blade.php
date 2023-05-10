@@ -92,7 +92,7 @@
                                             </option>
                                         </select>
 
-                                        <div class="d-flex px-5 py-5">
+                                        <div class="d-flex px-5 py-5 ageCWBCHK {{ $childAge->age > 2 ? 'is-show' : 'is-hide' }} ">
                                             <div class="form-checkbox ">
                                                 <input type="checkbox" name="ageCWB" class="ageCWB"
                                                     {{ $childAge->cwb == 'yes' ? 'checked' : '' }}>
