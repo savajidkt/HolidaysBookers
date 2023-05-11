@@ -277,60 +277,61 @@ if (!function_exists('rezeliveHotels')) {
 
         set_time_limit(0);
         $str = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-            <HotelFindRequest>
-            <Authentication>
-            <AgentCode>' . $config->agent_code . '</AgentCode>
-            <UserName>' . $config->username . '</UserName>
-            <Password>' . $config->password . '</Password>
-            </Authentication>
-            <Booking>
-            <ArrivalDate>01/04/2023</ArrivalDate>
-            <DepartureDate>05/04/2023</DepartureDate>
-            <CountryCode>ID</CountryCode>
-            <City>326</City>
-            <GuestNationality>IN</GuestNationality>
-            <HotelRatings>
+<HotelFindRequest>
+    <Authentication>
+        <AgentCode>' . $config->agent_code . '</AgentCode>
+        <UserName>' . $config->username . '</UserName>
+        <Password>' . $config->password . '</Password>
+    </Authentication>
+    <Booking>
+        <ArrivalDate>01/04/2023</ArrivalDate>
+        <DepartureDate>05/04/2023</DepartureDate>
+        <CountryCode>ID</CountryCode>
+        <City>326</City>
+        <GuestNationality>IN</GuestNationality>
+        <HotelRatings>
             <HotelRating>1</HotelRating>
             <HotelRating>2</HotelRating>
             <HotelRating>3</HotelRating>
             <HotelRating>4</HotelRating>
             <HotelRating>5</HotelRating>
-            </HotelRatings>
-            <Rooms>
+        </HotelRatings>
+        <Rooms>
             <Room>
-            <Type>Room-1</Type>
-            <NoOfAdults>2</NoOfAdults>
-            <NoOfChilds>0</NoOfChilds>
+                <Type>Room-1</Type>
+                <NoOfAdults>2</NoOfAdults>
+                <NoOfChilds>0</NoOfChilds>
             </Room>
-            </Rooms>
-            </Booking>
-            </HotelFindRequest>';
+        </Rooms>
+    </Booking>
+</HotelFindRequest>';
 
-        file_put_contents("xml/resquest" . time() . ".xml", $str);
-        $url = $config->api_url . "findhotel";
+file_put_contents("xml/resquest" . time() . ".xml", $str);
+$url = $config->api_url . "findhotel";
 
-        $ch = curl_init();
-        //set the url, number of POST vars, POST data 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "XML=" . urlencode($str));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=UTF8'));
-        $result = curl_exec($ch);
+$ch = curl_init();
+//set the url, number of POST vars, POST data
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, "XML=" . urlencode($str));
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=UTF8'));
+$result = curl_exec($ch);
 
-        if ($result === false) {
-            echo 'Curl error: ' . curl_error($ch);
-        }
-        //curl_close($ch); 
-        //    print_r($result);
-        //    die;
-        //$result = str_replace("world","Peter","Hello world!");
-        $xml = simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
+if ($result === false) {
+echo 'Curl error: ' . curl_error($ch);
+}
+//curl_close($ch);
+// print_r($result);
+// die;
+//$result = str_replace("world","Peter","Hello world!");
+$xml = simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-        $json = json_encode($xml);
-        $arr = json_decode($json, true);
-        echo "<pre>";
+$json = json_encode($xml);
+$arr = json_decode($json, true);
+echo "
+<pre>";
         print_r($arr);
         exit;
     }
@@ -514,53 +515,90 @@ function get_day_wise_children_price($room_price_id, $param)
     $searchGuestAdultCount = getSearchCookies('searchGuestAdultCount');
     $searchGuestArr = getSearchCookies('searchGuestArr');
     
-    $child_age1 = $param['filterObjParamChildAge1'];
-    $child_age2 = $param['filterObjParamChildAge2'];
-
-    $child_younger = $param['filterObjParamChildYounger'];
-    $child_older = $param['filterObjParamChildOlder'];
     $chilldPrice = 0;
+    if($searchGuestChildCount > 0){
 
-    if ($param['filterObjParamChild'] <= 2) {
-        $roomChildPrice = OfflineRoomChildPrice::query();
-        $roomChildPrice = $roomChildPrice->where(function ($query) use ($param) {
-            $query->whereRaw("'" . $param['filterObjParamChildAge1'] . "' between min_age and max_age");
-            if ($param['filterObjParamChildAge2'] > 0) {
-                $query->orWhereRaw("'" . $param['filterObjParamChildAge2'] . "' between min_age and max_age");
-            }
-        });
-        $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
-        if ($param['filterObjParamChildAge1'] > 6 || $param['filterObjParamChildAge2'] > 6) {
-            $childPrice = $roomChildPrice->sum('cwb_price');
-        } else {
-            $childPrice = $roomChildPrice->sum('cnb_price');
-        }
-    } else {
-        $roomChildPrice = OfflineRoomChildPrice::query();
+        foreach($searchGuestArr as $key=>$child){
 
-        $roomChildPrice->where(function ($query) use ($param) {
-            if ($param['filterObjParamChildYounger'] > 0) {
-                $query->whereRaw(" '6' between min_age and max_age");
+            if($child->child > 0){
+                foreach($child->childAge as $key1=>$value){
+                    $roomChildPrice = OfflineRoomChildPrice::query();
+                    $roomChildPrice = $roomChildPrice->where(function ($query) use ($value) {
+                        $query->whereRaw("'" .$value->age. "' between min_age and max_age");
+
+                    });
+                    $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
+                    if ($value->cwb == 'yes') {
+                        $childPrice = $roomChildPrice->sum('cwb_price');
+                    } else {
+                        $childPrice = $roomChildPrice->sum('cnb_price');
+                    }
+                   
+                }
             }
-            if ($param['filterObjParamChildOlder'] > 0) {
-                $query->orWhereRaw(" '7' between min_age and max_age");
-            }
-        });
-        $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
-        $childOlderPrice = 0;
-        $childYoungerPrice = 0;
-        foreach ($roomChildPrice as $rcprice) {
-            if ($param['filterObjParamChildYounger'] > 0 && ($rcprice->min_age >= 0 && $rcprice->max_age <= 6)) {
-                $childYoungerPrice = $rcprice->cnb_price * $param['filterObjParamChildYounger'];
-            } else {
-                $childOlderPrice = $rcprice->cwb_price * $param['filterObjParamChildOlder'];
-            }
+
         }
-        $childPrice = ($childYoungerPrice + $childOlderPrice);
+
     }
-
     return $childPrice;
 }
+
+// function get_day_wise_children_price($room_price_id, $param)
+// {
+
+//     $searchGuestRoomCount = getSearchCookies('searchGuestRoomCount');
+//     $searchGuestChildCount = getSearchCookies('searchGuestChildCount');
+//     $searchGuestAdultCount = getSearchCookies('searchGuestAdultCount');
+//     $searchGuestArr = getSearchCookies('searchGuestArr');
+//     dd($searchGuestArr);
+
+//     $child_age1 = $param['filterObjParamChildAge1'];
+//     $child_age2 = $param['filterObjParamChildAge2'];
+
+//     $child_younger = $param['filterObjParamChildYounger'];
+//     $child_older = $param['filterObjParamChildOlder'];
+//     $chilldPrice = 0;
+
+//     if ($param['filterObjParamChild'] <= 2) {
+//         $roomChildPrice = OfflineRoomChildPrice::query();
+//         $roomChildPrice = $roomChildPrice->where(function ($query) use ($param) {
+//             $query->whereRaw("'" . $param['filterObjParamChildAge1'] . "' between min_age and max_age");
+//             if ($param['filterObjParamChildAge2'] > 0) {
+//                 $query->orWhereRaw("'" . $param['filterObjParamChildAge2'] . "' between min_age and max_age");
+//             }
+//         });
+//         $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
+//         if ($param['filterObjParamChildAge1'] > 6 || $param['filterObjParamChildAge2'] > 6) {
+//             $childPrice = $roomChildPrice->sum('cwb_price');
+//         } else {
+//             $childPrice = $roomChildPrice->sum('cnb_price');
+//         }
+//     } else {
+//         $roomChildPrice = OfflineRoomChildPrice::query();
+
+//         $roomChildPrice->where(function ($query) use ($param) {
+//             if ($param['filterObjParamChildYounger'] > 0) {
+//                 $query->whereRaw(" '6' between min_age and max_age");
+//             }
+//             if ($param['filterObjParamChildOlder'] > 0) {
+//                 $query->orWhereRaw(" '7' between min_age and max_age");
+//             }
+//         });
+//         $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
+//         $childOlderPrice = 0;
+//         $childYoungerPrice = 0;
+//         foreach ($roomChildPrice as $rcprice) {
+//             if ($param['filterObjParamChildYounger'] > 0 && ($rcprice->min_age >= 0 && $rcprice->max_age <= 6)) {
+//                 $childYoungerPrice = $rcprice->cnb_price * $param['filterObjParamChildYounger'];
+//             } else {
+//                 $childOlderPrice = $rcprice->cwb_price * $param['filterObjParamChildOlder'];
+//             }
+//         }
+//         $childPrice = ($childYoungerPrice + $childOlderPrice);
+//     }
+
+//     return $childPrice;
+// }
 if (!function_exists('selectRoomBooking')) {
 
     function selectRoomBooking($paramArr, $isArray = false)
