@@ -158,4 +158,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Customer::class, 'user_id', 'id');
     }
+
+    public function usermeta()
+    {
+        return $this->hasOne(UserMeta::class, 'user_id', 'id');
+    }
 }

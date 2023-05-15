@@ -533,6 +533,7 @@
 
                                                 <div class="y-gap-5">
 
+                                                    @if ( isset($value_child['facilities']) && is_array($value_child['facilities']) && count($value_child['facilities']) > 0)
                                                     @foreach ($value_child['facilities'] as $key_facilities => $value_facilities)
                                                         @if ($value_facilities['status'] == '0')
                                                             <div class="d-flex items-center text-red-2">
@@ -548,6 +549,7 @@
                                                             </div>
                                                         @endif
                                                     @endforeach
+                                                    @endif
                                                 </div>
 
                                             </div>

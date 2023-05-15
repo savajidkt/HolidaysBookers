@@ -2,15 +2,16 @@
 
 namespace App\Repositories;
 
+use Exception;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\UserMeta;
+use App\Models\UserSurvey;
+use Illuminate\Support\Facades\DB;
 use App\Events\ForgotPasswordEvent;
 use App\Exceptions\GeneralException;
-use App\Models\User;
-use App\Models\UserSurvey;
-use App\Notifications\RegisterdEmailNotification;
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\RegisterdEmailNotification;
 
 class UserRepository
 {
@@ -35,7 +36,7 @@ class UserRepository
         ];
 
         $user =  User::create($data);
-        $user->notify(new RegisterdEmailNotification($password,$user));
+        $user->notify(new RegisterdEmailNotification($password, $user));
         return $user;
     }
 
@@ -59,15 +60,12 @@ class UserRepository
             'address'       => $data['address'],
             'email'         => $data['email']
         ];
-        
-        if( isset($password) )
-        {
-            
+
+        if (isset($password)) {
+
             $data['password'] = Hash::make($password);
-           
         }
-        if( $user->update($data) )
-        {
+        if ($user->update($data)) {
             return $user;
         }
 
@@ -84,8 +82,7 @@ class UserRepository
      */
     public function delete(User $user): bool
     {
-        if( $user->forceDelete() )
-        {
+        if ($user->forceDelete()) {
             return true;
         }
 
@@ -104,16 +101,13 @@ class UserRepository
         $user = User::withTrashed()->where('email', $input['email'])->first();
 
         // Event for forgot password
-        try
-        {
-            if($user->trashed())
-            {
+        try {
+            if ($user->trashed()) {
                 $user->restore();
             }
 
             event(new ForgotPasswordEvent($user));
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             // Failed to dispatch event
             report($e);
         }
@@ -128,6 +122,7 @@ class UserRepository
      */
     public function changePassword(User $user, array $input)
     {
+
         // if(!Hash::check($input['current_password'], $user->password))
         // {
         //     throw new GeneralException('Entered current password is incorrect.');
@@ -144,8 +139,7 @@ class UserRepository
         //unset($input['new_password']);
         //unset($input['password_confirmation']);
 
-        if($user->update($data))
-        {
+        if ($user->update($data)) {
             return true;
         }
 
@@ -170,7 +164,7 @@ class UserRepository
         return $userSurvey->delete();
     }
 
-   /**
+    /**
      * Method demoformcreate
      *
      * @param array $data [explicite description]
@@ -184,19 +178,87 @@ class UserRepository
         $user = auth()->user();
         $data = [
             'gender'    => $data['gender'],
-            'other_text'    => $data['other_text']??null,
+            'other_text'    => $data['other_text'] ?? null,
             'age'     => $data['age'],
             'ethnicity'     => $data['ethnicity'],
             'job_level'     => $data['job_level'],
             'years'       => $data['years']
         ];
-        
-       
-        if( $user->update($data) )
-        {
+
+
+        if ($user->update($data)) {
             return $user;
         }
 
         throw new Exception('User update failed.');
+    }
+
+
+    public function updateCustomer(array $data, User $user): User
+    {
+
+        $UserArr = [
+            'first_name'    => $data['first_name'],
+            'last_name'    => $data['last_name']
+        ];
+
+        if ($user->update($UserArr)) {
+
+            if (isset($data['user_avatar'])) {
+                $dataSave = [
+                    'user_avatar'     => $this->uploadDoc($data, 'user_avatar', $user->id),
+                    'phone_number'     => $data['phone_number']
+                ];
+            } else {
+                $dataSave = [
+                    'phone_number'     => $data['phone_number']
+                ];
+            }
+
+
+            $user->userMeta->update($dataSave);
+        }
+
+        return $user;
+        throw new Exception('Customer update failed.');
+    }
+
+    public function updateCustomerLocation(array $data, User $user): User
+    {
+
+        $dataSave = [
+            'country_id'     => $data['country'],
+            'address_1'     => $data['address'],
+            'address_2'     => $data['address2'],
+            'city'     => $data['city'],
+            'state'     => $data['state'],
+            'zip'     => $data['zip_code']
+        ];
+        $user->userMeta->update($dataSave);
+
+        return $user;
+
+        throw new Exception('Customer update failed.');
+    }
+
+    public function updateCustomerVarification(array $data, User $user): User
+    {
+
+        $dataSave = [
+            'phone_number'     => $data['verify_data_phone']
+        ];       
+        $user->userMeta->update($dataSave);
+        return $user;
+
+        throw new Exception('Customer update failed.');
+    }
+
+    public function uploadDoc($data, $filename, $user_id)
+    {
+        if (strlen($data[$filename]) > 0) {
+            return FileUpload($data[$filename], 'upload/avatar/' . $user_id);
+        } else {
+            return "";
+        }
     }
 }

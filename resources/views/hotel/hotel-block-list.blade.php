@@ -1,4 +1,6 @@
-
+@php
+    $user = auth()->user();
+@endphp
 @if (count($hotelList)>0)
     @foreach ($hotelList as $hotel)
     
@@ -21,7 +23,7 @@
                                 </a>
                             </div>
                             <div class="cardImage__wishlist">
-                                <button class="button -blue-1 bg-white size-30 rounded-full shadow-2">
+                                <button  class="button -blue-1 bg-white size-30 rounded-full shadow-2 wishlistMe {{ isWishlist($hotel['id'], 'hotel') }}" data-wishlist-h-id="{{ $hotel['id'] }}" data-wishlist-type="hotel" data-wishlist-u-id="{{ isset($user->id) ? $user->id : '' }}">
                                     <i class="icon-heart text-12"></i>
                                 </button>
                             </div>

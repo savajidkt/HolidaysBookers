@@ -1,7 +1,13 @@
 @extends('layouts.app')
 @section('page_title', 'Home')
 @section('content')
-
+    <style>
+        .cardImage__wishlist .button.active {
+            background-color: var(--color-blue-1) !important;
+            border-color: var(--color-blue-1);
+            color: #fff !important;
+        }
+    </style>
     @php
         $search_from = date('m-d-Y', strtotime(date('Y-m-d')));
         $search_to = date('m-d-Y', strtotime(date('Y-m-d')));
@@ -30,7 +36,7 @@
         filterObj.requested_country_id = "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}";
         filterObj.requested_search_from = "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}";
         filterObj.requested_search_to = "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}";
-        
+
         filterObj.start_price_range = "";
         filterObj.end_price_range = "";
     </script>
@@ -120,8 +126,8 @@
                                             room
                                         </div>
                                     </div>
-                                    <div style="display:none;" class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests"
-                                        data-x-dd-toggle="-is-active">
+                                    <div style="display:none;" class="searchMenu-guests__field shadow-2"
+                                        data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
                                         <div class="bg-white px-30 py-30 rounded-4">
                                             <div class="row y-gap-10 justify-between items-center">
                                                 <div class="col-auto">
@@ -1199,12 +1205,13 @@
             searchLocationByName: "{!! route('city-hotel-list') !!}",
             ajaxURL: "{!! route('hotel-list-ajax') !!}",
             filterObjParamStartDate: filterObj.requested_search_from,
-            filterObjParamEndDate: filterObj.requested_search_to,            
+            filterObjParamEndDate: filterObj.requested_search_to,
             filterObjParamStartPrice: filterObj.start_price_range,
             filterObjParamEndPrice: filterObj.end_price_range,
             ajaxRoomURL: "{!! route('room-list-ajax') !!}",
+            addToWishList: "{!! route('add-to-wishlist') !!}",
         };
-    
+
 
         $(document).ready(function() {
 
@@ -1232,7 +1239,7 @@
 
             });
             $(document).on('click', '.starClick', function() {
-                
+
                 filterObj.star = "";
 
                 var starArr = [];
@@ -1264,9 +1271,9 @@
 
                 if (starArr.length === 0) {
                     $('.numrateAllchk').prop('checked', true);
-                   // starArr.push('all');
+                    // starArr.push('all');
                 }
-                
+
                 //console.log(filterObj.star);
                 getAllHotelList(filterObj);
 
@@ -1295,7 +1302,7 @@
             // })
         });
 
-        document.addEventListener('DOMContentLoaded', function() {           
+        document.addEventListener('DOMContentLoaded', function() {
             getAllHotelList(filterObj);
         }, false);
 

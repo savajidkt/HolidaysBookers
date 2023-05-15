@@ -157,7 +157,7 @@ class HotelListingRepository
             
             if ($room->price->count() > 0) {
                 foreach ($room->price as $r_key => $r_room) {
-                    $hotelRoomTempArray['room']['facilities'] = $r_room->facilities->toArray();
+                    $hotelRoomTempArray['room']['facilities'] = '';//$r_room->facilities->toArray();
                     $roomArr = $r_room->toArray();
                     $roomArr['price'] = numberFormat($r_room->price_p_n_single_adult, $r_room->currency->code);;
                     $hotelRoomTempArray['room']['child'][] = $roomArr;

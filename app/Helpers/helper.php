@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use App\Models\City;
 use App\Models\Reach;
 use App\Models\State;
+use App\Models\Wishlist;
 use App\Libraries\Safeencryption;
 use App\Models\WalletTransaction;
 use App\Exceptions\GeneralException;
@@ -306,31 +307,31 @@ if (!function_exists('rezeliveHotels')) {
     </Booking>
 </HotelFindRequest>';
 
-file_put_contents("xml/resquest" . time() . ".xml", $str);
-$url = $config->api_url . "findhotel";
+        file_put_contents("xml/resquest" . time() . ".xml", $str);
+        $url = $config->api_url . "findhotel";
 
-$ch = curl_init();
-//set the url, number of POST vars, POST data
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, "XML=" . urlencode($str));
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=UTF8'));
-$result = curl_exec($ch);
+        $ch = curl_init();
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "XML=" . urlencode($str));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml; charset=UTF8'));
+        $result = curl_exec($ch);
 
-if ($result === false) {
-echo 'Curl error: ' . curl_error($ch);
-}
-//curl_close($ch);
-// print_r($result);
-// die;
-//$result = str_replace("world","Peter","Hello world!");
-$xml = simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
+        if ($result === false) {
+            echo 'Curl error: ' . curl_error($ch);
+        }
+        //curl_close($ch);
+        // print_r($result);
+        // die;
+        //$result = str_replace("world","Peter","Hello world!");
+        $xml = simplexml_load_string($result, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-$json = json_encode($xml);
-$arr = json_decode($json, true);
-echo "
+        $json = json_encode($xml);
+        $arr = json_decode($json, true);
+        echo "
 <pre>";
         print_r($arr);
         exit;
@@ -514,18 +515,17 @@ function get_day_wise_children_price($room_price_id, $param)
     $searchGuestChildCount = getSearchCookies('searchGuestChildCount');
     $searchGuestAdultCount = getSearchCookies('searchGuestAdultCount');
     $searchGuestArr = getSearchCookies('searchGuestArr');
-    
+
     $chilldPrice = 0;
-    if($searchGuestChildCount > 0){
+    if ($searchGuestChildCount > 0) {
 
-        foreach($searchGuestArr as $key=>$child){
+        foreach ($searchGuestArr as $key => $child) {
 
-            if($child->child > 0){
-                foreach($child->childAge as $key1=>$value){
+            if ($child->child > 0) {
+                foreach ($child->childAge as $key1 => $value) {
                     $roomChildPrice = OfflineRoomChildPrice::query();
                     $roomChildPrice = $roomChildPrice->where(function ($query) use ($value) {
-                        $query->whereRaw("'" .$value->age. "' between min_age and max_age");
-
+                        $query->whereRaw("'" . $value->age . "' between min_age and max_age");
                     });
                     $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
                     if ($value->cwb == 'yes') {
@@ -533,12 +533,9 @@ function get_day_wise_children_price($room_price_id, $param)
                     } else {
                         $childPrice = $roomChildPrice->sum('cnb_price');
                     }
-                   
                 }
             }
-
         }
-
     }
     return $childPrice;
 }
@@ -635,5 +632,26 @@ if (!function_exists('getSearchCookies')) {
             return json_decode($_COOKIE[$name]);
         }
         return false;
+    }
+}
+
+
+if (!function_exists('isWishlist')) {
+
+    function isWishlist($id, $type)
+    {
+        $user = auth()->user();
+        if (isset($user->id)) {
+            $user = Wishlist::where('user_id', '=', $user->id)
+                ->where('hotel_id', '=', $id)
+                ->where('type', '=', $type)
+                ->first();
+            if ($user === null) {
+                return '';
+            } else {
+                return 'active';
+            }
+        }
+        return '';
     }
 }

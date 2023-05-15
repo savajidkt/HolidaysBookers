@@ -12,19 +12,22 @@
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="{{ asset('assets/front/css/vendors.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/vendors.css') }}">    
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <!-- Main-StyleSheet include -->
-    <style>
-        .help-block-error {
-            color: #EA5455;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/front/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/icofont.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/app.css') }}">
+   
+    <link rel="stylesheet" href="{{ asset('assets/front/css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/custom.css') }}">
+    <!-- Main-StyleSheet include -->    >
 </head>
 
 <body data-barba="wrapper">

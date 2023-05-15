@@ -285,10 +285,10 @@ function FrmAddMoreGuest() {
             var collectionAge = $(this).find('.agess');
             collectionAge.each(function (index) {
                 var tempArr = [];
-                var cwb = "no";                
+                var cwb = "no";
                 if ($(this).find(".ageCWB").prop('checked') == true && $(this).find(".age :selected").val() > 2) {
                     cwb = "yes";
-                }               
+                }
 
                 tempChildArr.push({
                     cwb: cwb,
@@ -315,6 +315,43 @@ function FrmAddMoreGuest() {
 
         //$(".guestModal .pointer").trigger('click');
         $(".guestModal").addClass('is-hidden');
+    });
+
+    jQuery(document).on('click', '.wishlistMe', function () {
+        // $(this).addClass('teampCLS');
+        var tempD = $(this);
+        console.log(this);
+        if ($(this).attr('data-wishlist-u-id') > 0) {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: moduleConfig.addToWishList,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    user_id: $(this).attr('data-wishlist-u-id'),
+                    hotel_id: $(this).attr('data-wishlist-h-id'),
+                    type: $(this).attr('data-wishlist-type'),
+                },
+                success: function (data) {
+
+                    tempD.removeClass('active');
+                    // tempD.removeClass('inactive');
+                    tempD.addClass(data.class);
+
+
+                }
+            });
+            $(this).removeClass('teampCLS');
+
+        }
+
+        // createCookie('wishListByUserID', JSON.stringify(AdultCount), 1);       
+        // createCookie('wishListByUserArr', JSON.stringify(AdultCount), 1);       
     });
 
     jQuery(document).on('change', '.addDynamicChilds', function () {
@@ -350,13 +387,13 @@ function FrmAddMoreGuest() {
 
     jQuery(document).on('change', '.age', function () {
 
-        if ($(this).val() > 2) {            
+        if ($(this).val() > 2) {
             $(this).closest('.optionBox .agess').find('.ageCWBCHK').removeClass('is-hide');
             $(this).closest('.optionBox .agess').find('.ageCWBCHK').addClass('is-show');
         } else {
             $(this).closest('.optionBox .agess').find('.ageCWBCHK .ageCWB').attr('checked', false);
-            $(this).closest('.optionBox .agess').find('.ageCWBCHK').removeClass('is-show');            
-            $(this).closest('.optionBox .agess').find('.ageCWBCHK').addClass('is-hide');            
+            $(this).closest('.optionBox .agess').find('.ageCWBCHK').removeClass('is-show');
+            $(this).closest('.optionBox .agess').find('.ageCWBCHK').addClass('is-hide');
         }
 
     });

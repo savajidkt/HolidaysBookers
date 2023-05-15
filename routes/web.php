@@ -11,17 +11,21 @@ use App\Http\Controllers\HotelListController;
 use App\Http\Controllers\Admin\Apis\ApisController;
 use App\Http\Controllers\Admin\User\UsersController;
 use App\Http\Controllers\Admin\Roles\RolesController;
+use App\Http\Controllers\Customer\WishlistController;
 use App\Http\Controllers\Admin\Admin\AdminsController;
 use App\Http\Controllers\Admin\Agent\AgentsController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Customer\MyProfileController;
 use App\Http\Controllers\Admin\Cities\CitiesController;
 use App\Http\Controllers\Admin\Orders\OrdersController;
 use App\Http\Controllers\Admin\States\StatesController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Reachus\ReachusController;
+use App\Http\Controllers\Customer\VerificationController;
 use App\Http\Controllers\Admin\Freebies\FreebiesController;
 use App\Http\Controllers\Admin\Packages\PackagesController;
+use App\Http\Controllers\Customer\BookingHistoryController;
 use App\Http\Controllers\Admin\Amenities\AmenitiesController;
 use App\Http\Controllers\Admin\ApiHotels\ApiHotelsController;
 use App\Http\Controllers\Admin\Countries\CountriesController;
@@ -45,6 +49,7 @@ use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Corporate\DashboardController as CorporateDashboardController;
+use App\Http\Controllers\WishlistController as FrontWishlistController;
 
 
 /*
@@ -240,6 +245,19 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
 
 Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {
     Route::get('/dashboard', [CustomerDashboardController::class, 'dashboard'])->name('customer.dashboard');
+    Route::get('/booking-history/{id}', [BookingHistoryController::class, 'index'])->name('customer.booking-history');
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('customer.wishlist');
+    Route::get('/verification', [VerificationController::class, 'index'])->name('customer.verification');
+    Route::get('/verification/update/{id}', [VerificationController::class, 'edit'])->name('customer.verification-update');
+    Route::post('/verification/update/{id}', [VerificationController::class, 'update'])->name('customer.verification-update');
+   
+    Route::get('/my-profile', [MyProfileController::class, 'editProfile'])->name('customer.my-profile');
+    Route::post('/my-profile', [MyProfileController::class, 'updateProfile'])->name('customer.my-profile');
+    Route::get('/my-location', [MyProfileController::class, 'editLocation'])->name('customer.my-location');
+    Route::post('/my-location', [MyProfileController::class, 'updateLocation'])->name('customer.my-location');
+    Route::get('/my-change-password', [MyProfileController::class, 'editChangePassword'])->name('customer.my-change-password');
+    Route::post('/my-change-password', [MyProfileController::class, 'updateChangePassword'])->name('customer.my-change-password');
+    
 });
 
 Route::group(['prefix' => 'corporate', 'middleware' => ['corporateauth']], function () {
@@ -268,3 +286,4 @@ Route::get('/hotel-details/{id}', [HotelListController::class, 'show'])->name('h
 
 Route::resource('/checkout', CheckoutController::class);
 Route::get('/review-your-booking/{id}', [CheckoutController::class, 'checkout'])->name('review-your-booking');
+Route::post('wishlist', [FrontWishlistController::class, 'store'])->name('add-to-wishlist');

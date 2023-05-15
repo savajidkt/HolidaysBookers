@@ -12,6 +12,7 @@ class DashboardController extends Controller
 
     public function dashboard()
     {        
-        return view('customer.dashboard.index');
+        $pagename = "dashboard";
+        return view('customer.dashboard.index',['pagename' => $pagename]);
     }
 }
