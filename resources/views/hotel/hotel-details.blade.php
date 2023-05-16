@@ -561,15 +561,15 @@
                                                     <div class="text-20 lh-14 fw-500">{{ $value_child['price'] }}</div>
                                                     @php
                                                     $bookingParam = array(
-                                                        'hotel_id' => $hotelsDetails['hotel']['id'], 
-                                                        'room_id' => $value_child['room_id'], 
-                                                        'price_id' => $value_child['id'],
-                                                        'adult' => $requestParam['adult'], 
-                                                        'child' => $requestParam['child'],
-                                                        'room' => $requestParam['room'],
-                                                        'city_id' => $requestParam['city_id'],
-                                                        'search_from' => $requestParam['search_from'],
-                                                        'search_to' => $requestParam['search_to'],
+                                                        'hotel_id' => isset($hotelsDetails['hotel']['id']) ? $hotelsDetails['hotel']['id'] : '', 
+                                                        'room_id' => isset($value_child['room_id']) ? $value_child['room_id'] :'', 
+                                                        'price_id' => isset($value_child['id']) ? $value_child['id'] : '',
+                                                        'adult' => isset($requestParam['adult']) ? $requestParam['adult'] : '', 
+                                                        'child' => isset($requestParam['child']) ? $requestParam['child'] : '',
+                                                        'room' => isset($requestParam['room']) ? $requestParam['room'] : '',
+                                                        'city_id' => isset($requestParam['city_id']) ? $requestParam['city_id'] : '',
+                                                        'search_from' => isset($requestParam['search_from']) ? $requestParam['search_from'] : '',
+                                                        'search_to' => isset($requestParam['search_to']) ? $requestParam['search_to'] : '',
                                                     );
                                                   
                                                     @endphp

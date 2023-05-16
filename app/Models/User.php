@@ -163,4 +163,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserMeta::class, 'user_id', 'id');
     }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class, 'user_id', 'id');
+    }
 }

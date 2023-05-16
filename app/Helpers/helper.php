@@ -610,8 +610,6 @@ if (!function_exists('selectRoomBooking')) {
 
         if (is_array($paramArr) && count($paramArr) > 0) {
             $string = "";
-
-
             foreach ($paramArr as $key => $value) {
                 $string .= $key . "=" . $value . "&";
             }

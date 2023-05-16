@@ -17,8 +17,8 @@ class WishlistController extends Controller
         $user = auth()->user();
         $wishlist = Wishlist::where('user_id', '=', $user->id)           
             ->where('type', '=', 'hotel')
-            ->get();
-            dd($wishlist);
+            ->paginate(10);   
+               
         return view('customer.wishlist.index', ['pagename' => $pagename,'wishlist'=>$wishlist]);
     }
 }
