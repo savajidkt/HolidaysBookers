@@ -155,7 +155,7 @@
                 <div class="input-group input-daterange">
                     <input type="text" name="booking_start_date"
                         class="form-control booking-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
-                        value="{{ isset($pricemodel->booking_start_date) ? $pricemodel->booking_start_date : old('booking_start_date') }}"
+                        value="{{ isset($requestData['booking_start_date']) ? $requestData['booking_start_date'] : old('booking_start_date') }}"
                         data-error="Booking start date is required" />
                 </div>
                 <div class="BookingDateValidity"></div>
@@ -488,26 +488,7 @@
                             value="non_refundeble" name="cancelation_policy"
                             {{ (isset($requestData['cancelation_policy']) && $requestData['cancelation_policy'] == 'non_refundeble') ? 'checked' : '' }} />
                         <label class="custom-control-label" for="non_refundeble">Non Refundeble</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="early_birdoffer"
-                            value="early_birdoffer" name="cancelation_policy"
-                            {{ (isset($requestData['cancelation_policy']) && $requestData['cancelation_policy'] == 'early_birdoffer') ? 'checked' : '' }} />
-                        <label class="custom-control-label" for="early_birdoffer">Early birdoffer</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="pre_purchasep_rate"
-                            value="pre_purchasep_rate" name="cancelation_policy"
-                            {{ (isset($requestData['cancelation_policy']) && $requestData['cancelation_policy'] == 'pre_purchasep_rate') ? 'checked' : '' }} />
-                        <label class="custom-control-label" for="pre_purchasep_rate">Pre Purchase Rate</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input " id="rates_valid_for_package_only"
-                            value="rates_valid_for_package_only" name="cancelation_policy"
-                            {{ (isset($requestData['cancelation_policy']) && $requestData['cancelation_policy'] == 'rates_valid_for_package_only') ? 'checked' : '' }} />
-                        <label class="custom-control-label" for="rates_valid_for_package_only">Rates Valid for Package
-                            only</label>
-                    </div>
+                    </div>                    
                 </div>
                 @error('cancelation_policy')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -593,6 +574,34 @@
     <div class="col-12 mt-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
+                <label for="itemcost">Extra Details</label>
+                <div class="demo-inline-spacing">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="early_birdoffer"
+                            value="Early birdoffer" name="early_birdoffer"
+                            {{ isset($requestData['early_birdoffer']) && $requestData['early_birdoffer'] == 'Early birdoffer' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="early_birdoffer">Early birdoffer</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="pre_purchase_rate"
+                            value="Pre Purchase Rate" name="pre_purchase_rate"
+                            {{ isset($requestData['pre_purchase_rate']) && $requestData['pre_purchase_rate'] == 'Pre Purchase Rate' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="pre_purchase_rate">Pre Purchase Rate</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="rates_valid_for_package_only"
+                            value="Rates Valid for Package only" name="rates_valid_for_package_only"
+                            {{ isset($requestData['rates_valid_for_package_only']) && $requestData['rates_valid_for_package_only'] == 'Rates Valid for Package only' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="rates_valid_for_package_only">Rates Valid for Package
+                            only</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-2">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
                 <label for="itemcost">Days Valid</label>
                 <div class="demo-inline-spacing">
                     <div class="custom-control custom-checkbox">
@@ -647,7 +656,7 @@
         </div>
     </div>
 </div>
-<hr class="my-2" />
+{{-- <hr class="my-2" />
 <div class="room-repeater">
     <div data-repeater-list="childrens" class="repeaterCLS">
         @if (count($requestData['childrens']) > 0)
@@ -730,7 +739,7 @@
             </button>
         </div>
     </div>
-</div>
+</div> --}}
 @section('extra-script')
     <script src="{{ asset('js/form/Offline-Room.js') }}"></script>
     <!-- BEGIN: Page Vendor JS-->

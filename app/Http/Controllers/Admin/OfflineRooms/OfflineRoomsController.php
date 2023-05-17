@@ -280,6 +280,7 @@ class OfflineRoomsController extends Controller
      */
     public function storePrice(Request $request, OfflineRoom $offlineroom)
     {
+      
         if ($request->save == "save and new") {
 
             $this->offlineRoomRepository->createPrice($request->all(), $offlineroom);

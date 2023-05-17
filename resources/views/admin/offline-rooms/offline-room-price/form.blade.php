@@ -486,25 +486,6 @@
                             {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'non_refundeble' ? 'checked' : '' }} />
                         <label class="custom-control-label" for="non_refundeble">Non Refundeble</label>
                     </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="early_birdoffer"
-                            value="early_birdoffer" name="cancelation_policy"
-                            {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'early_birdoffer' ? 'checked' : '' }} />
-                        <label class="custom-control-label" for="early_birdoffer">Early birdoffer</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="pre_purchasep_rate"
-                            value="pre_purchasep_rate" name="cancelation_policy"
-                            {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'pre_purchasep_rate' ? 'checked' : '' }} />
-                        <label class="custom-control-label" for="pre_purchasep_rate">Pre Purchase Rate</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input " id="rates_valid_for_package_only"
-                            value="rates_valid_for_package_only" name="cancelation_policy"
-                            {{ isset($pricemodel->cancelation_policy) && $pricemodel->cancelation_policy == 'rates_valid_for_package_only' ? 'checked' : '' }} />
-                        <label class="custom-control-label" for="rates_valid_for_package_only">Rates Valid for Package
-                            only</label>
-                    </div>
                 </div>
                 @error('cancelation_policy')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -528,9 +509,10 @@
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
                                             <label for="itemcost">Before Check-In Days</label>
-                                            <select name="before_check_in_days" class="form-control before_check_in_days" id=""
-                                                data-error="Before Check-In Days" aria-invalid="false">                                                
-                                                @php echo forLoopByNumber(0, $pricemodel->cutoff_price - 1,  isset($policies->before_check_in_days) ? $policies->before_check_in_days : '' ,'Days'); @endphp                                                                                           
+                                            <select name="before_check_in_days"
+                                                class="form-control before_check_in_days" id=""
+                                                data-error="Before Check-In Days" aria-invalid="false">
+                                                @php echo forLoopByNumber(0, $pricemodel->cutoff_price - 1,  isset($policies->before_check_in_days) ? $policies->before_check_in_days : '' ,'Days'); @endphp
                                             </select>
                                         </div>
                                     </div>
@@ -548,7 +530,8 @@
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
                                             <label for="itemcost">Per Night Charge</label>
-                                            <input type="number" class="form-control" name="night_charge" value="{{ isset($policies->night_charge) ? $policies->night_charge : old('night_charge') }}" />
+                                            <input type="number" class="form-control" name="night_charge"
+                                                value="{{ isset($policies->night_charge) ? $policies->night_charge : old('night_charge') }}" />
                                         </div>
                                     </div>
                                 </div>
@@ -582,9 +565,9 @@
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label for="itemcost">Before Check-In Days</label>
-                                        <select name="before_check_in_days" class="form-control before_check_in_days" id=""
-                                            data-error="Before Check-In Days" aria-invalid="false">
-                                            <option value="0">0 Days</option>                                            
+                                        <select name="before_check_in_days" class="form-control before_check_in_days"
+                                            id="" data-error="Before Check-In Days" aria-invalid="false">
+                                            <option value="0">0 Days</option>
                                         </select>
                                     </div>
                                 </div>
@@ -601,7 +584,8 @@
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label for="itemcost">Per Night Charge</label>
-                                        <input type="number" class="form-control" name="night_charge" value="" />
+                                        <input type="number" class="form-control" name="night_charge"
+                                            value="" />
                                     </div>
                                 </div>
                             </div>
@@ -635,6 +619,34 @@
                         <i data-feather="plus" class="mr-25"></i>
                         <span>Add More</span>
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-2">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label for="itemcost">Extra Details</label>
+                <div class="demo-inline-spacing">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="early_birdoffer"
+                            value="Early birdoffer" name="early_birdoffer"
+                            {{ isset($pricemodel->early_birdoffer) && $pricemodel->early_birdoffer == 'Early birdoffer' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="early_birdoffer">Early birdoffer</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="pre_purchase_rate"
+                            value="Pre Purchase Rate" name="pre_purchase_rate"
+                            {{ isset($pricemodel->pre_purchase_rate) && $pricemodel->pre_purchase_rate == 'Pre Purchase Rate' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="pre_purchase_rate">Pre Purchase Rate</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="rates_valid_for_package_only"
+                            value="Rates Valid for Package only" name="rates_valid_for_package_only"
+                            {{ isset($pricemodel->rates_valid_for_package_only) && $pricemodel->rates_valid_for_package_only == 'Rates Valid for Package only' ? 'checked' : '' }} />
+                        <label class="custom-control-label" for="rates_valid_for_package_only">Rates Valid for Package
+                            only</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -696,8 +708,8 @@
         </div>
     </div>
 </div>
-<hr class="my-2" />
-<div class="room-repeater">
+{{-- <hr class="my-2" /> --}}
+{{-- <div class="room-repeater">
     <div data-repeater-list="childrens" class="repeaterCLS">
         @if ($pricemodel->childprice->count() > 0)
             @foreach ($pricemodel->childprice as $childs)
@@ -833,7 +845,7 @@
             </button>
         </div>
     </div>
-</div>
+</div> --}}
 @section('extra-script')
     <script src="{{ asset('js/form/Offline-Room.js') }}"></script>
     <!-- BEGIN: Page Vendor JS-->
