@@ -24,6 +24,7 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
-        return view('agent.dashboard.index');
+        $pagename = "dashboard";        
+        return view('agent.dashboard.index', ['pagename' => $pagename]);
     }   
 }

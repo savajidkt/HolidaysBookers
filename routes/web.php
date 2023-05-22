@@ -45,11 +45,18 @@ use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
 use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
+use App\Http\Controllers\WishlistController as FrontWishlistController;
+use App\Http\Controllers\Agent\WishlistController as AgentWishlistController;
 use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
+use App\Http\Controllers\Agent\MyProfileController as AgentMyProfileController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Corporate\DashboardController as CorporateDashboardController;
-use App\Http\Controllers\WishlistController as FrontWishlistController;
+use App\Http\Controllers\Agent\BookingHistoryController as AgentBookingHistoryController;
+use App\Http\Controllers\Agent\TravelCalendarController as AgentTravelCalendarController;
+use App\Http\Controllers\Agent\TransactionController as AgentTransactionController;
+use App\Http\Controllers\Agent\QuotationController as AgentQuotationController;
+
 
 
 /*
@@ -241,6 +248,18 @@ Auth::routes();
 Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/dashboard', [AgentDashboardController::class, 'dashboard'])->name('agent.dashboard');
     Route::get('/booking', [AgentDashboardController::class, 'booking'])->name('agent.booking');
+    Route::get('/booking-history/{id}', [AgentBookingHistoryController::class, 'index'])->name('agent.booking-history');
+    Route::get('/travel-calendar', [AgentTravelCalendarController::class, 'index'])->name('agent.travel-calendar');
+    Route::get('/wishlist', [AgentWishlistController::class, 'index'])->name('agent.wishlist');
+    Route::get('/my-profile', [AgentMyProfileController::class, 'editProfile'])->name('agent.my-profile');
+    Route::post('/my-profile', [AgentMyProfileController::class, 'updateProfile'])->name('agent.my-profile');
+    Route::get('/my-location', [AgentMyProfileController::class, 'editLocation'])->name('agent.my-location');
+    Route::post('/my-location', [AgentMyProfileController::class, 'updateLocation'])->name('agent.my-location');
+    Route::get('/my-change-password', [AgentMyProfileController::class, 'editChangePassword'])->name('agent.my-change-password');
+    Route::post('/my-change-password', [AgentMyProfileController::class, 'updateChangePassword'])->name('agent.my-change-password');
+    Route::get('/transaction/{id}', [AgentTransactionController::class, 'index'])->name('agent.transaction');
+    Route::get('/quotation', [AgentQuotationController::class, 'index'])->name('agent.quotation');
+    //Route::get('/new-quotation', [AgentQuotationController::class, 'home'])->name('agent.new-quotation');
 });
 
 Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {

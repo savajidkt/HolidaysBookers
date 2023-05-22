@@ -17,6 +17,10 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/vendors.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/icofont.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/ionicons.min.css') }}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Main-StyleSheet include -->
@@ -25,6 +29,32 @@
             color: #EA5455;
         }
     </style>
+    @if (Route::is('agent.travel-calendar'))
+    <style>
+        .fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active, .fc .fc-button-primary:disabled{
+            background-color: #3554D1 !important;
+border-color: #3554D1 !important;
+
+        }
+
+        .fc .fc-button-primary {
+  background-color: #fff;
+  border-color: #3554D1 !important;
+  color: #051036;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: #3554D1 !important;
+  border-color: #3554D1 !important;
+  color: #ffffff
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus, .fc .fc-button-primary:not(:disabled):active:focus, .fc .fc-button-primary:focus {
+  box-shadow: 0 0 0 .2rem #3554D1;
+}
+
+    </style>
+     @endif
 </head>
 
 <body data-barba="wrapper">
@@ -65,6 +95,77 @@
 
     <script src="{{ asset('assets/front/js/vendors.js') }}"></script>
     <script src="{{ asset('assets/front/js/main.js') }}"></script>
+
+    @if (Route::is('agent.travel-calendar'))
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    events: [{
+                            title: 'All Day Event',
+                            start: '2023-05-01'
+                        },
+                        {
+                            title: 'Long Event',
+                            start: '2023-05-07',
+                            end: '2023-05-10'
+                        },
+                        {
+                            groupId: '999',
+                            title: 'Repeating Event',
+                            start: '2023-05-09T16:00:00'
+                        },
+                        {
+                            groupId: '999',
+                            title: 'Repeating Event',
+                            start: '2023-05-16T16:00:00'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2023-05-11',
+                            end: '2023-05-15T16:00:00'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2023-05-12T10:30:00',
+                            end: '2023-05-12T12:30:00'
+                        },
+                        {
+                            title: 'Lunch',
+                            start: '2023-05-12T12:00:00'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2023-05-12T14:30:00'
+                        },
+                        {
+                            title: 'Birthday Party',
+                            start: '2023-05-13T07:00:00'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2023-05-28'
+                        },
+                        {
+                            title: 'Marrage',                            
+                            start: '2023-05-19',
+                            end: '2023-05-21'
+                        }
+                    ]
+                });
+                calendar.render();
+            });
+        </script>
+    @endif
+
     @yield('page-script')
 </body>
 

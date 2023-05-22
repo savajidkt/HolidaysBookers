@@ -123,10 +123,10 @@ class UserRepository
     public function changePassword(User $user, array $input)
     {
 
-        // if(!Hash::check($input['current_password'], $user->password))
-        // {
-        //     throw new GeneralException('Entered current password is incorrect.');
-        // }
+        if(!Hash::check($input['old_password'], $user->password))
+        {
+            throw new GeneralException('Entered current password is incorrect.');
+        }
 
         $data = [
             'password'                 => Hash::make($input['new_password']),
@@ -197,34 +197,51 @@ class UserRepository
     public function updateCustomer(array $data, User $user): User
     {
 
+
         $UserArr = [
             'first_name'    => $data['first_name'],
             'last_name'    => $data['last_name']
         ];
 
-        if ($user->update($UserArr)) {
-
+        $userData = UserMeta::where('user_id', '=', $user->id)->first();
+        if ($userData === null) {  
+            $user->update($UserArr);  
+             
             if (isset($data['user_avatar'])) {
                 $dataSave = [
                     'user_avatar'     => $this->uploadDoc($data, 'user_avatar', $user->id),
-                    'phone_number'     => $data['phone_number']
+                    'phone_number'     => $data['phone_number'],
+                    'user_id'     => $user->id,
                 ];
             } else {
                 $dataSave = [
-                    'phone_number'     => $data['phone_number']
+                    'phone_number'     => $data['phone_number'],
+                    'user_id'     => $user->id
                 ];
             }
-
-
-            $user->userMeta->update($dataSave);
+            UserMeta::create($dataSave);            
+        } else {
+            if ($user->update($UserArr)) {
+                if (isset($data['user_avatar'])) {
+                    $dataSave = [
+                        'user_avatar'     => $this->uploadDoc($data, 'user_avatar', $user->id),
+                        'phone_number'     => $data['phone_number']
+                    ];
+                } else {
+                    $dataSave = [
+                        'phone_number'     => $data['phone_number']
+                    ];
+                }
+                $user->userMeta->update($dataSave);
+            }
         }
-
         return $user;
         throw new Exception('Customer update failed.');
     }
 
     public function updateCustomerLocation(array $data, User $user): User
     {
+
 
         $dataSave = [
             'country_id'     => $data['country'],
@@ -234,6 +251,7 @@ class UserRepository
             'state'     => $data['state'],
             'zip'     => $data['zip_code']
         ];
+
         $user->userMeta->update($dataSave);
 
         return $user;
@@ -246,7 +264,7 @@ class UserRepository
 
         $dataSave = [
             'phone_number'     => $data['verify_data_phone']
-        ];       
+        ];
         $user->userMeta->update($dataSave);
         return $user;
 

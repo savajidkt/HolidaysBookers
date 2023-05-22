@@ -85,6 +85,7 @@ class HotelListController extends Controller
             $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
             $hotelListArray = $this->hotelListingRepository->hotelLists($request);
+           
             $hotelCount = $this->hotelListingRepository->hotelCount($request);
             //$hotelList = (object) $hotelListArray;
             //$hotelList->loadMissing(['rooms']);

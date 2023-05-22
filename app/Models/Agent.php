@@ -56,6 +56,8 @@ class Agent extends Authenticatable
         'agent_other_certification',
         'agent_pan_number',
         'agent_gst_number',
+        'agent_global_markups_type',
+        'agent_global_markup',
         'mgmt_first_name',
         'mgmt_last_name',
         'mgmt_contact_number',

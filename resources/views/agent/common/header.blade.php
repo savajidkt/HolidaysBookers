@@ -31,55 +31,38 @@
                             <div class="menu js-navList">
                                 <ul class="menu__nav text-dark-1 fw-500 -is-active">
                                     <li>
-                                        <a href="{{ route('home') }}">
-                                            <span class="mr-10">Home</span>
+                                        <a href="{{ route('home') }}" class="rounded-100 bg-blue-1 text-white">
+                                            <span class="">Home</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
+                                        <a href="#">
+                                            <span class="mr-10">Hotel</span>
                                         </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            class="d-none">
-                                            @csrf
-                                        </form>
                                     </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="mr-10">Transfer</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="mr-10">Sightseeing</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="mr-10">Package</span>
+                                        </a>
+                                    </li>                                    
                                 </ul>
                             </div>
-
                             <div class="mobile-footer px-20 py-20 border-top-light js-mobile-footer">
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="row items-center x-gap-5 y-gap-20 pl-20 lg:d-none">
-                        <div class="col-auto">
-                            <button class="button -blue-1-05 size-50 rounded-22 flex-center">
-                                <i class="icon-email-2 text-20"></i>
-                            </button>
-                        </div>
-
-                        <div class="col-auto">
-                            <button class="button -blue-1-05 size-50 rounded-22 flex-center">
-                                <i class="icon-notification text-20"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="pl-15">
-                        <img src="{{ asset('assets/front') }}/img/avatars/3.png" alt="image"
-                            class="size-50 rounded-22 object-cover">
-                    </div>
-
-                    <div class="d-none xl:d-flex x-gap-20 items-center pl-20" data-x="header-mobile-icons"
-                        data-x-toggle="text-white">
-                        <div><button class="d-flex items-center icon-menu text-20"
-                                data-x-click="html, header, header-logo, header-mobile-icons, mobile-menu"></button>
-                        </div>
-                    </div>
+                   
+                    
                 </div>
             </div>
         </div>

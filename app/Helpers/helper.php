@@ -132,6 +132,17 @@ if (!function_exists('getStateCities')) {
 }
 
 
+if (!function_exists('getStateCitiesByState')) {
+    /**
+     * getCountryState return cities lists
+     */
+    function getStateCitiesByState($state_id)
+    {
+        return City::where('state_id', $state_id)->where('status', 1)->get();
+    }
+}
+
+
 if (!function_exists('createAgentCode')) {
     /**
      * createAgentCode return agent code

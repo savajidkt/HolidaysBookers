@@ -39,6 +39,8 @@ class CreateAgentsTable extends Migration
             $table->string('agent_other_certification')->nullable();
             $table->string('agent_pan_number')->nullable();
             $table->string('agent_gst_number')->nullable();
+            $table->integer('agent_global_markups_type')->nullable();            
+            $table->double('agent_global_markup',10,2)->nullable();
             $table->string('mgmt_first_name')->nullable();
             $table->string('mgmt_last_name')->nullable();
             $table->string('mgmt_contact_number')->nullable();

@@ -159,13 +159,14 @@
             @enderror
         </div>
     </div>
+    
     <div class="col-4">
         <div class="form-group myCity">
             <label class="form-label" for="agent_city">{{ __('agent/agent.agent_city') }}</label>
             <select class="select2 form-control form-control-lg" id="agent_city" name="agent_city"
                 data-error="{{ __('agent/agent.agent_city') }}">
                 <option value="">Select City</option>
-                @php $cities = getStateCities($model->agent_state);  @endphp
+                @php $cities = getStateCitiesByState($model->agent_state);  @endphp
                 @if ($cities->count() > 0)
                     @foreach ($cities as $city)
                         <option value="{{ $city->id }}" {{ $model->agent_city == $city->id ? 'selected' : '' }}>
@@ -322,6 +323,43 @@
                 data-error="{{ __('agent/agent.agent_gst_number') }}" />
             <div class="valid-feedback">Looks good!</div>
             @error('agent_gst_number')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+   
+    <div class="col-4">
+        <div class="form-group">
+            <label class="form-label" for="agent_global_markups_type">Agent Global Markup Type</label>
+            <div class="demo-inline-spacing">
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="agent_global_markups_type-yes" name="agent_global_markups_type" class="custom-control-input"
+                        value="1"
+                        {{ $model->agent_global_markups_type == 1 || old('agent_global_markups_type') == 1 ? 'checked' : '' }} />
+                    <label class="custom-control-label" for="agent_global_markups_type-yes">Percentage (%) </label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="agent_global_markups_type-no" name="agent_global_markups_type" class="custom-control-input"
+                        value="2"
+                        {{ $model->agent_global_markups_type == 2 || old('agent_global_markups_type') == 2 ? 'checked' : '' }} />
+                    <label class="custom-control-label" for="agent_global_markups_type-no">Fix</label>
+                </div>
+            </div>
+            <div class="valid-feedback">Looks good!</div>
+            @error('agent_iata')
+                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <label class="form-label" for="agent_global_markup">Agent Global Markup</label>
+            <input type="number" id="agent_global_markup" name="agent_global_markup" class="form-control"
+                placeholder="Agent Global Markup"
+                value="{{ isset($model->agent_global_markup) ? $model->agent_global_markup : old('agent_global_markup') }}"
+               />
+            <div class="valid-feedback">Looks good!</div>
+            @error('agent_global_markup')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
         </div>
@@ -569,6 +607,7 @@
                 @enderror
             </div>
         </div>
+        @if(Route::is('agents.create') )
         <div class="col-12">
             <div class="form-group">
                 <label class="form-label" for="agent_password">{{ __('agent/agent.agent_password') }}</label>
@@ -596,6 +635,7 @@
                 @enderror
             </div>
         </div>
+        @endif
     </div>
     <div class="col-8">
         <div class="d-flex align-items-center mb-1 mt-1">

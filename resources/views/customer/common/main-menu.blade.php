@@ -7,14 +7,12 @@
             @endphp
             <div class="avatar avatar-cover"
                 style="background-image: url('{{ isset($user->userMeta->user_avatar) && strlen($user->userMeta->user_avatar) > 0 ? url(Storage::url('app/upload/avatar/' . $user->id . '/' . $user->usermeta->user_avatar)) : 'https://gotrip.bookingcore.org/images/avatar.png' }}')"></div>
-        </div>
-
-        
+        </div>        
         <div class="user-profile-info">
             <div class="info-new">
                 <span class="role-name badge badge-info">customer</span>
-                <h5 class="text-16">Jayesh Patel</h5>
-                <p class="text-10 mb-0">Member Since May 2023</p>
+                <h5 class="text-16">{{ $user->first_name }} {{ $user->last_name }}</h5>
+                <p class="text-10 mb-0">Member Since {{ date('M Y',strtotime($user->created_at)) }}</p>
             </div>
         </div>
     </div>

@@ -53,6 +53,7 @@ class AgentRepository
         }
 
         $agent =  Agent::create($UserProfileArr);
+        
         //$user->notify(new RegisterdEmailNotification($password,$user));
         return $user;
     }
@@ -89,7 +90,7 @@ class AgentRepository
     {
 
 
-        $password = $data['agent_password'];
+       
         $UserArr = [
             'first_name'    => $data['agent_first_name'],
             'last_name'    => $data['agent_last_name'],
@@ -97,8 +98,8 @@ class AgentRepository
             'user_type'    => 1,
             'status'    => 1,
         ];
-        if (isset($password)) {
-            $UserArr['password'] = Hash::make($password);
+        if (isset($data['agent_password'])) {
+            $UserArr['password'] = Hash::make($data['agent_password']);
         }
 
         if ($agent->user->update($UserArr)) {
