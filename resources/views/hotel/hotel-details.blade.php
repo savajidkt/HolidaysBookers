@@ -212,11 +212,11 @@
                                         class="text-22 text-dark-1 fw-500">{{ isset($hotelsDetails['hotel']['price']) ? $hotelsDetails['hotel']['price'] : '' }}</span>
                                 </div>
                             @endif
-
-
-                            <a href="#" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
-                                Select Room <div class="icon-arrow-top-right ml-15"></div>
-                            </a>
+                            <button type="button" data-extra="{{ $id }}" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+                                <span class="icons">Book Now</span> 
+                                <div class="icon-arrow-top-right ml-15"></div>
+                                <div class="fa fa-spinner fa-spin ml-15"  style="display: none;"></div>                                
+                            </button>
 
                         </div>
                     </div>
@@ -738,9 +738,11 @@
 
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
+    <script src="{{ asset('assets/front/js/Check-out.js') }}"></script>
     <script type="text/javascript">
         var moduleConfig = {
             searchLocationByName: "{!! route('city-hotel-list') !!}",
+            addedToCartBooking: "{!! route('ajax-temp-store') !!}",
         };
     </script>
 @endsection

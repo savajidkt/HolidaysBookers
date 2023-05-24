@@ -36,25 +36,20 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="{{ route('home') }}">
                                             <span class="mr-10">Hotel</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="{{ route('home') }}">
                                             <span class="mr-10">Transfer</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="{{ route('home') }}">
                                             <span class="mr-10">Sightseeing</span>
                                         </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span class="mr-10">Package</span>
-                                        </a>
-                                    </li>                                    
+                                    </li>                                                                     
                                 </ul>
                             </div>
                             <div class="mobile-footer px-20 py-20 border-top-light js-mobile-footer">

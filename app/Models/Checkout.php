@@ -38,6 +38,14 @@ class Checkout extends Model
         'coupon_code',
         'coupon_amount',
         'tax',
-        'total_amount'
+        'total_amount',
+        'bookingKey',
+        'payment_method',
+        'passenger'
     ];   
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

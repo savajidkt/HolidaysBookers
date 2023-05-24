@@ -211,6 +211,7 @@ if (!function_exists('availableBalance')) {
     function availableBalance($agent_id, $currency = '₹')
     {
         $letest = WalletTransaction::where('agent_id', $agent_id)->orderBy('id', 'DESC')->latest()->first();
+
         if ($letest->balance > 0) {
             return  numberFormat($letest->balance, $currency);
         } else {
@@ -662,5 +663,48 @@ if (!function_exists('isWishlist')) {
             }
         }
         return '';
+    }
+}
+
+if (!function_exists('passengerArr')) {
+
+    function passengerArr($data, $is_serialize = false)
+    {
+        $result = [];
+        if (is_array($data['adult']) && count($data['adult']) > 0) {
+            foreach ($data['adult'] as $key => $value) {
+                if (is_array($value) && count($value) > 0 && $key == "title") {
+                    foreach ($value as $key1 => $value1) {
+                        $tempArr = [];
+                        $tempArr['title'] = ($data['adult']['title'][$key1]) ? $data['adult']['title'][$key1] : '';
+                        $tempArr['firstname'] = ($data['adult']['firstname'][$key1]) ? $data['adult']['firstname'][$key1] : '';
+                        $tempArr['lastname'] = ($data['adult']['lastname'][$key1]) ? $data['adult']['lastname'][$key1] : '';
+                        $tempArr['id_proof'] = ($data['adult']['id_proof'][$key1]) ? $data['adult']['id_proof'][$key1] : '';
+                        $tempArr['id_proof_no'] = ($data['adult']['id_proof_no'][$key1]) ? $data['adult']['id_proof_no'][$key1] : '';
+                        $tempArr['phonenumber'] = isset($data['adult']['phonenumber'][$key1]) ? $data['adult']['phonenumber'][$key1] : '';
+                        $result[] = $tempArr;                        
+                    }
+                }
+            }            
+        }        
+        if (is_array($data['child']) && count($data['child']) > 0) {
+            foreach ($data['child'] as $key => $value) {                 
+                if (is_array($value) && count($value) > 0 && $key == "title") {                  
+                    foreach ($value as $key1 => $value1) {
+                        $tempArr = [];
+                        $tempArr['title'] = ($data['child']['title'][$key1]) ? $data['child']['title'][$key1] : '';
+                        $tempArr['firstname'] = ($data['child']['firstname'][$key1]) ? $data['child']['firstname'][$key1] : '';
+                        $tempArr['lastname'] = ($data['child']['lastname'][$key1]) ? $data['child']['lastname'][$key1] : '';
+                        $tempArr['id_proof'] = ($data['child']['id_proof'][$key1]) ? $data['child']['id_proof'][$key1] : '';
+                        $tempArr['id_proof_no'] = ($data['child']['id_proof_no'][$key1]) ? $data['child']['id_proof_no'][$key1] : '';                        
+                        $result[] = $tempArr;                        
+                    }
+                }
+            }
+        }
+        if( $is_serialize ){
+            return serialize($result);
+        } 
+        return $result;
     }
 }

@@ -1,3 +1,5 @@
+
+
 <div class="langMenu is-hidden js-langMenu guestModal" data-x="guest" data-x-toggle="is-hidden">
     <div class="langMenu__bg" data-x-click="guest"></div>
 
@@ -66,7 +68,6 @@
                         <div class="dynamicChilds col-lg-6 text-center">
                             @if (is_array($guest->childAge) && count($guest->childAge) > 0)
                                 @foreach ($guest->childAge as $key => $childAge)
-                                    
                                     <div class="col-lg-2 agess">
                                         <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age</label>
                                         <select name="age" id="age" class="age text-center">
@@ -92,7 +93,8 @@
                                             </option>
                                         </select>
 
-                                        <div class="d-flex px-5 py-5 ageCWBCHK {{ $childAge->age > 2 ? 'is-show' : 'is-hide' }} ">
+                                        <div
+                                            class="d-flex px-5 py-5 ageCWBCHK {{ $childAge->age > 2 ? 'is-show' : 'is-hide' }} ">
                                             <div class="form-checkbox ">
                                                 <input type="checkbox" name="ageCWB" class="ageCWB"
                                                     {{ $childAge->cwb == 'yes' ? 'checked' : '' }}>

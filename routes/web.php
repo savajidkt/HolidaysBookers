@@ -304,5 +304,8 @@ Route::get('/offers', [OfferController::class, 'index'])->name('offers');
 Route::get('/hotel-details/{id}', [HotelListController::class, 'show'])->name('hotel-details');
 
 Route::resource('/checkout', CheckoutController::class);
+Route::post('/checkout/post-registration', [CheckoutController::class, 'postRegistration'])->name('post-registration');
+Route::post('/checkout/post-login', [CheckoutController::class, 'postLogin'])->name('post-login');
+Route::post('/checkout/ajax', [CheckoutController::class, 'ajaxTempStore'])->name('ajax-temp-store');
 Route::get('/review-your-booking/{id}', [CheckoutController::class, 'checkout'])->name('review-your-booking');
 Route::post('wishlist', [FrontWishlistController::class, 'store'])->name('add-to-wishlist');

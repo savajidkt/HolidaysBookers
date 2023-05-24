@@ -86,10 +86,10 @@
                                     </div>
                                 </div>
                                 @error('type')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                    <span class="invalid-feedback" role="alert">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                                 <div class="col-12">
                                     <div class="form-input ">
                                         <input id="password" type="password"

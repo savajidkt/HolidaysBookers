@@ -76,6 +76,19 @@
 				}
                 .dynamicChilds, .ddynamicChilds { display: flex;}
                 .floatright { float: right;}
+
+                .loginModal .langMenu__content {
+  
+  width: 30% !important;
+  max-width: 30% !important;
+  
+}
+                .loginModal .button {
+  
+  width: 100% !important;
+  
+  
+}
     </style>
 </head>
 
