@@ -26,8 +26,8 @@
                         :
                     </label>
                     <div class="col-md-4">
-                        <div class=""><strong>{{ $user->usermeta->phone_number }}</strong></div>
-                        @if ($user->usermeta->phone_status == 1)
+                        <div class=""><strong>{{ isset($user->usermeta->phone_number) ? $user->usermeta->phone_number : '' }}</strong></div>
+                        @if (isset($user->usermeta->phone_status) && $user->usermeta->phone_status == 1)
                             <span class="badge badge-primary"><i>Verified</i></span>
                         @else
                             <span class="badge badge-secondary"><i>Not Verified</i></span>
@@ -65,7 +65,7 @@
                 </div>
             </div> --}}
             <hr>
-            @if ($user->usermeta->phone_status == 0)
+            @if ( isset($user->usermeta->phone_status) && $user->usermeta->phone_status == 0)
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-4">

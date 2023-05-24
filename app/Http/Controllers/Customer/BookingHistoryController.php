@@ -13,6 +13,6 @@ class BookingHistoryController extends Controller
     public function index($status = "all")
     {
         $pagename = "booking-history";
-        return view('customer.booking-history.index',['pagename' => $pagename]);
+        return view('customer.booking-history.index',['pagename' => $pagename, 'status' =>$status]);
     }
 }

@@ -55,7 +55,7 @@ var FrmCheckoutPreference = function () {
                 },
                 payment_method: {
                     required: true,
-                }
+                }             
             },
             messages: {
 
@@ -226,4 +226,12 @@ $(document).ready(function () {
             $('.enablegst').addClass('hide');
         }
     });
+
+    $('.addvalidation').each(function () {
+        $(this).rules("add", {
+            required: true
+            });
+           
+    });    
+
 });

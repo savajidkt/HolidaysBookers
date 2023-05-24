@@ -99,7 +99,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Title</label>
-                                                    <select class="form-control" name="adult[title][]">
+                                                    <select class="form-control addvalidation" name="adult[title][]">
                                                         <option value="Mr">Mr.</option>
                                                         <option value="Ms">Ms.</option>
                                                         <option value="Mrs">Mrs.</option>
@@ -109,19 +109,19 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">First Name</label>
-                                                    <input type="text" class="form-control" name="adult[firstname][]">
+                                                    <input type="text" class="form-control addvalidation" name="adult[firstname][]">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">Last Name</label>
-                                                    <input type="text" class="form-control" name="adult[lastname][]">
+                                                    <input type="text" class="form-control addvalidation" name="adult[lastname][]">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">ID Proof Type</label>
-                                                    <select class="form-control" name="adult[id_proof][]">
+                                                    <select class="form-control addvalidation" name="adult[id_proof][]">
                                                         <option value="Aadhaar">Aadhaar</option>
                                                         <option value="Passport">Passport</option>
                                                         <option value="Driving Licence">Driving Licence</option>
@@ -133,7 +133,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">ID Proof No</label>
-                                                    <input type="text" class="form-control"
+                                                    <input type="text" class="form-control addvalidation"
                                                         name="adult[id_proof_no][]">
                                                 </div>
                                             </div>
@@ -141,7 +141,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="exampleFormControlInput1">Phone Number</label>
-                                                        <input type="text" class="form-control"
+                                                        <input type="text" class="form-control addvalidation"
                                                             name="adult[phonenumber][]">
                                                     </div>
                                                 </div>
@@ -157,7 +157,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlSelect1">Title</label>
-                                                    <select class="form-control" name="child[title][]">
+                                                    <select class="form-control addvalidation" name="child[title][]">
                                                         <option value="Mr">Mr.</option>
                                                         <option value="Ms">Ms.</option>
                                                         <option value="Mrs">Mrs.</option>
@@ -167,19 +167,19 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">First Name</label>
-                                                    <input type="text" class="form-control" name="child[firstname][]">
+                                                    <input type="text" class="form-control addvalidation" name="child[firstname][]">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">Last Name</label>
-                                                    <input type="text" class="form-control" name="child[lastname][]">
+                                                    <input type="text" class="form-control addvalidation" name="child[lastname][]">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">ID Proof Type</label>
-                                                    <select class="form-control" name="child[id_proof][]">
+                                                    <select class="form-control addvalidation" name="child[id_proof][]">
                                                         <option value="Aadhaar">Aadhaar</option>
                                                         <option value="Passport">Passport</option>
                                                         <option value="Driving Licence">Driving Licence</option>
@@ -191,7 +191,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">ID Proof No</label>
-                                                    <input type="text" class="form-control"
+                                                    <input type="text" class="form-control addvalidation"
                                                         name="child[id_proof_no][]">
                                                 </div>
                                             </div>
@@ -218,7 +218,7 @@
 
                                             </div>
                                         </div>
-                                        <div class="col-auto">
+                                        <div class="col-auto col-12">
 
                                             <div class="col-12 mb-2 text-14 text-light-1">
                                                 <div class="form-radio d-flex items-center ">
