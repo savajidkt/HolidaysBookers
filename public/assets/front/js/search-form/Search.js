@@ -71,12 +71,213 @@ var FrmSearchPreference = function () {
             }
         });
     }
+
+    var FrmCheckoutLoginAuthFormValidation = function () {
+        var FrmCheckoutPreferenceForm = $('#searchloginFrm');
+        var error4 = $('.error-message', FrmCheckoutPreferenceForm);
+        var success4 = $('.error-message', FrmCheckoutPreferenceForm);
+
+        FrmCheckoutPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                email: {
+                    required: true,
+                },
+                password: {
+                    required: true,
+                }
+            },
+            messages: {
+
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "email") {
+                    error.insertAfter(".email-error");
+                } else if (element.attr("name") == "password") {
+                    error.insertAfter(".password-error");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function (form) {
+
+                $('.messageError').remove();
+
+                $('.SelectSignin').find('.icon-arrow-top-right').hide();
+                $('.SelectSignin').find('.fa-spin').show();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                    },
+                    complete: function () {
+                        $('.SelectSignin').find('.fa-spin').hide();
+                        $('.SelectSignin').find('.icon-arrow-top-right').show();
+                    },
+                    type: 'POST',
+                    url: moduleConfig.userLoginAuthLogin,
+                    dataType: 'json',
+                    data: {
+                        email: $('.emailInput').val(),
+                        password: $('.passwordInput').val()
+                    },
+                    success: function (data) {
+                        var string = "";
+                        if (data.status) {
+                            string = `<div class="col-12 messageError">
+                            <div class="d-flex items-center justify-between bg-success-1 pl-30 pr-20 py-30 rounded-8">
+                  <div class="text-success-2 lh-1 fw-500">`+ data.message + `</div>
+                  </div>
+                          </div>`;
+                            window.location.reload();
+                        } else {
+                            string = `<div class="col-12 messageError">
+                            <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
+                              <div class="text-error-2 lh-1 fw-500">`+ data.message + `</div>                             
+                            </div>
+                          </div>`;
+                        }
+
+                        $('.display-message').after(string);
+                    }
+                });
+            }
+        });
+    }
+
+    var FrmCheckoutRegisterAuthFormValidation = function () {
+        var FrmCheckoutPreferenceForm = $('#searchRegisterFrm');
+        var error4 = $('.error-message', FrmCheckoutPreferenceForm);
+        var success4 = $('.error-message', FrmCheckoutPreferenceForm);
+
+        FrmCheckoutPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                first_name: {
+                    required: true,
+                },
+                last_name: {
+                    required: true,
+                },
+                email: {
+                    required: true,
+                },
+                type: {
+                    required: true,
+                },
+                password: {
+                    required: true,
+                },
+                term: {
+                    required: true,
+                },
+            },
+            messages: {
+
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "first_name") {
+                    error.insertAfter(".error-first_name");
+                } else if (element.attr("name") == "last_name") {
+                    error.insertAfter(".error-last_name");
+                } else if (element.attr("name") == "email") {
+                    error.insertAfter(".error-email");
+                } else if (element.attr("name") == "type") {
+                    error.insertAfter(".error-type");
+                } else if (element.attr("name") == "password") {
+                    error.insertAfter(".error-password");
+                } else if (element.attr("name") == "password_confirmation") {
+                    error.insertAfter(".error-confirmation-password");
+                } else if (element.attr("name") == "term") {
+                    error.insertAfter(".error-term");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function (form) {
+
+                $('.messageError').remove();
+
+                $('.SelectSignin').find('.icon-arrow-top-right').hide();
+                $('.SelectSignin').find('.fa-spin').show();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    beforeSend: function () {
+                    },
+                    complete: function () {
+                        $('.SelectSignin').find('.fa-spin').hide();
+                        $('.SelectSignin').find('.icon-arrow-top-right').show();
+                    },
+                    type: 'POST',
+                    url: moduleConfig.userCreateAuthLogin,
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        var string = "";
+                        if (data.validation) {
+                            if (data.email) {
+                                string = `<div class="col-12 messageError">
+                            <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
+                              <div class="text-error-2 lh-1 fw-500">`+ data.email + `</div>                             
+                            </div>
+                          </div>`;
+                            } else if (data.password) {
+                                string = `<div class="col-12 messageError">
+                                <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
+                                  <div class="text-error-2 lh-1 fw-500">`+ data.password + `</div>                             
+                                </div>
+                              </div>`;
+                            }
+
+                        } else if (data.status) {
+
+                            string = `<div class="col-12 messageError">
+                            <div class="d-flex items-center justify-between bg-success-1 pl-30 pr-20 py-30 rounded-8">
+                  <div class="text-success-2 lh-1 fw-500">`+ data.message + `</div>
+                  </div>
+                          </div>`;
+                            window.location.reload();
+
+                        } else {
+                            string = `<div class="col-12 messageError">
+                            <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
+                              <div class="text-error-2 lh-1 fw-500">`+ data.message + `</div>                             
+                            </div>
+                          </div>`;
+                        }
+
+
+
+                        $('.display-message').after(string);
+                    }
+                });
+            }
+        });
+    }
+
     return {
         //main function to initiate the module
         init: function () {
             FrmSearchFormValidation();
             FrmAutocomplete();
             FrmAddMoreGuest();
+            FrmCheckoutLoginAuthFormValidation();
+            FrmCheckoutRegisterAuthFormValidation();
         }
     };
 }();
@@ -84,6 +285,8 @@ var FrmSearchPreference = function () {
 $(document).ready(function () {
 
     FrmSearchPreference.init();
+
+
     var daterange_transfer_returns = check_in_startDate;
     $(function () {
         $('input[name="daterange"]').daterangepicker({

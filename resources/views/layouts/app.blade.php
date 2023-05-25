@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="{{ asset('assets/front/css/app.css') }}">
     <!-- Main-StyleSheet include -->
     <style>
         .help-block-error,
@@ -62,6 +63,7 @@
         .is-hide {
             display: none !important;
         }
+
         .is-show {
             display: flex !important;
         }
@@ -69,26 +71,35 @@
         .mainSearch.-col-4 .button-grid.transfer-cls {
             grid-template-columns: 1fr 1fr auto auto auto auto;
         }
-        .guestModal{
-					height: 70vh !important;
-					overflow: hidden;  
-					overflow-y: scroll;
-				}
-                .dynamicChilds, .ddynamicChilds { display: flex;}
-                .floatright { float: right;}
 
-                .loginModal .langMenu__content {
-  
-  width: 30% !important;
-  max-width: 30% !important;
-  
-}
-                .loginModal .button {
-  
-  width: 100% !important;
-  
-  
-}
+        .guestModal {
+            height: 70vh !important;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+
+        .dynamicChilds,
+        .ddynamicChilds {
+            display: flex;
+        }
+
+        .floatright {
+            float: right;
+        }
+
+        .loginModal .langMenu__content {
+
+            width: 30% !important;
+            max-width: 30% !important;
+
+        }
+
+        .loginModal .button {
+
+            width: 100% !important;
+
+
+        }
     </style>
 </head>
 
@@ -134,6 +145,24 @@
     @include('layouts.front-scripts')
     @yield('page-script')
 
+    @if (Route::has('home'))
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).on('click', '.popupShow', function() {
+
+                $("#login").on("show.bs.modal", function(t) {
+                    $("#register").modal("hide");
+                });
+                $("#login").modal("show");
+            });
+            $(document).on('click', '.popupRegister', function() {
+                $("#register").on("show.bs.modal", function(t) {
+                    $("#login").modal("hide");
+                });
+                $("#register").modal("show");
+            });
+        </script>
+    @endif
 </body>
 
 </html>

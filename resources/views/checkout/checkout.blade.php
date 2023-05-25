@@ -232,7 +232,7 @@
                                                 </div>
                                             </div>
                                             @php
-                                                $userData = auth()->user();
+                                                $userData = auth()->user();                                                
                                             @endphp
                                             @if ($userData->user_type == 1)
                                                 <div class="col-12 mb-2 text-14 text-light-1">

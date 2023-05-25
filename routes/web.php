@@ -260,6 +260,12 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/transaction/{id}', [AgentTransactionController::class, 'index'])->name('agent.transaction');
     Route::get('/quotation', [AgentQuotationController::class, 'index'])->name('agent.quotation');
     //Route::get('/new-quotation', [AgentQuotationController::class, 'home'])->name('agent.new-quotation');
+
+    Route::post('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
+    Route::get('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
+    Route::get('/hotel-details/{id}', [HotelListController::class, 'show'])->name('hotel-details');
+    Route::get('/review-your-booking/{id}', [CheckoutController::class, 'checkout'])->name('review-your-booking');
+    Route::resource('/checkout', CheckoutController::class);
 });
 
 Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {
@@ -292,20 +298,21 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 // Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
-Route::get('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
+
 Route::post('/city-hotel-list', [HotelListController::class, 'getLocations'])->name('city-hotel-list');
 Route::get('/hotel-list-ajax', [HotelListController::class, 'ajaxHotelListing'])->name('hotel-list-ajax');
 Route::post('/room-list-ajax', [HotelListController::class, 'ajaxRoomListing'])->name('room-list-ajax');
+
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us');
 Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact-us');
 Route::post('/contact-us', [ContactUsController::class, 'submitForm'])->name('contact-us-submit');
 Route::get('/offers', [OfferController::class, 'index'])->name('offers');
-Route::get('/hotel-details/{id}', [HotelListController::class, 'show'])->name('hotel-details');
 
-Route::resource('/checkout', CheckoutController::class);
+Route::post('/user/post-registration', [UserController::class, 'userPostRegistration'])->name('user-post-registration');
+Route::post('/user/post-login', [UserController::class, 'userPostLogin'])->name('user-post-login');
+
 Route::post('/checkout/post-registration', [CheckoutController::class, 'postRegistration'])->name('post-registration');
 Route::post('/checkout/post-login', [CheckoutController::class, 'postLogin'])->name('post-login');
+
 Route::post('/checkout/ajax', [CheckoutController::class, 'ajaxTempStore'])->name('ajax-temp-store');
-Route::get('/review-your-booking/{id}', [CheckoutController::class, 'checkout'])->name('review-your-booking');
 Route::post('wishlist', [FrontWishlistController::class, 'store'])->name('add-to-wishlist');

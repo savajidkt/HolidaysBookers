@@ -103,12 +103,18 @@
                                                     <div data-x-dd-click="searchMenu-guests">
                                                         <h4 class="text-15 fw-500 ls-2 lh-16">Guest</h4>
                                                         <div class="text-15 text-light-1 ls-2 lh-16" data-x-click="guest">
-                                                            <span class="js-count-adult">{{ getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 1 }}</span> adults
+                                                            <span
+                                                                class="js-count-adult">{{ getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 1 }}</span>
+                                                            adults
                                                             -
-                                                            <span class="js-count-child">{{ getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0 }}</span> childeren
+                                                            <span
+                                                                class="js-count-child">{{ getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0 }}</span>
+                                                            childeren
                                                             -
-                                                            <span class="js-count-room">{{ getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1 }}</span> room
-                                                        </div>                                                        
+                                                            <span
+                                                                class="js-count-room">{{ getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1 }}</span>
+                                                            room
+                                                        </div>
                                                     </div>
                                                     <div style="display: none;" class="searchMenu-guests__field shadow-2"
                                                         data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
@@ -138,7 +144,7 @@
                                                             <div class="border-top-light mt-24 mb-24"></div>
                                                             <div class="row y-gap-10 justify-between items-center">
                                                                 <div class="col-auto">
-                                                                    <div class="text-15 lh-12 fw-500">Children</div>                                                                   
+                                                                    <div class="text-15 lh-12 fw-500">Children</div>
                                                                 </div>
                                                                 <div class="col-auto">
                                                                     <div class="d-flex items-center js-counter"
@@ -188,11 +194,20 @@
                                                     </div>
                                                 </div>
                                                 <div class="button-item">
-                                                    <button
-                                                        class="mainSearch__submit button -dark-1 py-15 px-35 h-60 col-12 rounded-4 bg-blue-1 text-white">
-                                                        <i class="icon-search text-20 mr-10"></i>
-                                                        Search
-                                                    </button>
+
+                                                    @if (isset(auth()->user()->id))
+                                                        <button
+                                                            class="dd mainSearch__submit button -dark-1 py-15 px-35 h-60 col-12 rounded-4 bg-blue-1 text-white">
+                                                            <i class="icon-search text-20 mr-10"></i>
+                                                            Search
+                                                        </button>
+                                                    @else                                                    
+                                                        <button data-bs-toggle="modal" href="javascript:void(0);" type="button" 
+                                                            class="-dark-1 py-15 px-35 h-60 col-12 rounded-4 bg-blue-1 text-white popupShow">
+                                                            <i class="icon-search text-20 mr-10"></i>
+                                                            Search
+                                                        </button>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -248,7 +263,7 @@
                                                             class="help-block help-block-error"></span>
                                                     </div>
                                                     <div style="display: none" class="searchMenu-date__field shadow-2"
-                                                        data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">                                                       
+                                                        data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">
                                                     </div>
                                                 </div>
                                                 <div
@@ -455,7 +470,8 @@
                                                     data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">
                                                 </div>
                                             </div>
-                                            <div class="searchMenu-date px-24 lg:py-20 lg:px-0 js-form-dd js-calendar transfer_return_round">
+                                            <div
+                                                class="searchMenu-date px-24 lg:py-20 lg:px-0 js-form-dd js-calendar transfer_return_round">
                                                 <div data-x-dd-click="searchMenu-date">
                                                     <h4 class="text-15 fw-500 ls-2 lh-16">Return date</h4>
                                                     <div class="text-15 text-light-1 ls-2 lh-16">
@@ -1471,8 +1487,8 @@
                             <div class="cardImage ratio ratio-1:1">
                                 <div class="cardImage__content">
 
-                                    <img class="rounded-4 col-12"
-                                        src="{{ asset('assets/front') }}/img/activities/1.png" alt="image">
+                                    <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/activities/1.png"
+                                        alt="image">
 
 
                                 </div>
@@ -1633,8 +1649,8 @@
                             <div class="cardImage ratio ratio-1:1">
                                 <div class="cardImage__content">
 
-                                    <img class="rounded-4 col-12"
-                                        src="{{ asset('assets/front') }}/img/activities/3.png" alt="image">
+                                    <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/activities/3.png"
+                                        alt="image">
 
 
                                 </div>
@@ -1697,8 +1713,8 @@
                             <div class="cardImage ratio ratio-1:1">
                                 <div class="cardImage__content">
 
-                                    <img class="rounded-4 col-12"
-                                        src="{{ asset('assets/front') }}/img/activities/4.png" alt="image">
+                                    <img class="rounded-4 col-12" src="{{ asset('assets/front') }}/img/activities/4.png"
+                                        alt="image">
 
 
                                 </div>
@@ -2071,6 +2087,8 @@
     <script type="text/javascript">
         var moduleConfig = {
             searchLocationByName: "{!! route('city-hotel-list') !!}",
+            userLoginAuthLogin: "{!! route('user-post-login') !!}",
+            userCreateAuthLogin: "{!! route('user-post-registration') !!}",
         };
     </script>
 @endsection

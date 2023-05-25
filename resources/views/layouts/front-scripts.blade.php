@@ -1,5 +1,3 @@
-
-
 <div class="langMenu is-hidden js-langMenu guestModal" data-x="guest" data-x-toggle="is-hidden">
     <div class="langMenu__bg" data-x-click="guest"></div>
 
@@ -1577,6 +1575,184 @@
     </div>
 </div>
 
+<div class="modal fade login gotrip-login-modal" id="login" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content relative">
+            <div class="modal-header border-dashed">
+                <h4 class="modal-title">Log In</h4>
+                <span class="c-pointer close" aria-label="Close" data-dismiss="modal">
+                    <i class="input-icon field-icon fa">
+                        <img src="https://gotrip.bookingcore.org/images/ico_close.svg" alt="close">
+                    </i>
+                </span>
+            </div>
+            <div class="modal-body relative">
+                <form class="bravo-theme-gotrip-login-form y-gap-20" method="POST" action=""
+                    id="searchloginFrm">
+                    @csrf
+                    <input type="hidden" name="_token" value="wH0COsLyLd3FQ2FgnXh3RvBM783QQFdThGrAjH3E"
+                        class="has-value">
+                    <div class="col-12 display-message">
+                        <p class="mt-10">Don't have an account yet? <a data-bs-toggle="modal"
+                                href="javascript:void(0);" class="text-blue-1 popupRegister">Sign up for free</a></p>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-input email-error">
+                            <input type="text" name="email" autocomplete="off" class="has-value emailInput">
+                            <label class="lh-1 text-14 text-light-1">Email</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-input password-error">
+                            <input type="password" name="password" autocomplete="off"
+                                class="has-value passwordInput">
+                            <label class="lh-1 text-14 text-light-1">Password</label>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-between">
+                        <div class="d-flex ">
+                            <div class="form-checkbox" style="margin-top: 3px">
+                                <input type="checkbox" name="remember" id="remember-me" value="1"
+                                    class="has-value">
+                                <div class="form-checkbox__mark">
+                                    <div class="form-checkbox__icon icon-check"></div>
+                                </div>
+                            </div>
+                            <div class="text-15 lh-15 text-light-1 ml-10">Remember me</div>
+                        </div>
+                        @if (Route::has('password.request'))
+                            <a href="{{ route('password.request') }}">Forgot Password?</a>
+                        @endif
+                    </div>
+                    <div class="col-12 ">
+                        <button type="submit"
+                            class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectSignin"
+                            style="width:100%;">
+                            <span class="icons">Sign In</span>
+                            <div class="icon-arrow-top-right ml-15"></div>
+                            <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <div class="text-center px-30">By creating an account, you agree to our Terms of Service and
+                            Privacy Statement.</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade register gotrip-register-modal" id="register" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content relative">
+            <div class="modal-header">
+                <h4 class="modal-title">Sign Up</h4>
+                <span class="c-pointer close" aria-label="Close" data-dismiss="modal">
+                    <i class="input-icon field-icon fa">
+                        <img src="https://gotrip.bookingcore.org/images/ico_close.svg" alt="close">
+                    </i>
+                </span>
+            </div>
+            <div class="modal-body">
+                <form class="form bravo-form-register" method="post" action="" id="searchRegisterFrm">
+                    @csrf
+                    <div class="row y-gap-20">
+                        <div class="col-12 display-message">
+                            <p class="mt-10">Already have an account? <a data-bs-toggle="modal"
+                                    href="javascript:void(0);" class="text-blue-1 popupShow">Log in</a></p>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-input error-first_name">
+                                <input type="text" name="first_name" autocomplete="off" class="has-value">
+                                <label class="lh-1 text-14 text-light-1">First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-input error-last_name">
+                                <input type="text" name="last_name" autocomplete="off" class="has-value">
+                                <label class="lh-1 text-14 text-light-1">Last Name</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-input error-email">
+                                <input type="email" name="email" autocomplete="off" class="has-value">
+                                <label class="lh-1 text-14 text-light-1">Email</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-radio d-flex items-center ">
+                                <div class="radio">
+                                    <input type="radio" name="type" value="1">
+                                    <div class="radio__mark">
+                                        <div class="radio__icon"></div>
+                                    </div>
+                                </div>
+                                <div class="text-14 lh-1 ml-10">Agent</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-radio d-flex items-center ">
+                                <div class="radio">
+                                    <input type="radio" name="type" value="2">
+                                    <div class="radio__mark">
+                                        <div class="radio__icon"></div>
+                                    </div>
+                                </div>
+                                <div class="text-14 lh-1 ml-10">Customer</div>
+                            </div>
+                        </div>
+                        <div class="col-4 error-type">
+                            <div class="form-radio d-flex items-center ">
+                                <div class="radio">
+                                    <input type="radio" name="type" value="4">
+                                    <div class="radio__mark">
+                                        <div class="radio__icon"></div>
+                                    </div>
+                                </div>
+                                <div class="text-14 lh-1 ml-10">Corporate</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-input error-password">
+                                <input type="password" name="password" id="password" autocomplete="off"
+                                    class="has-value">
+                                <label class="lh-1 text-14 text-light-1">Password</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-input error-confirmation-password">
+                                <input type="password" name="password_confirmation" autocomplete="off"
+                                    class="has-value">
+                                <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }}</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex error-term">
+                                <div class="form-checkbox" style="margin-top: 3px">
+                                    <input type="checkbox" name="term" id="register-term" class="has-value">
+                                    <div class="form-checkbox__mark">
+                                        <div class="form-checkbox__icon icon-check"></div>
+                                    </div>
+                                </div>
+                                <label class="text-15 lh-15 text-light-1 ml-10" for="register-term">I have read and
+                                    accept the Terms and Privacy Policy?</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit"
+                                class="button py-20 -dark-1 bg-blue-1 text-white w-100 SelectSignin">
+                                <span class="icons">Sign Up</span>
+                                <div class="icon-arrow-top-right ml-15"></div>
+                                <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- JavaScript -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
