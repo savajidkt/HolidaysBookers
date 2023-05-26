@@ -10,9 +10,13 @@
                         @csrf
                         <div class="px-50 py-50 sm:px-20 sm:py-20 bg-white shadow-4 rounded-4">
                             <div class="row y-gap-20">
-                                <div class="col-12">
-                                    <h1 class="text-22 fw-500">{{ __('Create an account') }}</h1>
+                                <div class="col-12" style="border-bottom: 1px dashed #ccc;">
+                                    <h1 class="text-22 fw-500">Sign Up</h1>
                                 </div>
+                                <div class="col-12">
+                                    <h1 class="text-22 fw-500">Sign in or create an account</h1>
+                                    <p class="mt-10">Already have an account? <a  href="{{ route('login') }}" class="text-blue-1">Log in</a></p>
+                                    </div>
                                 <div class="col-12">
                                     <div class="form-input ">
                                         <input id="first_name" type="text"
@@ -52,7 +56,8 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="col-4">
+                                <input type="hidden" name="type" value="1">
+                                {{-- <div class="col-4">
                                     <div class="form-radio d-flex items-center ">
                                         <div class="radio">
                                             <input type="radio" name="type" value="1">
@@ -89,7 +94,7 @@
                                     <span class="invalid-feedback" role="alert">
                                         {{ $message }}
                                     </span>
-                                @enderror
+                                @enderror --}}
                                 <div class="col-12">
                                     <div class="form-input ">
                                         <input id="password" type="password"
@@ -108,15 +113,15 @@
                                         <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }}</label>
                                     </div>
                                 </div>
+                               
                                 <div class="col-12">
-                                    <p class="small text-right"><a class="btn-link" href="{{ route('login') }}">
-                                            {{ __('Login') }}
-                                        </a>
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <input class="button py-20 -dark-1 bg-blue-1 text-white" type="submit"
-                                        value="{{ __('Register') }}">
+                                    {{-- <input class="button py-20 -dark-1 bg-blue-1 text-white" type="submit"
+                                        value="{{ __('Register') }}"> --}}
+                                        <button type="submit" class="button py-20 -dark-1 bg-blue-1 text-white w-100">
+                                            <span class="icons">Sign Up</span>
+                                            <div class="icon-arrow-top-right ml-15"></div>
+                                            <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                                        </button>
                                 </div>
                             </div>
                         </div>

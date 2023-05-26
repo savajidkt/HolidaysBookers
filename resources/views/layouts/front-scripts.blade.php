@@ -1680,7 +1680,8 @@
                                 <label class="lh-1 text-14 text-light-1">Email</label>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <input type="hidden" name="type" value="1">
+                        {{-- <div class="col-4">
                             <div class="form-radio d-flex items-center ">
                                 <div class="radio">
                                     <input type="radio" name="type" value="1">
@@ -1712,7 +1713,7 @@
                                 </div>
                                 <div class="text-14 lh-1 ml-10">Corporate</div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-12">
                             <div class="form-input error-password">
                                 <input type="password" name="password" id="password" autocomplete="off"

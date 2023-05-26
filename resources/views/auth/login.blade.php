@@ -13,13 +13,13 @@
 
                         <div class="px-50 py-50 sm:px-20 sm:py-20 bg-white shadow-4 rounded-4">
                             <div class="row y-gap-20">
-                                <div class="col-12">
-                                    <h1 class="text-22 fw-500">Sign in</h1>
-                                    <p class="mt-10">No account? <a href="{{ route('register') }}"
-                                            class="text-blue-1">Create
-                                            account here.</a>
-                                    </p>
+                                <div class="col-12 " style="border-bottom: 1px dashed #ccc;">
+                                    <h1 class="text-22 fw-500">Log In</h1>                                   
                                 </div>
+                                <div class="col-12">
+                                    <h4 class="form-title text-22 fw-500">Welcome back</h4>
+                                    <p class="mt-10">Don't have an account yet? <a href="{{ route('register') }}" class="text-blue-1">Sign up for free</a></p>
+                                    </div>
                                 <div class="col-12">
                                     <div class="form-input ">
                                         <input id="email" type="email"

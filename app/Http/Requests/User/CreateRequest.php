@@ -26,8 +26,8 @@ class CreateRequest extends FormRequest
         $rules = [
             'first_name'        => ['required'],
             'last_name'         => ['required'],
-            'password'          => ['required', 'min:8', 'same:confirm-password'],
-            'confirm-password'  => ['required', 'min:8'],
+            'password'          => ['required', 'min:6', 'same:confirm-password'],
+            'confirm-password'  => ['required', 'min:6'],
             'company'           => ['required'],
             'project'           => ['required'],
             'email'             => ['required', 'email', 'unique:users,email'],
