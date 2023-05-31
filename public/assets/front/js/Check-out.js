@@ -84,7 +84,7 @@ var FrmCheckoutPreference = function () {
                 }
             },
             submitHandler: function (form) {
-                form.submit();
+                form.submit();                
             }
         });
     }
@@ -208,15 +208,47 @@ $(document).ready(function () {
                 extra: $(this).attr('data-extra')
             },
             success: function (data) {
-                if (data.status) {
-                    window.location.replace(data.redirectURL);
-                }
+                // if (data.status) {
+                //     window.location.replace(data.redirectURL);
+                // }
+                location.reload(true);
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
             }
         });
+    });
 
-
+    $(document).on('click', '.RemoveRoomBook', function () {
+        $(this).closest('.RemoveRoomBook').find('.icon-trash').hide();
+        $(this).closest('.RemoveRoomBook').find('.fa-spin').show();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function () {
+               
+            },
+            complete: function () {
+                $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
+                $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.icon-trash').show();
+            },
+            type: 'POST',
+            url: moduleConfig.removeToCartBooking,
+            dataType: 'json',
+            data: {
+                extra: $(this).attr('data-extra')
+            },
+            success: function (data) {
+                // if (data.status) {
+                //     window.location.replace(data.redirectURL);
+                // }
+                location.reload(true);
+                $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
+                $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.icon-trash').show();
+            }
+        });
     });
 
     $('input[name="gst_enable"]').change(function () {

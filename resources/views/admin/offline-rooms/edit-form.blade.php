@@ -27,6 +27,8 @@
     var $imageMainPathjs = "{!! $imageMainPath !!}";
     var HotelID = "{!! $model->hotel_id !!}";
     var HotelsRoomMealPlanID = "{!! $model->meal_plan_id !!}";
+    var currencyList = [];
+    var currencyIDs = "";
 </script>
 
 <style>

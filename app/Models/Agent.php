@@ -168,4 +168,9 @@ class Agent extends Authenticatable
     {
         return $this->hasOne(WalletTransaction::class,'agent_id', 'id')->orderBy('id','DESC');
     }
+
+    public function agentsmarkup()
+    {       
+        return $this->hasOne(AgentMarkup::class, 'code', 'agent_code');        
+    }
 }

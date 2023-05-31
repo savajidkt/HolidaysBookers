@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Repositories\CheckoutRepository;
 use App\Repositories\HotelListingRepository;
 use App\Http\Requests\Checkout\CreateRequest;
+use App\Models\Order;
+use App\Models\WalletTransaction;
 use App\Repositories\HotelRoomListingRepository;
 
 class CheckoutController extends Controller
@@ -43,18 +45,11 @@ class CheckoutController extends Controller
         try {
 
             $SafeencryptionObj = new Safeencryption;
-            $requiredParamID = unserialize($SafeencryptionObj->decode($id));
-           
-            $requiredParamArr = Checkout::find($requiredParamID);
-            
+            $hotel_id = $SafeencryptionObj->decode($id);
+            $requiredParamArr = getBookingCart('bookingCart');            
             if ($requiredParamArr) {
-                $hotelsDetails = $this->hotelListingRepository->hotelDetails($requiredParamArr->hotel_id);
-
-                //$offlineRoom = OfflineRoom::find($requiredParamArr->room_id);
-                $offlineRoom = OfflineRoom::find(2);
-                // dd($requiredParamArr->registration_number);
-
-                return view('checkout.checkout', ['hotelsDetails' => $hotelsDetails, 'offlineRoom' => $offlineRoom, 'requiredParamArr' => $requiredParamArr, 'bookingKey' => $id]);
+                $hotelsDetails = $this->hotelListingRepository->hotelDetails($hotel_id);               
+                return view('checkout.checkout', ['hotelsDetails' => $hotelsDetails, 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
             }
         } catch (\Throwable $th) {
             return redirect()->route('home')->with('error', 'Internal problem');
@@ -63,7 +58,7 @@ class CheckoutController extends Controller
 
     public function postLogin(Request $request)
     {
-       
+
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -75,7 +70,7 @@ class CheckoutController extends Controller
             $SafeencryptionObj = new Safeencryption;
             $bookingID = unserialize($SafeencryptionObj->decode($request->redirect));
             $checkout = Checkout::find($bookingID);
-            $checkout->update(array('user_id' => auth()->user()->id));            
+            $checkout->update(array('user_id' => auth()->user()->id));
             return response()->json([
                 'status' => true,
                 'message' => 'You have Successfully loggedin'
@@ -106,51 +101,46 @@ class CheckoutController extends Controller
     public function create(array $data)
     {
 
-        $user = User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-        ]);
-        if ($user->id) {
-            $SafeencryptionObj = new Safeencryption;
-            $bookingID = unserialize($SafeencryptionObj->decode($data['bookingKey']));
-            $checkout = Checkout::find($bookingID);
-            $checkout->update(array('user_id' => $user->id));
-            Auth::login($user);
-        }
-        return true;
     }
 
-    public function store(CreateRequest $request)
+    public function store(Request $request)
     {
-        dd($request->all());
 
-        // $SafeencryptionObj = new Safeencryption;
-        // $requiredParamID = unserialize($SafeencryptionObj->decode($request->bookingKey));            
-        // $requiredParamArr = Checkout::find($requiredParamID)->toArray(); 
+        $SafeencryptionObj = new Safeencryption;
 
-        // $requiredParamArr['firstname'] = $request->firstname;
-        // $requiredParamArr['last_name'] = $request->lastname;
-        // $requiredParamArr['email'] = $request->email;
-        // $requiredParamArr['gst_enable'] = $request->gst_enable;
-        // $requiredParamArr['registration_number'] = $request->registration_number;
-        // $requiredParamArr['registered_company_name'] = $request->registered_company_name;
-        // $requiredParamArr['registered_company_address'] = $request->registered_company_address;       
-        // $data = $this->checkoutRepository->update($requiredParamArr, $checkout);
+        if ($request->payment_method == 1) {
+            //Pay On time limit
+            // $this->payOnTimeLimit($data);
+        } else if ($request->payment_method == 2) {
+            //Pay using wallet
+            if (availableBalance(auth()->user()->agents->id) > getFinalAmountChackOut()) {
+                $data = $this->checkoutRepository->createBooking($request->all());
+                $res = $this->payUsingWallet($data);
+                if ($res) {
+                    $this->removeTempData($data);
+                    return redirect()->route('checkout.show', [$SafeencryptionObj->encode($res->id)])->with('success', 'Your booking created successfully!');
+                } else {
+                    return redirect()->back()->with('error', 'Insufficient Balance');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Insufficient Balance');
+            }
+        } else if ($request->payment_method == 3) {
+            //Pay On Online payment
+            //$this->payOnOnline($data);
+        }
 
-        // return redirect()->route('checkout.show', $data)->with('success', 'Your booking created successfully!');
+        //return redirect()->route('checkout.show', [])->with('error', 'Your booking created successfully!');
+
     }
-
 
 
     public function update(Request $request,  Checkout $checkout)
     {
-
+        $this->payUsingWallet($checkout);
         $SafeencryptionObj = new Safeencryption;
         $requiredParamID = unserialize($SafeencryptionObj->decode($request->bookingKey));
         $requiredParamArr = Checkout::find($requiredParamID)->toArray();
-
         $requiredParamArr['gst_enable'] = $request->gst_enable;
         $requiredParamArr['registration_number'] = $request->registration_number;
         $requiredParamArr['registered_company_name'] = $request->registered_company_name;
@@ -158,10 +148,11 @@ class CheckoutController extends Controller
         $requiredParamArr['payment_method'] = $request->payment_method;
         $requiredParamArr['passenger'] = passengerArr($request->all(), true);
 
+        //dd(unserialize($SafeencryptionObj->decode($requiredParamArr['bookingKey'])));
         $data = $this->checkoutRepository->update($requiredParamArr, $checkout);
 
         // Add Payment Gatways Call here
-
+        dd($request->payment_method);
         if ($request->payment_method == 1) {
             //Pay On time limit
             // $this->payOnTimeLimit($data);
@@ -183,43 +174,140 @@ class CheckoutController extends Controller
     }
     public function payUsingWallet($data)
     {
-        $checkout = Checkout::find($data->id);
+        if ($this->PayForAgentWallet($data)) {
+            return $this->checkoutRepository->createOrderBooking($data);
+        }
+        return false;
     }
     public function payOnOnline($data)
     {
         $checkout = Checkout::find($data->id);
     }
 
-    public function ajaxTempStore(Request $request)
+    public function PayForAgentWallet($data)
     {
-        $checkoutRepositoryBack = "";
-        $SafeencryptionObj = new Safeencryption;
-        $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));
-
-        if (is_array($requiredParamArr) && count($requiredParamArr) > 0 && $requiredParamArr['hotel_id'] > 0) {
-            $hotelsDetails = $this->hotelListingRepository->hotelDetails($requiredParamArr['hotel_id']);
-            //$offlineRoom = OfflineRoom::find($requiredParamArr['room_id']);           
-            $Tempdata['tax_amount'] = 10;
-            $Tempdata['total_amount'] = 110;
-            $Tempdata['bookingKey'] = $request->extra;
-
-            $checkoutRepositoryBack = $this->checkoutRepository->createBooking($Tempdata);
-            if (isset($checkoutRepositoryBack->id) > 0) {
-                return response()->json([
-                    'status' => true,
-                    'redirectURL' => route('review-your-booking', selectRoomBooking($checkoutRepositoryBack->id, true)),
-                    'message' => ''
-                ]);
+        $extra_data = unserialize($data->extra_data);
+        $paybleAmount = getOriginAmountChackOut($extra_data);
+        $user = User::find($data->user_id);
+        if (availableBalance($user->agents->id) > $paybleAmount) {
+            $balance = calculateBalance($user->agents->id, '0', $paybleAmount);
+            if ($balance) {
+                $extra_data = unserialize($data->extra_data);
+                $dataDebit = [
+                    'user_id'        => $data->user_id,
+                    'agent_id'        => $user->agents->id,
+                    'transaction_type'        => 'Debit',
+                    'pnr'        => '',
+                    'amount'     => numberFormat(getOriginAmountChackOut($extra_data)),
+                    'type'     => 0,
+                    'comment'     => 'Booking Hotel',
+                    'balance'     => numberFormat($balance),
+                ];
+                return $this->checkoutRepository->updateCredit($dataDebit);
             }
         }
+        return false;
+    }
+
+
+    public function ajaxTempStore(Request $request)
+    {
+        $SafeencryptionObj = new Safeencryption;
+        $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));
+        $cart = [];
+        if (is_array(getBookingCart('bookingCart')) && count(getBookingCart('bookingCart')) > 0) {
+            $bookingCart = getBookingCart('bookingCart');
+            $bookingCart[] = $requiredParamArr;
+            setBookingCart('bookingCart', $bookingCart);
+        } else {
+            $cart[] = $requiredParamArr;
+            setBookingCart('bookingCart', $cart);
+        }
         return response()->json([
-            'status' => false,
+            'status' => true,
+            'redirectURL' => route('review-your-booking'),
+            'message' => ''
+        ]);
+    }
+
+
+    public function ajaxTempRemove(Request $request)
+    {
+        $SafeencryptionObj = new Safeencryption;
+        $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));
+        $bookingCartArr = getBookingCart('bookingCart');
+
+        if (is_array($bookingCartArr) && count($bookingCartArr)) {
+            foreach ($bookingCartArr as $key => $value) {
+                if ($value['hotel_id'] == $requiredParamArr['hotel_id'] && $value['room_id'] == $requiredParamArr['room_id']) {
+                    unset($bookingCartArr[$key]);
+                }
+            }
+        }
+        setBookingCart('bookingCart', $bookingCartArr);
+        return response()->json([
+            'status' => true,
             'message' => ''
         ]);
     }
 
     public function show($id)
+    {        
+        $SafeencryptionObj = new Safeencryption;
+        $OrderID = $SafeencryptionObj->decode($id);
+        $Order = Order::find($OrderID);
+        if ($Order) {
+            // dd($Order->formdata);
+            //dd($Order->agentcode->user);
+            //dd($Order->adult);
+            $requiredParamArr = unserialize($Order->formdata->form_data_serialize);
+            // dd($requiredParamArr);
+            $hotelsDetails = $this->hotelListingRepository->hotelDetails($Order->hotel_id);
+            return view('checkout.thank-you', ['order' => $Order, 'hotelsDetails' => $hotelsDetails, 'requiredParamArr' => $requiredParamArr]);
+        }
+        return redirect()->route('home');
+    }
+
+    public function removeTempData($data)
     {
-        return view('checkout.thank-you');
+
+        if (isset($_COOKIE['searchGuestRoomCount'])) {
+            unset($_COOKIE["searchGuestRoomCount"]);
+            setcookie('searchGuestRoomCount', null, -1, '/');
+        }
+        if (isset($_COOKIE['searchGuestChildCount'])) {
+            unset($_COOKIE["searchGuestChildCount"]);
+            setcookie('searchGuestChildCount', null, -1, '/');
+        }
+        if (isset($_COOKIE['searchGuestAdultCount'])) {
+            unset($_COOKIE["searchGuestAdultCount"]);
+            setcookie('searchGuestAdultCount', null, -1, '/');
+        }
+        if (isset($_COOKIE['searchGuestArr'])) {
+            unset($_COOKIE["searchGuestArr"]);
+            setcookie('searchGuestArr', null, -1, '/');
+        }
+        if (isset($_COOKIE['search_from'])) {
+            unset($_COOKIE["search_from"]);
+            setcookie('search_from', null, -1, '/');
+        }
+        if (isset($_COOKIE['search_to'])) {
+            unset($_COOKIE["search_to"]);
+            setcookie('search_to', null, -1, '/');
+        }
+        if (isset($_COOKIE['location'])) {
+            unset($_COOKIE["location"]);
+            setcookie('location', null, -1, '/');
+        }
+        if (isset($_COOKIE['hidden_city_id'])) {
+            unset($_COOKIE["hidden_city_id"]);
+            setcookie('hidden_city_id', null, -1, '/');
+        }
+        if (isset($_COOKIE['country_id'])) {
+            unset($_COOKIE["country_id"]);
+            setcookie('country_id', null, -1, '/');
+        }
+
+        return $data->forceDelete();
     }
 }

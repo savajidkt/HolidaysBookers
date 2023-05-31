@@ -29,6 +29,12 @@ var FrmSearchPreference = function () {
                 error.insertAfter(element);
             },
             submitHandler: function (form) {
+               
+                createCookie('location', JSON.stringify($('#location').val()), 1);
+                createCookie('hidden_city_id', JSON.stringify($('.hidden_city_id').val()), 1);
+                createCookie('country_id', JSON.stringify($('.hidden_country_id').val()), 1);
+                createCookie('search_from', JSON.stringify($('#hidden_from').val()), 1);
+                createCookie('search_to', JSON.stringify($('#hidden_to').val()), 1);
                 //$("<input />").attr("type", "hidden").attr("name", "adult").attr("value", $('.count-adults').html().trim()).appendTo("#SearchFrm");
                 //$("<input />").attr("type", "hidden").attr("name", "child").attr("value", $('.count-childs').html().trim()).appendTo("#SearchFrm");
                 //$("<input />").attr("type", "hidden").attr("name", "room").attr("value", $('.count-rooms').html().trim()).appendTo("#SearchFrm");

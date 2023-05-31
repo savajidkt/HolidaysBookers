@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order_Adult extends Model
+class Order_Form extends Model
 {
     use HasFactory;
-    protected $table = "order_adult";
+    protected $table = "order_form_datas";
     protected $fillable = [
         'order_id',
-        'first_name',
-        'last_name',
-        'id_proof_type',
-        'id_proof_no',
-        'phone'
-    ];
+        'form_data_serialize'
+    ];  
 }

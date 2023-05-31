@@ -249,6 +249,9 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/dashboard', [AgentDashboardController::class, 'dashboard'])->name('agent.dashboard');
     Route::get('/booking', [AgentDashboardController::class, 'booking'])->name('agent.booking');
     Route::get('/booking-history/{id}', [AgentBookingHistoryController::class, 'index'])->name('agent.booking-history');
+    Route::get('/view-booking-history/{id}', [AgentBookingHistoryController::class, 'show'])->name('agent.view-booking-history');
+    Route::get('/invoice-download/{order}', [AgentBookingHistoryController::class, 'orderInvoiceDownload'])->name('agent-invoice-download');
+
     Route::get('/travel-calendar', [AgentTravelCalendarController::class, 'index'])->name('agent.travel-calendar');
     Route::get('/wishlist', [AgentWishlistController::class, 'index'])->name('agent.wishlist');
     Route::get('/my-profile', [AgentMyProfileController::class, 'editProfile'])->name('agent.my-profile');
@@ -315,4 +318,5 @@ Route::post('/checkout/post-registration', [CheckoutController::class, 'postRegi
 Route::post('/checkout/post-login', [CheckoutController::class, 'postLogin'])->name('post-login');
 
 Route::post('/checkout/ajax', [CheckoutController::class, 'ajaxTempStore'])->name('ajax-temp-store');
+Route::post('/checkout/ajax-remove', [CheckoutController::class, 'ajaxTempRemove'])->name('ajax-temp-remove');
 Route::post('wishlist', [FrontWishlistController::class, 'store'])->name('add-to-wishlist');

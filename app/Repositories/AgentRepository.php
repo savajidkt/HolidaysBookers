@@ -6,6 +6,8 @@ use Exception;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Agent;
+use App\Models\AgentMarkup;
+use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\DB;
 use App\Events\ForgotPasswordEvent;
 use App\Exceptions\GeneralException;
@@ -51,8 +53,17 @@ class AgentRepository
                 }
             }
         }
-
         $agent =  Agent::create($UserProfileArr);
+
+        $WalletTransactionArr = [
+            'user_id'    => $user->id,
+            'agent_id'    => $agent->id
+        ];
+        WalletTransaction::create($WalletTransactionArr);
+
+        AgentMarkup::create([
+            'code' => $UserProfileArr['agent_code']
+        ]);
         
         //$user->notify(new RegisterdEmailNotification($password,$user));
         return $user;

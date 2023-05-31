@@ -68,8 +68,8 @@ class Order extends Model
         'deadline_date',
         'agent_markup_type',
         'agent_markup_val',
-        'id_proof_type',
-        'id_proof_no',
+        // 'id_proof_type',
+        // 'id_proof_no',
         'total_price_markup',
         'is_pay_using'
     ];
@@ -191,9 +191,19 @@ class Order extends Model
         return $this->hasMany(Order_Child::class, 'order_id', 'id');
     }
 
+    public function agentcode()
+    {
+        return $this->belongsTo(Agent::class, 'agent_code', 'agent_code');
+    }
+
     public function booking_payment()
     {
         return $this->belongsTo(Booking_payment_details::class, 'id', 'order_id');
+    }
+
+    public function formdata()
+    {
+        return $this->hasOne(Order_Form::class, 'order_id', 'id');
     }
    
     // public function childBed()

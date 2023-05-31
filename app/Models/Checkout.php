@@ -21,10 +21,7 @@ class Checkout extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'hotel_id',
-        'room_id',
-        'price_id',
+        'user_id',        
         'adult',
         'child',
         'room',
@@ -36,12 +33,12 @@ class Checkout extends Model
         'registered_company_name',
         'registered_company_address',
         'coupon_code',
-        'coupon_amount',
-        'tax',
-        'total_amount',
-        'bookingKey',
+        'coupon_amount',        
+        'total_amount',        
+        'currency',        
         'payment_method',
-        'passenger'
+        'passenger',
+        'extra_data',
     ];   
 
     public function user()

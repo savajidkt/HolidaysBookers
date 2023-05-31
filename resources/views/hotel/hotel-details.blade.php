@@ -521,6 +521,7 @@
                                     @endphp
                                     @foreach ($rooms['room']['child'] as $key_child => $value_child)
                                         @php
+                                       
                                             $j++;
                                         @endphp
                                         @if ($j == 1)
@@ -556,9 +557,12 @@
                                             <div
                                                 class="col-lg-auto col-md-6 border-left-light lg:border-none text-right lg:text-left">
                                                 <div class="pl-40 lg:pl-0">
+                                                    @php
+                                                        $priceCalArr = getAgentRoomPrice($value_child, $hotelsDetails);
+                                                    @endphp
                                                     <div class="text-14 lh-14 text-light-1 mb-5">Min
                                                         {{ $value_child['min_nights'] }} night</div>
-                                                    <div class="text-20 lh-14 fw-500">{{ $value_child['price'] }}</div>
+                                                    <div class="text-20 lh-14 fw-500">{{ isset($priceCalArr['finalAmount']) ? numberFormat($priceCalArr['finalAmount'], globalCurrency()) : '', }}</div>
                                                     @php
                                                     $bookingParam = array(
                                                         'hotel_id' => isset($hotelsDetails['hotel']['id']) ? $hotelsDetails['hotel']['id'] : '', 
@@ -570,14 +574,43 @@
                                                         'city_id' => isset($requestParam['city_id']) ? $requestParam['city_id'] : '',
                                                         'search_from' => isset($requestParam['search_from']) ? $requestParam['search_from'] : '',
                                                         'search_to' => isset($requestParam['search_to']) ? $requestParam['search_to'] : '',
-                                                    );
-                                                  
-                                                    @endphp
-                                                    
-                                                    <a href="{{ route('review-your-booking', selectRoomBooking($bookingParam,true)) }}"
-                                                        class="button h-50 px-35 -dark-1 bg-blue-1 text-white mt-10">
-                                                        SELECT ROOM <div class="icon-arrow-top-right ml-15"></div>
-                                                    </a>
+                                                        'originAmount' => isset($priceCalArr['originAmount']) ? numberFormat($priceCalArr['originAmount']) : '',
+                                                        'productMarkupAmount' => isset($priceCalArr['productMarkupAmount']) ? numberFormat($priceCalArr['productMarkupAmount']) : '',
+                                                        'agentMarkupAmount' => isset($priceCalArr['agentMarkupAmount']) ? numberFormat($priceCalArr['agentMarkupAmount']) : '',
+                                                        'finalAmount' => isset($priceCalArr['finalAmount']) ? numberFormat($priceCalArr['finalAmount']) : '',
+                                                    );  
+                                                    $isAddedCart = false;                                                 
+                                                    @endphp                                                    
+                                                @if (is_array($bookingCartArr) && count($bookingCartArr))
+                                                    @foreach ( $bookingCartArr as $key => $value )                                                  
+                                                        @if ($value['hotel_id'] == $hotelsDetails['hotel']['id'] && $value['room_id'] == $value_child['room_id'])
+                                                        @php
+                                                             $isAddedCart = true;
+                                                        @endphp                                                            
+                                                        @endif
+                                                    @endforeach                                               
+                                                @endif
+
+                                                @if ($isAddedCart)
+
+                                                <a href="{{ route('review-your-booking',$safeencryptionObj->encode($hotelsDetails['hotel']['id'])) }}" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
+                                                    <span class="icons">View</span> 
+                                                    <div class="icon-arrow-top-right ml-15"></div>                          
+                                                </a>
+
+                                                <button type="button" data-extra="{{ selectRoomBooking($bookingParam,true) }}" class="button h-50 px-24 -dark-1 bg-red-1 text-white mt-5 RemoveRoomBook">
+                                                    <span class="icons">REMOVE</span> 
+                                                    <div class="icon-trash ml-15"></div>
+                                                    <div class="fa fa-spinner fa-spin ml-15"  style="display: none;"></div>                                
+                                                </button>
+
+                                                @else
+                                                <button type="button" data-extra="{{ selectRoomBooking($bookingParam,true) }}" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+                                                    <span class="icons">SELECT ROOM</span> 
+                                                    <div class="icon-arrow-top-right ml-15"></div>
+                                                    <div class="fa fa-spinner fa-spin ml-15"  style="display: none;"></div>                                
+                                                </button>
+                                                @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -743,6 +776,7 @@
         var moduleConfig = {
             searchLocationByName: "{!! route('city-hotel-list') !!}",
             addedToCartBooking: "{!! route('ajax-temp-store') !!}",
+            removeToCartBooking: "{!! route('ajax-temp-remove') !!}",
         };
     </script>
 @endsection

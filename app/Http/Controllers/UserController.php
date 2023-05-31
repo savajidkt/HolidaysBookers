@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\User\PasswordRequest;
 use App\Http\Requests\User\DemofromCreateRequest;
 use App\Models\Agent;
+use App\Models\AgentMarkup;
 use App\Models\WalletTransaction;
 
 class UserController extends Controller
@@ -121,14 +122,18 @@ class UserController extends Controller
             'user_type' => 1,
             'password' => Hash::make($data['password'])
         ]);
-        if ($user->id) {
-           
+        if ($user->id) {        
+            $agent_code = createAgentCode($user->id);
             $agent = Agent::create([
                 'user_id' => $user->id,
+                'agent_code' => $agent_code,
             ]);
             WalletTransaction::create([
                 'user_id' => $user->id,
                 'agent_id' => $agent->id,
+            ]);
+            AgentMarkup::create([
+                'code' => $agent_code
             ]);
 
             Auth::login($user);

@@ -21,8 +21,10 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/icofont.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/ionicons.min.css') }}">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="{{ asset('assets/front/css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front/css/daterangepicker.css') }}">   
+    <link rel="stylesheet" href="{{ asset('assets/front/css/jquery.dataTables.min.css') }}">   
+    
     <!-- Main-StyleSheet include -->
     <style>
         .help-block-error {
@@ -87,9 +89,7 @@ border-color: #3554D1 !important;
         </div>
     </div>
     <!-- JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
-        integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('assets/front/js/chart.min.js') }}"></script>  
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAz77U5XQuEME6TpftaMdX0bBelQxXRlM"></script>
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 
@@ -97,7 +97,8 @@ border-color: #3554D1 !important;
     <script src="{{ asset('assets/front/js/main.js') }}"></script>
 
     @if (Route::is('agent.travel-calendar'))
-        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
+    <script src="{{ asset('assets/front/js/index.global.min.js') }}"></script>  
+        
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');

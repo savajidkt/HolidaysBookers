@@ -112,6 +112,7 @@ class OrdersController extends Controller
 
     public function viewPayment(Order $order)
     {        
+        //dd($order);
         return view('admin.order.paymentDetails', ['model' => $order]);
     }
 
