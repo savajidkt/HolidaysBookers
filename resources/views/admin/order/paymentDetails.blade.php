@@ -8,7 +8,7 @@
                     <div class="col-md-6">
                         <h4 class="card-title">Payment Details</h4>
                     </div>
-                    
+                
                     <div class="col-md-6 text-right">                        
                         Balance Remaining: <h4 class="mb-0 ml-75">
                             {{ numberFormat($model->booking_payment->remaining_amount, $model->booking_currency) }}</h4>
@@ -37,6 +37,7 @@
                                 </div>
                             </div>
 
+                            @if ($model->booking_payment->remaining_amount > 0)
                             <div class="col-xl-3 col-md-6 col-12 mb-1">
                                 <div class="form-group">
                                     <label for="basicInput">Advance Amount</label>
@@ -50,6 +51,7 @@
                                     @enderror
                                 </div>
                             </div>
+                           
                             <div class="col-xl-3 col-md-6 col-12">
                                
                                 <button type="submit" id="user-save" class="btn btn-primary mt-2"><span
@@ -57,6 +59,8 @@
                                         aria-hidden="true"></span><span
                                         class="ml-25 align-middle">{{ __('core.update') }}</span></button>
                             </div>
+                            @endif
+                            
                         </div>
                     </form>
                     <a class="btn btn-outline-secondary waves-effect"

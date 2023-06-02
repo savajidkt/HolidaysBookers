@@ -15,4 +15,9 @@
     </div>
 @endsection
 @section('page-script')
+<script type="text/javascript">
+    var moduleConfig = {
+        getAgentBookingList: "{!! route('get-booking-list') !!}"
+    };
+</script>
 @endsection

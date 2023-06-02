@@ -211,7 +211,7 @@ $(document).ready(function () {
                 // if (data.status) {
                 //     window.location.replace(data.redirectURL);
                 // }
-                location.reload(true);
+                window.location.reload();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
             }
@@ -244,7 +244,7 @@ $(document).ready(function () {
                 // if (data.status) {
                 //     window.location.replace(data.redirectURL);
                 // }
-                location.reload(true);
+                window.location.reload();
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.icon-trash').show();
             }

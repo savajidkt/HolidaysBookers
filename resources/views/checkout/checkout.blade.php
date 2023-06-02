@@ -105,12 +105,26 @@
                                 </div>
 
                                 <h2 class="text-22 fw-500 mt-40 md:mt-24">Passenger Details</h2>
-
+                                {{-- {{ dd(getSearchCookies('searchGuestArr')) }} --}}
                                 @if (is_array(getSearchCookies('searchGuestArr')) && getSearchCookies('searchGuestArr') > 0)
+                                    @php
+                                        $roomNo = 0;
+                                    @endphp
                                     @foreach (getSearchCookies('searchGuestArr') as $key => $value)
+                                    @php
+                                        $roomNo++;
+                                    @endphp
                                         <div class="border-type-1 rounded-8 px-20 py-20 mt-20">
-                                            <h4 class="text-20 fw-500 mb-30">Room {{ $key + 1 }}</h4>
-                                            <div class="py-20 border-top-light"></div>
+                                            <div class="row y-gap-20 justify-between">
+                                                <div class="col-auto">
+                                                    <div class="fw-500">Room {{ $key + 1 }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto text-right md:text-left">
+                                                    <div class="fw-500">Adult</div>
+                                                </div>
+                                            </div>
+                                            <div class="py-5 border-top-light"></div>
                                             @if ($value->adult > 0)
                                                 @for ($i = 1; $i <= $value->adult; $i++)
                                                     <div class="row x-gap-20 y-gap-20 pt-5">
@@ -118,7 +132,7 @@
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlSelect1">Title</label>
                                                                 <select class="form-control addvalidation"
-                                                                    name="adult[title][]">
+                                                                    name="room_no_{{ $roomNo }}[adult][title][]">
                                                                     <option value="Mr">Mr.</option>
                                                                     <option value="Ms">Ms.</option>
                                                                     <option value="Mrs">Mrs.</option>
@@ -129,21 +143,21 @@
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlInput1">First Name</label>
                                                                 <input type="text" class="form-control addvalidation"
-                                                                    name="adult[firstname][]">
+                                                                    name="room_no_{{ $roomNo }}[adult][firstname][]">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlInput1">Last Name</label>
                                                                 <input type="text" class="form-control addvalidation"
-                                                                    name="adult[lastname][]">
+                                                                    name="room_no_{{ $roomNo }}[adult][lastname][]">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlInput1">ID Proof Type</label>
                                                                 <select class="form-control addvalidation"
-                                                                    name="adult[id_proof][]">
+                                                                    name="room_no_{{ $roomNo }}[adult][id_proof][]">
                                                                     <option value="Aadhaar">Aadhaar</option>
                                                                     <option value="Passport">Passport</option>
                                                                     <option value="Driving Licence">Driving Licence
@@ -157,7 +171,7 @@
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlInput1">ID Proof No</label>
                                                                 <input type="text" class="form-control addvalidation"
-                                                                    name="adult[id_proof_no][]">
+                                                                    name="room_no_{{ $roomNo }}[adult][id_proof_no][]">
                                                             </div>
                                                         </div>
                                                         @if ($i == 1)
@@ -167,23 +181,34 @@
                                                                         Number</label>
                                                                     <input type="text"
                                                                         class="form-control addvalidation"
-                                                                        name="adult[phonenumber][]">
+                                                                        name="room_no_{{ $roomNo }}[adult][phonenumber][]">
                                                                 </div>
                                                             </div>
                                                         @endif
-
-                                                        <div class="py-5 border-top-light"></div>
                                                     </div>
                                                 @endfor
                                             @endif
                                             @if ($value->child > 0)
+                                                <div class="row y-gap-20 justify-between">
+                                                    <div class="col-auto">
+                                                        <div class="fw-500">Room {{ $key + 1 }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto text-right md:text-left">
+                                                        <div class="fw-500">Child</div>
+                                                    </div>
+                                                </div>
+                                                <div class="py-5 border-top-light"></div>
+                                                @php
+                                                    $k = 0;
+                                                @endphp
                                                 @for ($i = 1; $i <= $value->child; $i++)
                                                     <div class="row x-gap-20 y-gap-20 pt-5">
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlSelect1">Title</label>
                                                                 <select class="form-control addvalidation"
-                                                                    name="child[title][]">
+                                                                    name="room_no_{{ $roomNo }}[child][title][]">
                                                                     <option value="Mr">Mr.</option>
                                                                     <option value="Ms">Ms.</option>
                                                                     <option value="Mrs">Mrs.</option>
@@ -194,21 +219,21 @@
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlInput1">First Name</label>
                                                                 <input type="text" class="form-control addvalidation"
-                                                                    name="child[firstname][]">
+                                                                    name="room_no_{{ $roomNo }}[child][firstname][]">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlInput1">Last Name</label>
                                                                 <input type="text" class="form-control addvalidation"
-                                                                    name="child[lastname][]">
+                                                                    name="room_no_{{ $roomNo }}[child][lastname][]">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlInput1">ID Proof Type</label>
                                                                 <select class="form-control addvalidation"
-                                                                    name="child[id_proof][]">
+                                                                    name="room_no_{{ $roomNo }}[child][id_proof][]">
                                                                     <option value="Aadhaar">Aadhaar</option>
                                                                     <option value="Passport">Passport</option>
                                                                     <option value="Driving Licence">Driving Licence
@@ -222,18 +247,50 @@
                                                             <div class="form-group">
                                                                 <label for="exampleFormControlInput1">ID Proof No</label>
                                                                 <input type="text" class="form-control addvalidation"
-                                                                    name="child[id_proof_no][]">
+                                                                    name="room_no_{{ $roomNo }}[child][id_proof_no][]">
                                                             </div>
                                                         </div>
+
+                                                        @if (is_array($value->childAge) && count($value->childAge) > 0)
+                                                            <div class="col-md-2">
+                                                                <div class="form-group">
+                                                                    <label for="exampleFormControlInput1">Age</label>
+                                                                    <select name="room_no_{{ $roomNo }}[child][age][]" id="age"
+                                                                        class="form-control">
+                                                                        @for ($j = 2; $j <= 11; $j++)
+                                                                            <option value="{{ $j }}"
+                                                                                {{ $value->childAge[$k]->age == $j ? 'selected' : '' }}>
+                                                                                {{ $j }}</option>
+                                                                        @endfor
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-2">
+                                                                <label for="exampleFormControlInput1"></label>
+                                                                <div class="d-flex items-center">
+                                                                    <div class="form-checkbox">
+                                                                        <input type="checkbox" name="room_no_{{ $roomNo }}[child][cwb][]"
+                                                                            {{ $value->childAge[$k]->cwb == 'yes' ? 'checked' : '' }} value="{{ $value->childAge[$k]->cwb }}">
+                                                                        <div class="form-checkbox__mark">
+                                                                            <div class="form-checkbox__icon icon-check">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-14 lh-12 ml-10">CWB</div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                         <div class="py-20 border-top-light"></div>
                                                     </div>
+                                                    @php
+                                                        $k++;
+                                                    @endphp
                                                 @endfor
                                             @endif
                                         </div>
                                     @endforeach
                                 @endif
-
-
                                 <div class="col-12 pt-20">
                                     <div class="row y-gap-20 items-center justify-between">
                                         <div class="col-auto">
@@ -560,52 +617,6 @@
             </div>
         </div>
     </section>
-
-    <div class="langMenu is-hidden js-langMenu loginModal" data-x="login" data-x-toggle="is-hidden">
-        <div class="langMenu__bg" data-x-click="login"></div>
-        <div class="langMenu__content bg-white rounded-4">
-            <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
-                <div class="text-20 fw-500 lh-15">login</div>
-                <button class="pointer" data-x-click="login">
-                    <i class="icon-close"></i>
-                </button>
-            </div>
-            <div class=" px-30 py-5 sm:px-15 sm:py-15">
-                <form id="loginFrm" class="y-gap-20" method="POST" action="">
-                    <input type="hidden" name="redirect" class="redirect" value="{{ $bookingKey }}">
-                    @csrf
-                    <div class="col-12">
-                    </div>
-                    <div class="col-12">
-                        <div class="form-input email-error">
-                            <input type="text" name="email" autocomplete="off" class="has-value emailInput">
-                            <label class="lh-1 text-14 text-light-1">Email</label>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-input password-error">
-                            <input type="password" name="password" autocomplete="off" class="has-value passwordInput">
-                            <label class="lh-1 text-14 text-light-1">Password</label>
-                        </div>
-                    </div>
-
-
-                    <div class="col-12 display-message">
-                        <button type="submit" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectSignin">
-                            <span class="icons">Sign In</span>
-                            <div class="icon-arrow-top-right ml-15"></div>
-                            <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
-                        </button>
-                    </div>
-                    <div class="col-12">
-                        <div class="text-center px-30">By creating an account, you agree to our Terms of Service and
-                            Privacy Statement.</div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 @endsection
 @section('page-script')
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>

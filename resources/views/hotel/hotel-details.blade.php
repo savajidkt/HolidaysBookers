@@ -204,7 +204,7 @@
                             </div>
                         </div>
 
-                        <div class="col-auto">
+                        {{-- <div class="col-auto">
                             @if (isset($hotelsDetails['hotel']['price']))
                                 <div class="text-14 text-right">
                                     From
@@ -212,13 +212,13 @@
                                         class="text-22 text-dark-1 fw-500">{{ isset($hotelsDetails['hotel']['price']) ? $hotelsDetails['hotel']['price'] : '' }}</span>
                                 </div>
                             @endif
-                            <button type="button" data-extra="{{ $id }}" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+                            <button type="button" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
                                 <span class="icons">Book Now</span> 
                                 <div class="icon-arrow-top-right ml-15"></div>
                                 <div class="fa fa-spinner fa-spin ml-15"  style="display: none;"></div>                                
                             </button>
 
-                        </div>
+                        </div> --}}
                     </div>
                     <div id="overview" class="row y-gap-40 pt-40">
                         <div class="col-12">

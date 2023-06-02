@@ -109,8 +109,8 @@
                             <tbody>
                                 <tr>
                                     <td class="py-1 pl-4">                                        
-                                        <p class="mb-25">PNR No: 7224</p>
-                                        <p class="mb-25">Lead Pax Name: Sachin k</p>
+                                        <p class="mb-25">PNR No: N/A</p>
+                                        <p class="mb-25">Lead Pax Name: {{ $model->guest_lead }}</p>
                                     </td>                                                                      
                                 </tr>
                             </tbody>
@@ -128,14 +128,14 @@
                             <tbody>
                                 <tr>
                                     <td class="py-1 pl-4">
-                                        <p class="font-weight-semibold mb-25">6 Adult(s)
-                                            6 child (3,7,7,7,6,6) years</p>
+                                        <p class="font-weight-semibold mb-25">
+                                            {{ count($model->adult) }} Adult, {{ count($model->child) }} child ({{ getChildAge($model->child) }}) years</p>
                                     </td>
                                     <td class="py-1">
-                                        <strong>Jayesh Patel</strong>
+                                        <strong>{{ $model->guest_lead }}</strong>
                                     </td>
                                     <td class="py-1">
-                                        <strong>-</strong>
+                                        <strong>{{ $model->guest_phone }}</strong>
                                     </td>
                                 </tr>
                             </tbody>
@@ -151,16 +151,16 @@
                             <tbody>
                                 <tr>
                                     <td class="py-1 pl-4">
-                                        GRAND MIRAGE
+                                        {{ $model->hotel_name }}
                                     </td>
                                     <td class="py-1">
-                                        2022-12-22
+                                        {{ date('d M, Y', strtotime($model->check_in_date)) }}
                                     </td>
                                     <td class="py-1">
-                                        2022-12-27
+                                        {{ date('d M, Y', strtotime($model->check_out_date)) }}
                                     </td>
                                     <td class="py-1">
-                                        Premier ocean
+                                        N/A
                                     </td>
                                 </tr>
                                 <tr>

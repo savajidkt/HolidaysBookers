@@ -205,6 +205,11 @@ class Order extends Model
     {
         return $this->hasOne(Order_Form::class, 'order_id', 'id');
     }
+
+    public function room()
+    {
+        return $this->hasMany(Order_Room::class, 'order_id', 'id')->orderBy('room_id', 'ASC');
+    }
    
     // public function childBed()
     // {

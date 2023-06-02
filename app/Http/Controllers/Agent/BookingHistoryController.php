@@ -77,11 +77,6 @@ class BookingHistoryController extends Controller
 
     public function orderInvoiceDownload(Order $order)
     {
-
-        //dd($order->agentcode->user->usermeta->phone_number);
-
-
-
         $contenidoDinamico = "Prueba";
         $dompdf = new Dompdf();
         $options = new Options();

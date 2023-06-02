@@ -13,6 +13,8 @@ use App\Models\WalletTransaction;
 use App\Exceptions\GeneralException;
 use Illuminate\Support\Facades\Auth;
 use App\Models\OfflineRoomChildPrice;
+use App\Models\Order;
+use App\Models\Order_Room;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -556,62 +558,6 @@ function get_day_wise_children_price($room_price_id, $param)
     return $childPrice;
 }
 
-// function get_day_wise_children_price($room_price_id, $param)
-// {
-
-//     $searchGuestRoomCount = getSearchCookies('searchGuestRoomCount');
-//     $searchGuestChildCount = getSearchCookies('searchGuestChildCount');
-//     $searchGuestAdultCount = getSearchCookies('searchGuestAdultCount');
-//     $searchGuestArr = getSearchCookies('searchGuestArr');
-//     dd($searchGuestArr);
-
-//     $child_age1 = $param['filterObjParamChildAge1'];
-//     $child_age2 = $param['filterObjParamChildAge2'];
-
-//     $child_younger = $param['filterObjParamChildYounger'];
-//     $child_older = $param['filterObjParamChildOlder'];
-//     $chilldPrice = 0;
-
-//     if ($param['filterObjParamChild'] <= 2) {
-//         $roomChildPrice = OfflineRoomChildPrice::query();
-//         $roomChildPrice = $roomChildPrice->where(function ($query) use ($param) {
-//             $query->whereRaw("'" . $param['filterObjParamChildAge1'] . "' between min_age and max_age");
-//             if ($param['filterObjParamChildAge2'] > 0) {
-//                 $query->orWhereRaw("'" . $param['filterObjParamChildAge2'] . "' between min_age and max_age");
-//             }
-//         });
-//         $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
-//         if ($param['filterObjParamChildAge1'] > 6 || $param['filterObjParamChildAge2'] > 6) {
-//             $childPrice = $roomChildPrice->sum('cwb_price');
-//         } else {
-//             $childPrice = $roomChildPrice->sum('cnb_price');
-//         }
-//     } else {
-//         $roomChildPrice = OfflineRoomChildPrice::query();
-
-//         $roomChildPrice->where(function ($query) use ($param) {
-//             if ($param['filterObjParamChildYounger'] > 0) {
-//                 $query->whereRaw(" '6' between min_age and max_age");
-//             }
-//             if ($param['filterObjParamChildOlder'] > 0) {
-//                 $query->orWhereRaw(" '7' between min_age and max_age");
-//             }
-//         });
-//         $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
-//         $childOlderPrice = 0;
-//         $childYoungerPrice = 0;
-//         foreach ($roomChildPrice as $rcprice) {
-//             if ($param['filterObjParamChildYounger'] > 0 && ($rcprice->min_age >= 0 && $rcprice->max_age <= 6)) {
-//                 $childYoungerPrice = $rcprice->cnb_price * $param['filterObjParamChildYounger'];
-//             } else {
-//                 $childOlderPrice = $rcprice->cwb_price * $param['filterObjParamChildOlder'];
-//             }
-//         }
-//         $childPrice = ($childYoungerPrice + $childOlderPrice);
-//     }
-
-//     return $childPrice;
-// }
 if (!function_exists('selectRoomBooking')) {
 
     function selectRoomBooking($paramArr, $isArray = false)
@@ -885,12 +831,17 @@ if (!function_exists('getGuestLeadDetails')) {
     function getGuestLeadDetails($data)
     {
         $guestArr = [];
+        $roomCount = getSearchCookies('searchGuestRoomCount');
+        if ($roomCount > 0) {
+            for ($i = 1; $i <= $roomCount; $i++) {
 
-        if (is_array($data['adult']) && count($data['adult']) > 0) {
-            foreach ($data['adult'] as $key => $value) {
-                $guestArr['name'] = $data['adult']['firstname'][0] . ' ' . $data['adult']['lastname'][0];
-                $guestArr['phone'] = $data['adult']['phonenumber'][0];
-                return $guestArr;
+                if (is_array($data['room_' . $i]['adult']) && count($data['room_' . $i]['adult']) > 0) {
+                    foreach ($data['room_' . $i]['adult'] as $key => $value) {
+                        $guestArr['name'] = $data['room_' . $i]['adult']['firstname'][0] . ' ' . $data['room_' . $i]['adult']['lastname'][0];
+                        $guestArr['phone'] = $data['room_' . $i]['adult']['phonenumber'][0];
+                        return $guestArr;
+                    }
+                }
             }
         }
         return $guestArr;
@@ -950,8 +901,8 @@ if (!function_exists('getOrderHistoryAction')) {
     function getOrderHistoryAction($id, $order)
     {
         $action = '';
-        $action .= '<a href="'.route('agent.view-booking-history', $id).'" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
-        $action .= '<a href="'.route('agent-invoice-download', $order).'" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Invoice" data-animation="false"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';       
+        $action .= '<a href="' . route('agent.view-booking-history', $id) . '" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+        $action .= '<a href="' . route('agent-invoice-download', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Invoice" data-animation="false"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';
         return $action;
     }
 }
@@ -968,6 +919,37 @@ if (!function_exists('orderStatusByID')) {
             return 3;
         } else if ($status == 'completed') {
             return 4;
-        }         
+        }
+    }
+}
+
+
+if (!function_exists('orderRoomIDByAdultChild')) {
+    function orderRoomIDByAdultChild($id)
+    {
+        return Order_Room::find($id);
+    }
+}
+if (!function_exists('chidWithBed')) {
+    function chidWithBed($passengerData)
+    {
+        if (count($passengerData->child->childBed) > 0) {
+            return 'Yes';
+        }
+        return 'No';
+    }
+}
+
+if (!function_exists('getChildAge')) {
+    function getChildAge($data)
+    {
+        $ageString = "";
+        if (count($data) > 0) {
+            foreach ($data as $key => $value) {                
+                $ageString .= $value->child_age.",";
+            }
+        }
+        
+        return trim($ageString, ',');
     }
 }

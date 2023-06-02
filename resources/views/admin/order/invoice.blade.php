@@ -60,16 +60,16 @@
             <div class="content-header row demo-inline-spacing">
                 <div class="card">
                     <div class="card-body">
-                        <a class="btn btn-outline-secondary waves-effect"
-                            href="{{ route('orders.show',$model) }}"> Back </a>
-                        <a class="btn btn-outline-secondary waves-effect"
-                            href="javascript:void(0);" onclick='window.print();'>
+                        <a class="btn btn-outline-secondary waves-effect" href="{{ route('orders.show', $model) }}">
+                            Back </a>
+                        <a class="btn btn-outline-secondary waves-effect" href="javascript:void(0);"
+                            onclick='window.print();'>
                             Print
                         </a>
                         <a class="btn btn-outline-secondary waves-effect" target="_blank"
-                            href="{{ route('order-invoice-download',$model) }}"> Download </a>
+                            href="{{ route('order-invoice-download', $model) }}"> Download </a>
                     </div>
-                </div>               
+                </div>
             </div>
             <div class="content-body">
                 <div class="invoice-print p-3">
@@ -106,104 +106,41 @@
                     <div class="row pb-2">
                         <div class="col-sm-6">
                             <h6 class="mb-1">To,</h6>
-                            <p class="mb-25">Aisa</p>
-                            <p class="mb-25">(Agent Code) CA225940</p>
-                            <p class="mb-25">Email: tanush@yopmail.com</p>
-                            <p class="mb-25">Mo: +91 8524126321</p>
-                            <p class="mb-25 font-weight-bold">Guest Name: Sachin k</p>
-                            <p class="mb-0 font-weight-bold">Travel Date: 22 Dec 2022 To 27 Dec 2022</p>
+                            <p class="mb-25">{{ $model->agentcode->user->first_name }}
+                                {{ $model->agentcode->user->last_name }}</p>
+                            <p class="mb-25">(Agent Code) {{ $model->agent_code }}</p>
+                            <p class="mb-25">Email: {{ $model->agentcode->user->email }}</p>
+                            <p class="mb-25">Mo: {{ $model->agentcode->user->usermeta->phone_number }}</p>
+                            <p class="mb-25 font-weight-bold">Guest Name: {{ $model->guest_lead }}</p>
+                            <p class="mb-0 font-weight-bold">Date:
+                                {{ date('d M, Y', strtotime($model->check_in_date)) }} To
+                                {{ date('d M, Y', strtotime($model->check_out_date)) }}</p>
                         </div>
                         <div class="col-sm-6 mt-sm-0 mt-2">
                             <table>
                                 <tbody>
                                     <tr>
                                         <td class="pr-1">Invoice Number:</td>
-                                        <td class="font-weight-bold">INV7224</td>
+                                        <td class="font-weight-bold">N/A</td>
                                     </tr>
                                     <tr>
                                         <td class="pr-1">Invoice Date:</td>
-                                        <td class="font-weight-bold">24 Apr 2023</td>
+                                        <td class="font-weight-bold">N/A</td>
                                     </tr>
                                     <tr>
                                         <td class="pr-1">PNR No.:</td>
-                                        <td class="font-weight-bold">7224</td>
+                                        <td class="font-weight-bold">N/A</td>
                                     </tr>
                                     <tr>
                                         <td class="pr-1">Deadline Date:</td>
-                                        <td class="font-weight-bold">22 Dec 2022</td>
+                                        <td class="font-weight-bold">N/A</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
-                    <div class="table-responsive mt-2">
-                        <table class="table m-0">
-                            <thead>
-                                <tr>
-                                    <th class="py-1 pl-4">Particular</th>
-                                    <th class="py-1">Night</th>
-                                    <th class="py-1">Room</th>
-                                    <th class="py-1">Person</th>
-                                    <th class="py-1">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="py-1 pl-4">
-                                        <p class="font-weight-semibold mb-25">GRAND MIRAGE (hotel)</p>
-                                    </td>
-                                    <td class="py-1">
-                                        <strong>₹ 5.00</strong>
-                                    </td>
-                                    <td class="py-1">
-                                        <strong>12</strong>
-                                    </td>
-                                    <td class="py-1">
-                                        <strong>12</strong>
-                                    </td>
-                                    <td class="py-1">
-                                        <strong>₹ 5750.00</strong>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <?php echo $orderTable; ?>
                     <hr class="my-2" />
-                    <div class="row invoice-sales-total-wrapper mt-3">
-                        <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
-                            <p class="mb-25 font-weight-bold">Name : Holidays Bookers DMC india pvt.Ltd</p>
-                            <p class="mb-25 font-weight-bold">Bank : ICICI BANK LTD</p>
-                            <p class="mb-25 font-weight-bold">Branch : 9A, Phelps Building, Connaught Place, New Delhi.
-                            </p>
-                            <p class="mb-25 font-weight-bold">A/c No : 000705045370</p>
-                            <p class="mb-0 font-weight-bold">IFSC Code : ICIC0000007</p>
-                        </div>
-                        <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
-                            <div class="invoice-total-wrapper">
-                                <div class="invoice-total-item">
-                                    <p class="invoice-total-title">Subtotal:</p>
-                                    <p class="invoice-total-amount">₹ 5750.00</p>
-                                </div>
-                                <div class="invoice-total-item">
-                                    <p class="invoice-total-title">Discount:</p>
-                                    <p class="invoice-total-amount">0</p>
-                                </div>
-                                <div class="invoice-total-item">
-                                    <p class="invoice-total-title">Tax:</p>
-                                    <p class="invoice-total-amount">0%</p>
-                                </div>
-                                <hr class="my-50" />
-                                <div class="invoice-total-item">
-                                    <p class="invoice-total-title">Total:</p>
-                                    <p class="invoice-total-amount">₹ 5750.00</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr class="my-2" />
-
                     <div class="row">
                         <div class="col-12">
                             <span class="font-weight-bold">Terms :</span>

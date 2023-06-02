@@ -42,18 +42,14 @@ class CheckoutController extends Controller
 
     public function checkout($id)
     {
-        try {
-
-            $SafeencryptionObj = new Safeencryption;
-            $hotel_id = $SafeencryptionObj->decode($id);
-            $requiredParamArr = getBookingCart('bookingCart');            
-            if ($requiredParamArr) {
-                $hotelsDetails = $this->hotelListingRepository->hotelDetails($hotel_id);               
-                return view('checkout.checkout', ['hotelsDetails' => $hotelsDetails, 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
-            }
-        } catch (\Throwable $th) {
-            return redirect()->route('home')->with('error', 'Internal problem');
+        $SafeencryptionObj = new Safeencryption;
+        $hotel_id = $SafeencryptionObj->decode($id);
+        $requiredParamArr = getBookingCart('bookingCart');
+        if ($requiredParamArr) {
+            $hotelsDetails = $this->hotelListingRepository->hotelDetails($hotel_id);
+            return view('checkout.checkout', ['hotelsDetails' => $hotelsDetails, 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
         }
+        return redirect()->back();
     }
 
     public function postLogin(Request $request)
@@ -100,12 +96,11 @@ class CheckoutController extends Controller
 
     public function create(array $data)
     {
-
     }
 
     public function store(Request $request)
     {
-
+       
         $SafeencryptionObj = new Safeencryption;
 
         if ($request->payment_method == 1) {
@@ -203,7 +198,8 @@ class CheckoutController extends Controller
                     'comment'     => 'Booking Hotel',
                     'balance'     => numberFormat($balance),
                 ];
-                return $this->checkoutRepository->updateCredit($dataDebit);
+                //return $this->checkoutRepository->updateCredit($dataDebit);
+                return true;
             }
         }
         return false;
@@ -225,7 +221,7 @@ class CheckoutController extends Controller
         }
         return response()->json([
             'status' => true,
-            'redirectURL' => route('review-your-booking'),
+            //'redirectURL' => route('review-your-booking'),
             'message' => ''
         ]);
     }
@@ -252,16 +248,12 @@ class CheckoutController extends Controller
     }
 
     public function show($id)
-    {        
+    {
         $SafeencryptionObj = new Safeencryption;
         $OrderID = $SafeencryptionObj->decode($id);
         $Order = Order::find($OrderID);
         if ($Order) {
-            // dd($Order->formdata);
-            //dd($Order->agentcode->user);
-            //dd($Order->adult);
             $requiredParamArr = unserialize($Order->formdata->form_data_serialize);
-            // dd($requiredParamArr);
             $hotelsDetails = $this->hotelListingRepository->hotelDetails($Order->hotel_id);
             return view('checkout.thank-you', ['order' => $Order, 'hotelsDetails' => $hotelsDetails, 'requiredParamArr' => $requiredParamArr]);
         }
@@ -307,6 +299,7 @@ class CheckoutController extends Controller
             unset($_COOKIE["country_id"]);
             setcookie('country_id', null, -1, '/');
         }
+        setBookingCart('bookingCart', array());        
 
         return $data->forceDelete();
     }

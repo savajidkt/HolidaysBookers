@@ -12,7 +12,9 @@ use App\Models\Order_Adult;
 use App\Models\Order_Child;
 use App\Libraries\Safeencryption;
 use App\Models\Booking_payment_details;
+use App\Models\Order_Child_Bed;
 use App\Models\Order_Form;
+use App\Models\Order_Room;
 use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -20,12 +22,10 @@ use Illuminate\Support\Facades\Hash;
 class CheckoutRepository
 {
 
+    protected $order_Rooms;
     public function createBooking(array $data): Checkout
     {
-
-        $passenger = [];
-        $passenger['adult'] = $data['adult'];
-        $passenger['child'] = $data['child'];
+        
         $extra_data = [];
         $extra_data['cartData'] = getBookingCart('bookingCart');
         $extra_data['searchRoomData'] = getSearchCookies('searchGuestArr');
@@ -51,22 +51,35 @@ class CheckoutRepository
             'total_amount'     => getFinalAmountChackOut(),
             'currency'     => globalCurrency(),
             'payment_method'     => $data['payment_method'],
-            'passenger'     => serialize($passenger),
+            'passenger'     => serialize($this->roomPassenger($data)),
             'extra_data'     => serialize($extra_data),
         ];
         $CheckoutRepository =  Checkout::create($dataSave);
         return $CheckoutRepository;
     }
 
+    public function roomPassenger($data)
+    {
+        $passenger = [];
+        $roomCount = getSearchCookies('searchGuestRoomCount');
+        if ($roomCount > 0) {
+            for ($i = 1; $i <= $roomCount; $i++) {
+                $passenger['room_' . $i] = $data['room_no_' . $i];
+            }
+        }
+        return $passenger;
+    }
+
     public function createOrderBooking(Checkout $checkout): Order
     {
         $user = User::find($checkout->user_id);
         $extra_data = unserialize($checkout->extra_data);
+        $this->order_Rooms = $extra_data['cartData'];
         $passenger = unserialize($checkout->passenger);
-
         $hotelListingRepository = new HotelListingRepository;
         $hotelsDetails = $hotelListingRepository->hotelDetails(getHotelID($extra_data));
         $passengerLead = getGuestLeadDetails($passenger);
+
         $OrderData = [];
         $OrderData['hotel_country_id'] = ($hotelsDetails['hotel']['hotel_country']) ? $hotelsDetails['hotel']['hotel_country'] : '';
         $OrderData['hotel_city_id'] = ($hotelsDetails['hotel']['hotel_city']) ? $hotelsDetails['hotel']['hotel_city'] : '';
@@ -105,45 +118,49 @@ class CheckoutRepository
         $OrderData['is_pay_using'] = $checkout->payment_method;
         $OrderData =  Order::create($OrderData);
         $this->addAdultData($passenger, $OrderData->id);
-        $this->addChildData($passenger, $OrderData->id);      
-        $this->addFormData($OrderData->id, $checkout->extra_data);      
-        $this->addPaymentDetails($OrderData);      
+        $this->addChildData($passenger, $OrderData->id);
+        $this->addFormData($OrderData->id, $checkout->extra_data);
+        $this->addPaymentDetails($OrderData);
         return $OrderData;
     }
 
     public function addAdultData($passenger, $OrderID)
-    {
+    {      
 
-        if (is_array($passenger['adult']) && count($passenger['adult']) > 0) {
-            foreach ($passenger['adult'] as $key => $value) {
-                if (is_array($value) && count($value) > 0) {
-                    foreach ($value as $key1 => $value1) {
+        $roomCount = getSearchCookies('searchGuestRoomCount');
+        if ($roomCount > 0) {
+            $RoomData = $this->order_Rooms;
+            for ($i = 1; $i <= $roomCount; $i++) {
+                $j = 0;
+                if (is_array($passenger['room_' . $i]['adult']) && count($passenger['room_' . $i]['adult']) > 0) {
+                    foreach ($passenger['room_' . $i]['adult']['title'] as $key1 => $value) {
                         $OrderAdult = [];
                         $OrderAdult['order_id'] = $OrderID;
-                        $OrderAdult['first_name'] = isset($passenger['adult']['firstname'][$key1]) ? $passenger['adult']['title'][$key1] . ' ' . $passenger['adult']['firstname'][$key1] : '';
-                        $OrderAdult['last_name'] = isset($passenger['adult']['lastname'][$key1]) ? $passenger['adult']['lastname'][$key1] : '';
+                        $OrderAdult['first_name'] = isset($passenger['room_' . $i]['adult']['firstname'][$key1]) ? $passenger['room_' . $i]['adult']['title'][$key1] . ' ' . $passenger['room_' . $i]['adult']['firstname'][$key1] : '';
+                        $OrderAdult['last_name'] = isset($passenger['room_' . $i]['adult']['lastname'][$key1]) ? $passenger['room_' . $i]['adult']['lastname'][$key1] : '';
                         //0 = None, 1 = Aadhaar Card, 2 = Passport, 3 = Driving Licence, 4 = Voters ID Card, 5 = PAN Card, 6 = Other
-                        if (isset($passenger['adult']['id_proof'][$key1])) {
-                            if ($passenger['adult']['id_proof'][$key1] == "Aadhaar") {
+                        if (isset($passenger['room_' . $i]['adult']['id_proof'][$key1])) {
+                            if ($passenger['room_' . $i]['adult']['id_proof'][$key1] == "Aadhaar") {
                                 $OrderAdult['id_proof_type'] = 1;
-                            } else if ($passenger['adult']['id_proof'][$key1] == "Passport") {
+                            } else if ($passenger['room_' . $i]['adult']['id_proof'][$key1] == "Passport") {
                                 $OrderAdult['id_proof_type'] = 2;
-                            } else if ($passenger['adult']['id_proof'][$key1] == "Driving Licence") {
+                            } else if ($passenger['room_' . $i]['adult']['id_proof'][$key1] == "Driving Licence") {
                                 $OrderAdult['id_proof_type'] = 3;
-                            } else if ($passenger['adult']['id_proof'][$key1] == "Voters ID Card") {
+                            } else if ($passenger['room_' . $i]['adult']['id_proof'][$key1] == "Voters ID Card") {
                                 $OrderAdult['id_proof_type'] = 4;
-                            } else if ($passenger['adult']['id_proof'][$key1] == "PAN card") {
+                            } else if ($passenger['room_' . $i]['adult']['id_proof'][$key1] == "PAN card") {
                                 $OrderAdult['id_proof_type'] = 5;
                             } else {
                                 $OrderAdult['id_proof_type'] = 0;
                             }
                         }
-                        $OrderAdult['id_proof_no'] = isset($passenger['adult']['id_proof_no'][$key1]) ? $passenger['adult']['id_proof_no'][$key1] : '';
-                        $OrderAdult['phone'] = isset($passenger['adult']['phonenumber'][$key1]) ? $passenger['adult']['phonenumber'][$key1] : '';
-                        Order_Adult::create($OrderAdult);
+                        $OrderAdult['id_proof_no'] = isset($passenger['room_' . $i]['adult']['id_proof_no'][$key1]) ? $passenger['room_' . $i]['adult']['id_proof_no'][$key1] : '';
+                        $OrderAdult['phone'] = isset($passenger['room_' . $i]['adult']['phonenumber'][$key1]) ? $passenger['room_' . $i]['adult']['phonenumber'][$key1] : '';
+                        $adult = Order_Adult::create($OrderAdult);
+                        $this->addOrderRoom($OrderID, $adult, 'adult', $RoomData);
                     }
                 }
-                return true;
+                unset($RoomData[0]);
             }
         }
         return true;
@@ -152,47 +169,79 @@ class CheckoutRepository
     public function addChildData($passenger, $OrderID)
     {
 
-        if (is_array($passenger['child']) && count($passenger['child']) > 0) {
-            foreach ($passenger['child'] as $key => $value) {
-                if (is_array($value) && count($value) > 0) {
-                    foreach ($value as $key1 => $value1) {
+        $roomCount = getSearchCookies('searchGuestRoomCount');
+        if ($roomCount > 0) {
+            $RoomData = $this->order_Rooms;
+            for ($i = 1; $i <= $roomCount; $i++) {
+                $j = 0;
+                if (is_array($passenger['room_' . $i]['child']) && count($passenger['room_' . $i]['child']) > 0) {
+                    foreach ($passenger['room_' . $i]['child']['title'] as $key1 => $value) {
                         $OrderChild = [];
                         $OrderChild['order_id'] = $OrderID;
-                        $OrderChild['child_first_name'] = isset($passenger['child']['firstname'][$key1]) ? $passenger['child']['title'][$key1] . ' ' . $passenger['child']['firstname'][$key1] : '';
-                        $OrderChild['child_last_name'] = isset($passenger['child']['lastname'][$key1]) ? $passenger['child']['lastname'][$key1] : '';
+                        $OrderChild['child_first_name'] = isset($passenger['room_' . $i]['child']['firstname'][$key1]) ? $passenger['room_' . $i]['child']['title'][$key1] . ' ' . $passenger['room_' . $i]['child']['firstname'][$key1] : '';
+                        $OrderChild['child_last_name'] = isset($passenger['room_' . $i]['child']['lastname'][$key1]) ? $passenger['room_' . $i]['child']['lastname'][$key1] : '';
                         //0 = None, 1 = Aadhaar Card, 2 = Passport, 3 = Driving Licence, 4 = Voters ID Card, 5 = PAN Card, 6 = Other
-                        if (isset($passenger['child']['id_proof'][$key1])) {
-                            if ($passenger['child']['id_proof'][$key1] == "Aadhaar") {
+                        if (isset($passenger['room_' . $i]['child']['id_proof'][$key1])) {
+                            if ($passenger['room_' . $i]['child']['id_proof'][$key1] == "Aadhaar") {
                                 $OrderChild['child_id_proof_type'] = 1;
-                            } else if ($passenger['child']['id_proof'][$key1] == "Passport") {
+                            } else if ($passenger['room_' . $i]['child']['id_proof'][$key1] == "Passport") {
                                 $OrderChild['child_id_proof_type'] = 2;
-                            } else if ($passenger['child']['id_proof'][$key1] == "Driving Licence") {
+                            } else if ($passenger['room_' . $i]['child']['id_proof'][$key1] == "Driving Licence") {
                                 $OrderChild['child_id_proof_type'] = 3;
-                            } else if ($passenger['child']['id_proof'][$key1] == "Voters ID Card") {
+                            } else if ($passenger['room_' . $i]['child']['id_proof'][$key1] == "Voters ID Card") {
                                 $OrderChild['child_id_proof_type'] = 4;
-                            } else if ($passenger['child']['id_proof'][$key1] == "PAN card") {
+                            } else if ($passenger['room_' . $i]['child']['id_proof'][$key1] == "PAN card") {
                                 $OrderChild['child_id_proof_type'] = 5;
                             } else {
                                 $OrderChild['child_id_proof_type'] = 0;
                             }
                         }
-                        $OrderChild['child_id_proof_no'] = isset($passenger['child']['id_proof_no'][$key1]) ? $passenger['child']['id_proof_no'][$key1] : '';
-                        //$OrderChild['child_age'] = isset($passenger['child']['id_proof_no'][$key1]) ? $passenger['child']['id_proof_no'][$key1] : '';                       
-                        Order_Child::create($OrderChild);
+                        $OrderChild['child_id_proof_no'] = isset($passenger['room_' . $i]['child']['id_proof_no'][$key1]) ? $passenger['room_' . $i]['child']['id_proof_no'][$key1] : '';
+                        $OrderChild['child_age'] = isset($passenger['room_' . $i]['child']['age'][$key1]) ? $passenger['room_' . $i]['child']['age'][$key1] : '';
+                        $Order_Child = Order_Child::create($OrderChild);
+                        $this->addOrderRoom($OrderID, $Order_Child, 'child', $RoomData);
+
+                        if (isset($passenger['room_' . $i]['child']['cwb'][$key1]) && $passenger['room_' . $i]['child']['cwb'][$key1] == "yes") {
+                            $OrderChildBed = [];
+                            $OrderChildBed['order_id'] = $OrderID;
+                            $OrderChildBed['order_child_id'] = $Order_Child->id;
+                            $aa = Order_Child_Bed::create($OrderChildBed);
+                          
+                        }
                     }
                 }
-                return true;
+                unset($RoomData[0]);
             }
         }
         return true;
     }
 
-    public function addFormData($OrderID,$extra_data)
+    public function addOrderRoom($OrderID, $data, $type, $RoomData)
+    {
+        $OrderForm = [];
+        $OrderForm['order_id'] = $OrderID;
+        if ($type == "adult") {
+            $OrderForm['adult_id'] = $data->id;
+        } else if ($type == "child") {
+            $OrderForm['child_id'] =  $data->id;
+        }
+        if (is_array($RoomData) && count($RoomData) > 0) {
+            foreach ($RoomData as $key => $value) {
+                $OrderForm['room_id'] = $value['room_id'];
+                $OrderForm['price_id'] = $value['price_id'];
+                break;
+            }
+        }
+        $OrderForm['type'] = $type;
+        return Order_Room::create($OrderForm);
+    }
+
+    public function addFormData($OrderID, $extra_data)
     {
         $OrderForm = [];
         $OrderForm['order_id'] = $OrderID;
         $OrderForm['form_data_serialize'] = $extra_data;
-        return Order_Form::create($OrderForm);        
+        return Order_Form::create($OrderForm);
     }
 
     public function addPaymentDetails($order)
@@ -202,7 +251,7 @@ class CheckoutRepository
         $OrderForm['total_amount'] = $order->booking_amount;
         $OrderForm['paid_amount'] = $order->booking_amount;
         $OrderForm['remaining_amount'] = 0;
-        return Booking_payment_details::create($OrderForm);        
+        return Booking_payment_details::create($OrderForm);
     }
 
     public function update(array $data, Checkout $checkout): Checkout
@@ -234,6 +283,6 @@ class CheckoutRepository
 
     public function updateCredit(array $data)
     {
-        return WalletTransaction::create($data);        
+        return WalletTransaction::create($data);
     }
 }

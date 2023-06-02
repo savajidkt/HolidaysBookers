@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Order\EditRequest;
 use App\Notifications\OrderNotification;
 use Yajra\DataTables\Facades\DataTables;
+use App\Repositories\HotelListingRepository;
+use App\Models\Order_Room;
 
 
 class OrdersController extends Controller
@@ -111,7 +113,7 @@ class OrdersController extends Controller
     }
 
     public function viewPayment(Order $order)
-    {        
+    {
         //dd($order);
         return view('admin.order.paymentDetails', ['model' => $order]);
     }
@@ -178,10 +180,12 @@ class OrdersController extends Controller
 
     public function orderInvoice(Order $order)
     {
-        return view('admin.order.invoice', ['model' => $order]);
+        return view('admin.order.invoice', ['model' => $order, 'orderTable' => $this->orderTableCreate($order)]);
     }
+
     public function orderInvoiceDownload(Order $order)
     {
+
         $contenidoDinamico = "Prueba";
         $dompdf = new Dompdf();
         $options = new Options();
@@ -328,18 +332,18 @@ class OrdersController extends Controller
                     <tr>
                         <td>
                             To,<br />
-                            Aisa<br />
-                            (Agent Code) CA225940<br />
-                            Email: tanush@yopmail.com<br />
-                            Mo: +91 8524126321<br />
-                            Guest Name: Sachin k<br />
-                            Travel Date: 22 Dec 2022 To 27 Dec 2022<br />
+                            ' . $order->agentcode->user->first_name . ' ' . $order->agentcode->user->last_name . '<br />
+                            (Agent Code) ' . $order->agent_code . '<br />
+                            Email: ' . $order->agentcode->user->email . '<br />
+                            Mobile: ' . $order->agentcode->user->usermeta->phone_number . '<br />
+                            Guest Name: ' . $order->guest_lead . '<br />
+                            Date: ' . date('d M, Y', strtotime($order->check_in_date)) . ' To ' . date('d M, Y', strtotime($order->check_out_date)) . '<br />
                         </td>
                         <td>                            
-                                Invoice Number:	INV7224<br />
-                                Invoice Date:	24 Apr 2023<br />
-                                PNR No.:	7224<br />
-                                Deadline Date:	22 Dec 2022
+                                Invoice Number:	N/A<br />
+                                Invoice Date:	N/A<br />
+                                PNR No.:	N/A<br />
+                                Deadline Date:	N/A
                         </td>
                     </tr>
                 </table>
@@ -347,51 +351,7 @@ class OrdersController extends Controller
         </tr>		
 			</table>
             <hr class="my-2">
-            <table cellpadding="0" cellspacing="0">			
-				
-				<tr class="heading">
-					<td>PARTICULAR</td>
-					<td class="text-center">NIGHT</td>
-					<td class="text-center">ROOM</td>
-					<td class="text-center">PERSON</td>
-					<td class="text-right">TOTAL</td>					
-				</tr>				
-				<tr class="item">
-					<td>GRAND MIRAGE (hotel)</td>
-					<td class="text-center">5.00</td>
-					<td class="text-center">12</td>
-					<td class="text-center">12</td>
-					<td class="text-right">5750.00</td>
-				</tr>
-				<tr class="total">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td class="text-right">Subtotal:<strong> 5750.00</strong></td>
-				</tr>
-				<tr class="total">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td class="text-right">Discount:<strong> 0.00</strong></td>
-				</tr>
-				<tr class="total">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td class="text-right">Tax:<strong> 0.00 (%)</strong></td>
-				</tr>
-				<tr class="total">
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td class="text-right">Total:<strong> 5750.00 </strong></td>
-				</tr>
-			</table>
+            ' . $this->orderTableCreatePDF($order) . '
             <hr class="my-2">
             <table cellpadding="0" cellspacing="0">				
                 <tr class="information">
@@ -454,10 +414,12 @@ class OrdersController extends Controller
 	</body>
 </html>
 ';
+
         $dompdf->loadHtml($htmlTemplate);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-        return $dompdf->stream();
+        $filename = "invoice-" . $order->agent_code . "-download";
+        return $dompdf->stream($filename . ".pdf");
     }
 
     /**
@@ -474,6 +436,9 @@ class OrdersController extends Controller
 
     public function orderVoucherDownload(Order $order)
     {
+        $roomData = unserialize($order->formdata->form_data_serialize);
+        $hotelListingRepository = new HotelListingRepository;
+        $hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
         $contenidoDinamico = "Prueba";
         $dompdf = new Dompdf();
         $options = new Options();
@@ -619,12 +584,12 @@ class OrdersController extends Controller
                 <table>
                     <tr>
                         <td>
-                        <strong>Hotel, GRAND MIRAGE</strong><br />
-                        Ji pratama ,72-74 tanjung benoa po box 43 nusa dua 80363<br />                           
+                        <strong>' . $hotelsDetails['hotel']['hotel_name'] . '</strong><br />
+                        ' . $hotelsDetails['hotel']['hotel_address'] . '<br />                           
                         </td>
                         <td>                            
                                 
-PNR No.:	7224<br />
+PNR No.:	N/A<br />
                                
                         </td>
                     </tr>
@@ -638,65 +603,36 @@ PNR No.:	7224<br />
 				<tr class="heading">
 					<td>GUEST NAME</td>
 					<td class="text-center">CONTACT NUMBER</td>
-					<td class="text-center">ADULT/S</td>
-					<td class="text-center">CHILD</td>
-					<td class="text-right">INFANT</td>					
+					<td class="text-center">ADULT</td>
+					<td class="text-center">CHILD</td>									
 					<td class="text-right">TOTAL</td>					
 				</tr>				
 				<tr class="item">
-					<td>Mr. Jayesh Patel</td>
-					<td class="text-center">9979888888</td>
-					<td class="text-center">2</td>
-					<td class="text-center">2</td>
-					<td class="text-center">2</td>
-					<td class="text-right">4</td>
+					<td>' . $order->guest_lead . '</td>
+					<td class="text-center">' . $order->guest_phone . '</td>
+					<td class="text-center">' . count($order->adult) . '</td>
+					<td class="text-center">' . count($order->child) . '</td>					
+					<td class="text-right">' . count($order->adult) + count($order->child) . '</td>
 				</tr>				
 			</table>
             <hr class="my-2">
             <table cellpadding="0" cellspacing="0">                   
                             <tr>
                                 <td class="text-left">
-                                     <strong>Check In 22/12/2022</strong><br />                               
+                                     <strong>Check In ' . date('d M, Y', strtotime($order->check_in_date)) . '</strong><br />                               
                                 </td>                       
                                 <td class="text-left">
-                                     <strong>Check Out 27/12/2022</strong><br />                               
+                                     <strong>Check Out ' . date('d M, Y', strtotime($order->check_out_date)) . '</strong><br />                               
                                 </td>                       
                                 <td class="text-right">
-                                     <strong>Night/s 5</strong><br />                               
+                                     <strong>Night/s ' . $order->total_nights . '</strong><br />                               
                                 </td>                       
                             </tr>                      
                 	
 			</table>
 
             <hr class="my-2">
-            <table cellpadding="0" cellspacing="0">			
-				
-				<tr class="heading">
-					<td>ROOM TYPE</td>
-					<td class="text-center">INCLUSION</td>
-					<td class="text-right">PERSON/S</td>				
-				</tr>				
-				<tr class="item">
-					<td>Premier ocean</td>
-					<td class="text-center">WIFI</td>					
-					<td class="text-right">4</td>
-				</tr>				
-			</table>
-            <hr class="my-2">
-            <table cellpadding="0" cellspacing="0">			
-				
-				<tr class="heading">
-					<td>ROOM TYPE</td>
-					<td class="text-center">INCLUSION</td>
-					<td class="text-right">PERSON/S</td>				
-				</tr>				
-				<tr class="item">
-					<td>Premier ocean</td>
-					<td class="text-center">Free Parking</td>					
-					<td class="text-right">4</td>
-				</tr>				
-			</table>
-            <hr class="my-2">
+            ' . $this->roomTableCreate($roomData['cartData']) . '            
             <table cellpadding="0" cellspacing="0">				
                 <tr class="information">
                     <td colspan="2">
@@ -780,6 +716,7 @@ PNR No.:	7224<br />
      */
     public function orderItinerary(Order $order)
     {
+        //dd(count($order->adult));
         return view('admin.order.itinerary', ['model' => $order]);
     }
 
@@ -934,8 +871,8 @@ PNR No.:	7224<br />
 				</tr>				
 				<tr class="item">
 					<td class="">
-                    PNR No: 7224<br />
-                    Lead Pax Name: Sachin k
+                    PNR No: N/A<br />
+                    Lead Pax Name: ' . $order->guest_lead . '
                     </td>				
 				</tr>				
 			</table>
@@ -949,9 +886,9 @@ PNR No.:	7224<br />
 					<td class="text-right">GUEST CONTACT NO.</td>				
 				</tr>				
 				<tr class="item">
-					<td>6 Adult(s) 6 child (3,7,7,7,6,6) years</td>
-					<td class="text-center">Jayesh Patel</td>					
-					<td class="text-right">-</td>
+					<td>' . count($order->adult) . ' Adult, ' . count($order->child) . ' child (' . getChildAge($order->child) . ') years</td>
+					<td class="text-center">' . $order->guest_lead . '</td>					
+					<td class="text-right">' . $order->guest_phone . '</td>
 				</tr>				
 			</table>
             <hr class="my-2">
@@ -963,10 +900,10 @@ PNR No.:	7224<br />
 					
 				</tr>				
 				<tr class="item">
-					<td>GRAND MIRAGE</td>
-					<td class="text-center">2022-12-22</td>					
-					<td class="text-right">2022-12-27</td>
-					<td class="text-right">Premier ocean</td>
+					<td>' . $order->hotel_name . '</td>
+					<td class="text-center">' . date('d M, Y', strtotime($order->check_in_date)) . '</td>					
+					<td class="text-right">' . date('d M, Y', strtotime($order->check_out_date)) . '</td>
+					<td class="text-right">N/A</td>
 				</tr>				
 				<tr class="item">					
 					<td class="text-center" colspan="4">Ji pratama ,72-74 tanjung benoa po box 43 nusa dua 80363</td>					
@@ -1061,8 +998,218 @@ PNR No.:	7224<br />
         $dompdf->loadHtml($htmlTemplate);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-        return $dompdf->stream();
+
+        $filename = "itinerary-" . $order->agent_code . "-download";
+        return $dompdf->stream($filename . ".pdf");
     }
 
-    
+    public function orderTableCreate($order)
+    {
+
+        $subTotal = 0;
+        $total = 0;
+        $tax = 0;
+        $discount = 0;
+
+        $hotelListingRepository = new HotelListingRepository;
+        $hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
+        $requiredParamArr = unserialize($order->formdata->form_data_serialize);
+        $tableStr = '';
+
+        $tableStr .= '<div class="table-responsive mt-2">';
+        $tableStr .= '<table class="table m-0">';
+        $tableStr .= '<thead>';
+        $tableStr .= '<tr>';
+        $tableStr .= '<th class="py-1 pl-4">HOTEL</th>';
+        $tableStr .= '<th class="py-1">Night</th>';
+        $tableStr .= '<th class="py-1">Room</th>';
+        $tableStr .= '<th class="py-1">Adult</th>';
+        $tableStr .= '<th class="py-1">Child</th>';
+        $tableStr .= '<th class="text-right">Total</th>';
+        $tableStr .= '</tr>';
+        $tableStr .= '</thead>';
+        $tableStr .= '</tbody>';
+        if (is_array($requiredParamArr['cartData']) && count($requiredParamArr['cartData']) > 0) {
+            $tableStr .= '<tr>';
+            $tableStr .= '<td class="py-1 pl-4"><p class="font-weight-semibold mb-25">' . $hotelsDetails['hotel']['hotel_name'] . '</p></td>';
+            $tableStr .= '<td class="py-1">' . $order->total_nights . '</td>';
+            $tableStr .= '<td class="py-1">' . $order->total_rooms . '</td>';
+            $tableStr .= '<td class="py-1">' . count($order->adult) . '</td>';
+            $tableStr .= '<td class="py-1">' . count($order->child) . '</td>';
+            $tableStr .= '<td class="py-1"></td>';
+            $tableStr .= '</tr>';
+            foreach ($requiredParamArr['cartData'] as $key => $value) {
+                $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+                $tableStr .= '<tr>';
+                $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $offlineRoom->roomtype->room_type . ' * 1</li></ul></td>';
+                $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="text-right">' . numberFormat($value['finalAmount'], $order->booking_currency) . '</td>';
+                $tableStr .= '</tr>';
+                $subTotal = $subTotal + $value['finalAmount'];
+            }
+
+            $tableStr .= '</tbody>';
+            $tableStr .= '</table>';
+            $tableStr .= '</div>';
+
+            $tableStr .= '<hr class="my-2" />';
+            $tableStr .= '<div class="row invoice-sales-total-wrapper mt-3">';
+            $tableStr .= '<div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">';
+            $tableStr .= '<p class="mb-25 font-weight-bold">Name : Holidays Bookers DMC india pvt.Ltd</p>';
+            $tableStr .= '<p class="mb-25 font-weight-bold">Bank : ICICI BANK LTD</p>';
+            $tableStr .= '<p class="mb-25 font-weight-bold">Branch : 9A, Phelps Building, Connaught Place, New Delhi.</p>';
+            $tableStr .= '<p class="mb-25 font-weight-bold">A/c No : 000705045370</p>';
+            $tableStr .= '<p class="mb-0 font-weight-bold">IFSC Code : ICIC0000007</p>';
+            $tableStr .= '</div>';
+            $tableStr .= '<div class="col-md-6 d-flex justify-content-end order-md-2 order-1">';
+            $tableStr .= '<div class="invoice-total-wrapper">';
+
+            $tableStr .= '<div class="invoice-total-item">';
+            $tableStr .= '<p class="invoice-total-title">Subtotal:</p>';
+            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($subTotal, $order->booking_currency) . '</p>';
+            $tableStr .= '</div>';
+
+            $tableStr .= '<div class="invoice-total-item">';
+            $tableStr .= '<p class="invoice-total-title">Discount:</p>';
+            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($discount, $order->booking_currency) . '</p>';
+            $tableStr .= '</div>';
+
+
+            $tableStr .= '<div class="invoice-total-item">';
+            $tableStr .= '<p class="invoice-total-title">Tax:</p>';
+            $tableStr .= '<p class="invoice-total-amount"> ' . numberFormat($tax, $order->booking_currency) . '</p>';
+            $tableStr .= '</div>';
+
+            $total = ($subTotal + $tax) - $discount;
+            $tableStr .= '<div class="invoice-total-item">';
+            $tableStr .= '<p class="invoice-total-title">Total:</p>';
+            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($total, $order->booking_currency) . '</p>';
+            $tableStr .= '</div>';
+
+            $tableStr .= '</div>';
+            $tableStr .= '</div>';
+            $tableStr .= '</div>';
+        }
+
+        return $tableStr;
+    }
+
+    public function orderTableCreatePDF($order)
+    {
+
+        $subTotal = 0;
+        $total = 0;
+        $tax = 0;
+        $discount = 0;
+
+        $hotelListingRepository = new HotelListingRepository;
+        $hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
+        $requiredParamArr = unserialize($order->formdata->form_data_serialize);
+        $tableStr = '';
+        $tableStr .= '<table cellpadding="0" cellspacing="0">';
+        $tableStr .= '<tr class="heading">';
+        $tableStr .= '<td>HOTEL</td>';
+        $tableStr .= '<td class="text-center">NIGHT</td>';
+        $tableStr .= '<td class="text-center">ROOM</td>';
+        $tableStr .= '<td class="text-center">ADULT</td>';
+        $tableStr .= '<td class="text-center">CHILD</td>';
+        $tableStr .= '<td class="text-right">TOTAL</td>';
+        $tableStr .= '</tr>';
+        $tableStr .= '';
+        if (is_array($requiredParamArr['cartData']) && count($requiredParamArr['cartData']) > 0) {
+            $tableStr .= '<tr class="item">';
+            $tableStr .= '<td class="">' . $hotelsDetails['hotel']['hotel_name'] . '</td>';
+            $tableStr .= '<td class="text-center">' . $order->total_nights . '</td>';
+            $tableStr .= '<td class="text-center">' . $order->total_rooms . '</td>';
+            $tableStr .= '<td class="text-center">' . count($order->adult) . '</td>';
+            $tableStr .= '<td class="text-center">' . count($order->child) . '</td>';
+            $tableStr .= '<td class="text-right"></td>';
+            $tableStr .= '</tr>';
+            foreach ($requiredParamArr['cartData'] as $key => $value) {
+                $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+                $tableStr .= '<tr>';
+                $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $offlineRoom->roomtype->room_type . ' * 1</li></ul></td>';
+                $tableStr .= '<td class="text-center"></td>';
+                $tableStr .= '<td class="text-center"></td>';
+                $tableStr .= '<td class="text-center"></td>';
+                $tableStr .= '<td class="text-center"></td>';
+                $tableStr .= '<td class="text-right">' . numberFormat($value['finalAmount'], $order->booking_currency) . '</td>';
+                $tableStr .= '</tr>';
+                $subTotal = $subTotal + $value['finalAmount'];
+            }
+
+            $tableStr .= '<tr class="total">';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td class="text-right">Subtotal: <strong>' . numberFormat($subTotal, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '</tr>';
+
+            $tableStr .= '<tr class="total">';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td class="text-right">Discount: <strong>' . numberFormat($discount, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '</tr>';
+
+            $tableStr .= '<tr class="total">';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td class="text-right">Tax:<strong> ' . numberFormat($tax, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '</tr>';
+
+            $total = ($subTotal + $tax) - $discount;
+
+            $tableStr .= '<tr class="total">';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td class="text-right">Total:<strong>' . numberFormat($total, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '</tr>';
+        }
+        $tableStr .= '</table>';
+        return $tableStr;
+    }
+
+    public function roomTableCreate($roomData)
+    {
+        $tableStr = '';
+
+
+        if (is_array($roomData) && count($roomData) > 0) {
+            foreach ($roomData as $key => $value) {
+                $tableStr .= '<table cellpadding="0" cellspacing="0">';
+                $tableStr .= '<tr class="heading">';
+                $tableStr .= '<td>ROOM TYPE</td>';
+                $tableStr .= '<td class="text-center">INCLUSION</td>';
+                $tableStr .= '<td class="text-right">PERSON/S</td>';
+                $tableStr .= '</tr>';
+
+                $roomPerson = Order_Room::where('room_id', $value['room_id'])->count();
+                $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+                $tableStr .= '<tr class="item">';
+                $tableStr .= '<td style="width:40%">' . $offlineRoom->roomtype->room_type . '</td>';
+                $tableStr .= '<td class="text-center">N/A</td>';
+                $tableStr .= '<td class="text-right">' . $roomPerson . '</td>';
+                $tableStr .= '</tr>';
+
+                $tableStr .= '</table>';
+                $tableStr .= '<hr class="my-2">';
+            }
+        }
+
+        return $tableStr;
+    }
 }

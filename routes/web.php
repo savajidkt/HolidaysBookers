@@ -269,6 +269,8 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/hotel-details/{id}', [HotelListController::class, 'show'])->name('hotel-details');
     Route::get('/review-your-booking/{id}', [CheckoutController::class, 'checkout'])->name('review-your-booking');
     Route::resource('/checkout', CheckoutController::class);
+
+    Route::post('/get-booking-list', [AgentDashboardController::class, 'getBookingList'])->name('get-booking-list');    
 });
 
 Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {
