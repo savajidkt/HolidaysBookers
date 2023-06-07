@@ -181,6 +181,7 @@ class CheckoutController extends Controller
     }
     public function payOnOnline(Request $request)
     {
+        dd('Back');
         $SafeencryptionObj = new Safeencryption;
         $input = $request->all();
         $api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
@@ -194,16 +195,15 @@ class CheckoutController extends Controller
         //$input['temp_order_id']
         if (count($input)  && !empty($input['razorpay_payment_id']) && !empty($input['temp_order_id'])) {
             try {
-                
                 $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount' => $payment['amount']));
                 if ($response) {
+
                     $res = $this->checkoutRepository->createOrderBooking($data, $response);
                     if ($res) {
                         $this->removeTempData($data);
                         return redirect()->route('checkout.show', [$SafeencryptionObj->encode($res->id)])->with('success', 'Your booking created successfully!');
                     }
                 }
-
             } catch (\Exception $e) {
                 return redirect()->route('review-your-booking', [$SafeencryptionObj->encode($hotelsDetails['hotel']['id'])])->with('error', $e->getMessage());
             }
@@ -213,10 +213,12 @@ class CheckoutController extends Controller
 
     public function payOnOnlineSuccess(Request $request)
     {
+        dd('Succ');
         return view('checkout.rozarpaySuccess');
     }
     public function payOnOnlineFailed(Request $request)
     {
+        dd('Faild');
         return view('checkout.rozarpayFailed');
     }
 

@@ -334,7 +334,7 @@
                                         </div>
                                         <div class="col-auto col-12">
 
-                                            <div class="col-12 mb-2 text-14 text-light-1">
+                                            {{-- <div class="col-12 mb-2 text-14 text-light-1">
                                                 <div class="form-radio d-flex items-center ">
                                                     <div class="radio">
                                                         <input type="radio" name="payment_method" value="1">
@@ -344,7 +344,7 @@
                                                     </div>
                                                     <div class="text-14 lh-1 ml-10">Pay On time limit</div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
                                             @if (availableBalance($user->agents->id) > getFinalAmountChackOut())
                                                 <div class="col-12 mb-2 text-14 text-light-1">

@@ -54,8 +54,8 @@
                             data-buttontext="Pay {{ $dataObj->total_amount . ' ' . $dataObj->currency }}" 
                             data-name="Holidays Bookers"
                             data-description="Booking Razorpay payment" 
-                            data-image="/images/logo-icon.png"
-                            data-prefill.name="{{ $requestData['firstname'] . ' ' . $requestData['firstname'] }}" 
+                            data-image="{{ asset('assets/front/img/favicon.png') }}"
+                            data-prefill.name="{{ $requestData['firstname'] . ' ' . $requestData['lastname'] }}" 
                             data-prefill.email="{{ $requestData['email'] }}"
                             data-theme.color="#ff7529"></script>
                             <input type="hidden" name="temp_order_amount" id="temp_order_amount" value="{{ $dataObj->total_amount }}" />
@@ -63,7 +63,6 @@
                             <input type="hidden" name="merchant_surl_id" id="merchant_surl_id" value="{{ route('razorpaypaymentSuccess') }}"/>
                             <input type="hidden" name="merchant_furl_id" id="merchant_furl_id" value="{{ route('razorpaypaymentFailed') }}"/>
                     </form>
-
                     <div class="w-full h-1 bg-border mt-40 mb-40"></div>
                 </div>
             </div>
