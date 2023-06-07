@@ -3,25 +3,28 @@
 namespace App\Http\Controllers;
 
 
+use Session;
 use App\Models\City;
 use App\Models\User;
+use App\Models\Order;
+use Razorpay\Api\Api;
 use App\Models\Amenity;
 use App\Models\Country;
+
 use App\Models\Checkout;
 use App\Models\OfflineRoom;
 use App\Models\OfflineHotel;
-
 use Illuminate\Http\Request;
 use App\Models\OfflineRoomPrice;
 use App\Libraries\Safeencryption;
+use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\CheckoutRepository;
 use App\Repositories\HotelListingRepository;
 use App\Http\Requests\Checkout\CreateRequest;
-use App\Models\Order;
-use App\Models\WalletTransaction;
 use App\Repositories\HotelRoomListingRepository;
+use Redirect;
 
 class CheckoutController extends Controller
 {
@@ -51,6 +54,7 @@ class CheckoutController extends Controller
         }
         return redirect()->back();
     }
+
 
     public function postLogin(Request $request)
     {
@@ -100,7 +104,7 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-       
+
         $SafeencryptionObj = new Safeencryption;
 
         if ($request->payment_method == 1) {
@@ -121,8 +125,9 @@ class CheckoutController extends Controller
                 return redirect()->back()->with('error', 'Insufficient Balance');
             }
         } else if ($request->payment_method == 3) {
-            //Pay On Online payment
-            //$this->payOnOnline($data);
+            //Pay On Online payment            
+            $dataObj = $this->checkoutRepository->createBooking($request->all());
+            return view('checkout.rozarpay', ['requestData' => $request->all(), 'dataObj' => $dataObj]);
         }
 
         //return redirect()->route('checkout.show', [])->with('error', 'Your booking created successfully!');
@@ -174,9 +179,45 @@ class CheckoutController extends Controller
         }
         return false;
     }
-    public function payOnOnline($data)
+    public function payOnOnline(Request $request)
     {
-        $checkout = Checkout::find($data->id);
+        $SafeencryptionObj = new Safeencryption;
+        $input = $request->all();
+        $api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
+        $payment = $api->payment->fetch($input['razorpay_payment_id']);
+
+        $hotelListingRepository = new HotelListingRepository;
+        $data = Checkout::where('unique_number', $input['temp_order_id'])->first();
+        $extra_data = unserialize($data->extra_data);
+        $hotelsDetails = $hotelListingRepository->hotelDetails(getHotelID($extra_data));
+
+        //$input['temp_order_id']
+        if (count($input)  && !empty($input['razorpay_payment_id']) && !empty($input['temp_order_id'])) {
+            try {
+                
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount' => $payment['amount']));
+                if ($response) {
+                    $res = $this->checkoutRepository->createOrderBooking($data, $response);
+                    if ($res) {
+                        $this->removeTempData($data);
+                        return redirect()->route('checkout.show', [$SafeencryptionObj->encode($res->id)])->with('success', 'Your booking created successfully!');
+                    }
+                }
+
+            } catch (\Exception $e) {
+                return redirect()->route('review-your-booking', [$SafeencryptionObj->encode($hotelsDetails['hotel']['id'])])->with('error', $e->getMessage());
+            }
+        }        
+        return redirect()->route('review-your-booking', [$SafeencryptionObj->encode($hotelsDetails['hotel']['id'])])->with('error', 'internal server error');
+    }
+
+    public function payOnOnlineSuccess(Request $request)
+    {
+        return view('checkout.rozarpaySuccess');
+    }
+    public function payOnOnlineFailed(Request $request)
+    {
+        return view('checkout.rozarpayFailed');
     }
 
     public function PayForAgentWallet($data)
@@ -299,7 +340,7 @@ class CheckoutController extends Controller
             unset($_COOKIE["country_id"]);
             setcookie('country_id', null, -1, '/');
         }
-        setBookingCart('bookingCart', array());        
+        setBookingCart('bookingCart', array());
 
         return $data->forceDelete();
     }

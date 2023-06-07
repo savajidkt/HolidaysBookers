@@ -17,6 +17,26 @@
             display: flex;
             justify-content: space-between
         }
+
+        .razorpay-payment-button {
+            height: 60px !important;
+            color: var(--color-white);
+            background-color: var(--color-blue-1) !important;
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 1;
+            font-weight: 500;
+            font-size: 15px;
+            line-height: 1.2;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
     </style>
 
     <section class="pt-40 layout-pb-md">
@@ -111,9 +131,9 @@
                                         $roomNo = 0;
                                     @endphp
                                     @foreach (getSearchCookies('searchGuestArr') as $key => $value)
-                                    @php
-                                        $roomNo++;
-                                    @endphp
+                                        @php
+                                            $roomNo++;
+                                        @endphp
                                         <div class="border-type-1 rounded-8 px-20 py-20 mt-20">
                                             <div class="row y-gap-20 justify-between">
                                                 <div class="col-auto">
@@ -255,8 +275,9 @@
                                                             <div class="col-md-2">
                                                                 <div class="form-group">
                                                                     <label for="exampleFormControlInput1">Age</label>
-                                                                    <select name="room_no_{{ $roomNo }}[child][age][]" id="age"
-                                                                        class="form-control">
+                                                                    <select
+                                                                        name="room_no_{{ $roomNo }}[child][age][]"
+                                                                        id="age" class="form-control">
                                                                         @for ($j = 2; $j <= 11; $j++)
                                                                             <option value="{{ $j }}"
                                                                                 {{ $value->childAge[$k]->age == $j ? 'selected' : '' }}>
@@ -270,8 +291,10 @@
                                                                 <label for="exampleFormControlInput1"></label>
                                                                 <div class="d-flex items-center">
                                                                     <div class="form-checkbox">
-                                                                        <input type="checkbox" name="room_no_{{ $roomNo }}[child][cwb][]"
-                                                                            {{ $value->childAge[$k]->cwb == 'yes' ? 'checked' : '' }} value="{{ $value->childAge[$k]->cwb }}">
+                                                                        <input type="checkbox"
+                                                                            name="room_no_{{ $roomNo }}[child][cwb][]"
+                                                                            {{ $value->childAge[$k]->cwb == 'yes' ? 'checked' : '' }}
+                                                                            value="{{ $value->childAge[$k]->cwb }}">
                                                                         <div class="form-checkbox__mark">
                                                                             <div class="form-checkbox__icon icon-check">
                                                                             </div>
@@ -361,97 +384,8 @@
                                 </div>
                             </div>
                         </form>
-                    @else
-                        <div class="py-15 px-20 rounded-4 text-15 bg-blue-1-05">
-                            Sign in to book with your saved details or
-                            <a data-x-click="login" href="javascript:void(0);" class="text-blue-1 fw-500">Login</a>
-                            to manage your bookings on the go!
-                        </div>
-                        <h2 class="text-22 fw-500 mt-40 md:mt-24">Guest Details</h2>
-                        <form class="needs-validation1" id="" method="POST" enctype="multipart/form-data"
-                            action="{{ route('post-registration') }}">
-                            @csrf
-                            <div class="row x-gap-20 y-gap-20 pt-20">
-                                <div class="col-md-6">
-                                    <input type="hidden" name="bookingKey" value="{{ $bookingKey }}">
-                                    <div class="form-input ">
-                                        <input id="first_name" type="text"
-                                            class="form-control @error('first_name') is-invalid @enderror"
-                                            name="first_name" value="{{ old('first_name') }}">
-                                        <label class="lh-1 text-14 text-light-1">First Name</label>
-                                    </div>
-                                    @error('first_name')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-input ">
-                                        <input id="last_name" type="text"
-                                            class="form-control @error('last_name') is-invalid @enderror" name="last_name"
-                                            value="{{ old('last_name') }}">
-                                        <label class="lh-1 text-14 text-light-1">Last Name</label>
-                                    </div>
-                                    @error('last_name')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-input ">
-                                        <input id="email" type="email"
-                                            class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ old('email') }}">
-                                        <label class="lh-1 text-14 text-light-1">Email</label>
-                                    </div>
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-input ">
-                                        <input id="password" type="password"
-                                            class="form-control @error('password') is-invalid @enderror" name="password">
-                                        <label class="lh-1 text-14 text-light-1">Password</label>
-                                    </div>
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-
-                                    <div class="form-input ">
-                                        <input type="password" name="password_confirmation" id="password-confirm">
-                                        <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }}</label>
-                                    </div>
-
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                                <input type="hidden" name="type" value="2">
-
-                                <div class="col-12">
-                                    <div class="row y-gap-20 items-center justify-between">
-                                        <div class="col-auto">
-                                            <button type="submit" class="button h-60 px-24 -dark-1 bg-blue-1 text-white">
-                                                Submit <div class="icon-arrow-top-right ml-15"></div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                     @endif
-                    <div class="w-full h-1 bg-border mt-40 mb-40"></div>
+                    <div class="w-full h-1 bg-border mt-40 mb-40"></div>                    
                 </div>
                 <div class="col-xl-5 col-lg-4">
                     <div class="ml-80 lg:ml-40 md:ml-0">
@@ -617,6 +551,9 @@
             </div>
         </div>
     </section>
+
+
+
 @endsection
 @section('page-script')
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>

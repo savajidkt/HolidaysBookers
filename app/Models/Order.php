@@ -65,6 +65,7 @@ class Order extends Model
         'booked_by',
         'prebook_response',
         'booking_response',
+        'razorpay_responce',
         'deadline_date',
         'agent_markup_type',
         'agent_markup_val',

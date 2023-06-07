@@ -270,7 +270,10 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/review-your-booking/{id}', [CheckoutController::class, 'checkout'])->name('review-your-booking');
     Route::resource('/checkout', CheckoutController::class);
 
-    Route::post('/get-booking-list', [AgentDashboardController::class, 'getBookingList'])->name('get-booking-list');    
+    Route::post('/get-booking-list', [AgentDashboardController::class, 'getBookingList'])->name('get-booking-list');        
+    Route::post('razorpaypayment', [CheckoutController::class, 'payOnOnline'])->name('razorpaypayment');
+    Route::post('razorpaypayment-success', [CheckoutController::class, 'payOnOnlineSuccess'])->name('razorpaypaymentSuccess');
+    Route::post('razorpaypayment-failed', [CheckoutController::class, 'payOnOnlineFailed'])->name('razorpaypaymentFailed');
 });
 
 Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {

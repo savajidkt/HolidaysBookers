@@ -53,6 +53,7 @@ class CheckoutRepository
             'payment_method'     => $data['payment_method'],
             'passenger'     => serialize($this->roomPassenger($data)),
             'extra_data'     => serialize($extra_data),
+            'unique_number'     => generateUniqueNumber('order', $langth=4),
         ];
         $CheckoutRepository =  Checkout::create($dataSave);
         return $CheckoutRepository;
@@ -70,7 +71,7 @@ class CheckoutRepository
         return $passenger;
     }
 
-    public function createOrderBooking(Checkout $checkout): Order
+    public function createOrderBooking(Checkout $checkout, $paymentResponce = ''): Order
     {
         $user = User::find($checkout->user_id);
         $extra_data = unserialize($checkout->extra_data);
@@ -111,11 +112,12 @@ class CheckoutRepository
         $OrderData['booked_by'] = 1;
         $OrderData['prebook_response'] = '';
         $OrderData['booking_response'] = '';
+        $OrderData['razorpay_responce'] = serialize($paymentResponce);
         $OrderData['deadline_date'] = '';
         $OrderData['agent_markup_type'] = $user->agents->agent_global_markups_type;
         $OrderData['agent_markup_val'] = $user->agents->agent_global_markup;
         $OrderData['total_price_markup'] = '';
-        $OrderData['is_pay_using'] = $checkout->payment_method;
+        $OrderData['is_pay_using'] = $checkout->payment_method;        
         $OrderData =  Order::create($OrderData);
         $this->addAdultData($passenger, $OrderData->id);
         $this->addChildData($passenger, $OrderData->id);
@@ -132,7 +134,7 @@ class CheckoutRepository
             $RoomData = $this->order_Rooms;
             for ($i = 1; $i <= $roomCount; $i++) {
                 $j = 0;
-                if (is_array($passenger['room_' . $i]['adult']) && count($passenger['room_' . $i]['adult']) > 0) {
+                if ( isset($passenger['room_' . $i]['adult']) &&  is_array($passenger['room_' . $i]['adult']) && count($passenger['room_' . $i]['adult']) > 0) {
                     foreach ($passenger['room_' . $i]['adult']['title'] as $key1 => $value) {
                         $OrderAdult = [];
                         $OrderAdult['order_id'] = $OrderID;
@@ -174,7 +176,7 @@ class CheckoutRepository
             $RoomData = $this->order_Rooms;
             for ($i = 1; $i <= $roomCount; $i++) {
                 $j = 0;
-                if (is_array($passenger['room_' . $i]['child']) && count($passenger['room_' . $i]['child']) > 0) {
+                if ( isset($passenger['room_' . $i]['child']) && is_array($passenger['room_' . $i]['child']) && count($passenger['room_' . $i]['child']) > 0) {
                     foreach ($passenger['room_' . $i]['child']['title'] as $key1 => $value) {
                         $OrderChild = [];
                         $OrderChild['order_id'] = $OrderID;

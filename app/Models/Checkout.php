@@ -22,6 +22,7 @@ class Checkout extends Model
      */
     protected $fillable = [
         'user_id',        
+        'unique_number',        
         'adult',
         'child',
         'room',

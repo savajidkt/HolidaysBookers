@@ -79,7 +79,7 @@ if (!function_exists('_P')) {
     {
         echo "<pre>";
         print_r($data);
-        exit;
+       // exit;
     }
 }
 
@@ -951,5 +951,15 @@ if (!function_exists('getChildAge')) {
         }
         
         return trim($ageString, ',');
+    }
+}
+
+
+if (!function_exists('generateUniqueNumber')) {
+    function generateUniqueNumber($beforeText="order", $langth=4)
+    {
+       
+        $today = date("Ymdhms");
+        return $beforeText.'_'.$today.''.strtoupper(substr(uniqid(sha1(time())),0,$langth));        
     }
 }
