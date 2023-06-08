@@ -45,11 +45,14 @@ class CheckoutController extends Controller
 
     public function checkout($id)
     {
+       
         $SafeencryptionObj = new Safeencryption;
         $hotel_id = $SafeencryptionObj->decode($id);
         $requiredParamArr = getBookingCart('bookingCart');
+        
         if ($requiredParamArr) {
-            $hotelsDetails = $this->hotelListingRepository->hotelDetails($hotel_id);
+            $hotelsDetails = $this->hotelListingRepository->hotelDetailsArr($hotel_id);
+            
             return view('checkout.checkout', ['hotelsDetails' => $hotelsDetails, 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
         }
         return redirect()->back();
@@ -181,7 +184,7 @@ class CheckoutController extends Controller
     }
     public function payOnOnline(Request $request)
     {
-        dd('Back');
+        
         $SafeencryptionObj = new Safeencryption;
         $input = $request->all();
         $api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
@@ -190,14 +193,14 @@ class CheckoutController extends Controller
         $hotelListingRepository = new HotelListingRepository;
         $data = Checkout::where('unique_number', $input['temp_order_id'])->first();
         $extra_data = unserialize($data->extra_data);
-        $hotelsDetails = $hotelListingRepository->hotelDetails(getHotelID($extra_data));
+        $hotelsDetails = $this->hotelListingRepository->hotelDetailsArr(getHotelID($extra_data));
+       
 
         //$input['temp_order_id']
         if (count($input)  && !empty($input['razorpay_payment_id']) && !empty($input['temp_order_id'])) {
             try {
                 $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount' => $payment['amount']));
                 if ($response) {
-
                     $res = $this->checkoutRepository->createOrderBooking($data, $response);
                     if ($res) {
                         $this->removeTempData($data);
@@ -205,9 +208,11 @@ class CheckoutController extends Controller
                     }
                 }
             } catch (\Exception $e) {
+               
                 return redirect()->route('review-your-booking', [$SafeencryptionObj->encode($hotelsDetails['hotel']['id'])])->with('error', $e->getMessage());
             }
-        }        
+        }  
+            
         return redirect()->route('review-your-booking', [$SafeencryptionObj->encode($hotelsDetails['hotel']['id'])])->with('error', 'internal server error');
     }
 
@@ -297,7 +302,7 @@ class CheckoutController extends Controller
         $Order = Order::find($OrderID);
         if ($Order) {
             $requiredParamArr = unserialize($Order->formdata->form_data_serialize);
-            $hotelsDetails = $this->hotelListingRepository->hotelDetails($Order->hotel_id);
+            $hotelsDetails = $this->hotelListingRepository->hotelDetailsArr($Order->hotel_id);
             return view('checkout.thank-you', ['order' => $Order, 'hotelsDetails' => $hotelsDetails, 'requiredParamArr' => $requiredParamArr]);
         }
         return redirect()->route('home');

@@ -17,6 +17,7 @@ class HotelRoomListingRepository
     public function hotelRoomLists(array $param)
     {
         $searchGuestArr = getSearchCookies('searchGuestArr');
+       
         $tempRoomId=[];
         foreach($searchGuestArr as $key=>$room){
             $adults = 0;
@@ -41,10 +42,9 @@ class HotelRoomListingRepository
             })->where('occ_sleepsmax','>=',$adults)->where('status', OfflineRoom::ACTIVE)->where('hotel_id', $param['filterObjParamHotelID'])->limit(2)->get();
             $hotelRooms->loadMissing('price');
             //$tempRoomId[]= $hotelRooms->id;
-            dd($hotelRooms);
+            
         }
-        dd($tempRoomId);
-die;
+       
         $roomListingArray=[];
         $roomPriceListingArray=[];
         foreach ($hotelRooms as $key => $roomPrice) {

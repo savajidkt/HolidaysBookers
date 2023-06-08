@@ -78,7 +78,7 @@ class CheckoutRepository
         $this->order_Rooms = $extra_data['cartData'];
         $passenger = unserialize($checkout->passenger);
         $hotelListingRepository = new HotelListingRepository;
-        $hotelsDetails = $hotelListingRepository->hotelDetails(getHotelID($extra_data));
+        $hotelsDetails = $hotelListingRepository->hotelDetailsArr(getHotelID($extra_data));
         $passengerLead = getGuestLeadDetails($passenger);
 
         $OrderData = [];

@@ -31,10 +31,10 @@ class HotelListController extends Controller
     }
 
     public function index(Request $request)
-    {       
+    {
 
         $country =  [];
-        $requestedArr = [];       
+        $requestedArr = [];
 
         $amenitiesArr = Amenity::all();
         if (isset($request->country_id)) {
@@ -48,7 +48,7 @@ class HotelListController extends Controller
             $requestedArr['search_to'] = "";
         }
 
-        if( $request->search_from == null || $request->search_to == null ){
+        if ($request->search_from == null || $request->search_to == null) {
             $dateArr = explode(' - ', $request->daterange);
             $requestedArr['search_from'] = date('Y-m-d', strtotime($dateArr[0]));
             $requestedArr['search_to'] = date('Y-m-d', strtotime($dateArr[1]));
@@ -59,7 +59,7 @@ class HotelListController extends Controller
         $requestedArr['child'] = getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0;
         $requestedArr['room'] = getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1;
         $requestedArr['extra_data'] = getSearchCookies('searchGuestArr');
-        
+
 
         return view('hotel.hotel-list', ['requestedArr' => $requestedArr, 'country' => $country, 'amenitiesArr' => $amenitiesArr]);
     }
@@ -85,7 +85,7 @@ class HotelListController extends Controller
             $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
             $hotelListArray = $this->hotelListingRepository->hotelLists($request);
-           
+
             $hotelCount = $this->hotelListingRepository->hotelCount($request);
             //$hotelList = (object) $hotelListArray;
             //$hotelList->loadMissing(['rooms']);
@@ -122,20 +122,23 @@ class HotelListController extends Controller
 
     public function show($id)
     {
-        $safeencryptionObj = new Safeencryption;       
-        $requestParam = unserialize($safeencryptionObj->decode($id));      
+        $safeencryptionObj = new Safeencryption;
+        $requestParam = unserialize($safeencryptionObj->decode($id));
         if (!$requestParam['hotel_id']) {
             return redirect()->route('home');
         }
 
         $hotelsRelated = [];
-        $hotelsDetails = $this->hotelListingRepository->hotelDetails($requestParam['hotel_id']);
-        
+        $hotelsRoomDetails = $this->hotelListingRepository->hotelDetails($requestParam['hotel_id']);
+        if (!$hotelsRoomDetails) {
+            return redirect()->route('home');
+        }
+        $hotelsDetails = $this->hotelListingRepository->hotelDetailsArr($requestParam['hotel_id']);
         
         if ($hotelsDetails) {
             $hotelsRelated = $this->hotelListingRepository->hotelRelated($hotelsDetails['hotel']);
-        }       
+        }
 
-        return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj, 'requestParam' => $requestParam, 'id' => $id, 'bookingCartArr' => getBookingCart('bookingCart')]);
+        return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRoomDetails' => $hotelsRoomDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj, 'requestParam' => $requestParam, 'id' => $id, 'bookingCartArr' => getBookingCart('bookingCart')]);
     }
 }

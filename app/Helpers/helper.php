@@ -79,7 +79,7 @@ if (!function_exists('_P')) {
     {
         echo "<pre>";
         print_r($data);
-       // exit;
+        // exit;
     }
 }
 
@@ -542,15 +542,35 @@ function get_day_wise_children_price($room_price_id, $param)
             if ($child->child > 0) {
                 foreach ($child->childAge as $key1 => $value) {
                     $roomChildPrice = OfflineRoomChildPrice::query();
-                    $roomChildPrice = $roomChildPrice->where(function ($query) use ($value) {
-                        $query->whereRaw("'" . $value->age . "' between min_age and max_age");
-                    });
+                    // $roomChildPrice = $roomChildPrice->where(function ($query) use ($value) {
+                    //     $query->whereRaw("'" . $value->age . "' between min_age and max_age");
+                    // });
                     $roomChildPrice = $roomChildPrice->where('price_id', $room_price_id)->get();
                     if ($value->cwb == 'yes') {
                         $childPrice = $roomChildPrice->sum('cwb_price');
                     } else {
                         $childPrice = $roomChildPrice->sum('cnb_price');
                     }
+                }
+            }
+        }
+    }
+    return $childPrice;
+}
+
+
+function getChildrenPrice($searchGuestArr, $price)
+{
+
+    //dd($price->price_p_n_cwb);
+    $childPrice = 0;
+    foreach ($searchGuestArr as $key => $room) {
+        if (is_array($room->childAge) && count($room->childAge)) {
+            foreach ($room->childAge as $key1 => $room1) {
+                if( $room1->cwb == "yes" ){
+                    $childPrice = $childPrice + $price->price_p_n_cwb;
+                } else {
+                    $childPrice = $childPrice + $price->price_p_n_cob;
                 }
             }
         }
@@ -663,16 +683,20 @@ if (!function_exists('getAgentRoomPrice')) {
 
     function getAgentRoomPrice($price, $hotelsDetails)
     {
+
         $calculateAmount = 0;
         $user = auth()->user();
-        //dd($user->agents->agentsmarkup);
         //1=Offline, 2=API 
         if ($hotelsDetails['hotel']['hotel_type'] == 1) {
+
             // Admin Product Markup in (%)
             $productMarkupArr = getProductWiseMarkup($hotelsDetails, 'Offline Hotel');
             // Admin Agent Markup
             $agentmarkupArr = getAgentWiseMarkup($hotelsDetails, $user, 'Offline Hotel');
-            $calculateAmount = getFinalAmount($price, $productMarkupArr, $agentmarkupArr);
+            // Agent Global Markup
+            $agentglobalmarkupArr = getAgentGlobalWiseMarkup($hotelsDetails, $user, 'Offline Hotel');
+
+            $calculateAmount = getFinalAmount($price, $productMarkupArr, $agentmarkupArr, $agentglobalmarkupArr);
         }
 
         return $calculateAmount;
@@ -721,10 +745,68 @@ if (!function_exists('getAgentWiseMarkup')) {
         return $returnArr;
     }
 }
+if (!function_exists('getAgentGlobalWiseMarkup')) {
+
+    function getAgentGlobalWiseMarkup($hotelsDetails, $user, $productName)
+    {
+        $returnArr = [];
+        $returnArr['type'] = '';
+        $returnArr['amount'] = 0;
+        $returnArr['percentage'] = 0;
+
+        if ($hotelsDetails['hotel']['hotel_type'] == 1) {
+            if ($user->agents->agent_global_markups_type == 1) {
+                $returnArr['type'] = 'percentage';
+                $returnArr['percentage'] = $user->agents->agent_global_markup;
+            } else if ($user->agents->agent_global_markups_type == 2) {
+                $returnArr['type'] = 'fix';
+                $returnArr['amount'] = $user->agents->agent_global_markup;
+            }
+        }
+
+        return $returnArr;
+    }
+}
 
 if (!function_exists('getFinalAmount')) {
 
-    function getFinalAmount($price, $productMarkupArr, $agentmarkupArr)
+    function getFinalAmount($price, $productMarkupArr, $agentmarkupArr, $agentglobalmarkupArr)
+    {
+
+        $returnArr = [];
+        $returnArr['originAmount'] = $price;
+        $returnArr['productMarkupAmount'] = 0;
+        $returnArr['agentMarkupAmount'] = 0;
+        $returnArr['finalAmount'] = 0;
+        if (is_array($productMarkupArr)) {
+            if ($productMarkupArr['type'] == "percentage") {
+                $returnArr['productMarkupAmount'] = (float) $price * (float) $productMarkupArr['percentage'] / 100;
+            } else {
+                $returnArr['productMarkupAmount'] = $productMarkupArr['amount'];
+            }
+        }
+        if (is_array($agentmarkupArr)) {
+            if ($agentmarkupArr['type'] == "percentage") {
+                $returnArr['agentMarkupAmount'] = (float) $price * (float) $agentmarkupArr['percentage'] / 100;
+            } else {
+                $returnArr['agentMarkupAmount'] = $agentmarkupArr['amount'];
+            }
+        }
+        if (is_array($agentglobalmarkupArr)) {
+            if ($agentglobalmarkupArr['type'] == "percentage") {
+                $returnArr['agentGlobalMarkupAmount'] = (float) $price * (float) $agentglobalmarkupArr['percentage'] / 100;
+            } else {
+                $returnArr['agentGlobalMarkupAmount'] = $agentglobalmarkupArr['amount'];
+            }
+        }
+        $returnArr['finalAmount'] = (float) $price + (float) $returnArr['productMarkupAmount'] + (float) $returnArr['agentMarkupAmount'] + (float) $returnArr['agentGlobalMarkupAmount'];
+        return $returnArr;
+    }
+}
+
+if (!function_exists('getFinalAmountOLD')) {
+
+    function getFinalAmountOLD($price, $productMarkupArr, $agentmarkupArr)
     {
 
         $returnArr = [];
@@ -945,21 +1027,21 @@ if (!function_exists('getChildAge')) {
     {
         $ageString = "";
         if (count($data) > 0) {
-            foreach ($data as $key => $value) {                
-                $ageString .= $value->child_age.",";
+            foreach ($data as $key => $value) {
+                $ageString .= $value->child_age . ",";
             }
         }
-        
+
         return trim($ageString, ',');
     }
 }
 
 
 if (!function_exists('generateUniqueNumber')) {
-    function generateUniqueNumber($beforeText="order", $langth=4)
+    function generateUniqueNumber($beforeText = "order", $langth = 4)
     {
-       
+
         $today = date("Ymdhms");
-        return $beforeText.'_'.$today.''.strtoupper(substr(uniqid(sha1(time())),0,$langth));        
+        return $beforeText . '_' . $today . '' . strtoupper(substr(uniqid(sha1(time())), 0, $langth));
     }
 }
