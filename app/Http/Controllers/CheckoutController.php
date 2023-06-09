@@ -246,8 +246,7 @@ class CheckoutController extends Controller
                     'comment'     => 'Booking Hotel',
                     'balance'     => numberFormat($balance),
                 ];
-                //return $this->checkoutRepository->updateCredit($dataDebit);
-                return true;
+                return $this->checkoutRepository->updateCredit($dataDebit);                
             }
         }
         return false;
