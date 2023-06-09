@@ -94,7 +94,6 @@ class HotelListController extends Controller
                 'message'       => 'successfully.',
                 'page'          => $page,
                 'count'          => $hotelCount,
-
                 'data'          => view('hotel.hotel-block-list', [
                     'hotelList'         => $hotelListArray['data'],
                     'hotelListModel'         => $hotelListArray['model'],
@@ -110,6 +109,7 @@ class HotelListController extends Controller
     {
         if ($request->ajax()) {
             $hotelRooms = $this->hotelRoomListingRepository->hotelRoomLists($request->all());
+         //  dd($hotelRooms);
             return response()->json([
                 'status'        => 200,
                 'message'       => 'successfully.',

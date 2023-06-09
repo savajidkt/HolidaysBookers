@@ -1,6 +1,8 @@
 @if (count($hotelRooms) > 0)
 
     @foreach ($hotelRooms as $room)
+
+
         <div class="row bg-blue-2 mt-20">
             <h3 class="text-18 fw-500 mb-10 mt-10">
                 {{ $room['room_type'] }}
@@ -59,7 +61,7 @@
                                     <div class="px-40 lg:px-0">
                                         {{-- <div class="text-12 text-red-2">2 Left! (Static)</div> --}}
                                         <div class="text-12 text-red-2"><del> {{ $price['currency']}} {{ $price['market_price']}}</del></div>
-                                        <div class="text-15 fw-500 ">{{ $price['currency']}} {{ $price['total_price']}}</div><span class="text-red-2">Per night/person</span>
+                                        <div class="text-15 fw-500 ">{{ $price['currency']}} {{ $price['finalAmount']}}</div><span class="text-red-2">Per night/person</span>
                                     </div>
                                 </div>
                                 <div

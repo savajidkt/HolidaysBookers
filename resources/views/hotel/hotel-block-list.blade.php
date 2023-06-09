@@ -3,7 +3,9 @@
 @endphp
 @if (count($hotelList)>0)
     @foreach ($hotelList as $hotel)
-    
+   @if ( isset($hotel['room']['finalAmount']) && $hotel['room']['finalAmount'] > 0)
+       
+  
         <div class="col-12 topScroll" data-hot="{{ $hotel['id'] }}">
             <div class="border-top-light pt-30">
                 <div class="row x-gap-20 y-gap-20">
@@ -119,15 +121,13 @@
                                     {{ $hotel['hotel_review'] }}</div>
                             </div>
                         </div>
+                        
                         <div class="">
                             <div class="text-14 text-light-1 mt-50 md:mt-20">{{ $hotel['room']['min_nights']?? 0 }} nights, {{ $hotel['room']['occ_max_adults']?? 0 }} adult
                             </div>
                             <div class="text-22 lh-12 fw-600 mt-5">
-                                {{ $hotel['room']['price']?? 00 }}
-                            </div>
-                                @if(isset($hotel['room']['tax_price']) && $hotel['room']['tax_price'] > 0)
-                                <div class="text-14 text-light-1 mt-5">{{ $hotel['room']['currency'] }} {{ $hotel['room']['tax_price'] }}  with all taxes and charges</div>
-                                @endif
+                                {{ numberFormat($hotel['room']['finalAmount']?? 0, $hotel['room']['currency']?? 0) }}
+                            </div>                              
                            
                             <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see"
                                 class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
@@ -207,6 +207,7 @@
                 {!! $hotel['hotel_description'] !!}
             </div>
         </div>
+        @endif
     @endforeach
 @else
     <div class="col-12 topScroll">

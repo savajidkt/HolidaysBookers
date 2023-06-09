@@ -15,113 +15,134 @@ class HotelRoomListingRepository
 {
 
     public function hotelRoomLists(array $param)
-    {
-        $searchGuestArr = getSearchCookies('searchGuestArr');
+    {       
+        $searchGuestArr = getSearchCookies('searchGuestArr');       
        
-        $tempRoomId=[];
-        foreach($searchGuestArr as $key=>$room){
+        if (!$searchGuestArr) {                     
+            return false;        
+        }
+
+        $hotelsDetails = OfflineHotel::find($param['filterObjParamHotelID'])->toArray();
+        if (!$hotelsDetails) {
+            return false; 
+        }
+
+        $hotelArr['hotel'] = $hotelsDetails;
+
+        
+        $tempRoomId = [];
+        foreach ($searchGuestArr as $key => $room) {
             $adults = 0;
             $adults = $room->adult + $room->child;
             $hotelRooms = OfflineRoom::with(['price'])->where(function ($query) use ($param) {
-                if (strlen($param['filterObjParamStartDate']) > 0 && strlen($param['filterObjParamEndDate']) > 0) {
+                if (strlen(getSearchCookies('search_from')) > 0 && strlen(getSearchCookies('search_to')) > 0) {
                     $query->whereHas('price', function ($query) use ($param) {
-                        $startDate = Carbon::createFromFormat('Y-m-d', $param['filterObjParamStartDate']);
-                        $endDate = Carbon::createFromFormat('Y-m-d', $param['filterObjParamEndDate']);                    
-                        $query->whereDate('from_date','<=', $startDate);
-                        $query->whereDate('to_date','>=', $endDate);
+                        $startDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_from'));
+                        $endDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_to'));
+                        $query->whereDate('from_date', '<=', $startDate);
+                        $query->whereDate('to_date', '>=', $endDate);
                         $query->groupBy('meal_plan_id');
-                        //$query->where('price_type1','!=',OfflineRoomPrice::STOPSALE);
                     });
-
                     $query->whereDoesntHave('price', function ($query) use ($param) {
-                        $query->where('price_type',OfflineRoomPrice::STOPSALE);
+                        $query->where('price_type', OfflineRoomPrice::STOPSALE);
                     });
-
-                    //$query->orderBy('price_p_n_single_adult')->orderBy('price_p_n_single_adult','asc');
                 }
-            })->where('occ_sleepsmax','>=',$adults)->where('status', OfflineRoom::ACTIVE)->where('hotel_id', $param['filterObjParamHotelID'])->limit(2)->get();
+            })->where('occ_sleepsmax', '>=', $adults)->where('status', OfflineRoom::ACTIVE)->where('hotel_id', $param['filterObjParamHotelID'])->get();
             $hotelRooms->loadMissing('price');
-            //$tempRoomId[]= $hotelRooms->id;
-            
         }
+        
        
-        $roomListingArray=[];
-        $roomPriceListingArray=[];
+        $roomListingArray = [];
+        $roomPriceListingArray = [];
         foreach ($hotelRooms as $key => $roomPrice) {
-            $roomPriceListingArray=[];
+         // dd($roomPrice->mealplan->toArray());
+            $roomPriceListingArray = [];
+            $roomTempArray = [];
             $roomListingArray[$key]['hotel_id'] = $roomPrice->hotel_id;
             $roomListingArray[$key]['room_id'] = $roomPrice->id;
+            $roomListingArray[$key]['min_nights'] = $roomPrice->min_nights;
             $roomListingArray[$key]['room_type'] = $roomPrice->roomtype->room_type;
             $roomListingArray[$key]['room_type'] = $roomPrice->roomtype->room_type;
+            $roomTempArray['room'] = $roomPrice->toArray();
+            $roomTempArray['room']['room_amenities'] = $roomPrice->roomamenity->toArray();
+            $roomTempArray['room']['room_mealplans'] = isset($roomPrice->mealplan) ? $roomPrice->mealplan->toArray() : [];
+            $roomTempArray['room']['room_freebies'] = $roomPrice->roomfreebies->toArray();
+            $roomTempArray['room']['room_images'] = $roomPrice->images->toArray();
+            $roomTempArray['room']['room_types'] = $roomPrice->roomtype->toArray();
+            $roomTempArray['room']['room_child'] = [];
+            $roomTempArray['room']['room_facilities'] = [];
 
-            $startDate = Carbon::createFromFormat('Y-m-d', $param['filterObjParamStartDate']);
-            $endDate = Carbon::createFromFormat('Y-m-d', $param['filterObjParamEndDate']);
-            $normalDays=0;
-            $promoDays=0;
-            $blackDays=0;
-            $normalDaysPrice=0;
-            $promoDaysPrice=0;
-            $blackDaysPrice=0;
-            $childPrice=0;
-            foreach($roomPrice->price as $pkey=> $price){
+            $startDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_from'));
+            $endDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_to'));
+
+            $normalDays = 0;
+            $promoDays = 0;
+            $blackDays = 0;
+            $normalDaysPrice = 0;
+            $promoDaysPrice = 0;
+            $blackDaysPrice = 0;
+            $childPrice = 0;
+            foreach ($roomPrice->price as $pkey => $price) {
+                
                 $filterObjParamChild = getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0;
-                if($price->price_type == OfflineRoomPrice::NORMAL){
-                    $normalDays = $normalDays + dateDiffInDays($startDate,$endDate);
+                if ($price->price_type == OfflineRoomPrice::NORMAL) {
+                    $normalDays = $normalDays + dateDiffInDays($startDate, $endDate);
                     $normalDaysPrice = $price->price_p_n_single_adult;
-                   
-                    if($filterObjParamChild >0){
-                        $childPrice = get_day_wise_children_price($price->id,$param);
+                    if ($filterObjParamChild > 0) {
+                        $childPrice = getChildrenPrice($searchGuestArr, $price);
                     }
-                    
                 }
-                if($price->price_type == OfflineRoomPrice::PROMOTIONAL){
-                    $promoDays = $promoDays + dateDiffInDays($price->from_date,$price->to_date);
+                if ($price->price_type == OfflineRoomPrice::PROMOTIONAL) {
+                    $promoDays = $promoDays + dateDiffInDays($price->from_date, $price->to_date);
                     $promoDaysPrice = $price->price_p_n_single_adult * $promoDays;
-                    if($filterObjParamChild >0){
-                        $childPrice = get_day_wise_children_price($price->id,$param);
+                    if ($filterObjParamChild > 0) {
+                        $childPrice = getChildrenPrice($searchGuestArr, $price);
                     }
-                   
                 }
-                if($price->price_type == OfflineRoomPrice::BLACKOUTSALE){
-                    $blackDays = $blackDays + dateDiffInDays($price->from_date,$price->to_date);
+                if ($price->price_type == OfflineRoomPrice::BLACKOUTSALE) {
+                    $blackDays = $blackDays + dateDiffInDays($price->from_date, $price->to_date);
                     $blackDaysPrice = $price->price_p_n_single_adult * $blackDays;
-                    if($filterObjParamChild >0){
-                        $childPrice = get_day_wise_children_price($price->id,$param);
+                    if ($filterObjParamChild > 0) {
+                        $childPrice = getChildrenPrice($searchGuestArr, $price);
                     }
-                    
                 }
-            }
+            }      
+            
             $normalDays = ($normalDays - ($promoDays + $blackDays));
             $normalDaysPrice = $normalDaysPrice * $normalDays;
             $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice + $childPrice);
-
-            $GroupByPrices = OfflineRoomPrice::where('room_id',$roomPrice->id)->groupBy('meal_plan_id')->get();
-
-
-            foreach($GroupByPrices as $pkey=> $price){
+            $GroupByPrices = OfflineRoomPrice::where('id', $price->id)->groupBy('meal_plan_id')->get();
+            
+            foreach ($GroupByPrices as $pkey => $price) {
+                $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr);
                 $roomPriceListingArray[$pkey]['price_id'] = $price->id;
                 $roomPriceListingArray[$pkey]['meal_plan'] = $price->mealplan->name;
                 $roomPriceListingArray[$pkey]['meal_plan_short'] = getCharacterOfString($price->mealplan->name);
-
                 $roomPriceListingArray[$pkey]['currency'] = $price->currency->code;
                 $roomPriceListingArray[$pkey]['market_price'] = numberFormat($price->market_price);
                 $roomPriceListingArray[$pkey]['price_p_n_single_adult'] = numberFormat($finalRoomPrice);
                 $roomPriceListingArray[$pkey]['price_p_n_cwb'] = numberFormat($price->price_p_n_cwb);
                 $roomPriceListingArray[$pkey]['price_p_n_cob'] = numberFormat($price->price_p_n_cob);
                 $roomPriceListingArray[$pkey]['price_p_n_ccob'] = numberFormat($price->price_p_n_ccob);
-                $roomPriceListingArray[$pkey]['total_price'] = numberFormat($finalRoomPrice); // + $price->price_p_n_cwb
-
+                $roomPriceListingArray[$pkey]['normal_day'] = (int) $normalDays; // + $price->price_p_n_cwb
+                $roomPriceListingArray[$pkey]['normal_price'] = numberFormat($normalDaysPrice); // + $price->price_p_n_cwb
+                $roomPriceListingArray[$pkey]['child_price'] = numberFormat($childPrice); // + $price->price_p_n_cwb
+                $roomPriceListingArray[$pkey]['originAmount'] = numberFormat(($total_priceArr['originAmount']) ? $total_priceArr['originAmount'] : 0);
+                $roomPriceListingArray[$pkey]['adminproductMarkupAmount'] = numberFormat(($total_priceArr['productMarkupAmount']) ? $total_priceArr['productMarkupAmount'] : 0);
+                $roomPriceListingArray[$pkey]['adminagentMarkupAmount'] = numberFormat(($total_priceArr['agentMarkupAmount']) ? $total_priceArr['agentMarkupAmount'] : 0);
+                $roomPriceListingArray[$pkey]['agentMarkupAmount'] = numberFormat(($total_priceArr['agentGlobalMarkupAmount']) ? $total_priceArr['agentGlobalMarkupAmount'] : 0);
+                $roomPriceListingArray[$pkey]['finalAmount'] = numberFormat(($total_priceArr['finalAmount']) ? $total_priceArr['finalAmount'] : 0);
             }
-
+            
             usort($roomPriceListingArray, function ($item1, $item2) {
-                return $item1['total_price'] <=> $item2['total_price'];
+                return $item1['finalAmount'] <=> $item2['finalAmount'];
             });
-            //$roomListingArray[$key]['room_facilities'] = $price->facilities->toArray();
+          
             $roomListingArray[$key]['room_facilities'] = [];
             $roomListingArray[$key]['room_price'] = $roomPriceListingArray;
-            
+            //$roomListingArray[$key]['room_data_arr'] = $roomTempArray;
         }
-        //dd($roomListingArray);
+        
         return $roomListingArray;
     }
 

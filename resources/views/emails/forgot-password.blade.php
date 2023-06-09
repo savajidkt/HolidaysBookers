@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="x-apple-disable-message-reformatting">
-	<title>Bandelli Survey - Forgot Password Template</title>
+	<title>Holidays Bookers - Forgot Password Template</title>
 	
 	<style>
 		html, body { margin:0 auto !important; padding:0 !important; height:100% !important; width:100% !important; background:#f9f9f9; }
@@ -127,7 +127,7 @@
 							<tr>
 								<td>
 									<div class="main_title" style="text-align:center;">
-										<h2>Welcome to Bandelli Survey</h2>
+										<h2>Welcome to Holidays Bookers</h2>
 										<img src="{{ asset('images/graphic2.png') }}" alt=""/>
 										<p style="color:#7E888F;">Forgot your password? That’s ok, it happens. Click on the button below to reset your password.</p>
 										<a href="{{ $url }}" class="btn_custom">Reset Password</a>

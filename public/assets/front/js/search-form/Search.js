@@ -662,6 +662,7 @@ function getAllRoomslList(hotel_id) {
 
                 $('.slide-out-div-' + hotel_id).html('');
                 $('.slide-out-div-' + hotel_id).html(data.data);
+                $('.slide-out-div-' + hotel_id).removeClass('is-hide');
 
                 if ($('.slide-out-div-' + hotel_id).is(":hidden")) {
                     $('.slide-out-div-' + hotel_id).slideDown("slow");

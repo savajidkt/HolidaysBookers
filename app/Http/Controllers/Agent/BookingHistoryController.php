@@ -69,7 +69,8 @@ class BookingHistoryController extends Controller
         if ($Order) {
             $hotelListingRepository = new HotelListingRepository;
             $requiredParamArr = unserialize($Order->formdata->form_data_serialize);
-            $hotelsDetails = $hotelListingRepository->hotelDetails($Order->hotel_id);
+            $hotelsDetails = $hotelListingRepository->hotelDetailsArr($Order->hotel_id);
+           // dd($hotelsDetails);
             return view('agent.booking-history.view', ['pagename' => $pagename, 'order' => $Order, 'hotelsDetails' => $hotelsDetails, 'requiredParamArr' => $requiredParamArr]);
         }
         return redirect()->route('home');
@@ -322,7 +323,7 @@ class BookingHistoryController extends Controller
         $discount = 0;
 
         $hotelListingRepository = new HotelListingRepository;
-        $hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
+        $hotelsDetails = $hotelListingRepository->hotelDetailsArr($order->hotel_id);
         $requiredParamArr = unserialize($order->formdata->form_data_serialize);
         $tableStr = '';
         $tableStr .= '<table cellpadding="0" cellspacing="0">';
