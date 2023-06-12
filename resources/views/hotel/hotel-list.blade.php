@@ -1210,6 +1210,8 @@
             filterObjParamEndPrice: filterObj.end_price_range,
             ajaxRoomURL: "{!! route('room-list-ajax') !!}",
             addToWishList: "{!! route('add-to-wishlist') !!}",
+            addedToCartBooking: "{!! route('ajax-temp-store') !!}",
+            removeToCartBooking: "{!! route('ajax-temp-remove') !!}",
         };
 
 

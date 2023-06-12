@@ -78,11 +78,11 @@ class HotelListingRepository
 
                 $hotelsDetails = OfflineHotel::find($hotel->id)->toArray();
        
-        $hotelArr['hotel'] = $hotelsDetails;
+                $hotelArr['hotel'] = $hotelsDetails;
 
                 $searchGuestArr = getSearchCookies('searchGuestArr'); 
                 $startDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_from'));
-            $endDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_to'));
+                $endDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_to'));
 
                 $normalDays = 0;
                 $promoDays = 0;
@@ -303,7 +303,7 @@ class HotelListingRepository
             $roomListingArray[$key]['room_price'] = $roomPriceListingArray;
             $roomListingArray[$key]['room_data_arr'] = $roomTempArray;
         }
-       // dd($roomListingArray);
+        
         return $roomListingArray;
     }
 

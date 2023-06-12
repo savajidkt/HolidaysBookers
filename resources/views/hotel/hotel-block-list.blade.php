@@ -4,8 +4,7 @@
 @if (count($hotelList)>0)
     @foreach ($hotelList as $hotel)
    @if ( isset($hotel['room']['finalAmount']) && $hotel['room']['finalAmount'] > 0)
-       
-  
+      
         <div class="col-12 topScroll" data-hot="{{ $hotel['id'] }}">
             <div class="border-top-light pt-30">
                 <div class="row x-gap-20 y-gap-20">
@@ -127,12 +126,83 @@
                             </div>
                             <div class="text-22 lh-12 fw-600 mt-5">
                                 {{ numberFormat($hotel['room']['finalAmount']?? 0, $hotel['room']['currency']?? 0) }}
-                            </div>                              
+                            </div> 
+                            
+                            @php
                            
-                            <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see"
+                            $bookingParam = [];
+                              
+                            $bookingParam = [
+                                'hotel_id' => isset($hotel['room']['hotel_id']) ? $hotel['room']['hotel_id'] : '',
+                                'room_id' => isset($hotel['room']['room_id']) ? $hotel['room']['room_id'] : '',
+                                'price_id' => isset($hotel['room']['price_id']) ? $hotel['room']['price_id'] : '',
+                                'adult' => (getSearchCookies('searchGuestAdultCount')) ? getSearchCookies('searchGuestAdultCount') : 0,
+                                'child' => (getSearchCookies('searchGuestChildCount')) ? getSearchCookies('searchGuestChildCount') : 0,
+                                'room' => (getSearchCookies('searchGuestRoomCount')) ? getSearchCookies('searchGuestRoomCount') : 0,
+                                'city_id' => isset($requestParam['requested_city_id']) ? $requestParam['requested_city_id'] : '',
+                                'search_from' => isset($requestParam['requested_search_from']) ? $requestParam['requested_search_from'] : '',
+                                'search_to' => isset($requestParam['requested_search_to']) ? $requestParam['requested_search_to'] : '',
+                                'originAmount' => isset($hotel['room']['originAmount']) ? numberFormat($hotel['room']['originAmount']) : '',
+                                'productMarkupAmount' => isset($hotel['room']['adminproductMarkupAmount']) ? numberFormat($hotel['room']['adminproductMarkupAmount']) : '',
+                                'agentMarkupAmount' => isset($hotel['room']['adminagentMarkupAmount']) ? numberFormat($hotel['room']['adminagentMarkupAmount']) : '',
+                                'agentGlobalMarkupAmount' => isset($hotel['room']['agentMarkupAmount']) ? numberFormat($hotel['room']['agentMarkupAmount']) : '',
+                                'finalAmount' => isset($hotel['room']['finalAmount']) ? numberFormat($hotel['room']['finalAmount']) : '',
+                                
+                            ];
+                                    
+                            $isAddedCart = false;       
+                            @endphp
+
+@if (is_array($bookingCartArr) && count($bookingCartArr))
+@foreach ($bookingCartArr as $key => $value)
+    @if ($value['hotel_id'] == $hotel['room']['hotel_id'] && $value['room_id'] == $hotel['room']['room_id'])
+        @php
+            $isAddedCart = true;
+        @endphp
+    @endif
+@endforeach
+@endif
+                           
+
+@if ($isAddedCart)
+<a href="{{ route('review-your-booking', $safeencryptionObj->encode($hotel['room']['hotel_id'])) }}"
+    class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
+    <span class="icons">View</span>
+    <div class="icon-arrow-top-right ml-15"></div>
+</a>
+
+<button type="button"
+    data-extra="{{ selectRoomBooking($bookingParam, true) }}"
+    class="button h-50 px-24 -dark-1 bg-red-1 text-white mt-5 RemoveRoomBook">
+    <span class="icons">REMOVE</span>
+    <div class="icon-trash ml-15"></div>
+    <div class="fa fa-spinner fa-spin ml-15"
+        style="display: none;"></div>
+</button>
+<a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see"
                                 class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
                                 See More <div class="icon-eye ml-15"></div>
                             </a>
+@else
+<button type="button"
+    data-extra="{{ selectRoomBooking($bookingParam, true) }}"
+    class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+    <span class="icons">Add</span>
+    <div class="icon-arrow-top-right ml-15"></div>
+    <div class="fa fa-spinner fa-spin ml-15"
+        style="display: none;"></div>
+</button>
+<a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see"
+                                class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
+                                See More <div class="icon-eye ml-15"></div>
+                            </a>
+@endif
+
+                          
+
+                           
+                            
+                            
                         </div>
                     </div>
                 </div>

@@ -293,6 +293,74 @@ $(document).ready(function () {
     FrmSearchPreference.init();
 
 
+    $(document).on('click', '.SelectRoomBook', function () {
+        $(this).closest('.SelectRoomBook').find('.icon-arrow-top-right').hide();
+        $(this).closest('.SelectRoomBook').find('.fa-spin').show();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function () {
+                //$(this).closest('.SelectRoomBook').find('.icon-arrow-top-right').hide();
+                // $(this).closest('.SelectRoomBook').find('.fa-spin').show();
+            },
+            complete: function () {
+                $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
+                $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
+            },
+            type: 'POST',
+            url: moduleConfig.addedToCartBooking,
+            dataType: 'json',
+            data: {
+                extra: $(this).attr('data-extra')
+            },
+            success: function (data) {
+                // if (data.status) {
+                //     window.location.replace(data.redirectURL);
+                // }
+                window.location.reload();
+                $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
+                $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
+            }
+        });
+    });
+
+    $(document).on('click', '.RemoveRoomBook', function () {
+        $(this).closest('.RemoveRoomBook').find('.icon-trash').hide();
+        $(this).closest('.RemoveRoomBook').find('.fa-spin').show();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function () {
+               
+            },
+            complete: function () {
+                $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
+                $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.icon-trash').show();
+            },
+            type: 'POST',
+            url: moduleConfig.removeToCartBooking,
+            dataType: 'json',
+            data: {
+                extra: $(this).attr('data-extra')
+            },
+            success: function (data) {
+                // if (data.status) {
+                //     window.location.replace(data.redirectURL);
+                // }
+                window.location.reload();
+                $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
+                $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.icon-trash').show();
+            }
+        });
+    });
+    
+
     var daterange_transfer_returns = check_in_startDate;
     $(function () {
         $('input[name="daterange"]').daterangepicker({

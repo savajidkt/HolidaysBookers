@@ -85,7 +85,6 @@ class HotelListController extends Controller
             $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
             $hotelListArray = $this->hotelListingRepository->hotelLists($request);
-
             $hotelCount = $this->hotelListingRepository->hotelCount($request);
             //$hotelList = (object) $hotelListArray;
             //$hotelList->loadMissing(['rooms']);
@@ -100,6 +99,7 @@ class HotelListController extends Controller
                     'hotelCount'         => $hotelCount,
                     'safeencryptionObj'          => $SafeencryptionObj,
                     'requestParam'          => $request->all(),
+                   'bookingCartArr' => getBookingCart('bookingCart')
                 ])->render()
             ]);
         }
@@ -109,12 +109,15 @@ class HotelListController extends Controller
     {
         if ($request->ajax()) {
             $hotelRooms = $this->hotelRoomListingRepository->hotelRoomLists($request->all());
-         //  dd($hotelRooms);
+            $SafeencryptionObj = new Safeencryption;
             return response()->json([
                 'status'        => 200,
                 'message'       => 'successfully.',
                 'data'          => view('hotel.hotel-rooms-block-list', [
-                    'hotelRooms'         => $hotelRooms
+                    'hotelRooms'         => $hotelRooms,
+                    'requestParam'          => $request->all(),
+                    'bookingCartArr' => getBookingCart('bookingCart'),
+                    'safeencryptionObj' =>  $SafeencryptionObj,
                 ])->render()
             ]);
         }
@@ -139,6 +142,7 @@ class HotelListController extends Controller
             $hotelsRelated = $this->hotelListingRepository->hotelRelated($hotelsDetails['hotel']);
         }
 
+     
         return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRoomDetails' => $hotelsRoomDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj, 'requestParam' => $requestParam, 'id' => $id, 'bookingCartArr' => getBookingCart('bookingCart')]);
     }
 }
