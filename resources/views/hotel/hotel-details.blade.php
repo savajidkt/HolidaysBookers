@@ -576,11 +576,15 @@
                                                         @endif
 
                                                         @if ($isAddedCart)
-                                                            <a href="{{ route('review-your-booking', $safeencryptionObj->encode($rooms['hotel_id'])) }}"
+                                                            <a href="javascript:void(0);"
+                                                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
+                                                                <span class="icons">Added</span>
+                                                            </a>
+                                                            {{-- <a href="{{ route('review-your-booking', $safeencryptionObj->encode($rooms['hotel_id'])) }}"
                                                                 class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
                                                                 <span class="icons">View</span>
                                                                 <div class="icon-arrow-top-right ml-15"></div>
-                                                            </a>
+                                                            </a> --}}
 
                                                             <button type="button"
                                                                 data-extra="{{ selectRoomBooking($bookingParam, true) }}"
@@ -761,6 +765,8 @@
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
     <script src="{{ asset('assets/front/js/Check-out.js') }}"></script>
+    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+    
     <script type="text/javascript">
         var moduleConfig = {
             searchLocationByName: "{!! route('city-hotel-list') !!}",

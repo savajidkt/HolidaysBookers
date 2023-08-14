@@ -29,7 +29,7 @@ var FrmSearchPreference = function () {
                 error.insertAfter(element);
             },
             submitHandler: function (form) {
-               
+
                 createCookie('location', JSON.stringify($('#location').val()), 1);
                 createCookie('hidden_city_id', JSON.stringify($('.hidden_city_id').val()), 1);
                 createCookie('country_id', JSON.stringify($('.hidden_country_id').val()), 1);
@@ -60,15 +60,19 @@ var FrmSearchPreference = function () {
                     success: function (data) {
                         var CityData = [];
                         response($.map(data.data, function (item) {
-                            CityData.push({ 'city_id': item.id, 'city': item.name, 'country': item.country, 'country_id': item.country_id });
+                            CityData.push({
+                                'city_id': item.id,
+                                'city': item.name,
+                                'country': item.country,
+                                'country_id': item.country_id
+                            });
                         }));
                         liveSearches(CityData);
                     }
                 });
             },
             minLength: 3,
-            select: function (event, ui) {
-            },
+            select: function (event, ui) {},
             open: function () {
                 $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
             },
@@ -121,8 +125,7 @@ var FrmSearchPreference = function () {
                     }
                 });
                 $.ajax({
-                    beforeSend: function () {
-                    },
+                    beforeSend: function () {},
                     complete: function () {
                         $('.SelectSignin').find('.fa-spin').hide();
                         $('.SelectSignin').find('.icon-arrow-top-right').show();
@@ -139,14 +142,14 @@ var FrmSearchPreference = function () {
                         if (data.status) {
                             string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-success-1 pl-30 pr-20 py-30 rounded-8">
-                  <div class="text-success-2 lh-1 fw-500">`+ data.message + `</div>
+                  <div class="text-success-2 lh-1 fw-500">` + data.message + `</div>
                   </div>
                           </div>`;
                             window.location.reload();
                         } else {
                             string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
-                              <div class="text-error-2 lh-1 fw-500">`+ data.message + `</div>                             
+                              <div class="text-error-2 lh-1 fw-500">` + data.message + `</div>                             
                             </div>
                           </div>`;
                         }
@@ -223,8 +226,7 @@ var FrmSearchPreference = function () {
                     }
                 });
                 $.ajax({
-                    beforeSend: function () {
-                    },
+                    beforeSend: function () {},
                     complete: function () {
                         $('.SelectSignin').find('.fa-spin').hide();
                         $('.SelectSignin').find('.icon-arrow-top-right').show();
@@ -239,13 +241,13 @@ var FrmSearchPreference = function () {
                             if (data.email) {
                                 string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
-                              <div class="text-error-2 lh-1 fw-500">`+ data.email + `</div>                             
+                              <div class="text-error-2 lh-1 fw-500">` + data.email + `</div>                             
                             </div>
                           </div>`;
                             } else if (data.password) {
                                 string = `<div class="col-12 messageError">
                                 <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
-                                  <div class="text-error-2 lh-1 fw-500">`+ data.password + `</div>                             
+                                  <div class="text-error-2 lh-1 fw-500">` + data.password + `</div>                             
                                 </div>
                               </div>`;
                             }
@@ -254,7 +256,7 @@ var FrmSearchPreference = function () {
 
                             string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-success-1 pl-30 pr-20 py-30 rounded-8">
-                  <div class="text-success-2 lh-1 fw-500">`+ data.message + `</div>
+                  <div class="text-success-2 lh-1 fw-500">` + data.message + `</div>
                   </div>
                           </div>`;
                             window.location.reload();
@@ -262,7 +264,7 @@ var FrmSearchPreference = function () {
                         } else {
                             string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
-                              <div class="text-error-2 lh-1 fw-500">`+ data.message + `</div>                             
+                              <div class="text-error-2 lh-1 fw-500">` + data.message + `</div>                             
                             </div>
                           </div>`;
                         }
@@ -309,6 +311,17 @@ $(document).ready(function () {
             complete: function () {
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
+                swal({
+                    title: "",
+                    text: "Added to cart successfully",
+                    type: 'success',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                
+                setTimeout(function(){
+                    window.location.reload();
+                 }, 2000);
             },
             type: 'POST',
             url: moduleConfig.addedToCartBooking,
@@ -320,7 +333,7 @@ $(document).ready(function () {
                 // if (data.status) {
                 //     window.location.replace(data.redirectURL);
                 // }
-                window.location.reload();
+                //window.location.reload();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
             }
@@ -337,11 +350,21 @@ $(document).ready(function () {
         });
         $.ajax({
             beforeSend: function () {
-               
+
             },
             complete: function () {
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.icon-trash').show();
+                swal({
+                    title: "",
+                    text: "Remove to cart successfully",
+                    type: 'error',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                setTimeout(function(){
+                    window.location.reload();
+                 }, 2000);
             },
             type: 'POST',
             url: moduleConfig.removeToCartBooking,
@@ -353,13 +376,13 @@ $(document).ready(function () {
                 // if (data.status) {
                 //     window.location.replace(data.redirectURL);
                 // }
-                window.location.reload();
+               //window.location.reload();
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.icon-trash').show();
             }
         });
     });
-    
+
 
     var daterange_transfer_returns = check_in_startDate;
     $(function () {
@@ -424,6 +447,7 @@ $(document).ready(function () {
         } else if (type == "map") {
             if ($('.map-' + hotel_id).is(":hidden")) {
                 $('.map-' + hotel_id).slideDown('slow');
+                $('.map-' + hotel_id).removeClass('is-hide');
 
                 $('.slide-out-div-' + hotel_id).slideUp('slow');
                 $('.images-' + hotel_id).slideUp('slow');
@@ -434,6 +458,7 @@ $(document).ready(function () {
         } else if (type == "images") {
             if ($('.images-' + hotel_id).is(":hidden")) {
                 $('.images-' + hotel_id).slideDown('slow');
+                $('.images-' + hotel_id).removeClass('is-hide');
 
                 $('.slide-out-div-' + hotel_id).slideUp('slow');
                 $('.map-' + hotel_id).slideUp('slow');
@@ -445,6 +470,7 @@ $(document).ready(function () {
         } else if (type == "description") {
             if ($('.description-' + hotel_id).is(":hidden")) {
                 $('.description-' + hotel_id).slideDown('slow');
+                $('.description-' + hotel_id).removeClass('is-hide');
 
                 $('.slide-out-div-' + hotel_id).slideUp('slow');
                 $('.map-' + hotel_id).slideUp('slow');
@@ -504,7 +530,7 @@ function FrmAddMoreGuest() {
             <div class="col-lg-3 text-center">
                 <div class="fw-500 mb-4">Room</div>
                 <div class="">
-                    <label class="lh-1 text-16 fw-500 text-dark-1 roomNumber">`+ totalNub + `</label>
+                    <label class="lh-1 text-16 fw-500 text-dark-1 roomNumber">` + totalNub + `</label>
                 </div>
             </div>
             <div class="col-lg-3 text-center">
@@ -573,14 +599,12 @@ function FrmAddMoreGuest() {
                 });
 
             });
-            totalArray.push(
-                {
-                    room: RoomsCount,
-                    adult: parseInt($(this).find(".adult :selected").val()),
-                    child: parseInt($(this).find(".child :selected").val()),
-                    childAge: tempChildArr
-                }
-            );
+            totalArray.push({
+                room: RoomsCount,
+                adult: parseInt($(this).find(".adult :selected").val()),
+                child: parseInt($(this).find(".child :selected").val()),
+                childAge: tempChildArr
+            });
         });
         createCookie('searchGuestArr', JSON.stringify(totalArray), 1);
         createCookie('searchGuestRoomCount', JSON.stringify(RoomsCount), 1);
@@ -735,7 +759,7 @@ function getAllRoomslList(hotel_id) {
                 if ($('.slide-out-div-' + hotel_id).is(":hidden")) {
                     $('.slide-out-div-' + hotel_id).slideDown("slow");
                 } else {
-                    $('.slide-out-div-' + hotel_id).slideUp('slow');
+                    //$('.slide-out-div-' + hotel_id).slideUp('slow');
                 }
 
             }
