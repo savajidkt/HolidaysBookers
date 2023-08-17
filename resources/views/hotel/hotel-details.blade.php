@@ -473,7 +473,7 @@
                 <div class="col-auto">
                     <h3 class="text-22 fw-500">Available Rooms</h3>
                 </div>
-            </div>            
+            </div>
             @if (isset($hotelsRoomDetails) && count($hotelsRoomDetails) > 0)
                 @php
                     $i = 0;
@@ -542,74 +542,70 @@
                                                             1 night</div> --}}
                                                         <div class="text-20 lh-14 fw-500">
                                                             @if (is_array($rooms['room_price']) && count($rooms['room_price']))
-                                                            {{ numberFormat($rooms['room_price'][0]['finalAmount'], globalCurrency()) }}</div>
-                                                            @endif
-                                                        @php
-                                                            if (is_array($rooms['room_price']) && count($rooms['room_price'])) {
-                                                                $bookingParam = [
-                                                                    'hotel_id' => isset($rooms['hotel_id']) ? $rooms['hotel_id'] : '',
-                                                                    'room_id' => isset($rooms['room_id']) ? $rooms['room_id'] : '',
-                                                                    'price_id' => isset($rooms['room_price'][0]['price_id']) ? $rooms['room_price'][0]['price_id'] : '',
-                                                                    'adult' => isset($requestParam['adult']) ? $requestParam['adult'] : '',
-                                                                    'child' => isset($requestParam['child']) ? $requestParam['child'] : '',
-                                                                    'room' => isset($requestParam['room']) ? $requestParam['room'] : '',
-                                                                    'city_id' => isset($requestParam['city_id']) ? $requestParam['city_id'] : '',
-                                                                    'search_from' => isset($requestParam['search_from']) ? $requestParam['search_from'] : '',
-                                                                    'search_to' => isset($requestParam['search_to']) ? $requestParam['search_to'] : '',
-                                                                    'originAmount' => isset($rooms['room_price'][0]['originAmount']) ? numberFormat($rooms['room_price'][0]['originAmount']) : '',
-                                                                    'productMarkupAmount' => isset($rooms['room_price'][0]['adminproductMarkupAmount']) ? numberFormat($rooms['room_price'][0]['adminproductMarkupAmount']) : '',
-                                                                    'agentMarkupAmount' => isset($rooms['room_price'][0]['adminagentMarkupAmount']) ? numberFormat($rooms['room_price'][0]['adminagentMarkupAmount']) : '',
-                                                                    'agentGlobalMarkupAmount' => isset($rooms['room_price'][0]['agentMarkupAmount']) ? numberFormat($rooms['room_price'][0]['agentMarkupAmount']) : '',
-                                                                    'finalAmount' => isset($rooms['room_price'][0]['finalAmount']) ? numberFormat($rooms['room_price'][0]['finalAmount']) : '',
-                                                                ];
-                                                            }
-                                                            $isAddedCart = false;
-                                                        @endphp
-                                                        @if (is_array($bookingCartArr) && count($bookingCartArr))
-                                                            @foreach ($bookingCartArr as $key => $value)
-                                                                @if ($value['hotel_id'] == $rooms['hotel_id'] && $value['room_id'] == $rooms['room_id'])
-                                                                    @php
-                                                                        $isAddedCart = true;
-                                                                    @endphp
-                                                                @endif
-                                                            @endforeach
-                                                        @endif
+                                                                {{ numberFormat($rooms['room_price'][0]['finalAmount'], globalCurrency()) }}
+                                                        </div>
+                        @endif
+                        @php
+                            if (is_array($rooms['room_price']) && count($rooms['room_price'])) {
+                                $bookingParam = [
+                                    'hotel_id' => isset($rooms['hotel_id']) ? $rooms['hotel_id'] : '',
+                                    'room_id' => isset($rooms['room_id']) ? $rooms['room_id'] : '',
+                                    'price_id' => isset($rooms['room_price'][0]['price_id']) ? $rooms['room_price'][0]['price_id'] : '',
+                                    'adult' => isset($requestParam['adult']) ? $requestParam['adult'] : '',
+                                    'child' => isset($requestParam['child']) ? $requestParam['child'] : '',
+                                    'room' => isset($requestParam['room']) ? $requestParam['room'] : '',
+                                    'city_id' => isset($requestParam['city_id']) ? $requestParam['city_id'] : '',
+                                    'search_from' => isset($requestParam['search_from']) ? $requestParam['search_from'] : '',
+                                    'search_to' => isset($requestParam['search_to']) ? $requestParam['search_to'] : '',
+                                    'originAmount' => isset($rooms['room_price'][0]['originAmount']) ? numberFormat($rooms['room_price'][0]['originAmount']) : '',
+                                    'productMarkupAmount' => isset($rooms['room_price'][0]['adminproductMarkupAmount']) ? numberFormat($rooms['room_price'][0]['adminproductMarkupAmount']) : '',
+                                    'agentMarkupAmount' => isset($rooms['room_price'][0]['adminagentMarkupAmount']) ? numberFormat($rooms['room_price'][0]['adminagentMarkupAmount']) : '',
+                                    'agentGlobalMarkupAmount' => isset($rooms['room_price'][0]['agentMarkupAmount']) ? numberFormat($rooms['room_price'][0]['agentMarkupAmount']) : '',
+                                    'finalAmount' => isset($rooms['room_price'][0]['finalAmount']) ? numberFormat($rooms['room_price'][0]['finalAmount']) : '',
+                                ];
+                            }
+                            $isAddedCart = false;
+                        @endphp
+                        @if (is_array($bookingCartArr) && count($bookingCartArr))
+                            @foreach ($bookingCartArr as $key => $value)
+                                @if ($value['hotel_id'] == $rooms['hotel_id'] && $value['room_id'] == $rooms['room_id'])
+                                    @php
+                                        $isAddedCart = true;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        @endif
 
-                                                        @if ($isAddedCart)
-                                                            <a href="javascript:void(0);"
-                                                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
-                                                                <span class="icons">Added</span>
-                                                            </a>
-                                                            {{-- <a href="{{ route('review-your-booking', $safeencryptionObj->encode($rooms['hotel_id'])) }}"
+                        @if ($isAddedCart)
+                            <a href="javascript:void(0);" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
+                                <span class="icons">Added</span>
+                            </a>
+                            {{-- <a href="{{ route('review-your-booking', $safeencryptionObj->encode($rooms['hotel_id'])) }}"
                                                                 class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
                                                                 <span class="icons">View</span>
                                                                 <div class="icon-arrow-top-right ml-15"></div>
                                                             </a> --}}
 
-                                                            <button type="button"
-                                                                data-extra="{{ selectRoomBooking($bookingParam, true) }}"
-                                                                class="button h-50 px-24 -dark-1 bg-red-1 text-white mt-5 RemoveRoomBook">
-                                                                <span class="icons">REMOVE</span>
-                                                                <div class="icon-trash ml-15"></div>
-                                                                <div class="fa fa-spinner fa-spin ml-15"
-                                                                    style="display: none;"></div>
-                                                            </button>
-                                                        @else
-                                                            <button type="button"
-                                                                data-extra="{{ selectRoomBooking($bookingParam, true) }}"
-                                                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
-                                                                <span class="icons">SELECT ROOM</span>
-                                                                <div class="icon-arrow-top-right ml-15"></div>
-                                                                <div class="fa fa-spinner fa-spin ml-15"
-                                                                    style="display: none;"></div>
-                                                            </button>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                        @endforeach
-                    @endif
+                            {{-- <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
+                                class="button h-50 px-24 -dark-1 bg-red-1 text-white mt-5 RemoveRoomBook">
+                                <span class="icons">REMOVE</span>
+                                <div class="icon-trash ml-15"></div>
+                                <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                            </button> --}}
+                        @else
+                            <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
+                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+                                <span class="icons">SELECT ROOM</span>
+                                <div class="icon-arrow-top-right ml-15"></div>
+                                <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                            </button>
+                        @endif
+        </div>
+        </div>
+        </div>
+        </div>
+        @endforeach
+        @endif
         </div>
         </div>
         </div>
@@ -757,16 +753,13 @@
     </section>
 @endsection
 @section('page-script')
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
+    <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
+    <script src="{{ asset('assets/front/js/cdn.jsdelivr.net_momentjs_latest_moment.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/cdn.jsdelivr.net_npm_daterangepicker_daterangepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/code.jquery.com_ui_1.13.2_jquery-ui.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
-    <script src="{{ asset('assets/front/js/Check-out.js') }}"></script>
-    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
-    
+    <script src="{{ asset('assets/front/js/common.olemiss.edu__js_sweet-alert_sweet-alert.min.js') }}"></script>
     <script type="text/javascript">
         var moduleConfig = {
             searchLocationByName: "{!! route('city-hotel-list') !!}",

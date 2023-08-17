@@ -256,7 +256,7 @@ class CheckoutController extends Controller
     public function ajaxTempStore(Request $request)
     {
         $SafeencryptionObj = new Safeencryption;
-        $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));
+        $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));        
         $cart = [];
         if (is_array(getBookingCart('bookingCart')) && count(getBookingCart('bookingCart')) > 0) {
             $bookingCart = getBookingCart('bookingCart');
@@ -268,7 +268,7 @@ class CheckoutController extends Controller
         }
         return response()->json([
             'status' => true,
-            //'redirectURL' => route('review-your-booking'),
+            'redirectURL' => route('review-your-booking', $SafeencryptionObj->encode($requiredParamArr['hotel_id'])),
             'message' => ''
         ]);
     }

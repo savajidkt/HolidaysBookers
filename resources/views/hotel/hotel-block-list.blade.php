@@ -156,6 +156,14 @@
     <span class="icons">Added</span>
     
 </a>
+{{-- <button type="button"
+    data-extra="{{ selectRoomBooking($bookingParam, true) }}"
+    class="button h-50 px-24 -dark-1 bg-red-1 text-white mt-5 RemoveRoomBook">
+    <span class="icons">REMOVE</span>
+    <div class="icon-trash ml-15"></div>
+    <div class="fa fa-spinner fa-spin ml-15"
+        style="display: none;"></div>
+</button> --}}
 {{-- <a href="{{ route('review-your-booking', $safeencryptionObj->encode($hotel['room']['hotel_id'])) }}"
     class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
     <span class="icons">View</span>

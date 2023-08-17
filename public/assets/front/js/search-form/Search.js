@@ -296,6 +296,7 @@ $(document).ready(function () {
 
 
     $(document).on('click', '.SelectRoomBook', function () {
+       
         $(this).closest('.SelectRoomBook').find('.icon-arrow-top-right').hide();
         $(this).closest('.SelectRoomBook').find('.fa-spin').show();
         $.ajaxSetup({
@@ -311,17 +312,7 @@ $(document).ready(function () {
             complete: function () {
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
-                swal({
-                    title: "",
-                    text: "Added to cart successfully",
-                    type: 'success',
-                    showConfirmButton: false,
-                    timer: 2000,
-                });
                 
-                setTimeout(function(){
-                    window.location.reload();
-                 }, 2000);
             },
             type: 'POST',
             url: moduleConfig.addedToCartBooking,
@@ -330,12 +321,46 @@ $(document).ready(function () {
                 extra: $(this).attr('data-extra')
             },
             success: function (data) {
-                // if (data.status) {
-                //     window.location.replace(data.redirectURL);
-                // }
+                if (data.status) {                    
+                    swal({
+                        title: "",
+                        text: "Added to cart successfully",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'Checkout now',
+                        cancelButtonText: "Continue shopping",
+                        closeOnConfirm: false,
+                        closeOnCancel: true
+                    },
+                    function(resp) {
+                        if (resp) {                           
+                            window.location = data.redirectURL; 
+                        } else {                          
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                   
+                    swal({
+                        title: "",
+                        text: "Added to cart failed",
+                        type: "error",                       
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'OK',                        
+                        closeOnConfirm: true
+                    },
+                    function(resp) {           
+                        if (resp) {
+                            window.location.reload();
+                        } 
+                    });
+                   
+                }
                 //window.location.reload();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
-                $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
+                $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();               
+                
             }
         });
     });

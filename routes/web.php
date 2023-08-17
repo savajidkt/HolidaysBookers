@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\AboutUsController;
@@ -50,12 +51,12 @@ use App\Http\Controllers\Agent\WishlistController as AgentWishlistController;
 use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
 use App\Http\Controllers\Agent\MyProfileController as AgentMyProfileController;
+use App\Http\Controllers\Agent\QuotationController as AgentQuotationController;
+use App\Http\Controllers\Agent\TransactionController as AgentTransactionController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Corporate\DashboardController as CorporateDashboardController;
 use App\Http\Controllers\Agent\BookingHistoryController as AgentBookingHistoryController;
 use App\Http\Controllers\Agent\TravelCalendarController as AgentTravelCalendarController;
-use App\Http\Controllers\Agent\TransactionController as AgentTransactionController;
-use App\Http\Controllers\Agent\QuotationController as AgentQuotationController;
 
 
 
@@ -274,6 +275,11 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::post('razorpaypayment', [CheckoutController::class, 'payOnOnline'])->name('razorpaypayment');
     Route::post('razorpaypayment-success', [CheckoutController::class, 'payOnOnlineSuccess'])->name('razorpaypaymentSuccess');
     Route::post('razorpaypayment-failed', [CheckoutController::class, 'payOnOnlineFailed'])->name('razorpaypaymentFailed');
+
+    Route::get('cart', [CartController::class, 'index'])->name('cart');
+    Route::post('remove-cart-hotel', [CartController::class, 'removeCartHotel'])->name('remove-cart-hotel');
+    Route::post('save-cart-quote', [CartController::class, 'saveCartQuote'])->name('save-cart-quote');
+    Route::get('remove-cart', [CartController::class, 'removeCart'])->name('remove-cart');
 });
 
 Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {

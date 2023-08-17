@@ -385,7 +385,7 @@
                             </div>
                         </form>
                     @endif
-                    <div class="w-full h-1 bg-border mt-40 mb-40"></div>                    
+                    <div class="w-full h-1 bg-border mt-40 mb-40"></div>
                 </div>
                 <div class="col-xl-5 col-lg-4">
                     <div class="ml-80 lg:ml-40 md:ml-0">
@@ -556,7 +556,7 @@
 
 @endsection
 @section('page-script')
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/Check-out.js') }}"></script>
     <script type="text/javascript">
