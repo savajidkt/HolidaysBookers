@@ -8,7 +8,7 @@ var FrmCheckoutPreference = function () {
             errorElement: 'span',
             errorClass: 'help-block help-block-error',
             focusInvalid: false,
-            ignore: "",
+            ignore: ".ignore",
             rules: {
                 firstname: {
                     required: true,
@@ -259,11 +259,43 @@ $(document).ready(function () {
         }
     });
 
-    $('.addvalidation').each(function () {
+    $('.addvalidation').each(function () {        
         $(this).rules("add", {
             required: true
             });
            
     });    
+    $('.lead_addvalidation').each(function () {
+
+        $(this).rules("add", {
+            required: true
+            });
+           
+    });    
+
+    checkboxPassenger();
+
+    $('.passengersEvent').change(function () {
+        if ($(this).val() == "all") {
+            $('.all_passengers').removeClass('hide');
+            $('.lead_passengers').addClass('hide');
+        } else {
+            $('.lead_passengers').removeClass('hide');
+            $('.all_passengers').addClass('hide');
+        }
+        checkboxPassenger();
+    });
+
+    function checkboxPassenger() {
+        if ($('.passengersEvent:checked').val() == 'all') {
+            $('.addvalidation, .lead_addvalidation').removeClass('ignore');
+            $('.lead_addvalidation').addClass('ignore');
+        } else {
+            $('.addvalidation, .lead_addvalidation').removeClass('ignore');
+            $('.addvalidation').addClass('ignore');
+        }
+    }
+
+
 
 });

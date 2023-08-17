@@ -37,8 +37,15 @@
             border: 1px solid transparent;
             transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-    </style>
 
+        .total-review .review-list li {
+            display: block;
+        }
+    </style>
+    @php
+        $Taxes_and_fees = 3;
+        $Taxes_and_fees_amt = 0;
+    @endphp
     <section class="pt-40 layout-pb-md">
         <div class="container">
             <div class="row">
@@ -125,194 +132,264 @@
                                 </div>
 
                                 <h2 class="text-22 fw-500 mt-40 md:mt-24">Passenger Details</h2>
-                                {{-- {{ dd(getSearchCookies('searchGuestArr')) }} --}}
-                                @if (is_array(getSearchCookies('searchGuestArr')) && getSearchCookies('searchGuestArr') > 0)
+                                @if (is_array($requiredParamArr) && $requiredParamArr > 0)
                                     @php
                                         $roomNo = 0;
                                     @endphp
-                                    @foreach (getSearchCookies('searchGuestArr') as $key => $value)
-                                        @php
-                                            $roomNo++;
-                                        @endphp
-                                        <div class="border-type-1 rounded-8 px-20 py-20 mt-20">
-                                            <div class="row y-gap-20 justify-between">
-                                                <div class="col-auto">
-                                                    <div class="fw-500">Room {{ $key + 1 }}
+                                    <div class="border-type-1 rounded-8 px-20 py-20 mt-20">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="d-flex">
+                                                    <div class="form-checkbox mt-5">
+                                                        <input class="form-check-input passengersEvent" type="radio"
+                                                            name="passengers" value="lead" checked>
+                                                        <div class="form-checkbox__mark">
+                                                            <div class="form-checkbox__icon icon-check"></div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-auto text-right md:text-left">
-                                                    <div class="fw-500">Adult</div>
+                                                    <div class="text-15 lh-15 text-light-1 ml-10"> Enter the lead passenger
+                                                        data only</div>
                                                 </div>
                                             </div>
-                                            <div class="py-5 border-top-light"></div>
-                                            @if ($value->adult > 0)
-                                                @for ($i = 1; $i <= $value->adult; $i++)
-                                                    <div class="row x-gap-20 y-gap-20 pt-5">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlSelect1">Title</label>
-                                                                <select class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[adult][title][]">
-                                                                    <option value="Mr">Mr.</option>
-                                                                    <option value="Ms">Ms.</option>
-                                                                    <option value="Mrs">Mrs.</option>
-                                                                </select>
-                                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex">
+                                                    <div class="form-checkbox mt-5">
+                                                        <input class="form-check-input passengersEvent" type="radio"
+                                                            name="passengers" value="all" >
+                                                        <div class="form-checkbox__mark">
+                                                            <div class="form-checkbox__icon icon-check"></div>
                                                         </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">First Name</label>
-                                                                <input type="text" class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[adult][firstname][]">
+                                                    </div>
+                                                    <div class="text-15 lh-15 text-light-1 ml-10"> Enter the data for all
+                                                        passengers</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="py-5 border-top-light mt-20"></div>
+                                        <div class="row all_passengers hide">
+                                            <div class="col-12">
+                                                @foreach ($requiredParamArr as $key => $value)
+                                                    @php
+                                                        
+                                                        $roomNo++;
+                                                        $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
+                                                        $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+                                                        $hotelNameStr = $hotelsDetails['hotel']['hotel_name'] ? $hotelsDetails['hotel']['hotel_name'] : '';
+                                                        $hotelRoomTypeStr = $offlineRoom->roomtype->room_type ? ', ' . $offlineRoom->roomtype->room_type : '';
+                                                        $hotelAdultTypeStr = $value['adult'] > 0 ? ', ' . $value['adult'] . ' Adults' : '';
+                                                        $hotelChildTypeStr = $value['child'] > 0 ? ', ' . $value['child'] . ' Children' : '';
+                                                        $hotelTitleName = $hotelNameStr . '<span class="text-15 fw-300">' . $hotelRoomTypeStr . '' . $hotelAdultTypeStr . '' . $hotelChildTypeStr . '</span>';
+                                                        
+                                                    @endphp
+                                                    <div class="text-20 fw-500 mb-20 mt-10">@php
+                                                        echo $hotelTitleName;
+                                                    @endphp </div>
+                                                    @if ($value['adult'] > 0)
+                                                        @for ($i = 1; $i <= $value['adult']; $i++)
+                                                            <div class="row x-gap-20 y-gap-20 pt-5">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlSelect1">Title-
+                                                                            Adult</label>
+                                                                        <select class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[adult][title][]">
+                                                                            <option value="Mr">Mr.</option>
+                                                                            <option value="Ms">Ms.</option>
+                                                                            <option value="Mrs">Mrs.</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlInput1">First
+                                                                            Name- Adult</label>
+                                                                        <input type="text"
+                                                                            class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[adult][firstname][]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlInput1">Last
+                                                                            Name- Adult</label>
+                                                                        <input type="text"
+                                                                            class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[adult][lastname][]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlInput1">ID Proof
+                                                                            Type- Adult</label>
+                                                                        <select class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[adult][id_proof][]">
+                                                                            <option value="Aadhaar">Aadhaar</option>
+                                                                            <option value="Passport">Passport</option>
+                                                                            <option value="Driving Licence">Driving Licence
+                                                                            </option>
+                                                                            <option value="Voters ID Card">Voters ID Card
+                                                                            </option>
+                                                                            <option value="PAN card">PAN card</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlInput1">ID Proof
+                                                                            No- Adult</label>
+                                                                        <input type="text"
+                                                                            class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[adult][id_proof_no][]">
+                                                                    </div>
+                                                                </div>
+                                                                @if ($i == 1)
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label for="exampleFormControlInput1">Phone
+                                                                                Number- Adult</label>
+                                                                            <input type="text"
+                                                                                class="form-control addvalidation"
+                                                                                name="room_no_{{ $roomNo }}[adult][phonenumber][]">
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">Last Name</label>
-                                                                <input type="text" class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[adult][lastname][]">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">ID Proof Type</label>
-                                                                <select class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[adult][id_proof][]">
-                                                                    <option value="Aadhaar">Aadhaar</option>
-                                                                    <option value="Passport">Passport</option>
-                                                                    <option value="Driving Licence">Driving Licence
-                                                                    </option>
-                                                                    <option value="Voters ID Card">Voters ID Card</option>
-                                                                    <option value="PAN card">PAN card</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">ID Proof No</label>
-                                                                <input type="text" class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[adult][id_proof_no][]">
-                                                            </div>
-                                                        </div>
-                                                        @if ($i == 1)
+                                                            <div class="mt-10 border-top-light"></div>
+                                                        @endfor
+                                                    @endif
+
+                                                    @if ($value['child'] > 0)
+                                                        @for ($i = 1; $i <= $value['child']; $i++)
+                                                        <div class="row x-gap-20 y-gap-20 pt-5">
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
-                                                                    <label for="exampleFormControlInput1">Phone
-                                                                        Number</label>
-                                                                    <input type="text"
-                                                                        class="form-control addvalidation"
-                                                                        name="room_no_{{ $roomNo }}[adult][phonenumber][]">
-                                                                </div>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                @endfor
-                                            @endif
-                                            @if ($value->child > 0)
-                                                <div class="row y-gap-20 justify-between">
-                                                    <div class="col-auto">
-                                                        <div class="fw-500">Room {{ $key + 1 }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto text-right md:text-left">
-                                                        <div class="fw-500">Child</div>
-                                                    </div>
-                                                </div>
-                                                <div class="py-5 border-top-light"></div>
-                                                @php
-                                                    $k = 0;
-                                                @endphp
-                                                @for ($i = 1; $i <= $value->child; $i++)
-                                                    <div class="row x-gap-20 y-gap-20 pt-5">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlSelect1">Title</label>
-                                                                <select class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[child][title][]">
-                                                                    <option value="Mr">Mr.</option>
-                                                                    <option value="Ms">Ms.</option>
-                                                                    <option value="Mrs">Mrs.</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">First Name</label>
-                                                                <input type="text" class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[child][firstname][]">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">Last Name</label>
-                                                                <input type="text" class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[child][lastname][]">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">ID Proof Type</label>
-                                                                <select class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[child][id_proof][]">
-                                                                    <option value="Aadhaar">Aadhaar</option>
-                                                                    <option value="Passport">Passport</option>
-                                                                    <option value="Driving Licence">Driving Licence
-                                                                    </option>
-                                                                    <option value="Voters ID Card">Voters ID Card</option>
-                                                                    <option value="PAN card">PAN card</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">ID Proof No</label>
-                                                                <input type="text" class="form-control addvalidation"
-                                                                    name="room_no_{{ $roomNo }}[child][id_proof_no][]">
-                                                            </div>
-                                                        </div>
-
-                                                        @if (is_array($value->childAge) && count($value->childAge) > 0)
-                                                            <div class="col-md-2">
-                                                                <div class="form-group">
-                                                                    <label for="exampleFormControlInput1">Age</label>
-                                                                    <select
-                                                                        name="room_no_{{ $roomNo }}[child][age][]"
-                                                                        id="age" class="form-control">
-                                                                        @for ($j = 2; $j <= 11; $j++)
-                                                                            <option value="{{ $j }}"
-                                                                                {{ $value->childAge[$k]->age == $j ? 'selected' : '' }}>
-                                                                                {{ $j }}</option>
-                                                                        @endfor
+                                                                    <label for="exampleFormControlSelect1">Title - Child </label>
+                                                                    <select class="form-control addvalidation"
+                                                                        name="room_no_{{ $roomNo }}[child][title][]">
+                                                                        <option value="Mr">Mr.</option>
+                                                                        <option value="Ms">Ms.</option>
+                                                                        <option value="Mrs">Mrs.</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
-
-                                                            <div class="col-md-2">
-                                                                <label for="exampleFormControlInput1"></label>
-                                                                <div class="d-flex items-center">
-                                                                    <div class="form-checkbox">
-                                                                        <input type="checkbox"
-                                                                            name="room_no_{{ $roomNo }}[child][cwb][]"
-                                                                            {{ $value->childAge[$k]->cwb == 'yes' ? 'checked' : '' }}
-                                                                            value="{{ $value->childAge[$k]->cwb }}">
-                                                                        <div class="form-checkbox__mark">
-                                                                            <div class="form-checkbox__icon icon-check">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="text-14 lh-12 ml-10">CWB</div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="exampleFormControlInput1">First Name - Child</label>
+                                                                    <input type="text" class="form-control addvalidation"
+                                                                        name="room_no_{{ $roomNo }}[child][firstname][]">
                                                                 </div>
                                                             </div>
-                                                        @endif
-                                                        <div class="py-20 border-top-light"></div>
-                                                    </div>
-                                                    @php
-                                                        $k++;
-                                                    @endphp
-                                                @endfor
-                                            @endif
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="exampleFormControlInput1">Last Name - Child</label>
+                                                                    <input type="text" class="form-control addvalidation"
+                                                                        name="room_no_{{ $roomNo }}[child][lastname][]">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="exampleFormControlInput1">ID Proof Type - Child</label>
+                                                                    <select class="form-control addvalidation"
+                                                                        name="room_no_{{ $roomNo }}[child][id_proof][]">
+                                                                        <option value="Aadhaar">Aadhaar</option>
+                                                                        <option value="Passport">Passport</option>
+                                                                        <option value="Driving Licence">Driving Licence
+                                                                        </option>
+                                                                        <option value="Voters ID Card">Voters ID Card</option>
+                                                                        <option value="PAN card">PAN card</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="exampleFormControlInput1">ID Proof No - Child</label>
+                                                                    <input type="text" class="form-control addvalidation"
+                                                                        name="room_no_{{ $roomNo }}[child][id_proof_no][]">
+                                                                </div>
+                                                            </div>  
+                                                            
+                                                        </div>
+                                                            <div class="mt-10 border-top-light"></div>
+                                                        @endfor
+                                                    @endif
+
+                                                @endforeach
+                                            </div>
                                         </div>
-                                    @endforeach
+                                        <div class="row lead_passengers">
+                                            <div class="col-12">
+                                                <div class="row x-gap-20 y-gap-20">
+                                                    <div class="text-20 fw-500 mb-20 mt-10">Lead passenger</div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlSelect1">Title-
+                                                                Adult</label>
+                                                            <select class="form-control lead_addvalidation"
+                                                                name="room_no_1[adult][title][]">
+                                                                <option value="Mr">Mr.</option>
+                                                                <option value="Ms">Ms.</option>
+                                                                <option value="Mrs">Mrs.</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlInput1">First
+                                                                Name- Adult</label>
+                                                            <input type="text"
+                                                                class="form-control lead_addvalidation"
+                                                                name="room_no_1[adult][firstname][]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlInput1">Last
+                                                                Name- Adult</label>
+                                                            <input type="text"
+                                                                class="form-control lead_addvalidation"
+                                                                name="room_no_1[adult][lastname][]">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlInput1">ID Proof
+                                                                Type- Adult</label>
+                                                            <select class="form-control lead_addvalidation"
+                                                                name="room_no_1[adult][id_proof][]">
+                                                                <option value="Aadhaar">Aadhaar</option>
+                                                                <option value="Passport">Passport</option>
+                                                                <option value="Driving Licence">Driving Licence
+                                                                </option>
+                                                                <option value="Voters ID Card">Voters ID Card
+                                                                </option>
+                                                                <option value="PAN card">PAN card</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlInput1">ID Proof
+                                                                No- Adult</label>
+                                                            <input type="text"
+                                                                class="form-control lead_addvalidation"
+                                                                name="room_no_1[adult][id_proof_no][]">
+                                                        </div>
+                                                    </div>
+                                                  
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlInput1">Phone
+                                                                    Number- Adult</label>
+                                                                <input type="text"
+                                                                    class="form-control lead_addvalidation"
+                                                                    name="room_no_1[adult][phonenumber][]">
+                                                            </div>
+                                                        </div>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endif
                                 <div class="col-12 pt-20">
                                     <div class="row y-gap-20 items-center justify-between">
@@ -333,18 +410,6 @@
                                             </div>
                                         </div>
                                         <div class="col-auto col-12">
-
-                                            {{-- <div class="col-12 mb-2 text-14 text-light-1">
-                                                <div class="form-radio d-flex items-center ">
-                                                    <div class="radio">
-                                                        <input type="radio" name="payment_method" value="1">
-                                                        <div class="radio__mark">
-                                                            <div class="radio__icon"></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-14 lh-1 ml-10">Pay On time limit</div>
-                                                </div>
-                                            </div> --}}
 
                                             @if (availableBalance($user->agents->id) > getFinalAmountChackOut())
                                                 <div class="col-12 mb-2 text-14 text-light-1">
@@ -389,82 +454,6 @@
                 </div>
                 <div class="col-xl-5 col-lg-4">
                     <div class="ml-80 lg:ml-40 md:ml-0">
-                        <div class="px-30 py-30 border-light rounded-4">
-                            <div class="text-20 fw-500 mb-30">Review your Booking</div>
-                            <div class="row x-gap-15 y-gap-20">
-                                <div class="col-auto">
-                                    @if (strlen($hotelsDetails['hotel']['hotel_image_location']) > 0)
-                                        <img class="size-140 rounded-4 object-cover"
-                                            src="{{ url(Storage::url('app/upload/Hotel/' . $hotelsDetails['hotel']['id'] . '/' . $hotelsDetails['hotel']['hotel_image_location'])) }}"
-                                            alt="{{ $hotelsDetails['hotel']['hotel_name'] }}">
-                                    @endif
-                                </div>
-                                <div class="col">
-                                    @if ($hotelsDetails['hotel']['category'] > 0)
-                                        <div class="d-flex x-gap-5 pb-10">
-                                            @for ($i = 1; $i <= $hotelsDetails['hotel']['category']; $i++)
-                                                <i class="icon-star text-10 text-yellow-1"></i>
-                                            @endfor
-                                        </div>
-                                    @endif
-                                    <div class="lh-17 fw-500">{{ $hotelsDetails['hotel']['hotel_name'] }}</div>
-                                    <div class="text-14 lh-15 mt-5">{{ $hotelsDetails['hotel']['hotel_address'] }}</div>
-                                    <div class="row x-gap-10 y-gap-10 items-center pt-10">
-                                        <div class="col-auto">
-                                            <div class="d-flex items-center">
-                                                <div class="size-30 flex-center bg-blue-1 rounded-4">
-                                                    <div class="text-12 fw-600 text-white">
-                                                        {{ $hotelsDetails['hotel']['hotel_review'] }}</div>
-                                                </div>
-                                                <div class="text-14 fw-500 ml-10">Exceptional</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="text-14">{{ $hotelsDetails['hotel']['hotel_review'] }} reviews
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="border-top-light mt-30 mb-20"></div>
-                            <div class="row y-gap-20 justify-between">
-                                <div class="col-auto">
-                                    <div class="text-15">Check-in</div>
-                                    <div class="fw-500">{{ date('d M, Y', strtotime(getSearchCookies('search_from'))) }}
-                                    </div>
-                                </div>
-                                <div class="col-auto md:d-none">
-                                    <div class="h-full w-1 bg-border"></div>
-                                </div>
-                                <div class="col-auto text-right md:text-left">
-                                    <div class="text-15">Check-out</div>
-                                    <div class="fw-500">{{ date('d M, Y', strtotime(getSearchCookies('search_to'))) }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="border-top-light mt-30 mb-20"></div>
-                            <div class="">
-                                <div class="text-15">Total length of stay:</div>
-                                <div class="fw-500">
-                                    {{ dateDiffInDays(getSearchCookies('search_from'), getSearchCookies('search_to')) }}
-                                    nights</div>
-                            </div>
-                            <div class="border-top-light mt-30 mb-20"></div>
-                            <div class="row y-gap-20 justify-between items-center">
-                                <div class="col-auto">
-                                    <div class="text-15">You selected:</div>
-                                    {{-- <div class="fw-500">{{ $offlineRoom->roomtype->room_type }}</div> --}}
-                                </div>
-                                <div class="col-auto">
-                                    <div class="text-15">
-                                        {{-- Room {{ getSearchCookies('searchGuestRoomCount') }}, --}}
-                                        Adult {{ getSearchCookies('searchGuestAdultCount') }},
-                                        Child {{ getSearchCookies('searchGuestChildCount') }}</div>
-                                </div>
-                            </div>
-                        </div>
                         @php
                             $amountFinal = 0;
                         @endphp
@@ -475,55 +464,33 @@
                                     @if (is_array($requiredParamArr) && count($requiredParamArr) > 0)
                                         @foreach ($requiredParamArr as $key => $value)
                                             @php
+                                                $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
                                                 $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
                                             @endphp
-                                            <li class="flex-wrap">
-                                                <div class="label"> {{ $offlineRoom->roomtype->room_type }} * 1</div>
-                                                <div class="val">
-                                                    {{ numberFormat($value['finalAmount'], globalCurrency()) }}
-                                                    @php
-                                                        $amountFinal = $amountFinal + $value['finalAmount'];
-                                                    @endphp
-                                                </div>
-                                            </li>
+
+                                            <li class="text-14"><i class="fa fa-bed"></i>
+                                                {{ $hotelsDetails['hotel']['hotel_name'] }}<span class="pull-right">
+                                                    {{ numberFormat($value['finalAmount'], globalCurrency()) }}</span></li>
+
+                                            @php
+                                                $amountFinal = $amountFinal + $value['finalAmount'];
+                                            @endphp
                                         @endforeach
                                     @endif
                                 </ul>
                             </div>
                             <div class="border-top-light mt-30 mb-20"></div>
-
-
                             <div class="row y-gap-5 justify-between pt-5">
                                 <div class="col-auto">
-                                    <div class="text-15">Taxes and fees (0%)</div>
+                                    <div class="text-15">Taxes and fees ({{ $Taxes_and_fees }}%)</div>
                                 </div>
                                 <div class="col-auto">
-                                    <div class="text-15">{{ numberFormat(0, globalCurrency()) }}</div>
+                                    @php
+                                        $Taxes_and_fees_amt = ($amountFinal * $Taxes_and_fees) / 100;
+                                    @endphp
+                                    <div class="text-15">{{ numberFormat($Taxes_and_fees_amt, globalCurrency()) }}</div>
                                 </div>
                             </div>
-
-                            {{-- @if (strlen($requiredParamArr['coupon_code']) > 0)
-                                <div class="row y-gap-5 justify-between pt-5">
-                                    <div class="col-auto">
-                                        <div class="text-15">Coupon Code</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="text-15">
-                                            {{ $requiredParamArr['coupon_code'] ? $requiredParamArr['coupon_code'] : 0 }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row y-gap-5 justify-between pt-5">
-                                    <div class="col-auto">
-                                        <div class="text-15">Coupon Amount</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="text-15">
-                                            {{ $requiredParamArr['coupon_amount'] ? $requiredParamArr['coupon_amount'] : 0 }}
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif --}}
                             <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
                                 <div class="row y-gap-5 justify-between">
                                     <div class="col-auto">
@@ -531,21 +498,12 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="text-18 lh-13 fw-500">
-                                            {{ numberFormat($amountFinal, globalCurrency()) }}
+                                            {{ numberFormat($amountFinal + $Taxes_and_fees_amt, globalCurrency()) }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        {{-- <div class="px-30 py-30 border-light rounded-4 mt-30">
-                            <div class="text-20 fw-500 mb-15">Do you have a promo code?</div>
-                            <div class="form-input ">
-                                <input type="text" required>
-                                <label class="lh-1 text-16 text-light-1">Enter promo code</label>
-                            </div>
-                            <button class="button -outline-blue-1 text-blue-1 px-30 py-15 mt-20">Apply</button>
-                        </div> --}}
                     </div>
                 </div>
             </div>

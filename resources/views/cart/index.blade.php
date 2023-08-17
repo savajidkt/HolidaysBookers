@@ -234,8 +234,8 @@
                                             class="fa fa-bookmark fa-2x text-blue-1"></i> Save as quote </a></li> --}}
                                 <li class="text-14"><a
                                         class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white"
-                                        href="#">
-                                        Confirm the booking
+                                        href="{{ route('checkout.index') }}">
+                                        Process to checkout
                                     </a></li>
                             </ul>
                         </div>
@@ -267,8 +267,8 @@
                                             class="pull-right text-20">{{ numberFormat($serviceSectionAMT, globalCurrency()) }}</span>
                                     </div>
                                     <a class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white mt-20"
-                                        href="#">
-                                        Confirm the booking
+                                        href="{{ route('checkout.index') }}">
+                                        Process to checkout
                                     </a>
                                 </div>
                                 <div class="">

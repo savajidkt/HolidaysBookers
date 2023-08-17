@@ -43,16 +43,27 @@ class CheckoutController extends Controller
         $this->checkoutRepository       = $checkoutRepository;
     }
 
-    public function checkout($id)
+    public function index(Request $request)
     {
-       
+        
+        $requiredParamArr = getBookingCart('bookingCart');
+        if ($requiredParamArr) {
+            //$hotelsDetails = $this->hotelListingRepository->hotelDetailsArr($hotel_id);
+
+            return view('checkout.checkout', ['hotelListingRepository' =>$this->hotelListingRepository,'hotelsDetails' =>[], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
+        }
+    }
+
+    public function checkout_old($id)
+    {
+
         $SafeencryptionObj = new Safeencryption;
         $hotel_id = $SafeencryptionObj->decode($id);
         $requiredParamArr = getBookingCart('bookingCart');
-        
+
         if ($requiredParamArr) {
             $hotelsDetails = $this->hotelListingRepository->hotelDetailsArr($hotel_id);
-            
+
             return view('checkout.checkout', ['hotelsDetails' => $hotelsDetails, 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
         }
         return redirect()->back();
@@ -108,6 +119,7 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
 
+        //dd($request->all());
         $SafeencryptionObj = new Safeencryption;
 
         if ($request->payment_method == 1) {
@@ -184,7 +196,7 @@ class CheckoutController extends Controller
     }
     public function payOnOnline(Request $request)
     {
-        
+
         $SafeencryptionObj = new Safeencryption;
         $input = $request->all();
         $api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
@@ -194,7 +206,7 @@ class CheckoutController extends Controller
         $data = Checkout::where('unique_number', $input['temp_order_id'])->first();
         $extra_data = unserialize($data->extra_data);
         $hotelsDetails = $this->hotelListingRepository->hotelDetailsArr(getHotelID($extra_data));
-       
+
 
         //$input['temp_order_id']
         if (count($input)  && !empty($input['razorpay_payment_id']) && !empty($input['temp_order_id'])) {
@@ -208,11 +220,11 @@ class CheckoutController extends Controller
                     }
                 }
             } catch (\Exception $e) {
-               
+
                 return redirect()->route('review-your-booking', [$SafeencryptionObj->encode($hotelsDetails['hotel']['id'])])->with('error', $e->getMessage());
             }
-        }  
-            
+        }
+
         return redirect()->route('review-your-booking', [$SafeencryptionObj->encode($hotelsDetails['hotel']['id'])])->with('error', 'internal server error');
     }
 
@@ -246,7 +258,7 @@ class CheckoutController extends Controller
                     'comment'     => 'Booking Hotel',
                     'balance'     => numberFormat($balance),
                 ];
-                return $this->checkoutRepository->updateCredit($dataDebit);                
+                return $this->checkoutRepository->updateCredit($dataDebit);
             }
         }
         return false;
@@ -256,7 +268,7 @@ class CheckoutController extends Controller
     public function ajaxTempStore(Request $request)
     {
         $SafeencryptionObj = new Safeencryption;
-        $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));        
+        $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));
         $cart = [];
         if (is_array(getBookingCart('bookingCart')) && count(getBookingCart('bookingCart')) > 0) {
             $bookingCart = getBookingCart('bookingCart');
@@ -268,7 +280,7 @@ class CheckoutController extends Controller
         }
         return response()->json([
             'status' => true,
-            'redirectURL' => route('review-your-booking', $SafeencryptionObj->encode($requiredParamArr['hotel_id'])),
+            'redirectURL' => route('cart'),
             'message' => ''
         ]);
     }
