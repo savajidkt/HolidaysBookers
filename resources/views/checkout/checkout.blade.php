@@ -65,6 +65,23 @@
                             action="{{ route('checkout.store') }}">
 
                             @csrf
+                            @php
+                                $amountFinalSubmit = 0;
+                            @endphp
+                            @if (is_array($requiredParamArr) && count($requiredParamArr) > 0)
+                                @foreach ($requiredParamArr as $key => $value)
+                                    @php
+                                        $amountFinalSubmit = $amountFinalSubmit + $value['finalAmount'];
+                                    @endphp
+                                @endforeach
+                                @php
+                                    $Taxes_and_fees_amt = ($amountFinalSubmit * $Taxes_and_fees) / 100;
+                                @endphp
+                            @endif
+
+                            <input type="hidden" name="Taxes_and_fees" value="{{ $Taxes_and_fees }}">
+                            <input type="hidden" name="Taxes_and_fees_amt" value="{{ $Taxes_and_fees_amt }}">
+
                             <div class="row x-gap-20 y-gap-20 pt-20">
                                 <div class="col-md-6">
                                     <div class="form-input firstname">
@@ -155,7 +172,7 @@
                                                 <div class="d-flex">
                                                     <div class="form-checkbox mt-5">
                                                         <input class="form-check-input passengersEvent" type="radio"
-                                                            name="passengers" value="all" >
+                                                            name="passengers" value="all">
                                                         <div class="form-checkbox__mark">
                                                             <div class="form-checkbox__icon icon-check"></div>
                                                         </div>
@@ -260,59 +277,67 @@
 
                                                     @if ($value['child'] > 0)
                                                         @for ($i = 1; $i <= $value['child']; $i++)
-                                                        <div class="row x-gap-20 y-gap-20 pt-5">
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="exampleFormControlSelect1">Title - Child </label>
-                                                                    <select class="form-control addvalidation"
-                                                                        name="room_no_{{ $roomNo }}[child][title][]">
-                                                                        <option value="Mr">Mr.</option>
-                                                                        <option value="Ms">Ms.</option>
-                                                                        <option value="Mrs">Mrs.</option>
-                                                                    </select>
+                                                            <div class="row x-gap-20 y-gap-20 pt-5">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlSelect1">Title -
+                                                                            Child </label>
+                                                                        <select class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[child][title][]">
+                                                                            <option value="Mr">Mr.</option>
+                                                                            <option value="Ms">Ms.</option>
+                                                                            <option value="Mrs">Mrs.</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlInput1">First Name -
+                                                                            Child</label>
+                                                                        <input type="text"
+                                                                            class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[child][firstname][]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlInput1">Last Name -
+                                                                            Child</label>
+                                                                        <input type="text"
+                                                                            class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[child][lastname][]">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlInput1">ID Proof Type
+                                                                            - Child</label>
+                                                                        <select class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[child][id_proof][]">
+                                                                            <option value="Aadhaar">Aadhaar</option>
+                                                                            <option value="Passport">Passport</option>
+                                                                            <option value="Driving Licence">Driving Licence
+                                                                            </option>
+                                                                            <option value="Voters ID Card">Voters ID Card
+                                                                            </option>
+                                                                            <option value="PAN card">PAN card</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="exampleFormControlInput1">ID Proof No -
+                                                                            Child</label>
+                                                                        <input type="text"
+                                                                            class="form-control addvalidation"
+                                                                            name="room_no_{{ $roomNo }}[child][id_proof_no][]">
+                                                                    </div>
+                                                                </div>
+
                                                             </div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="exampleFormControlInput1">First Name - Child</label>
-                                                                    <input type="text" class="form-control addvalidation"
-                                                                        name="room_no_{{ $roomNo }}[child][firstname][]">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="exampleFormControlInput1">Last Name - Child</label>
-                                                                    <input type="text" class="form-control addvalidation"
-                                                                        name="room_no_{{ $roomNo }}[child][lastname][]">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="exampleFormControlInput1">ID Proof Type - Child</label>
-                                                                    <select class="form-control addvalidation"
-                                                                        name="room_no_{{ $roomNo }}[child][id_proof][]">
-                                                                        <option value="Aadhaar">Aadhaar</option>
-                                                                        <option value="Passport">Passport</option>
-                                                                        <option value="Driving Licence">Driving Licence
-                                                                        </option>
-                                                                        <option value="Voters ID Card">Voters ID Card</option>
-                                                                        <option value="PAN card">PAN card</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label for="exampleFormControlInput1">ID Proof No - Child</label>
-                                                                    <input type="text" class="form-control addvalidation"
-                                                                        name="room_no_{{ $roomNo }}[child][id_proof_no][]">
-                                                                </div>
-                                                            </div>  
-                                                            
-                                                        </div>
                                                             <div class="mt-10 border-top-light"></div>
                                                         @endfor
                                                     @endif
-
                                                 @endforeach
                                             </div>
                                         </div>
@@ -325,7 +350,7 @@
                                                             <label for="exampleFormControlSelect1">Title-
                                                                 Adult</label>
                                                             <select class="form-control lead_addvalidation"
-                                                                name="room_no_1[adult][title][]">
+                                                                name="lead_title">
                                                                 <option value="Mr">Mr.</option>
                                                                 <option value="Ms">Ms.</option>
                                                                 <option value="Mrs">Mrs.</option>
@@ -336,18 +361,16 @@
                                                         <div class="form-group">
                                                             <label for="exampleFormControlInput1">First
                                                                 Name- Adult</label>
-                                                            <input type="text"
-                                                                class="form-control lead_addvalidation"
-                                                                name="room_no_1[adult][firstname][]">
+                                                            <input type="text" class="form-control lead_addvalidation"
+                                                                name="lead_firstname">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="exampleFormControlInput1">Last
                                                                 Name- Adult</label>
-                                                            <input type="text"
-                                                                class="form-control lead_addvalidation"
-                                                                name="room_no_1[adult][lastname][]">
+                                                            <input type="text" class="form-control lead_addvalidation"
+                                                                name="lead_lastname">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
@@ -355,7 +378,7 @@
                                                             <label for="exampleFormControlInput1">ID Proof
                                                                 Type- Adult</label>
                                                             <select class="form-control lead_addvalidation"
-                                                                name="room_no_1[adult][id_proof][]">
+                                                                name="lead_id_proof">
                                                                 <option value="Aadhaar">Aadhaar</option>
                                                                 <option value="Passport">Passport</option>
                                                                 <option value="Driving Licence">Driving Licence
@@ -370,22 +393,20 @@
                                                         <div class="form-group">
                                                             <label for="exampleFormControlInput1">ID Proof
                                                                 No- Adult</label>
-                                                            <input type="text"
-                                                                class="form-control lead_addvalidation"
-                                                                name="room_no_1[adult][id_proof_no][]">
+                                                            <input type="text" class="form-control lead_addvalidation"
+                                                                name="lead_id_proof_no">
                                                         </div>
                                                     </div>
-                                                  
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">Phone
-                                                                    Number- Adult</label>
-                                                                <input type="text"
-                                                                    class="form-control lead_addvalidation"
-                                                                    name="room_no_1[adult][phonenumber][]">
-                                                            </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="exampleFormControlInput1">Phone
+                                                                Number- Adult</label>
+                                                            <input type="text" class="form-control lead_addvalidation"
+                                                                name="lead_phonenumber">
                                                         </div>
-                                                   
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -406,7 +427,6 @@
                                                         agree to
                                                         GoTrip Terms of Use and Privacy Policy.</div>
                                                 </div>
-
                                             </div>
                                         </div>
                                         <div class="col-auto col-12">
@@ -485,9 +505,7 @@
                                     <div class="text-15">Taxes and fees ({{ $Taxes_and_fees }}%)</div>
                                 </div>
                                 <div class="col-auto">
-                                    @php
-                                        $Taxes_and_fees_amt = ($amountFinal * $Taxes_and_fees) / 100;
-                                    @endphp
+                                    
                                     <div class="text-15">{{ numberFormat($Taxes_and_fees_amt, globalCurrency()) }}</div>
                                 </div>
                             </div>

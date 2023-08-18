@@ -25,7 +25,7 @@ class CheckoutRepository
     protected $order_Rooms;
     public function createBooking(array $data): Checkout
     {
-        
+      
         $extra_data = [];
         $extra_data['cartData'] = getBookingCart('bookingCart');
         $extra_data['searchRoomData'] = getSearchCookies('searchGuestArr');
@@ -34,6 +34,19 @@ class CheckoutRepository
         $extra_data['searchCountry_id'] = getSearchCookies('country_id');
         $extra_data['searchFrom'] = getSearchCookies('search_from');
         $extra_data['searchTo'] = getSearchCookies('search_to');
+        $extra_data['passenger_type'] = $data['passengers'];
+        $extra_data['taxes_and_fees'] = $data['Taxes_and_fees'];
+        $extra_data['taxes_and_fees_amt'] = $data['Taxes_and_fees_amt'];
+
+        if( $data['passengers'] == "lead" ){
+            $learArr=[];
+            $learArr['name']= $data['lead_firstname'].' '.$data['lead_lastname'];
+            $learArr['id_proof']= $data['lead_id_proof'];
+            $learArr['id_proof_no']= $data['lead_id_proof_no'];
+            $learArr['phone']= $data['lead_phonenumber'];           
+            $extra_data['lead_passenger'] = $learArr;      
+        }
+
         $dataSave = [
             'user_id'     => auth()->user()->id,
             'adult'     => getSearchCookies('searchGuestAdultCount'),
@@ -77,9 +90,17 @@ class CheckoutRepository
         $extra_data = unserialize($checkout->extra_data);
         $this->order_Rooms = $extra_data['cartData'];
         $passenger = unserialize($checkout->passenger);
+        
         $hotelListingRepository = new HotelListingRepository;
         $hotelsDetails = $hotelListingRepository->hotelDetailsArr(getHotelID($extra_data));
-        $passengerLead = getGuestLeadDetails($passenger);
+        
+        if( $extra_data['passenger_type'] == "all" ){
+            $passengerLead = getGuestLeadDetails($passenger);
+        } else {
+            $passengerLead = $extra_data['lead_passenger'];
+        }
+
+        
 
         $OrderData = [];
         $OrderData['hotel_country_id'] = ($hotelsDetails['hotel']['hotel_country']) ? $hotelsDetails['hotel']['hotel_country'] : '';
@@ -117,7 +138,7 @@ class CheckoutRepository
         $OrderData['agent_markup_type'] = $user->agents->agent_global_markups_type;
         $OrderData['agent_markup_val'] = $user->agents->agent_global_markup;
         $OrderData['total_price_markup'] = '';
-        $OrderData['is_pay_using'] = $checkout->payment_method;        
+        $OrderData['is_pay_using'] = $checkout->payment_method;            
         $OrderData =  Order::create($OrderData);
         $this->addAdultData($passenger, $OrderData->id);
         $this->addChildData($passenger, $OrderData->id);

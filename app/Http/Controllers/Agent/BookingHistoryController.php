@@ -69,9 +69,8 @@ class BookingHistoryController extends Controller
         if ($Order) {
             $hotelListingRepository = new HotelListingRepository;
             $requiredParamArr = unserialize($Order->formdata->form_data_serialize);
-            $hotelsDetails = $hotelListingRepository->hotelDetailsArr($Order->hotel_id);
-           // dd($hotelsDetails);
-            return view('agent.booking-history.view', ['pagename' => $pagename, 'order' => $Order, 'hotelsDetails' => $hotelsDetails, 'requiredParamArr' => $requiredParamArr]);
+
+            return view('agent.booking-history.view', ['pagename' => $pagename, 'order' => $Order, 'hotelListingRepository' => $hotelListingRepository, 'requiredParamArr' => $requiredParamArr]);
         }
         return redirect()->route('home');
     }
@@ -306,7 +305,8 @@ class BookingHistoryController extends Controller
 	</body>
 </html>
 ';
-
+        echo $htmlTemplate;
+        exit;
         $dompdf->loadHtml($htmlTemplate);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
@@ -317,14 +317,18 @@ class BookingHistoryController extends Controller
     public function orderTableCreate($order)
     {
 
+
+
         $subTotal = 0;
         $total = 0;
         $tax = 0;
+        $taxAmt = 0;
         $discount = 0;
 
         $hotelListingRepository = new HotelListingRepository;
-        $hotelsDetails = $hotelListingRepository->hotelDetailsArr($order->hotel_id);
+
         $requiredParamArr = unserialize($order->formdata->form_data_serialize);
+
         $tableStr = '';
         $tableStr .= '<table cellpadding="0" cellspacing="0">';
         $tableStr .= '<tr class="heading">';
@@ -336,19 +340,24 @@ class BookingHistoryController extends Controller
         $tableStr .= '<td class="text-right">TOTAL</td>';
         $tableStr .= '</tr>';
         $tableStr .= '';
-        if (is_array($requiredParamArr['cartData']) && count($requiredParamArr['cartData']) > 0) {
-            $tableStr .= '<tr class="item">';
-            $tableStr .= '<td class="">' . $hotelsDetails['hotel']['hotel_name'] . '</td>';
-            $tableStr .= '<td class="text-center">' . $order->total_nights . '</td>';
-            $tableStr .= '<td class="text-center">' . $order->total_rooms . '</td>';
-            $tableStr .= '<td class="text-center">' . count($order->adult) . '</td>';
-            $tableStr .= '<td class="text-center">' . count($order->child) . '</td>';
-            $tableStr .= '<td class="text-right"></td>';
-            $tableStr .= '</tr>';
+        if (is_array($requiredParamArr['cartData']) && count($requiredParamArr['cartData']) > 0) {          
+            $tax = isset($requiredParamArr['taxes_and_fees']) ? $requiredParamArr['taxes_and_fees'] : 0;
+            $taxAmt = isset($requiredParamArr['taxes_and_fees_amt']) ?  $requiredParamArr['taxes_and_fees_amt'] : 0;
             foreach ($requiredParamArr['cartData'] as $key => $value) {
+                $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
                 $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+
+                $tableStr .= '<tr class="item">';
+                $tableStr .= '<td class="">' . $hotelsDetails['hotel']['hotel_name'] . '</td>';
+                $tableStr .= '<td class="text-center">' . $order->total_nights . '</td>';
+                $tableStr .= '<td class="text-center">' . $order->total_rooms . '</td>';
+                $tableStr .= '<td class="text-center">' . count($order->adult) . '</td>';
+                $tableStr .= '<td class="text-center">' . count($order->child) . '</td>';
+                $tableStr .= '<td class="text-right"></td>';
+                $tableStr .= '</tr>';
+
                 $tableStr .= '<tr>';
-                $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $offlineRoom->roomtype->room_type . ' * 1</li></ul></td>';
+                $tableStr .=  '<td><ul style="margin: 0px !important;"><li style="font-size:12px;">' . $offlineRoom->roomtype->room_type . '<br> From '.date('d M, Y', strtotime($value['search_from'])).' To '.date('d M, Y', strtotime($value['search_to'])).' </li></ul></td>';
                 $tableStr .= '<td class="text-center"></td>';
                 $tableStr .= '<td class="text-center"></td>';
                 $tableStr .= '<td class="text-center"></td>';
@@ -382,10 +391,10 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Tax:<strong> ' . numberFormat($tax, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Tax ('.$tax.'%):<strong> ' . numberFormat($taxAmt, $order->booking_currency) . '</strong></td>';
             $tableStr .= '</tr>';
 
-            $total = ($subTotal + $tax) - $discount;
+            $total = ($subTotal + $taxAmt) - $discount;
 
             $tableStr .= '<tr class="total">';
             $tableStr .= '<td></td>';

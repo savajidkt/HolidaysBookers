@@ -11,6 +11,8 @@
     <section class="pt-40 layout-pb-md">
         <div class="container">
             <div class="row">
+                <div class="col-xl-3 col-lg-4">
+                </div>
                 <div class="col-xl-7 col-lg-8">
                     <div class="d-flex flex-column items-center mt-60 lg:md-40 sm:mt-24">
                         <div class="size-80 flex-center rounded-full bg-dark-3">
@@ -25,27 +27,27 @@
                         <div class="row">
                             <div class="col-lg-3 col-md-6">
                                 <div class="text-15 lh-12">Order Number</div>
-                                <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{{ $order->id }}</div>
+                                <div class="text-15 lh-12 fw-500 text-blue-1 mt-10"><a href="{{ route('agent.booking-history', 'all') }}">{{ $order->id }}</a></div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="text-15 lh-12">Date</div>
-                                <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                                    {{ dateFormat($order->created_at, 'd M, Y') }}</div>
+                                <div class="text-15 lh-12 fw-500 text-blue-1 mt-10"><a href="{{ route('agent.booking-history', 'all') }}">
+                                    {{ dateFormat($order->created_at, 'd M, Y') }}</a></div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="text-15 lh-12">Total</div>
-                                <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                                    {{ numberFormat($order->booking_amount, $order->booking_currency) }}</div>
+                                <div class="text-15 lh-12 fw-500 text-blue-1 mt-10"><a href="{{ route('agent.booking-history', 'all') }}">
+                                    {{ numberFormat($order->booking_amount, $order->booking_currency) }}</a></div>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="text-15 lh-12">Payment Method</div>
-                                <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                                    {{ paymentMethodName($order->is_pay_using) }}</div>
+                                <div class="text-15 lh-12 fw-500 text-blue-1 mt-10"><a href="{{ route('agent.booking-history', 'all') }}">
+                                    {{ paymentMethodName($order->is_pay_using) }}</a></div>
                             </div>
                         </div>
                     </div>
 
-                    @if ($order->room)
+                    {{-- @if ($order->room)
                         @php
                             $currentRoom = '';
                             $i = 0;
@@ -65,10 +67,7 @@
                                         <div class="col-auto">
                                             <div class="fw-500">Room {{ $i }}
                                             </div>
-                                        </div>
-                                        {{-- <div class="col-auto text-right md:text-left">
-                                            <div class="fw-500">{{ ucfirst($value['type']) }}</div>
-                                        </div> --}}
+                                        </div>                                      
                                     </div>
                                 @endif
                                 <div class="py-5 border-top-light"></div>
@@ -132,10 +131,12 @@
                                 </div>
                             @endforeach
                         </div>
-                    @endif
+                    @endif --}}
 
                 </div>
-                <div class="col-xl-5 col-lg-4">
+                <div class="col-xl-3 col-lg-4">
+                </div>
+                {{-- <div class="col-xl-5 col-lg-4">
                     <div class="ml-80 lg:ml-40 md:ml-0">
                         <div class="px-30 py-30 border-light rounded-4">
                             <div class="text-20 fw-500 mb-30">Your booking details</div>
@@ -236,7 +237,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

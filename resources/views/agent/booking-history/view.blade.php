@@ -47,7 +47,13 @@
                                         <div class="col-lg-3 col-md-6">
                                             <div class="text-15 lh-12">Total</div>
                                             <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">
-                                                {{ numberFormat($order->booking_amount, $order->booking_currency) }}</div>
+                                                @php
+                                                    $orderAmtWithTax = $order->booking_amount;
+                                                    if (isset($requiredParamArr['taxes_and_fees_amt']) && $requiredParamArr['taxes_and_fees_amt'] > 0) {
+                                                        $orderAmtWithTax = $orderAmtWithTax + $requiredParamArr['taxes_and_fees_amt'];
+                                                    }
+                                                @endphp
+                                                {{ numberFormat($orderAmtWithTax, $order->booking_currency) }}</div>
                                         </div>
                                         <div class="col-lg-3 col-md-6">
                                             <div class="text-15 lh-12">Payment Method</div>
@@ -58,7 +64,7 @@
                                 </div>
 
 
-                                @if ($order->room)
+                                @if ($order->room && (isset($requiredParamArr['passenger_type']) && $requiredParamArr['passenger_type'] == 'all'))
                                     @php
                                         $currentRoom = '';
                                         $i = 0;
@@ -79,13 +85,11 @@
                                                         <div class="fw-500">Room {{ $i }}
                                                         </div>
                                                     </div>
-                                                    {{-- <div class="col-auto text-right md:text-left">
-                                            <div class="fw-500">{{ ucfirst($value['type']) }}</div>
-                                        </div> --}}
                                                 </div>
                                             @endif
-                                           
-                                            <div class="row mb-15 {{ ($value['type'] == 'child') ? ' border-type-2' : 'border-type-1'  }} rounded-8">
+
+                                            <div
+                                                class="row mb-15 {{ $value['type'] == 'child' ? ' border-type-2' : 'border-type-1' }} rounded-8">
                                                 <div class="col-12">
                                                     <div class="d-flex justify-between ">
                                                         <div class="text-15 lh-16">Name</div>
@@ -146,112 +150,122 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                @endif
-                            </div>
-                            <div class="col-xl-5 col-lg-4">
-                                <div class="ml-80 lg:ml-40 md:ml-0">
-                                    <div class="px-30 py-30 border-light rounded-4">
-                                        <div class="text-20 fw-500 mb-30">Your booking details</div>
+                                @else
+                                    <div class=" px-20 py-20 mt-20">
 
-                                        <div class="row x-gap-15 y-gap-20">
+                                        <div class="row y-gap-20 mb-15 mt-15 justify-between">
                                             <div class="col-auto">
-                                                @if (strlen($hotelsDetails['hotel']['hotel_image_location']) > 0)
-                                                    <img class="size-140 rounded-4 object-cover"
-                                                        src="{{ url(Storage::url('app/upload/Hotel/' . $hotelsDetails['hotel']['id'] . '/' . $hotelsDetails['hotel']['hotel_image_location'])) }}"
-                                                        alt="{{ $hotelsDetails['hotel']['hotel_name'] }}">
-                                                @endif
-                                            </div>
-                                            <div class="col">
-                                                @if ($hotelsDetails['hotel']['category'] > 0)
-                                                    <div class="d-flex x-gap-5 pb-10">
-                                                        @for ($i = 1; $i <= $hotelsDetails['hotel']['category']; $i++)
-                                                            <i class="icon-star text-10 text-yellow-1"></i>
-                                                        @endfor
-                                                    </div>
-                                                @endif
-                                                <div class="lh-17 fw-500">{{ $hotelsDetails['hotel']['hotel_name'] }}
-                                                </div>
-                                                <div class="text-14 lh-15 mt-5">
-                                                    {{ $hotelsDetails['hotel']['hotel_address'] }}</div>
-                                                <div class="row x-gap-10 y-gap-10 items-center pt-10">
-                                                    <div class="col-auto">
-                                                        <div class="d-flex items-center">
-                                                            <div class="size-30 flex-center bg-blue-1 rounded-4">
-                                                                <div class="text-12 fw-600 text-white">
-                                                                    {{ $hotelsDetails['hotel']['hotel_review'] }}</div>
-                                                            </div>
-                                                            <div class="text-14 fw-500 ml-10">Exceptional</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="text-14">{{ $hotelsDetails['hotel']['hotel_review'] }}
-                                                            reviews
-                                                        </div>
-                                                    </div>
+                                                <div class="fw-500">Lead Passenger
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="border-top-light mt-30 mb-20"></div>
-                                        <div class="row y-gap-20 justify-between">
-                                            <div class="col-auto">
-                                                <div class="text-15">Check-in</div>
-                                                <div class="fw-500">{{ date('d M, Y', strtotime($order->check_in_date)) }}
+                                        <div class="row mb-15 rounded-8">
+                                            <div class="col-12">
+                                                <div class="d-flex justify-between ">
+                                                    <div class="text-15 lh-16">Name</div>
+                                                    <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                        {{ $requiredParamArr['lead_passenger']['name'] }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-auto md:d-none">
-                                                <div class="h-full w-1 bg-border"></div>
-                                            </div>
-                                            <div class="col-auto text-right md:text-left">
-                                                <div class="text-15">Check-out</div>
-                                                <div class="fw-500">
-                                                    {{ date('d M, Y', strtotime($order->check_out_date)) }}
+                                            <div class="col-12">
+                                                <div class="d-flex justify-between border-top-light pt-10">
+                                                    <div class="text-15 lh-16">ID Proof</div>
+                                                    <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                        {{ $requiredParamArr['lead_passenger']['id_proof'] }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="border-top-light mt-30 mb-20"></div>
-                                        <div class="">
-                                            <div class="text-15">Total length of stay:</div>
-                                            <div class="fw-500">
-                                                {{ dateDiffInDays($order->check_in_date, $order->check_out_date) }}
-                                                nights</div>
-                                        </div>
-                                        <div class="border-top-light mt-30 mb-20"></div>
-
-                                        <div class="row y-gap-20 justify-between items-center">
-                                            <div class="col-auto">
-                                                <div class="text-15">You selected:</div>
-
+                                            <div class="col-12">
+                                                <div class="d-flex justify-between border-top-light pt-10">
+                                                    <div class="text-15 lh-16">ID Proof No</div>
+                                                    <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                        {{ $requiredParamArr['lead_passenger']['id_proof_no'] }}
+                                                    </div>
+                                                </div>
                                             </div>
-
-                                            <div class="col-auto">
-                                                <div class="text-15">
-                                                    Adult {{ count($order->adult) }},
-                                                    Child {{ count($order->child) }}
+                                            <div class="col-12">
+                                                <div class="d-flex justify-between border-top-light pt-10">
+                                                    <div class="text-15 lh-16">Phone</div>
+                                                    <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                        {{ $requiredParamArr['lead_passenger']['phone'] }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="px-30 py-30 border-light rounded-4 mt-30">
-                                        <div class="text-20 fw-500 mb-20">Your price summary</div>
-                                        <div class="review-section total-review">
-                                            <ul class="review-list">
-                                                @if (is_array($requiredParamArr['cartData']) && count($requiredParamArr['cartData']) > 0)
+                                @endif
+                            </div>
+                            @php
+                                $finalAmt = 0;
+                            @endphp
+                            <div class="col-xl-5 col-lg-4">
+                                <div class="ml-80 lg:ml-40 md:ml-0">
+                                    <div class="px-30 py-30 border-light rounded-4">
+                                        <div class="">
+                                            @if (count($requiredParamArr['cartData']))
+                                                <ul class=" y-gap-4 pt-5">
                                                     @foreach ($requiredParamArr['cartData'] as $key => $value)
                                                         @php
+                                                            // dd($requiredParamArr['taxes_and_fees']);
+                                                            // dd($requiredParamArr['taxes_and_fees_amt']);
                                                             $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+                                                            $hotelRoomTypeStr = $offlineRoom->roomtype->room_type ? $offlineRoom->roomtype->room_type : '';
+                                                            $hotelAdultTypeStr = $value['adult'] > 0 ? ', ' . $value['adult'] . ' Adults' : '';
+                                                            $hotelChildTypeStr = $value['child'] > 0 ? ', ' . $value['child'] . ' Children' : '';
+                                                            $hotelTitleName = '<span class="text-12 fw-500">' . $hotelRoomTypeStr . '' . $hotelAdultTypeStr . '' . $hotelChildTypeStr . '</span>';
+                                                            
+                                                            $finalAmt = $finalAmt + $value['finalAmount'];
+                                                            $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
                                                         @endphp
-                                                        <li class="flex-wrap">
-                                                            <div class="label"> {{ $offlineRoom->roomtype->room_type }} *
-                                                                1</div>
-                                                            <div class="val">
-                                                                {{ numberFormat($value['finalAmount'], globalCurrency()) }}
-
+                                                        <li class="">
+                                                            <div class="text-15 fw-500">
+                                                                <i class="fa fa-bed"></i>
+                                                                {{ $hotelsDetails['hotel']['hotel_name'] }}
+                                                                <br>
+                                                                @php
+                                                                    echo $hotelTitleName;
+                                                                @endphp
+                                                                <br>
+                                                                <span class="text-12 fw-500">
+                                                                    From
+                                                                    {{ date('d M, Y', strtotime($value['search_from'])) }}
+                                                                    To
+                                                                    {{ date('d M, Y', strtotime($value['search_to'])) }}
+                                                                </span>
+                                                                <span class="pull-right text-15 fw-500">
+                                                                    {{ numberFormat($value['finalAmount'], trim($order->original_currency)) }}
+                                                                </span>
                                                             </div>
+                                                            <div class="mt-10 border-top-light"></div>
                                                         </li>
                                                     @endforeach
-                                                @endif
-                                            </ul>
+                                                    <li class="">
+                                                        <div class="text-15 fw-500">
+                                                            Taxes and fees:
+                                                            {{ isset($requiredParamArr['taxes_and_fees']) ? '(' . $requiredParamArr['taxes_and_fees'] . '%)' : '' }}
+                                                            <span class="pull-right text-15 fw-500">
+                                                                @php
+                                                                    if (isset($requiredParamArr['taxes_and_fees_amt']) && $requiredParamArr['taxes_and_fees_amt'] > 0) {
+                                                                        $finalAmt = $finalAmt + $requiredParamArr['taxes_and_fees_amt'];
+                                                                    }
+                                                                    
+                                                                @endphp
+                                                                {{ numberFormat(isset($requiredParamArr['taxes_and_fees_amt']) ? $requiredParamArr['taxes_and_fees_amt'] : 0, trim($order->original_currency)) }}
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            @endif
+                                        </div>
+                                        <div class="border-top-light mt-30 mb-20"></div>
+                                        <div class="row y-gap-20 justify-between items-center">
+                                            <div class="">
+                                                <div class="text-15 fw-500">Booking Amount:
+                                                    <span
+                                                        class="pull-right text-20">{{ numberFormat($finalAmt, trim($order->original_currency)) }}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
