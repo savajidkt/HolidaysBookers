@@ -43,7 +43,7 @@
         }
     </style>
     @php
-        $Taxes_and_fees = 3;
+        $Taxes_and_fees = 0;
         $Taxes_and_fees_amt = 0;
     @endphp
     <section class="pt-40 layout-pb-md">

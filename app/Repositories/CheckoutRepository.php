@@ -113,9 +113,12 @@ class CheckoutRepository
         $this->order_Rooms = $extra_data['cartData'];
         $passenger = unserialize($checkout->passenger);
         $passengerLead = [];
+        $passenger_type = 0;
         if ($extra_data['passenger_type'] == "all") {
             $passengerLead = $extra_data['passenger'];
+            $passenger_type = 1;
         } else {
+            $passenger_type = 0;
             $passengerLead = $extra_data['lead_passenger'];
         }
 
@@ -156,13 +159,13 @@ class CheckoutRepository
         $OrderData['booking_response'] = '';
         $OrderData['razorpay_responce'] = serialize($paymentResponce);
         $OrderData['is_pay_using'] = $checkout->payment_method;
-        $OrderData['passenger_type'] = $extra_data['passenger_type'];
+        $OrderData['passenger_type'] = $passenger_type;
         $OrderData['lead_passenger_name'] = isset($extra_data['lead_passenger']['name']) ? $extra_data['lead_passenger']['name'] : '';
         $OrderData['lead_passenger_id_proof'] = isset($extra_data['lead_passenger']['id_proof']) ? $extra_data['lead_passenger']['id_proof'] : '';
         $OrderData['lead_passenger_id_proof_no'] = isset($extra_data['lead_passenger']['id_proof_no']) ? $extra_data['lead_passenger']['id_proof_no'] : '';
         $OrderData['lead_passenger_phone'] = isset($extra_data['lead_passenger']['phone']) ? $extra_data['lead_passenger']['phone'] : '';
         $OrderData['order_type'] = 1; //0 = Draft, 1 = Order 
-        $OrderData['status'] = 1; //1 = Processed, 2 = Confirmed, 3 = Cancelled, 4 = Vouchered       
+        $OrderData['status'] = 1; //1 = Processed, 2 = Confirmed, 3 = Cancelled, 4 = Vouchered     
         $OrderData =  Order::create($OrderData);
         $this->addOrderHotels($extra_data, $OrderData->id, $passengerLead);
         return $OrderData;
@@ -215,7 +218,8 @@ class CheckoutRepository
     }
 
     public function addOrderHotelRoomPassengers($cartHotel, $value, $OrderID, $hotelData, $hotelRoomData, $passengerLead)
-    {     
+    {
+        
 
         if (count($value) > 0) {
 
@@ -239,10 +243,10 @@ class CheckoutRepository
                                 $addHotelRoomPassengers['id_proof_no'] = $value1['adult']['id_proof_no'][$i];
                                 $addHotelRoomPassengers['phone'] = isset($value1['adult']['phonenumber'][$i]) ? $value1['adult']['phonenumber'][$i] : '';
                                 $addHotelRoomPassengers['is_adult'] = 0;
+
                                 OrderHotelRoomPassenger::create($addHotelRoomPassengers);
                             }
                         }
-
 
                         if ($value1['childs'] > 0) {
                             $i = 0;
@@ -255,11 +259,12 @@ class CheckoutRepository
                                 $addHotelRoomPassengers['order_hotel_room_id'] = $hotelRoomData->id;
                                 $addHotelRoomPassengers['room_id'] = $value['room_id'];
                                 $addHotelRoomPassengers['room_price_id'] = $value['price_id'];
-                                $addHotelRoomPassengers['name'] = $value1['adult']['title'][$i] . ' ' . $value1['adult']['firstname'][$i] . ' ' . $value1['adult']['lastname'][$i];
-                                $addHotelRoomPassengers['id_proof'] = $value1['adult']['id_proof'][$i];
-                                $addHotelRoomPassengers['id_proof_no'] = $value1['adult']['id_proof_no'][$i];
-                                $addHotelRoomPassengers['phone'] = isset($value1['adult']['phonenumber'][$i]) ? $value1['adult']['phonenumber'][$i] : '';
+                                $addHotelRoomPassengers['name'] = $value1['child']['title'][$i] . ' ' . $value1['child']['firstname'][$i] . ' ' . $value1['adult']['lastname'][$i];
+                                $addHotelRoomPassengers['id_proof'] = $value1['child']['id_proof'][$i];
+                                $addHotelRoomPassengers['id_proof_no'] = $value1['child']['id_proof_no'][$i];
+                                $addHotelRoomPassengers['phone'] = isset($value1['child']['phonenumber'][$i]) ? $value1['child']['phonenumber'][$i] : '';
                                 $addHotelRoomPassengers['is_adult'] = 1;
+
                                 OrderHotelRoomPassenger::create($addHotelRoomPassengers);
                             }
                         }
@@ -267,6 +272,7 @@ class CheckoutRepository
                 }
             }
         }
+        
         return true;
     }
 

@@ -47,7 +47,7 @@ class BookingHistoryController extends Controller
                     return $order->guest_name;
                 })
                 ->addColumn('pax', function (Order $order) {
-                    return 'Room : ' . $order->total_rooms . ' Adult : ' . count($order->adult) . '<br> Child : ' . count($order->child);
+                    return 'Room : ' . $order->total_rooms . ' Adult : ' . $order->total_adult . '<br> Children : ' . $order->total_child.'<br> Night : '.$order->total_nights;
                 })
                 ->editColumn('booking_amount', function (Order $order) {
                     return numberFormat($order->booking_amount, globalCurrency());
@@ -310,8 +310,7 @@ class BookingHistoryController extends Controller
 	</body>
 </html>
 ';
-        echo $htmlTemplate;
-        exit;
+       
         $dompdf->loadHtml($htmlTemplate);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
