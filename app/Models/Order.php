@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
+    protected $table = "order_masters";
     use HasFactory, Notifiable;
     const PROCESSED = 1;
     const CONFIRMED = 2;
@@ -32,47 +33,47 @@ class Order extends Model
 
 
 
+
+
     //protected $table = "reachus";
     protected $fillable = [
-        'hotel_country_id',
-        'hotel_city_id',
-        'package_id',
-        'hotel_id',
         'booking_id',
         'booking_code',
+        'invoice_no',
         'confirmation_no',
-        'status',
         'voucher',
-        'original_amount',
-        'original_currency',
+        'order_amount',
+        'order_currency',
         'booking_amount',
         'booking_currency',
+        'tax',
+        'tax_amount',
+        'agent_markup_type',
+        'agent_markup_val',
+        'total_price_markup',
         'agent_code',
         'agent_email',
-        'hotel_name',
-        'check_in_date',
-        'check_out_date',
-        'cancelled_date',
-        'type',
+        'total_adult',
+        'total_child',
+        'total_child_with_bed',
+        'total_child_without_bed',
         'total_rooms',
         'total_nights',
-        'rating',
-        'payment',
+        'payment_status',
         'comments',
-        'guest_lead',
-        'guest_phone',
         'mail_sent',
         'booked_by',
         'prebook_response',
         'booking_response',
         'razorpay_responce',
-        'deadline_date',
-        'agent_markup_type',
-        'agent_markup_val',
-        // 'id_proof_type',
-        // 'id_proof_no',
-        'total_price_markup',
-        'is_pay_using'
+        'is_pay_using',
+        'passenger_type',
+        'lead_passenger_name',
+        'lead_passenger_id_proof',
+        'lead_passenger_id_proof_no',
+        'lead_passenger_phone',
+        'order_type',
+        'status'
     ];
 
     /**
@@ -84,15 +85,15 @@ class Order extends Model
     {
         $admin = auth()->user();
         $action = '';
-        $viewAction = '<a href="'.route('orders.show', $this->id).'" class="edit btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+        $viewAction = '<a href="' . route('orders.show', $this->id) . '" class="edit btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
         $editAction = '<a href="' . route('orders.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a> ';
-        $paymentAction = '<a href="'.route('view-order-payment', $this->id).'" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Payment Details" data-animation="false"><i class="fa fa-check-square-o" aria-hidden="true"></i></a> ';
-        if( $this->mail_sent == 1 ){
-            $voucherAction = '<a target="_blank" href="'.url('storage/app/public/order/' . $this->id . '/vouchers/order-vouchers-' . $this->id . '.pdf').'" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+        $paymentAction = '<a href="' . route('view-order-payment', $this->id) . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Payment Details" data-animation="false"><i class="fa fa-check-square-o" aria-hidden="true"></i></a> ';
+        if ($this->mail_sent == 1) {
+            $voucherAction = '<a target="_blank" href="' . url('storage/app/public/order/' . $this->id . '/vouchers/order-vouchers-' . $this->id . '.pdf') . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
         } else {
-            $voucherAction = '<a href="'.route('order-voucher-download', $this->id).'" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+            $voucherAction = '<a href="' . route('order-voucher-download', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
         }
-        
+
         //if($admin->can('reach-us-view')){
         $action .= $viewAction;
         // }
@@ -158,6 +159,20 @@ class Order extends Model
         return $payment;
     }
 
+    public function getGuestNameAttribute(): string
+    {
+        switch ($this->passenger_type) {
+            case 0:
+                $passenger_type = $this->lead_passenger_name;
+                break;
+            default:
+                $order_hotel_room = OrderHotelRoomPassenger::where('order_id', $this->id)->where('is_adult', 0)->first();
+                $passenger_type = $order_hotel_room->name;
+                break;
+        }
+        return $passenger_type;
+    }
+
     public function getShowOtherTextboxNameAttribute(): string
     {
 
@@ -181,7 +196,7 @@ class Order extends Model
     public function hotel()
     {
         return $this->belongsTo(OfflineHotel::class, 'hotel_id', 'id');
-    }    
+    }
 
     public function adult()
     {
@@ -211,7 +226,16 @@ class Order extends Model
     {
         return $this->hasMany(Order_Room::class, 'order_id', 'id')->orderBy('room_id', 'ASC');
     }
-   
+
+    public function order_hotel()
+    {
+        return $this->hasMany(OrderHotel::class, 'order_id', 'id');
+    }
+    public function order_rooms()
+    {
+        return $this->hasMany(OrderHotelRoom::class, 'order_id', 'id');
+    }
+
     // public function childBed()
     // {
     //     return $this->hasMany(Order_Child_Bed::class, 'order_id', 'id');

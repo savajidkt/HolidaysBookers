@@ -45,10 +45,10 @@ class CheckoutController extends Controller
 
     public function index(Request $request)
     {
-        
+
         $requiredParamArr = getBookingCart('bookingCart');
         if ($requiredParamArr) {
-            return view('checkout.checkout', ['hotelListingRepository' =>$this->hotelListingRepository,'hotelsDetails' =>[], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
+            return view('checkout.checkout', ['hotelListingRepository' => $this->hotelListingRepository, 'hotelsDetails' => [], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
         }
     }
 
@@ -100,9 +100,7 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {       
-        
         $SafeencryptionObj = new Safeencryption;
-
         if ($request->payment_method == 1) {
             //Pay On time limit
             // $this->payOnTimeLimit($data);
@@ -170,9 +168,9 @@ class CheckoutController extends Controller
     }
     public function payUsingWallet($data)
     {
-        if ($this->PayForAgentWallet($data)) {
+       // if ($this->PayForAgentWallet($data)) {
             return $this->checkoutRepository->createOrderBooking($data);
-        }
+      //  }
         return false;
     }
     public function payOnOnline(Request $request)
@@ -288,16 +286,12 @@ class CheckoutController extends Controller
     }
 
     public function show($id)
-    {       
+    {
         $SafeencryptionObj = new Safeencryption;
         $OrderID = $SafeencryptionObj->decode($id);
         $Order = Order::find($OrderID);
         if ($Order) {
-          
-            $requiredParamArr = unserialize($Order->formdata->form_data_serialize);
-            $hotelsDetails = $this->hotelListingRepository->hotelDetailsArr($Order->hotel_id);
-           
-            return view('checkout.thank-you', ['order' => $Order, 'hotelsDetails' => $hotelsDetails, 'requiredParamArr' => $requiredParamArr]);
+            return view('checkout.thank-you', ['order' => $Order]);
         }
         return redirect()->route('home');
     }

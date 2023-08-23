@@ -64,107 +64,98 @@
                                 </div>
 
 
-                                @if ($order->room && (isset($requiredParamArr['passenger_type']) && $requiredParamArr['passenger_type'] == 'all'))
-                                    @php
-                                        $currentRoom = '';
-                                        $i = 0;
-                                    @endphp
+                                @if ($order->passenger_type == 1)
+
                                     <div class=" px-20 py-20 mt-20">
-
-                                        @foreach ($order->room as $key => $value)
+                                        @php
+                                            $i = 0;
+                                        @endphp
+                                        @foreach ($order->order_rooms as $key => $value)
                                             @php
-                                                $passengerData = orderRoomIDByAdultChild($value['id']);
+                                                $i++;
                                             @endphp
-                                            @if (empty($currentRoom) || $currentRoom != $value['room_id'])
-                                                @php
-                                                    $currentRoom = $value['room_id'];
-                                                    $i++;
-                                                @endphp
-                                                <div class="row y-gap-20 mb-15 mt-15 justify-between">
-                                                    <div class="col-auto">
-                                                        <div class="fw-500">Room {{ $i }}
-                                                        </div>
+                                            <div class="row y-gap-20 mb-15 mt-15 justify-between">
+                                                <div class="col-auto">
+                                                    <div class="fw-500">Room {{ $i }} :
+                                                        {{ $value->hotel_details->hotel_name }} :
+                                                        <span class="fw-300">{{ $value->room_name }}</span>
                                                     </div>
                                                 </div>
-                                            @endif
-
-                                            <div
-                                                class="row mb-15 {{ $value['type'] == 'child' ? ' border-type-2' : 'border-type-1' }} rounded-8">
-                                                <div class="col-12">
-                                                    <div class="d-flex justify-between ">
-                                                        <div class="text-15 lh-16">Name</div>
-                                                        <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                            @if ($value['type'] == 'adult')
-                                                                {{ $passengerData->adult->first_name }}
-                                                            @elseif ($value['type'] == 'child')
-                                                                {{ $passengerData->child->child_first_name }}
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="d-flex justify-between border-top-light pt-10">
-                                                        <div class="text-15 lh-16">ID Proof</div>
-                                                        <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                            @if ($value['type'] == 'adult')
-                                                                {{ idProofName($passengerData->adult->id_proof_type) }}
-                                                            @elseif ($value['type'] == 'child')
-                                                                {{ idProofName($passengerData->child->child_id_proof_type) }}
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="d-flex justify-between border-top-light pt-10">
-                                                        <div class="text-15 lh-16">ID Proof No</div>
-                                                        <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                            @if ($value['type'] == 'adult')
-                                                                {{ $passengerData->adult->id_proof_no }}
-                                                            @elseif ($value['type'] == 'child')
-                                                                {{ $passengerData->child->child_id_proof_no }}
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @if ($value['type'] == 'adult')
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-between border-top-light pt-10">
-                                                            <div class="text-15 lh-16">Phone</div>
-                                                            <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                                {{ $passengerData->adult->phone }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                                @if ($value['type'] == 'child')
-                                                    <div class="col-12">
-                                                        <div class="d-flex justify-between border-top-light pt-10">
-                                                            <div class="text-15 lh-16">Age / CWB</div>
-                                                            <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                                {{ $passengerData->child->child_age }} /
-                                                                {{ chidWithBed($passengerData) }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
                                             </div>
+                                            @if ($value->order_hotel_room_passenger)
+                                                @foreach ($value->order_hotel_room_passenger as $key => $value)
+                                                    <div
+                                                        class="row mb-15 {{ $value->is_adult == 1 ? ' border-type-2' : 'border-type-1' }} rounded-8">
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-between ">
+                                                                <div class="text-15 lh-16">Name</div>
+                                                                <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                                    {{ $value->name }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-between border-top-light pt-10">
+                                                                <div class="text-15 lh-16">ID Proof</div>
+                                                                <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                                    {{ $value->id_proof }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="d-flex justify-between border-top-light pt-10">
+                                                                <div class="text-15 lh-16">ID Proof No</div>
+                                                                <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                                    {{ $value->id_proof_no }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @if ($value->is_adult == 0)
+                                                            <div class="col-12">
+                                                                <div class="d-flex justify-between border-top-light pt-10">
+                                                                    <div class="text-15 lh-16">Phone</div>
+                                                                    <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                                        {{ $value->phone }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         @endforeach
+
                                     </div>
                                 @else
                                     <div class=" px-20 py-20 mt-20">
-
                                         <div class="row y-gap-20 mb-15 mt-15 justify-between">
                                             <div class="col-auto">
                                                 <div class="fw-500">Lead Passenger
                                                 </div>
                                             </div>
                                         </div>
+                                        @php
+                                            $i = 0;
+                                        @endphp
+                                        @foreach ($order->order_rooms as $key => $value)
+                                            @php
+                                                $i++;
+                                            @endphp
+                                            <div class="row y-gap-20 mb-15 mt-15 justify-between">
+                                                <div class="col-auto">
+                                                    <div class="fw-500">Room {{ $i }} :
+                                                        {{ $value->hotel_details->hotel_name }} :
+                                                        <span class="fw-300">{{ $value->room_name }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                         <div class="row mb-15 rounded-8">
                                             <div class="col-12">
                                                 <div class="d-flex justify-between ">
                                                     <div class="text-15 lh-16">Name</div>
                                                     <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                        {{ $requiredParamArr['lead_passenger']['name'] }}
+                                                        {{ $order->lead_passenger_name }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,7 +163,7 @@
                                                 <div class="d-flex justify-between border-top-light pt-10">
                                                     <div class="text-15 lh-16">ID Proof</div>
                                                     <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                        {{ $requiredParamArr['lead_passenger']['id_proof'] }}
+                                                        {{ $order->lead_passenger_id_proof }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -180,7 +171,7 @@
                                                 <div class="d-flex justify-between border-top-light pt-10">
                                                     <div class="text-15 lh-16">ID Proof No</div>
                                                     <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                        {{ $requiredParamArr['lead_passenger']['id_proof_no'] }}
+                                                        {{ $order->lead_passenger_id_proof_no }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -188,7 +179,7 @@
                                                 <div class="d-flex justify-between border-top-light pt-10">
                                                     <div class="text-15 lh-16">Phone</div>
                                                     <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                        {{ $requiredParamArr['lead_passenger']['phone'] }}
+                                                        {{ $order->lead_passenger_phone }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -203,55 +194,51 @@
                                 <div class="ml-80 lg:ml-40 md:ml-0">
                                     <div class="px-30 py-30 border-light rounded-4">
                                         <div class="">
-                                            @if (count($requiredParamArr['cartData']))
+
+                                            @if ($order->order_hotel)
                                                 <ul class=" y-gap-4 pt-5">
-                                                    @foreach ($requiredParamArr['cartData'] as $key => $value)
-                                                        @php
-                                                            // dd($requiredParamArr['taxes_and_fees']);
-                                                            // dd($requiredParamArr['taxes_and_fees_amt']);
-                                                            $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
-                                                            $hotelRoomTypeStr = $offlineRoom->roomtype->room_type ? $offlineRoom->roomtype->room_type : '';
-                                                            $hotelAdultTypeStr = $value['adult'] > 0 ? ', ' . $value['adult'] . ' Adults' : '';
-                                                            $hotelChildTypeStr = $value['child'] > 0 ? ', ' . $value['child'] . ' Children' : '';
-                                                            $hotelTitleName = '<span class="text-12 fw-500">' . $hotelRoomTypeStr . '' . $hotelAdultTypeStr . '' . $hotelChildTypeStr . '</span>';
-                                                            
-                                                            $finalAmt = $finalAmt + $value['finalAmount'];
-                                                            $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
-                                                        @endphp
-                                                        <li class="">
-                                                            <div class="text-15 fw-500">
-                                                                <i class="fa fa-bed"></i>
-                                                                {{ $hotelsDetails['hotel']['hotel_name'] }}
-                                                                <br>
+                                                    @foreach ($order->order_hotel as $key => $value)
+                                                        @if ($value->order_hotel_room)
+                                                            @foreach ($value->order_hotel_room as $key1 => $value1)
                                                                 @php
-                                                                    echo $hotelTitleName;
+                                                                    $finalAmt = $finalAmt + $value1->price;
                                                                 @endphp
-                                                                <br>
-                                                                <span class="text-12 fw-500">
-                                                                    From
-                                                                    {{ date('d M, Y', strtotime($value['search_from'])) }}
-                                                                    To
-                                                                    {{ date('d M, Y', strtotime($value['search_to'])) }}
-                                                                </span>
-                                                                <span class="pull-right text-15 fw-500">
-                                                                    {{ numberFormat($value['finalAmount'], trim($order->original_currency)) }}
-                                                                </span>
-                                                            </div>
-                                                            <div class="mt-10 border-top-light"></div>
-                                                        </li>
+                                                                <li class="">
+                                                                    <div class="text-15 fw-500">
+                                                                        <i class="fa fa-bed"></i>
+                                                                        {{ $value->hotel_name }}
+                                                                        <br>
+                                                                        <span class="text-12 fw-500">
+                                                                            {{ $value1->room_name }}, Adults
+                                                                            {{ $value1->adult }}, Children
+                                                                            {{ $value1->child }}</span>
+                                                                        <br>
+                                                                        <span class="text-12 fw-500">
+                                                                            From
+                                                                            {{ date('d M, Y', strtotime($value1->check_in_date)) }}
+                                                                            To
+                                                                            {{ date('d M, Y', strtotime($value1->check_out_date)) }}
+                                                                        </span>
+                                                                        <span class="pull-right text-15 fw-500">
+                                                                            {{ numberFormat($value1->price, trim($order->order_currency)) }}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="mt-10 border-top-light"></div>
+                                                                </li>
+                                                            @endforeach
+                                                        @endif
                                                     @endforeach
                                                     <li class="">
                                                         <div class="text-15 fw-500">
                                                             Taxes and fees:
-                                                            {{ isset($requiredParamArr['taxes_and_fees']) ? '(' . $requiredParamArr['taxes_and_fees'] . '%)' : '' }}
+                                                            {{ '(' . $order->tax . '%)' }}
                                                             <span class="pull-right text-15 fw-500">
                                                                 @php
-                                                                    if (isset($requiredParamArr['taxes_and_fees_amt']) && $requiredParamArr['taxes_and_fees_amt'] > 0) {
-                                                                        $finalAmt = $finalAmt + $requiredParamArr['taxes_and_fees_amt'];
-                                                                    }
+                                                                    
+                                                                    $finalAmt = $finalAmt + $order->tax_amount;
                                                                     
                                                                 @endphp
-                                                                {{ numberFormat(isset($requiredParamArr['taxes_and_fees_amt']) ? $requiredParamArr['taxes_and_fees_amt'] : 0, trim($order->original_currency)) }}
+                                                                {{ numberFormat($order->tax_amount, trim($order->original_currency)) }}
                                                             </span>
                                                         </div>
                                                     </li>
@@ -278,9 +265,6 @@
         </div>
         @include('agent.common.footer')
     </div>
-
-
-
 @endsection
 @section('page-script')
 @endsection

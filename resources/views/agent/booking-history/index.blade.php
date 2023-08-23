@@ -19,12 +19,12 @@
                             All Booking
                         </a>
                     </div>
-                    <div class="col-auto">
+                    {{-- <div class="col-auto">
                         <a href="{{ route('agent.booking-history', 'completed') }}"
                             class="tabs__button text-18 lg:text-16 text-light-1 fw-500 pb-5 lg:pb-0 {{ $status == 'completed' ? 'is-tab-el-active' : '' }}">
                             Completed
                         </a>
-                    </div>
+                    </div> --}}
                     <div class="col-auto">
                         <a href="{{ route('agent.booking-history', 'processed') }}"
                             class="tabs__button text-18 lg:text-16 text-light-1 fw-500 pb-5 lg:pb-0 {{ $status == 'processed' ? 'is-tab-el-active' : '' }}">
@@ -56,7 +56,7 @@
                         </a>
                     </div>
                 </div>
-                <table class="table-3 -border-bottom col-12 user-list-table datatables-ajax table">
+                <table class="table-3 -border-bottom col-12 user-list-table datatables-ajax table" style="width: 100%;">
                     <thead class="bg-light-2">
                         <tr>
                             <th>S No</th>
@@ -112,8 +112,8 @@
                         name: 'is_pay_using'
                     },
                     {
-                        data: 'guest_lead',
-                        name: 'guest_lead'
+                        data: 'passenger_type',
+                        name: 'passenger_type'
                     },
                     {
                         data: 'pax',
@@ -124,8 +124,8 @@
                         name: 'booking_amount'
                     },
                     {
-                        data: 'payment',
-                        name: 'payment'
+                        data: 'status',
+                        name: 'status'
                     },
                     {
                         data: 'action',

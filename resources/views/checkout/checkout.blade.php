@@ -150,7 +150,7 @@
 
                                 <h2 class="text-22 fw-500 mt-40 md:mt-24">Passenger Details</h2>
                                 @if (is_array($requiredParamArr) && $requiredParamArr > 0)
-                                    @php
+                                    @php                                    
                                         $roomNo = 0;
                                     @endphp
                                     <div class="border-type-1 rounded-8 px-20 py-20 mt-20">
@@ -198,9 +198,22 @@
                                                         $hotelTitleName = $hotelNameStr . '<span class="text-15 fw-300">' . $hotelRoomTypeStr . '' . $hotelAdultTypeStr . '' . $hotelChildTypeStr . '</span>';
                                                         
                                                     @endphp
+                                                    
+
                                                     <div class="text-20 fw-500 mb-20 mt-10">@php
                                                         echo $hotelTitleName;
                                                     @endphp </div>
+                                                    
+                                                    <input type="hidden"
+                                                    class="form-control"
+                                                    name="room_no_{{ $roomNo }}[hotel_id]" value="{{ $value['hotel_id'] }}">
+                                                    <input type="hidden"
+                                                    class="form-control"
+                                                    name="room_no_{{ $roomNo }}[room_id]" value="{{ $value['room_id'] }}">
+
+                                                    <input type="hidden" class="form-control" name="room_no_{{ $roomNo }}[adults]" value="{{ $value['adult'] }}">
+                                                    <input type="hidden" class="form-control" name="room_no_{{ $roomNo }}[childs]" value="{{ $value['child'] }}">                                                    
+
                                                     @if ($value['adult'] > 0)
                                                         @for ($i = 1; $i <= $value['adult']; $i++)
                                                             <div class="row x-gap-20 y-gap-20 pt-5">

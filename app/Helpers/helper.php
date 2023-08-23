@@ -567,7 +567,7 @@ function getChildrenPrice($searchGuestArr, $price)
     foreach ($searchGuestArr as $key => $room) {
         if (is_array($room->childAge) && count($room->childAge)) {
             foreach ($room->childAge as $key1 => $room1) {
-                if( $room1->cwb == "yes" ){
+                if ($room1->cwb == "yes") {
                     $childPrice = $childPrice + $price->price_p_n_cwb;
                 } else {
                     $childPrice = $childPrice + $price->price_p_n_cob;
@@ -884,6 +884,7 @@ if (!function_exists('getFinalAmountChackOut')) {
 if (!function_exists('getOriginAmountChackOut')) {
     function getOriginAmountChackOut($data)
     {
+       
         $amountOrigin = 0;
 
         if (is_array($data['cartData']) && count($data['cartData']) > 0) {
@@ -929,6 +930,30 @@ if (!function_exists('getGuestLeadDetails')) {
         return $guestArr;
     }
 }
+
+if (!function_exists('getGuestAllDetails')) {
+    function getGuestAllDetails($data)
+    {
+        $guestArr = [];
+        $roomCount = getSearchCookies('searchGuestRoomCount');
+        if ($roomCount > 0) {
+            for ($i = 1; $i <= $roomCount; $i++) {
+
+                if (is_array($data['room_' . $i]['adult']) && count($data['room_' . $i]['adult']) > 0) {
+                    foreach ($data['room_' . $i]['adult'] as $key => $value) {
+                        $guestArrs = [];
+                        $guestArrs['name'] = $data['room_' . $i]['adult']['firstname'][0] . ' ' . $data['room_' . $i]['adult']['lastname'][0];
+                        $guestArrs['phone'] = $data['room_' . $i]['adult']['phonenumber'][0];
+                        $guestArr[] = $guestArrs;
+                    }
+                }
+            }
+        }
+        return $guestArr;
+    }
+}
+
+
 if (!function_exists('paymentMethodName')) {
     function paymentMethodName($id)
     {
@@ -967,14 +992,16 @@ if (!function_exists('idProofName')) {
 }
 
 if (!function_exists('getPaymentStatus')) {
-    function getPaymentStatus($id)
+    function getPaymentStatus($status)
     {
-        if ($id == 0) {
-            return '<span class="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-yellow-4 text-yellow-3">Pending</span>';
-        } else if ($id == 1) {
+        if ($status == 1) {
+            return '<span class="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-yellow-4 text-yellow-3">Processed</span>';
+        } else if ($status == 2) {
             return '<span class="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-blue-1-05 text-blue-1">Confirmed</span>';
-        } else {
-            return '<span class="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-red-3 text-red-2">Rejected</span>';
+        } else if ($status == 3) {
+            return '<span class="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-red-3 text-red-2">Cancelled</span>';
+        } else if ($status == 4) {
+            return '<span class="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-blue-1-05 text-blue-1">Vouchered</span>';
         }
         return '';
     }
@@ -999,7 +1026,7 @@ if (!function_exists('orderStatusByID')) {
             return 2;
         } else if ($status == 'cancelled') {
             return 3;
-        } else if ($status == 'completed') {
+        } else if ($status == 'vouchered') {
             return 4;
         }
     }
@@ -1043,5 +1070,34 @@ if (!function_exists('generateUniqueNumber')) {
 
         $today = date("Ymdhms");
         return $beforeText . '_' . $today . '' . strtoupper(substr(uniqid(sha1(time())), 0, $langth));
+    }
+}
+
+
+if (!function_exists('chilCountwithBedOrNot')) {
+    function chilCountwithBedOrNot()
+    {
+        $childCount = [];
+        $childCount['child_with_bed'] = 0;
+        $childCount['child_without_bed'] = 0;
+        $passengerData = getSearchCookies('searchGuestArr');
+       
+        if (count($passengerData) > 0) {
+            foreach ($passengerData as $key => $value) {
+               
+                if ($value->child > 0) {
+                    if (count($value->childAge) > 0) {
+                        foreach ($value->childAge as $key1 => $value1) {
+                            if ($value1->cwb == "yes") {
+                                $childCount['child_with_bed'] = $childCount['child_with_bed'] + 1;
+                            } else if ($value1->cwb == "no") {
+                                $childCount['child_without_bed'] = $childCount['child_without_bed'] + 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $childCount;
     }
 }
