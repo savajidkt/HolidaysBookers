@@ -85,12 +85,42 @@ var FrmLoginPreference = function () {
             }
         });
     }
+    var FrmForgotFormValidation = function () {
+        var FrmForgotPreferenceForm = $('#ForgotFrm');
+        var error4 = $('.error-message', FrmForgotPreferenceForm);
+        var success4 = $('.error-message', FrmForgotPreferenceForm);
+        FrmForgotPreferenceForm.validate({
+            errorElement: 'span',
+            errorClass: 'help-block help-block-error',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                email: {
+                    email: true,
+                    required: true,
+                }
+            },
+            messages: {
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "email") {
+                    error.insertAfter(".emailDiv");
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    }
 
     return {
         //main function to initiate the module
         init: function () {
             FrmLoginFormValidation();
             FrmRegisterFormValidation();
+            FrmForgotFormValidation();
         }
     };
 }();

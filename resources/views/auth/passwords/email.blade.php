@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row justify-center">
                 <div class="col-xl-6 col-lg-7 col-md-9">
-                    <form class="row g-3 needs-validation p-3" method="POST" action="{{ route('forgot-password') }}">
+                    <form id="ForgotFrm" class="row g-3 needs-validation p-3" method="POST" action="{{ route('forgot-password') }}">
                         @csrf
                         @if (session('status'))
                             <div class="col-12">
@@ -19,19 +19,26 @@
                         <div class="px-50 py-50 sm:px-20 sm:py-20 bg-white shadow-4 rounded-4">
                             <div class="row y-gap-20">
                                 <div class="col-12">
+                                    @if (count($errors) > 0)
+                                        @foreach ($errors->all() as $message)
+                                            <div class="alert alert-danger display-hide">
+                                                <button class="close" data-close="alert"></button>
+                                                <span>{{ $message }}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                <div class="col-12">
                                     <h1 class="text-22 fw-500">{{ __('Reset Password') }}</h1>
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-input ">
+                                    <div class="form-input emailDiv">
                                         <input id="email" type="email"
-                                            class="form-control @error('email') is-invalid @enderror" name="email"
+                                            class="form-control" name="email"
                                             value="{{ old('email') }}" placeholder="{{ __('Email Address') }}">
                                         <label class="lh-1 text-14 text-light-1">{{ __('Email Address') }}</label>
                                     </div>
-                                    @error('email')
-                                        <div class="invalid-feedback text-red-1" style="display: block;">{{ $message }}
-                                        </div>
-                                    @enderror
+                                   
                                 </div>
                                 <div class="col-12">
                                     <p class="small text-right"><a class="btn-link" href="{{ route('login') }}">
@@ -49,4 +56,10 @@
             </div>
         </div>
     </section>
+    @section('page-script')
+    <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/front/js/sweetalert2.all.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/front/js/login-register.js') }}"></script>
 @endsection
