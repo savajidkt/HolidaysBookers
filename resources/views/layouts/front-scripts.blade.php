@@ -1581,8 +1581,8 @@
             <div class="modal-header border-dashed">
                 <h4 class="modal-title">Log In</h4>
                 <span class="c-pointer close" aria-label="Close" data-dismiss="modal">
-                    <i class="input-icon field-icon fa">
-                        <img src="https://gotrip.bookingcore.org/images/ico_close.svg" alt="close">
+                    <i class="icon-close">
+                        {{-- <img src="{{ asset('assets/front') }}/ico_close.svg" alt="close"> --}}
                     </i>
                 </span>
             </div>
@@ -1649,8 +1649,8 @@
             <div class="modal-header">
                 <h4 class="modal-title">Sign Up</h4>
                 <span class="c-pointer close" aria-label="Close" data-dismiss="modal">
-                    <i class="input-icon field-icon fa">
-                        <img src="https://gotrip.bookingcore.org/images/ico_close.svg" alt="close">
+                    <i class="icon-close">
+                        {{-- <img src="https://gotrip.bookingcore.org/images/ico_close.svg" alt="close"> --}}
                     </i>
                 </span>
             </div>

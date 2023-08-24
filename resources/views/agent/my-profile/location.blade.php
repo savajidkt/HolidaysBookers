@@ -1,5 +1,6 @@
 @extends('agent.layouts.app')
 @section('page_title', 'My Location')
+
 @section('content')
     <div class="dashboard__content bg-light-2 bravo_user_profile">
         <div class="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
@@ -51,31 +52,31 @@
                                 <div class="row x-gap-20 y-gap-20">
                                     <div class="col-12">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ isset($user->userMeta->address_1) ? $user->userMeta->address_1 : '' }}" name="address">
+                                            <input type="text" value="{{ isset($user->userMeta->address_1) ? $user->userMeta->address_1 : '' }}" onkeydown="return /[a-z]/i.test(event.key)" name="address">
                                             <label class="lh-1 text-16 text-light-1">Address Line 1</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ isset($user->userMeta->address_2) ? $user->userMeta->address_2 : '' }}" name="address2">
+                                            <input type="text" value="{{ isset($user->userMeta->address_2) ? $user->userMeta->address_2 : '' }}" onkeydown="return /[a-z]/i.test(event.key)" name="address2">
                                             <label class="lh-1 text-16 text-light-1">Address Line 2</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ isset($user->userMeta->city) ? $user->userMeta->city : '' }}" name="city">
+                                            <input type="text" value="{{ isset($user->userMeta->city) ? $user->userMeta->city : '' }}" onkeydown="return /[a-z]/i.test(event.key)" name="city">
                                             <label class="lh-1 text-16 text-light-1">City</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ isset($user->userMeta->state) ? $user->userMeta->state : '' }}" name="state">
+                                            <input type="text" value="{{ isset($user->userMeta->state) ? $user->userMeta->state : '' }}" onkeydown="return /[a-z]/i.test(event.key)" name="state">
                                             <label class="lh-1 text-16 text-light-1">State</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input ">
-                                            <select name="country" class="form-control">
+                                            <select name="country" class="form-control select2">
                                                 @foreach ($countries as $country)
                                                     <option value="{{ $country->id }}"
                                                         {{ isset($user->userMeta->country_id) && $user->userMeta->country_id == $country->id ? 'selected' : '' }}>
@@ -89,7 +90,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ isset($user->userMeta->zip) ? $user->userMeta->zip : '' }}" name="zip_code">
+                                            <input type="text" value="{{ isset($user->userMeta->zip) ? $user->userMeta->zip : '' }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" name="zip_code">
                                             <label class="lh-1 text-16 text-light-1">ZIP Code</label>
                                         </div>
                                     </div>
@@ -108,5 +109,11 @@
         @include('agent.common.footer')
     </div>
 @endsection
+<script>
+    $('.select2').select2();
+</script>
+
 @section('page-script')
 @endsection
+
+

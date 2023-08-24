@@ -59,7 +59,7 @@
                                     <div class="text-14 mt-5">PNG or JPG.</div>
                                     <div class="d-inline-block mt-15">
                                         <button type="button" class="button h-50 px-24 -dark-1 bg-blue-1 text-white btn-file">
-                                            <input type="file" class="has-value" name="user_avatar">
+                                            <input type="file" class="has-value" name="user_avatar" accept="image/png,image/jpeg">
                                         </button>
                                     </div>                                                                       
                                 </div>
@@ -69,7 +69,7 @@
                                 <div class="row x-gap-20 y-gap-20">                                    
                                     <div class="col-md-6">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ $user->first_name }}" name="first_name" class="has-value">
+                                            <input type="text" value="{{ $user->first_name }}" onkeydown="return /[a-z]/i.test(event.key)" name="first_name" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">First Name</label>
                                         </div>
                                         @error('first_name')
@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ $user->last_name }}" name="last_name" class="has-value">
+                                            <input type="text" value="{{ $user->last_name }}" onkeydown="return /[a-z]/i.test(event.key)" name="last_name" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">Last Name</label>
                                         </div>
                                         @error('last_name')
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ isset($user->userMeta->phone_number) ? $user->userMeta->phone_number : '' }}" name="phone_number" class="has-value">
+                                            <input type="text" value="{{ isset($user->userMeta->phone_number) ? $user->userMeta->phone_number : '' }}" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" name="phone_number" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">Phone Number</label>
                                         </div>
                                         @error('phone_number')
