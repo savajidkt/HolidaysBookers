@@ -6,55 +6,49 @@
         <div class="container">
             <div class="row justify-center">
                 <div class="col-xl-6 col-lg-7 col-md-9">
-                    <form class="row g-3 needs-validation p-3" method="POST" action="{{ route('register') }}">
+                    <form id="RegisterFrm" class="row g-3 needs-validation p-3" method="POST" action="{{ route('register') }}">
                         @csrf
                         <div class="px-50 py-50 sm:px-20 sm:py-20 bg-white shadow-4 rounded-4">
                             <div class="row y-gap-20">
+                                <div class="col-12">
+                                    @if (count($errors) > 0)
+                                        @foreach ($errors->all() as $message)
+                                            <div class="alert alert-danger display-hide">
+                                                <button class="close" data-close="alert"></button>
+                                                <span>{{ $message }}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                
                                 <div class="col-12" style="border-bottom: 1px dashed #ccc;">
                                     <h1 class="text-22 fw-500">Sign Up</h1>
                                 </div>
                                 <div class="col-12">
                                     <h1 class="text-22 fw-500">Sign in or create an account</h1>
-                                    <p class="mt-10">Already have an account? <a  href="{{ route('login') }}" class="text-blue-1">Log in</a></p>
-                                    </div>
+                                    <p class="mt-10">Already have an account? <a href="{{ route('login') }}"
+                                            class="text-blue-1">Log in</a></p>
+                                </div>
                                 <div class="col-12">
-                                    <div class="form-input ">
-                                        <input id="first_name" type="text"
-                                            class="form-control @error('first_name') is-invalid @enderror" name="first_name"
+                                    <div class="form-input ferrorCls">
+                                        <input id="first_name" type="text" class="form-control" name="first_name"
                                             value="{{ old('first_name') }}">
                                         <label class="lh-1 text-14 text-light-1">First Name</label>
                                     </div>
-                                    @error('first_name')
-                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-input ">
-                                        <input id="last_name" type="text"
-                                            class="form-control @error('last_name') is-invalid @enderror" name="last_name"
+                                    <div class="form-input lerrorCls">
+                                        <input id="last_name" type="text" class="form-control " name="last_name"
                                             value="{{ old('last_name') }}">
                                         <label class="lh-1 text-14 text-light-1">Last Name</label>
                                     </div>
-                                    @error('last_name')
-                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-input ">
-                                        <input id="email" type="email"
-                                            class="form-control @error('email') is-invalid @enderror" name="email"
+                                    <div class="form-input eerrorCls">
+                                        <input id="email" type="email" class="form-control" name="email"
                                             value="{{ old('email') }}">
                                         <label class="lh-1 text-14 text-light-1">Email</label>
                                     </div>
-                                    @error('email')
-                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
                                 <input type="hidden" name="type" value="1">
                                 {{-- <div class="col-4">
@@ -96,38 +90,27 @@
                                     </span>
                                 @enderror --}}
                                 <div class="col-12">
-                                    <div class="form-input ">
-                                        <input id="password" type="password"
-                                            class="form-control @error('password') is-invalid @enderror" name="password">
+                                    <div class="form-input perrorCls">
+                                        <input id="password" type="password" class="form-control" name="password">
                                         <label class="lh-1 text-14 text-light-1">Password</label>
                                     </div>
-                                    @error('password')
-                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                    
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-input ">
-                                        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"  name="password_confirmation" id="password-confirm">
+                                    <div class="form-input pcerrorCls">
+                                        <input type="password" class="form-control" name="password_confirmation"
+                                            id="password-confirm">
                                         <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }}</label>
                                     </div>
-                                    @error('password_confirmation')
-                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
-                               
+
                                 <div class="col-12">
                                     {{-- <input class="button py-20 -dark-1 bg-blue-1 text-white" type="submit"
                                         value="{{ __('Register') }}"> --}}
-                                        <button type="submit" class="button py-20 -dark-1 bg-blue-1 text-white w-100">
-                                            <span class="icons">Sign Up</span>
-                                            <div class="icon-arrow-top-right ml-15"></div>
-                                            <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
-                                        </button>
+                                    <button type="submit" class="button py-20 -dark-1 bg-blue-1 text-white w-100">
+                                        <span class="icons">Sign Up</span>
+                                        <div class="icon-arrow-top-right ml-15"></div>
+                                        <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -136,5 +119,10 @@
             </div>
         </div>
     </section>
-
+@section('page-script')
+    <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/front/js/sweetalert2.all.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/front/js/login-register.js') }}"></script>
 @endsection

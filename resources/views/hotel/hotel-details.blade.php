@@ -759,7 +759,7 @@
     <script src="{{ asset('assets/front/js/code.jquery.com_ui_1.13.2_jquery-ui.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
-    <script src="{{ asset('assets/front/js/common.olemiss.edu__js_sweet-alert_sweet-alert.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script>
     <script type="text/javascript">
         var moduleConfig = {
             searchLocationByName: "{!! route('city-hotel-list') !!}",

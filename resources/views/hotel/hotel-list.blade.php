@@ -1202,7 +1202,7 @@
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
 
-    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+    <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script>
     
 
     <script type="text/javascript">
