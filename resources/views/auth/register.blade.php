@@ -25,7 +25,7 @@
                                         <label class="lh-1 text-14 text-light-1">First Name</label>
                                     </div>
                                     @error('first_name')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
                                             {{ $message }}
                                         </span>
                                     @enderror
@@ -38,7 +38,7 @@
                                         <label class="lh-1 text-14 text-light-1">Last Name</label>
                                     </div>
                                     @error('last_name')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
                                             {{ $message }}
                                         </span>
                                     @enderror
@@ -51,7 +51,7 @@
                                         <label class="lh-1 text-14 text-light-1">Email</label>
                                     </div>
                                     @error('email')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
                                             {{ $message }}
                                         </span>
                                     @enderror
@@ -102,16 +102,22 @@
                                         <label class="lh-1 text-14 text-light-1">Password</label>
                                     </div>
                                     @error('password')
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
                                             {{ $message }}
                                         </span>
                                     @enderror
+                                    
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input ">
-                                        <input type="password" name="password_confirmation" id="password-confirm">
+                                        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"  name="password_confirmation" id="password-confirm">
                                         <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }}</label>
                                     </div>
+                                    @error('password_confirmation')
+                                        <span class="invalid-feedback text-red-1" style="display: block;" role="alert">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 </div>
                                
                                 <div class="col-12">

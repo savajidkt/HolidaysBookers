@@ -101,6 +101,9 @@
 
 
         }
+        .form-control.is-invalid{
+            background-image: none;
+        }
     </style>
 </head>
 

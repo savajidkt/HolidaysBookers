@@ -1,6 +1,15 @@
 @php
     $user = auth()->user();
 @endphp
+<script>
+    function myFunction(imgs) {
+    var expandImg = document.getElementById("expandedImg");
+    var imgText = document.getElementById("imgtext");
+    expandImg.src = imgs.src;
+    imgText.innerHTML = imgs.alt;
+    expandImg.parentElement.style.display = "block";
+    }
+</script>
 @if (count($hotelList)>0)
     @foreach ($hotelList as $hotel)
    @if ( isset($hotel['room']['finalAmount']) && $hotel['room']['finalAmount'] > 0)
@@ -240,13 +249,34 @@
                             <article id="hotel-photo-210074" class="photo">
                                 <div class="gallery-tb">
                                     <div class="tb-row">
-                                        <div class="photo" style="background-image: url(https://static.hotelbeds.com/static/custom/<!-- NO USER INFO -->/images/loading_photo.gif)">
+                                        {{-- <div class="photo" style="background-image: url(https://static.hotelbeds.com/static/custom/<!-- NO USER INFO -->/images/loading_photo.gif)">
                                             <div>
                                                 <span id="photo-big-210074" title="Room" alt="Room" style="background-image: url('https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_w_001.jpg"></span>
                                             </div>
+                                        </div> --}}
+                                        <div>
+                                            {{-- <div class="container"> --}}
+                                                <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+                                                <img id="expandedImg" style="width:100%">
+                                                <div id="imgtext"></div>
+                                            {{-- </div> --}}
                                         </div>
                                         <div id="photos-small-210074" class="photos-small">
-                                                <div class="">
+                                            {{-- <div class="row"> --}}
+                                                <div class="column">
+                                                  <img src="https://tse4.mm.bing.net/th?id=OIP.H6Znb4LwWOEUCbMW8sxrTgHaEo&pid=Api&P=0&h=180" alt="Nature" style="width:100%" onclick="myFunction(this);">
+                                                </div>
+                                                <div class="column">
+                                                  <img src="https://tse1.mm.bing.net/th?id=OIP._IgGc9h6kbuSmYLsRhBNvwHaEo&pid=Api&P=0&h=180.jpg" alt="Snow" style="width:100%" onclick="myFunction(this);">
+                                                </div>
+                                                <div class="column">
+                                                  <img src="https://tse1.mm.bing.net/th?id=OIP.NbfPECA64xbFnmW58MbWDQHaEo&pid=Api&P=0&h=180" alt="Mountains" style="width:100%" onclick="myFunction(this);">
+                                                </div>
+                                                <div class="column">
+                                                  <img src="https://tse1.mm.bing.net/th?id=OIP.1YM53mG10H_U25iPjop83QHaEo&pid=Api&P=0&h=180" alt="Lights" style="width:100%" onclick="myFunction(this);">
+                                                </div>
+                                            {{-- </div> --}}
+                                                {{-- <div class="">
                                                     <span class="photo-small" id="img-210074-0" title="Lobby" alt="Lobby" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_l_001.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_l_001.jpg')"></span>
                                                 </div>
                                                 <div class="">
@@ -260,67 +290,7 @@
                                                 </div>
                                                 <div class="">
                                                     <span class="photo-small" id="img-210074-4" title="Restaurant" alt="Restaurant" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_r_001.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_r_001.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-5" title="Sports and Entertainment" alt="Sports and Entertainment" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_f_002.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_f_002.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-6" title="Lobby" alt="Lobby" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_l_002.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_l_002.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-7" title="Conferences" alt="Conferences" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_k_003.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_k_003.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-8" title="General view" alt="General view" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_a_002.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_a_002.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-9" title="Room" alt="Room" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_w_002.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_w_002.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-10" title="Restaurant" alt="Restaurant" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_r_002.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_r_002.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-11" title="Room" alt="Room" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_ro_003.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_ro_003.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-12" title="General view" alt="General view" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_a_003.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_a_003.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-13" title="Room" alt="Room" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_w_003.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_w_003.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-14" title="Conferences" alt="Conferences" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_k_005.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_k_005.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-15" title="Room" alt="Room" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_ro_005.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_ro_005.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-16" title="Conferences" alt="Conferences" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_k_004.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_k_004.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-17" title="Room" alt="Room" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_w_005.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_w_005.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-18" title="Conferences" alt="Conferences" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_k_006.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_k_006.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-19" title="Room" alt="Room" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_w_004.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_w_004.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-20" title="Restaurant" alt="Restaurant" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_r_003.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_r_003.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-21" title="Room" alt="Room" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_w_006.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_w_006.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-22" title="Restaurant" alt="Restaurant" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_r_004.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_r_004.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-23" title="Conferences" alt="Conferences" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_k_009.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_k_009.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-24" title="Restaurant" alt="Restaurant" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_r_005.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_r_005.jpg')"></span>
-                                                </div>
+                                                </div> --}}
                                         </div>
                                     </div>
                                 </div>
