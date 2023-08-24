@@ -213,18 +213,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="d-flex pull-right">
-                                    <div class="form-checkbox mt-5">
-                                        <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                                        <div class="form-checkbox__mark">
-                                            <div class="form-checkbox__icon icon-check"></div>
-                                        </div>
-                                    </div>
-                                    <div class="text-15 lh-15 text-light-1 ml-10"> I have read and accept the general terms
-                                        and cancellation policy conditions </div>
-                                </div>
-                            </div>
+                            
                             <ul class="y-gap-4 pt-5 text-right inline-block">
                                 <li class="text-14 removeCart">
                                     <a href="javascript:void(0);" class="removeCart"> <i

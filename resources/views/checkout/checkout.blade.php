@@ -41,6 +41,10 @@
         .total-review .review-list li {
             display: block;
         }
+
+        ul.inline-block li {
+            display: inline-block;
+        }
     </style>
     @php
         $Taxes_and_fees = 0;
@@ -81,6 +85,7 @@
 
                             <input type="hidden" name="Taxes_and_fees" value="{{ $Taxes_and_fees }}">
                             <input type="hidden" name="Taxes_and_fees_amt" value="{{ $Taxes_and_fees_amt }}">
+                            <input type="hidden" name="button_name" class="button_name_cls" value="order">
 
                             <div class="row x-gap-20 y-gap-20 pt-20">
                                 <div class="col-md-6">
@@ -150,7 +155,7 @@
 
                                 <h2 class="text-22 fw-500 mt-40 md:mt-24">Passenger Details</h2>
                                 @if (is_array($requiredParamArr) && $requiredParamArr > 0)
-                                    @php                                    
+                                    @php
                                         $roomNo = 0;
                                     @endphp
                                     <div class="border-type-1 rounded-8 px-20 py-20 mt-20">
@@ -198,21 +203,25 @@
                                                         $hotelTitleName = $hotelNameStr . '<span class="text-15 fw-300">' . $hotelRoomTypeStr . '' . $hotelAdultTypeStr . '' . $hotelChildTypeStr . '</span>';
                                                         
                                                     @endphp
-                                                    
+
 
                                                     <div class="text-20 fw-500 mb-20 mt-10">@php
                                                         echo $hotelTitleName;
                                                     @endphp </div>
-                                                    
-                                                    <input type="hidden"
-                                                    class="form-control"
-                                                    name="room_no_{{ $roomNo }}[hotel_id]" value="{{ $value['hotel_id'] }}">
-                                                    <input type="hidden"
-                                                    class="form-control"
-                                                    name="room_no_{{ $roomNo }}[room_id]" value="{{ $value['room_id'] }}">
 
-                                                    <input type="hidden" class="form-control" name="room_no_{{ $roomNo }}[adults]" value="{{ $value['adult'] }}">
-                                                    <input type="hidden" class="form-control" name="room_no_{{ $roomNo }}[childs]" value="{{ $value['child'] }}">                                                    
+                                                    <input type="hidden" class="form-control"
+                                                        name="room_no_{{ $roomNo }}[hotel_id]"
+                                                        value="{{ $value['hotel_id'] }}">
+                                                    <input type="hidden" class="form-control"
+                                                        name="room_no_{{ $roomNo }}[room_id]"
+                                                        value="{{ $value['room_id'] }}">
+
+                                                    <input type="hidden" class="form-control"
+                                                        name="room_no_{{ $roomNo }}[adults]"
+                                                        value="{{ $value['adult'] }}">
+                                                    <input type="hidden" class="form-control"
+                                                        name="room_no_{{ $roomNo }}[childs]"
+                                                        value="{{ $value['child'] }}">
 
                                                     @if ($value['adult'] > 0)
                                                         @for ($i = 1; $i <= $value['adult']; $i++)
@@ -442,7 +451,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-auto col-12">
+                                        <div class="col-auto ">
 
                                             @if (availableBalance($user->agents->id) > getFinalAmountChackOut())
                                                 <div class="col-12 mb-2 text-14 text-light-1">
@@ -472,10 +481,20 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-auto">
-                                            <button type="submit" class="button h-60 px-24 -dark-1 bg-blue-1 text-white">
-                                                Pay Now <div class="icon-arrow-top-right ml-15"></div>
-                                            </button>
+                                        <div class="col-12">
+                                            <ul class="y-gap-4 pt-5 text-right inline-block">
+                                                <li class="text-14">
+                                                    <button type="button" class="saveQuote" name="Draft" >
+                                                        <i class="fa fa-bookmark fa-2x text-blue-1"></i> Save as quote
+                                                    </button>
+                                                </li>
+                                                <li class="text-14">
+                                                    <button type="button"
+                                                        class="button h-60 px-24 -dark-1 bg-blue-1 text-white saveOrder" name="Order">
+                                                        Pay Now <div class="icon-arrow-top-right ml-15"></div>
+                                                    </button>
+                                                </li>
+                                            </ul>
 
                                         </div>
                                     </div>
@@ -518,7 +537,7 @@
                                     <div class="text-15">Taxes and fees ({{ $Taxes_and_fees }}%)</div>
                                 </div>
                                 <div class="col-auto">
-                                    
+
                                     <div class="text-15">{{ numberFormat($Taxes_and_fees_amt, globalCurrency()) }}</div>
                                 </div>
                             </div>

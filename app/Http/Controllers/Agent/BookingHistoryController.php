@@ -27,13 +27,13 @@ class BookingHistoryController extends Controller
         if ($request->ajax()) {
             $user = auth()->user();
             if ($status == "all") {
-                $data = Order::select('*')->where('agent_code', $user->agents->agent_code);
+                $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('order_type', 1);
             } else if ($status == "paid") {
-                $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 1);
+                $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 1)->where('order_type', 1);
             } else if ($status == "unpaid") {
-                $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 0);
+                $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 0)->where('order_type', 1);
             } else {
-                $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('status', orderStatusByID(strtolower($status)));
+                $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('status', orderStatusByID(strtolower($status)))->where('order_type', 1);
             }
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -47,7 +47,7 @@ class BookingHistoryController extends Controller
                     return $order->guest_name;
                 })
                 ->addColumn('pax', function (Order $order) {
-                    return 'Room : ' . $order->total_rooms . ' Adult : ' . $order->total_adult . '<br> Children : ' . $order->total_child.'<br> Night : '.$order->total_nights;
+                    return 'Room : ' . $order->total_rooms . ' Adult : ' . $order->total_adult . '<br> Children : ' . $order->total_child . '<br> Night : ' . $order->total_nights;
                 })
                 ->editColumn('booking_amount', function (Order $order) {
                     return numberFormat($order->booking_amount, globalCurrency());
@@ -81,7 +81,7 @@ class BookingHistoryController extends Controller
 
 
         $guest_lead = $order->lead_passenger_name;
-        if ($order->passenger_type == 0) {
+        if ($order->passenger_type == 1) {
             $order_hotel_room = OrderHotelRoomPassenger::where('order_id', 1)->where('is_adult', 0)->first();
             $guest_lead = $order_hotel_room->name;
         }
@@ -239,7 +239,7 @@ class BookingHistoryController extends Controller
                         </td>
                         <td>                            
                                 Invoice Number:	' . $order->invoice_no . '<br />
-                                Invoice Date:	'.date('d M, Y', strtotime($order->created_at)).'<br />                               
+                                Invoice Date:	' . date('d M, Y', strtotime($order->created_at)) . '<br />                               
                         </td>
                     </tr>
                 </table>
@@ -310,7 +310,7 @@ class BookingHistoryController extends Controller
 	</body>
 </html>
 ';
-       
+
         $dompdf->loadHtml($htmlTemplate);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();

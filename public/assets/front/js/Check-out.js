@@ -1,3 +1,4 @@
+var ClickBTN_Draft = false;
 var FrmCheckoutPreference = function () {
     var FrmCheckoutFormValidation = function () {
         var FrmCheckoutPreferenceForm = $('#CheckoutFrm');
@@ -54,8 +55,14 @@ var FrmCheckoutPreference = function () {
                     required: true,
                 },
                 payment_method: {
-                    required: true,
-                }             
+                    required: function () {
+                        if (!ClickBTN_Draft) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
             },
             messages: {
 
@@ -84,7 +91,7 @@ var FrmCheckoutPreference = function () {
                 }
             },
             submitHandler: function (form) {
-                form.submit();                
+                form.submit();
             }
         });
     }
@@ -156,7 +163,7 @@ var FrmCheckoutPreference = function () {
                   
                 </div>
                           </div>`;
-                          window.location.reload();
+                            window.location.reload();
                         } else {
                             string = `<div class="col-12">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
@@ -184,6 +191,19 @@ var FrmCheckoutPreference = function () {
 
 $(document).ready(function () {
     FrmCheckoutPreference.init();
+    $(document).on('click', '.saveQuote', function () {
+        ClickBTN_Draft = true;
+        $('.button_name_cls').val('');
+        $('.button_name_cls').val('Draft');
+        $('#CheckoutFrm').submit();
+    });
+    $(document).on('click', '.saveOrder', function () {
+        ClickBTN_Draft = false;
+        $('.button_name_cls').val('');
+        $('.button_name_cls').val('Order');
+        $('#CheckoutFrm').submit();
+    });
+
     $(document).on('click', '.SelectRoomBook', function () {
         $(this).closest('.SelectRoomBook').find('.icon-arrow-top-right').hide();
         $(this).closest('.SelectRoomBook').find('.fa-spin').show();
@@ -228,7 +248,7 @@ $(document).ready(function () {
         });
         $.ajax({
             beforeSend: function () {
-               
+
             },
             complete: function () {
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
@@ -259,19 +279,19 @@ $(document).ready(function () {
         }
     });
 
-    $('.addvalidation').each(function () {        
+    $('.addvalidation').each(function () {
         $(this).rules("add", {
             required: true
-            });
-           
-    });    
+        });
+
+    });
     $('.lead_addvalidation').each(function () {
 
         $(this).rules("add", {
             required: true
-            });
-           
-    });    
+        });
+
+    });
 
     checkboxPassenger();
 

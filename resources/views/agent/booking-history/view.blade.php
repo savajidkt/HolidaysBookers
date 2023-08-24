@@ -238,7 +238,7 @@
                                                                     $finalAmt = $finalAmt + $order->tax_amount;
                                                                     
                                                                 @endphp
-                                                                {{ numberFormat($order->tax_amount, trim($order->original_currency)) }}
+                                                                {{ numberFormat($order->tax_amount, trim($order->order_currency)) }}
                                                             </span>
                                                         </div>
                                                     </li>
@@ -250,7 +250,7 @@
                                             <div class="">
                                                 <div class="text-15 fw-500">Booking Amount:
                                                     <span
-                                                        class="pull-right text-20">{{ numberFormat($finalAmt, trim($order->original_currency)) }}</span>
+                                                        class="pull-right text-20">{{ numberFormat($finalAmt, trim($order->order_currency)) }}</span>
                                                 </div>
                                             </div>
                                         </div>

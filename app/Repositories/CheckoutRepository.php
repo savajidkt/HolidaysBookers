@@ -42,6 +42,7 @@ class CheckoutRepository
         $extra_data['passenger_type'] = $data['passengers'];
         $extra_data['taxes_and_fees'] = $data['Taxes_and_fees'];
         $extra_data['taxes_and_fees_amt'] = $data['Taxes_and_fees_amt'];
+        $extra_data['button_name'] = $data['button_name'];
         $adultCount = 0;
         $childCount = 0;
         $roomCount = count($extra_data['cartData']);
@@ -84,7 +85,7 @@ class CheckoutRepository
             // 'coupon_amount'     => $data['coupon_amount'],            
             'total_amount'     => getFinalAmountChackOut(),
             'currency'     => globalCurrency(),
-            'payment_method'     => $data['payment_method'],
+            'payment_method'     => isset($data['payment_method']) ? $data['payment_method'] : 0,
             'passenger'     => serialize($this->roomPassenger($data)),
             'extra_data'     => serialize($extra_data),
             'unique_number'     => generateUniqueNumber('order', $langth = 4),
@@ -108,8 +109,10 @@ class CheckoutRepository
     public function createOrderBooking(Checkout $checkout, $paymentResponce = ''): Order
     {
 
+
         $user = User::find($checkout->user_id);
         $extra_data = unserialize($checkout->extra_data);
+
         $this->order_Rooms = $extra_data['cartData'];
         $passenger = unserialize($checkout->passenger);
         $passengerLead = [];
@@ -124,10 +127,10 @@ class CheckoutRepository
 
 
         $OrderData = [];
-        $OrderData['booking_id'] = $checkout->unique_number;
-        $OrderData['booking_code'] = $checkout->unique_number;
-        $OrderData['invoice_no'] = $checkout->unique_number;
-        $OrderData['confirmation_no'] = $checkout->unique_number;
+        $OrderData['booking_id'] = '';
+        $OrderData['booking_code'] = InvoiceNumberGenerator();
+        $OrderData['invoice_no'] = InvoiceNumberGenerator('HB');
+        $OrderData['confirmation_no'] = '';
         $OrderData['voucher'] = 0;
 
         $OrderData['order_amount'] = getOriginAmountChackOut($extra_data);
@@ -152,22 +155,33 @@ class CheckoutRepository
         $OrderData['total_rooms'] = $checkout->room;
         $OrderData['total_nights'] = (int) dateDiffInDays($checkout->search_from, $checkout->search_to);
         $OrderData['payment_status'] = 1;
+        if ($extra_data['button_name'] == "Draft") {
+            $OrderData['payment_status'] = 0;
+        } else {
+            $OrderData['payment_status'] = 1; //0 = No, 1 = Yes
+        }
         $OrderData['comments'] = '';
         $OrderData['mail_sent'] = 0;
         $OrderData['booked_by'] = 1;
         $OrderData['prebook_response'] = '';
         $OrderData['booking_response'] = '';
         $OrderData['razorpay_responce'] = serialize($paymentResponce);
-        $OrderData['is_pay_using'] = $checkout->payment_method;
+        $OrderData['is_pay_using'] = ($checkout->payment_method) ? $checkout->payment_method : 0;
         $OrderData['passenger_type'] = $passenger_type;
         $OrderData['lead_passenger_name'] = isset($extra_data['lead_passenger']['name']) ? $extra_data['lead_passenger']['name'] : '';
         $OrderData['lead_passenger_id_proof'] = isset($extra_data['lead_passenger']['id_proof']) ? $extra_data['lead_passenger']['id_proof'] : '';
         $OrderData['lead_passenger_id_proof_no'] = isset($extra_data['lead_passenger']['id_proof_no']) ? $extra_data['lead_passenger']['id_proof_no'] : '';
         $OrderData['lead_passenger_phone'] = isset($extra_data['lead_passenger']['phone']) ? $extra_data['lead_passenger']['phone'] : '';
-        $OrderData['order_type'] = 1; //0 = Draft, 1 = Order 
+        if ($extra_data['button_name'] == "Draft") {
+            $OrderData['order_type'] = 0;
+        } else {
+            $OrderData['order_type'] = 1; //0 = Draft, 1 = Order 
+        }
+
         $OrderData['status'] = 1; //1 = Processed, 2 = Confirmed, 3 = Cancelled, 4 = Vouchered     
         $OrderData =  Order::create($OrderData);
         $this->addOrderHotels($extra_data, $OrderData->id, $passengerLead);
+    
         return $OrderData;
     }
 
@@ -219,7 +233,7 @@ class CheckoutRepository
 
     public function addOrderHotelRoomPassengers($cartHotel, $value, $OrderID, $hotelData, $hotelRoomData, $passengerLead)
     {
-        
+
 
         if (count($value) > 0) {
 
@@ -272,7 +286,7 @@ class CheckoutRepository
                 }
             }
         }
-        
+
         return true;
     }
 

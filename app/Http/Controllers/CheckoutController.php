@@ -99,33 +99,54 @@ class CheckoutController extends Controller
     }
 
     public function store(Request $request)
-    {       
-        $SafeencryptionObj = new Safeencryption;
-        if ($request->payment_method == 1) {
-            //Pay On time limit
-            // $this->payOnTimeLimit($data);
-        } else if ($request->payment_method == 2) {
-            //Pay using wallet
-            if (availableBalance(auth()->user()->agents->id) > getFinalAmountChackOut()) {
-                $data = $this->checkoutRepository->createBooking($request->all());
-                $res = $this->payUsingWallet($data);
-                if ($res) {
-                    $this->removeTempData($data);
-                    return redirect()->route('checkout.show', [$SafeencryptionObj->encode($res->id)])->with('success', 'Your booking created successfully!');
+    {
+        if ($request->button_name == "Draft") {
+            $res = $this->saveAsDraft($request);
+            if ($res) {
+                return redirect()->route('home')->with('success', 'Your booking draft created successfully!');
+            } else {
+                return redirect()->route('home')->with('error', 'Your booking draft created failed!');
+            }
+        } else {
+            $SafeencryptionObj = new Safeencryption;
+            if ($request->payment_method == 1) {
+                //Pay On time limit
+                // $this->payOnTimeLimit($data);
+            } else if ($request->payment_method == 2) {
+                //Pay using wallet
+                if (availableBalance(auth()->user()->agents->id) > getFinalAmountChackOut()) {
+                    $data = $this->checkoutRepository->createBooking($request->all());
+                    $res = $this->payUsingWallet($data);
+                    if ($res) {
+                        $this->removeTempData($data);
+                        return redirect()->route('checkout.show', [$SafeencryptionObj->encode($res->id)])->with('success', 'Your booking created successfully!');
+                    } else {
+                        return redirect()->back()->with('error', 'Insufficient Balance');
+                    }
                 } else {
                     return redirect()->back()->with('error', 'Insufficient Balance');
                 }
-            } else {
-                return redirect()->back()->with('error', 'Insufficient Balance');
+            } else if ($request->payment_method == 3) {
+                //Pay On Online payment            
+                $dataObj = $this->checkoutRepository->createBooking($request->all());
+                return view('checkout.rozarpay', ['requestData' => $request->all(), 'dataObj' => $dataObj]);
             }
-        } else if ($request->payment_method == 3) {
-            //Pay On Online payment            
-            $dataObj = $this->checkoutRepository->createBooking($request->all());
-            return view('checkout.rozarpay', ['requestData' => $request->all(), 'dataObj' => $dataObj]);
         }
-
         //return redirect()->route('checkout.show', [])->with('error', 'Your booking created successfully!');
 
+    }
+
+    public function saveAsDraft($request)
+    {
+        // dd($request->all());
+        $data = $this->checkoutRepository->createBooking($request->all());
+        $res = $this->checkoutRepository->createOrderBooking($data);
+
+        if ($res) {
+            $this->removeTempData($data);
+            return true;
+        }
+        return false;
     }
 
 
@@ -168,9 +189,9 @@ class CheckoutController extends Controller
     }
     public function payUsingWallet($data)
     {
-       // if ($this->PayForAgentWallet($data)) {
-            return $this->checkoutRepository->createOrderBooking($data);
-      //  }
+        // if ($this->PayForAgentWallet($data)) {
+        return $this->checkoutRepository->createOrderBooking($data);
+        //  }
         return false;
     }
     public function payOnOnline(Request $request)

@@ -884,7 +884,7 @@ if (!function_exists('getFinalAmountChackOut')) {
 if (!function_exists('getOriginAmountChackOut')) {
     function getOriginAmountChackOut($data)
     {
-       
+
         $amountOrigin = 0;
 
         if (is_array($data['cartData']) && count($data['cartData']) > 0) {
@@ -1081,10 +1081,10 @@ if (!function_exists('chilCountwithBedOrNot')) {
         $childCount['child_with_bed'] = 0;
         $childCount['child_without_bed'] = 0;
         $passengerData = getSearchCookies('searchGuestArr');
-       
+
         if (count($passengerData) > 0) {
             foreach ($passengerData as $key => $value) {
-               
+
                 if ($value->child > 0) {
                     if (count($value->childAge) > 0) {
                         foreach ($value->childAge as $key1 => $value1) {
@@ -1099,5 +1099,23 @@ if (!function_exists('chilCountwithBedOrNot')) {
             }
         }
         return $childCount;
+    }
+}
+
+if (!function_exists('InvoiceNumberGenerator')) {
+    function InvoiceNumberGenerator($prefix = NULL)
+    {
+        $latestNumberData = 1;
+        $latestNumberData = Order::latest()->first();
+
+        if ($latestNumberData) {
+            $latestNumberData = 1;
+        }
+
+        if (strlen($prefix) > 0) {
+            return 'HB' . (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
+        } else {
+            return (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
+        }
     }
 }
