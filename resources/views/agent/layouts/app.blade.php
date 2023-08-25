@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/jquery.dataTables.min.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('assets/front/select/css/select2.min.css') }}">
+    
     <!-- Main-StyleSheet include -->
     <style>
         .help-block-error {
@@ -98,6 +100,12 @@
 
     <script src="{{ asset('assets/front/js/vendors.js') }}"></script>
     <script src="{{ asset('assets/front/js/main.js') }}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="{{ asset('assets/front/select/js/form-select2.js') }}"></script>
+    <script src="{{ asset('assets/front/select/js/select2.full.min.js') }}"></script>
+    
 
     @if (Route::is('agent.travel-calendar'))
         <script src="{{ asset('assets/front/js/index.global.min.js') }}"></script>

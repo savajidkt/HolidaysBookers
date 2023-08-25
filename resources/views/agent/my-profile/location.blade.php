@@ -77,6 +77,7 @@
                                     <div class="col-md-6">
                                         <div class="form-input ">
                                             <select name="country" class="form-control select2">
+                                                <option value="">Select Country</option>
                                                 @foreach ($countries as $country)
                                                     <option value="{{ $country->id }}"
                                                         {{ isset($user->userMeta->country_id) && $user->userMeta->country_id == $country->id ? 'selected' : '' }}>
@@ -85,7 +86,7 @@
                                                 @endforeach
 
                                             </select>
-                                            <label class="lh-1 text-16 text-light-1">Select Country</label>
+                                            {{-- <label class="lh-1 text-16 text-light-1">Select Country</label> --}}
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -109,11 +110,10 @@
         @include('agent.common.footer')
     </div>
 @endsection
-<script>
-    $('.select2').select2();
-</script>
-
 @section('page-script')
+    <script>
+        $('.select2').select2();
+    </script>
 @endsection
 
 

@@ -36,7 +36,7 @@
                 </div>
                 <div class="tabs__content pt-30 js-tabs-content">
                     <div class="tabs__pane -tab-item-1 is-tab-el-active row">
-                        <form action="{{ route('agent.my-change-password') }}" method="POST">
+                        <form id="change_password_form" action="{{ route('agent.my-change-password') }}" method="POST">
                             @csrf
                             @if (session('success'))
                                 <div class="alert alert-success" role="alert">
@@ -50,7 +50,7 @@
                             <div class="col-xl-9">
                                 <div class="row x-gap-20 y-gap-20">
                                     <div class="col-md-12">
-                                        <div class="form-input ">
+                                        <div class="form-input ferrorCls">
                                             <input type="password" name="old_password" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">Old Password</label>
                                         </div>
@@ -59,8 +59,8 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-input ">
-                                            <input type="password" name="new_password" class="has-value">
+                                        <div class="form-input lerrorCls">
+                                            <input type="password" name="new_password" id="new_password" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">New Password</label>
                                         </div>
                                         @error('new_password')
@@ -69,10 +69,13 @@
 
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-input ">
+                                        <div class="form-input eerrorCls">
                                             <input type="password" name="new_password_confirmation" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">Confirm New Password</label>
                                         </div>
+                                        @error('new_password_confirmation')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -89,4 +92,7 @@
     </div>
 @endsection
 @section('page-script')
+    <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/myprofile/change-password.js') }}"></script>
 @endsection

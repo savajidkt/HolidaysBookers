@@ -6,9 +6,9 @@
                 $user = auth()->user();
             @endphp
 
-            @if($user->userMeta->user_avatar)
+            @if(isset($user->userMeta->user_avatar) && strlen($user->userMeta->user_avatar) > 0)
                 <div class="avatar avatar-cover"
-                    style="background-image: url('{{ isset($user->userMeta->user_avatar) && strlen($user->userMeta->user_avatar) > 0 ? url(Storage::url('app/upload/avatar/' . $user->id . '/' . $user->usermeta->user_avatar)) : 'https://gotrip.bookingcore.org/images/avatar.png' }}')">
+                    style="background-image: url('{{ url(Storage::url('app/upload/avatar/' . $user->id . '/' . $user->usermeta->user_avatar)) }}')">
                 </div>
             @else
                 <div class="avatar avatar-cover"
