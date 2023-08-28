@@ -33,21 +33,21 @@
                                     <div class="form-input ferrorCls">
                                         <input id="first_name" type="text" class="form-control" name="first_name"
                                             value="{{ old('first_name') }}">
-                                        <label class="lh-1 text-14 text-light-1">First Name</label>
+                                        <label class="lh-1 text-14 text-light-1">First Name <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input lerrorCls">
                                         <input id="last_name" type="text" class="form-control " name="last_name"
                                             value="{{ old('last_name') }}">
-                                        <label class="lh-1 text-14 text-light-1">Last Name</label>
+                                        <label class="lh-1 text-14 text-light-1">Last Name <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input eerrorCls">
                                         <input id="email" type="email" class="form-control" name="email"
                                             value="{{ old('email') }}">
-                                        <label class="lh-1 text-14 text-light-1">Email</label>
+                                        <label class="lh-1 text-14 text-light-1">Email <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <input type="hidden" name="type" value="1">
@@ -92,14 +92,14 @@
                                 <div class="col-12">
                                     <div class="form-input perrorCls">
                                         <input id="password" type="password" class="form-control" name="password">
-                                        <label class="lh-1 text-14 text-light-1">Password</label>
+                                        <label class="lh-1 text-14 text-light-1">Password <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input pcerrorCls">
                                         <input type="password" class="form-control" name="password_confirmation"
                                             id="password-confirm">
-                                        <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }}</label>
+                                        <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }} <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
 

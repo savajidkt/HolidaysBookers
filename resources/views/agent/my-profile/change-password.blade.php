@@ -52,7 +52,7 @@
                                     <div class="col-md-12">
                                         <div class="form-input ferrorCls">
                                             <input type="password" name="old_password" class="has-value">
-                                            <label class="lh-1 text-16 text-light-1">Old Password</label>
+                                            <label class="lh-1 text-16 text-light-1">Old Password <span class="text-danger">*</span></label>
                                         </div>
                                         @error('old_password')
                                             <span class="text-danger">{{ $message }}</span>
@@ -61,7 +61,7 @@
                                     <div class="col-md-12">
                                         <div class="form-input lerrorCls">
                                             <input type="password" name="new_password" id="new_password" class="has-value">
-                                            <label class="lh-1 text-16 text-light-1">New Password</label>
+                                            <label class="lh-1 text-16 text-light-1">New Password <span class="text-danger">*</span></label>
                                         </div>
                                         @error('new_password')
                                             <span class="text-danger">{{ $message }}</span>
@@ -71,7 +71,7 @@
                                     <div class="col-md-12">
                                         <div class="form-input eerrorCls">
                                             <input type="password" name="new_password_confirmation" class="has-value">
-                                            <label class="lh-1 text-16 text-light-1">Confirm New Password</label>
+                                            <label class="lh-1 text-16 text-light-1">Confirm New Password <span class="text-danger">*</span></label>
                                         </div>
                                         @error('new_password_confirmation')
                                             <span class="text-danger">{{ $message }}</span>

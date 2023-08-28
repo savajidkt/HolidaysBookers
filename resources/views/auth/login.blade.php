@@ -37,7 +37,7 @@
                                     <div class="form-input emailDiv">
                                         <input id="email" type="email" class="form-control" name="email"
                                             value="{{ old('email') }}" placeholder="Email">
-                                        <label class="lh-1 text-14 text-light-1">Email</label>
+                                        <label class="lh-1 text-14 text-light-1">Email <span class="text-danger">*</span></label>
                                     </div>
 
                                 </div>
@@ -46,7 +46,7 @@
                                     <div class="form-input passwordDiv">
                                         <input id="password" type="password" class="form-control" name="password"
                                             placeholder="Password">
-                                        <label class="lh-1 text-14 text-light-1">Password</label>
+                                        <label class="lh-1 text-14 text-light-1">Password <span class="text-danger">*</span></label>
                                     </div>
 
                                 </div>

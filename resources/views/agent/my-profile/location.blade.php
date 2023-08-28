@@ -53,25 +53,25 @@
                                     <div class="col-12">
                                         <div class="form-input ">
                                             <input type="text" value="{{ isset($user->userMeta->address_1) ? $user->userMeta->address_1 : '' }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" name="address">
-                                            <label class="lh-1 text-16 text-light-1">Address Line 1</label>
+                                            <label class="lh-1 text-16 text-light-1">Address Line 1 <span class="text-danger">*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-input ">
                                             <input type="text" value="{{ isset($user->userMeta->address_2) ? $user->userMeta->address_2 : '' }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" name="address2">
-                                            <label class="lh-1 text-16 text-light-1">Address Line 2</label>
+                                            <label class="lh-1 text-16 text-light-1">Address Line 2 <span class="text-danger">*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input ">
                                             <input type="text" value="{{ isset($user->userMeta->city) ? $user->userMeta->city : '' }}" onkeydown="return /[a-z]/i.test(event.key)" name="city">
-                                            <label class="lh-1 text-16 text-light-1">City</label>
+                                            <label class="lh-1 text-16 text-light-1">City <span class="text-danger">*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input ">
                                             <input type="text" value="{{ isset($user->userMeta->state) ? $user->userMeta->state : '' }}" onkeydown="return /[a-z]/i.test(event.key)" name="state">
-                                            <label class="lh-1 text-16 text-light-1">State</label>
+                                            <label class="lh-1 text-16 text-light-1">State <span class="text-danger">*</span></label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -92,7 +92,7 @@
                                     <div class="col-md-6">
                                         <div class="form-input ">
                                             <input type="text" value="{{ isset($user->userMeta->zip) ? $user->userMeta->zip : '' }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" name="zip_code">
-                                            <label class="lh-1 text-16 text-light-1">ZIP Code</label>
+                                            <label class="lh-1 text-16 text-light-1">ZIP Code <span class="text-danger">*</span></label>
                                         </div>
                                     </div>
                                 </div>
