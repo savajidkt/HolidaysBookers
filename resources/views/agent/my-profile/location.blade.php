@@ -52,13 +52,13 @@
                                 <div class="row x-gap-20 y-gap-20">
                                     <div class="col-12">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ isset($user->userMeta->address_1) ? $user->userMeta->address_1 : '' }}" onkeydown="return /[a-z]/i.test(event.key)" name="address">
+                                            <input type="text" value="{{ isset($user->userMeta->address_1) ? $user->userMeta->address_1 : '' }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" name="address">
                                             <label class="lh-1 text-16 text-light-1">Address Line 1</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ isset($user->userMeta->address_2) ? $user->userMeta->address_2 : '' }}" onkeydown="return /[a-z]/i.test(event.key)" name="address2">
+                                            <input type="text" value="{{ isset($user->userMeta->address_2) ? $user->userMeta->address_2 : '' }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" name="address2">
                                             <label class="lh-1 text-16 text-light-1">Address Line 2</label>
                                         </div>
                                     </div>

@@ -7,10 +7,12 @@ use App\Models\Agent;
 use App\Models\AgentMarkup;
 use App\Models\WalletTransaction;
 use App\Http\Controllers\Controller;
+use App\Mail\RegisterdMail;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -71,6 +73,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        
 
         $user = User::create([
             'first_name' => $data['first_name'],
@@ -79,6 +82,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        
+        Mail::to($user->email)->send(new RegisterdMail($data));
 
         $agent_code = createAgentCode($user->id);
         $agent = Agent::create([

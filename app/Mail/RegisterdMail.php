@@ -18,22 +18,26 @@ class RegisterdMail extends Mailable
      *
      * @var User
      */
-    protected $user;
+    // protected $user;
 
     /** @var $title */
     protected $title;
-    protected $password;
+    // protected $password;
+
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($password,User $user)
+    public function __construct($data)
     {
-        $this->user         = $user;
-        $this->password     = $password;
+        // $this->user         = $user;
+        // $this->password     = $password;
+        $this->data = $data;
         $this->title        = 'Begin Your Relational Intelligence Assessment - Login Credentials';
+       
     }
 
     /**
@@ -41,15 +45,16 @@ class RegisterdMail extends Mailable
      *
      * @return $this
      */
+    
     public function build()
     {
-        
+        $data = $this->data;
         return $this
-            ->to($this->user->email)
+            ->to($data['email'])
             ->subject($this->title)
             ->view('emails.login-credential', [
-                'password'     => $this->password,
-                'user'         => $this->user,
+                'password'     => $data['password'],
+                'user'         => $data,
                 'url'=>route('login')
             ]);
     }

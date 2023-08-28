@@ -79,7 +79,7 @@
 					<table style="border: none;padding: 0;margin:auto;" align="center" border="0" cellpadding="0" cellspacing="0">
 						<tr>
 							<td style="padding: 0;max-width: 600px; min-width: 200px; line-height: 1.4; color: #183D49;padding: 0;border-spacing: 0;border-spacing: 0;padding: 0;margin: 0;box-sizing: border-box;width: 600px;background-color: #ffffff;padding-top: 0px;" width="600" class="w100">
-{{-- 
+
 								<table style="width: 600px;" border="0" cellpadding="0" cellspacing="0" width="600" class="w100">
 									<tr>
 										<td style="box-sizing: border-box;background-color: #183D49;padding: 20px;padding-bottom: 0;" class="w100">
@@ -98,15 +98,15 @@
 										</td>
 
 									</tr>
-								</table> --}}
-								{{-- <table style="width: 600px;" border="0" cellpadding="0" cellspacing="0" width="600" class="w100">
+								</table>
+								<table style="width: 600px;" border="0" cellpadding="0" cellspacing="0" width="600" class="w100">
 									<tr>
 										<td class="w100">
 											<img src="{{ asset('assets/img/Header-01.png') }}" alt="" style="width: 600px;display: block;" width="600" class="w100">
 										</td>
 
 									</tr>
-								</table> --}}
+								</table>
 								<table style="width: 600px;" border="0" cellpadding="0" cellspacing="0" width="600" class="w100">
 									<tr>
 										<!-- background-image: url({{ asset('assets/img/email-Background-Image.png') }}); background-size: cover;background-position: center; -->
@@ -115,7 +115,7 @@
 												<tr>
 													<td style="padding: 40px;padding-bottom: 10px;box-sizing: border-box;" class="w100">
 														<h2 style="text-align: center;color: #183D49;">Welcome to the Relational Intelligence Assessment!</h2>
-														{{-- <p style="margin: 0;margin-top: 20px;">
+														<p style="margin: 0;margin-top: 20px;">
 															This assessment
 															will explore your ability to work through real-life business scenarios that
 															focus on relational skills in the workplace. There will be <b>22 scenarios</b>
@@ -130,20 +130,20 @@
 															Your log-in credentials are below. You have been given a temporary
 															password that you will get to change once you have entered the Bandelli &
 															Associates assessment portal.
-														</p> --}}
+														</p>
 														<p style="margin: 0;margin-top: 30px;text-align: center;">
 															<a href="{{ $url }}" target="_blank" style="text-decoration: none;color: #183D49;border:1px solid #4ACAF6;display: inline-block;font-weight: bold;padding: 6px 8px;">
 																<span style="font-style: italic;background-color: #4ACAF6;padding: 12px 30px;display: inline-block;color: #183D49;">Log In</span>
 															</a>
 														</p>
 														<p style="margin: 0;margin-top: 30px;">
-															Username: <b>{{$data['email']}}</b>
+															Username: <b>{{$user->email}}</b>
 														</p>
 														<p style="margin: 0;margin-top: 5px;">
-															Password: <b>{{$data['password']}}</b>
+															Password: <b>{{$password}}</b>
 														</p>
 														<p style="margin: 0;margin-top: 20px;">
-															If you have any technical difficulties completing the assessment, please contact us at <a href="support@holidaysbookers.com" target="_blank">support@holidaysbookers.com</a>.
+															If you have any technical difficulties completing the assessment, please contact us at <a href="mailto:admin@bandelliandassociates.com" target="_blank">admin@bandelliandassociates.com</a>.
 														</p>
 													</td>
 												</tr>

@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input ">
-                                            <input type="text" value="{{ isset($user->userMeta->phone_number) ? $user->userMeta->phone_number : '' }}" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" name="phone_number" class="has-value">
+                                            <input type="text" value="{{ isset($user->userMeta->phone_number) ? $user->userMeta->phone_number : '' }}" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" name="phone_number" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">Phone Number</label>
                                         </div>
                                         @error('phone_number')
