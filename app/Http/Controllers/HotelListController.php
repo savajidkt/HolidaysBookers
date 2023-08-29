@@ -32,7 +32,7 @@ class HotelListController extends Controller
 
     public function index(Request $request)
     {
-
+        // dd($request);
         $country =  [];
         $requestedArr = [];
 

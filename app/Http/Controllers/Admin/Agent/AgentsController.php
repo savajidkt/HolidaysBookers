@@ -60,7 +60,7 @@ class AgentsController extends Controller
                         $query->where('agent_code', 'LIKE', '%' . $keyword . '%');
                     });
                 })->addColumn('agent_company_name', function (User $user) {
-                    return $user->agents->agent_company_name;
+                    return $user->agents->agent_company_name ?? '';
                 })->filterColumn('agent_company_name', function ($query, $keyword) {
                     $query->whereHas('agents', function ($query) use ($keyword) {
                         $query->where('agent_company_name', 'LIKE', '%' . $keyword . '%');
@@ -71,13 +71,13 @@ class AgentsController extends Controller
                     $sql = "CONCAT(users.first_name,'-',users.last_name)  like ?";
                     $query->whereRaw($sql, ["%{$keyword}%"]);
                 })->editColumn('agent_mobile_number', function (User $user) {
-                    return $user->agents->agent_mobile_number;
+                    return $user->agents->agent_mobile_number ?? '';
                 })->filterColumn('agent_mobile_number', function ($query, $keyword) {
                     $query->whereHas('agents', function ($query) use ($keyword) {
                         $query->where('agent_mobile_number', 'LIKE', '%' . $keyword . '%');
                     });
                 })->addColumn('agent_email', function (User $user) {
-                    return $user->agents->agent_email;
+                    return $user->agents->agent_email ?? '';
                 })->filterColumn('agent_email', function ($query, $keyword) {
                     $query->whereHas('agents', function ($query) use ($keyword) {
                         $query->where('agent_email', 'LIKE', '%' . $keyword . '%');
@@ -93,7 +93,7 @@ class AgentsController extends Controller
                 })->orderColumn('full_name', function ($query, $order) {
                     $query->orderByRaw('CONCAT_WS(\' \', first_name, last_name) ' . $order);
                 })->addColumn('action', function ($row) {
-                    return $row->agents->action;
+                    return $row->agents->action ?? '';
                 })->rawColumns(['action', 'status'])->make(true);
         }
 

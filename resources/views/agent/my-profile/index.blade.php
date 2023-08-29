@@ -35,7 +35,7 @@
                 </div>
                 <div class="tabs__content pt-30 js-tabs-content">
                     <div class="tabs__pane -tab-item-1 is-tab-el-active row">
-                        <form action="{{ route('agent.my-profile') }}" method="POST" enctype="multipart/form-data">
+                        <form id="personal_information" action="{{ route('agent.my-profile') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @if (session('success'))
                                 <div class="alert alert-success" role="alert">
@@ -68,7 +68,7 @@
                             <div class="col-xl-9">
                                 <div class="row x-gap-20 y-gap-20">                                    
                                     <div class="col-md-6">
-                                        <div class="form-input ">
+                                        <div class="form-input ferrorCls">
                                             <input type="text" value="{{ $user->first_name }}" onkeydown="return /[a-z]/i.test(event.key)" name="first_name" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">First Name <span class="text-danger">*</span></label>
                                         </div>
@@ -77,7 +77,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-input ">
+                                        <div class="form-input lerrorCls">
                                             <input type="text" value="{{ $user->last_name }}" onkeydown="return /[a-z]/i.test(event.key)" name="last_name" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">Last Name <span class="text-danger">*</span></label>
                                         </div>
@@ -86,7 +86,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-input ">
+                                        <div class="form-input eerrorCls">
                                             <input type="text" name="email" value="{{ $user->email }}" class="has-value" disabled>
                                             <label class="lh-1 text-16 text-light-1">Email <span class="text-danger">*</span></label>
                                         </div>
@@ -95,7 +95,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-input ">
+                                        <div class="form-input phoneCls">
                                             <input type="text" value="{{ isset($user->userMeta->phone_number) ? $user->userMeta->phone_number : '' }}" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" name="phone_number" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">Phone Number <span class="text-danger">*</span></label>
                                         </div>
@@ -119,4 +119,7 @@
     </div>
 @endsection
 @section('page-script')
+    <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
+    <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/myprofile/personal-information.js') }}"></script>
 @endsection

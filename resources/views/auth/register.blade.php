@@ -32,14 +32,14 @@
                                 <div class="col-12">
                                     <div class="form-input ferrorCls">
                                         <input id="first_name" type="text" class="form-control" name="first_name"
-                                            value="{{ old('first_name') }}">
+                                            value="{{ old('first_name') }}" onkeydown="return /[a-z]/i.test(event.key)">
                                         <label class="lh-1 text-14 text-light-1">First Name <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input lerrorCls">
                                         <input id="last_name" type="text" class="form-control " name="last_name"
-                                            value="{{ old('last_name') }}">
+                                            value="{{ old('last_name') }}" onkeydown="return /[a-z]/i.test(event.key)">
                                         <label class="lh-1 text-14 text-light-1">Last Name <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
