@@ -1,5 +1,5 @@
-var FrmCustomerPreference = function () {
-    var CustomerFormValidation = function () {
+var FrmCustomerPreference = function() {
+    var CustomerFormValidation = function() {
         var FrmCustomerPreferenceForm = $('#FrmCustomer');
         var error4 = $('.error-message', FrmCustomerPreferenceForm);
         var success4 = $('.error-message', FrmCustomerPreferenceForm);
@@ -22,7 +22,7 @@ var FrmCustomerPreference = function () {
                 email_address: { required: true, email: true },
                 status: { required: true },
                 password: {
-                    required: function () {
+                    required: function() {
                         if ($('.editPage').val() == 'no') {
                             return true;
                         } else {
@@ -32,7 +32,7 @@ var FrmCustomerPreference = function () {
                     minlength: 6,
                 },
                 confirm_password: {
-                    required: function () {
+                    required: function() {
                         if ($('.editPage').val() == 'no') {
                             return true;
                         } else {
@@ -46,7 +46,7 @@ var FrmCustomerPreference = function () {
             messages: {
 
                 first_name: {
-                    required: $("select[name=first_name]").attr('data-error')
+                    required: $("input[name=first_name]").attr('data-error')
                 },
                 last_name: {
                     required: $("input[name=last_name]").attr('data-error')
@@ -83,17 +83,17 @@ var FrmCustomerPreference = function () {
                 },
 
             },
-            errorPlacement: function (error, element) {
+            errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
         });
     }
-    var getStateList = function () {
-        $(document).on('change', '#country', function () {
+    var getStateList = function() {
+        $(document).on('change', '#country', function() {
             var country_id = $(this).val();
             $('#state').find('option:not(:first)').remove();
             $('#city').find('option:not(:first)').remove();
@@ -104,10 +104,10 @@ var FrmCustomerPreference = function () {
                     }
                 });
                 $.ajax({
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $(".myState .spinner-border").show();
                     },
-                    complete: function () {
+                    complete: function() {
                         $(".myState .spinner-border").hide();
                     },
                     type: 'POST',
@@ -116,9 +116,9 @@ var FrmCustomerPreference = function () {
                     data: {
                         country_id: country_id
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data.status) {
-                            $.each(data.states, function (key, val) {
+                            $.each(data.states, function(key, val) {
                                 $('#state').append(new Option(val.name, val.id));
                             });
                         }
@@ -129,8 +129,8 @@ var FrmCustomerPreference = function () {
         });
     }
 
-    var getCityList = function () {
-        $(document).on('change', '#state', function () {
+    var getCityList = function() {
+        $(document).on('change', '#state', function() {
             var state_id = $(this).val();
             $('#city').find('option:not(:first)').remove();
             if (state_id) {
@@ -140,10 +140,10 @@ var FrmCustomerPreference = function () {
                     }
                 });
                 $.ajax({
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $(".myCity .spinner-border").show();
                     },
-                    complete: function () {
+                    complete: function() {
                         $(".myCity .spinner-border").hide();
                     },
                     type: 'POST',
@@ -152,9 +152,9 @@ var FrmCustomerPreference = function () {
                     data: {
                         state_id: state_id
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data.status) {
-                            $.each(data.cities, function (key, val) {
+                            $.each(data.cities, function(key, val) {
                                 $('#city').append(new Option(val.name, val.id));
                             });
                         }
@@ -165,7 +165,7 @@ var FrmCustomerPreference = function () {
         });
     }
 
-    var changePasswordFormValidation = function () {
+    var changePasswordFormValidation = function() {
         var FrmChangePasswordPreferenceForm = $('#changePassword');
         var error4 = $('.error-message', FrmChangePasswordPreferenceForm);
         var success4 = $('.error-message', FrmChangePasswordPreferenceForm);
@@ -192,10 +192,10 @@ var FrmCustomerPreference = function () {
                     required: $("input[name=confirm_password]").attr('data-error') + ' is required'
                 }
             },
-            errorPlacement: function (error, element) {
+            errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -204,7 +204,7 @@ var FrmCustomerPreference = function () {
 
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             CustomerFormValidation();
             getStateList();
             getCityList();
@@ -214,14 +214,14 @@ var FrmCustomerPreference = function () {
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmCustomerPreference.init();
-    $(document).on('click', '.currntBTN', function () {
+    $(document).on('click', '.currntBTN', function() {
         $('#changePassword #modal_user_id').val($(this).data('user_id'));
         $('#ResetPasswordModal').modal('show');
     });
 
-    $(document).on('click', '#DownloadCustomer', function () {
+    $(document).on('click', '#DownloadCustomer', function() {
         var link = moduleConfig.fileUrl;
         var element = document.createElement('a');
         element.setAttribute('href', link);

@@ -1,6 +1,15 @@
 @extends('admin.layout.app')
 @section('page_title', 'New Customer')
 @section('content')
+<style>
+    .form-group.train-deet[data-select2-id] >.input-error {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.input-error .help-block-error {
+    order: -1;
+}
+</style>
     <section class="bs-validation">
         <div class="row">
             <!-- Bootstrap Validation -->

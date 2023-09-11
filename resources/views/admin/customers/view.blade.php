@@ -113,7 +113,7 @@
                                             @php
                                                 $city = '';
                                             @endphp
-                                            @php $cities = getStateCities($model->state);  @endphp
+                                            @php $cities = getStateWiseCity($model->state);  @endphp
                                             @if ($cities->count() > 0)
                                                 @foreach ($cities as $city)
                                                     @if ($model->city == $city->id)

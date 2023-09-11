@@ -8,10 +8,10 @@
     </div>    
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Firstname</label>
+            <label class="form-label" for="basic-addon-name">Firstname <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-first_name" name="first_name" class="form-control"
                 placeholder="Firstname" onkeydown="return /[a-z]/i.test(event.key)" value="{{ isset($model->user->first_name) ? $model->user->first_name : old('first_name') }}"
-                aria-describedby="basic-addon-name" data-error="Firstname is required" />
+                aria-describedby="basic-addon-name" data-error="First Name is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('first_name')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -20,10 +20,10 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Lastname</label>
+            <label class="form-label" for="basic-addon-name">Lastname <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-last_name" name="last_name" class="form-control"
                 placeholder="Lastname" onkeydown="return /[a-z]/i.test(event.key)" value="{{ isset($model->user->last_name) ? $model->user->last_name : old('last_name') }}"
-                aria-describedby="basic-addon-name" data-error="Lastname is required" />
+                aria-describedby="basic-addon-name" data-error="Last Name is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('last_name')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -32,7 +32,7 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Date of birth</label>
+            <label class="form-label" for="basic-addon-name">Date of birth <span class="text-danger">*</span></label>
             <input type="text" id="fp-default" name="dob" class="form-control flatpickr-basic flatpickr-input"
                 placeholder="YYYY-MM-DD" placeholder="Date of birth is required"
                 value="{{ isset($model->dob) ? $model->dob : old('dob') }}" data-error="Date of birth is required" />
@@ -44,7 +44,7 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="country">Country</label>
+            <label class="form-label" for="country">Country <span class="text-danger">*</span></label>
             <select class="select2 form-control form-control-lg" id="country" name="country"
                 data-error="Country is required">
                 <option value="">Select Country</option>
@@ -61,7 +61,7 @@
     </div>
     <div class="col-4">
         <div class="form-group myState">
-            <label class="form-label" for="state">State</label>
+            <label class="form-label" for="state">State <span class="text-danger">*</span></label>
             <select class="select2 form-control form-control-lg" id="state" name="state"
                 data-error="State is required">
                 <option value="">Select State</option>
@@ -84,7 +84,7 @@
     </div>
     <div class="col-4">
         <div class="form-group myCity">
-            <label class="form-label" for="city">City</label>
+            <label class="form-label" for="city">City <span class="text-danger">*</span></label>
             <select class="select2 form-control form-control-lg" id="city" name="city"
                 data-error="City is required">
                 <option value="">Select City</option>
@@ -107,7 +107,7 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Zipcode</label>
+            <label class="form-label" for="basic-addon-name">Zipcode <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-zipcode" name="zipcode" class="form-control"
                 placeholder="Zipcode" value="{{ isset($model->zipcode) ? $model->zipcode : old('zipcode') }}"
                 aria-describedby="basic-addon-name" data-error="Zipcode is required" />
@@ -131,7 +131,7 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Mobile Number</label>
+            <label class="form-label" for="basic-addon-name">Mobile Number <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-mobile_number" name="mobile_number" class="form-control"
                 placeholder="Mobile Number"
                 value="{{ isset($model->mobile_number) ? $model->mobile_number : old('mobile_number') }}"
@@ -145,8 +145,8 @@
     
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="role">Status</label>
-            <select name="status" class="form-control" id="status" data-error="Status is required">
+            <label class="form-label" for="status">Status <span class="text-danger">*</span></label>
+            <select name="status" class="form-control form-control-lg" id="status" data-error="Status is required">
                 <option value="">Select Status</option>
                 <option value="1" {{ (isset($model->id) && $model->user->status == 1) ? 'selected' : '' }}> {{ __('core.active') }}</option>
                 <option value="0" {{ (isset($model->id) && $model->user->status == 0) ? 'selected' : '' }}> {{ __('core.inactive') }}
@@ -171,7 +171,7 @@
     <div class="col-4">
         <div class="form-group">
             <input type="hidden" value="{{ isset($model->id) ? 'yes' : 'no' }}" class="editPage" id="editPage">
-            <label class="form-label" for="basic-addon-name">Email Address</label>
+            <label class="form-label" for="basic-addon-name">Email Address <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-email_address" name="email_address" class="form-control"
                 placeholder="Email Address"
                 value="{{ isset($model->user->email) ? $model->user->email : old('email_address') }}"
@@ -184,7 +184,7 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Password</label>
+            <label class="form-label" for="basic-addon-name">Password <span class="text-danger">*</span></label>
             <input type="password" id="password" name="password" class="form-control" placeholder="Password"
                 value="{{ isset($model->password) ? $model->password : old('password') }}"
                 aria-describedby="basic-addon-name" data-error="Password is required" />
@@ -196,7 +196,7 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Confirm Password</label>
+            <label class="form-label" for="basic-addon-name">Confirm Password <span class="text-danger">*</span></label>
             <input type="password" id="basic-addon-confirm_password" name="confirm_password" class="form-control"
                 placeholder="Confirm Password"
                 value="{{ isset($model->confirm_password) ? $model->confirm_password : old('confirm_password') }}"
