@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('page_title', 'Home')
+@section('page_title', 'Contact Us')
 @section('content')
     <div class="ratio ratio-16:9">
         <div class="map-ratio">

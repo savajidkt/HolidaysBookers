@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('page_title', 'Home')
+@section('page_title', 'Offers')
 @section('content')
     <section class="layout-pt-lg layout-pb-lg">
         <div class="container">

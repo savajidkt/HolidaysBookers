@@ -30,7 +30,8 @@ class Customer extends Authenticatable
         'state',
         'city',
         'zipcode',
-        'mobile_number'
+        'mobile_number',
+        'telephone'
 
     ];
 

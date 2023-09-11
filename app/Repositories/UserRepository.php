@@ -241,8 +241,7 @@ class UserRepository
 
     public function updateCustomerLocation(array $data, User $user): User
     {
-
-
+        
         $dataSave = [
             'country_id'     => $data['country'],
             'address_1'     => $data['address'],
@@ -251,8 +250,18 @@ class UserRepository
             'state'     => $data['state'],
             'zip'     => $data['zip_code']
         ];
-
-        $user->userMeta->update($dataSave);
+        if($user->usermeta)
+        {
+            $user->usermeta->update($dataSave);
+        }
+        else
+        {
+            $dataSave['user_id']=$user['id'];
+            $dataSave['phone_number']='';
+            
+            UserMeta::create($dataSave);
+        }
+        
 
         return $user;
 

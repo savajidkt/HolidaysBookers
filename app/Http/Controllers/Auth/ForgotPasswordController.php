@@ -86,6 +86,7 @@ class ForgotPasswordController extends Controller
      */
     public function submitResetPasswordForm(Request $request)
     {
+        
         $request->validate([
             'password' => 'required|string|min:8|confirmed',
             'password_confirmation' => 'required'
@@ -96,14 +97,15 @@ class ForgotPasswordController extends Controller
                 'token' => $request->token
             ])
             ->first();
-
+            
         if (!$updatePassword) {
-            return back()->withInput()->with('error', 'Invalid token!');
+            // return back()->withInput()->with('error', 'Invalid token!');
+            return view('errors.404');
         }
-
+        
         $user = User::where('email', $updatePassword->email)
             ->update(['password' => Hash::make($request->password)]);
-
+        
         DB::table('password_resets')->where(['email' => $request->email])->delete();
 
         return redirect('/login')->with('message', 'Your password has been changed!');

@@ -35,7 +35,7 @@
                                     <div class="form-input emailDiv">
                                         <input id="email" type="email"
                                             class="form-control" name="email"
-                                            value="{{ old('email') }}" placeholder="{{ __('Email Address') }}">
+                                            value="{{ old('email') }}" placeholder="">
                                         <label class="lh-1 text-14 text-light-1">{{ __('Email Address') }} <span class="text-danger">*</span></label>
                                     </div>
                                    

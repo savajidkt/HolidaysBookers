@@ -148,6 +148,15 @@ if (!function_exists('getStateCitiesByState')) {
     }
 }
 
+if (!function_exists('getStateWiseCity')) {
+    /**
+     * getCountryState return cities lists
+     */
+    function getStateWiseCity($state_id)
+    {
+        return City::where('state_id', $state_id)->where('status', 1)->get();
+    }
+}
 
 if (!function_exists('createAgentCode')) {
     /**

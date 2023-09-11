@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('page_title', 'Home')
+@section('page_title', 'About Us')
 @section('content')
     <section class="section-bg layout-pt-lg layout-pb-lg">
         <div class="section-bg__item col-12">

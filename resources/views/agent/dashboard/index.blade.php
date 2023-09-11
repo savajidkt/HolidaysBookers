@@ -1,5 +1,5 @@
 @extends('agent.layouts.app')
-@section('page_title', 'Home')
+@section('page_title', 'Dashboard')
 @section('content')
     <div class="dashboard__content bg-light-2">
         <div class="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">

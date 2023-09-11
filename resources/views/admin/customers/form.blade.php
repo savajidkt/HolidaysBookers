@@ -10,7 +10,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">Firstname</label>
             <input type="text" id="basic-addon-first_name" name="first_name" class="form-control"
-                placeholder="Firstname" value="{{ isset($model->user->first_name) ? $model->user->first_name : old('first_name') }}"
+                placeholder="Firstname" onkeydown="return /[a-z]/i.test(event.key)" value="{{ isset($model->user->first_name) ? $model->user->first_name : old('first_name') }}"
                 aria-describedby="basic-addon-name" data-error="Firstname is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('first_name')
@@ -22,7 +22,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">Lastname</label>
             <input type="text" id="basic-addon-last_name" name="last_name" class="form-control"
-                placeholder="Lastname" value="{{ isset($model->user->last_name) ? $model->user->last_name : old('last_name') }}"
+                placeholder="Lastname" onkeydown="return /[a-z]/i.test(event.key)" value="{{ isset($model->user->last_name) ? $model->user->last_name : old('last_name') }}"
                 aria-describedby="basic-addon-name" data-error="Lastname is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('last_name')
@@ -88,7 +88,7 @@
             <select class="select2 form-control form-control-lg" id="city" name="city"
                 data-error="City is required">
                 <option value="">Select City</option>
-                @php $cities = getStateCities($model->state);  @endphp
+                @php $cities = getStateWiseCity($model->state);  @endphp
                 @if ($cities->count() > 0)
                     @foreach ($cities as $city)
                         <option value="{{ $city->id }}" {{ (isset($model->id) && $model->city == $city->id) ? 'selected' : ''}}>
@@ -122,7 +122,7 @@
             <label class="form-label" for="basic-addon-name">Telephone</label>
             <input type="text" id="basic-addon-telephone" name="telephone" class="form-control"
                 placeholder="Telephone" value="{{ isset($model->telephone) ? $model->telephone : old('telephone') }}"
-                aria-describedby="basic-addon-name" data-error="Telephone is required" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" />
+                aria-describedby="basic-addon-name" data-error="Telephone is required" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('telephone')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -135,7 +135,7 @@
             <input type="text" id="basic-addon-mobile_number" name="mobile_number" class="form-control"
                 placeholder="Mobile Number"
                 value="{{ isset($model->mobile_number) ? $model->mobile_number : old('mobile_number') }}"
-                aria-describedby="basic-addon-name" data-error="Mobile Number is required" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" />
+                aria-describedby="basic-addon-name" data-error="Mobile Number is required" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('mobile_number')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -209,6 +209,9 @@
     </div>
 </div>
 @section('extra-script')
+    <script>
+        $('.select2').select2();
+    </script>
     <script src="{{ asset('js/form/Customer.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
