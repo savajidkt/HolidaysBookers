@@ -1,5 +1,5 @@
-var FrmAgentPreference = function () {
-    var AgentFormValidation = function () {
+var FrmAgentPreference = function() {
+    var AgentFormValidation = function() {
         var FrmAgentPreferenceForm = $('#FrmAgent');
         var error4 = $('.error-message', FrmAgentPreferenceForm);
         var success4 = $('.error-message', FrmAgentPreferenceForm);
@@ -24,9 +24,9 @@ var FrmAgentPreference = function () {
                 agent_pincode: { required: true },
                 agent_mobile_number: { required: true, digits: true },
                 agent_telephone: { digits: true },
-                agent_email: { required: true, email: true },
+                agent_email: { required: true, email: true, emailExt: true },
                 agent_iata_number: {
-                    required: function () {
+                    required: function() {
                         if ($('input[name="agent_iata"]:checked').val() == 'yes') {
                             return true;
                         } else {
@@ -37,18 +37,18 @@ var FrmAgentPreference = function () {
                 mgmt_first_name: { required: true },
                 mgmt_last_name: { required: true },
                 mgmt_contact_number: { required: true, digits: true },
-                mgmt_email: { required: true, email: true },
+                mgmt_email: { required: true, email: true, emailExt: true },
                 account_first_name: { required: true },
                 account_last_name: { required: true },
                 account_contact_number: { required: true, digits: true },
-                account_email: { required: true, email: true },
+                account_email: { required: true, email: true, emailExt: true },
                 reserve_first_name: { required: true },
                 reserve_last_name: { required: true },
                 reserve_contact_number: { required: true, digits: true },
-                reserve_email: { required: true, email: true },
-                agent_username: { required: true },
+                reserve_email: { required: true, email: true, emailExt: true },
+                agent_username: { required: true, email: true, emailExt: true },
                 agent_password: {
-                    required: function () {
+                    required: function() {
                         if ($('.editPage').val() == 'no') {
                             return true;
                         } else {
@@ -58,7 +58,7 @@ var FrmAgentPreference = function () {
                     minlength: 6,
                 },
                 agent_confirm_password: {
-                    required: function () {
+                    required: function() {
                         if ($('.editPage').val() == 'no') {
                             return true;
                         } else {
@@ -164,17 +164,29 @@ var FrmAgentPreference = function () {
                     required: $("select[name=status]").attr('data-error') + ' is required'
                 },
             },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
+            errorPlacement: function(error, element) {
+
+                if (element.attr("name") == "agent_company_type") {
+                    error.insertAfter("#agent_company_type_id");
+                } else if (element.attr("name") == "agent_country") {
+                    error.insertAfter("#agent_country_id");
+                } else if (element.attr("name") == "agent_state") {
+                    error.insertAfter("#agent_state_id");
+                } else if (element.attr("name") == "agent_city") {
+                    error.insertAfter("#agent_city_id");
+                } else {
+                    error.insertAfter(element);
+                }
+
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
         });
     }
-    var getStateList = function () {
-        $(document).on('change', '#agent_country', function () {
+    var getStateList = function() {
+        $(document).on('change', '#agent_country', function() {
             var country_id = $(this).val();
             $('#agent_state').find('option:not(:first)').remove();
             $('#agent_city').find('option:not(:first)').remove();
@@ -185,10 +197,10 @@ var FrmAgentPreference = function () {
                     }
                 });
                 $.ajax({
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $(".myState .spinner-border").show();
                     },
-                    complete: function () {
+                    complete: function() {
                         $(".myState .spinner-border").hide();
                     },
                     type: 'POST',
@@ -197,9 +209,9 @@ var FrmAgentPreference = function () {
                     data: {
                         country_id: country_id
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data.status) {
-                            $.each(data.states, function (key, val) {
+                            $.each(data.states, function(key, val) {
                                 $('#agent_state').append(new Option(val.name, val.id));
                             });
                         }
@@ -210,8 +222,8 @@ var FrmAgentPreference = function () {
         });
     }
 
-    var getCityList = function () {
-        $(document).on('change', '#agent_state', function () {
+    var getCityList = function() {
+        $(document).on('change', '#agent_state', function() {
             var state_id = $(this).val();
             $('#agent_city').find('option:not(:first)').remove();
             if (state_id) {
@@ -221,10 +233,10 @@ var FrmAgentPreference = function () {
                     }
                 });
                 $.ajax({
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $(".myCity .spinner-border").show();
                     },
-                    complete: function () {
+                    complete: function() {
                         $(".myCity .spinner-border").hide();
                     },
                     type: 'POST',
@@ -233,9 +245,9 @@ var FrmAgentPreference = function () {
                     data: {
                         state_id: state_id
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data.status) {
-                            $.each(data.cities, function (key, val) {
+                            $.each(data.cities, function(key, val) {
                                 $('#agent_city').append(new Option(val.name, val.id));
                             });
                         }
@@ -246,7 +258,7 @@ var FrmAgentPreference = function () {
         });
     }
 
-    var changePasswordFormValidation = function () {
+    var changePasswordFormValidation = function() {
         var FrmChangePasswordPreferenceForm = $('#changePassword');
         var error4 = $('.error-message', FrmChangePasswordPreferenceForm);
         var success4 = $('.error-message', FrmChangePasswordPreferenceForm);
@@ -273,17 +285,17 @@ var FrmAgentPreference = function () {
                     required: $("input[name=confirm_password]").attr('data-error') + ' is required'
                 }
             },
-            errorPlacement: function (error, element) {
+            errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
         });
     }
 
-    var updateHBCreditFormValidation = function () {
+    var updateHBCreditFormValidation = function() {
         var FrmUpdateHBCreditPreferenceForm = $('#updateHBCredit');
         var error4 = $('.error-message', FrmUpdateHBCreditPreferenceForm);
         var success4 = $('.error-message', FrmUpdateHBCreditPreferenceForm);
@@ -305,12 +317,11 @@ var FrmAgentPreference = function () {
                     required: true,
                 },
             },
-            messages: {
-            },
-            errorPlacement: function (error, element) {
+            messages: {},
+            errorPlacement: function(error, element) {
                 error.insertAfter(element);
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 var avilableBal = $('#HBCreditModal #HBCredit_Bal').val();
                 var enterAmount = $('#HBCreditModal #amount').val();
                 var enterType = $("#HBCreditModal select[name=type]").val();
@@ -332,10 +343,10 @@ var FrmAgentPreference = function () {
                     }
                 }
 
-                                
+
                 $('#updateHBCredit :button[type="submit"]').prop('disabled', true);
                 $(".buttonLoader").removeClass('hide');
-                
+
                 form.submit();
             }
         });
@@ -343,26 +354,30 @@ var FrmAgentPreference = function () {
 
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             AgentFormValidation();
             getStateList();
             getCityList();
             changePasswordFormValidation();
             updateHBCreditFormValidation();
+
+            jQuery.validator.addMethod("emailExt", function(value, element, param) {
+                return value.match(/^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/);
+            }, 'Please enter a valid email address.');
         }
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmAgentPreference.init();
 
-    
-    $(document).on('click', '.currntBTN', function () {
+
+    $(document).on('click', '.currntBTN', function() {
         $('#changePassword #modal_user_id').val($(this).data('user_id'));
         $('#ResetPasswordModal').modal('show');
     });
 
-    $(document).on('click', '.HBCredit', function () {
+    $(document).on('click', '.HBCredit', function() {
         $('#HBCreditModal #HBCredit_user_id').val($(this).data('user_id'));
         $('#HBCreditModal .agentName').html($(this).data('agent_code'));
         $('#HBCreditModal #availableBal').html('Avilable Balance ₹' + $(this).data('balance'));
@@ -371,16 +386,15 @@ $(document).ready(function () {
     });
 
 
-    $('input[type=radio][name=agent_iata]').change(function () {
+    $('input[type=radio][name=agent_iata]').change(function() {
         if (this.value == 'yes') {
             $('.iata_number_hide').removeClass('hide');
-        }
-        else {
+        } else {
             $('.iata_number_hide').addClass('hide');
         }
     });
 
-    $('select[name=agent_know_about]').change(function () {
+    $('select[name=agent_know_about]').change(function() {
         var current = $('option:selected', this).attr('data-other');
         $('.otherData label').html('');
         if (current == '1') {

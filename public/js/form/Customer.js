@@ -19,7 +19,7 @@ var FrmCustomerPreference = function() {
                 city: { required: true },
                 zipcode: { required: true },
                 mobile_number: { required: true },
-                email_address: { required: true, email: true },
+                email_address: { required: true, email: true, emailExt: true },
                 status: { required: true },
                 password: {
                     required: function() {
@@ -84,7 +84,16 @@ var FrmCustomerPreference = function() {
 
             },
             errorPlacement: function(error, element) {
-                error.insertAfter(element);
+
+                if (element.attr("name") == "country") {
+                    error.insertAfter("#country_id");
+                } else if (element.attr("name") == "state") {
+                    error.insertAfter("#state_id");
+                } else if (element.attr("name") == "city") {
+                    error.insertAfter("#city_id");
+                } else {
+                    error.insertAfter(element);
+                }
             },
             submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
@@ -209,6 +218,10 @@ var FrmCustomerPreference = function() {
             getStateList();
             getCityList();
             changePasswordFormValidation();
+
+            jQuery.validator.addMethod("emailExt", function(value, element, param) {
+                return value.match(/^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/);
+            }, 'Please enter a valid email address.');
 
         }
     };

@@ -74,7 +74,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="form-label"
-                                        for="password">{{ __('agent/agent.agent_password') }}</label>
+                                        for="password">{{ __('agent/agent.agent_password') }} <span class="text-danger">*</span></label>
                                     <input type="password" id="password" name="password" class="form-control"
                                         placeholder="{{ __('agent/agent.agent_password') }}" value=""
                                         data-error="{{ __('agent/agent.agent_password') }}" />
@@ -83,7 +83,7 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label class="form-label"
-                                        for="confirm_password">{{ __('agent/agent.agent_confirm_password') }}</label>
+                                        for="confirm_password">{{ __('agent/agent.agent_confirm_password') }} <span class="text-danger">*</span></label>
                                     <input type="password" id="confirm_password" name="confirm_password"
                                         class="form-control"
                                         placeholder="{{ __('agent/agent.agent_confirm_password') }}" value=""
@@ -126,7 +126,7 @@
                                 value="">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="Type">Type</label>
+                                    <label class="form-label" for="Type">Type <span class="text-danger">*</span></label>
                                     <select class="select2 form-control form-control-lg" name="type"
                                         data-error="Type">
                                         <option value="">Select type</option>
@@ -137,7 +137,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="amount">Amount</label>
+                                    <label class="form-label" for="amount">Amount <span class="text-danger">*</span></label>
                                     <input type="text" id="amount" name="amount" class="form-control"
                                         value="" data-error="Amount"
                                         onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" />
@@ -146,7 +146,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label class="form-label" for="comment">Comment</label>
+                                    <label class="form-label" for="comment">Comment <span class="text-danger">*</span></label>
                                     <textarea name="comment" class="form-control"></textarea>
                                 </div>
                             </div>

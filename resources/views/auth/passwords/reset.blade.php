@@ -17,7 +17,7 @@
                                             @csrf
                                             <input type="hidden" name="token" value="{{ $token }}">
                                           <h1 class="card-title pt-0 pb-0 mb-0">{{ __('Reset Password') }}</h1>
-                                          <div class="col-12">
+                                          {{-- <div class="col-12">
                                              <div class="input-group has-validation">
                                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus placeholder="Email" require>
 
@@ -27,7 +27,7 @@
                                                     </span>
                                                 @enderror
                                              </div>
-                                          </div>
+                                          </div> --}}
                                           <div class="col-12">
                                           <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required  placeholder="New Password">
                                             @error('password')

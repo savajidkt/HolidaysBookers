@@ -54,6 +54,7 @@
                 @endforeach
             </select>
             <div class="valid-feedback">Looks good!</div>
+            <span id="country_id"></span>
             @error('country')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -77,6 +78,7 @@
                 <span class="sr-only">{{ __('core.loading') }}</span>
             </div>
             <div class="valid-feedback">Looks good!</div>
+            <span id="state_id"></span>
             @error('state')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -100,6 +102,7 @@
                 <span class="sr-only">{{ __('core.loading') }}</span>
             </div>
             <div class="valid-feedback">Looks good!</div>
+            <span id="city_id"></span>
             @error('city')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror

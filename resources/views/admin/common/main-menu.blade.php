@@ -74,7 +74,7 @@
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{ url('admin/agents') }}">
                     <i data-feather='user'></i>
-                    <span class="menu-title text-truncate" data-i18n="Coporate Management">Coporate Management</span>
+                    <span class="menu-title text-truncate" data-i18n="Corporate Management">Corporate Management</span>
                 </a>
             </li>
             @if (
