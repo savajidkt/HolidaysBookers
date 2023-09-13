@@ -143,7 +143,7 @@
                                         <div class="form-group">
                                             <label for="account-username">{{ __('agent/agent.agent_dob') }}</label>                                           
                                             <strong
-                                                class="disp-below">{{ isset($model->agent_dob) ? $model->agent_dob : '' }}</strong>
+                                                class="disp-below">{{(isset($model->agent_dob))? formatdate($model->agent_dob):''}}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">

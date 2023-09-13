@@ -116,6 +116,11 @@
         format: 'mmmm, d, yyyy'
     });
 
+    //custome class
+    $('.date-format').pickadate({
+        format: 'dd/mm/yyyy'
+    });
+
     // Date limits
     $('.pickadate-limits').pickadate({
         min: [2019, 3, 20],

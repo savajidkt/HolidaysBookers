@@ -128,6 +128,7 @@ class AgentsController extends Controller
      */
     public function store(CreateRequest $request)
     {
+        // dd($request);
         $this->agentRepository->create($request->all());
         return redirect()->route('agents.index')->with('success', "User created successfully!");
     }

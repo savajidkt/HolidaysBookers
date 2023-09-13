@@ -19,7 +19,7 @@ class CustomerRepository
      */
     public function create(array $data): Customer
     {
-
+        // dd($data);
         $UserArr = [
             'first_name'    => $data['first_name'],
             'last_name'    => $data['last_name'],
@@ -33,7 +33,7 @@ class CustomerRepository
 
         $dataSave = [
             'user_id'     => $user->id,
-            'dob'     => $data['dob'],
+            'dob'     => dateFormatNewMethod($data['dob']),
             'country'     => $data['country'],
             'state'     => $data['state'],
             'city'     => $data['city'],
@@ -70,7 +70,7 @@ class CustomerRepository
         }
         if ($customer->user->update($UserArr)) {
             $dataSave = [
-                'dob'     => $data['dob'],
+                'dob'     => dateFormatNewMethod($data['dob']),
                 'country'     => $data['country'],
                 'state'     => $data['state'],
                 'city'     => $data['city'],

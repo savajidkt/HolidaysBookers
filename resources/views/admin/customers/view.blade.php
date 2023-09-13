@@ -67,7 +67,7 @@
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">Date Of Birth</label>
-                                            <strong class="disp-below">{{ isset($model->dob) ? $model->dob : '' }}</strong>
+                                            <strong class="disp-below">{{(isset($model->dob))? formatdate($model->dob):''}}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">

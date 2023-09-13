@@ -95,9 +95,9 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_dob">{{ __('agent/agent.agent_dob') }} <span class="text-danger">*</span></label>
-            <input type="text" id="fp-default" name="agent_dob" class="form-control flatpickr-basic flatpickr-input"
+            <input type="text" id="fp-default" name="agent_dob" class="form-control  date-format"
                 placeholder="YYYY-MM-DD" placeholder="{{ __('agent/agent.agent_dob') }}"
-                value="{{ isset($model->agent_dob) ? $model->agent_dob : old('agent_dob') }}"
+                value="{{(isset($model->agent_dob))? formatdate($model->agent_dob):''}}"
                 data-error="{{ __('agent/agent.agent_dob') }}" />
             <div class="valid-feedback">Looks good!</div>
             @error('agent_dob')

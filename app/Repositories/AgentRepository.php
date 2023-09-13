@@ -14,6 +14,7 @@ use App\Exceptions\GeneralException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\RegisterdEmailNotification;
+use DateTime;
 
 class AgentRepository
 {
@@ -26,7 +27,7 @@ class AgentRepository
      */
     public function create(array $data): User
     {
-
+        // dd($data);
         $UserArr = [
             'first_name'    => $data['agent_first_name'],
             'last_name'    => $data['agent_last_name'],
@@ -49,7 +50,17 @@ class AgentRepository
                 } else if ($key == "agent_company_logo") {
                     $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_logo', $user->id);
                 } else {
-                    $UserProfileArr[$key] = $data[$key];
+                    
+                    if($key == 'agent_dob')
+                    {
+                        $start_date= $data['agent_dob'];
+                        $convertedDate= DateTime::createFromFormat('d/m/Y', $start_date)->format('Y-m-d');
+                        //dd($convertedDate);
+                        $UserProfileArr[$key] = $convertedDate;
+                    }else{
+                        $UserProfileArr[$key] = $data[$key];
+                    }
+                    
                 }
             }
         }
@@ -125,7 +136,18 @@ class AgentRepository
                     } else if ($key == "agent_company_logo") {
                         $UserProfileArr[$key] = $this->uploadDoc($data, 'agent_company_logo', $agent->user->id);
                     } else {
-                        $UserProfileArr[$key] = $data[$key];
+
+                        if($key == 'agent_dob')
+                        {
+                            $start_date= $data['agent_dob'];
+                            $convertedDate= DateTime::createFromFormat('d/m/Y', $start_date)->format('Y-m-d');
+                            //dd($convertedDate);
+                            $UserProfileArr[$key] = $convertedDate;
+                        }else{
+                            $UserProfileArr[$key] = $data[$key];
+                        }
+                        
+                        
                     }
                 }
             }

@@ -197,6 +197,32 @@ if (!function_exists('dateFormat')) {
     }
 }
 
+if (!function_exists('formatdate')) {
+
+    /**
+
+     * numberFormat return number with two decimals
+
+     */
+
+    function formatdate($date, $format = NULL)
+
+    {
+
+        if ($format) {
+
+            return date($format, strtotime($date));
+
+        } else {
+
+            return date("d/m/Y", strtotime($date));
+
+        }
+
+    }
+
+}
+
 
 if (!function_exists('calculateBalance')) {
     /**
@@ -1127,4 +1153,31 @@ if (!function_exists('InvoiceNumberGenerator')) {
             return (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
         }
     }
+}
+
+if (!function_exists('dateFormatNewMethod')) {
+
+    /**
+
+     * numberFormat return number with two decimals
+
+     */
+
+    function dateFormatNewMethod($date)
+
+    {
+
+        
+        $timestamp = strtotime($date);
+        if ($timestamp === FALSE) {
+            $timestamp = strtotime(str_replace('/', '-', $date));
+        }
+        return date("Y-m-d", $timestamp);
+    
+
+    //     $_firstDate = date("m-d-Y", strtotime($date));
+    //     return date("Y-m-d",strtotime($_firstDate));
+
+    }
+
 }

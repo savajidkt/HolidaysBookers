@@ -8,9 +8,9 @@
     </div>    
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Firstname <span class="text-danger">*</span></label>
+            <label class="form-label" for="basic-addon-name">First Name <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-first_name" name="first_name" class="form-control"
-                placeholder="Firstname" onkeydown="return /[a-z]/i.test(event.key)" value="{{ isset($model->user->first_name) ? $model->user->first_name : old('first_name') }}"
+                placeholder="First Name" onkeydown="return /[a-z]/i.test(event.key)" value="{{ isset($model->user->first_name) ? $model->user->first_name : old('first_name') }}"
                 aria-describedby="basic-addon-name" data-error="First Name is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('first_name')
@@ -20,9 +20,9 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Lastname <span class="text-danger">*</span></label>
+            <label class="form-label" for="basic-addon-name">Last Name <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-last_name" name="last_name" class="form-control"
-                placeholder="Lastname" onkeydown="return /[a-z]/i.test(event.key)" value="{{ isset($model->user->last_name) ? $model->user->last_name : old('last_name') }}"
+                placeholder="Last Name" onkeydown="return /[a-z]/i.test(event.key)" value="{{ isset($model->user->last_name) ? $model->user->last_name : old('last_name') }}"
                 aria-describedby="basic-addon-name" data-error="Last Name is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('last_name')
@@ -33,9 +33,9 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">Date of birth <span class="text-danger">*</span></label>
-            <input type="text" id="fp-default" name="dob" class="form-control flatpickr-basic flatpickr-input"
+            <input type="text" id="fp-default" name="dob" class="form-control date-format"
                 placeholder="YYYY-MM-DD" placeholder="Date of birth is required"
-                value="{{ isset($model->dob) ? $model->dob : old('dob') }}" data-error="Date of birth is required" />
+                value="{{(isset($model->dob))? formatdate($model->dob):''}}" data-error="Date of birth is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('dob')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -228,5 +228,52 @@
             redirectUrl: "{!! route('get-state-list') !!}",
             getCities: "{!! route('get-city-list') !!}",
         };
+    </script>
+    <script>
+
+        $('#country').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#country-error').show();
+                $('#country').addClass('error');
+            } else {
+                $('#country-error').hide();
+                $('#country').removeClass('error');
+            }
+        });
+
+        $('#state').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#state-error').show();
+                $('#state').addClass('error');
+            } else {
+                $('#state-error').hide();
+                $('#state').removeClass('error');
+            }
+        });
+
+        $('#city').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#city-error').show();
+                $('#city').addClass('error');
+            } else {
+                $('#city-error').hide();
+                $('#city').removeClass('error');
+            }
+        });
+
+        $('#status').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#status-error').show();
+                $('#status').addClass('error');
+            } else {
+                $('#status-error').hide();
+                $('#status').removeClass('error');
+            }
+        });
+        
     </script>
 @endsection
