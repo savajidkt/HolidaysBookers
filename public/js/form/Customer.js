@@ -91,6 +91,8 @@ var FrmCustomerPreference = function() {
                     error.insertAfter("#state_id");
                 } else if (element.attr("name") == "city") {
                     error.insertAfter("#city_id");
+                } else if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
                 } else {
                     error.insertAfter(element);
                 }

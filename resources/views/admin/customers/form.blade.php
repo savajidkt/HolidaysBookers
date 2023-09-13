@@ -112,7 +112,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">Zipcode <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-zipcode" name="zipcode" class="form-control"
-                placeholder="Zipcode" value="{{ isset($model->zipcode) ? $model->zipcode : old('zipcode') }}"
+                placeholder="Zipcode" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" value="{{ isset($model->zipcode) ? $model->zipcode : old('zipcode') }}"
                 aria-describedby="basic-addon-name" data-error="Zipcode is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('zipcode')
@@ -149,13 +149,17 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="status">Status <span class="text-danger">*</span></label>
-            <select name="status" class="form-control form-control-lg" id="status" data-error="Status is required">
+            <select name="status" class="select2 form-control form-control-lg" data-minimum-results-for-search="Infinity" id="status" data-error="Status is required">
                 <option value="">Select Status</option>
                 <option value="1" {{ (isset($model->id) && $model->user->status == 1) ? 'selected' : '' }}> {{ __('core.active') }}</option>
                 <option value="0" {{ (isset($model->id) && $model->user->status == 0) ? 'selected' : '' }}> {{ __('core.inactive') }}
                 </option>
             </select>
-            <div class="valid-feedback">{{ __('core.looks_good') }}</div>
+            <div class="spinner-border spinner-border-sm hide" role="status">
+                <span class="sr-only">{{ __('core.loading') }}</span>
+            </div>
+            <div class="valid-feedback">Looks good!</div>
+            <span id="status_id"></span>
             @error('status')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror

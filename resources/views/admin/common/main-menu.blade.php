@@ -46,20 +46,20 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item">
+            <li class=" nav-item {{ (Request::segment(2) == 'dashboard') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ url('admin/dashboard') }}">
                     <i data-feather='monitor'></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Dashboards</span>
                 </a>
             </li>
 
-            <li class=" nav-item">
+            <li class=" nav-item {{ (Request::segment(2) == 'customers') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ url('admin/customers') }}">
                     <i data-feather='users'></i>
                     <span class="menu-title text-truncate" data-i18n="Customers">Customers</span>
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class=" nav-item {{ (Request::segment(2) == 'agents') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ url('admin/agents') }}">
                     <i data-feather='user'></i>
                     <span class="menu-title text-truncate" data-i18n="Agents">Agents Management</span>
@@ -82,7 +82,7 @@
                     $admin->can('admin-staff-edit') ||
                     $admin->can('admin-staff-delete') ||
                     $admin->can('admin-staff-view'))
-                <li class=" nav-item">
+                <li class=" nav-item  {{ (Request::segment(2) == 'admins') ? 'active' : '' }}">
                     <a class="d-flex align-items-center" href="{{ url('admin/admins') }}">
                         <i data-feather="file-text"></i><span class="menu-title text-truncate"
                             data-i18n="Staff Management">Staff Management</span>
@@ -103,7 +103,7 @@
                             $admin->can('offline-hotels-edit') ||
                             $admin->can('offline-hotels-delete') ||
                             $admin->can('offline-hotels-view'))
-                        <li><a class="d-flex align-items-center" href="{{ url('admin/offlinehotels') }}">
+                        <li class=" {{ (Request::segment(2) == 'offlinehotels') ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('admin/offlinehotels') }}">
                                 <i data-feather="circle"></i><span class="menu-item text-truncate"
                                     data-i18n="Offline">Offline</span>
                             </a>
@@ -114,7 +114,7 @@
                             $admin->can('api-hotels-edit') ||
                             $admin->can('api-hotels-delete') ||
                             $admin->can('api-hotels-view'))
-                        <li><a class="d-flex align-items-center" href="{{ url('admin/apihotels') }}">
+                        <li class=" {{ (Request::segment(2) == 'apihotels') ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('admin/apihotels') }}">
                                 <i data-feather="circle"></i><span class="menu-item text-truncate"
                                     data-i18n="API Hotels">API Hotels</span>
                             </a>
@@ -125,7 +125,7 @@
                             $admin->can('hotel-groups-edit') ||
                             $admin->can('hotel-groups-delete') ||
                             $admin->can('hotel-groups-view'))
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'hotelgroups') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/hotelgroups') }}">
                                 <i data-feather='circle'></i>
                                 <span class="menu-title text-truncate"
@@ -138,7 +138,7 @@
                             $admin->can('property-types-edit') ||
                             $admin->can('property-types-delete') ||
                             $admin->can('property-types-view'))
-                        <li><a class="d-flex align-items-center" href="{{ url('admin/propertytypes') }}">
+                        <li class=" {{ (Request::segment(2) == 'propertytypes') ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('admin/propertytypes') }}">
                                 <i data-feather='circle'></i>
                                 <span class="menu-title text-truncate"
                                     data-i18n="{{ __('propertytype/propertytype.menu') }}">{{ __('propertytype/propertytype.menu') }}</span>
@@ -150,7 +150,7 @@
                             $admin->can('room-types-edit') ||
                             $admin->can('room-types-delete') ||
                             $admin->can('room-types-view'))
-                        <li><a class="d-flex align-items-center" href="{{ url('admin/roomtypes') }}">
+                        <li class=" {{ (Request::segment(2) == 'roomtypes') ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('admin/roomtypes') }}">
                                 <i data-feather='circle'></i>
                                 <span class="menu-title text-truncate"
                                     data-i18n="{{ __('roomtype/roomtype.menu') }}">{{ __('roomtype/roomtype.menu') }}</span>
@@ -162,7 +162,7 @@
                             $admin->can('amenities-edit') ||
                             $admin->can('amenities-delete') ||
                             $admin->can('amenities-view'))
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'amenities') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/amenities') }}">
                                 <i data-feather="circle"></i><span class="menu-item text-truncate"
                                     data-i18n="{{ __('amenity/amenity.menu') }}">{{ __('amenity/amenity.menu') }}</span>
@@ -175,7 +175,7 @@
                             $admin->can('freebies-edit') ||
                             $admin->can('freebies-delete') ||
                             $admin->can('freebies-view'))
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'freebies') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/freebies') }}">
                                 <i data-feather="circle"></i><span class="menu-item text-truncate"
                                     data-i18n="Freebies">Freebies</span>
@@ -188,7 +188,7 @@
                             $admin->can('vehicle-type-edit') ||
                             $admin->can('vehicle-type-delete') ||
                             $admin->can('vehicle-type-view'))
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'vehicletypes') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/vehicletypes') }}">
                                 <i data-feather="circle"></i><span class="menu-item text-truncate"
                                     data-i18n="{{ __('vehicletype/vehicletype.menu') }}">{{ __('vehicletype/vehicletype.menu') }}</span>
@@ -207,7 +207,7 @@
                         <i data-feather='map'></i><span class="menu-title text-truncate"
                             data-i18n="Rooms">Rooms</span></a>
                     <ul class="menu-content">
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'offlinerooms') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/offlinerooms') }}">
                                 <i data-feather='map-pin'></i><span class="menu-item text-truncate"
                                     data-i18n="Offline Rooms">Offline Rooms</span>
@@ -218,7 +218,7 @@
                                 $admin->can('meal-plan-edit') ||
                                 $admin->can('meal-plan-delete') ||
                                 $admin->can('meal-plan-view'))
-                            <li class=" nav-item">
+                            <li class=" nav-item  {{ (Request::segment(2) == 'mealplans') ? 'active' : '' }}">
                                 <a class="d-flex align-items-center" href="{{ url('admin/mealplans') }}">
                                     <i data-feather='columns'></i>
                                     <span class="menu-title text-truncate" data-i18n="Meal Plans">Meal Plans</span>
@@ -238,7 +238,7 @@
                     <i data-feather='map'></i><span class="menu-title text-truncate"
                         data-i18n="Order">Order</span></a>
                 <ul class="menu-content">
-                    <li>
+                    <li class=" {{ (Request::segment(2) == 'orders') ? 'active' : '' }}">
                         <a class="d-flex align-items-center" href="{{ url('admin/orders') }}">
                             <i data-feather='circle'></i><span class="menu-item text-truncate"
                                 data-i18n="Hotel Orders">Hotel Orders</span>
@@ -252,7 +252,7 @@
             <li class="navigation-header"><span data-i18n="Package Module">Package Module</span><i
                     data-feather="more-horizontal"></i>
             </li>
-            <li class=" nav-item">
+            <li class=" nav-item {{ (Request::segment(2) == 'packages') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ url('admin/packages') }}">
                     <i data-feather='package'></i>
                     <span class="menu-title text-truncate" data-i18n="Rooms">Package Management</span>
@@ -272,19 +272,19 @@
                         <i data-feather='map'></i><span class="menu-title text-truncate"
                             data-i18n="{{ __('core.dropdown_manu_header_title_location') }}">{{ __('core.dropdown_manu_header_title_location') }}</span></a>
                     <ul class="menu-content">
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'countries') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/countries') }}">
                                 <i data-feather='map-pin'></i><span class="menu-item text-truncate"
                                     data-i18n="{{ __('country/country.menu') }}">{{ __('country/country.menu') }}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'states') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/states') }}">
                                 <i data-feather='map-pin'></i><span class="menu-item text-truncate"
                                     data-i18n="{{ __('state/state.menu') }}">{{ __('state/state.menu') }}</span>
                             </a>
                         </li>
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'cities') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/cities') }}">
                                 <i data-feather='map-pin'></i><span class="menu-item text-truncate"
                                     data-i18n="{{ __('city/city.menu') }}">{{ __('city/city.menu') }}</span>
@@ -294,7 +294,7 @@
                 </li>
             @endif
             @if ($admin->can('api-create') || $admin->can('api-edit') || $admin->can('api-delete') || $admin->can('api-view'))
-                <li class=" nav-item">
+                <li class=" nav-item {{ (Request::segment(2) == 'apis') ? 'active' : '' }}">
                     <a class="d-flex align-items-center" href="{{ url('admin/apis') }}">
                         <i data-feather='cloud'></i>
                         <span class="menu-title text-truncate"
@@ -307,7 +307,7 @@
                     $admin->can('company-type-edit') ||
                     $admin->can('company-type-delete') ||
                     $admin->can('company-type-view'))
-                <li class=" nav-item">
+                <li class=" nav-item {{ (Request::segment(2) == 'companytypes') ? 'active' : '' }}">
                     <a class="d-flex align-items-center" href="{{ url('admin/companytypes') }}">
                         <i data-feather='columns'></i>
                         <span class="menu-title text-truncate"
@@ -320,7 +320,7 @@
                     $admin->can('reach-us-edit') ||
                     $admin->can('reach-us-delete') ||
                     $admin->can('reach-us-view'))
-                <li class=" nav-item">
+                <li class=" nav-item {{ (Request::segment(2) == 'reachus') ? 'active' : '' }}">
                     <a class="d-flex align-items-center" href="{{ url('admin/reachus') }}">
                         <i data-feather='columns'></i>
                         <span class="menu-title text-truncate"
@@ -334,7 +334,7 @@
                     $admin->can('currency-edit') ||
                     $admin->can('currency-delete') ||
                     $admin->can('currency-view'))
-                <li class=" nav-item">
+                <li class=" nav-item {{ (Request::segment(2) == 'currencies') ? 'active' : '' }}">
                     <a class="d-flex align-items-center" href="{{ url('admin/currencies') }}">
                         <i data-feather='columns'></i>
                         <span class="menu-title text-truncate" data-i18n="Currencies">Currencies</span>
@@ -351,7 +351,7 @@
                             $admin->can('product-markup-edit') ||
                             $admin->can('product-markup-delete') ||
                             $admin->can('product-markup-view'))
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'productmarkups') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/productmarkups') }}">
                                 <i data-feather='map-pin'></i><span class="menu-item text-truncate"
                                     data-i18n="{{ __('product-markup/product-markup.menu') }}">{{ __('product-markup/product-markup.menu') }}</span>
@@ -363,7 +363,7 @@
                             $admin->can('agent-markup-edit') ||
                             $admin->can('agent-markup-delete') ||
                             $admin->can('agent-markup-view'))
-                        <li>
+                        <li class=" {{ (Request::segment(2) == 'agentmarkups') ? 'active' : '' }}">
                             <a class="d-flex align-items-center" href="{{ url('admin/agentmarkups') }}">
                                 <i data-feather='map-pin'></i><span class="menu-item text-truncate"
                                     data-i18n="{{ __('agent-markup/agent-markup.menu') }}">{{ __('agent-markup/agent-markup.menu') }}</span>
@@ -373,7 +373,7 @@
                 </ul>
             </li>
             @if ($admin->can('role-create') || $admin->can('role-edit') || $admin->can('role-delete') || $admin->can('role-view'))
-                <li class=" nav-item">
+                <li class=" nav-item {{ (Request::segment(2) == 'roles') ? 'active' : '' }}">
                     <a class="d-flex align-items-center" href="{{ url('admin/roles') }}">
                         <i data-feather='life-buoy'></i><span class="menu-title text-truncate"
                             data-i18n="Admins">Roles</span>
@@ -381,14 +381,14 @@
 
                 </li>
             @endif
-            <li class=" nav-item">
+            <li class=" nav-item {{ (Request::segment(2) == 'permissions') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ url('admin/permissions') }}">
                     <i data-feather='unlock'></i><span class="menu-title text-truncate"
                         data-i18n="Permissions">Permissions</span>
                 </a>
 
             </li>
-            <li class=" nav-item">
+            <li class=" nav-item {{ (Request::segment(2) == 'settings') ? 'active' : '' }}">
                 <a class="d-flex align-items-center" href="{{ url('admin/settings') }}">
                     <i data-feather='settings'></i><span class="menu-title text-truncate"
                         data-i18n="Settings">Settings</span>

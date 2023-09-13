@@ -84,10 +84,13 @@ class AgentsController extends Controller
                     });
                 })->addColumn('email', function (User $user) {
                     return $user->email;
+                })->filterColumn('email', function ($query, $keyword) {
+                    $sql = "CONCAT(users.email)  like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
                 })->addColumn('balance', function(User $user){
                     //dd($user->agents->getbalance);
                     return (isset($user->agents->getbalance)) ? $user->agents->getbalance->balance : '0';
-
+                    
                 })->editColumn('status', function (User $user) {
                     return $user->status_name;
                 })->orderColumn('full_name', function ($query, $order) {

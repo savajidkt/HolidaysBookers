@@ -49,155 +49,157 @@
 
         </div>
         <!-- list section end -->
-    </section>
-    <!-- users list ends -->
-@endsection
-
-<div class="modal fade text-left" id="ResetPasswordModal" tabindex="-1" aria-labelledby="myModalLabel120"
-    aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel120">Change Password</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <form action="{{ route('update-agent-password') }}" method="post" id="changePassword"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" class="updateCls" id="modal_user_id" name="modal_user_id"
-                                value="">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="form-label"
-                                        for="password">{{ __('agent/agent.agent_password') }} <span class="text-danger">*</span></label>
-                                    <input type="password" id="password" name="password" class="form-control"
-                                        placeholder="{{ __('agent/agent.agent_password') }}" value=""
-                                        data-error="{{ __('agent/agent.agent_password') }}" />
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="form-label"
-                                        for="confirm_password">{{ __('agent/agent.agent_confirm_password') }} <span class="text-danger">*</span></label>
-                                    <input type="password" id="confirm_password" name="confirm_password"
-                                        class="form-control"
-                                        placeholder="{{ __('agent/agent.agent_confirm_password') }}" value=""
-                                        data-error="{{ __('agent/agent.agent_confirm_password') }}" />
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit"
-                                    class="btn btn-primary waves-effect waves-float waves-light">{{ __('core.submit') }}</button>
-                            </div>
-                        </form>
+        <div class="modal fade text-left" id="ResetPasswordModal" tabindex="-1" aria-labelledby="myModalLabel120"
+            aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel120">Change Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
                     </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="modal fade text-left" id="HBCreditModal" tabindex="-1" aria-labelledby="myModalLabel120" aria-hidden="true"
-    data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel120">HB Credit: <span>Agent Code-<strong
-                            class="agentName">CA</strong></span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <form action="{{ route('update-hb-credit') }}" method="post" id="updateHBCredit"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" class="updateCls" id="HBCredit_user_id" name="HBCredit_user_id"
-                                value="">
-                            <input type="hidden" class="updateCls" id="HBCredit_Bal" name="HBCredit_Bal"
-                                value="">
+                    <div class="modal-body">
+                        <div class="row">
                             <div class="col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="Type">Type <span class="text-danger">*</span></label>
-                                    <select class="select2 form-control form-control-lg" name="type"
-                                        data-error="Type">
-                                        <option value="">Select type</option>
-                                        <option value="1">HB Credit</option>
-                                        <option value="0">HB Debit</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="amount">Amount <span class="text-danger">*</span></label>
-                                    <input type="text" id="amount" name="amount" class="form-control"
-                                        value="" data-error="Amount"
-                                        onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" />
-                                    <small id="availableBal" class="form-text text-muted"></small>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="comment">Comment <span class="text-danger">*</span></label>
-                                    <textarea name="comment" class="form-control"></textarea>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light"><span
-                                    class="spinner-border spinner-border-sm buttonLoader hide" role="status"
-                                    aria-hidden="true"></span><span
-                                    class="ml-25 align-middle">{{ __('core.submit') }}</span></button>                                
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="modal fade text-left" id="ImportAgentss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel33">Import Agents Excel</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- single file upload starts -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <form action="{{ route('importsAgents') }}" class="dropzone dropzone-area"
-                                    id="dpz-single-file" enctype="multipart/form-data">
+                                <form action="{{ route('update-agent-password') }}" method="post" id="changePassword"
+                                    enctype="multipart/form-data">
                                     @csrf
-                                    <div class="dz-message">{{ __('core.drop_files') }}</div>
+                                    <input type="hidden" class="updateCls" id="modal_user_id" name="modal_user_id"
+                                        value="">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label"
+                                                for="password">{{ __('agent/agent.agent_password') }} <span class="text-danger">*</span></label>
+                                            <input type="password" id="password" name="password" class="form-control"
+                                                placeholder="{{ __('agent/agent.agent_password') }}" value=""
+                                                data-error="{{ __('agent/agent.agent_password') }}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label"
+                                                for="confirm_password">{{ __('agent/agent.agent_confirm_password') }} <span class="text-danger">*</span></label>
+                                            <input type="password" id="confirm_password" name="confirm_password"
+                                                class="form-control"
+                                                placeholder="{{ __('agent/agent.agent_confirm_password') }}" value=""
+                                                data-error="{{ __('agent/agent.agent_confirm_password') }}" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit"
+                                            class="btn btn-primary waves-effect waves-float waves-light">{{ __('core.submit') }}</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <!-- single file upload ends -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="import-agents" class="btn btn-primary">{{ __('core.import') }}</button>
             </div>
         </div>
-    </div>
-</div>
+
+        <div class="modal fade text-left" id="HBCreditModal" tabindex="-1" aria-labelledby="myModalLabel120" aria-hidden="true"
+            data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel120">HB Credit: <span>Agent Code-<strong
+                                    class="agentName">CA</strong></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <form action="{{ route('update-hb-credit') }}" method="post" id="updateHBCredit"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" class="updateCls" id="HBCredit_user_id" name="HBCredit_user_id"
+                                        value="">
+                                    <input type="hidden" class="updateCls" id="HBCredit_Bal" name="HBCredit_Bal"
+                                        value="">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="Type">Type <span class="text-danger">*</span></label>
+                                            <select class="select2 form-control form-control-lg" name="type"
+                                                data-error="Type">
+                                                <option value="">Select type</option>
+                                                <option value="1">HB Credit</option>
+                                                <option value="0">HB Debit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="amount">Amount <span class="text-danger">*</span></label>
+                                            <input type="text" id="amount" name="amount" class="form-control"
+                                                value="" data-error="Amount"
+                                                onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')" />
+                                            <small id="availableBal" class="form-text text-muted"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="comment">Comment <span class="text-danger">*</span></label>
+                                            <textarea name="comment" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary waves-effect waves-float waves-light"><span
+                                            class="spinner-border spinner-border-sm buttonLoader hide" role="status"
+                                            aria-hidden="true"></span><span
+                                            class="ml-25 align-middle">{{ __('core.submit') }}</span></button>                                
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade text-left" id="ImportAgentss" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel33">Import Agents Excel</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- single file upload starts -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form action="{{ route('importsAgents') }}" class="dropzone dropzone-area"
+                                            id="dpz-single-file" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="dz-message">{{ __('core.drop_files') }}</div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- single file upload ends -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="import-agents" class="btn btn-primary">{{ __('core.import') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- users list ends -->
+@endsection
+
+{{-- model code --}}
+
 
 @section('extra-script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>
