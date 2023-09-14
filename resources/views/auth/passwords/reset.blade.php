@@ -28,16 +28,16 @@
                                                 @enderror
                                              </div>
                                           </div> --}}
-                                          <div class="col-12">
-                                          <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required  placeholder="New Password">
+                                          <div class="form-control col-12">
+                                          <input id="password" type="password" class=" @error('password') is-invalid @enderror" name="password" required  placeholder="New Password">
                                             @error('password')
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
                                           </div>
-                                          <div class="col-12">
-                                          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required  placeholder="Confirm Password">
+                                          <div class="form-control col-12">
+                                          <input id="password-confirm" type="password" class="" name="password_confirmation" required  placeholder="Confirm Password">
                                           </div>
                                           <div class="col-12">
                                              <button class="btn btn-primary w-100" type="submit">{{ __('Reset Password') }}</button>

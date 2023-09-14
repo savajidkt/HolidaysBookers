@@ -66,7 +66,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label class="form-label"
-                                                for="password">{{ __('agent/agent.agent_password') }}</label>
+                                                for="password">{{ __('agent/agent.agent_password') }} <span class="text-danger">*</span></label>
                                             <input type="password" id="password" name="password" class="form-control"
                                                 placeholder="{{ __('agent/agent.agent_password') }}" value=""
                                                 data-error="{{ __('agent/agent.agent_password') }}" />
@@ -75,7 +75,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label class="form-label"
-                                                for="confirm_password">{{ __('agent/agent.agent_confirm_password') }}</label>
+                                                for="confirm_password">{{ __('agent/agent.agent_confirm_password') }} <span class="text-danger">*</span></label>
                                             <input type="password" id="confirm_password" name="confirm_password"
                                                 class="form-control"
                                                 placeholder="{{ __('agent/agent.agent_confirm_password') }}" value=""

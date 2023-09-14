@@ -3,8 +3,8 @@
         <div class="col-md-12">
             <div class="col-12">
                 <div class="form-group">
-                    <label class="form-label" for="basic-addon-name">First Name</label>
-                    <input type="text" id="basic-addon-name" name="fullname" class="form-control" placeholder="Full Name" value="{{(isset($model->name))?$model->name:old('fullname')}}" aria-describedby="basic-addon-name" />
+                    <label class="form-label" for="basic-addon-name">First Name <span class="text-danger">*</span></label>
+                    <input type="text" id="basic-addon-name" name="fullname" class="form-control" placeholder="Full Name" value="{{(isset($model->name))?$model->name:old('fullname')}}" aria-describedby="basic-addon-name" data-error="Name is required" />
                     <div class="valid-feedback">Looks good!</div>
                     @error('fullname')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -14,8 +14,9 @@
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <label class="form-label" for="basic-default-email1">Email</label>
-                    <input type="email" name="email" id="basic-default-email1" value="{{(isset($model->email))?$model->email:old('email')}}" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe@email.com" />
+                    <input type="hidden" value="{{ isset($model->id) ? 'yes' : 'no' }}" class="editPage" id="editPage">
+                    <label class="form-label" for="basic-default-email1">Email <span class="text-danger">*</span></label>
+                    <input type="email" name="email" id="basic-default-email1" value="{{(isset($model->email))?$model->email:old('email')}}" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe@email.com" data-error="Email is required" />
                     <div class="valid-feedback">Looks good!</div>
                     @error('email')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -24,8 +25,8 @@
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <label class="form-label" for="role">Role</label>
-                    <select name="role" class="form-control" id="role">
+                    <label class="form-label" for="role">Role <span class="text-danger">*</span></label>
+                    <select name="role" class="form-control" id="role" data-error="Role is required">
                         <option value="">Select Role</option>
                         @foreach($roles as $role)
                         @if($model->roles->count() > 0)
@@ -46,39 +47,43 @@
 
             <div class="col-12">
                 <div class="form-group">
-                    <label class="form-label" for="basic-default-password1">Password</label>
+                    
                     @if($model->id == '')
-                    <input type="text" id="password" name="password" class="form-control" placeholder="" />
-                    <div class="valid-feedback">Looks good!</div>
-                    @error('password')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
+                        <label class="form-label" for="basic-default-password1">Password  <span class="text-danger">*</span></label>
+                        <input type="text" id="password" name="password" class="form-control" placeholder="" data-error="password is required"/>
+                        <div class="valid-feedback">Looks good!</div>
+                        @error('password')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     @endif
                     @if($model->id != '')
-                    <input type="text" id="password" name="password" class="form-control" placeholder="" />
-                    <div class="valid-feedback">Looks good!</div>
-                    @error('password')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
+                        <label class="form-label" for="basic-default-password1">Password</label>
+                        <input type="text" id="password" name="password" class="form-control" placeholder="" />
+                        <div class="valid-feedback">Looks good!</div>
+                        @error('password')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     @endif
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <label class="form-label" for="basic-default-password1">Confirm Password</label>
+                    
                     @if($model->id != '')
-                    <input type="text" id="confirm-password" name="confirm-password" class="form-control" placeholder="" />
-                    <div class="valid-feedback">Looks good!</div>
-                    @error('confirm-password')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
+                        <label class="form-label" for="basic-default-password1">Confirm Password</label>
+                        <input type="text" id="confirm-password" name="confirm_password" class="form-control" placeholder="" />
+                        <div class="valid-feedback">Looks good!</div>
+                        @error('confirm_password')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     @endif
                     @if($model->id == '')
-                    <input type="text" id="confirm-password" require name="confirm-password" class="form-control" placeholder="" />
-                    <div class="valid-feedback">Looks good!</div>
-                    @error('confirm-password')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
+                        <label class="form-label" for="basic-default-password1">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="text" id="confirm-password" require name="confirm_password" class="form-control" placeholder="" data-error="Confirm password is required"/>
+                        <div class="valid-feedback">Looks good!</div>
+                        @error('confirm_password')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                        @enderror
                     @endif
                 </div>
             </div>
@@ -136,6 +141,10 @@
     </div>
 </div>
 @section('extra-script')
+{{-- <script>
+    $('.select2').select2();
+</script> --}}
+<script src="{{ asset('js/form/Staff.js') }}"></script>
 <script type="text/javascript">
     jQuery(function() {
        

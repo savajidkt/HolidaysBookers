@@ -27,6 +27,7 @@ class CreateRequest extends FormRequest
             'fullname'          => ['required'],
             'role'              => ['required'],
             'password'          => ['required', 'min:8'],
+            'confirm_password'  => ['required'],
             'email'             => ['required', 'email', 'unique:admin,email'],
         ];
 
@@ -44,6 +45,7 @@ class CreateRequest extends FormRequest
             'fullname.required' => 'Name is required.',
             'role.required' => 'Role is required.',
             'password.required' => 'Password is required.',
+            'confirm_password.required' => 'Confirm Password is required.',
             'password.min' => 'Password minimum value should be 8'
         ];
     }

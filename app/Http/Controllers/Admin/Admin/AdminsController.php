@@ -76,7 +76,8 @@ class AdminsController extends Controller
         permissionCheck('admin-staff-create');
         $rawData=[];
         $rawData    = new Admin;        
-        $roles    =  Role::where('status',Role::ACTIVE); 
+        // $roles    =  Role::where('status',Role::ACTIVE); 
+        $roles    =  Role::where('status',Role::ACTIVE)->get(); 
         $permissions    =  Permission::all()->groupBy('module');
         return view('admin.admin.create', ['model' => $rawData,'roles'=>$roles,'permissions'=>$permissions]);
     }
@@ -115,7 +116,8 @@ class AdminsController extends Controller
     public function edit(Admin $admin)
     {
         permissionCheck('admin-staff-edit');
-        $roles    =  Role::where('status',Role::ACTIVE);
+        // $roles    =  Role::where('status',Role::ACTIVE);
+        $roles    =  Role::where('status',Role::ACTIVE)->get();
         $permissions    =  Permission::all()->groupBy('module');
         return view('admin.admin.edit', ['model' => $admin,'roles'=>$roles,'permissions'=>$permissions]);
     }
