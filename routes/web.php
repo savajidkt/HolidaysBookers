@@ -46,6 +46,7 @@ use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
 use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
+use App\Http\Controllers\Admin\Vendor\VendorController;
 use App\Http\Controllers\WishlistController as FrontWishlistController;
 use App\Http\Controllers\Agent\WishlistController as AgentWishlistController;
 use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
@@ -103,6 +104,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/agent/update-password', [AgentsController::class, 'updatePassword'])->name('update-agent-password');
     Route::post('/agent/import-agents', [AgentsController::class, 'importAgents'])->name('importsAgents');
     Route::get('/agent/export', [AgentsController::class, 'agentExcelExport'])->name('agentExport');
+
+    Route::resource('/vendors', VendorController::class);
 
     Route::resource('/packages', PackagesController::class);
     Route::post('/package/change-status', [PackagesController::class, 'changeStatus'])->name('change-package-status');

@@ -26,11 +26,11 @@
             <select class="select2 form-control form-control-lg" id="agent_company_type" name="agent_company_type"
                 data-error="{{ __('agent/agent.agent_company_type') }}">
                 <option value="">Select Company Type</option>
-                @foreach ($companies as $key => $company)
+                {{-- @foreach ($companies as $key => $company)
                     <option value="{{ $company->id }}"
                         {{ $model->agent_company_type == $company->id ? 'selected' : '' }}>
                         {{ $company->company_type }}</option>
-                @endforeach
+                @endforeach --}}
             </select>
             <div class="valid-feedback">Looks good!</div>
             <span id="agent_company_type_id"></span>
@@ -124,11 +124,11 @@
             <select class="select2 form-control form-control-lg" id="agent_country" name="agent_country"
                 data-error="{{ __('agent/agent.agent_country') }}">
                 <option value="">Select Country</option>
-                @foreach ($countries as $country)
+                {{-- @foreach ($countries as $country)
                     <option value="{{ $country->id }}"
                         {{ $model->agent_country == $country->id ? 'selected' : '' }}>
                         {{ $country->name }}</option>
-                @endforeach
+                @endforeach --}}
             </select>
             <div class="valid-feedback">Looks good!</div>
             <span id="agent_country_id"></span>
@@ -143,14 +143,14 @@
             <select class="select2 form-control form-control-lg" id="agent_state" name="agent_state"
                 data-error="{{ __('agent/agent.agent_state') }}">
                 <option value="">Select State</option>
-                @php $states = getCountryStates($model->agent_country);  @endphp
+                {{-- @php $states = getCountryStates($model->agent_country);  @endphp
                 @if ($states->count() > 0)
                     @foreach ($states as $state)
                         <option value="{{ $state->id }}"
                             {{ $model->agent_state == $state->id ? 'selected' : '' }}>
                             {{ $state->name }}</option>
                     @endforeach
-                @endif
+                @endif --}}
             </select>
             <div class="spinner-border spinner-border-sm hide" role="status">
                 <span class="sr-only">{{ __('core.loading') }}</span>
@@ -169,13 +169,13 @@
             <select class="select2 form-control form-control-lg" id="agent_city" name="agent_city"
                 data-error="{{ __('agent/agent.agent_city') }}">
                 <option value="">Select City</option>
-                @php $cities = getStateCitiesByState($model->agent_state);  @endphp
+                {{-- @php $cities = getStateCitiesByState($model->agent_state);  @endphp
                 @if ($cities->count() > 0)
                     @foreach ($cities as $city)
                         <option value="{{ $city->id }}" {{ $model->agent_city == $city->id ? 'selected' : '' }}>
                             {{ $city->name }}</option>
                     @endforeach
-                @endif
+                @endif --}}
             </select>
             <div class="spinner-border spinner-border-sm hide" role="status">
                 <span class="sr-only">{{ __('core.loading') }}</span>
@@ -377,7 +377,7 @@
             <select class="select2 form-control form-control-lg" id="agent_know_about" name="agent_know_about"
                 data-error="{{ __('agent/agent.agent_know_about') }}">
                 <option value="">Select Reach Us</option>
-                @foreach ($reach as $rech)
+                {{-- @foreach ($reach as $rech)
                     <option value="{{ $rech->id }}" data-name="{{ $rech->textbox_lable }}"
                         data-other="{{ $rech->show_other_textbox }}"
                         {{ $model->id == $rech->id ? 'selected' : '' }}>
@@ -385,7 +385,7 @@
                     @php
                         $hide = $model->id == $rech->id ? '' : 'hide';
                     @endphp
-                @endforeach
+                @endforeach --}}
             </select>
             <div class="valid-feedback">Looks good!</div>
             @error('agent_know_about')

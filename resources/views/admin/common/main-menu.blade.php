@@ -66,7 +66,7 @@
                 </a>
             </li>
             <li class=" nav-item">
-                <a class="d-flex align-items-center" href="{{ url('admin/agents') }}">
+                <a class="d-flex align-items-center" href="{{ url('admin/vendors') }}">
                     <i data-feather='user'></i>
                     <span class="menu-title text-truncate" data-i18n="Vendors">Vendors Management</span>
                 </a>

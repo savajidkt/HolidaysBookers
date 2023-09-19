@@ -57,8 +57,8 @@ var FrmCustomerPreference = function() {
             },
             errorPlacement: function(error, element) {
 
-                if (element.attr("name") == "country") {
-                    error.insertAfter("#country_id");
+                if (element.attr("name") == "role") {
+                    error.insertAfter("#role_id");
                 } else if (element.attr("name") == "state") {
                     error.insertAfter("#state_id");
                 } else if (element.attr("name") == "city") {

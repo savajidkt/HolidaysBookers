@@ -17,7 +17,7 @@ aria-hidden="true" data-backdrop="static">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-label"
-                                    for="basic-addon-amenity_name">Amenities Name</label>
+                                    for="basic-addon-amenity_name">Amenities Name <span class="text-danger">*</span></label>
                                 <input type="text" id="basic-addon-amenity_name"
                                     name="amenity_name" class="form-control"
                                     placeholder="Amenities Name"

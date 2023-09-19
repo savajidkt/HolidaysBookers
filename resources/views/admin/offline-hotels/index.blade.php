@@ -52,43 +52,44 @@
 
         </div>
         <!-- list section end -->
+        <div class="modal fade text-left" id="ImportOfflineHotels" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel33">Import Offline Hotels</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- single file upload starts -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form action="{{ route('import-offline-hotels') }}" class="dropzone dropzone-area"
+                                            id="dpz-single-file" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="dz-message">{{ __('core.drop_files') }}</div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- single file upload ends -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="import-offline-hotels" class="btn btn-primary">Import</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <!-- users list ends -->
 @endsection
 
-<div class="modal fade text-left" id="ImportOfflineHotels" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel33">Import Offline Hotels</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- single file upload starts -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <form action="{{ route('import-offline-hotels') }}" class="dropzone dropzone-area"
-                                    id="dpz-single-file" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="dz-message">{{ __('core.drop_files') }}</div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- single file upload ends -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="import-offline-hotels" class="btn btn-primary">Import</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 @section('extra-script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>

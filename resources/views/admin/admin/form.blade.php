@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="form-label" for="basic-addon-name">First Name <span class="text-danger">*</span></label>
-                    <input type="text" id="basic-addon-name" name="fullname" class="form-control" placeholder="Full Name" value="{{(isset($model->name))?$model->name:old('fullname')}}" aria-describedby="basic-addon-name" data-error="Name is required" />
+                    <input type="text" id="basic-addon-name" name="fullname" class="form-control" onkeydown="return /[a-z]/i.test(event.key)" placeholder="Full Name" value="{{(isset($model->name))?$model->name:old('fullname')}}" aria-describedby="basic-addon-name" data-error="Name is required" />
                     <div class="valid-feedback">Looks good!</div>
                     @error('fullname')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -26,7 +26,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="form-label" for="role">Role <span class="text-danger">*</span></label>
-                    <select name="role" class="form-control" id="role" data-error="Role is required">
+                    <select name="role" class="select2 form-control" id="role" data-error="Role is required">
                         <option value="">Select Role</option>
                         @foreach($roles as $role)
                         @if($model->roles->count() > 0)
@@ -38,6 +38,7 @@
                     </select>
 
                     <div class="valid-feedback">Looks good!</div>
+                    <span id="role_id"></span>
                     @error('role')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
                     @enderror
@@ -50,7 +51,7 @@
                     
                     @if($model->id == '')
                         <label class="form-label" for="basic-default-password1">Password  <span class="text-danger">*</span></label>
-                        <input type="text" id="password" name="password" class="form-control" placeholder="" data-error="password is required"/>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="" data-error="password is required"/>
                         <div class="valid-feedback">Looks good!</div>
                         @error('password')
                         <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -58,7 +59,7 @@
                     @endif
                     @if($model->id != '')
                         <label class="form-label" for="basic-default-password1">Password</label>
-                        <input type="text" id="password" name="password" class="form-control" placeholder="" />
+                        <input type="password" id="password" name="password" class="form-control" placeholder="" />
                         <div class="valid-feedback">Looks good!</div>
                         @error('password')
                         <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -71,7 +72,7 @@
                     
                     @if($model->id != '')
                         <label class="form-label" for="basic-default-password1">Confirm Password</label>
-                        <input type="text" id="confirm-password" name="confirm_password" class="form-control" placeholder="" />
+                        <input type="password" id="confirm-password" name="confirm_password" class="form-control" placeholder="" />
                         <div class="valid-feedback">Looks good!</div>
                         @error('confirm_password')
                         <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -79,7 +80,7 @@
                     @endif
                     @if($model->id == '')
                         <label class="form-label" for="basic-default-password1">Confirm Password <span class="text-danger">*</span></label>
-                        <input type="text" id="confirm-password" require name="confirm_password" class="form-control" placeholder="" data-error="Confirm password is required"/>
+                        <input type="password" id="confirm-password" require name="confirm_password" class="form-control" placeholder="" data-error="Confirm password is required"/>
                         <div class="valid-feedback">Looks good!</div>
                         @error('confirm_password')
                         <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -88,9 +89,16 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="form-group">
-                    <button type="submit" id="user-save" class="btn btn-primary">Save</button>
-                </div>
+                @if($model->id != '')
+                    <div class="form-group">
+                        <button type="submit" id="user-save" class="btn btn-primary">Update</button>
+                    </div>
+                @endif
+                @if($model->id == '')
+                    <div class="form-group">
+                        <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -141,9 +149,21 @@
     </div>
 </div>
 @section('extra-script')
-{{-- <script>
+<script>
     $('.select2').select2();
-</script> --}}
+</script>
+<script>
+    $('#role').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#role-error').show();
+                $('#role').addClass('error');
+            } else {
+                $('#role-error').hide();
+                $('#role').removeClass('error');
+            }
+        });
+</script>
 <script src="{{ asset('js/form/Staff.js') }}"></script>
 <script type="text/javascript">
     jQuery(function() {

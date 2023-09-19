@@ -17,7 +17,7 @@ aria-hidden="true" data-backdrop="static">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-label"
-                                    for="basic-addon-name">Group Name</label>
+                                    for="basic-addon-name">Group Name <span class="text-danger">*</span></label>
                                 <input type="text" id="basic-addon-name"
                                     name="name" class="form-control"
                                     placeholder="Group Name"

@@ -40,8 +40,8 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="hotel_name">Hotel Name</label>
-            <input type="text" id="hotel_name" name="hotel_name" class="form-control" placeholder="Hotel Name"
+            <label class="form-label" for="hotel_name">Hotel Name <span class="text-danger">*</span></label>
+            <input type="text" id="hotel_name" name="hotel_name" class="form-control" onkeydown="return /[a-z]/i.test(event.key)" placeholder="Hotel Name"
                 value="{{ isset($model->hotel_name) ? $model->hotel_name : old('hotel_name') }}"
                 data-error="Hotel Name" />
             <div class="valid-feedback">Looks good!</div>
@@ -53,7 +53,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="hotel_country">Country</label>
+            <label class="form-label" for="hotel_country">Country <span class="text-danger">*</span></label>
             <select class="select2 form-control" id="hotel_country" name="hotel_country" data-error="Country">
                 <option value="">Select Country</option>
                 @foreach ($countries as $country)
@@ -92,7 +92,7 @@
     </div> --}}
     <div class="col-2">
         <div class="form-group myCity">
-            <label class="form-label" for="hotel_city">City</label>
+            <label class="form-label" for="hotel_city">City <span class="text-danger">*</span></label>
             <select class="select2 form-control" id="hotel_city" name="hotel_city" data-error="City">
                 <option value="">Select City</option>
                 @php $cities = getStateCities($model->hotel_country);  @endphp
@@ -114,7 +114,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="category">Category</label>
+            <label class="form-label" for="category">Category <span class="text-danger">*</span></label>
             <select class="select2 form-control" id="category" name="category" data-error="Category">
                 <option value="">Select Category</option>
                 @foreach ($categories as $key => $category)
@@ -131,7 +131,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="hotel_group_id">Hotel Group</label>
+            <label class="form-label" for="hotel_group_id">Hotel Group <span class="text-danger">*</span></label>
             <a class="badge badge-success HotelGroupPopup" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Group
             </a>
@@ -149,7 +149,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="phone_number">Phone Number</label>
+            <label class="form-label" for="phone_number">Phone Number <span class="text-danger">*</span></label>
             <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Phone Number"
                 value="{{ isset($model->phone_number) ? $model->phone_number : old('phone_number') }}"
                 data-error="Phone Number" />
@@ -162,7 +162,7 @@
     <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="fax_number">Fax Number</label>
-            <input type="text" id="fax_number" name="fax_number" class="form-control" placeholder="Fax Number"
+            <input type="text" id="fax_number" name="fax_number" class="form-control"  placeholder="Fax Number"
                 value="{{ isset($model->fax_number) ? $model->fax_number : old('fax_number') }}"
                 data-error="Fax Number" />
             <div class="valid-feedback">Looks good!</div>
@@ -173,8 +173,8 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="hotel_address">Address</label>
-            <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address" placeholder="Address"
+            <label class="form-label" for="hotel_address">Address <span class="text-danger">*</span></label>
+            <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" placeholder="Address"
                 cols="30" rows="2">{{ isset($model->hotel_address) ? $model->hotel_address : old('hotel_address') }}</textarea>
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_address')
@@ -184,7 +184,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="hotel_pincode">Pincode</label>
+            <label class="form-label" for="hotel_pincode">Pincode <span class="text-danger">*</span></label>
             <input type="text" id="hotel_pincode" name="hotel_pincode" class="form-control"
                 placeholder="Pincode"
                 value="{{ isset($model->hotel_pincode) ? $model->hotel_pincode : old('hotel_pincode') }}"
@@ -198,7 +198,7 @@
 
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="hotel_email">Email</label>
+            <label class="form-label" for="hotel_email">Email <span class="text-danger">*</span></label>
             <input type="text" id="hotel_email" name="hotel_email" class="form-control" placeholder="Email"
                 value="{{ isset($model->hotel_email) ? $model->hotel_email : old('hotel_email') }}"
                 data-error="Email" />
@@ -224,7 +224,7 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="hotel_amenities">Hotel Amenities</label>
+            <label class="form-label" for="hotel_amenities">Hotel Amenities <span class="text-danger">*</span></label>
             <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Amenities
             </a>
@@ -238,7 +238,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="property_type_id">Property Type</label>
+            <label class="form-label" for="property_type_id">Property Type <span class="text-danger">*</span></label>
             <a class="badge badge-success PropertyPopup" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Property Type
             </a>
@@ -259,8 +259,8 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="hotel_review">Rating</label>
-            <input type="text" id="hotel_review" name="hotel_review" class="form-control" placeholder="Rating"
+            <label class="form-label" for="hotel_review">Rating <span class="text-danger">*</span></label>
+            <input type="text" id="hotel_review" name="hotel_review" class="form-control" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" placeholder="Rating"
                 value="{{ isset($model->hotel_review) ? $model->hotel_review : old('hotel_review') }}"
                 data-error="Rating" />
             <div class="valid-feedback">Looks good!</div>
@@ -271,7 +271,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="hotel_latitude">Latitude</label>
+            <label class="form-label" for="hotel_latitude">Latitude <span class="text-danger">*</span></label>
             <input type="text" id="hotel_latitude" name="hotel_latitude" class="form-control"
                 placeholder="Latitude"
                 value="{{ isset($model->hotel_latitude) ? $model->hotel_latitude : old('hotel_latitude') }}"
@@ -284,7 +284,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="hotel_longitude">Longitude</label>
+            <label class="form-label" for="hotel_longitude">Longitude <span class="text-danger">*</span></label>
             <input type="text" id="hotel_longitude" name="hotel_longitude" class="form-control"
                 placeholder="Longitude"
                 value="{{ isset($model->hotel_longitude) ? $model->hotel_longitude : old('hotel_longitude') }}"
@@ -297,7 +297,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="cancel_days">Cancel Days</label>
+            <label class="form-label" for="cancel_days">Cancel Days <span class="text-danger">*</span></label>
             <input type="text" id="cancel_days" name="cancel_days" class="form-control"
                 placeholder="Cancel Days"
                 value="{{ isset($model->cancel_days) ? $model->cancel_days : old('cancel_days') }}"
@@ -319,7 +319,7 @@
         <hr class="my-2" />
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="front_office_first_name">Name</label>
+                <label class="form-label" for="front_office_first_name">Name <span class="text-danger">*</span></label>
                 <input type="text" id="front_office_first_name" name="front_office_first_name"
                     class="form-control" placeholder="Name"
                     value="{{ isset($model->front_office_first_name) ? $model->front_office_first_name : old('front_office_first_name') }}"
@@ -332,7 +332,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="front_office_designation">Designation</label>
+                <label class="form-label" for="front_office_designation">Designation <span class="text-danger">*</span></label>
                 <input type="text" id="front_office_designation" name="front_office_designation"
                     class="form-control" placeholder="Designation"
                     value="{{ isset($model->front_office_designation) ? $model->front_office_designation : old('front_office_designation') }}"
@@ -345,7 +345,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="front_office_contact_number">Contact Number</label>
+                <label class="form-label" for="front_office_contact_number">Contact Number <span class="text-danger">*</span></label>
                 <input type="text" id="front_office_contact_number" name="front_office_contact_number"
                     class="form-control" placeholder="Contact Number"
                     value="{{ isset($model->front_office_contact_number) ? $model->front_office_contact_number : old('front_office_contact_number') }}"
@@ -358,7 +358,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="front_office_email">Email</label>
+                <label class="form-label" for="front_office_email">Email <span class="text-danger">*</span></label>
                 <input type="text" id="front_office_email" name="front_office_email" class="form-control"
                     placeholder="Email"
                     value="{{ isset($model->front_office_email) ? $model->front_office_email : old('front_office_email') }}"
@@ -378,7 +378,7 @@
         <hr class="my-2" />
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="sales_first_name">Name</label>
+                <label class="form-label" for="sales_first_name">Name <span class="text-danger">*</span></label>
                 <input type="text" id="sales_first_name" name="sales_first_name" class="form-control"
                     placeholder="Name"
                     value="{{ isset($model->sales_first_name) ? $model->sales_first_name : old('sales_first_name') }}"
@@ -391,7 +391,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="sales_designation">Designation</label>
+                <label class="form-label" for="sales_designation">Designation <span class="text-danger">*</span></label>
                 <input type="text" id="sales_designation" name="sales_designation" class="form-control"
                     placeholder="Designation"
                     value="{{ isset($model->sales_designation) ? $model->sales_designation : old('sales_designation') }}"
@@ -404,7 +404,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="sales_contact_number">Contact Number</label>
+                <label class="form-label" for="sales_contact_number">Contact Number <span class="text-danger">*</span></label>
                 <input type="text" id="sales_contact_number" name="sales_contact_number" class="form-control"
                     placeholder="Contact Number"
                     value="{{ isset($model->sales_contact_number) ? $model->sales_contact_number : old('sales_contact_number') }}"
@@ -417,7 +417,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="sales_email">Email</label>
+                <label class="form-label" for="sales_email">Email  <span class="text-danger">*</span></label>
                 <input type="text" id="sales_email" name="sales_email" class="form-control" placeholder="Email"
                     value="{{ isset($model->sales_email) ? $model->sales_email : old('sales_email') }}"
                     data-error="Email" />
@@ -436,7 +436,7 @@
         <hr class="my-2" />
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="reservation_first_name">Name</label>
+                <label class="form-label" for="reservation_first_name">Name <span class="text-danger">*</span></label>
                 <input type="text" id="reservation_first_name" name="reservation_first_name" class="form-control"
                     placeholder="Name"
                     value="{{ isset($model->reservation_first_name) ? $model->reservation_first_name : old('reservation_first_name') }}"
@@ -449,7 +449,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="reservation_designation">Designation</label>
+                <label class="form-label" for="reservation_designation">Designation <span class="text-danger">*</span></label>
                 <input type="text" id="reservation_designation" name="reservation_designation"
                     class="form-control" placeholder="Designation"
                     value="{{ isset($model->reservation_designation) ? $model->reservation_designation : old('reservation_designation') }}"
@@ -462,7 +462,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="reservation_contact_number">Contact Number</label>
+                <label class="form-label" for="reservation_contact_number">Contact Number <span class="text-danger">*</span></label>
                 <input type="text" id="reservation_contact_number" name="reservation_contact_number"
                     class="form-control" placeholder="Contact Number"
                     value="{{ isset($model->reservation_contact_number) ? $model->reservation_contact_number : old('reservation_contact_number') }}"
@@ -475,7 +475,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="reservation_email">Email</label>
+                <label class="form-label" for="reservation_email">Email <span class="text-danger">*</span></label>
                 <input type="text" id="reservation_email" name="reservation_email" class="form-control"
                     placeholder="Email"
                     value="{{ isset($model->reservation_email) ? $model->reservation_email : old('reservation_email') }}"
@@ -533,6 +533,20 @@
 
 
 @section('extra-script')
+    <script>
+        $('.select2').select2();
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('#fax_number').on('input', function(){
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9+]/g, ''); // Allow only digits and plus
+                if (inputValue !== sanitizedValue) {
+                    $(this).val(sanitizedValue);
+                }
+            });
+        });
+    </script>
     <script type="text/javascript">
         var moduleConfig = {
             redirectUrl: "{!! route('get-state-list') !!}",
@@ -557,7 +571,7 @@
     <script type="text/javascript">
         console.log(moduleConfig);
     </script>
-
+    <script src="{{ asset('js/form/Customer.js') }}"></script>
     <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>

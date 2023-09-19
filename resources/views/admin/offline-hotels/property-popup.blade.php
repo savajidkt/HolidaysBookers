@@ -17,7 +17,7 @@ aria-hidden="true" data-backdrop="static">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-label"
-                                    for="basic-addon-property_name">Property Type</label>
+                                    for="basic-addon-property_name">Property Type <span class="text-danger">*</span></label>
                                 <input type="text" id="basic-addon-property_name"
                                     name="property_name" class="form-control"
                                     placeholder="Property Type"
