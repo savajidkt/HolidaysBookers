@@ -102,7 +102,7 @@
     <div class="col-12">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label for="itemname">Price Type</label>
+                <label for="itemname">Price Type <span class="text-danger">*</span></label>
                 <div class="demo-inline-spacing">
                     <div class="custom-control custom-radio">
                         <input type="radio" id="Normal" name="price_type" class="custom-control-input"
@@ -136,7 +136,7 @@
     <div class="col-6">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label for="itemcost">Travel Date Validity</label>
+                <label for="itemcost">Travel Date Validity <span class="text-danger">*</span></label>
                 <div class="input-group input-daterange">
                     <input type="text" id="start_date" name="start_date"
                         class="form-control start-date-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
@@ -179,7 +179,7 @@
     <div class="col-3">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label class="form-label" for="role">Currency</label>
+                <label class="form-label" for="role">Currency <span class="text-danger">*</span></label>
                 <select class="select2-room-currency form-control" name="currency_id"
                     data-error="Currency is required"></select>
                 <div class="CurrencyError"></div>
@@ -245,7 +245,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Single Adult</label>
+                <label>Single Adult <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_single_adult"
                     value="{{ isset($pricemodel->price_p_n_single_adult) ? $pricemodel->price_p_n_single_adult : old('price_p_n_single_adult') }}"
                     data-error="Single adult is required" />
@@ -258,7 +258,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Per Room</label>
+                <label>Per Room <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_twin_sharing"
                     value="{{ isset($pricemodel->price_p_n_twin_sharing) ? $pricemodel->price_p_n_twin_sharing : old('price_p_n_twin_sharing') }}"
                     data-error="Per room is required" />
@@ -271,7 +271,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Extra Adult</label>
+                <label>Extra Adult <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_extra_adult"
                     value="{{ isset($pricemodel->price_p_n_extra_adult) ? $pricemodel->price_p_n_extra_adult : old('price_p_n_extra_adult') }}"
                     data-error="Extra adult is required" />
@@ -284,7 +284,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Child with Bed</label>
+                <label>Child with Bed <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_cwb"
                     value="{{ isset($pricemodel->price_p_n_cwb) ? $pricemodel->price_p_n_cwb : old('price_p_n_cwb') }}"
                     data-error="Child with bed is required" />
@@ -297,7 +297,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Child no Bed</label>
+                <label>Child no Bed <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_cob"
                     value="{{ isset($pricemodel->price_p_n_cob) ? $pricemodel->price_p_n_cob : old('price_p_n_cob') }}"
                     data-error="Child no bed is required" />
@@ -310,7 +310,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Infant/Complimentary child</label>
+                <label>Infant/Complimentary child <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_ccob"
                     value="{{ isset($pricemodel->price_p_n_ccob) ? $pricemodel->price_p_n_ccob : old('price_p_n_ccob') }}"
                     data-error="Infant/Complimentary child is required" />
@@ -575,7 +575,7 @@
                             <div class="col-2">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label for="itemcost">Night</label>
+                                        <label for="itemcost">Night <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" name="night" value="" />
                                     </div>
                                 </div>
@@ -583,7 +583,7 @@
                             <div class="col-2">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label for="itemcost">Per Night Charge</label>
+                                        <label for="itemcost">Per Night Charge <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" name="night_charge"
                                             value="" />
                                     </div>

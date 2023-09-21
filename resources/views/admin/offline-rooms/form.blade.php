@@ -27,7 +27,7 @@
         <hr class="my-2" />
     </div>
     <div class="col-md-4 mb-1 hotelDrp">
-        <label>Select Hotel</label>
+        <label>Select Hotel <span class="text-danger">*</span></label>
         <div class="form-group">
             <select class="select2-hotel form-control" name="hotel_id">
             </select>
@@ -86,7 +86,7 @@
             <div class="col-6">
                 <div class="col-md-12 col-12">
                     <div class="form-group">
-                        <label for="itemname">Room Type</label>
+                        <label for="itemname">Room Type <span class="text-danger">*</span></label>
                         <a class="badge badge-success roomTypeBTN" style="color:#FFF; float: right;">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New Room Type
                         </a>
@@ -101,7 +101,7 @@
             <div class="col-6">
                 <div class="col-md-12 col-12">
                     <div class="form-group">
-                        <label for="itemname">Room Amenity</label>
+                        <label for="itemname">Room Amenity <span class="text-danger">*</span></label>
                         <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New Amenity
                         </a>
@@ -137,7 +137,7 @@
             </div>
             <div class="col-md-4 col-4">
                 <div class="form-group">
-                    <label>Max Occupancy</label>
+                    <label>Max Occupancy <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" name="occ_sleepsmax" value="{{ old('occ_sleepsmax') }}"
                         data-error="Max Occupancy is required" />
                     @error('occ_sleepsmax')
@@ -147,7 +147,7 @@
             </div>
             <div class="col-md-4 col-4">
                 <div class="form-group">
-                    <label>No. of Beds</label>
+                    <label>No. of Beds <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" name="occ_num_beds" value="{{ old('occ_num_beds') }}"
                         data-error="Max Occupancy is required" />
                     <small class="text-muted" style="font-size: 10px;">No. of Beds Base occupancy for room price.
@@ -161,7 +161,7 @@
 
             <div class="col-md-4 col-4">
                 <div class="form-group">
-                    <label>Max Adults</label>
+                    <label>Max Adults <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" name="occ_max_adults"
                         value="{{ old('occ_max_adults') }}" data-error="Max Occupancy is required" />
                     @error('occ_max_adults')
@@ -171,7 +171,7 @@
             </div>
             <div class="col-md-4 col-4">
                 <div class="form-group">
-                    <label>Max Children When Max Adults</label>
+                    <label>Max Children When Max Adults <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" name="occ_max_child_w_max_adults"
                         value="{{ old('occ_max_child_w_max_adults') }}" data-error="Max Occupancy is required" />
                     @error('occ_max_child_w_max_adults')
@@ -183,7 +183,7 @@
 
             <div class="col-md-4 col-4">
                 <div class="form-group">
-                    <label>Max Children Without Extra Bed</label>
+                    <label>Max Children Without Extra Bed <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" name="occ_max_child_wo_extra_bed"
                         value="{{ old('occ_max_child_wo_extra_bed') }}" data-error="Max Occupancy is required" />
                     <small class="text-muted" style="font-size: 10px;"></small>
@@ -194,7 +194,7 @@
             </div>
             <div class="col-md-4 col-4">
                 <div class="form-group">
-                    <label class="form-label" for="role">Status</label>
+                    <label class="form-label" for="role">Status <span class="text-danger">*</span></label>
                     <select name="status" class="form-control" id="status" data-error="Status is required">
                         <option value="">Select Status</option>
                         <option value="1"> {{ __('core.active') }}</option>

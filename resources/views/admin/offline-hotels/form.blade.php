@@ -571,7 +571,7 @@
     <script type="text/javascript">
         console.log(moduleConfig);
     </script>
-    <script src="{{ asset('js/form/Customer.js') }}"></script>
+    {{-- <script src="{{ asset('js/form/Customer.js') }}"></script> --}}
     <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>

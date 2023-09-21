@@ -2,7 +2,7 @@
 
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">{{ __('api/api.form_api_name') }}</label>
+            <label class="form-label" for="basic-addon-name">{{ __('api/api.form_api_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
                 placeholder="{{ __('api/api.form_api_name') }}"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
@@ -15,7 +15,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-api_url">{{ __('api/api.form_api_url') }}</label>
+            <label class="form-label" for="basic-addon-api_url">{{ __('api/api.form_api_url') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-api_url" name="api_url" class="form-control"
                 placeholder="{{ __('api/api.form_api_url') }}"
                 value="{{ isset($model->api_url) ? $model->api_url : old('api_url') }}"
@@ -28,7 +28,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">{{ __('api/api.form_status') }}</label>
+            <label class="form-label" for="role">{{ __('api/api.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('api/message.api_status_required') }}">
                 <option value="">{{ __('api/api.form_select_status') }}</option>

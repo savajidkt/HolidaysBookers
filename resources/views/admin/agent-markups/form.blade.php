@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-code">{{ __('agent-markup/agent-markup.form_agent_markup_code') }}</label>
+                for="basic-addon-code">{{ __('agent-markup/agent-markup.form_agent_markup_code') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-code" name="code" class="form-control"
                 placeholder="{{ __('agent-markup/agent-markup.form_agent_markup_code') }}"
                 value="{{ isset($model->code) ? $model->code : old('code') }}" aria-describedby="basic-addon-code"
@@ -16,7 +16,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-rezlive">{{ __('agent-markup/agent-markup.form_agent_markup_rezlive_markup') }}</label>
+                for="basic-addon-rezlive">{{ __('agent-markup/agent-markup.form_agent_markup_rezlive_markup') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-rezlive" name="rezlive" class="form-control"
                 placeholder="{{ __('agent-markup/agent-markup.form_agent_markup_rezlive_markup') }}"
                 value="{{ isset($model->rezlive) ? $model->rezlive : old('rezlive') }}"
@@ -31,7 +31,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-offline_hotel">{{ __('agent-markup/agent-markup.form_agent_markup_offline_hotel_markup') }}</label>
+                for="basic-addon-offline_hotel">{{ __('agent-markup/agent-markup.form_agent_markup_offline_hotel_markup') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-offline_hotel" name="offline_hotel" class="form-control"
                 placeholder="{{ __('agent-markup/agent-markup.form_agent_markup_offline_hotel_markup') }}"
                 value="{{ isset($model->offline_hotel) ? $model->offline_hotel : old('offline_hotel') }}"
@@ -46,7 +46,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-sightseeing">{{ __('agent-markup/agent-markup.form_agent_markup_sightseeing_markup') }}</label>
+                for="basic-addon-sightseeing">{{ __('agent-markup/agent-markup.form_agent_markup_sightseeing_markup') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-sightseeing" name="sightseeing" class="form-control"
                 placeholder="{{ __('agent-markup/agent-markup.form_agent_markup_sightseeing_markup') }}"
                 value="{{ isset($model->sightseeing) ? $model->sightseeing : old('sightseeing') }}"
@@ -61,7 +61,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-transfer">{{ __('agent-markup/agent-markup.form_agent_markup_transfer_markup') }}</label>
+                for="basic-addon-transfer">{{ __('agent-markup/agent-markup.form_agent_markup_transfer_markup') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-transfer" name="transfer" class="form-control"
                 placeholder="{{ __('agent-markup/agent-markup.form_agent_markup_transfer_markup') }}"
                 value="{{ isset($model->transfer) ? $model->transfer : old('transfer') }}"
@@ -76,7 +76,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-package">{{ __('agent-markup/agent-markup.form_agent_markup_package_markup') }}</label>
+                for="basic-addon-package">{{ __('agent-markup/agent-markup.form_agent_markup_package_markup') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-package" name="package" class="form-control"
                 placeholder="{{ __('agent-markup/agent-markup.form_agent_markup_package_markup') }}"
                 value="{{ isset($model->package) ? $model->package : old('package') }}"
@@ -90,7 +90,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">{{ __('agent-markup/agent-markup.form_status') }}</label>
+            <label class="form-label" for="role">{{ __('agent-markup/agent-markup.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('agent-markup/message.status_required') }}">
                 <option value="">{{ __('agent-markup/agent-markup.form_select_status') }}</option>

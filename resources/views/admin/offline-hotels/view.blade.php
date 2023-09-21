@@ -188,14 +188,14 @@
                                         <div class="form-group">
                                             <label for="account-username"> Hotel Description </label>
                                             <strong
-                                                class="disp-below">{{ isset($model->hotel_description) ? $model->hotel_description : '' }}</strong>
+                                                class="disp-below">{!! isset($model->hotel_description) ? $model->hotel_description : '' !!}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group">
                                             <label for="account-username">Cancellation Policy</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->cancellation_policy) ? $model->cancellation_policy : '' }}</strong>
+                                                class="disp-below">{!! isset($model->cancellation_policy) ? $model->cancellation_policy : '' !!}</strong>
                                         </div>
                                     </div>
                                  </div>

@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-name">{{ __('product-markup/product-markup.form_product_markup_name') }}</label>
+                for="basic-addon-name">{{ __('product-markup/product-markup.form_product_markup_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
                 placeholder="{{ __('product-markup/product-markup.form_product_markup_name') }}"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
@@ -16,7 +16,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-percentage">{{ __('product-markup/product-markup.form_product_markup_percentage') }}</label>
+                for="basic-addon-percentage">{{ __('product-markup/product-markup.form_product_markup_percentage') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-percentage" name="percentage" class="form-control"
                 placeholder="{{ __('product-markup/product-markup.form_product_markup_percentage') }}"
                 value="{{ isset($model->percentage) ? $model->percentage : old('percentage') }}"
@@ -30,7 +30,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">{{ __('product-markup/product-markup.form_status') }}</label>
+            <label class="form-label" for="role">{{ __('product-markup/product-markup.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('product-markup/message.status_required') }}">
                 <option value="">{{ __('product-markup/product-markup.form_select_status') }}</option>

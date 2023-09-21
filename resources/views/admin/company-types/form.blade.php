@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-name">{{ __('company-type/company-type.form_company_type') }}</label>
+                for="basic-addon-name">{{ __('company-type/company-type.form_company_type') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="company_type" class="form-control"
                 placeholder="{{ __('company-type/company-type.form_company_type') }}"
                 value="{{ isset($model->company_type) ? $model->company_type : old('company_type') }}"
@@ -16,7 +16,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">{{ __('company-type/company-type.form_status') }}</label>
+            <label class="form-label" for="role">{{ __('company-type/company-type.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('company-type/message.status_required') }}">
                 <option value="">{{ __('company-type/company-type.form_select_status') }}</option>

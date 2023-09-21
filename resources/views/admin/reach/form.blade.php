@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">{{ __('reach-us/reach-us.form_reach_name') }}</label>
+            <label class="form-label" for="basic-addon-name">{{ __('reach-us/reach-us.form_reach_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
                 placeholder="{{ __('reach-us/reach-us.form_reach_name') }}"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
@@ -28,7 +28,7 @@
     @endphp
     <div class="col-12 textbox_lable_div {{ $hide }}">
         <div class="form-group">
-            <label class="form-label" for="role">Textbox Lable</label>
+            <label class="form-label" for="role">Textbox Lable <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-textbox_lable" name="textbox_lable" class="form-control"
                 value="{{ isset($model->textbox_lable) ? $model->textbox_lable : old('textbox_lable') }}"
                 data-error="Textbox lable name is required" />
@@ -36,7 +36,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">{{ __('reach-us/reach-us.form_status') }}</label>
+            <label class="form-label" for="role">{{ __('reach-us/reach-us.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('reach-us/message.status_required') }}">
                 <option value="">{{ __('reach-us/reach-us.form_select_status') }}</option>

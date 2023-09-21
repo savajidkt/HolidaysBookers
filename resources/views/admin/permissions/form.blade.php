@@ -12,7 +12,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Permission Name</label>
+            <label class="form-label" for="basic-addon-name">Permission Name <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="permission_name" class="form-control" placeholder="Permission Name" value="{{(isset($model->name))?$model->name:old('permission_name')}}" aria-describedby="basic-addon-name" />
             <div class="valid-feedback">Looks good!</div>
             @error('permission_name')
@@ -23,7 +23,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Type</label>
+            <label class="form-label" for="basic-addon-name">Type <span class="text-danger">*</span></label>
             <div class="demo-inline-spacing">
                 <div class="custom-control custom-radio">
                     <input class="custom-control-input" type="radio" name="type" id="create" value="1" {{($model->type == 1)? 'checked' : ''}} />

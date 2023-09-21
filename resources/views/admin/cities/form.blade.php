@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="country">{{ __('city/city.form_country_name') }}</label>
+            <label class="form-label" for="country">{{ __('city/city.form_country_name') }} <span class="text-danger">*</span></label>
             <select name="country_id" class="form-control" id="country_id"
                 data-error="{{ __('city/message.country_name_required') }}">
                 <option value="">{{ __('city/city.form_country_select') }}</option>
@@ -18,7 +18,7 @@
     </div>
     <div class="col-12">
         <div class="form-group loaderDisplay">
-            <label class="form-label" for="country">{{ __('city/city.form_state_name') }}</label>
+            <label class="form-label" for="country">{{ __('city/city.form_state_name') }} <span class="text-danger">*</span></label>
             <select name="state_id" class="form-control" id="state_id"
                 data-error="{{ __('city/message.state_name_required') }}">
                 <option value="">{{ __('city/city.form_state_status') }}</option>
@@ -40,7 +40,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">{{ __('city/city.form_city_name') }}</label>
+            <label class="form-label" for="basic-addon-name">{{ __('city/city.form_city_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
                 placeholder="{{ __('city/city.form_city_name') }}"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
@@ -53,7 +53,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">{{ __('city/city.form_status') }}</label>
+            <label class="form-label" for="role">{{ __('city/city.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('city/message.state_name_required') }}">
                 <option value="">{{ __('city/city.form_select_status') }}</option>

@@ -17,7 +17,7 @@ aria-hidden="true" data-backdrop="static">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-label"
-                                    for="basic-addon-freebies_name">Freebies Name <span class="text-danger">*</span></label>
+                                    for="basic-addon-freebies_name">Freebies Name</label>
                                 <input type="text" id="basic-addon-freebies_name"
                                     name="name" class="form-control"
                                     placeholder="Freebies Name"

@@ -44,7 +44,7 @@
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <label class="form-label"
-                                                                for="basic-addon-room_type">{{ __('roomtype/roomtype.form_room_type') }}</label>
+                                                                for="basic-addon-room_type">{{ __('roomtype/roomtype.form_room_type') }} <span class="text-danger">*</span></label>
                                                             <input type="text" id="basic-addon-room_type"
                                                                 name="room_type" class="form-control"
                                                                 placeholder="{{ __('roomtype/roomtype.form_room_type') }}"
@@ -86,7 +86,7 @@
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <label class="form-label"
-                                                                for="basic-addon-amenity_name">Amenity Name</label>
+                                                                for="basic-addon-amenity_name">Amenity Name <span class="text-danger">*</span></label>
                                                             <input type="text" id="basic-addon-amenity_name"
                                                                 name="amenity_name" class="form-control"
                                                                 placeholder="Amenity Name" value=""
@@ -130,7 +130,7 @@
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <label class="form-label" for="basic-addon-name">Freebies
-                                                                Name</label>
+                                                                Name <span class="text-danger">*</span></label>
                                                             <input type="text" id="basic-addon-name" name="name"
                                                                 class="form-control" placeholder="Freebies Name"
                                                                 value="" aria-describedby="basic-addon-name"

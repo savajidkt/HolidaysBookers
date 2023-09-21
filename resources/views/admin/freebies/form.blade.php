@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Name</label>
+            <label class="form-label" for="basic-addon-name">Name <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
                 placeholder="Freebies name"
                 value="{{ isset($model->name) ? $model->name : old('name') }}"
@@ -16,7 +16,7 @@
 
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="type">Type</label>
+            <label class="form-label" for="type">Type <span class="text-danger">*</span></label>
             <select name="type" class="form-control" id="type"
                 data-error="Freebies type is required.">
                 <option value="">Select Type</option>
@@ -34,7 +34,7 @@
 
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">Status</label>
+            <label class="form-label" for="role">Status <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status" data-error="Status is required">
                 <option value="">Select Status</option>
                 <option value="1" {{ (isset($model->id) && $model->status == 1) ? 'selected' : '' }}> {{ __('core.active') }}</option>

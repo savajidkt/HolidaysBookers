@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">{{ __('country/country.form_country_name') }}</label>
+            <label class="form-label" for="basic-addon-name">{{ __('country/country.form_country_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
                 placeholder="{{ __('country/country.form_country_name') }}"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
@@ -14,7 +14,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-code">{{ __('country/country.form_country_code') }}</label>
+            <label class="form-label" for="basic-addon-code">{{ __('country/country.form_country_code') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-code" name="code" class="form-control"
                 placeholder="{{ __('country/country.form_country_code') }}"
                 value="{{ isset($model->code) ? $model->code : old('code') }}" aria-describedby="basic-addon-code"
@@ -28,7 +28,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-phone_code">{{ __('country/country.form_country_phone_code') }}</label>
+                for="basic-addon-phone_code">{{ __('country/country.form_country_phone_code') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-phone_code" name="phone_code" class="form-control"
                 placeholder="{{ __('country/country.form_country_phone_code') }}"
                 value="{{ isset($model->phone_code) ? $model->phone_code : old('phone_code') }}"
@@ -43,7 +43,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label"
-                for="basic-addon-nationality">{{ __('country/country.form_nationality') }}</label>
+                for="basic-addon-nationality">{{ __('country/country.form_nationality') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-nationality" name="nationality" class="form-control"
                 placeholder="{{ __('country/country.form_nationality') }}"
                 value="{{ isset($model->nationality) ? $model->nationality : old('nationality') }}"
@@ -57,7 +57,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">{{ __('country/country.form_status') }}</label>
+            <label class="form-label" for="role">{{ __('country/country.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('country/message.status_required') }}">
                 <option value="">{{ __('country/country.form_select_status') }}</option>

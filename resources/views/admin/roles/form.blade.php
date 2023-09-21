@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="col-12">
             <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Role Name</label>
+            <label class="form-label" for="basic-addon-name">Role Name <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="rolename" class="form-control" placeholder="Role Name" value="{{(isset($model->name))?$model->name:old('rolename')}}" aria-describedby="basic-addon-name" />
             <div class="valid-feedback">Looks good!</div>
             @error('rolename')

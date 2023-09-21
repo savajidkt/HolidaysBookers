@@ -124,7 +124,7 @@
             myDropzone.processQueue();
         });
 
-        $(document).on('click', '#DownloadAgent', function() {
+        $(document).on('click', '#DownloadOfflineHotel', function() {
             var link = "{{ asset('sample-file/Agents-Sample.xlsx') }}";
             var element = document.createElement('a');
             element.setAttribute('href', link);

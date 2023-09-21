@@ -72,7 +72,7 @@
 <div class="row">
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label>Package Name</label>
+            <label>Package Name <span class="text-danger">*</span></label>
             <input type="text" class="form-control" name="package_name"
                 value="{{ isset($model->package_name) ? $model->package_name : old('package_name') }}"
                 data-error="Package name is required" />
@@ -83,7 +83,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label>Package Code</label>
+            <label>Package Code <span class="text-danger">*</span></label>
             <input type="text" class="form-control" name="package_code"
                 value="{{ isset($model->package_code) ? $model->package_code : old('package_code') }}"
                 data-error="Package code is required" />
@@ -94,7 +94,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemcost">Package Validity</label>
+            <label for="itemcost">Package Validity <span class="text-danger">*</span></label>
             <div class="input-group input-daterange">
                 <input type="text" name="package_validity" class="form-control package-basic flatpickr-input"
                     placeholder="YYYY-MM-DD To YYYY-MM-DD"
@@ -106,7 +106,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemname">Country</label>
+            <label for="itemname">Country <span class="text-danger">*</span></label>
             {{-- <a class="badge badge-success addCountryBTN" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add New Country
             </a> --}}
@@ -120,7 +120,7 @@
     </div>
     <div class="col-md-4 col-4 myCity">
         <div class="form-group">
-            <label for="itemname">City</label>
+            <label for="itemname">City <span class="text-danger">*</span></label>
             {{-- <a class="badge badge-success addCityBTN" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add New City
             </a> --}}
@@ -137,7 +137,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemname">Nationality</label>
+            <label for="itemname">Nationality <span class="text-danger">*</span></label>
             <select class="select2-nationality form-control" name="nationality"
                 data-error="Nationality is required"></select>
             <div class="nationalityCLS"></div>
@@ -148,7 +148,7 @@
     </div>    
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemcost">Cancel Day</label>
+            <label for="itemcost">Cancel Day <span class="text-danger">*</span></label>
             <input type="number" name="cancel_day" class="form-control" data-error="Cancel Day is required"
                 value="{{ isset($model->cancel_day) ? $model->cancel_day : old('cancel_day') }}" />
         </div>
@@ -169,7 +169,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label class="form-label" for="role">Status</label>
+            <label class="form-label" for="role">Status <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status" data-error="Status is required">
                 <option value="">Select Status</option>
                 <option value="1" {{ isset($model->id) && $model->status == 1 ? 'selected' : '' }}>
@@ -184,7 +184,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemcost">Origin City</label>
+            <label for="itemcost">Origin City <span class="text-danger">*</span></label>
             <a class="badge badge-success textBoxCityAdd" data-name="origin_city" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add City
             </a>
@@ -211,7 +211,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemcost">Inclusion</label>
+            <label for="itemcost">Inclusion <span class="text-danger">*</span></label>
             <a class="badge badge-success textBoxInclusionAdd" data-name="inclusion"
                 style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Inclusion
@@ -240,7 +240,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemcost">Exclusion</label>
+            <label for="itemcost">Exclusion <span class="text-danger">*</span></label>
             <a class="badge badge-success textBoxExclusionAdd" data-name="exclusion"
                 style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Exclusion
@@ -270,7 +270,7 @@
 
     <div class="col-md-6 col-6">
         <div class="form-group">
-            <label class="form-label" for="Highlights">Highlights</label>
+            <label class="form-label" for="Highlights">Highlights <span class="text-danger">*</span></label>
             <textarea name="highlights" class="my-highlights" id="highlights" cols="30" rows="10">{{ isset($model->highlights) ? $model->highlights : '' }}</textarea>
             <div class="valid-feedback">Looks good!</div>
             @error('highlights')
@@ -281,7 +281,7 @@
     </div>
     <div class="col-md-6 col-6">
         <div class="form-group">
-            <label class="form-label" for="Terms_and_Conditions">Terms and Conditions</label>
+            <label class="form-label" for="Terms_and_Conditions">Terms and Conditions <span class="text-danger">*</span></label>
             <textarea name="terms_and_conditions" class="my-terms_and_conditions" id="terms_and_conditions" cols="30"
                 rows="10">{{ isset($model->terms_and_conditions) ? $model->terms_and_conditions : '' }}</textarea>
             <div class="valid-feedback">Looks good!</div>
@@ -313,7 +313,7 @@
 <div class="row">
     <div class="col-md-12 col-12">
         <div class="form-group">
-            <label for="itemname">Hotel Name</label>
+            <label for="itemname">Hotel Name <span class="text-danger">*</span></label>
             <select class="select2-hotel-name form-control" name="hotel_name_id" data-error="Hotel is required"
                 id="hotel_name_id"></select>
             <div class="hotelNameIDCLS"></div>
@@ -324,7 +324,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemname">Select Room Type</label>
+            <label for="itemname">Select Room Type <span class="text-danger">*</span></label>
             <select class="select2-hotel-room-type form-control" name="room_type" data-error="Room type is required"
                 id="room_type"></select>
             <div class="room_typeCLS"></div>
@@ -335,7 +335,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemname">Select Meal Plan</label>
+            <label for="itemname">Select Meal Plan <span class="text-danger">*</span></label>
             <select class="select2-hotel-meal-paln form-control" name="meal_plan" data-error="Meal plan is required"
                 id="meal_plan"></select>
             <div class="meal_planCLS"></div>
@@ -346,7 +346,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemcost">Travel Valid Date</label>
+            <label for="itemcost">Travel Valid Date <span class="text-danger">*</span></label>
             <div class="input-group input-daterange">
                 <input type="text" name="travel_validity"
                     class="form-control package-travel-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
@@ -357,7 +357,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemname">Cut-off for Booking</label>
+            <label for="itemname">Cut-off for Booking <span class="text-danger">*</span></label>
             <select name="cutoff_price" class="form-control" id="cutoff_price"
                 data-error="Cut-off for price is required">
                 @php echo forLoopByNumber(0, 60, '' ,'Days', ['90', '120']); @endphp
@@ -396,7 +396,7 @@
     </div>
     <div class="col-md-4 col-4">
         <div class="form-group">
-            <label for="itemcost">Sold out dates (if any)</label>
+            <label for="itemcost">Sold out dates (if any) <span class="text-danger">*</span></label>
             <div class="input-group input-daterange">
                 <input type="text" name="sold_out_dates" class="form-control package-sold-basic flatpickr-input"
                     placeholder="YYYY-MM-DD To YYYY-MM-DD" value="" data-error="Sold out dates is required" />
@@ -495,7 +495,7 @@
 <div class="row">
     <div class="col-md-3 col-3">
         <div class="form-group">
-            <label class="form-label" for="role">Currency</label>
+            <label class="form-label" for="role">Currency <span class="text-danger">*</span></label>
             <select class="select2-room-currency form-control" name="currency_id"
                 data-error="Currency is required"></select>
             <div class="CurrencyError"></div>
@@ -701,7 +701,7 @@
                     </div>
                     <div class="col-md-6 col-6">
                         <div class="form-group">
-                            <label>Heading</label>
+                            <label>Heading <span class="text-danger">*</span></label>
                             <input type="hidden" name="edit_id" value="{{ $childs->id }}" />
                             <input type="hidden" name="edit_package_id" value="{{ $childs->package_id }}" />
                             <input type="text" class="form-control" name="heading"
@@ -714,7 +714,7 @@
                     </div>
                     <div class="col-md-6 col-6">
                         <div class="form-group">
-                            <label>Display Order</label>
+                            <label>Display Order <span class="text-danger">*</span></label>
                             <input type="number" class="form-control" name="display_order"
                                 value="{{ isset($childs->display_order) ? $childs->display_order : old('display_order') }}"
                                 data-error="Display order is required" />

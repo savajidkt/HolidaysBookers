@@ -8,7 +8,7 @@
     </div>
     <div class="col-5">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Currency</label>
+            <label class="form-label" for="basic-addon-name">Currency <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control" placeholder="Currency name"
                 value="{{ isset($model->name) ? $model->name : old('name') }}"
                 aria-describedby="basic-addon-name" data-error="Currency name is required" />
@@ -20,7 +20,7 @@
     </div>
     <div class="col-5">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-code">Currency Code</label>
+            <label class="form-label" for="basic-addon-code">Currency Code <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-code" name="code" class="form-control" placeholder="Currency code"
                 value="{{ isset($model->code) ? $model->code : old('code') }}"
                 aria-describedby="basic-addon-code" data-error="Currency code is required" />
@@ -32,7 +32,7 @@
     </div>
     <div class="col-2">
         <div class="form-group">
-            <label class="form-label" for="role">Status</label>
+            <label class="form-label" for="role">Status <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status" data-error="Status is required">
                 <option value="">Select Status</option>
                 <option value="1" {{ isset($model->id) && $model->status == 1 ? 'selected' : '' }}>

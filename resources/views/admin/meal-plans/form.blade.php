@@ -8,7 +8,7 @@
     </div>
     <div class="col-8">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Meal Plan</label>
+            <label class="form-label" for="basic-addon-name">Meal Plan <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control" placeholder="Meal Plan Name"
                 value="{{ isset($model->name) ? $model->name : old('name') }}"
                 aria-describedby="basic-addon-name" data-error="Meal plan name is required" />
@@ -20,7 +20,7 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="role">Status</label>
+            <label class="form-label" for="role">Status <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status" data-error="Status is required">
                 <option value="">Select Status</option>
                 <option value="1" {{ isset($model->id) && $model->status == 1 ? 'selected' : '' }}>

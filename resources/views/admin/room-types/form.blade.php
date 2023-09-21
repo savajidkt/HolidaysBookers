@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-room_type">{{ __('roomtype/roomtype.form_room_type') }}</label>
+            <label class="form-label" for="basic-addon-room_type">{{ __('roomtype/roomtype.form_room_type') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-room_type" name="room_type" class="form-control"
                 placeholder="{{ __('roomtype/roomtype.form_room_type') }}"
                 value="{{ isset($model->room_type) ? $model->room_type : old('room_type') }}"
@@ -14,7 +14,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">{{ __('roomtype/roomtype.form_status') }}</label>
+            <label class="form-label" for="role">{{ __('roomtype/roomtype.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('roomtype/message.status_required') }}">
                 <option value="">{{ __('roomtype/roomtype.form_select_status') }}</option>

@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="country">{{ __('state/state.form_country_name') }}</label>
+            <label class="form-label" for="country">{{ __('state/state.form_country_name') }} <span class="text-danger">*</span></label>
             <select name="country_id" class="form-control" id="country_id"
                 data-error="{{ __('state/message.country_name_required') }}">
                 <option value="">{{ __('state/state.form_country_select') }}</option>
@@ -18,7 +18,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-name">{{ __('state/state.form_state_name') }}</label>
+            <label class="form-label" for="basic-addon-name">{{ __('state/state.form_state_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
                 placeholder="{{ __('state/state.form_state_name') }}"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
@@ -31,7 +31,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="basic-addon-code">{{ __('state/state.form_state_code') }}</label>
+            <label class="form-label" for="basic-addon-code">{{ __('state/state.form_state_code') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-code" name="code" class="form-control"
                 placeholder="{{ __('state/state.form_state_code') }}"
                 value="{{ isset($model->code) ? $model->code : old('code') }}" aria-describedby="basic-addon-code"
@@ -44,7 +44,7 @@
     </div>
     <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="role">{{ __('state/state.form_status') }}</label>
+            <label class="form-label" for="role">{{ __('state/state.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('state/message.status_required') }}">
                 <option value="">{{ __('state/state.form_status_select') }}</option>
