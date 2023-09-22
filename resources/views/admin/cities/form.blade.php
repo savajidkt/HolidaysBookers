@@ -57,9 +57,9 @@
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('city/message.state_name_required') }}">
                 <option value="">{{ __('city/city.form_select_status') }}</option>
-                <option value="1" {{ $model->status == 1 ? 'selected' : '' }}> {{ __('core.active') }}
+                <option value="1" {{ (isset($model->id) && $model->status == 1) ? 'selected' : '' }}> {{ __('core.active') }}
                 </option>
-                <option value="0" {{ $model->status == 0 ? 'selected' : '' }}> {{ __('core.inactive') }}
+                <option value="0" {{ (isset($model->id) && $model->status == 0) ? 'selected' : '' }}> {{ __('core.inactive') }}
                 </option>
             </select>
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

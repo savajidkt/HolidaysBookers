@@ -38,8 +38,8 @@
             <select name="status" class="form-control" id="status"
                 data-error="{{ __('amenity/message.status_required') }}">
                 <option value="">{{ __('amenity/amenity.form_select_status') }}</option>
-                <option value="1" {{ $model->status == 1 ? 'selected' : '' }}> {{ __('core.active') }}</option>
-                <option value="0" {{ $model->status == 0 ? 'selected' : '' }}> {{ __('core.inactive') }}</option>
+                <option value="1" {{ (isset($model->id) && $model->status == 1) ? 'selected' : '' }}> {{ __('core.active') }}</option>
+                <option value="0" {{ (isset($model->id) && $model->status == 0) ? 'selected' : '' }}> {{ __('core.inactive') }}</option>
             </select>
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('status')

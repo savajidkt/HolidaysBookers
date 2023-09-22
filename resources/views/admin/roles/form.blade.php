@@ -2,22 +2,41 @@
     <div class="col-md-4 col-12">
         <div class="col-md-12">
             <div class="col-12">
-            <div class="form-group">
-            <label class="form-label" for="basic-addon-name">Role Name <span class="text-danger">*</span></label>
-            <input type="text" id="basic-addon-name" name="rolename" class="form-control" placeholder="Role Name" value="{{(isset($model->name))?$model->name:old('rolename')}}" aria-describedby="basic-addon-name" />
-            <div class="valid-feedback">Looks good!</div>
-            @error('rolename')
-            <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-
-        </div>
+                <div class="form-group">
+                    <label class="form-label" for="basic-addon-name">Role Name <span class="text-danger">*</span></label>
+                    <input type="text" id="basic-addon-name" name="rolename" class="form-control" placeholder="Role Name" value="{{(isset($model->name))?$model->name:old('rolename')}}" aria-describedby="basic-addon-name" />
+                    <div class="valid-feedback">Looks good!</div>
+                    @error('rolename')
+                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
 
-            <div class="col-6">
+            {{-- <div class="col-6">
                 <div class="form-group">
                     <button type="submit" id="user-save" class="btn btn-primary">Save</button>
                 </div>
+            </div> --}}
+            <div class="col-12">
+                @if($model->id != '')
+                <div class="row">
+                    <div class="col-12">
+                        <a class="btn btn-outline-secondary waves-effect"
+                            href="{{ route('roles.index') }}">Back</a>
+                        <button type="submit" id="user-save" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+                @endif
+                @if($model->id == '')
+                <div class="row">
+                    <div class="col-12">
+                        <a class="btn btn-outline-secondary waves-effect"
+                            href="{{ route('roles.index') }}">Back</a>
+                            <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
 

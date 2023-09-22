@@ -97,7 +97,7 @@
             <label for="itemcost">Package Validity <span class="text-danger">*</span></label>
             <div class="input-group input-daterange">
                 <input type="text" name="package_validity" class="form-control package-basic flatpickr-input"
-                    placeholder="YYYY-MM-DD To YYYY-MM-DD"
+                    placeholder="DD-MM-YYYY To DD-MM-YYYY"
                     value="{{ isset($pricemodel->package_validity) ? $pricemodel->package_validity : old('package_validity') }}"
                     data-error="Package validity is required" />
             </div>
@@ -349,7 +349,7 @@
             <label for="itemcost">Travel Valid Date <span class="text-danger">*</span></label>
             <div class="input-group input-daterange">
                 <input type="text" name="travel_validity"
-                    class="form-control package-travel-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
+                    class="form-control package-travel-basic flatpickr-input" placeholder="DD-MM-YYYY To DD-MM-YYYY"
                     value="" data-error="Travel valid date is required" />
             </div>
             <div class="travel_validity"></div>
@@ -399,7 +399,7 @@
             <label for="itemcost">Sold out dates (if any) <span class="text-danger">*</span></label>
             <div class="input-group input-daterange">
                 <input type="text" name="sold_out_dates" class="form-control package-sold-basic flatpickr-input"
-                    placeholder="YYYY-MM-DD To YYYY-MM-DD" value="" data-error="Sold out dates is required" />
+                    placeholder="DD-MM-YYYY To DD-MM-YYYY" value="" data-error="Sold out dates is required" />
             </div>
             <div class="sold_out_dates"></div>
         </div>
@@ -844,7 +844,8 @@
             packageBasic.flatpickr({
                 minDate: PackageMinDate,
                 mode: 'range',
-                defaultDate: [PackageStartDate, PackageEndDate]
+                defaultDate: [PackageStartDate, PackageEndDate],
+                dateFormat: "d/m/Y"
             });
         }
         var packageTravelBasic = $('.package-travel-basic');
@@ -852,7 +853,8 @@
             packageTravelBasic.flatpickr({
                 minDate: PackageMinDate,
                 mode: 'range',
-                defaultDate: [PackageTravelStartDate, PackageTravelEndDate]
+                defaultDate: [PackageTravelStartDate, PackageTravelEndDate],
+                dateFormat: "d/m/Y"
             });
         }
         var packageSoldBasic = $('.package-sold-basic');
@@ -860,7 +862,8 @@
             packageSoldBasic.flatpickr({
                 minDate: PackageMinDate,
                 mode: 'range',
-                defaultDate: [PackageSoldStartDate, PackageSoldEndDate]
+                defaultDate: [PackageSoldStartDate, PackageSoldEndDate],
+                dateFormat: "d/m/Y"
             });
         }
 

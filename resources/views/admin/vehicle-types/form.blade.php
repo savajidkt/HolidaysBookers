@@ -32,8 +32,8 @@
             <label class="form-label" for="role">{{ __('vehicletype/vehicletype.form_status') }} <span class="text-danger">*</span></label>
             <select name="status" class="form-control" id="status" {{ __('vehicletype/message.status_required') }}>
                 <option value="">{{ __('vehicletype/vehicletype.form_select_status') }}</option>
-                <option value="1" {{ $model->status == 1 ? 'selected' : '' }}> {{ __('core.active') }}</option>
-                <option value="0" {{ $model->status == 0 ? 'selected' : '' }}> {{ __('core.inactive') }}</option>
+                <option value="1" {{ (isset($model->id) && $model->status == 1) ? 'selected' : '' }}> {{ __('core.active') }}</option>
+                <option value="0" {{ (isset($model->id) && $model->status == 0) ? 'selected' : '' }}> {{ __('core.inactive') }}</option>
 
             </select>
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

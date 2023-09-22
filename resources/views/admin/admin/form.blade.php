@@ -88,16 +88,24 @@
                     @endif
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-12">
                 @if($model->id != '')
-                    <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+                        <a class="btn btn-outline-secondary waves-effect"
+                            href="{{ route('admins.index') }}">Back</a>
                         <button type="submit" id="user-save" class="btn btn-primary">Update</button>
                     </div>
+                </div>
                 @endif
                 @if($model->id == '')
-                    <div class="form-group">
-                        <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
+                <div class="row">
+                    <div class="col-12">
+                        <a class="btn btn-outline-secondary waves-effect"
+                            href="{{ route('admins.index') }}">Back</a>
+                            <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
                     </div>
+                </div>
                 @endif
             </div>
         </div>

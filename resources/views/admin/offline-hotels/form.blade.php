@@ -185,7 +185,7 @@
     <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_pincode">Pincode <span class="text-danger">*</span></label>
-            <input type="text" id="hotel_pincode" name="hotel_pincode" class="form-control"
+            <input type="text" id="hotel_pincode" name="hotel_pincode" class="form-control" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
                 placeholder="Pincode"
                 value="{{ isset($model->hotel_pincode) ? $model->hotel_pincode : old('hotel_pincode') }}"
                 data-error="Pincode" />
