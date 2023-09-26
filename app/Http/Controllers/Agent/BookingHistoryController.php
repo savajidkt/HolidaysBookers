@@ -25,6 +25,7 @@ class BookingHistoryController extends Controller
         $pagename = "booking-history";
 
         if ($request->ajax()) {
+            $isDraft = false;
             $user = auth()->user();
             if ($status == "all") {
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('order_type', 1);
@@ -32,6 +33,9 @@ class BookingHistoryController extends Controller
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 1)->where('order_type', 1);
             } else if ($status == "unpaid") {
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 0)->where('order_type', 1);
+            } else if ($status == "draft") {
+                $isDraft = true;
+                $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('order_type', 0);
             } else {
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('status', orderStatusByID(strtolower($status)))->where('order_type', 1);
             }
@@ -52,12 +56,21 @@ class BookingHistoryController extends Controller
                 ->editColumn('booking_amount', function (Order $order) {
                     return numberFormat($order->booking_amount, globalCurrency());
                 })
-                ->editColumn('status', function (Order $order) {
-                    return getPaymentStatus($order->status);
+                ->editColumn('status', function (Order $order) use ($isDraft) {
+                    if( $isDraft ){
+                        return '-';
+                    } else {
+                        return getPaymentStatus($order->status);
+                    }
+                    
                 })
-                ->addColumn('action', function (Order $order) {
-                    //return $order->action;
-                    return getOrderHistoryAction($order->id, $order);
+                ->addColumn('action', function (Order $order)  use ($isDraft) {    
+                    if( $isDraft ){
+                        return '-';
+                    } else {
+                        return getOrderHistoryAction($order->id, $order);
+                    }                
+                    
                 })
                 ->rawColumns(['action', 'status', 'pax'])->make(true);
         }
