@@ -62,7 +62,7 @@ var FrmCheckoutPreference = function () {
                             return false;
                         }
                     }
-                }
+                }             
             },
             messages: {
 
@@ -91,7 +91,7 @@ var FrmCheckoutPreference = function () {
                 }
             },
             submitHandler: function (form) {
-                form.submit();
+                form.submit();                
             }
         });
     }
@@ -163,7 +163,7 @@ var FrmCheckoutPreference = function () {
                   
                 </div>
                           </div>`;
-                            window.location.reload();
+                          window.location.reload();
                         } else {
                             string = `<div class="col-12">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
@@ -248,7 +248,7 @@ $(document).ready(function () {
         });
         $.ajax({
             beforeSend: function () {
-
+               
             },
             complete: function () {
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
@@ -282,16 +282,16 @@ $(document).ready(function () {
     $('.addvalidation').each(function () {
         $(this).rules("add", {
             required: true
-        });
-
-    });
+            });
+           
+    });    
     $('.lead_addvalidation').each(function () {
 
         $(this).rules("add", {
             required: true
-        });
-
-    });
+            });
+           
+    });    
 
     checkboxPassenger();
 

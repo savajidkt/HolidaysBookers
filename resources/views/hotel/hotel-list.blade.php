@@ -1213,6 +1213,7 @@
             filterObjParamEndDate: filterObj.requested_search_to,
             filterObjParamStartPrice: filterObj.start_price_range,
             filterObjParamEndPrice: filterObj.end_price_range,
+            filterObjParamCityID: filterObj.requested_city_id,
             ajaxRoomURL: "{!! route('room-list-ajax') !!}",
             addToWishList: "{!! route('add-to-wishlist') !!}",
             addedToCartBooking: "{!! route('ajax-temp-store') !!}",

@@ -49,6 +49,8 @@ class CheckoutController extends Controller
         $requiredParamArr = getBookingCart('bookingCart');
         if ($requiredParamArr) {
             return view('checkout.checkout', ['hotelListingRepository' => $this->hotelListingRepository, 'hotelsDetails' => [], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
+        } else {
+            return redirect()->route('home');
         }
     }
 

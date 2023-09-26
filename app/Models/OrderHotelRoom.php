@@ -36,6 +36,6 @@ class OrderHotelRoom extends Model
 
     public function hotel_details()
     {
-        return $this->belongsTo(OfflineHotel::class, 'order_hotel_id', 'id');
+        return $this->belongsTo(OfflineHotel::class, 'hotel_id', 'id');
     }
 }

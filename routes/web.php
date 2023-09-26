@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\AboutUsController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Customer\MyProfileController;
 use App\Http\Controllers\Admin\Cities\CitiesController;
 use App\Http\Controllers\Admin\Orders\OrdersController;
 use App\Http\Controllers\Admin\States\StatesController;
+use App\Http\Controllers\Admin\Vendor\VendorController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Reachus\ReachusController;
@@ -46,7 +48,6 @@ use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
 use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
-use App\Http\Controllers\Admin\Vendor\VendorController;
 use App\Http\Controllers\WishlistController as FrontWishlistController;
 use App\Http\Controllers\Agent\WishlistController as AgentWishlistController;
 use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
@@ -243,8 +244,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/order/order-itinerary-download/{order}', [OrdersController::class, 'orderItineraryDownload'])->name('order-itinerary-download');
 
     Route::post('/order/change-status', [OrdersController::class, 'changeStatus'])->name('change-order-status');
-
-    
 });
 
 Auth::routes();
@@ -274,7 +273,7 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/review-your-booking/{id}', [CheckoutController::class, 'checkout'])->name('review-your-booking');
     Route::resource('/checkout', CheckoutController::class);
 
-    Route::post('/get-booking-list', [AgentDashboardController::class, 'getBookingList'])->name('get-booking-list');        
+    Route::post('/get-booking-list', [AgentDashboardController::class, 'getBookingList'])->name('get-booking-list');
     Route::post('razorpaypayment', [CheckoutController::class, 'payOnOnline'])->name('razorpaypayment');
     Route::post('razorpaypayment-success', [CheckoutController::class, 'payOnOnlineSuccess'])->name('razorpaypaymentSuccess');
     Route::post('razorpaypayment-failed', [CheckoutController::class, 'payOnOnlineFailed'])->name('razorpaypaymentFailed');
@@ -292,14 +291,13 @@ Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], functio
     Route::get('/verification', [VerificationController::class, 'index'])->name('customer.verification');
     Route::get('/verification/update/{id}', [VerificationController::class, 'edit'])->name('customer.verification-update');
     Route::post('/verification/update/{id}', [VerificationController::class, 'update'])->name('customer.verification-update');
-   
+
     Route::get('/my-profile', [MyProfileController::class, 'editProfile'])->name('customer.my-profile');
     Route::post('/my-profile', [MyProfileController::class, 'updateProfile'])->name('customer.my-profile');
     Route::get('/my-location', [MyProfileController::class, 'editLocation'])->name('customer.my-location');
     Route::post('/my-location', [MyProfileController::class, 'updateLocation'])->name('customer.my-location');
     Route::get('/my-change-password', [MyProfileController::class, 'editChangePassword'])->name('customer.my-change-password');
     Route::post('/my-change-password', [MyProfileController::class, 'updateChangePassword'])->name('customer.my-change-password');
-    
 });
 
 Route::group(['prefix' => 'corporate', 'middleware' => ['corporateauth']], function () {
@@ -314,7 +312,7 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 
 // Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/city-hotel-list', [HotelListController::class, 'getLocations'])->name('city-hotel-list');
 Route::get('/hotel-list-ajax', [HotelListController::class, 'ajaxHotelListing'])->name('hotel-list-ajax');

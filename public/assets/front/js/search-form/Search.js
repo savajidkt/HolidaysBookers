@@ -29,7 +29,7 @@ var FrmSearchPreference = function () {
                 error.insertAfter(element);
             },
             submitHandler: function (form) {
-
+               
                 createCookie('location', JSON.stringify($('#location').val()), 1);
                 createCookie('hidden_city_id', JSON.stringify($('.hidden_city_id').val()), 1);
                 createCookie('country_id', JSON.stringify($('.hidden_country_id').val()), 1);
@@ -142,14 +142,14 @@ var FrmSearchPreference = function () {
                         if (data.status) {
                             string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-success-1 pl-30 pr-20 py-30 rounded-8">
-                  <div class="text-success-2 lh-1 fw-500">` + data.message + `</div>
+                  <div class="text-success-2 lh-1 fw-500">`+ data.message + `</div>
                   </div>
                           </div>`;
                             window.location.reload();
                         } else {
                             string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
-                              <div class="text-error-2 lh-1 fw-500">` + data.message + `</div>                             
+                              <div class="text-error-2 lh-1 fw-500">`+ data.message + `</div>                             
                             </div>
                           </div>`;
                         }
@@ -241,13 +241,13 @@ var FrmSearchPreference = function () {
                             if (data.email) {
                                 string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
-                              <div class="text-error-2 lh-1 fw-500">` + data.email + `</div>                             
+                              <div class="text-error-2 lh-1 fw-500">`+ data.email + `</div>                             
                             </div>
                           </div>`;
                             } else if (data.password) {
                                 string = `<div class="col-12 messageError">
                                 <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
-                                  <div class="text-error-2 lh-1 fw-500">` + data.password + `</div>                             
+                                  <div class="text-error-2 lh-1 fw-500">`+ data.password + `</div>                             
                                 </div>
                               </div>`;
                             }
@@ -256,7 +256,7 @@ var FrmSearchPreference = function () {
 
                             string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-success-1 pl-30 pr-20 py-30 rounded-8">
-                  <div class="text-success-2 lh-1 fw-500">` + data.message + `</div>
+                  <div class="text-success-2 lh-1 fw-500">`+ data.message + `</div>
                   </div>
                           </div>`;
                             window.location.reload();
@@ -264,7 +264,7 @@ var FrmSearchPreference = function () {
                         } else {
                             string = `<div class="col-12 messageError">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
-                              <div class="text-error-2 lh-1 fw-500">` + data.message + `</div>                             
+                              <div class="text-error-2 lh-1 fw-500">`+ data.message + `</div>                             
                             </div>
                           </div>`;
                         }
@@ -555,7 +555,7 @@ function FrmAddMoreGuest() {
             <div class="col-lg-3 text-center">
                 <div class="fw-500 mb-4">Room</div>
                 <div class="">
-                    <label class="lh-1 text-16 fw-500 text-dark-1 roomNumber">` + totalNub + `</label>
+                    <label class="lh-1 text-16 fw-500 text-dark-1 roomNumber">`+ totalNub + `</label>
                 </div>
             </div>
             <div class="col-lg-3 text-center">
@@ -625,10 +625,10 @@ function FrmAddMoreGuest() {
 
             });
             totalArray.push({
-                room: RoomsCount,
-                adult: parseInt($(this).find(".adult :selected").val()),
-                child: parseInt($(this).find(".child :selected").val()),
-                childAge: tempChildArr
+                    room: RoomsCount,
+                    adult: parseInt($(this).find(".adult :selected").val()),
+                    child: parseInt($(this).find(".child :selected").val()),
+                    childAge: tempChildArr
             });
         });
         createCookie('searchGuestArr', JSON.stringify(totalArray), 1);
@@ -758,6 +758,7 @@ function getAllRoomslList(hotel_id) {
             filterObjParamHotelID: hotel_id,
             filterObjParamStartDate: moduleConfig.filterObjParamStartDate,
             filterObjParamEndDate: moduleConfig.filterObjParamEndDate,
+            filterObjParamCityID: moduleConfig.filterObjParamCityID,
             filterObjParamAdult: moduleConfig.filterObjParamAdult,
             filterObjParamChild: moduleConfig.filterObjParamChild,
 

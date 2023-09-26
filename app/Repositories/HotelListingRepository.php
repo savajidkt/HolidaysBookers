@@ -227,11 +227,12 @@ class HotelListingRepository
             $roomListingArray[$key]['room_type'] = $roomPrice->roomtype->room_type;
             $roomListingArray[$key]['room_type'] = $roomPrice->roomtype->room_type;
             $roomTempArray['room'] = $roomPrice->toArray();
-            $roomTempArray['room']['room_amenities'] = $roomPrice->roomamenity->toArray();
-            $roomTempArray['room']['room_mealplans'] = $roomPrice->mealplan->toArray();
-            $roomTempArray['room']['room_freebies'] = $roomPrice->roomfreebies->toArray();
-            $roomTempArray['room']['room_images'] = $roomPrice->images->toArray();
-            $roomTempArray['room']['room_types'] = $roomPrice->roomtype->toArray();
+            $roomTempArray['room']['room_amenities'] = ($roomPrice->roomamenity) ? $roomPrice->roomamenity->toArray() : [];
+            $roomTempArray['room']['room_mealplans'] = ($roomPrice->mealplan) ? $roomPrice->mealplan->toArray() : [];
+            $roomTempArray['room']['room_freebies'] = ($roomPrice->roomfreebies) ? $roomPrice->roomfreebies->toArray() : [];            
+            $roomTempArray['room']['room_images'] = ($roomPrice->images) ? $roomPrice->images->toArray() : [];            
+            $roomTempArray['room']['room_types'] = ($roomPrice->roomtype) ? $roomPrice->roomtype->toArray() : [];   
+            
             $roomTempArray['room']['room_child'] = [];
             $roomTempArray['room']['room_facilities'] = [];
 
