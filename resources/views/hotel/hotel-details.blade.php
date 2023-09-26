@@ -14,10 +14,10 @@
         filterObj.star = "";
         filterObj.price_range = "";
         filterObj.page = 1;
-        filterObj.requested_city_id = "";
-        filterObj.requested_country_id = "";
-        filterObj.requested_search_from = "";
-        filterObj.requested_search_to = "";
+        filterObj.requested_city_id = "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}";
+        filterObj.requested_country_id = "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}";
+        filterObj.requested_search_from = "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}";
+        filterObj.requested_search_to = "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}";
         filterObj.requested_adult = "";
         filterObj.requested_child = "";
         filterObj.requested_room = "";
@@ -25,35 +25,54 @@
         filterObj.end_price_range = "";
     </script>
 
-
-    <section class="py-10 bg-dark-2">
+    <div class="header-margin"></div>
+    <section class="pt-40 pb-40 bg-dark-2">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <form class="" id="SearchFrm" method="get" enctype="multipart/form-data"
                         action="{{ route('hotel-list') }}">
                         {{-- @csrf --}}
-                        <div class="mainSearch bg-white px-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4">
+                        <div class="mainSearch -col-3-big bg-white px-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 mt-30">
                             <div class="button-grid items-center">
-                                <div class="searchMenu-loc pl-10 pr-30 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
+                                <div class="searchMenu-loc pl-20 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
 
                                     <div data-x-dd-click="searchMenu-loc">
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
-
                                         <div class="text-15 text-light-1 ls-2 lh-16">
                                             <input autocomplete="off" type="search" placeholder="Where are you going?"
-                                                class="js-search js-dd-focus" name="location" id="location" />
-                                            <input type="hidden" class="hidden_city_id" name="city_id" />
-                                            <input type="hidden" class="hidden_country_id" name="country_id" />
+                                                class="js-search js-dd-focus" name="location" id="location"
+                                                value="{{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}" />
+                                            <input type="hidden" class="hidden_city_id" name="city_id"
+                                                value="{{ isset($requestedArr['city_id']) ? $requestedArr['city_id'] : '' }}" />
+                                            <input type="hidden" class="hidden_country_id" name="country_id"
+                                                value="{{ isset($requestedArr['country_id']) ? $requestedArr['country_id'] : '' }}" />
                                         </div>
-                                        <span id="basic-addon-location-error" class="help-block help-block-error"></span>
                                     </div>
-
                                     <div class="searchMenu-loc__field shadow-2 js-popup-window" data-x-dd="searchMenu-loc"
                                         data-x-dd-toggle="-is-active">
                                         <div class="bg-white px-30 py-30 sm:px-0 sm:py-15 rounded-4">
                                             <div class="y-gap-5 js-results">
-
+                                                @if (isset($requestedArr['location']) && strlen($requestedArr['location']) > 0)
+                                                    <div>
+                                                        <button type="button"
+                                                            class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
+                                                            <div class="d-flex">
+                                                                <div class="icon-location-2 text-light-1 text-20 pt-4">
+                                                                </div>
+                                                                <div class="ml-10">
+                                                                    <div
+                                                                        class="text-15 lh-12 fw-500 js-search-option-target">
+                                                                        {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
+                                                                    </div>
+                                                                    <div class="text-14 lh-12 text-light-1 mt-5">
+                                                                        {{ isset($country->name) ? $country->name : '' }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -62,12 +81,13 @@
                                     <div data-x-dd-click="searchMenu-date">
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
                                         <div class="text-15 text-light-1 ls-2 lh-16">
-                                            <input class="form-control" placeholder="Check in - Check out"
+                                            <input class="form-control daterange" placeholder="Check in - Check out"
                                                 name="daterange" />
-                                            <input type="hidden" id="hidden_from" name="search_from" value="">
-                                            <input type="hidden" id="hidden_to" name="search_to" value="">
+                                            <input type="hidden" id="hidden_from" name="search_from"
+                                                value="{{ date('Y-m-d', strtotime($requestedArr['search_from'])) }}">
+                                            <input type="hidden" id="hidden_to" name="search_to"
+                                                value="{{ date('Y-m-d', strtotime($requestedArr['search_to'])) }}">
                                         </div>
-                                        <span id="basic-addon-date-error" class="help-block help-block-error"></span>
                                     </div>
                                     <div style="display: none" class="searchMenu-date__field shadow-2"
                                         data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">
@@ -76,22 +96,27 @@
                                 <div class="searchMenu-guests px-30 lg:py-20 lg:px-0 js-form-dd js-form-counters">
                                     <div data-x-dd-click="searchMenu-guests">
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Guest</h4>
-                                        <div class="text-15 text-light-1 ls-2 lh-16">
-                                            <span class="js-count-adult">1</span> adults
-                                            -
-                                            <span class="js-count-child">0</span> childeren
-                                            -
-                                            <span class="js-count-room">1</span> room
+                                        <div class="text-15 text-light-1 ls-2 lh-16" data-x-click="guest">
+                                            <span
+                                                class="js-count-adult">{{ getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 1 }}</span>
+                                            adults -
+                                            <span
+                                                class="js-count-child">{{ getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0 }}</span>
+                                            childeren -
+                                            <span
+                                                class="js-count-room">{{ getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1 }}</span>
+                                            room
                                         </div>
-                                        <span id="basic-addon-guest-error" class="help-block help-block-error"></span>
                                     </div>
-                                    <div class="searchMenu-guests__field shadow-2" data-x-dd="searchMenu-guests"
-                                        data-x-dd-toggle="-is-active">
+                                    <div style="display:none;" class="searchMenu-guests__field shadow-2"
+                                        data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
                                         <div class="bg-white px-30 py-30 rounded-4">
                                             <div class="row y-gap-10 justify-between items-center">
                                                 <div class="col-auto">
                                                     <div class="text-15 fw-500">Adults</div>
+                                                    <div class="text-14 lh-12 text-light-1 mt-5">(Above 12 Years)</div>
                                                 </div>
+
                                                 <div class="col-auto">
                                                     <div class="d-flex items-center js-counter"
                                                         data-value-change=".js-count-adult">
@@ -99,10 +124,13 @@
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
                                                             <i class="icon-minus text-12"></i>
                                                         </button>
+
                                                         <div class="flex-center size-20 ml-15 mr-15">
-                                                            <div class="text-15 js-count count-adults">1
+                                                            <div class="text-15 js-count count-adults">
+                                                                {{ $requestedArr['adult'] ? $requestedArr['adult'] : 1 }}
                                                             </div>
                                                         </div>
+
                                                         <button type="button"
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
                                                             <i class="icon-plus text-12"></i>
@@ -110,12 +138,13 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="border-top-light mt-24 mb-24"></div>
+
                                             <div class="row y-gap-10 justify-between items-center">
                                                 <div class="col-auto">
                                                     <div class="text-15 lh-12 fw-500">Children</div>
-                                                    <div class="text-14 lh-12 text-light-1 mt-5">Ages 0 -
-                                                        17
+                                                    <div class="text-14 lh-12 text-light-1 mt-5">(Age 12 years & below)
                                                     </div>
                                                 </div>
                                                 <div class="col-auto">
@@ -125,15 +154,122 @@
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
                                                             <i class="icon-minus text-12"></i>
                                                         </button>
+
                                                         <div class="flex-center size-20 ml-15 mr-15">
-                                                            <div class="text-15 js-count count-childs">0
+                                                            <div class="text-15 js-count count-childs">
+                                                                {{ $requestedArr['child'] ? $requestedArr['child'] : 0 }}
                                                             </div>
                                                         </div>
+
                                                         <button type="button"
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
                                                             <i class="icon-plus text-12"></i>
                                                         </button>
                                                     </div>
+                                                </div>
+                                                <div class="row addChildList">
+
+                                                    @if ($requestedArr['child'] == 1)
+                                                        <div class="col-lg-6">
+                                                            <label class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Age
+                                                                of
+                                                                child
+                                                                1</label>
+                                                            <select name="child_age[]" id="child_age">
+                                                                @php
+                                                                    $optionStr = '';
+                                                                    for ($i = 0; $i <= 12; $i++) {
+                                                                        if (isset($requestedArr['extra_data']['child_age_1']) && $requestedArr['extra_data']['child_age_1'] == $i) {
+                                                                            echo '<option value="' . $i . '" selected>' . $i . '</option>';
+                                                                        } else {
+                                                                            echo '<option value="' . $i . '">' . $i . '</option>';
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                            </select>
+                                                        </div>
+                                                    @elseif ($requestedArr['child'] == 2)
+                                                        <div class="col-lg-6">
+                                                            <label class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Age
+                                                                of
+                                                                child
+                                                                1</label>
+                                                            <select name="child_age[]" id="child_age">
+                                                                @php
+                                                                    $optionStr = '';
+                                                                    for ($i = 0; $i <= 12; $i++) {
+                                                                        if (isset($requestedArr['extra_data']['child_age_1']) && $requestedArr['extra_data']['child_age_1'] == $i) {
+                                                                            echo '<option value="' . $i . '" selected>' . $i . '</option>';
+                                                                        } else {
+                                                                            echo '<option value="' . $i . '">' . $i . '</option>';
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Age
+                                                                of
+                                                                child
+                                                                2</label>
+                                                            <select name="child_age[]" id="child_age">
+                                                                @php
+                                                                    $optionStr = '';
+                                                                    for ($i = 0; $i <= 12; $i++) {
+                                                                        if (isset($requestedArr['extra_data']['child_age_2']) && $requestedArr['extra_data']['child_age_2'] == $i) {
+                                                                            echo '<option value="' . $i . '" selected>' . $i . '</option>';
+                                                                        } else {
+                                                                            echo '<option value="' . $i . '">' . $i . '</option>';
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                            </select>
+                                                        </div>
+                                                    @elseif ($requestedArr['child'] > 2)
+                                                        <div class="col-lg-6">
+                                                            <label
+                                                                class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Younger
+                                                                Children</label>
+                                                            <div class="text-14 lh-12 text-light-1 mt-5">Age : 0-6 yrs
+                                                            </div>
+                                                            <select name="child_age[]" id="child_age_younger"
+                                                                class="childMore"
+                                                                data-child="{{ $requestedArr['child'] }}">
+                                                                @php
+                                                                    $optionStr = '';
+                                                                    for ($i = 0; $i <= $requestedArr['child']; $i++) {
+                                                                        if (isset($requestedArr['extra_data']['child_younger']) && $requestedArr['extra_data']['child_younger'] == $i) {
+                                                                            echo '<option value="' . $i . '" selected>' . $i . '</option>';
+                                                                        } else {
+                                                                            echo '<option value="' . $i . '">' . $i . '</option>';
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label
+                                                                class="text-16 lh-1 fw-500 text-dark-1 mb-10 mt-40">Older
+                                                                Children</label>
+                                                            <div class="text-14 lh-12 text-light-1 mt-5">Age : 7-12 yrs
+                                                            </div>
+                                                            <select name="child_age[]" id="child_age_older"
+                                                                class="childMore"
+                                                                data-child="{{ $requestedArr['child'] }}">
+                                                                @php
+                                                                    $optionStr = '';
+                                                                    for ($i = 0; $i <= $requestedArr['child']; $i++) {
+                                                                        if (isset($requestedArr['extra_data']['child_older']) && $requestedArr['extra_data']['child_older'] == $i) {
+                                                                            echo '<option value="' . $i . '" selected>' . $i . '</option>';
+                                                                        } else {
+                                                                            echo '<option value="' . $i . '">' . $i . '</option>';
+                                                                        }
+                                                                    }
+                                                                @endphp
+                                                            </select>
+                                                        </div>
+                                                    @endif
+
                                                 </div>
                                             </div>
                                             <div class="border-top-light mt-24 mb-24"></div>
@@ -148,8 +284,10 @@
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
                                                             <i class="icon-minus text-12"></i>
                                                         </button>
+
                                                         <div class="flex-center size-20 ml-15 mr-15">
-                                                            <div class="text-15 js-count count-rooms">1
+                                                            <div class="text-15 js-count count-rooms">
+                                                                {{ $requestedArr['room'] ? $requestedArr['room'] : 1 }}
                                                             </div>
                                                         </div>
                                                         <button type="button"
@@ -164,11 +302,12 @@
                                 </div>
                                 <div class="button-item">
                                     <button
-                                        class="mainSearch__submit button -dark-1 py-15 px-35 h-60 col-12 rounded-4 bg-blue-1 text-white">
+                                        class="mainSearch__submit button -dark-1 py-15 px-40 col-12 rounded-4 bg-blue-1 text-white">
                                         <i class="icon-search text-20 mr-10"></i>
                                         Search
                                     </button>
                                 </div>
+
                             </div>
                         </div>
                     </form>

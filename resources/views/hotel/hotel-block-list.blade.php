@@ -46,12 +46,15 @@
 
 
                             @php
+                           
                                 $singlePageParam = [
                                     'hotel_id' => $hotel['id'],
                                     'adult' => getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 1,
                                     'child' => getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0,
                                     'room' => getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1,
                                     'city_id' => $requestParam['requested_city_id'],
+                                    'location' => $requestParam['requested_location'],
+                                    'country_id' => $requestParam['requested_country_id'],
                                     'search_from' => $requestParam['requested_search_from'],
                                     'search_to' => $requestParam['requested_search_to'],
                                 ];

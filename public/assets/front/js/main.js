@@ -127,13 +127,7 @@
     const targets = document.querySelectorAll('.js-liverSearch')
     if (!targets) return
 
-    const data = [
-      { city: "London", country: "Greater London, United Kingdom" },
-      { city: "New York", country: "New York State, United States" },
-      { city: "Paris", country: "France" },
-      { city: "Madrid", country: "Spain" },
-      { city: "Santorini", country: "Greece" }
-    ]
+    const data = []
 
     targets.forEach(el => {
       const search = el.querySelector('.js-search')

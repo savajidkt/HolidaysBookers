@@ -9,6 +9,7 @@
         }
     </style>
     @php
+    
         $search_from = date('m-d-Y', strtotime(date('Y-m-d')));
         $search_to = date('m-d-Y', strtotime(date('Y-m-d')));
     @endphp
@@ -36,9 +37,10 @@
         filterObj.requested_country_id = "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}";
         filterObj.requested_search_from = "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}";
         filterObj.requested_search_to = "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}";
+        filterObj.requested_location = "{!! $requestedArr['location'] ? $requestedArr['location'] : '' !!}";
 
         filterObj.start_price_range = "";
-        filterObj.end_price_range = "";
+        filterObj.end_price_range = "";        
     </script>
     <div class="header-margin"></div>
     <section class="pt-40 pb-40 bg-dark-2">
@@ -1214,6 +1216,7 @@
             filterObjParamStartPrice: filterObj.start_price_range,
             filterObjParamEndPrice: filterObj.end_price_range,
             filterObjParamCityID: filterObj.requested_city_id,
+            filterObjParamLocation: filterObj.requested_location,
             ajaxRoomURL: "{!! route('room-list-ajax') !!}",
             addToWishList: "{!! route('add-to-wishlist') !!}",
             addedToCartBooking: "{!! route('ajax-temp-store') !!}",
@@ -1282,7 +1285,7 @@
                     // starArr.push('all');
                 }
 
-                //console.log(filterObj.star);
+                
                 getAllHotelList(filterObj);
 
             });
@@ -1315,6 +1318,8 @@
         }, false);
 
         function getAllHotelList(requested) {
+           
+           
             $.ajax({
                 type: 'GET',
                 url: moduleConfig.ajaxURL + '?page=' + requested.page,
@@ -1335,6 +1340,7 @@
                     price_range: requested.price_range,
                     requested_city_id: requested.requested_city_id,
                     requested_country_id: requested.requested_country_id,
+                    requested_location: requested.requested_location,
                     page: requested.page,
                     requested_search_from: requested.requested_search_from,
                     requested_search_to: requested.requested_search_to,

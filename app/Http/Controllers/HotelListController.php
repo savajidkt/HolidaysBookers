@@ -80,7 +80,7 @@ class HotelListController extends Controller
 
     public function ajaxHotelListing(Request $request)
     {
-
+      
         if ($request->ajax()) {
             $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
@@ -125,6 +125,7 @@ class HotelListController extends Controller
 
     public function show($id)
     {
+        
         $safeencryptionObj = new Safeencryption;
         $requestParam = unserialize($safeencryptionObj->decode($id));
         if (!$requestParam['hotel_id']) {
@@ -143,6 +144,6 @@ class HotelListController extends Controller
         }
 
      
-        return view('hotel.hotel-details', ['hotelsDetails' => $hotelsDetails, 'hotelsRoomDetails' => $hotelsRoomDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj, 'requestParam' => $requestParam, 'id' => $id, 'bookingCartArr' => getBookingCart('bookingCart')]);
+        return view('hotel.hotel-details', ['requestedArr' => $requestParam, 'hotelsDetails' => $hotelsDetails, 'hotelsRoomDetails' => $hotelsRoomDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj, 'requestParam' => $requestParam, 'id' => $id, 'bookingCartArr' => getBookingCart('bookingCart')]);
     }
 }
