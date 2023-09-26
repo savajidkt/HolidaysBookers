@@ -1,5 +1,5 @@
-var FrmPropertyTypePreference = function () {
-    var PropertyTypeFormValidation = function () {
+var FrmPropertyTypePreference = function() {
+    var PropertyTypeFormValidation = function() {
         var FrmPropertyTypePreferenceForm = $('#FrmPropertyType');
         var error4 = $('.error-message', FrmPropertyTypePreferenceForm);
         var success4 = $('.error-message', FrmPropertyTypePreferenceForm);
@@ -10,7 +10,7 @@ var FrmPropertyTypePreference = function () {
             focusInvalid: false,
             ignore: "",
             rules: {
-                property_name: { required: true },                
+                property_name: { required: true },
                 status: { required: true }
             },
             messages: {
@@ -21,10 +21,14 @@ var FrmPropertyTypePreference = function () {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
+                } else {
+                    error.insertAfter(element);
+                }
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -32,12 +36,12 @@ var FrmPropertyTypePreference = function () {
     }
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             PropertyTypeFormValidation();
         }
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmPropertyTypePreference.init();
 });

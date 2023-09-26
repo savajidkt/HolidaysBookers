@@ -1,5 +1,5 @@
-var FrmHotelGroupPreference = function () {
-    var HotelGroupFormValidation = function () {
+var FrmHotelGroupPreference = function() {
+    var HotelGroupFormValidation = function() {
         var FrmHotelGroupPreferenceForm = $('#FrmHotelGroup');
         var error4 = $('.error-message', FrmHotelGroupPreferenceForm);
         var success4 = $('.error-message', FrmHotelGroupPreferenceForm);
@@ -21,10 +21,15 @@ var FrmHotelGroupPreference = function () {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
+            errorPlacement: function(error, element) {
+
+                if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
+                } else {
+                    error.insertAfter(element);
+                }
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -32,12 +37,12 @@ var FrmHotelGroupPreference = function () {
     }
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             HotelGroupFormValidation();
         }
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmHotelGroupPreference.init();
 });

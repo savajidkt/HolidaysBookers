@@ -26,7 +26,7 @@ class CreateRequest extends FormRequest
         $rules = [
             'fullname'          => ['required'],
             'role'              => ['required'],
-            'password'          => ['required', 'min:8'],
+            'password'          => ['required', 'min:6'],
             'confirm_password'  => ['required'],
             'email'             => ['required', 'email', 'unique:admin,email'],
         ];
@@ -46,7 +46,7 @@ class CreateRequest extends FormRequest
             'role.required' => 'Role is required.',
             'password.required' => 'Password is required.',
             'confirm_password.required' => 'Confirm Password is required.',
-            'password.min' => 'Password minimum value should be 8'
+            'password.min' => 'Password minimum value should be 6'
         ];
     }
 }

@@ -3,7 +3,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-amenity_name">{{ __('amenity/amenity.form_amenity_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-amenity_name" name="amenity_name" class="form-control"
-                placeholder="{{ __('amenity/amenity.form_amenity_name') }}"
+                placeholder="{{ __('amenity/amenity.form_amenity_name') }}" onkeydown="return /[a-z]/i.test(event.key)"
                 value="{{ isset($model->amenity_name) ? $model->amenity_name : old('amenity_name') }}"
                 aria-describedby="basic-addon-amenity_name"
                 data-error="{{ __('amenity/message.amenity_name_required') }}" />

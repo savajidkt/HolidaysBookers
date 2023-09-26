@@ -3,7 +3,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-room_type">{{ __('roomtype/roomtype.form_room_type') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-room_type" name="room_type" class="form-control"
-                placeholder="{{ __('roomtype/roomtype.form_room_type') }}"
+                placeholder="{{ __('roomtype/roomtype.form_room_type') }}" onkeydown="return /[a-z]/i.test(event.key)"
                 value="{{ isset($model->room_type) ? $model->room_type : old('room_type') }}"
                 aria-describedby="basic-addon-room_type" data-error="{{ __('roomtype/message.room_type_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

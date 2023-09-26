@@ -20,7 +20,7 @@ aria-hidden="true" data-backdrop="static">
                                     for="basic-addon-name">Group Name <span class="text-danger">*</span></label>
                                 <input type="text" id="basic-addon-name"
                                     name="name" class="form-control"
-                                    placeholder="Group Name"
+                                    placeholder="Group Name" onkeydown="return /[a-z]/i.test(event.key)"
                                     value="" aria-describedby="basic-addon-name"
                                     data-error="Group Name" />
 

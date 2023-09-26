@@ -31,7 +31,10 @@ class AdminRepository
 
         $admin =  Admin::create($dataSave);
         $admin->roles()->sync([$data['role']]);
-        $admin->permissions()->attach($data['permissions']);
+        if(isset($data['permissions']))
+        {
+            $admin->permissions()->attach($data['permissions']);
+        }
         //$admin->notify(new RegisterdEmailNotification($password,$admin));
         return $admin;
     }

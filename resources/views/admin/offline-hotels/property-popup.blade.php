@@ -20,7 +20,7 @@ aria-hidden="true" data-backdrop="static">
                                     for="basic-addon-property_name">Property Type <span class="text-danger">*</span></label>
                                 <input type="text" id="basic-addon-property_name"
                                     name="property_name" class="form-control"
-                                    placeholder="Property Type"
+                                    placeholder="Property Type" onkeydown="return /[a-z]/i.test(event.key)"
                                     value="" aria-describedby="basic-addon-property_name"
                                     data-error="Property Type" />
                             </div>
