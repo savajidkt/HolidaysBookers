@@ -1,5 +1,5 @@
-var FrmStatePreference = function () {
-    var StateFormValidation = function () {
+var FrmStatePreference = function() {
+    var StateFormValidation = function() {
         var FrmStatePreferenceForm = $('#State');
         var error4 = $('.error-message', FrmStatePreferenceForm);
         var success4 = $('.error-message', FrmStatePreferenceForm);
@@ -28,10 +28,16 @@ var FrmStatePreference = function () {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
+                } else if (element.attr("name") == "country_id") {
+                    error.insertAfter("#country");
+                } else {
+                    error.insertAfter(element);
+                }
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -39,12 +45,12 @@ var FrmStatePreference = function () {
     }
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             StateFormValidation();
         }
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmStatePreference.init();
 });

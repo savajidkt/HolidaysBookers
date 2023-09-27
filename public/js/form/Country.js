@@ -1,5 +1,5 @@
-var FrmCountryPreference = function () {
-    var CountryFormValidation = function () {
+var FrmCountryPreference = function() {
+    var CountryFormValidation = function() {
         var FrmCountryPreferenceForm = $('#Country');
         var error4 = $('.error-message', FrmCountryPreferenceForm);
         var success4 = $('.error-message', FrmCountryPreferenceForm);
@@ -33,10 +33,14 @@ var FrmCountryPreference = function () {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
+                } else {
+                    error.insertAfter(element);
+                }
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -44,12 +48,12 @@ var FrmCountryPreference = function () {
     }
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             CountryFormValidation();
         }
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmCountryPreference.init();
 });

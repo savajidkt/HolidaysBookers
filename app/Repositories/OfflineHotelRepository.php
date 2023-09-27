@@ -30,7 +30,7 @@ class OfflineHotelRepository
      */
     public function create(Request $request, array $data): OfflineHotel
     {
-       dd($data);
+    //    dd($request->hotel_gallery_image);
         $HotelArr = [
             'hotel_name'    => $data['hotel_name'],
             'hotel_country'  => $data['hotel_country'],

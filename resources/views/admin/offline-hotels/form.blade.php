@@ -41,7 +41,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_name">Hotel Name <span class="text-danger">*</span></label>
-            <input type="text" id="hotel_name" name="hotel_name" class="form-control" onkeydown="return /[a-z]/i.test(event.key)" placeholder="Hotel Name"
+            <input type="text" id="hotel_name" name="hotel_name" class="form-control" onkeydown="return /[a-zA-Z ]/.test(event.key)" placeholder="Hotel Name"
                 value="{{ isset($model->hotel_name) ? $model->hotel_name : old('hotel_name') }}"
                 data-error="Hotel Name" />
             <div class="valid-feedback">Looks good!</div>
@@ -321,7 +321,7 @@
             <div class="form-group">
                 <label class="form-label" for="front_office_first_name">Name <span class="text-danger">*</span></label>
                 <input type="text" id="front_office_first_name" name="front_office_first_name"
-                    class="form-control" placeholder="Name" onkeydown="return /[a-z]/i.test(event.key)"
+                    class="form-control" placeholder="Name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                     value="{{ isset($model->front_office_first_name) ? $model->front_office_first_name : old('front_office_first_name') }}"
                     data-error="Name" />
                 <div class="valid-feedback">Looks good!</div>
@@ -380,7 +380,7 @@
             <div class="form-group">
                 <label class="form-label" for="sales_first_name">Name <span class="text-danger">*</span></label>
                 <input type="text" id="sales_first_name" name="sales_first_name" class="form-control"
-                    placeholder="Name" onkeydown="return /[a-z]/i.test(event.key)"
+                    placeholder="Name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                     value="{{ isset($model->sales_first_name) ? $model->sales_first_name : old('sales_first_name') }}"
                     data-error="Name" />
                 <div class="valid-feedback">Looks good!</div>
@@ -438,7 +438,7 @@
             <div class="form-group">
                 <label class="form-label" for="reservation_first_name">Name <span class="text-danger">*</span></label>
                 <input type="text" id="reservation_first_name" name="reservation_first_name" class="form-control"
-                    placeholder="Name" onkeydown="return /[a-z]/i.test(event.key)"
+                    placeholder="Name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                     value="{{ isset($model->reservation_first_name) ? $model->reservation_first_name : old('reservation_first_name') }}"
                     data-error="Name" />
                 <div class="valid-feedback">Looks good!</div>

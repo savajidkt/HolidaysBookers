@@ -1,5 +1,5 @@
-var FrmCityPreference = function () {
-    var CityFormValidation = function () {
+var FrmCityPreference = function() {
+    var CityFormValidation = function() {
         var FrmCityPreferenceForm = $('#City');
         var error4 = $('.error-message', FrmCityPreferenceForm);
         var success4 = $('.error-message', FrmCityPreferenceForm);
@@ -29,17 +29,25 @@ var FrmCityPreference = function () {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "country_id") {
+                    error.insertAfter("#country");
+                } else if (element.attr("name") == "state_id") {
+                    error.insertAfter("#state");
+                } else if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
+                } else {
+                    error.insertAfter(element);
+                }
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
         });
     }
-    var getStateList = function () {
-        $(document).on('change', '#country_id', function () {
+    var getStateList = function() {
+        $(document).on('change', '#country_id', function() {
             var country_id = $(this).val();
             $('#state_id').find('option:not(:first)').remove();
             if (country_id) {
@@ -49,10 +57,10 @@ var FrmCityPreference = function () {
                     }
                 });
                 $.ajax({
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $(".spinner-border").show();
                     },
-                    complete: function () {
+                    complete: function() {
                         $(".spinner-border").hide();
                     },
                     type: 'POST',
@@ -61,9 +69,9 @@ var FrmCityPreference = function () {
                     data: {
                         country_id: country_id
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data.status) {
-                            $.each(data.states, function (key, val) {
+                            $.each(data.states, function(key, val) {
                                 $('#state_id').append(new Option(val.name, val.id));
                             });
                         }
@@ -75,13 +83,13 @@ var FrmCityPreference = function () {
     }
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             CityFormValidation();
             getStateList();
         }
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmCityPreference.init();
 });

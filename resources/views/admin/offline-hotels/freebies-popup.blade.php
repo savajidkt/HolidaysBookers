@@ -20,7 +20,7 @@ aria-hidden="true" data-backdrop="static">
                                     for="basic-addon-freebies_name">Freebies Name</label>
                                 <input type="text" id="basic-addon-freebies_name"
                                     name="name" class="form-control"
-                                    placeholder="Freebies Name" onkeydown="return /[a-z]/i.test(event.key)"
+                                    placeholder="Freebies Name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                     value="" aria-describedby="basic-addon-freebies_name"
                                     data-error="Freebies Name" />
                                 <input type="hidden" name="type" id="type" value="1">

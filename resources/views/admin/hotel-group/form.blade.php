@@ -3,7 +3,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">{{ __('hotel-group/hotel-group.form_hotel_group') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="group_name" class="form-control"
-                placeholder="{{ __('hotel-group/hotel-group.form_hotel_group') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                placeholder="{{ __('hotel-group/hotel-group.form_hotel_group') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 value="{{ isset($model->name) ? $model->name : old('group_name') }}" aria-describedby="basic-addon-name"
                 data-error="{{ __('hotel-group/message.hotel_group_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

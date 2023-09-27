@@ -33,7 +33,7 @@
     <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="role">Status <span class="text-danger">*</span></label>
-            <select name="status" class="form-control" id="status" data-error="Status is required">
+            <select name="status" class="select2 form-control" id="status" data-minimum-results-for-search="Infinity" data-error="Status is required">
                 <option value="">Select Status</option>
                 <option value="1" {{ isset($model->id) && $model->status == 1 ? 'selected' : '' }}>
                     {{ __('core.active') }}</option>
@@ -42,6 +42,7 @@
                 </option>
             </select>
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
+            <span id="status_id"></span>
             @error('status')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -49,5 +50,20 @@
     </div>
 </div>
 @section('extra-script')
+    <script>
+        $('.select2').select2();
+    </script>
     <script src="{{ asset('js/form/Currency.js') }}"></script>
+    <script>
+        $('#status').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#status-error').show();
+                $('#status').addClass('error');
+            } else {
+                $('#status-error').hide();
+                $('#status').removeClass('error');
+            }
+        });
+    </script>
 @endsection

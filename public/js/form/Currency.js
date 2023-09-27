@@ -26,7 +26,11 @@ var FrmCurrencyPreference = function() {
                 },
             },
             errorPlacement: function(error, element) {
-                error.insertAfter(element);
+                if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
+                } else {
+                    error.insertAfter(element);
+                }
             },
             submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');

@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label" for="country">{{ __('city/city.form_country_name') }} <span class="text-danger">*</span></label>
-            <select name="country_id" class="form-control" id="country_id"
+            <select name="country_id" class="select2 form-control" id="country_id" data-minimum-results-for-search="Infinity"
                 data-error="{{ __('city/message.country_name_required') }}">
                 <option value="">{{ __('city/city.form_country_select') }}</option>
                 @foreach ($countries as $country)
@@ -11,6 +11,7 @@
                 @endforeach
             </select>
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
+            <span id="country"></span>
             @error('country_id')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -19,7 +20,7 @@
     <div class="col-12">
         <div class="form-group loaderDisplay">
             <label class="form-label" for="country">{{ __('city/city.form_state_name') }} <span class="text-danger">*</span></label>
-            <select name="state_id" class="form-control" id="state_id"
+            <select name="state_id" class="select2 form-control" id="state_id" data-minimum-results-for-search="Infinity"
                 data-error="{{ __('city/message.state_name_required') }}">
                 <option value="">{{ __('city/city.form_state_status') }}</option>
                 @if ($states)
@@ -33,6 +34,7 @@
                 <span class="sr-only">{{ __('core.loading') }}</span>
             </div>
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
+            <span id="state"></span>
             @error('state_id')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -54,7 +56,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label" for="role">{{ __('city/city.form_status') }} <span class="text-danger">*</span></label>
-            <select name="status" class="form-control" id="status"
+            <select name="status" class="select2 form-control" id="status" data-minimum-results-for-search="Infinity"
                 data-error="{{ __('city/message.state_name_required') }}">
                 <option value="">{{ __('city/city.form_select_status') }}</option>
                 <option value="1" {{ (isset($model->id) && $model->status == 1) ? 'selected' : '' }}> {{ __('core.active') }}
@@ -63,6 +65,7 @@
                 </option>
             </select>
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
+            <span id="status_id"></span>
             @error('status')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -75,5 +78,40 @@
             redirectUrl: "{!! route('get-state-list') !!}"
         };
     </script>    
+    <script>
+        $('.select2').select2();
+    </script>
     <script src="{{ asset('js/form/City.js') }}"></script>
+    <script>
+        $('#country_id').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#country_id-error').show();
+                $('#country_id').addClass('error');
+            } else {
+                $('#country_id-error').hide();
+                $('#country_id').removeClass('error');
+            }
+        });
+        $('#state_id').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#state_id-error').show();
+                $('#state_id').addClass('error');
+            } else {
+                $('#state_id-error').hide();
+                $('#state_id').removeClass('error');
+            }
+        });
+        $('#status').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#status-error').show();
+                $('#status').addClass('error');
+            } else {
+                $('#status-error').hide();
+                $('#status').removeClass('error');
+            }
+        });
+    </script>
 @endsection

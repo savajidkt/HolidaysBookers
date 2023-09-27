@@ -20,7 +20,7 @@ aria-hidden="true" data-backdrop="static">
                                     for="basic-addon-amenity_name">Amenities Name <span class="text-danger">*</span></label>
                                 <input type="text" id="basic-addon-amenity_name"
                                     name="amenity_name" class="form-control"
-                                    placeholder="Amenities Name" onkeydown="return /[a-z]/i.test(event.key)"
+                                    placeholder="Amenities Name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                     value="" aria-describedby="basic-addon-amenity_name"
                                     data-error="Amenities Name" />
                                 <input type="hidden" name="type" id="type" value="1">

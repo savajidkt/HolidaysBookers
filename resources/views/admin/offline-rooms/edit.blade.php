@@ -48,7 +48,7 @@
                                                         <label class="form-label"
                                                             for="basic-addon-room_type">{{ __('roomtype/roomtype.form_room_type') }} <span class="text-danger">*</span></label>
                                                         <input type="text" id="basic-addon-room_type" name="room_type"
-                                                            class="form-control"
+                                                            class="form-control" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                             placeholder="{{ __('roomtype/roomtype.form_room_type') }}"
                                                             value="" aria-describedby="basic-addon-room_type"
                                                             data-error="{{ __('roomtype/message.room_type_required') }}" />
@@ -93,7 +93,7 @@
                                                             for="basic-addon-amenity_name">Amenity Name <span class="text-danger">*</span></label>
                                                         <input type="text" id="basic-addon-amenity_name"
                                                             name="amenity_name" class="form-control"
-                                                            placeholder="Amenity Name"
+                                                            placeholder="Amenity Name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                             value="" aria-describedby="basic-addon-amenity_name"
                                                             data-error="Amenity name is required." />
 
@@ -136,7 +136,7 @@
                                                             <label class="form-label" for="basic-addon-name">Freebies
                                                                 Name <span class="text-danger">*</span></label>
                                                             <input type="text" id="basic-addon-name" name="name"
-                                                                class="form-control" placeholder="Freebies Name"
+                                                                class="form-control" placeholder="Freebies Name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                                 value="" aria-describedby="basic-addon-name"
                                                                 data-error="Freebies name is required." />
 
