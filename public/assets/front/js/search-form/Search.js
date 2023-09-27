@@ -299,6 +299,10 @@ $(document).ready(function () {
        
         $(this).closest('.SelectRoomBook').find('.icon-arrow-top-right').hide();
         $(this).closest('.SelectRoomBook').find('.fa-spin').show();
+
+        $(this).addClass('ClickTome');
+
+        var currentBTN = $(this);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -336,8 +340,13 @@ $(document).ready(function () {
                     function(resp) {
                         if (resp) {                           
                             window.location = data.redirectURL; 
-                        } else {                          
-                            window.location.reload();
+                        } else {  
+                            $('.ClickTome span').html('Added');
+                            $('.ClickTome div').remove();
+                            currentBTN.removeAttr('data-extra');
+                            currentBTN.removeClass('SelectRoomBook');                             
+                            currentBTN.removeClass('ClickTome'); 
+                            swal.close();
                         }
                     });
                 } else {

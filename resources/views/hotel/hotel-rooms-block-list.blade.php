@@ -118,7 +118,7 @@
 
                                         @if ($isAddedCart)
                                             <button type="button"
-                                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+                                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
                                                 <span class="icons">Added</span></div>
                                             </button>
                                         @else
