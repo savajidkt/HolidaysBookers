@@ -332,6 +332,7 @@ var FrmOfflineHotelPreference = function() {
 
                         window.location = moduleConfig.indexURL;
 
+
                     },
 
                     error: function(x, t, m) {

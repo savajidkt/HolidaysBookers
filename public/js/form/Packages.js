@@ -1,6 +1,5 @@
-
-var FrmPackagePreference = function () {
-    var PackageFormValidation = function () {
+var FrmPackagePreference = function() {
+    var PackageFormValidation = function() {
         var FrmPackagePreferenceForm = $('#FrmPackages');
         var error4 = $('.error-message', FrmPackagePreferenceForm);
         var success4 = $('.error-message', FrmPackagePreferenceForm);
@@ -124,7 +123,7 @@ var FrmPackagePreference = function () {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function (error, element) {
+            errorPlacement: function(error, element) {
                 if (element.attr("name") == "package_validity") {
                     error.insertAfter(".PackageValidity");
                 } else if (element.attr("name") == "highlights") {
@@ -149,11 +148,13 @@ var FrmPackagePreference = function () {
                     error.insertAfter(".addCountryCLS");
                 } else if (element.attr("name") == "nationality") {
                     error.insertAfter(".nationalityCLS");
+                } else if (element.attr("name") == "status") {
+                    error.insertAfter(".statusCLS");
                 } else {
                     error.insertAfter(element);
                 }
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
 
                 $(".buttonLoader").removeClass('hide');
                 var form_data = new FormData(form);
@@ -164,22 +165,21 @@ var FrmPackagePreference = function () {
                     form_data.append("package_gallery_image[]", files[i]);
                 }
 
-                jQuery.each($('#country_ids').val(), function (index, item) {
+                jQuery.each($('#country_ids').val(), function(index, item) {
                     form_data.append("country_id[" + index + "]", item);
                 });
-                jQuery.each($('#city_ids').val(), function (index, item) {
+                jQuery.each($('#city_ids').val(), function(index, item) {
                     form_data.append("city_id[" + index + "]", item);
                 });
 
                 $.ajax({
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $(".buttonLoader").removeClass('hide');
                     },
-                    complete: function (data) {
+                    complete: function(data) {
                         $(".buttonLoader").addClass('hide');
                     },
-                    error: function (data) {
-                    },
+                    error: function(data) {},
                     type: "post",
                     url: moduleConfig.addPackageURL,
                     data: form_data,
@@ -187,20 +187,19 @@ var FrmPackagePreference = function () {
                     'global': false,
                     contentType: false,
                     processData: false,
-                    success: function (data) {
+                    success: function(data) {
                         window.location = moduleConfig.listPackageURL;
                     },
-                    error: function (x, t, m) {
-                    }
+                    error: function(x, t, m) {}
                 });
             }
         });
     }
 
-    var PackageCountry = function () {
+    var PackageCountry = function() {
         var selectCountry = $('.select2-add-country');
         var currenciesData = [];
-        $.each(countriesList, function (key, val) {
+        $.each(countriesList, function(key, val) {
             currenciesData.push({
                 id: val.id,
                 text: val.name
@@ -221,11 +220,11 @@ var FrmPackagePreference = function () {
         $('.select2-add-country').val(countrListIDs);
         $('.select2-add-country').trigger('change');
     }
-    var PackageCity = function () {
+    var PackageCity = function() {
 
         var selectCity = $('.select2-add-city');
         var citiesData = [];
-        $.each(cityList, function (key, val) {
+        $.each(cityList, function(key, val) {
             citiesData.push({
                 id: val.id,
                 text: val.name
@@ -245,10 +244,10 @@ var FrmPackagePreference = function () {
         $('.select2-add-city').trigger('change');
     }
 
-    var PackageNationality = function () {
+    var PackageNationality = function() {
         var selectNationality = $('.select2-nationality');
         var NationalitiesData = [];
-        $.each(countriesList, function (key, val) {
+        $.each(countriesList, function(key, val) {
             NationalitiesData.push({
                 id: val.id,
                 text: val.name
@@ -269,10 +268,10 @@ var FrmPackagePreference = function () {
     }
 
 
-    var PackageHotel = function () {
+    var PackageHotel = function() {
         var selectHotel = $('.select2-hotel-name');
         var HotelData = [];
-        $.each(hotelList, function (key, val) {
+        $.each(hotelList, function(key, val) {
 
             HotelData.push({
                 id: val.id,
@@ -293,11 +292,11 @@ var FrmPackagePreference = function () {
         $('.select2-hotel-name').trigger('change');
     }
 
-    var PackageRoomType = function () {
+    var PackageRoomType = function() {
         var selectHotel = $('.select2-hotel-room-type');
         var HotelData = [];
 
-        $.each(RoomTypeList, function (key, val) {
+        $.each(RoomTypeList, function(key, val) {
 
             HotelData.push({
                 id: key,
@@ -317,10 +316,10 @@ var FrmPackagePreference = function () {
         $('.select2-hotel-room-type').val(RoomTypeID);
         $('.select2-hotel-room-type').trigger('change');
     }
-    var PackageMealPlan = function () {
+    var PackageMealPlan = function() {
         var selectHotel = $('.select2-hotel-meal-paln');
         var HotelData = [];
-        $.each(MealPlanList, function (key, val) {
+        $.each(MealPlanList, function(key, val) {
 
             HotelData.push({
                 id: key,
@@ -340,11 +339,11 @@ var FrmPackagePreference = function () {
         $('.select2-hotel-meal-paln').val(mealPalnID);
         $('.select2-hotel-meal-paln').trigger('change');
     }
-    var PackageCurrency = function () {
+    var PackageCurrency = function() {
         var selectHotel = $('.select2-room-currency');
         var HotelData = [];
 
-        $.each(currencyList, function (key, val) {
+        $.each(currencyList, function(key, val) {
 
             HotelData.push({
                 id: val.id,
@@ -366,8 +365,8 @@ var FrmPackagePreference = function () {
     }
 
 
-    var PackageCitiesList = function () {
-        $('#country_ids').on('change', function () {
+    var PackageCitiesList = function() {
+        $('#country_ids').on('change', function() {
             $('.myCity .select2-add-city').find('option').remove();
             var countryAry = $('#country_ids').val();
             var countryCode = "";
@@ -383,33 +382,31 @@ var FrmPackagePreference = function () {
                 }
             });
             $.ajax({
-                beforeSend: function () {
+                beforeSend: function() {
                     $(".myCity .spinner-border").removeClass('hide');
                 },
-                complete: function (data) {
+                complete: function(data) {
                     $(".myCity .spinner-border").addClass('hide');
                 },
-                error: function (data) {
-                },
+                error: function(data) {},
                 type: "post",
                 url: moduleConfig.getCitiesByCountryURL,
                 dataType: 'json',
                 data: {
                     country_id: countryCode
                 },
-                success: function (data) {
+                success: function(data) {
                     //console.log(data.cities);
                     cityList = data.cities;
                     PackageCity();
                     $(".myCity .spinner-border").hide();
                 },
-                error: function (x, t, m) {
-                }
+                error: function(x, t, m) {}
             })
         });
     }
-    var PackageRoomTypeList = function () {
-        $('#hotel_name_id').on('change', function () {
+    var PackageRoomTypeList = function() {
+        $('#hotel_name_id').on('change', function() {
             $('.select2-hotel-room-type').find('option').remove();
             $('.select2-hotel-meal-paln').find('option').remove();
             var hotel_name_id = $('#hotel_name_id').val();
@@ -419,21 +416,20 @@ var FrmPackagePreference = function () {
                 }
             });
             $.ajax({
-                beforeSend: function () {
+                beforeSend: function() {
                     // $(".myCity .spinner-border").removeClass('hide');
                 },
-                complete: function (data) {
+                complete: function(data) {
                     // $(".myCity .spinner-border").addClass('hide');
                 },
-                error: function (data) {
-                },
+                error: function(data) {},
                 type: "post",
                 url: moduleConfig.getHotelWiseRoomTypeURL,
                 dataType: 'json',
                 data: {
                     hotel_name_id: hotel_name_id
                 },
-                success: function (data) {
+                success: function(data) {
                     //console.log(data);
                     RoomTypeList = data.roomTypes;
                     MealPlanList = data.mealPlan;
@@ -442,14 +438,13 @@ var FrmPackagePreference = function () {
                     PackageMealPlan();
                     // $(".myCity .spinner-border").hide();
                 },
-                error: function (x, t, m) {
-                }
+                error: function(x, t, m) {}
             })
         });
     }
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             PackageFormValidation();
             PackageCountry();
             PackageCity();
@@ -464,9 +459,9 @@ var FrmPackagePreference = function () {
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmPackagePreference.init();
-    $(document).on('click', '.textBoxCityAdd, .textBoxInclusionAdd, .textBoxExclusionAdd', function () {
+    $(document).on('click', '.textBoxCityAdd, .textBoxInclusionAdd, .textBoxExclusionAdd', function() {
 
         var this_attr = $(this).attr('data-name');
         var inputs = $("input[name=" + this_attr + "]").val();
@@ -494,7 +489,7 @@ $(document).ready(function () {
     });
 
 
-    $(document).on('click', '.close', function () {
+    $(document).on('click', '.close', function() {
 
         // alert($(this).attr('data-id'));
         //alert($(this).attr('data-name'));
@@ -511,7 +506,7 @@ $(document).ready(function () {
     });
 
     jQuery.validator.addMethod("package_validation_origin_city",
-        function (value, element) {
+        function(value, element) {
 
             if ($('#total_origin_city').val() == '0' || $('#total_origin_city').val() == 'NuN') {
                 return false;
@@ -520,7 +515,7 @@ $(document).ready(function () {
         },
         "Origin city is required");
     jQuery.validator.addMethod("package_validation_inclusion",
-        function (value, element) {
+        function(value, element) {
             if ($('#total_inclusion').val() == 0 || $('#total_inclusion').val() == 'NuN') {
                 return false;
             }
@@ -528,7 +523,7 @@ $(document).ready(function () {
         },
         "Inclusion is required");
     jQuery.validator.addMethod("package_validation_exclusion",
-        function (value, element) {
+        function(value, element) {
             if ($('#total_exclusion').val() == 0 || $('#total_exclusion').val() == 'NuN') {
                 return false;
             }
@@ -536,7 +531,7 @@ $(document).ready(function () {
         },
         "Exclusion is required");
 
-    $('#rate_offered').change(function () {
+    $('#rate_offered').change(function() {
         if ($(this).val() == 'NET_RATE') {
             $('.is_rate_offered').addClass('hide');
         } else {

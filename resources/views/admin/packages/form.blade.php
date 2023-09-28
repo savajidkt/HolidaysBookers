@@ -170,16 +170,18 @@
     <div class="col-md-4 col-4">
         <div class="form-group">
             <label class="form-label" for="role">Status <span class="text-danger">*</span></label>
-            <select name="status" class="form-control" id="status" data-error="Status is required">
+            <select name="status" class="select2 form-control" id="status" data-minimum-results-for-search="Infinity" data-error="Status is required">
                 <option value="">Select Status</option>
                 <option value="1" {{ isset($model->id) && $model->status == 1 ? 'selected' : '' }}>
                     {{ __('core.active') }}</option>
                 <option value="0" {{ isset($model->id) && $model->status == 0 ? 'selected' : '' }}>
                     {{ __('core.inactive') }}</option>
             </select>
+            
             @error('status')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
+            <div class="statusCLS"></div>
         </div>
     </div>
     <div class="col-md-4 col-4">
@@ -818,6 +820,21 @@
     </div>
 </div>
 @section('extra-script')
+    <script>
+        $('.select2').select2();
+    </script>
+    <script>
+        $('#status').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#status-error').show();
+                $('#status').addClass('error');
+            } else {
+                $('#status-error').hide();
+                $('#status').removeClass('error');
+            }
+        });
+    </script>
     <script src="{{ asset('js/form/Packages.js') }}"></script>
     <!-- BEGIN: Page Vendor JS-->
     <script src="{{ asset('app-assets/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>

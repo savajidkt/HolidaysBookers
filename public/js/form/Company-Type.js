@@ -1,5 +1,5 @@
-var FrmCompanyTypePreference = function () {
-    var CompanyTypeFormValidation = function () {
+var FrmCompanyTypePreference = function() {
+    var CompanyTypeFormValidation = function() {
         var FrmCompanyTypePreferenceForm = $('#FrmCompanyType');
         var error4 = $('.error-message', FrmCompanyTypePreferenceForm);
         var success4 = $('.error-message', FrmCompanyTypePreferenceForm);
@@ -21,10 +21,15 @@ var FrmCompanyTypePreference = function () {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
+                } else {
+                    error.insertAfter(element);
+                }
+
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -32,12 +37,12 @@ var FrmCompanyTypePreference = function () {
     }
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             CompanyTypeFormValidation();
         }
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmCompanyTypePreference.init();
 });
