@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('page_title', 'Home')
 @section('content')
-
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('assets/front/js/intlTelInput/css/intlTelInput.css') }}">
     <style>
         .hide {
             display: none;
@@ -88,6 +89,11 @@
                             <input type="hidden" name="button_name" class="button_name_cls" value="order">
 
                             <div class="row x-gap-20 y-gap-20 pt-20">
+
+                                <input type="hidden" name="popup_margin_type" class="popup_margin_type_cls" value="">
+                                <input type="hidden" name="margin_amt" class="margin_amt_cls" value="">
+                                <input type="hidden" name="quote_email" class="quote_email_cls" value="">
+
                                 <div class="col-md-6">
                                     <div class="form-input firstname">
                                         <input type="hidden" name="bookingKey" value="{{ $bookingKey }}">
@@ -286,9 +292,11 @@
                                                                         <div class="form-group">
                                                                             <label for="exampleFormControlInput1">Phone
                                                                                 Number- Adult</label>
-                                                                            <input type="text"
-                                                                                class="form-control addvalidation"
-                                                                                name="room_no_{{ $roomNo }}[adult][phonenumber][]">
+                                                                            
+
+                                                                                <input type="text" class="form-control phonenumber"
+                                                                placeholder="Phone Number" name="room_no_{{ $roomNo }}[adult][phonenumber][]">
+
                                                                         </div>
                                                                     </div>
                                                                 @endif
@@ -423,9 +431,9 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="exampleFormControlInput1">Phone
-                                                                Number- Adult</label>
-                                                            <input type="text" class="form-control lead_addvalidation"
-                                                                name="lead_phonenumber">
+                                                                Number- Adult</label>                                                            
+                                                            <input type="text" id="" class="form-control phonenumber lead_addvalidation"
+                                                                placeholder="Phone Number" name="lead_phonenumber">
                                                         </div>
                                                     </div>
 
@@ -484,13 +492,25 @@
                                         <div class="col-12">
                                             <ul class="y-gap-4 pt-5 text-right inline-block">
                                                 <li class="text-14">
-                                                    <button type="button" class="saveQuote" name="Draft" >
-                                                        <i class="fa fa-bookmark fa-2x text-blue-1"></i> Save as quote
+                                                    <button type="button"
+                                                        class="button -outline-blue-1 px-10 fw-400 text-14 h-50 text-blue-1 saveDraft"
+                                                        name="Draft">
+                                                        Save as Draft <i
+                                                            class="fa fa-floppy-o fa-2x text-blue-1 px-10"></i>
                                                     </button>
                                                 </li>
                                                 <li class="text-14">
                                                     <button type="button"
-                                                        class="button h-60 px-24 -dark-1 bg-blue-1 text-white saveOrder" name="Order">
+                                                        class=" button -outline-blue-1 px-10 fw-400 text-14 h-50 text-blue-1 saveQuote"
+                                                        name="Quote">
+                                                        Save as Quote <i
+                                                            class="fa fa-bookmark-o fa-2x text-blue-1 px-10 text-white"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="text-14">
+                                                    <button type="button"
+                                                        class="button h-60 px-24 -dark-1 bg-blue-1 text-white saveOrder"
+                                                        name="Order">
                                                         Pay Now <div class="icon-arrow-top-right ml-15"></div>
                                                     </button>
                                                 </li>
@@ -560,14 +580,100 @@
         </div>
     </section>
 
-
+    <div class="modal fade saveQuotePopup gotrip-saveQuotePopup-modal" id="saveQuotePopup" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content relative">
+                <div class="modal-header border-dashed">
+                    <h4 class="modal-title">Save as Quote</h4>
+                    <span class="c-pointer close" aria-label="Close" data-dismiss="modal">
+                        <i class="icon-close">
+                            {{-- <img src="{{ asset('assets/front') }}/ico_close.svg" alt="close"> --}}
+                        </i>
+                    </span>
+                </div>
+                <div class="modal-body relative">
+                    <div class="bravo-theme-gotrip-login-form y-gap-20">
+                        <div class="col-auto ">
+                            <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Margin Type</label>
+                            <div class="col-12 mb-2 text-14 text-light-1">
+                                <div class="form-radio d-flex items-center ">
+                                    <div class="radio">
+                                        <input type="radio" name="popup_margin_type" value="1"
+                                            class="popup_margin_type" checked>
+                                        <div class="radio__mark">
+                                            <div class="radio__icon"></div>
+                                        </div>
+                                    </div>
+                                    <div class="text-14 lh-1 ml-10">Percentage Margin
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-2 text-14 text-light-1">
+                                <div class="form-radio d-flex items-center ">
+                                    <div class="radio">
+                                        <input type="radio" name="popup_margin_type" value="2"
+                                            class="popup_margin_type">
+                                        <div class="radio__mark">
+                                            <div class="radio__icon"></div>
+                                        </div>
+                                    </div>
+                                    <div class="text-14 lh-1 ml-10">Fix Margin</div>
+                                </div>
+                            </div>
+                            <span id="popup_margin_type-error" class="help-block help-block-error hide">This field is
+                                required.</span>
+                            <div class="col-12">
+                                <div class="form-input">
+                                    <input type="number" name="margin_amt" autocomplete="off"
+                                        class="has-value margin_amt">
+                                    <label class="lh-1 text-14 text-light-1">Margin</label>
+                                </div>
+                                <span id="margin_amt-error" class="help-block help-block-error hide">This field is
+                                    required.</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-input">
+                                <input type="text" name="quote_email" autocomplete="off"
+                                    class="has-value quote_email">
+                                <label class="lh-1 text-14 text-light-1">Email</label>
+                            </div>
+                            <span id="quote_email-error" class="help-block help-block-error hide">This field is
+                                required.</span>
+                        </div>
+                        <div class="col-12 ">
+                            <button type="button"
+                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 quoteBtnClick"
+                                style="width:100%;">
+                                <span class="icons">Submit</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection
 @section('page-script')
+
     <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/Check-out.js') }}"></script>
+    <script src="{{ asset('assets/front/js/intlTelInput/js/intlTelInput-jquery.min.js') }}"></script>
     <script type="text/javascript">
+
+        $(".phonenumber").intlTelInput({
+            initialCountry: "in",
+            separateDialCode: true,            
+        });
+        // .on('countrychange', function (e, countryData) {
+        //     alert($(".phonenumber").intlTelInput("getSelectedCountryData").dialCode);
+        //     //alert($("#lead_phonenumber").intlTelInput("getNumber"));
+        //     console.log($("#lead_phonenumber").intlTelInput("getNumber"));
+        // });
+
         var moduleConfig = {
             checkoutLogin: "{!! route('post-login') !!}",
         };

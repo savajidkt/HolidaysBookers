@@ -26,7 +26,10 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/jquery.dataTables.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/front/select/css/select2.min.css') }}">
-    
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweet-alert.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweetalert2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/agent-custom-style.css') }}">
+
     <!-- Main-StyleSheet include -->
     <style>
         .help-block-error {
@@ -105,7 +108,7 @@
 
     <script src="{{ asset('assets/front/select/js/form-select2.js') }}"></script>
     <script src="{{ asset('assets/front/select/js/select2.full.min.js') }}"></script>
-    
+    <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script>
 
     @if (Route::is('agent.travel-calendar'))
         <script src="{{ asset('assets/front/js/index.global.min.js') }}"></script>
@@ -198,6 +201,27 @@
     @endif
 
     @yield('page-script')
+    @if (Session::has('success'))
+        <script type="text/javascript">
+            swal({
+                title: "",
+                text: "{!! Session::get('success') !!}",
+                type: "success",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
+
+    @if (Session::has('error'))
+        <script type="text/javascript">
+            swal({
+                title: "",
+                text: "{!! Session::get('error') !!}",
+                type: "error",
+            })
+        </script>
+    @endif
 </body>
 
 </html>

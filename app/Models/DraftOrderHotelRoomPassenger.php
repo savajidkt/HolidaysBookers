@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderHotelRoomPassenger extends Model
+class DraftOrderHotelRoomPassenger extends Model
 {
     use HasFactory;
-    protected $table = "order_passengers";
+    protected $table = "draft_passengers";
     protected $fillable = [
-        'order_id',
-        'order_hotel_id',
+        'draft_id',
+        'draft_hotel_id',
         'hotel_id',        
-        'order_hotel_room_id',
+        'draft_hotel_room_id',
         'room_id',
         'room_price_id',
         'passenger_type',

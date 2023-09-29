@@ -7,43 +7,15 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Order extends Model
+class DraftOrder extends Model
 {
-    protected $table = "order_masters";
+    protected $table = "draft_masters";
     use HasFactory, Notifiable;
-    const PROCESSED = 1;
-    const CONFIRMED = 2;
-    const CANCELLED = 3;
-
-    const INACTIVE = 0;
-    const YES = 1;
-    const NO = 0;
-
-
-    const STATUS = [
-        self::PROCESSED => 'Processed',
-        self::CONFIRMED => 'Confirmed',
-        self::CANCELLED => 'Cancelled'
-    ];
-
-    const PAYMENT = [
-        self::YES => 'Yes',
-        self::NO => 'No'
-    ];
-
-
-
-
-
+ 
     //protected $table = "reachus";
-    protected $fillable = [
-        'booking_id',
-        'booking_code',
-        'invoice_no',
-        'confirmation_no',
-        'voucher',
-        'order_amount',
-        'order_currency',
+    protected $fillable = [       
+        'original_amount',
+        'original_currency',
         'booking_amount',
         'booking_currency',
         'tax',
@@ -58,23 +30,14 @@ class Order extends Model
         'total_child_with_bed',
         'total_child_without_bed',
         'total_rooms',
-        'total_nights',
-        'payment_status',
-        'comments',
-        'mail_sent',
-        'booked_by',
-        'prebook_response',
-        'booking_response',
-        'razorpay_responce',
-        'is_pay_using',
+        'total_nights',       
+        'comments',        
         'passenger_type',
         'lead_passenger_name',
         'lead_passenger_id_proof',
         'lead_passenger_id_proof_no',
         'lead_passenger_phone_code',
-        'lead_passenger_phone',
-        'order_type',
-        'status'
+        'lead_passenger_phone',      
     ];
 
     /**

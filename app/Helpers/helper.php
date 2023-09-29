@@ -927,7 +927,7 @@ if (!function_exists('getOriginAmountChackOut')) {
                 $amountOrigin = $amountOrigin + $value['originAmount'];
             }
         }
-        return numberFormat($amountOrigin);
+        return floatval(numberFormat($amountOrigin));
     }
 }
 

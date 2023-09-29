@@ -265,6 +265,13 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::post('/my-change-password', [AgentMyProfileController::class, 'updateChangePassword'])->name('agent.my-change-password');
     Route::get('/transaction/{id}', [AgentTransactionController::class, 'index'])->name('agent.transaction');
     Route::get('/quotation', [AgentQuotationController::class, 'index'])->name('agent.quotation');
+    Route::get('/quotation/order-delete/{id}', [AgentQuotationController::class, 'deleteOrder'])->name('agent.order-delete');
+    Route::get('/quotation/order-room-delete/{id}', [AgentQuotationController::class, 'deleteRoom'])->name('agent.order-room-delete');
+
+    Route::get('/quotation/view/{id}', [AgentQuotationController::class, 'view'])->name('agent.order-view');
+    Route::get('/quotation/order-download/{id}', [AgentQuotationController::class, 'downloadPdf'])->name('agent.order-download');
+    Route::post('/quotation/order-send/{id}', [AgentQuotationController::class, 'sendEmailPdf'])->name('agent.order-send');
+    Route::post('/quotation/edit-price', [AgentQuotationController::class, 'editPrice'])->name('agent.order-edit-price');
     //Route::get('/new-quotation', [AgentQuotationController::class, 'home'])->name('agent.new-quotation');
 
     Route::post('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');

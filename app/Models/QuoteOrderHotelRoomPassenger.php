@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderHotelRoomPassenger extends Model
+class QuoteOrderHotelRoomPassenger extends Model
 {
     use HasFactory;
-    protected $table = "order_passengers";
+    protected $table = "quote_passengers";
     protected $fillable = [
-        'order_id',
-        'order_hotel_id',
+        'quote_id',
+        'quote_hotel_id',
         'hotel_id',        
-        'order_hotel_room_id',
+        'quote_hotel_room_id',
         'room_id',
         'room_price_id',
         'passenger_type',
@@ -25,7 +25,5 @@ class OrderHotelRoomPassenger extends Model
         'is_adult',
         'child_age',
         'child_with_bed'    
-    ];
-
-    
+    ];    
 }

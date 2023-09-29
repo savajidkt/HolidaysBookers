@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Repositories\CheckoutRepository;
 use App\Repositories\HotelListingRepository;
 use App\Http\Requests\Checkout\CreateRequest;
+use App\Models\QuoteOrder;
+use App\Notifications\QuoteOrderNotification;
 use App\Repositories\HotelRoomListingRepository;
 use Redirect;
 
@@ -102,7 +104,17 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->button_name == "Draft") {
+
+        if ($request->button_name == "Quote") {
+           
+            $res = $this->saveAsQuote($request);
+            if ($res) {
+                return redirect()->route('home')->with('success', 'Your booking quote created successfully!');
+            } else {
+                return redirect()->route('home')->with('error', 'Your booking quote created failed!');
+            }
+
+        } else if ($request->button_name == "Draft") {
             $res = $this->saveAsDraft($request);
             if ($res) {
                 return redirect()->route('home')->with('success', 'Your booking draft created successfully!');
@@ -138,17 +150,36 @@ class CheckoutController extends Controller
 
     }
 
-    public function saveAsDraft($request)
+    public function saveAsQuote($request)
     {
-        // dd($request->all());
-        $data = $this->checkoutRepository->createBooking($request->all());
-        $res = $this->checkoutRepository->createOrderBooking($data);
-
-        if ($res) {
+        
+        $data = $this->checkoutRepository->createBookingQuote($request->all());
+        $res = $this->checkoutRepository->createOrderBookingQuote($data);       
+        if ($res) {            
             $this->removeTempData($data);
+           // $this->SendEmailQuotePDF($res);
             return true;
         }
         return false;
+    }
+
+    public function saveAsDraft($request)
+    {          
+        $data = $this->checkoutRepository->createBookingDraft($request->all());        
+        $res = $this->checkoutRepository->createOrderBookingDraft($data);        
+        if ($res) {
+            $this->removeTempData($data);           
+            return true;
+        }
+        return false;
+    }
+
+    public function SendEmailQuotePDF($res)
+    {       
+
+        $QuoteOrder = new QuoteOrder();        
+        $QuoteOrder->notify(new QuoteOrderNotification($res));               
+        return redirect()->route('contact-us')->with('success', 'Thank you for contact us. we will contact you shortly.');
     }
 
 
