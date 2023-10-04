@@ -57,7 +57,7 @@ var FrmQuotePreference = function () {
             ignore: "",
             rules: {
                 extra_markup_price: {
-                    required: true,
+                    required: false,
                 }
             },
             errorPlacement: function (error, element) {
@@ -90,9 +90,11 @@ $(document).ready(function () {
         $('.pvpInput').val($(this).attr('data-room-price'));
         $('.extra_markup_price').attr('data-c-p', $(this).attr('data-price'))
         $('.extra_markup_price').attr('data-cy-p', $(this).attr('data-cy-price'))
-        $('.final_markup_price').val($(this).attr('data-room-price'));        
+        var finalPrice = parseFloat($(this).attr('data-price')) + parseFloat($(this).attr('data-markup-price'));
+        $('.final_markup_price').val($(this).attr('data-cy-price')+''+finalPrice);        
         $('.room_id').val($(this).attr('data-room-id'));        
         $('.order_id').val($(this).attr('data-order-id'));        
+        $('.extra_markup_price').val($(this).attr('data-markup-price'));        
         $("#editRoomPrice").modal("show");
     });
 

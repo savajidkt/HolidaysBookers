@@ -46,7 +46,7 @@
 
 
                             @php
-                           
+                                
                                 $singlePageParam = [
                                     'hotel_id' => $hotel['id'],
                                     'adult' => getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 1,
@@ -123,7 +123,8 @@
                             </div>
 
                             <div class="">
-                                <div class="text-14 text-light-1 mt-50 md:mt-20">{{ $hotel['room']['min_nights'] ?? 0 }}
+                                <div class="text-14 text-light-1 mt-50 md:mt-20">
+                                    {{ $hotel['room']['min_nights'] ?? 0 }}
                                     nights, {{ $hotel['room']['occ_max_adults'] ?? 0 }} adult
                                 </div>
                                 <div class="text-22 lh-12 fw-600 mt-5">
@@ -134,6 +135,7 @@
                                     
                                     $bookingParam = [];
                                     $bookingParam = [
+                                        'is_type' => 'hotel',
                                         'hotel_id' => isset($hotel['room']['hotel_id']) ? $hotel['room']['hotel_id'] : '',
                                         'room_id' => isset($hotel['room']['room_id']) ? $hotel['room']['room_id'] : '',
                                         'price_id' => isset($hotel['room']['price_id']) ? $hotel['room']['price_id'] : '',
@@ -153,11 +155,15 @@
                                 @endphp
 
                                 @if (is_array($bookingCartArr) && count($bookingCartArr))
-                                    @foreach ($bookingCartArr as $key => $value)
-                                        @if ($value['hotel_id'] == $hotel['room']['hotel_id'] && $value['room_id'] == $hotel['room']['room_id'])
-                                            @php
-                                                $isAddedCart = true;
-                                            @endphp
+                                    @foreach ($bookingCartArr as $bo_key => $bo_value)
+                                        @if ($bo_key == 'hotel')
+                                            @foreach ($bo_value as $key => $value)
+                                                @if ($value['hotel_id'] == $hotel['room']['hotel_id'] && $value['room_id'] == $hotel['room']['room_id'])
+                                                    @php
+                                                        $isAddedCart = true;
+                                                    @endphp
+                                                @endif
+                                            @endforeach
                                         @endif
                                     @endforeach
                                 @endif
@@ -165,8 +171,8 @@
                                     <a href="javascript:void(0);"
                                         class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
                                         <span class="icons">Added</span>
-                                    </a>                                   
-                                    <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see"  
+                                    </a>
+                                    <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see"
                                         class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
                                         See More <div class="icon-eye ml-15"></div>
                                     </a>

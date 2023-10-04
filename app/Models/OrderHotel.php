@@ -20,4 +20,8 @@ class OrderHotel extends Model
     {
         return $this->hasMany(OrderHotelRoom::class, 'order_hotel_id', 'id');
     }
+    public function order_hotel_room_with_cancel()
+    {
+        return $this->hasMany(OrderHotelRoom::class, 'order_hotel_id', 'id')->withTrashed();
+    }
 }

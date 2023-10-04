@@ -104,11 +104,11 @@ var FrmCheckoutPreference = function () {
                 $('#CheckoutFrm').append(lead_passengers_country_code);
                 $('#CheckoutFrm').append(all_passengers_country_code);
 
-                //if (ClickBTN_Quote) {
+                if (ClickBTN_Quote) {
                     $("#saveQuotePopup").modal("show");
-                //} else {
+                } else {
                     form.submit();
-               // }
+                }
 
             }
         });
@@ -234,6 +234,7 @@ $(document).ready(function () {
         $isValidChk = true;
         $isValidAmt = true;
         $isValidEmail = true;
+        $isValidName = true;
         if (typeof $('.popup_margin_type:checked').val() === "undefined") {
             $('#popup_margin_type-error').removeClass('hide');
             $isValidChk = false;
@@ -261,11 +262,22 @@ $(document).ready(function () {
             $isValidAmt = true;
         }
 
-        if ($isValidChk && $isValidAmt && $isValidEmail) {
+        if ($('.quote_name').val() == "") {
+            $('#quote_name-error').removeClass('hide');
+            $isValidName = false;
+        } else {
+
+            $('#quote_name-error').addClass('hide');
+            $isValidName = true;
+        }
+
+        //if ($isValidChk && $isValidAmt && $isValidEmail) {
+        if ($isValidName) {
             ClickBTN_Quote = false;
-            $('.popup_margin_type_cls').val($('.popup_margin_type:checked').val());
-            $('.quote_email_cls').val($('.quote_email').val());
-            $('.margin_amt_cls').val($('.margin_amt').val());
+            // $('.popup_margin_type_cls').val($('.popup_margin_type:checked').val());
+            // $('.quote_email_cls').val($('.quote_email').val());
+            // $('.margin_amt_cls').val($('.margin_amt').val());
+            $('.quote_name_cls').val($('.quote_name').val());
             $('#CheckoutFrm').submit();
         } else {
             return false;

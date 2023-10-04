@@ -212,15 +212,11 @@ if (!function_exists('formatdate')) {
         if ($format) {
 
             return date($format, strtotime($date));
-
         } else {
 
             return date("d/m/Y", strtotime($date));
-
         }
-
     }
-
 }
 
 
@@ -908,8 +904,12 @@ if (!function_exists('getFinalAmountChackOut')) {
         $amountFinal = 0;
         $data = getBookingCart('bookingCart');
         if (is_array($data) && count($data) > 0) {
-            foreach ($data as $key => $value) {
-                $amountFinal = $amountFinal + $value['finalAmount'];
+            foreach ($data as $bo_key => $bo_value) {
+                if ($bo_key == 'hotel') {
+                    foreach ($bo_value as $key => $value) {
+                        $amountFinal = $amountFinal + $value['finalAmount'];
+                    }
+                }
             }
         }
         return numberFormat($amountFinal);
@@ -921,10 +921,13 @@ if (!function_exists('getOriginAmountChackOut')) {
     {
 
         $amountOrigin = 0;
-
         if (is_array($data['cartData']) && count($data['cartData']) > 0) {
-            foreach ($data['cartData'] as $key => $value) {
-                $amountOrigin = $amountOrigin + $value['originAmount'];
+            foreach ($data['cartData'] as $bo_key => $bo_value) {
+                if ($bo_key == 'hotel') {
+                    foreach ($bo_value as $key => $value) {
+                        $amountOrigin = $amountOrigin + $value['originAmount'];
+                    }
+                }
             }
         }
         return floatval(numberFormat($amountOrigin));
@@ -1142,13 +1145,14 @@ if (!function_exists('InvoiceNumberGenerator')) {
     {
         $latestNumberData = 1;
         $latestNumberData = Order::latest()->first();
+        
 
-        if ($latestNumberData) {
-            $latestNumberData = 1;
+        if ($latestNumberData) {            
+            $latestNumberData = $latestNumberData->id;
         }
-
+        
         if (strlen($prefix) > 0) {
-            return 'HB' . (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
+            return $prefix.'' . (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
         } else {
             return (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
         }
@@ -1167,17 +1171,16 @@ if (!function_exists('dateFormatNewMethod')) {
 
     {
 
-        
+
         $timestamp = strtotime($date);
         if ($timestamp === FALSE) {
             $timestamp = strtotime(str_replace('/', '-', $date));
         }
         return date("Y-m-d", $timestamp);
-    
 
-    //     $_firstDate = date("m-d-Y", strtotime($date));
-    //     return date("Y-m-d",strtotime($_firstDate));
+
+        //     $_firstDate = date("m-d-Y", strtotime($date));
+        //     return date("Y-m-d",strtotime($_firstDate));
 
     }
-
 }

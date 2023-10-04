@@ -54,13 +54,7 @@
                             class="tabs__button text-18 lg:text-16 text-light-1 fw-500 pb-5 lg:pb-0 {{ $status == 'unpaid' ? 'is-tab-el-active' : '' }}">
                             Unpaid
                         </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="{{ route('agent.booking-history', 'draft') }}"
-                            class="tabs__button text-18 lg:text-16 text-light-1 fw-500 pb-5 lg:pb-0 {{ $status == 'draft' ? 'is-tab-el-active' : '' }}">
-                            Draft
-                        </a>
-                    </div>
+                    </div>                    
                 </div>
                 <table class="table-3 -border-bottom col-12 user-list-table datatables-ajax table" style="width: 100%;">
                     <thead class="bg-light-2">

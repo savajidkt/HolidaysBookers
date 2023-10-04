@@ -30,23 +30,19 @@ class QuotationController extends Controller
     {
         $pagename = "quotation";
         $user = auth()->user();
-        //$QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->get();        
         $QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->paginate(10);
-
-        return view('agent.quotation.index', ['pagename' => $pagename, 'quoteData' => $QuoteOrder]);
+        return view('agent.quotation.index', ['user' => $user, 'pagename' => $pagename, 'quoteData' => $QuoteOrder]);
     }
 
-
     public function editPrice(Request $request)
-    {        
-        
+    {
         $user = auth()->user();
         $QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->where('id', $request->order_id)->first();
         if ($QuoteOrder && isset($request->room_id) && $request->room_id > 0) {
             $QuoteOrderRoom = QuoteOrderHotelRoom::where('quote_id', $request->order_id)->where('id', $request->room_id)->first();
             if ($QuoteOrderRoom) {
-                
-                QuoteOrderHotelRoom::where('id', $QuoteOrderRoom->id)->update(['price'=>$QuoteOrderRoom->price + $request->extra_markup_price, 'extra_markup_price'=>$request->extra_markup_price]);
+
+                QuoteOrderHotelRoom::where('id', $QuoteOrderRoom->id)->update(['extra_markup_price' => $request->extra_markup_price]);
                 return redirect()->back()->with('success', 'Update price successfully!');
             }
         }
@@ -103,7 +99,7 @@ class QuotationController extends Controller
         if ($QuoteOrder) {
             $HotelListingRepository = new HotelListingRepository();
 
-            $fileNamePDF = "Quote-".$user->agents->agent_code."-".date('Y-m-d-h-i-s').".pdf";
+            $fileNamePDF = "Quote-" . $user->agents->agent_code . "-" . date('Y-m-d-h-i-s') . ".pdf";
             $myContent = view('agent.quotation.download', ['fileNamePDF' => $fileNamePDF, 'order_id' => $order_id, 'pagename' => $pagename, 'quoteData' => $QuoteOrder, 'hotelListingRepository' => $HotelListingRepository]);
 
             if ($myContent != "") {
@@ -137,7 +133,7 @@ class QuotationController extends Controller
         if ($QuoteOrder) {
             $HotelListingRepository = new HotelListingRepository();
 
-            $fileNamePDF = "Quote-".$user->agents->agent_code."-".date('Y-m-d-h-i-s').".pdf";
+            $fileNamePDF = "Quote-" . $user->agents->agent_code . "-" . date('Y-m-d-h-i-s') . ".pdf";
             $myContent = view('agent.quotation.download', ['fileNamePDF' => $fileNamePDF, 'order_id' => $order_id, 'pagename' => $pagename, 'quoteData' => $QuoteOrder, 'hotelListingRepository' => $HotelListingRepository]);
 
             if ($myContent != "") {
@@ -195,5 +191,5 @@ class QuotationController extends Controller
             return $e->getMessage();
         }
         return true; //redirect()->back()->with('success', 'Mail sent successfully.');
-    }
+    }  
 }

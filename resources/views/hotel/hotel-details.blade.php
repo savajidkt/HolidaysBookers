@@ -687,6 +687,7 @@
                         @php
                             if (is_array($rooms['room_price']) && count($rooms['room_price'])) {
                                 $bookingParam = [
+                                    'is_type' => 'hotel',
                                     'hotel_id' => isset($rooms['hotel_id']) ? $rooms['hotel_id'] : '',
                                     'room_id' => isset($rooms['room_id']) ? $rooms['room_id'] : '',
                                     'price_id' => isset($rooms['room_price'][0]['price_id']) ? $rooms['room_price'][0]['price_id'] : '',
@@ -706,11 +707,15 @@
                             $isAddedCart = false;
                         @endphp
                         @if (is_array($bookingCartArr) && count($bookingCartArr))
-                            @foreach ($bookingCartArr as $key => $value)
-                                @if ($value['hotel_id'] == $rooms['hotel_id'] && $value['room_id'] == $rooms['room_id'])
-                                    @php
-                                        $isAddedCart = true;
-                                    @endphp
+                            @foreach ($bookingCartArr as $bo_key => $bo_value)
+                                @if ($bo_key == 'hotel')
+                                    @foreach ($bo_value as $key => $value)
+                                        @if ($value['hotel_id'] == $rooms['hotel_id'] && $value['room_id'] == $rooms['room_id'])
+                                            @php
+                                                $isAddedCart = true;
+                                            @endphp
+                                        @endif
+                                    @endforeach
                                 @endif
                             @endforeach
                         @endif

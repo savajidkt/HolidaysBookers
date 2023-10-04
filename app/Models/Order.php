@@ -37,6 +37,7 @@ class Order extends Model
 
     //protected $table = "reachus";
     protected $fillable = [
+        'prn_number',
         'booking_id',
         'booking_code',
         'invoice_no',
@@ -232,9 +233,20 @@ class Order extends Model
     {
         return $this->hasMany(OrderHotel::class, 'order_id', 'id');
     }
+
+    public function order_hotel_with_cancel()
+    {
+        return $this->hasMany(OrderHotel::class, 'order_id', 'id')->withTrashed();
+    }
+
     public function order_rooms()
     {
         return $this->hasMany(OrderHotelRoom::class, 'order_id', 'id');
+    }
+
+    public function order_rooms_with_cancel()
+    {
+        return $this->hasMany(OrderHotelRoom::class, 'order_id', 'id')->withTrashed();
     }
 
     // public function childBed()

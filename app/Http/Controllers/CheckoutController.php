@@ -105,21 +105,22 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
 
+
         if ($request->button_name == "Quote") {
-           
+
             $res = $this->saveAsQuote($request);
             if ($res) {
-                return redirect()->route('home')->with('success', 'Your booking quote created successfully!');
+                return redirect()->route('agent.quotation')->with('success', 'Your booking quote created successfully!');
             } else {
-                return redirect()->route('home')->with('error', 'Your booking quote created failed!');
+                return redirect()->route('agent.quotation')->with('error', 'Your booking quote created failed!');
             }
-
         } else if ($request->button_name == "Draft") {
+
             $res = $this->saveAsDraft($request);
             if ($res) {
-                return redirect()->route('home')->with('success', 'Your booking draft created successfully!');
+                return redirect()->route('agent.draft')->with('success', 'Your booking draft created successfully!');
             } else {
-                return redirect()->route('home')->with('error', 'Your booking draft created failed!');
+                return redirect()->route('agent.draft')->with('error', 'Your booking draft created failed!');
             }
         } else {
             $SafeencryptionObj = new Safeencryption;
@@ -152,33 +153,32 @@ class CheckoutController extends Controller
 
     public function saveAsQuote($request)
     {
-        
         $data = $this->checkoutRepository->createBookingQuote($request->all());
-        $res = $this->checkoutRepository->createOrderBookingQuote($data);       
-        if ($res) {            
+        $res = $this->checkoutRepository->createOrderBookingQuote($data);
+        if ($res) {
             $this->removeTempData($data);
-           // $this->SendEmailQuotePDF($res);
             return true;
         }
         return false;
     }
 
     public function saveAsDraft($request)
-    {          
-        $data = $this->checkoutRepository->createBookingDraft($request->all());        
-        $res = $this->checkoutRepository->createOrderBookingDraft($data);        
+    {
+
+        $data = $this->checkoutRepository->createBookingDraft($request->all());
+        $res = $this->checkoutRepository->createOrderBookingDraft($data);
         if ($res) {
-            $this->removeTempData($data);           
+            $this->removeTempData($data);
             return true;
         }
         return false;
     }
 
     public function SendEmailQuotePDF($res)
-    {       
+    {
 
-        $QuoteOrder = new QuoteOrder();        
-        $QuoteOrder->notify(new QuoteOrderNotification($res));               
+        $QuoteOrder = new QuoteOrder();
+        $QuoteOrder->notify(new QuoteOrderNotification($res));
         return redirect()->route('contact-us')->with('success', 'Thank you for contact us. we will contact you shortly.');
     }
 
@@ -222,9 +222,9 @@ class CheckoutController extends Controller
     }
     public function payUsingWallet($data)
     {
-        // if ($this->PayForAgentWallet($data)) {
-        return $this->checkoutRepository->createOrderBooking($data);
-        //  }
+        if ($this->PayForAgentWallet($data)) {
+            return $this->checkoutRepository->createOrderBooking($data);
+        }
         return false;
     }
     public function payOnOnline(Request $request)
@@ -302,20 +302,65 @@ class CheckoutController extends Controller
     {
         $SafeencryptionObj = new Safeencryption;
         $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));
-        $cart = [];
-        if (is_array(getBookingCart('bookingCart')) && count(getBookingCart('bookingCart')) > 0) {
-            $bookingCart = getBookingCart('bookingCart');
-            $bookingCart[] = $requiredParamArr;
-            setBookingCart('bookingCart', $bookingCart);
-        } else {
-            $cart[] = $requiredParamArr;
-            setBookingCart('bookingCart', $cart);
-        }
+        $cartsArr = $this->createCartData($requiredParamArr);
+        // dd($cartsArr);
+        setBookingCart('bookingCart', $cartsArr);
         return response()->json([
             'status' => true,
             'redirectURL' => route('cart'),
             'message' => ''
         ]);
+    }
+
+    public function createCartData($requiredParamArr)
+    {
+        $oldCart = getBookingCart('bookingCart');
+        //$requiredParamArr['is_type'] = "package";
+        if (is_array($requiredParamArr) && count($requiredParamArr) > 0) {
+
+            if ($requiredParamArr['is_type'] == "hotel") {
+                if (is_array($oldCart) && count($oldCart) > 0) {
+                    if (isset($oldCart['hotel'])) {
+                        $oldCart['hotel'][] = $requiredParamArr;
+                    } else {
+                        $oldCart['hotel'][] = $requiredParamArr;
+                    }
+                } else {
+                    $oldCart['hotel'][] = $requiredParamArr;
+                }
+            } else if ($requiredParamArr['is_type'] == "package") {
+                if (is_array($oldCart) && count($oldCart) > 0) {
+                    if (isset($oldCart['package'])) {
+                        $oldCart['package'][] = $requiredParamArr;
+                    } else {
+                        $oldCart['package'][] = $requiredParamArr;
+                    }
+                } else {
+                    $oldCart['package'][] = $requiredParamArr;
+                }
+            } else if ($requiredParamArr['is_type'] == "sightseeing") {
+                if (is_array($oldCart) && count($oldCart) > 0) {
+                    if (isset($oldCart['sightseeing'])) {
+                        $oldCart['sightseeing'][] = $requiredParamArr;
+                    } else {
+                        $oldCart['sightseeing'][] = $requiredParamArr;
+                    }
+                } else {
+                    $oldCart['sightseeing'][] = $requiredParamArr;
+                }
+            } else if ($requiredParamArr['is_type'] == "transfer") {
+                if (is_array($oldCart) && count($oldCart) > 0) {
+                    if (isset($oldCart['transfer'])) {
+                        $oldCart['transfer'][] = $requiredParamArr;
+                    } else {
+                        $oldCart['transfer'][] = $requiredParamArr;
+                    }
+                } else {
+                    $oldCart['transfer'][] = $requiredParamArr;
+                }
+            }
+        }
+        return $oldCart;
     }
 
 
@@ -392,5 +437,61 @@ class CheckoutController extends Controller
         setBookingCart('bookingCart', array());
 
         return $data->forceDelete();
+    }
+
+    public function quoteTempStore(Request $request)
+    {
+        $QuoteOrder = QuoteOrder::find($request->order_id);
+        if ($QuoteOrder) {
+            $this->getAddToCartHotelData($request, $QuoteOrder);
+        }
+        return redirect()->back()->with('success', 'Add to cart successfully!');
+    }
+
+    public function getAddToCartHotelData($request, $QuoteOrder)
+    {
+
+        $requiredParamArr = [];
+        foreach ($QuoteOrder->quote_hotel as $hotel_key => $hotel_value) {
+            $requiredParamArr['is_type'] = "hotel";
+            foreach ($hotel_value->order_hotel_room as $room_key => $room_value) {
+                if ($request->order_type == "single" && $request->order_id ==  $room_value->quote_id && $request->order_room_id == $room_value->id) {
+                    $requiredParamArr['hotel_id'] = $room_value->hotel_id;
+                    $requiredParamArr['room_id'] = $room_value->room_id;
+                    $requiredParamArr['price_id'] = $room_value->room_price_id;
+                    $requiredParamArr['adult'] = $room_value->adult;
+                    $requiredParamArr['child'] = $room_value->check_in_date;
+                    $requiredParamArr['room'] = 1;
+                    $requiredParamArr['city_id'] = "";
+                    $requiredParamArr['search_from'] = $room_value->check_in_date;
+                    $requiredParamArr['search_to'] = $room_value->check_out_date;
+                    $requiredParamArr['originAmount'] = $room_value->origin_amount;
+                    $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
+                    $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
+                    $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
+                    $requiredParamArr['finalAmount'] = $room_value->price;
+                    $cartsArr = $this->createCartData($requiredParamArr);
+                    setBookingCart('bookingCart', $cartsArr);
+                } else {
+                    $requiredParamArr['hotel_id'] = $room_value->hotel_id;
+                    $requiredParamArr['room_id'] = $room_value->room_id;
+                    $requiredParamArr['price_id'] = $room_value->room_price_id;
+                    $requiredParamArr['adult'] = $room_value->adult;
+                    $requiredParamArr['child'] = $room_value->check_in_date;
+                    $requiredParamArr['room'] = 1;
+                    $requiredParamArr['city_id'] = "";
+                    $requiredParamArr['search_from'] = $room_value->check_in_date;
+                    $requiredParamArr['search_to'] = $room_value->check_out_date;
+                    $requiredParamArr['originAmount'] = $room_value->origin_amount;
+                    $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
+                    $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
+                    $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
+                    $requiredParamArr['finalAmount'] = $room_value->price;
+                    $cartsArr = $this->createCartData($requiredParamArr);
+                    setBookingCart('bookingCart', $cartsArr);
+                }
+            }
+        }
+        return true;
     }
 }

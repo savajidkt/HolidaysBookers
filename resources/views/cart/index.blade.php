@@ -46,144 +46,158 @@
                 <div class="col-xl-7 col-lg-8">
 
                     @if (count($bookingCartArr) > 0)
-                        @foreach ($bookingCartArr as $key => $value)
-                            @php
-                                $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
-                                $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
-                                
-                            @endphp
-                            @if (count($hotelsDetails) > 0 && count($hotelsDetails['hotel']) > 0)
-                                @php
-                                    $hotelsRoomDetails = $hotelsDetails['roomDetails'];
-                                    $hotelsDetails = $hotelsDetails['hotel'];
-                                    $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<span class="pull-right">' . numberFormat($value['finalAmount'], globalCurrency()) . '</span></li>';
-                                    $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'] . ' <span class="pull-right"> ' . numberFormat($value['finalAmount'], globalCurrency()) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
-                                    $serviceSectionAMT = $serviceSectionAMT + $value['finalAmount'];
-                                @endphp
+                        @foreach ($bookingCartArr as $bo_key => $bo_value)
+                            @if ($bo_key == 'hotel')
+                                @foreach ($bo_value as $key => $value)
+                                    @php
+                                        $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+                                        $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
+                                        
+                                    @endphp
+                                    @if (count($hotelsDetails) > 0 && count($hotelsDetails['hotel']) > 0)
+                                        @php
+                                            $hotelsRoomDetails = $hotelsDetails['roomDetails'];
+                                            $hotelsDetails = $hotelsDetails['hotel'];
+                                            $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<span class="pull-right">' . numberFormat($value['finalAmount'], globalCurrency()) . '</span></li>';
+                                            $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'] . ' <span class="pull-right"> ' . numberFormat($value['finalAmount'], globalCurrency()) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
+                                            $serviceSectionAMT = $serviceSectionAMT + $value['finalAmount'];
+                                        @endphp
 
-                                <div class="border-light rounded-4 px-30 py-30 sm:px-20 sm:py-20 mb-30 myDelete">
+                                        <div class="border-light rounded-4 px-30 py-30 sm:px-20 sm:py-20 mb-30 myDelete">
 
-                                    <div class="row y-gap-20">
-                                        <div class="col-12">
-                                            <div class="roomGrid">
-                                                <div class="roomGrid__grid">
-                                                    <div>
-                                                        <div class="ratio ratio-1:1">
-                                                            @if (strlen($hotelsDetails['hotel_image_location']) > 0)
-                                                                <img class="img-ratio rounded-4"
-                                                                    src="{{ url(Storage::url('app/upload/Hotel/' . $hotelsDetails['id'] . '/' . $hotelsDetails['hotel_image_location'])) }}"
-                                                                    alt="{{ $hotelsDetails['hotel_name'] }}">
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                    <div class="y-gap-30">
-                                                        <div class="row">
-                                                            <div class="text-15 fw-500 mb-10">
-                                                                <i class="fa fa-bed"></i> {{ $hotelsDetails['hotel_name'] }}
-                                                                <div class="pull-right deleteCart">
-                                                                    <a href="javascript:void(0);"
-                                                                        data-hotel-id="{{ $value['hotel_id'] }}"
-                                                                        data-hotel-room-id="{{ $value['room_id'] }}"
-                                                                        class="removeHotel"> <i
-                                                                            class="fa fa-times fa-2x text-danger"></i>
-                                                                        Delete Product</a>
+                                            <div class="row y-gap-20">
+                                                <div class="col-12">
+                                                    <div class="roomGrid">
+                                                        <div class="roomGrid__grid">
+                                                            <div>
+                                                                <div class="ratio ratio-1:1">
+                                                                    @if (strlen($hotelsDetails['hotel_image_location']) > 0)
+                                                                        <img class="img-ratio rounded-4"
+                                                                            src="{{ url(Storage::url('app/upload/Hotel/' . $hotelsDetails['id'] . '/' . $hotelsDetails['hotel_image_location'])) }}"
+                                                                            alt="{{ $hotelsDetails['hotel_name'] }}">
+                                                                    @endif
                                                                 </div>
                                                             </div>
-                                                            <div class="y-gap-8">
-                                                                <div class="d-flex items-center">
-                                                                    @if ($hotelsDetails['category'] > 0)
-                                                                        <div class="d-flex x-gap-5 pb-10">
-                                                                            @for ($i = 1; $i <= $hotelsDetails['category']; $i++)
-                                                                                <i
-                                                                                    class="icon-star text-10 text-yellow-1"></i>
-                                                                            @endfor
+                                                            <div class="y-gap-30">
+                                                                <div class="row">
+                                                                    <div class="text-15 fw-500 mb-10">
+                                                                        <i class="fa fa-bed"></i>
+                                                                        {{ $hotelsDetails['hotel_name'] }}
+                                                                        <div class="pull-right deleteCart">
+                                                                            <a href="javascript:void(0);"
+                                                                                data-hotel-id="{{ $value['hotel_id'] }}"
+                                                                                data-hotel-room-id="{{ $value['room_id'] }}"
+                                                                                class="removeHotel"> <i
+                                                                                    class="fa fa-times fa-2x text-danger"></i>
+                                                                                Delete Product</a>
                                                                         </div>
-                                                                    @endif
+                                                                    </div>
+                                                                    <div class="y-gap-8">
+                                                                        <div class="d-flex items-center">
+                                                                            @if ($hotelsDetails['category'] > 0)
+                                                                                <div class="d-flex x-gap-5 pb-10">
+                                                                                    @for ($i = 1; $i <= $hotelsDetails['category']; $i++)
+                                                                                        <i
+                                                                                            class="icon-star text-10 text-yellow-1"></i>
+                                                                                    @endfor
+                                                                                </div>
+                                                                            @endif
 
-                                                                </div>
-                                                                <div class="d-flex items-center">
-                                                                    <i class="icon-location-pin text-12 mr-10"></i>
-                                                                    <div class="text-14 lh-15 mt-5">
-                                                                        {{ $hotelsDetails['hotel_address'] }}</div>
-                                                                </div>
-                                                                <div class="d-flex items-center">
-                                                                    <i class="icon-calendar-2 text-12 mr-10"></i>
-                                                                    <div class="text-14 lh-15 mt-5">From
-                                                                        {{ date('d M, Y', strtotime(getSearchCookies('search_from'))) }}
+                                                                        </div>
+                                                                        <div class="d-flex items-center">
+                                                                            <i class="icon-location-pin text-12 mr-10"></i>
+                                                                            <div class="text-14 lh-15 mt-5">
+                                                                                {{ $hotelsDetails['hotel_address'] }}</div>
+                                                                        </div>
+                                                                        <div class="d-flex items-center">
+                                                                            <i class="icon-calendar-2 text-12 mr-10"></i>
+                                                                            <div class="text-14 lh-15 mt-5">From
+                                                                                {{ date('d M, Y', strtotime(getSearchCookies('search_from'))) }}
 
-                                                                        To
-                                                                        {{ date('d M, Y', strtotime(getSearchCookies('search_to'))) }}
+                                                                                To
+                                                                                {{ date('d M, Y', strtotime(getSearchCookies('search_to'))) }}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="border-top-light mt-30 mb-20"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row pt-10">
+                                                        <div class="text-20 fw-500 mb-10">
+                                                            Remarks
+                                                        </div>
+                                                        <div class="text-15">Check-in hour from 14:00. Car park Yes with
+                                                            charges.
+                                                            Car park YES (with additional debit notes). Check-in hour 14:00
+                                                            -
+                                                        </div>
+                                                    </div>
+                                                    <div class="row pt-10">
+                                                        <div class="text-20 fw-500 mb-10">
+                                                            Rate Information
+                                                        </div>
+                                                        <div class="text-15">Please note that these rates don't allow
+                                                            modifications,
+                                                            therefore you would need to cancel and create a new booking.
+                                                            Cancellation charges apply as per cancellation policy. </div>
+                                                    </div>
+                                                    <div class="border-top-light mt-30 mb-20"></div>
+                                                    <div class="row pt-10">
+                                                        <div class="fw-500 mb-10">
+
+                                                            {{ $offlineRoom->roomtype->room_type }}
+                                                            <div class="pull-right">
+                                                                {{ numberFormat($value['finalAmount'], globalCurrency()) }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row pt-10">
+                                                        <div class="text-15 fw-500 mb-10">Cancellation fees</div>
+                                                        <div class="col-6 border-right-px">
+                                                            <div class="y-gap-8">
+                                                                <div class="items-center text-green-2">
+                                                                    <div class="text-13 pull-left">Until 23:58 PM on
+                                                                        15/08/2023
+                                                                    </div>
+                                                                    <div class="text-13 pull-right"><i
+                                                                            class="fa fa-check-circle text-12"></i>
+                                                                        Free</div>
+                                                                </div>
+                                                                <div class="items-center">
+                                                                    <div class="text-13 pull-left">After 23:59 PM on
+                                                                        15/08/2023
+                                                                    </div>
+                                                                    <div class="text-13 pull-right text-danger"> 15,831.96
+                                                                        Rs
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="border-top-light mt-30 mb-20"></div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="text-12">Date and time are calculated based on local
+                                                                time in the destination. In case of no-show, different fees
+                                                                will apply. Please refer to our T&C.</div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row pt-10">
-                                                <div class="text-20 fw-500 mb-10">
-                                                    Remarks
-                                                </div>
-                                                <div class="text-15">Check-in hour from 14:00. Car park Yes with charges.
-                                                    Car park YES (with additional debit notes). Check-in hour 14:00 -</div>
-                                            </div>
-                                            <div class="row pt-10">
-                                                <div class="text-20 fw-500 mb-10">
-                                                    Rate Information
-                                                </div>
-                                                <div class="text-15">Please note that these rates don't allow modifications,
-                                                    therefore you would need to cancel and create a new booking.
-                                                    Cancellation charges apply as per cancellation policy. </div>
-                                            </div>
-                                            <div class="border-top-light mt-30 mb-20"></div>
-                                            <div class="row pt-10">
-                                                <div class="fw-500 mb-10">
-
-                                                    {{ $offlineRoom->roomtype->room_type }}
-                                                    <div class="pull-right">
-                                                        {{ numberFormat($value['finalAmount'], globalCurrency()) }}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row pt-10">
-                                                <div class="text-15 fw-500 mb-10">Cancellation fees</div>
-                                                <div class="col-6 border-right-px">
-                                                    <div class="y-gap-8">
-                                                        <div class="items-center text-green-2">
-                                                            <div class="text-13 pull-left">Until 23:58 PM on 15/08/2023
+                                                    <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
+                                                        <div class="row y-gap-5 justify-between">
+                                                            <div class="col-auto">
+                                                                <div class="text-18 lh-13 fw-500">Price</div>
                                                             </div>
-                                                            <div class="text-13 pull-right"><i
-                                                                    class="fa fa-check-circle text-12"></i>
-                                                                Free</div>
-                                                        </div>
-                                                        <div class="items-center">
-                                                            <div class="text-13 pull-left">After 23:59 PM on 15/08/2023
+                                                            <div class="col-auto">
+                                                                <div class="text-18 lh-13 fw-500">
+                                                                    {{ numberFormat($value['finalAmount'], globalCurrency()) }}
+                                                                </div>
                                                             </div>
-                                                            <div class="text-13 pull-right text-danger"> 15,831.96 Rs</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="text-12">Date and time are calculated based on local
-                                                        time in the destination. In case of no-show, different fees
-                                                        will apply. Please refer to our T&C.</div>
-                                                </div>
-                                            </div>
-                                            <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
-                                                <div class="row y-gap-5 justify-between">
-                                                    <div class="col-auto">
-                                                        <div class="text-18 lh-13 fw-500">Price</div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="text-18 lh-13 fw-500">
-                                                            {{ numberFormat($value['finalAmount'], globalCurrency()) }}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    @endif
+                                @endforeach
                             @endif
                         @endforeach
                     @endif
@@ -213,7 +227,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <ul class="y-gap-4 pt-5 text-right inline-block">
                                 <li class="text-14 removeCart">
                                     <a href="javascript:void(0);" class="removeCart"> <i
@@ -221,8 +235,7 @@
                                 </li>
                                 {{-- <li class="text-14"><a href="javascript:void(0);" class="saveQuote"><i
                                             class="fa fa-bookmark fa-2x text-blue-1"></i> Save as quote </a></li> --}}
-                                <li class="text-14"><a
-                                        class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white"
+                                <li class="text-14"><a class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white"
                                         href="{{ route('checkout.index') }}">
                                         Process to checkout
                                     </a></li>

@@ -15,6 +15,7 @@ class CreateOrderMastersTable extends Migration
     {
         Schema::create('order_masters', function (Blueprint $table) {
             $table->id();
+            $table->string('prn_number');
             $table->string('booking_id');
             $table->string('booking_code');
             $table->string('invoice_no');

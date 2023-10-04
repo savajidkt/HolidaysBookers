@@ -24,6 +24,7 @@ class CreateQuoteMastersTable extends Migration
             $table->integer('agent_markup_type');
             $table->double('agent_markup_val', 10, 2)->default(0);
             $table->double('total_price_markup', 10, 2)->default(0);
+            $table->string('quote_name');
             $table->string('agent_code');
             $table->string('agent_email');
             $table->integer('total_adult')->default(0);

@@ -11,12 +11,6 @@
         .border-type-2 {
             border: 1px solid green;
         }
-
-        .orderCancelCls {
-            border: 1px solid #dc3545;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
     </style>
 
     <div class="dashboard__content bg-light-2">
@@ -41,14 +35,9 @@
                                 </div>
                                 <div class="border-type-1 rounded-8 px-50 py-35 mt-40">
                                     <div class="row">
-                                        {{-- <div class="col-lg-3 col-md-6">
+                                        <div class="col-lg-3 col-md-6">
                                             <div class="text-15 lh-12">Order Number</div>
                                             <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{{ $order->id }}</div>
-                                        </div> --}}
-                                        <div class="col-lg-3 col-md-6">
-                                            <div class="text-15 lh-12">PRN Number</div>
-                                            <div class="text-15 lh-12 fw-500 text-blue-1 mt-10">{{ $order->prn_number }}
-                                            </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6">
                                             <div class="text-15 lh-12">Date</div>
@@ -78,21 +67,10 @@
                                 @if ($order->passenger_type == 1)
 
                                     <div class=" px-20 py-20 mt-20">
-                                        <div class="row y-gap-20 mb-15 mt-15 justify-between">
-                                            <div class="col-auto">
-                                                <div class="fw-500">Hotels Details
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <div class="fw-500">All Passenger
-                                                </div>
-                                            </div>
-                                        </div>
                                         @php
                                             $i = 0;
-                                            
                                         @endphp
-                                        @foreach ($order->order_rooms_with_cancel as $key => $value)
+                                        @foreach ($order->order_rooms as $key => $value)
                                             @php
                                                 $i++;
                                             @endphp
@@ -103,24 +81,9 @@
                                                         <span class="fw-300">{{ $value->room_name }}</span>
                                                     </div>
                                                 </div>
-                                                <div class="col-auto pull-right">
-                                                    <div class="fw-500">
-                                                        @if ($value->deleted_at == null)
-                                                            <a href="javascript:void(0);" class="orderCancel"
-                                                                data-room-id="{{ $value->id }}"
-                                                                data-order-id="{{ $value->order_id }}"> <i
-                                                                    class="fa fa-times fa-2x text-danger"></i> Cancel</a>
-                                                        @else
-                                                            <a href="javascript:void(0);" class="text-danger">
-                                                                Cancelled
-                                                            </a>
-                                                        @endif
-
-                                                    </div>
-                                                </div>
                                             </div>
-                                            @if ($value->order_hotel_room_passenger_with_cancel)
-                                                @foreach ($value->order_hotel_room_passenger_with_cancel as $key => $value)
+                                            @if ($value->order_hotel_room_passenger)
+                                                @foreach ($value->order_hotel_room_passenger as $key => $value)
                                                     <div
                                                         class="row mb-15 {{ $value->is_adult == 1 ? ' border-type-2' : 'border-type-1' }} rounded-8">
                                                         <div class="col-12">
@@ -167,10 +130,6 @@
                                     <div class=" px-20 py-20 mt-20">
                                         <div class="row y-gap-20 mb-15 mt-15 justify-between">
                                             <div class="col-auto">
-                                                <div class="fw-500">Hotels Details
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
                                                 <div class="fw-500">Lead Passenger
                                                 </div>
                                             </div>
@@ -178,7 +137,7 @@
                                         @php
                                             $i = 0;
                                         @endphp
-                                        @foreach ($order->order_rooms_with_cancel as $key => $value)
+                                        @foreach ($order->order_rooms as $key => $value)
                                             @php
                                                 $i++;
                                             @endphp
@@ -187,20 +146,7 @@
                                                     <div class="fw-500">Room {{ $i }} :
                                                         {{ $value->hotel_details->hotel_name }} :
                                                         <span class="fw-300">{{ $value->room_name }}</span>
-
                                                     </div>
-                                                </div>
-                                                <div class="col-auto pull-right">
-                                                    @if ($value->deleted_at == null)
-                                                        <a href="javascript:void(0);" class="orderCancel"
-                                                            data-room-id="{{ $value->id }}"
-                                                            data-order-id="{{ $value->order_id }}"> <i
-                                                                class="fa fa-times fa-2x text-danger"></i> Cancel</a>
-                                                    @else
-                                                        <a href="javascript:void(0);" class="text-danger">
-                                                            Cancelled
-                                                        </a>
-                                                    @endif
                                                 </div>
                                             </div>
                                         @endforeach
@@ -252,38 +198,32 @@
                                             @if ($order->order_hotel)
                                                 <ul class=" y-gap-4 pt-5">
                                                     @foreach ($order->order_hotel as $key => $value)
-                                                        @if ($value->order_hotel_room_with_cancel)
-                                                            @foreach ($value->order_hotel_room_with_cancel as $key1 => $value1)
-                                                                @if ($value1->deleted_at == null)
-                                                                    @php
-                                                                        $finalAmt = $finalAmt + $value1->price;
-                                                                    @endphp
-                                                                    <li class="">
-                                                                    @else
-                                                                    <li class="orderCancelCls">
-                                                                @endif
-
-
-                                                                <div class="text-15 fw-500">
-                                                                    <i class="fa fa-bed"></i>
-                                                                    {{ $value->hotel_name }}
-                                                                    <br>
-                                                                    <span class="text-12 fw-500">
-                                                                        {{ $value1->room_name }}, Adults
-                                                                        {{ $value1->adult }}, Children
-                                                                        {{ $value1->child }}</span>
-                                                                    <br>
-                                                                    <span class="text-12 fw-500">
-                                                                        From
-                                                                        {{ date('d M, Y', strtotime($value1->check_in_date)) }}
-                                                                        To
-                                                                        {{ date('d M, Y', strtotime($value1->check_out_date)) }}
-                                                                    </span>
-                                                                    <span class="pull-right text-15 fw-500">
-                                                                        {{ numberFormat($value1->price, trim($order->order_currency)) }}
-                                                                    </span>
-                                                                </div>
-                                                                <div class="mt-10 border-top-light"></div>
+                                                        @if ($value->order_hotel_room)
+                                                            @foreach ($value->order_hotel_room as $key1 => $value1)
+                                                                @php
+                                                                    $finalAmt = $finalAmt + $value1->price;
+                                                                @endphp
+                                                                <li class="">
+                                                                    <div class="text-15 fw-500">
+                                                                        <i class="fa fa-bed"></i>
+                                                                        {{ $value->hotel_name }}
+                                                                        <br>
+                                                                        <span class="text-12 fw-500">
+                                                                            {{ $value1->room_name }}, Adults
+                                                                            {{ $value1->adult }}, Children
+                                                                            {{ $value1->child }}</span>
+                                                                        <br>
+                                                                        <span class="text-12 fw-500">
+                                                                            From
+                                                                            {{ date('d M, Y', strtotime($value1->check_in_date)) }}
+                                                                            To
+                                                                            {{ date('d M, Y', strtotime($value1->check_out_date)) }}
+                                                                        </span>
+                                                                        <span class="pull-right text-15 fw-500">
+                                                                            {{ numberFormat($value1->price, trim($order->order_currency)) }}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="mt-10 border-top-light"></div>
                                                                 </li>
                                                             @endforeach
                                                         @endif
@@ -327,55 +267,4 @@
     </div>
 @endsection
 @section('page-script')
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            $(".tabs").click(function() {
-                $(".tabs").removeClass("active");
-                $(".tabs h6").removeClass("font-weight-bold");
-                $(".tabs h6").addClass("text-muted");
-                $(this).children("h6").removeClass("text-muted");
-                $(this).children("h6").addClass("font-weight-bold");
-                $(this).addClass("active");
-                current_fs = $(".active");
-                next_fs = $(this).attr('id');
-                next_fs = "#" + next_fs + "1";
-                $("fieldset").removeClass("show");
-                $(next_fs).addClass("show");
-                current_fs.animate({}, {
-                    step: function() {
-                        current_fs.css({
-                            'display': 'none',
-                            'position': 'relative'
-                        });
-                        next_fs.css({
-                            'display': 'block'
-                        });
-                    }
-                });
-            });
-
-        });
-        $(document).ready(function() {
-            $(document).on('click', '.orderCancel', function() {
-                var redirectURL = "{!! url('/agent/booking-hotel-cancel/') !!}";
-                redirectURL = redirectURL + '/' + $(this).attr('data-order-id') + '?orde_room_id=' + $(this)
-                    .attr('data-room-id');
-                swal({
-                        title: "Are you sure?",
-                        text: "You won't be able to cancel this!",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, cancel it!'
-                    },
-                    function(resp) {
-                        if (resp) {
-                            window.location = redirectURL;
-                        }
-                    });
-            });
-        });
-    </script>
 @endsection

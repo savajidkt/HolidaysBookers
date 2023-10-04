@@ -23,6 +23,7 @@ class QuoteOrder extends Model
         'agent_markup_type',
         'agent_markup_val',
         'total_price_markup',
+        'quote_name',
         'agent_code',
         'agent_email',
         'total_adult',
