@@ -10,7 +10,7 @@
                     <h4 class="card-title">New Permission</h4>
                 </div>
                 <div class="card-body">
-                    <form class="needs-validation1" method="post" enctype="multipart/form-data" action="{{route('permissions.store')}}">
+                    <form id="FrmPermission" class="needs-validation1" method="post" enctype="multipart/form-data" action="{{route('permissions.store')}}">
                         <input type="hidden" name="id" value="{{ isset($model->id) ? $model->id : null }}">
                         @csrf
                         @include('admin.permissions.form')

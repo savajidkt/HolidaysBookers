@@ -3,7 +3,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">{{ __('country/country.form_country_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
-                placeholder="{{ __('country/country.form_country_name') }}"
+                placeholder="{{ __('country/country.form_country_name') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
                 data-error="{{ __('country/message.country_name_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

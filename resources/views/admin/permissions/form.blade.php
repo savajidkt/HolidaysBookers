@@ -47,11 +47,14 @@
             @error('permission_name')
             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
+            <span id="type_id"></span>
 
         </div>
     </div>
 </div>
 
 @section('extra-script')
+
+<script src="{{ asset('js/form/Permission.js') }}"></script>
 
 @endsection

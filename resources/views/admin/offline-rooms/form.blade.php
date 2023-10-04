@@ -90,7 +90,7 @@
                         <a class="badge badge-success roomTypeBTN" style="color:#FFF; float: right;">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New Room Type
                         </a>
-                        <select class="select2-room-types form-control" name="room_type"></select>
+                        <select class="select2 select2-room-types form-control" name="room_type"></select>
                         <div class="room_typeCLS"></div>
                         @error('room_type')
                             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -200,6 +200,7 @@
                         <option value="1"> {{ __('core.active') }}</option>
                         <option value="0"> {{ __('core.inactive') }}</option>
                     </select>
+                    <div class="statusCLS"></div>
                     @error('status')
                         <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
                     @enderror

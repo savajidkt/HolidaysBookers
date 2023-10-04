@@ -10,7 +10,7 @@
                     <h4 class="card-title">Edit Permission</h4>
                 </div>
                 <div class="card-body">
-                    <form id="jquery-val-form" class="needs-validation1" novalidate method="post" enctype="multipart/form-data" action="{{route('permissions.update', $model)}}">
+                    <form id="FrmPermission" class="needs-validation1" novalidate method="post" enctype="multipart/form-data" action="{{route('permissions.update', $model)}}">
                         @csrf
                         @method('PUT')
                         @include('admin.permissions.form')

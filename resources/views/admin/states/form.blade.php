@@ -21,7 +21,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">{{ __('state/state.form_state_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
-                placeholder="{{ __('state/state.form_state_name') }}"
+                placeholder="{{ __('state/state.form_state_name') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
                 data-error="{{ __('state/message.state_name_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

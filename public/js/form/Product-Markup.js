@@ -1,5 +1,5 @@
-var FrmProductMarkupPreference = function () {
-    var ProductMarkupFormValidation = function () {
+var FrmProductMarkupPreference = function() {
+    var ProductMarkupFormValidation = function() {
         var FrmProductMarkupPreferenceForm = $('#FrmProductMarkup');
         var error4 = $('.error-message', FrmProductMarkupPreferenceForm);
         var success4 = $('.error-message', FrmProductMarkupPreferenceForm);
@@ -25,10 +25,14 @@ var FrmProductMarkupPreference = function () {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
+                } else {
+                    error.insertAfter(element);
+                }
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -36,12 +40,12 @@ var FrmProductMarkupPreference = function () {
     }
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             ProductMarkupFormValidation();
         }
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmProductMarkupPreference.init();
 });
