@@ -14,19 +14,13 @@
                     <thead class="thead-light">
                         <tr>
                             <th></th>
-                            <th>PNR No.</th>
-                            <th>Hotel Name</th>
-                            <th>City</th>
+                           
+                            <th>PNR No.</th>                           
                             <th>{{ __('core.status') }}</th>
-                            <th>Booking Date</th>
-                            <th>Check-in</th>
-                            <th>Check-out</th>
-                            <th>Lead Guest</th>
-                            <th>Cancel upto</th>
+                            <th>Booking Date</th>                           
                             <th>No. Of Rooms</th>
                             <th>Total Nights</th>
-                            <th>Pay Received</th>
-
+                            <th>Payment Received</th>
                             <th>{{ __('core.action') }}</th>
                         </tr>
                     </thead>
@@ -58,17 +52,8 @@
                         searchable: false
                     },
                     {
-                        data: 'package_id',
-                        visible: false,
-                    },
-                    {
-                        data: 'hotel_id',
-                        name: 'hotel_id'
-                    },
-                    {
-                        data: 'hotel_city_id',
-                        name: 'hotel_city_id'
-                    },
+                        data: 'prn_number',                        
+                    },                   
                     {
                         data: 'status',
                         name: 'status',
@@ -77,23 +62,7 @@
                     {
                         data: 'created_at',
                         name: 'created_at'
-                    },
-                    {
-                        data: 'check_in_date',
-                        name: 'check_in_date'
-                    },
-                    {
-                        data: 'check_out_date',
-                        name: 'check_out_date'
-                    },
-                    {
-                        data: 'guest_lead',
-                        name: 'guest_lead'
-                    },
-                    {
-                        data: 'cancelled_date',
-                        name: 'cancelled_date'
-                    },
+                    },                                     
                     {
                         data: 'total_rooms',
                         name: 'total_rooms'
@@ -103,8 +72,8 @@
                         name: 'total_nights'
                     },
                     {
-                        data: 'payment',
-                        name: 'payment'
+                        data: 'payment_status',
+                        name: 'payment_status'
                     },
 
                     {

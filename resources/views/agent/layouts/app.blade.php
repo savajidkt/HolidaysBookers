@@ -116,20 +116,21 @@
         <script>
             var bookingCal = "";
             document.addEventListener('DOMContentLoaded', function() {
+                
                 var calendarEl = document.getElementById('calendar');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
                 $.ajax({
                     url: moduleConfig.getAgentBookingList,
                     type: "POST",
                     dataType: "json",
                     data: {},
                     success: function(data) {
-                        //console.log(data.booking);
-                        bookingCal = data.booking
+
                         var calendar = new FullCalendar.Calendar(calendarEl, {
                             initialView: 'dayGridMonth',
                             headerToolbar: {
@@ -138,57 +139,56 @@
                                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
                             },
                             events: data.booking,
-
                             // events: [{
                             //         title: 'All Day Event',
-                            //         start: '2023-05-01'
+                            //         start: '2023-10-01'
                             //     },
                             //     {
                             //         title: 'Long Event',
-                            //         start: '2023-05-07',
-                            //         end: '2023-05-10'
+                            //         start: '2023-10-07',
+                            //         end: '2023-10-10'
                             //     },
                             //     {
                             //         groupId: '999',
                             //         title: 'Repeating Event',
-                            //         start: '2023-05-09T16:00:00'
+                            //         start: '2023-10-09T16:00:00'
                             //     },
                             //     {
                             //         groupId: '999',
                             //         title: 'Repeating Event',
-                            //         start: '2023-05-16T16:00:00'
+                            //         start: '2023-10-16T16:00:00'
                             //     },
                             //     {
                             //         title: 'Conference',
-                            //         start: '2023-05-11',
-                            //         end: '2023-05-15T16:00:00'
+                            //         start: '2023-10-11',
+                            //         end: '2023-10-15T16:00:00'
                             //     },
                             //     {
                             //         title: 'Meeting',
-                            //         start: '2023-05-12T10:30:00',
-                            //         end: '2023-05-12T12:30:00'
+                            //         start: '2023-10-12T10:30:00',
+                            //         end: '2023-10-12T12:30:00'
                             //     },
                             //     {
                             //         title: 'Lunch',
-                            //         start: '2023-05-12T12:00:00'
+                            //         start: '2023-10-12T12:00:00'
                             //     },
                             //     {
                             //         title: 'Meeting',
-                            //         start: '2023-05-12T14:30:00'
+                            //         start: '2023-10-12T14:30:00'
                             //     },
                             //     {
                             //         title: 'Birthday Party',
-                            //         start: '2023-05-13T07:00:00'
+                            //         start: '2023-10-13T07:00:00'
                             //     },
                             //     {
                             //         title: 'Click for Google',
                             //         url: 'http://google.com/',
-                            //         start: '2023-05-28'
+                            //         start: '2023-10-28'
                             //     },
                             //     {
                             //         title: 'Marrage',
-                            //         start: '2023-05-19',
-                            //         end: '2023-05-21'
+                            //         start: '2023-10-19',
+                            //         end: '2023-10-21'
                             //     }
                             // ]
 

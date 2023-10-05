@@ -121,20 +121,17 @@
                                 <tbody>
                                     <tr>
                                         <td class="pr-1">Invoice Number:</td>
-                                        <td class="font-weight-bold">N/A</td>
+                                        <td class="font-weight-bold">{{ $model->invoice_no }}</td>
                                     </tr>
                                     <tr>
                                         <td class="pr-1">Invoice Date:</td>
-                                        <td class="font-weight-bold">N/A</td>
+                                        <td class="font-weight-bold">{{ date('d M, Y', strtotime($model->created_at)) }}</td>
                                     </tr>
                                     <tr>
                                         <td class="pr-1">PNR No.:</td>
-                                        <td class="font-weight-bold">N/A</td>
+                                        <td class="font-weight-bold">{{ $model->prn_number }}</td>
                                     </tr>
-                                    <tr>
-                                        <td class="pr-1">Deadline Date:</td>
-                                        <td class="font-weight-bold">N/A</td>
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>

@@ -147,18 +147,18 @@ class Order extends Model
         return $status;
     }
 
-    public function getPaymentNameAttribute(): string
+    public function getPaymentStatusNameAttribute(): string
     {
-        $payment = self::YES;
-        switch ($this->payment) {
+        $payment_status = self::YES;
+        switch ($this->payment_status) {
             case self::NO:
-                $payment = '<a href="javascript:void(0)" class=""><span class="badge badge-danger " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">No</span></a>';
+                $payment_status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">No</span></a>';
                 break;
             default:
-                $payment = '<a href="javascript:void(0)" class=""><span class="badge badge-success " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">Yes</span></a>';
+                $payment_status = '<a href="javascript:void(0)" class=""><span class="badge badge-success " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">Yes</span></a>';
                 break;
         }
-        return $payment;
+        return $payment_status;
     }
 
     public function getGuestNameAttribute(): string
