@@ -58,7 +58,7 @@ class CheckoutRepository
         $roomCount = count($extra_data['cartData']);
 
         if (count($extra_data['cartData']) > 0) {
-            $i = 1;           
+            $i = 1;
             foreach ($data['hotel'] as $key => $value) {
                 $adultCount = $adultCount + (int) $value['room_no_' . $i]['adults'];
                 $childCount = $childCount + (int) $value['room_no_' . $i]['childs'];
@@ -126,7 +126,7 @@ class CheckoutRepository
         return $passenger;
     }
 
-    public function createOrderBooking(Checkout $checkout, $paymentResponce = ''): Order
+    public function createOrderBooking(Checkout $checkout, $paymentResponce = '', $WalletTransaction_id = ''): Order
     {
 
         $user = User::find($checkout->user_id);
@@ -205,6 +205,18 @@ class CheckoutRepository
         $OrderData['status'] = 1; //1 = Processed, 2 = Confirmed, 3 = Cancelled, 4 = Vouchered    
 
         $OrderData =  Order::create($OrderData);
+
+        if (strlen($WalletTransaction_id) > 0 && $WalletTransaction_id > 0) {
+            WalletTransaction::where('id', $WalletTransaction_id)->update(['pnr' => $OrderData->prn_number]);
+        }
+
+        $dataSave = [
+            'order_id'        => $OrderData->id,
+            'total_amount'        => $OrderData->booking_amount,
+            'paid_amount'     => $OrderData->booking_amount,                        
+        ];
+        Booking_payment_details::create($dataSave);
+
         $this->addOrderHotels($extra_data, $OrderData->id, $passengerLead);
 
         // Below code implement is pendding

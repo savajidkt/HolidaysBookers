@@ -228,14 +228,18 @@ if (!function_exists('calculateBalance')) {
     function calculateBalance($agent_id, $type, $amount)
     {
         $letest = WalletTransaction::where('agent_id', $agent_id)->latest()->first();
-        if ($type == 0) {
-            if ($letest->balance >= $amount) {
-                return  numberFormat($letest->balance - $amount);
-            } else {
-                return redirect()->route('agents.index')->with('error', "Please enter less then balance amount");
+        if (isset($letest->balance)) {
+            if ($type == 0) {
+                if ($letest->balance >= $amount) {
+                    return  numberFormat($letest->balance - $amount);
+                } else {
+                    return redirect()->route('agents.index')->with('error', "Please enter less then balance amount");
+                }
+            } else if ($type == 1) {
+                return  numberFormat($letest->balance + $amount);
             }
-        } else if ($type == 1) {
-            return  numberFormat($letest->balance + $amount);
+        } else {
+            return  numberFormat($amount);
         }
         return redirect()->route('agents.index')->with('error', "HB Credit type not found");
     }
@@ -250,7 +254,7 @@ if (!function_exists('availableBalance')) {
     {
         $letest = WalletTransaction::where('agent_id', $agent_id)->orderBy('id', 'DESC')->latest()->first();
 
-        if ($letest->balance > 0) {
+        if (isset($letest->balance) &&  $letest->balance > 0) {
             return  numberFormat($letest->balance, $currency);
         } else {
             return  numberFormat(0);
@@ -1146,14 +1150,14 @@ if (!function_exists('InvoiceNumberGenerator')) {
     {
         $latestNumberData = 1;
         $latestNumberData = Order::latest()->first();
-        
 
-        if ($latestNumberData) {            
+
+        if ($latestNumberData) {
             $latestNumberData = $latestNumberData->id;
         }
-        
+
         if (strlen($prefix) > 0) {
-            return $prefix.'' . (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
+            return $prefix . '' . (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
         } else {
             return (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
         }
@@ -1185,5 +1189,3 @@ if (!function_exists('dateFormatNewMethod')) {
 
     }
 }
-
-

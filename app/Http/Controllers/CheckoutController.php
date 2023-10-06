@@ -222,8 +222,11 @@ class CheckoutController extends Controller
     }
     public function payUsingWallet($data)
     {
-        if ($this->PayForAgentWallet($data)) {
-            return $this->checkoutRepository->createOrderBooking($data);
+        $WalletTransaction = $this->PayForAgentWallet($data);
+        if ($WalletTransaction) {
+           // dd($WalletTransaction->id);
+           // dd($WalletTransaction->id);
+            return $this->checkoutRepository->createOrderBooking($data,'',$WalletTransaction->id);
         }
         return false;
     }
