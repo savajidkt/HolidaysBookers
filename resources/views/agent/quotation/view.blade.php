@@ -218,12 +218,12 @@
                                             <label class="lh-1 text-16 text-light-1">Recipient email</label>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    {{-- <div class="col-12">
                                         <div class="form-input frmSenderemail">
                                             <input type="text" name="senderemail" value="">
                                             <label class="lh-1 text-16 text-light-1">Sender email</label>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-12">
                                         <div class="form-input frmSubject">
                                             <input type="text" name="subject" value="">
