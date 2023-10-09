@@ -26,6 +26,7 @@
                             @if ($quoteData)
                                 @if (count($quoteData->quote_hotel_rooms) > 0)
                                     @foreach ($quoteData->quote_hotel_rooms as $key => $value)
+
                                         @php
                                             
                                             $offlineRoom = getRoomDetailsByRoomID($value->room_id);
@@ -97,10 +98,10 @@
                                                                                                 <div
                                                                                                     class="text-14 lh-15 mt-5">
                                                                                                     From
-                                                                                                    {{ date('d M, Y', strtotime(getSearchCookies('search_from'))) }}
+                                                                                                    {{ date('d M, Y', strtotime($value->check_in_date)) }}
 
                                                                                                     To
-                                                                                                    {{ date('d M, Y', strtotime(getSearchCookies('search_to'))) }}
+                                                                                                    {{ date('d M, Y', strtotime($value->check_out_date)) }}
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -130,7 +131,7 @@
                                                                         <div class="row pt-10">
                                                                             <div class="fw-500 mb-10">
 
-                                                                                {{ $offlineRoom->roomtype->room_type }}
+                                                                                {{ $value->room_name }}
 
                                                                             </div>
                                                                         </div>

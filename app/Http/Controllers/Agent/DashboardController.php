@@ -36,18 +36,8 @@ class DashboardController extends Controller
         $bookingArr = [];
         $bookingDataArr = [];
         if (count($bookingData)) {
-            foreach ($bookingData as $key => $value) {
-                $bookingDataArrTemp = [];
+            foreach ($bookingData as $key => $value) {                    
                 $bookingDataArr[] = $this->getBookedHotel($value);
-                //dd($bookingDataArr);
-                // if ($value->check_in_date != "0000-00-00") {
-                //     $bookingDataArrTemp = [];
-                //     $bookingDataArrTemp['title'] = $value->hotel_name;
-                //     $bookingDataArrTemp['start'] = $value->check_in_date;
-                //     $bookingDataArrTemp['end'] = $value->check_out_date;
-                //     $bookingDataArr[] = $bookingDataArrTemp;
-                // }
-                //$bookingDataArr[] = $bookingDataArrTemp;
             }
             if (count($bookingDataArr) > 0) {
                 foreach ($bookingDataArr as $key => $value) {
@@ -58,8 +48,8 @@ class DashboardController extends Controller
                     }
                 }
             }
-        }       
-       
+        }
+
         return response()->json([
             'status' => true,
             'booking' => $bookingArr,
@@ -72,19 +62,19 @@ class DashboardController extends Controller
         $returnArr = [];
         if (count($order->order_hotel)) {
             foreach ($order->order_hotel as $key => $value) {
-                $returnArr[] = $this->getBookedHotelRoom($value);
+                $returnArr[] = $this->getBookedHotelRoom($value, $order->prn_number);
             }
         }
         return $returnArr;
     }
 
-    public function getBookedHotelRoom($hotel)
+    public function getBookedHotelRoom($hotel, $prn_number)
     {
         $returnArr = [];
         if (count($hotel->order_hotel_room)) {
-            foreach ($hotel->order_hotel_room as $key => $value) {                
+            foreach ($hotel->order_hotel_room as $key => $value) {
                 $returnTempArr = [];
-                $returnTempArr['title'] = $hotel->hotel_name . ' - ' . $value->room_name . ' ( Adult ' . $value->adult . ' - Child ' . $value->child . ')';
+                $returnTempArr['title'] = $prn_number.'-'.$hotel->hotel_name . ' - ' . $value->room_name . ' ( Adult ' . $value->adult . ' - Child ' . $value->child . ')';
                 $returnTempArr['start'] = $value->check_in_date;
                 $returnTempArr['end'] = $value->check_out_date;
                 $returnTempArr['url'] =  route('agent.view-booking-history', $value->order_id);

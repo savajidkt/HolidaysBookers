@@ -245,6 +245,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/order/order-itinerary-download/{order}', [OrdersController::class, 'orderItineraryDownload'])->name('order-itinerary-download');
 
     Route::post('/order/change-status', [OrdersController::class, 'changeStatus'])->name('change-order-status');
+
+    Route::post('/get-booking-calendar-list', [OrdersController::class, 'getBookingCalendarList'])->name('get-booking-calendar-list');
 });
 
 Auth::routes();

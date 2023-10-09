@@ -1250,4 +1250,58 @@ class OrdersController extends Controller
 
         return $tableStr;
     }
+
+    public function getBookingCalendarList(Request $request){
+      
+        $bookingData = Order::select('*')->where('payment_status', 1)->get();
+        $bookingArr = [];
+        $bookingDataArr = [];
+        if (count($bookingData)) {
+            foreach ($bookingData as $key => $value) {                    
+                $bookingDataArr[] = $this->getBookedHotel($value);
+            }
+            if (count($bookingDataArr) > 0) {
+                foreach ($bookingDataArr as $key => $value) {
+                    if (count($value) > 0) {
+                        foreach ($value as $sub_key => $sub_value) {
+                            $bookingArr[] = $sub_value;
+                        }
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'booking' => $bookingArr,
+            'message' => ''
+        ]);
+    }
+
+    public function getBookedHotel($order)
+    {
+        $returnArr = [];
+        if (count($order->order_hotel)) {
+            foreach ($order->order_hotel as $key => $value) {
+                $returnArr[] = $this->getBookedHotelRoom($value, $order->prn_number);
+            }
+        }
+        return $returnArr;
+    }
+
+    public function getBookedHotelRoom($hotel, $prn_number)
+    {
+        $returnArr = [];
+        if (count($hotel->order_hotel_room)) {
+            foreach ($hotel->order_hotel_room as $key => $value) {
+                $returnTempArr = [];
+                $returnTempArr['title'] = $prn_number.'-'.$hotel->hotel_name . ' - ' . $value->room_name . ' ( Adult ' . $value->adult . ' - Child ' . $value->child . ')';
+                $returnTempArr['start'] = $value->check_in_date;
+                $returnTempArr['end'] = $value->check_out_date;
+                $returnTempArr['url'] =  route('orders.show',  $value->order_id);
+                $returnArr = $returnTempArr;
+            }
+        }
+        return $returnArr;
+    }
 }
