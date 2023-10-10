@@ -74,7 +74,8 @@ class DashboardController extends Controller
         if (count($hotel->order_hotel_room)) {
             foreach ($hotel->order_hotel_room as $key => $value) {
                 $returnTempArr = [];
-                $returnTempArr['title'] = $prn_number.'-'.$hotel->hotel_name . ' - ' . $value->room_name . ' ( Adult ' . $value->adult . ' - Child ' . $value->child . ')';
+                $returnTempArr['title'] = $prn_number;
+                //$returnTempArr['title'] = $prn_number.'-'.$hotel->hotel_name . ' - ' . $value->room_name . ' ( Adult ' . $value->adult . ' - Child ' . $value->child . ')';
                 $returnTempArr['start'] = $value->check_in_date;
                 $returnTempArr['end'] = $value->check_out_date;
                 $returnTempArr['url'] =  route('agent.view-booking-history', $value->order_id);

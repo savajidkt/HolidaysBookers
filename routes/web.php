@@ -240,7 +240,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/order/order-invoice/{order}', [OrdersController::class, 'orderInvoice'])->name('order-invoice');
     Route::get('/order/order-invoice-download/{order}', [OrdersController::class, 'orderInvoiceDownload'])->name('order-invoice-download');
     Route::get('/order/order-voucher/{order}', [OrdersController::class, 'orderVoucher'])->name('order-voucher');
-    Route::get('/order/order-voucher-download/{order}', [OrdersController::class, 'orderVoucherDownload'])->name('order-voucher-download');
+    Route::post('/order/order-voucher-download', [OrdersController::class, 'orderVoucherDownload'])->name('order-voucher-download');
     Route::get('/order/order-itinerary/{order}', [OrdersController::class, 'orderItinerary'])->name('order-itinerary');
     Route::get('/order/order-itinerary-download/{order}', [OrdersController::class, 'orderItineraryDownload'])->name('order-itinerary-download');
 
@@ -274,7 +274,11 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/quotation', [AgentQuotationController::class, 'index'])->name('agent.quotation');
     Route::get('/quotation/order-delete/{id}', [AgentQuotationController::class, 'deleteOrder'])->name('agent.order-delete');
     Route::get('/quotation/order-room-delete/{id}', [AgentQuotationController::class, 'deleteRoom'])->name('agent.order-room-delete');
-    
+
+    Route::get('/draft/draft-order-delete/{id}', [AgentDraftHistoryController::class, 'draftDeleteOrder'])->name('agent.draft-order-delete');
+    Route::get('/draft/draft-order-room-delete/{id}', [AgentDraftHistoryController::class, 'draftDeleteRoom'])->name('agent.draft-order-room-delete');
+    Route::get('/draft/view/{id}', [AgentDraftHistoryController::class, 'view'])->name('agent.draft-order-view');
+
     Route::get('/quotation/view/{id}', [AgentQuotationController::class, 'view'])->name('agent.order-view');
     Route::get('/quotation/order-download/{id}', [AgentQuotationController::class, 'downloadPdf'])->name('agent.order-download');
     Route::post('/quotation/order-send/{id}', [AgentQuotationController::class, 'sendEmailPdf'])->name('agent.order-send');
@@ -297,6 +301,7 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::post('save-cart-quote', [CartController::class, 'saveCartQuote'])->name('save-cart-quote');
     Route::get('remove-cart', [CartController::class, 'removeCart'])->name('remove-cart');
     Route::post('checkout/quote-add-to-cart', [CheckoutController::class, 'quoteTempStore'])->name('quote-temp-store');
+    Route::post('checkout/draft-add-to-cart', [CheckoutController::class, 'draftTempStore'])->name('draft-temp-store');
 });
 
 Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {

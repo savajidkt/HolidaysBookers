@@ -109,6 +109,7 @@
     <script src="{{ asset('assets/front/select/js/form-select2.js') }}"></script>
     <script src="{{ asset('assets/front/select/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery.blockUI.js') }}"></script>
 
     @if (Route::is('agent.travel-calendar'))
         <script src="{{ asset('assets/front/js/index.global.min.js') }}"></script>

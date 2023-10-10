@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Repositories\CheckoutRepository;
 use App\Repositories\HotelListingRepository;
 use App\Http\Requests\Checkout\CreateRequest;
+use App\Models\DraftOrder;
 use App\Models\QuoteOrder;
 use App\Notifications\QuoteOrderNotification;
 use App\Repositories\HotelRoomListingRepository;
@@ -444,9 +445,22 @@ class CheckoutController extends Controller
 
     public function quoteTempStore(Request $request)
     {
+        
         $QuoteOrder = QuoteOrder::find($request->order_id);
         if ($QuoteOrder) {
             $this->getAddToCartHotelData($request, $QuoteOrder);
+        }
+        return redirect()->back()->with('success', 'Add to cart successfully!');
+    }
+
+    public function draftTempStore(Request $request)
+    {
+        
+        $DraftOrder = DraftOrder::find($request->order_id);
+       
+        if ($DraftOrder) {
+           
+            $this->getAddToCartHotelDataDraft($request, $DraftOrder);
         }
         return redirect()->back()->with('success', 'Add to cart successfully!');
     }
@@ -459,6 +473,55 @@ class CheckoutController extends Controller
             $requiredParamArr['is_type'] = "hotel";
             foreach ($hotel_value->order_hotel_room as $room_key => $room_value) {
                 if ($request->order_type == "single" && $request->order_id ==  $room_value->quote_id && $request->order_room_id == $room_value->id) {
+                    $requiredParamArr['hotel_id'] = $room_value->hotel_id;
+                    $requiredParamArr['room_id'] = $room_value->room_id;
+                    $requiredParamArr['price_id'] = $room_value->room_price_id;
+                    $requiredParamArr['adult'] = $room_value->adult;
+                    $requiredParamArr['child'] = $room_value->check_in_date;
+                    $requiredParamArr['room'] = 1;
+                    $requiredParamArr['city_id'] = "";
+                    $requiredParamArr['search_from'] = $room_value->check_in_date;
+                    $requiredParamArr['search_to'] = $room_value->check_out_date;
+                    $requiredParamArr['originAmount'] = $room_value->origin_amount;
+                    $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
+                    $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
+                    $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
+                    $requiredParamArr['finalAmount'] = $room_value->price;
+                    $cartsArr = $this->createCartData($requiredParamArr);
+                    setBookingCart('bookingCart', $cartsArr);
+                } else {
+                    $requiredParamArr['hotel_id'] = $room_value->hotel_id;
+                    $requiredParamArr['room_id'] = $room_value->room_id;
+                    $requiredParamArr['price_id'] = $room_value->room_price_id;
+                    $requiredParamArr['adult'] = $room_value->adult;
+                    $requiredParamArr['child'] = $room_value->check_in_date;
+                    $requiredParamArr['room'] = 1;
+                    $requiredParamArr['city_id'] = "";
+                    $requiredParamArr['search_from'] = $room_value->check_in_date;
+                    $requiredParamArr['search_to'] = $room_value->check_out_date;
+                    $requiredParamArr['originAmount'] = $room_value->origin_amount;
+                    $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
+                    $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
+                    $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
+                    $requiredParamArr['finalAmount'] = $room_value->price;
+                    $cartsArr = $this->createCartData($requiredParamArr);
+                    setBookingCart('bookingCart', $cartsArr);
+                }
+            }
+        }
+        return true;
+    }
+
+    public function getAddToCartHotelDataDraft($request, $DraftOrder)
+    {
+
+        $requiredParamArr = [];
+        
+        foreach ($DraftOrder->draft_hotel as $hotel_key => $hotel_value) {
+            $requiredParamArr['is_type'] = "hotel";
+           
+            foreach ($hotel_value->order_hotel_room as $room_key => $room_value) {
+                if ($request->order_type == "single" && $request->order_id ==  $room_value->draft_id && $request->order_room_id == $room_value->id) {
                     $requiredParamArr['hotel_id'] = $room_value->hotel_id;
                     $requiredParamArr['room_id'] = $room_value->room_id;
                     $requiredParamArr['price_id'] = $room_value->room_price_id;

@@ -114,7 +114,7 @@ class OrdersController extends Controller
      */
     public function edit(Order $order)
     {
-        
+
         return view('admin.order.edit', ['model' => $order]);
     }
 
@@ -128,9 +128,9 @@ class OrdersController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        
+
         if ($request->action == "order") {
-           
+
             $this->orderRepository->update($request->all(), $order);
         } else if ($request->action == "passenger") {
             $this->orderRepository->updatePassenger($request->all(), $order);
@@ -504,8 +504,12 @@ class OrdersController extends Controller
         return $hotelStr;
     }
 
-    public function orderVoucherDownload(Order $order)
+    public function orderVoucherDownload(Request $request)
     {
+
+        $order = Order::find($request->order_id);
+     
+               
         //$roomData = unserialize($order->formdata->form_data_serialize);
         $hotelListingRepository = new HotelListingRepository;
         $hotelsDetails = $this->getHotelNameAndAddress($order);
@@ -732,9 +736,13 @@ class OrdersController extends Controller
         Storage::put('public/order/' . $order->id . '/vouchers/order-vouchers-' . $order->id . '.pdf', $dompdf->output());
 
         $filePath = storage_path('app/public/order/' . $order->id . '/vouchers/order-vouchers-' . $order->id . '.pdf');
-        $order->notify(new OrderNotification($order, $filePath));
-        $order->update(array('mail_sent' => 1));
-        return redirect()->route('orders.index')->with('success', "Order generate voucher & send mail successfully!");
+        $order->notify(new OrderNotification($order, $filePath));       
+        $order->confirmation_no = $request->confirmation_code;
+        $order->mail_sent = '1';
+        $order->voucher = '1';
+        $order->save();
+        return redirect()->back()->with('success', 'Order generate voucher & send mail successfully!');   
+        //return redirect()->route('orders.index')->with('success', "Order generate voucher & send mail successfully!");
     }
     /**
      * Method orderItinerary
@@ -1140,7 +1148,7 @@ class OrdersController extends Controller
 
         //$hotelListingRepository = new HotelListingRepository;
         //$hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
-       // $requiredParamArr = unserialize($order->formdata->form_data_serialize);
+        // $requiredParamArr = unserialize($order->formdata->form_data_serialize);
         $tableStr = '';
         $tableStr .= '<table cellpadding="0" cellspacing="0">';
         $tableStr .= '<tr class="heading">';
@@ -1157,7 +1165,7 @@ class OrdersController extends Controller
                 $tableStr .= '<tr>';
                 $tableStr .= '<td class="py-1 pl-4"><p class="font-weight-semibold mb-25">' . $value->hotel->hotel_name . '</p></td>';
                 $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '<td class="py-1">'.count($value->order_hotel_room).'</td>';
+                $tableStr .= '<td class="py-1">' . count($value->order_hotel_room) . '</td>';
                 $tableStr .= '<td class="py-1">' . $order->total_adult . '</td>';
                 $tableStr .= '<td class="py-1">' . $order->total_child . '</td>';
                 $tableStr .= '<td class="py-1"></td>';
@@ -1251,13 +1259,14 @@ class OrdersController extends Controller
         return $tableStr;
     }
 
-    public function getBookingCalendarList(Request $request){
-      
+    public function getBookingCalendarList(Request $request)
+    {
+
         $bookingData = Order::select('*')->where('payment_status', 1)->get();
         $bookingArr = [];
         $bookingDataArr = [];
         if (count($bookingData)) {
-            foreach ($bookingData as $key => $value) {                    
+            foreach ($bookingData as $key => $value) {
                 $bookingDataArr[] = $this->getBookedHotel($value);
             }
             if (count($bookingDataArr) > 0) {
@@ -1295,7 +1304,8 @@ class OrdersController extends Controller
         if (count($hotel->order_hotel_room)) {
             foreach ($hotel->order_hotel_room as $key => $value) {
                 $returnTempArr = [];
-                $returnTempArr['title'] = $prn_number.'-'.$hotel->hotel_name . ' - ' . $value->room_name . ' ( Adult ' . $value->adult . ' - Child ' . $value->child . ')';
+                $returnTempArr['title'] = $prn_number;
+                //$returnTempArr['title'] = $prn_number . '-' . $hotel->hotel_name . ' - ' . $value->room_name . ' ( Adult ' . $value->adult . ' - Child ' . $value->child . ')';
                 $returnTempArr['start'] = $value->check_in_date;
                 $returnTempArr['end'] = $value->check_out_date;
                 $returnTempArr['url'] =  route('orders.show',  $value->order_id);

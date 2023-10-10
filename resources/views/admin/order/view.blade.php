@@ -1,6 +1,17 @@
 @extends('admin.layout.app')
 @section('page_title', 'Order')
 @section('content')
+<style>
+    .my-validation-message::before {
+        display: none;
+    }
+
+    .my-validation-message i {
+        margin: 0 .4em;
+        color: #f27474;
+        font-size: 1.4em;
+    }
+</style>
     <section id="page-account-settings">
         <div class="row">
             <!-- left menu section -->
@@ -28,6 +39,8 @@
                             <span class="font-weight-bold">BOOKING DETAILS</span>
                         </a>
                     </li>
+
+
 
                 </ul>
             </div>
@@ -334,6 +347,19 @@
                                                 class="disp-below">{{ $model->is_pay_using == 1 ? 'Online' : 'Wallet' }}</strong>
                                         </div>
                                     </div>
+                                    <div class="col-12 col-sm-3">
+                                        <div class="form-group">
+                                            @php
+                                                echo '<a href="' . route('view-order-payment', $model->id) . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Payment Details" data-animation="false"><i class="fa fa-check-square-o" aria-hidden="true"></i></a> ';
+                                                if ($model->mail_sent == 1) {
+                                                    echo '<a target="_blank" href="' . url('storage/app/public/order/' . $model->id . '/vouchers/order-vouchers-' . $model->id . '.pdf') . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+                                                } else {
+                                                    echo '<a href="javascript:void(0);" class="edit btn btn-info btn-sm Generate_action" data-order-id="' . $model->id . '" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+                                                }
+                                                
+                                            @endphp
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -342,4 +368,44 @@
             </div>
         </div>
     </section>
+@endsection
+@section('extra-script')
+    <script type="text/javascript">
+        $('.Generate_action').on('click', function(e) {
+            e.preventDefault();
+            var $this = $(this);
+
+            Swal.fire({
+                title: 'Enter Confirmation code',
+                input: 'text',
+                customClass: {
+                    validationMessage: 'my-validation-message'
+                },
+                showCancelButton: true,
+                preConfirm: (value) => {
+                    if (!value) {
+                        Swal.showValidationMessage(
+                            '<i class="fa fa-info-circle"></i> Your confirmation code required'
+                        )
+                    } else {
+
+                        $.blockUI({
+                            message: null,
+                            overlayCSS: {
+                                backgroundColor: '#F8F8F8'
+                            }
+                        });
+                        $('<form action="{!! route('order-voucher-download') !!}" method="POST">' +
+                            '<input type="hidden" name="_token" value="' +
+                            $('meta[name="csrf-token"]').attr('content') + '" />' +
+                            '<input type="hidden" name="confirmation_code" value="' +
+                            value + '" />' +
+                            '<input type="hidden" name="order_id" value="' + $(this)
+                            .attr('data-order-id') + '" />' +
+                            '</form>').appendTo('body').submit();
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

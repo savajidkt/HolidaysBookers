@@ -93,7 +93,7 @@ class Order extends Model
         if ($this->mail_sent == 1) {
             $voucherAction = '<a target="_blank" href="' . url('storage/app/public/order/' . $this->id . '/vouchers/order-vouchers-' . $this->id . '.pdf') . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
         } else {
-            $voucherAction = '<a href="' . route('order-voucher-download', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+            $voucherAction = '<a href="javascript:void(0);" class="edit btn btn-info btn-sm Generate_action" data-order-id="'.$this->id.'" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
         }
 
         //if($admin->can('reach-us-view')){

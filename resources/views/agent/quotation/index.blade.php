@@ -85,7 +85,8 @@
                                 </div>
                             </div>
                             <div class="col-md-10">
-                                @if (count($value->quote_hotel_rooms) > 0)
+                                
+                                @if ( isset($value->quote_hotel_rooms) && count($value->quote_hotel_rooms) > 0)
                                     @php
                                         $j = 1;
                                     @endphp
@@ -183,8 +184,8 @@
                 </div>
             </div>
             <div class="pt-24">
-                <div class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 "><a
-                        href="javascript:void(0);" class="QuoteRoomAddToCart" data-order-id="{{ $value->id }}" data-cart-type="all">Add to
+                <div class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 "><a href="javascript:void(0);"
+                        class="QuoteRoomAddToCart" data-order-id="{{ $value->id }}" data-cart-type="all">Add to
                         cart</a>
                 </div>
                 <span class="fw-500 text-blue-1 QuoteDetails">
@@ -363,6 +364,12 @@
                     },
                     function(resp) {
                         if (resp) {
+                            $.blockUI({
+                            message: null,
+                            overlayCSS: {
+                                backgroundColor: '#F8F8F8'
+                            }
+                        });
                             window.location = redirectURL;
                         }
                     });
@@ -383,6 +390,13 @@
                     },
                     function(resp) {
                         if (resp) {
+                            $.blockUI({
+                            message: null,
+                            overlayCSS: {
+                                backgroundColor: '#F8F8F8'
+                            }
+                        });
+
                             window.location = redirectURL;
                         }
                     });
@@ -390,6 +404,13 @@
             });
 
             $(document).on('click', '.QuoteRoomAddToCart', function() {
+
+                $.blockUI({
+                    message: null,
+                    overlayCSS: {
+                        backgroundColor: '#F8F8F8'
+                    }
+                });
 
                 var redirectURL = "{!! url('/agent/checkout/quote-add-to-cart') !!}";
                 var order_id = $(this).attr('data-order-id');
@@ -411,22 +432,7 @@
                 $('#addtocartFRM').append($(input2));
                 $('#addtocartFRM').append($(input3));
 
-                $('#addtocartFRM').submit();
-
-                // swal({
-                //         title: "Are you sure?",
-                //         text: "You won't be able to revert this!",
-                //         type: "warning",
-                //         showCancelButton: true,
-                //         confirmButtonColor: '#3085d6',
-                //         cancelButtonColor: '#d33',
-                //         confirmButtonText: 'Yes, delete it!'
-                //     },
-                //     function(resp) {
-                //         if (resp) {
-                //             window.location = redirectURL;
-                //         }
-                //     });
+                $('#addtocartFRM').submit();            
 
             });
         });
