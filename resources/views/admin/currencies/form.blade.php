@@ -10,7 +10,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">Currency <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control" placeholder="Currency name"
-                value="{{ isset($model->name) ? $model->name : old('name') }}"
+                value="{{ isset($model->name) ? $model->name : old('name') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 aria-describedby="basic-addon-name" data-error="Currency name is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('name')
@@ -22,7 +22,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-code">Currency Code <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-code" name="code" class="form-control" placeholder="Currency code"
-                value="{{ isset($model->code) ? $model->code : old('code') }}"
+                value="{{ isset($model->code) ? $model->code : old('code') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 aria-describedby="basic-addon-code" data-error="Currency code is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
             @error('code')

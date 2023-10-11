@@ -150,7 +150,7 @@
     <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="phone_number">Phone Number <span class="text-danger">*</span></label>
-            <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Phone Number"
+            <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Phone Number" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
                 value="{{ isset($model->phone_number) ? $model->phone_number : old('phone_number') }}"
                 data-error="Phone Number" />
             <div class="valid-feedback">Looks good!</div>
@@ -174,7 +174,8 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_address">Address <span class="text-danger">*</span></label>
-            <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" placeholder="Address"
+            <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address" oninput="this.value = this.value.replace(/[^0-9a-zA-Z\s]+/g, '').replace(/(\..*)\./g, '$1');"
+            placeholder="Address"
                 cols="30" rows="2">{{ isset($model->hotel_address) ? $model->hotel_address : old('hotel_address') }}</textarea>
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_address')

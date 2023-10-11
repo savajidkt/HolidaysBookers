@@ -49,10 +49,10 @@
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <label class="form-label" for="basic-addon-name">Meal
-                                                                Plan</label>
+                                                                Plan<span class="text-danger">*</span></label>
                                                             <input type="text" id="basic-addon-name" name="name"
                                                                 class="form-control" placeholder="Meal Plan" value=""
-                                                                aria-describedby="basic-addon-name"
+                                                                aria-describedby="basic-addon-name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                                 data-error="Meal plan name is required" />
                                                         </div>
                                                     </div>

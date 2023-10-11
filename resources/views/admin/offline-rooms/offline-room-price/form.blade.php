@@ -138,8 +138,8 @@
             <div class="form-group">
                 <label for="itemcost">Travel Date Validity <span class="text-danger">*</span></label>
                 <div class="input-group input-daterange">
-                    <input type="text" id="start_date" name="start_date"
-                        class="form-control start-date-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
+                    <input type="text" id="start_date" name="start_date" value =" {{ formatdate($pricemodel->from_date). ' to ' . formatdate($pricemodel->to_date)}}"
+                        class="form-control start-date-basic flatpickr-input" placeholder="DD-MM-YYYY To DD-MM-YYYY"
                         placeholder="Start Date" data-error="Start Date is required" />
                 </div>
                 <div class="TravelDateValidity"></div>
@@ -152,8 +152,8 @@
                 <label for="itemcost">Booking Date Validity</label>
                 <div class="input-group input-daterange">
                     <input type="text" name="booking_start_date"
-                        class="form-control booking-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
-                        value="{{ isset($pricemodel->booking_start_date) ? $pricemodel->booking_start_date : old('booking_start_date') }}"
+                        class="form-control booking-basic flatpickr-input" placeholder="DD-MM-YYYY To DD-MM-YYYY"
+                        value =" {{ formatdate($pricemodel->booking_start_date). ' to ' . formatdate($pricemodel->booking_end_date)}}"
                         data-error="Booking start date is required" />
                 </div>
                 <div class="BookingDateValidity"></div>
@@ -858,6 +858,27 @@
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
     <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
     <!-- BEGIN: Page JS-->
+    <script>
+        var PackageMinDate = new Date();
+         var packageBasic = $('.start-date-basic');
+        if (packageBasic.length) {
+            packageBasic.flatpickr({
+                minDate: RoomMinDate,
+                mode: 'range',
+                defaultDate: [TravelStartDate, TravelEndDate],
+                dateFormat: "d/m/Y"
+            });
+        }
+        var packageTravelBasic = $('.booking-basic');
+        if (packageTravelBasic.length) {
+            packageTravelBasic.flatpickr({
+                minDate: RoomMinDate,
+                mode: 'range',
+                defaultDate: [BookingStartDate, BookingEndDate],
+                dateFormat: "d/m/Y"
+            });
+        }
+    </script>
     <!-- BEGIN: Page JS-->
 
     <script src="{{ asset('app-assets/js/scripts/forms/form-repeater-without-dropzone.js') }}"></script>

@@ -380,7 +380,7 @@
                 @foreach ($reach as $rech)
                     <option value="{{ $rech->id }}" data-name="{{ $rech->textbox_lable }}"
                         data-other="{{ $rech->show_other_textbox }}"
-                        {{ $model->id == $rech->id ? 'selected' : '' }}>
+                        {{ $model->agent_know_about == $rech->id ? 'selected' : '' }}>
                         {{ $rech->name }}</option>
                     @php
                         $hide = $model->id == $rech->id ? '' : 'hide';

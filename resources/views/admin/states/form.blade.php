@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label" for="country">{{ __('state/state.form_country_name') }} <span class="text-danger">*</span></label>
-            <select name="country_id" class="select2 form-control" id="country_id" data-minimum-results-for-search="Infinity"
+            <select name="country_id" class="select2 form-control" id="country_id" 
                 data-error="{{ __('state/message.country_name_required') }}">
                 <option value="">{{ __('state/state.form_country_select') }}</option>
                 @foreach ($countries as $country)
@@ -21,7 +21,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">{{ __('state/state.form_state_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
-                placeholder="{{ __('state/state.form_state_name') }}"
+                placeholder="{{ __('state/state.form_state_name') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
                 data-error="{{ __('state/message.state_name_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
@@ -34,7 +34,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-code">{{ __('state/state.form_state_code') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-code" name="code" class="form-control"
-                placeholder="{{ __('state/state.form_state_code') }}"
+                placeholder="{{ __('state/state.form_state_code') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 value="{{ isset($model->code) ? $model->code : old('code') }}" aria-describedby="basic-addon-code"
                 data-error="{{ __('state/message.state_code_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

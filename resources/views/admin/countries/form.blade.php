@@ -3,7 +3,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">{{ __('country/country.form_country_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
-                placeholder="{{ __('country/country.form_country_name') }}"
+                placeholder="{{ __('country/country.form_country_name') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 value="{{ isset($model->name) ? $model->name : old('name') }}" aria-describedby="basic-addon-name"
                 data-error="{{ __('country/message.country_name_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
@@ -16,7 +16,7 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-code">{{ __('country/country.form_country_code') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-code" name="code" class="form-control"
-                placeholder="{{ __('country/country.form_country_code') }}"
+                placeholder="{{ __('country/country.form_country_code') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 value="{{ isset($model->code) ? $model->code : old('code') }}" aria-describedby="basic-addon-code"
                 data-error="{{ __('country/message.country_code_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
@@ -45,7 +45,7 @@
             <label class="form-label"
                 for="basic-addon-nationality">{{ __('country/country.form_nationality') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-nationality" name="nationality" class="form-control"
-                placeholder="{{ __('country/country.form_nationality') }}"
+                placeholder="{{ __('country/country.form_nationality') }}" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                 value="{{ isset($model->nationality) ? $model->nationality : old('nationality') }}"
                 aria-describedby="basic-addon-nationality"
                 data-error="{{ __('country/message.country_nationality_required') }}" />

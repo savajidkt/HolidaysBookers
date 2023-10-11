@@ -10,7 +10,7 @@
                     <h4 class="card-title">Edit Role</h4>
                 </div>
                 <div class="card-body">
-                    <form id="jquery-val-form" class="needs-validation1" novalidate method="post" enctype="multipart/form-data" action="{{route('roles.update', $model)}}">
+                    <form id="FrmRoles" class="needs-validation1" novalidate method="post" enctype="multipart/form-data" action="{{route('roles.update', $model)}}">
                         @csrf
                         @method('PUT')
                         @include('admin.roles.form')

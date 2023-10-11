@@ -15,6 +15,7 @@ use App\Repositories\StateRepository;
 use App\Http\Requests\State\EditRequest;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\State\CreateRequest;
+use Illuminate\Database\Eloquent\Builder;
 
 class StatesController extends Controller
 {
@@ -44,6 +45,11 @@ class StatesController extends Controller
                 })
                 ->editColumn('country_id', function (State $state) {
                     return $state->country->name;
+                })
+                ->filterColumn('country_id', function (Builder $query, $search) {
+                    return $query->whereHas('country', function ($query) use ($search) {
+                        return $query->where('name', 'like', '%' . $search . '%');
+                    });
                 })
                 ->editColumn('status', function (State $state) {
                     return $state->status_name;

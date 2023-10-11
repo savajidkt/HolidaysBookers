@@ -4,7 +4,7 @@
             <label class="form-label"
                 for="basic-addon-code">{{ __('agent-markup/agent-markup.form_agent_markup_code') }} <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-code" name="code" class="form-control"
-                placeholder="{{ __('agent-markup/agent-markup.form_agent_markup_code') }}"
+                placeholder="{{ __('agent-markup/agent-markup.form_agent_markup_code') }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
                 value="{{ isset($model->code) ? $model->code : old('code') }}" aria-describedby="basic-addon-code"
                 data-error="{{ __('agent-markup/message.product_markup_code_required') }}" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
@@ -91,7 +91,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label" for="role">{{ __('agent-markup/agent-markup.form_status') }} <span class="text-danger">*</span></label>
-            <select name="status" class="form-control" id="status"
+            <select name="status" class="select2 form-control" id="status" data-minimum-results-for-search="Infinity"
                 data-error="{{ __('agent-markup/message.status_required') }}">
                 <option value="">{{ __('agent-markup/agent-markup.form_select_status') }}</option>
                 <option value="1" {{ $model->status == 1 ? 'selected' : '' }}> {{ __('core.active') }}</option>
@@ -100,6 +100,7 @@
 
             </select>
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>
+            <span id="status_id"></span>
             @error('status')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
@@ -107,5 +108,20 @@
     </div>
 </div>
 @section('extra-script')
+    <script>
+        $('.select2').select2();
+    </script>
     <script src="{{ asset('js/form/Agent-Markup.js') }}"></script>
+    <script>
+        $('#status').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#status-error').show();
+                $('#status').addClass('error');
+            } else {
+                $('#status-error').hide();
+                $('#status').removeClass('error');
+            }
+        });
+    </script>
 @endsection

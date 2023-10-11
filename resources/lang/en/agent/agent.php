@@ -28,6 +28,7 @@ return [
     'form_select_status' => 'Select Status',
     'form_add_page_title' => 'New Agent',
     'form_edit_title' => 'Edit Agent',
+    'form_view_title' => 'View Agent',
     'agent_code' => 'Agent Code',
     'agent_company_name' => 'Company Name',
     'agent_company_type' => 'Firm/Company Type',

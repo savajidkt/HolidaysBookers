@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('page_title', __('vehicletype/vehicletype.form_edit_title'))
+@section('page_title', __('agent/agent.form_view_title'))
 @section('content')
     <section id="page-account-settings">
         <div class="card">
@@ -199,7 +199,7 @@
                                             @php
                                                 $agent_city = '';
                                             @endphp
-                                            @php $cities = getStateCities($model->agent_state);  @endphp
+                                            @php $cities = getStateWiseCity($model->agent_state);  @endphp
                                             @if ($cities->count() > 0)
                                                 @foreach ($cities as $city)
                                                     @if ($model->agent_city == $city->id)

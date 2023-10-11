@@ -1,5 +1,5 @@
-var FrmAgentMarkupPreference = function () {
-    var AgentMarkupFormValidation = function () {
+var FrmAgentMarkupPreference = function() {
+    var AgentMarkupFormValidation = function() {
         var FrmAgentMarkupPreferenceForm = $('#FrmAgentMarkup');
         var error4 = $('.error-message', FrmAgentMarkupPreferenceForm);
         var success4 = $('.error-message', FrmAgentMarkupPreferenceForm);
@@ -41,10 +41,14 @@ var FrmAgentMarkupPreference = function () {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "status") {
+                    error.insertAfter("#status_id");
+                } else {
+                    error.insertAfter(element);
+                }
             },
-            submitHandler: function (form) {
+            submitHandler: function(form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -52,12 +56,12 @@ var FrmAgentMarkupPreference = function () {
     }
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             AgentMarkupFormValidation();
         }
     };
 }();
 
-$(document).ready(function () {
+$(document).ready(function() {
     FrmAgentMarkupPreference.init();
 });
