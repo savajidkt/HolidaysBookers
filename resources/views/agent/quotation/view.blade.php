@@ -26,6 +26,10 @@
                             @if ($quoteData)
                                 @if (count($quoteData->quote_hotel_rooms) > 0)
                                     @foreach ($quoteData->quote_hotel_rooms as $key => $value)
+<<<<<<< HEAD
+=======
+
+>>>>>>> eaf5c587bdde40833701dc134f9d3daa0a00a061
                                         @php
                                             
                                             $offlineRoom = getRoomDetailsByRoomID($value->room_id);
@@ -97,10 +101,17 @@
                                                                                                 <div
                                                                                                     class="text-14 lh-15 mt-5">
                                                                                                     From
+<<<<<<< HEAD
                                                                                                     {{ date('d M, Y', strtotime(getSearchCookies('search_from'))) }}
 
                                                                                                     To
                                                                                                     {{ date('d M, Y', strtotime(getSearchCookies('search_to'))) }}
+=======
+                                                                                                    {{ date('d M, Y', strtotime($value->check_in_date)) }}
+
+                                                                                                    To
+                                                                                                    {{ date('d M, Y', strtotime($value->check_out_date)) }}
+>>>>>>> eaf5c587bdde40833701dc134f9d3daa0a00a061
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -130,7 +141,11 @@
                                                                         <div class="row pt-10">
                                                                             <div class="fw-500 mb-10">
 
+<<<<<<< HEAD
                                                                                 {{ $offlineRoom->roomtype->room_type }}
+=======
+                                                                                {{ $value->room_name }}
+>>>>>>> eaf5c587bdde40833701dc134f9d3daa0a00a061
 
                                                                             </div>
                                                                         </div>
@@ -218,12 +233,20 @@
                                             <label class="lh-1 text-16 text-light-1">Recipient email</label>
                                         </div>
                                     </div>
+<<<<<<< HEAD
                                     <div class="col-12">
+=======
+                                    {{-- <div class="col-12">
+>>>>>>> eaf5c587bdde40833701dc134f9d3daa0a00a061
                                         <div class="form-input frmSenderemail">
                                             <input type="text" name="senderemail" value="">
                                             <label class="lh-1 text-16 text-light-1">Sender email</label>
                                         </div>
+<<<<<<< HEAD
                                     </div>
+=======
+                                    </div> --}}
+>>>>>>> eaf5c587bdde40833701dc134f9d3daa0a00a061
                                     <div class="col-12">
                                         <div class="form-input frmSubject">
                                             <input type="text" name="subject" value="">

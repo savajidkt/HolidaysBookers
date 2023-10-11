@@ -37,6 +37,7 @@ class Order extends Model
 
     //protected $table = "reachus";
     protected $fillable = [
+        'prn_number',
         'booking_id',
         'booking_code',
         'invoice_no',
@@ -71,6 +72,7 @@ class Order extends Model
         'lead_passenger_name',
         'lead_passenger_id_proof',
         'lead_passenger_id_proof_no',
+        'lead_passenger_phone_code',
         'lead_passenger_phone',
         'order_type',
         'status'
@@ -91,7 +93,7 @@ class Order extends Model
         if ($this->mail_sent == 1) {
             $voucherAction = '<a target="_blank" href="' . url('storage/app/public/order/' . $this->id . '/vouchers/order-vouchers-' . $this->id . '.pdf') . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
         } else {
-            $voucherAction = '<a href="' . route('order-voucher-download', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+            $voucherAction = '<a href="javascript:void(0);" class="edit btn btn-info btn-sm Generate_action" data-order-id="'.$this->id.'" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
         }
 
         //if($admin->can('reach-us-view')){
@@ -145,18 +147,18 @@ class Order extends Model
         return $status;
     }
 
-    public function getPaymentNameAttribute(): string
+    public function getPaymentStatusNameAttribute(): string
     {
-        $payment = self::YES;
-        switch ($this->payment) {
+        $payment_status = self::YES;
+        switch ($this->payment_status) {
             case self::NO:
-                $payment = '<a href="javascript:void(0)" class=""><span class="badge badge-danger " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">No</span></a>';
+                $payment_status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">No</span></a>';
                 break;
             default:
-                $payment = '<a href="javascript:void(0)" class=""><span class="badge badge-success " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">Yes</span></a>';
+                $payment_status = '<a href="javascript:void(0)" class=""><span class="badge badge-success " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">Yes</span></a>';
                 break;
         }
-        return $payment;
+        return $payment_status;
     }
 
     public function getGuestNameAttribute(): string
@@ -231,9 +233,20 @@ class Order extends Model
     {
         return $this->hasMany(OrderHotel::class, 'order_id', 'id');
     }
+
+    public function order_hotel_with_cancel()
+    {
+        return $this->hasMany(OrderHotel::class, 'order_id', 'id')->withTrashed();
+    }
+
     public function order_rooms()
     {
         return $this->hasMany(OrderHotelRoom::class, 'order_id', 'id');
+    }
+
+    public function order_rooms_with_cancel()
+    {
+        return $this->hasMany(OrderHotelRoom::class, 'order_id', 'id')->withTrashed();
     }
 
     // public function childBed()

@@ -20,7 +20,7 @@ class CreateBookingPaymentDetailsTable extends Migration
             $table->double('paid_amount', 10, 2)->default(0);
             $table->double('remaining_amount', 10, 2)->default(0);
             
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('order_masters')->onDelete('cascade');
 
             $table->softDeletes();
             $table->timestamps();

@@ -1,32 +1,37 @@
 @extends('admin.layout.app')
 @section('page_title', 'Hotel Orders')
 @section('content')
+    <style>
+        .my-validation-message::before {
+            display: none;
+        }
+
+        .my-validation-message i {
+            margin: 0 .4em;
+            color: #f27474;
+            font-size: 1.4em;
+        }
+    </style>
     <!-- users list start -->
     <section class="app-user-list">
         <!-- users filter end -->
         <!-- list section start -->
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                <h4 class="card-title">Hotel Orders List</h4>              
+                <h4 class="card-title">Hotel Orders List</h4>
             </div>
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">
                     <thead class="thead-light">
                         <tr>
                             <th></th>
+
                             <th>PNR No.</th>
-                            <th>Hotel Name</th>
-                            <th>City</th>
                             <th>{{ __('core.status') }}</th>
                             <th>Booking Date</th>
-                            <th>Check-in</th>
-                            <th>Check-out</th>
-                            <th>Lead Guest</th>
-                            <th>Cancel upto</th>
                             <th>No. Of Rooms</th>
                             <th>Total Nights</th>
-                            <th>Pay Received</th>
-
+                            <th>Payment Received</th>
                             <th>{{ __('core.action') }}</th>
                         </tr>
                     </thead>
@@ -58,16 +63,7 @@
                         searchable: false
                     },
                     {
-                        data: 'package_id',
-                        visible: false,
-                    },
-                    {
-                        data: 'hotel_id',
-                        name: 'hotel_id'
-                    },
-                    {
-                        data: 'hotel_city_id',
-                        name: 'hotel_city_id'
+                        data: 'prn_number',
                     },
                     {
                         data: 'status',
@@ -79,22 +75,6 @@
                         name: 'created_at'
                     },
                     {
-                        data: 'check_in_date',
-                        name: 'check_in_date'
-                    },
-                    {
-                        data: 'check_out_date',
-                        name: 'check_out_date'
-                    },
-                    {
-                        data: 'guest_lead',
-                        name: 'guest_lead'
-                    },
-                    {
-                        data: 'cancelled_date',
-                        name: 'cancelled_date'
-                    },
-                    {
                         data: 'total_rooms',
                         name: 'total_rooms'
                     },
@@ -103,8 +83,8 @@
                         name: 'total_nights'
                     },
                     {
-                        data: 'payment',
-                        name: 'payment'
+                        data: 'payment_status',
+                        name: 'payment_status'
                     },
 
                     {
@@ -135,6 +115,37 @@
                 }).then(function(result) {
                     if (result.value) {
                         $this.find("form").trigger('submit');
+                    }
+                });
+            }).on('click', '.Generate_action', function(e) {
+
+                e.preventDefault();
+                var $this = $(this);
+
+                Swal.fire({
+                    title: 'Enter Confirmation code',
+                    input: 'text',
+                    customClass: {
+                        validationMessage: 'my-validation-message'
+                    },
+                    showCancelButton: true,
+                    preConfirm: (value) => {
+                        if (!value) {
+                            Swal.showValidationMessage(
+                                '<i class="fa fa-info-circle"></i> Your confirmation code required'
+                            )
+                        } else {
+                            
+                            $.blockUI({ message: null, overlayCSS: { backgroundColor: '#F8F8F8' } });
+                            $('<form action="{!! route('order-voucher-download') !!}" method="POST">' +
+                                '<input type="hidden" name="_token" value="' +
+                                $('meta[name="csrf-token"]').attr('content') + '" />' +
+                                '<input type="hidden" name="confirmation_code" value="' +
+                                value + '" />' +
+                                '<input type="hidden" name="order_id" value="' + $(this)
+                                .attr('data-order-id') + '" />' +
+                                '</form>').appendTo('body').submit();
+                        }
                     }
                 });
             }).on('click', '.status_update', function(e) {

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\OrderHotelRoom;
 use App\Models\OrderHotelRoomPassenger;
+use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
@@ -33,9 +34,6 @@ class BookingHistoryController extends Controller
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 1)->where('order_type', 1);
             } else if ($status == "unpaid") {
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 0)->where('order_type', 1);
-            } else if ($status == "draft") {
-                $isDraft = true;
-                $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('order_type', 0);
             } else {
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('status', orderStatusByID(strtolower($status)))->where('order_type', 1);
             }
@@ -57,20 +55,12 @@ class BookingHistoryController extends Controller
                     return numberFormat($order->booking_amount, globalCurrency());
                 })
                 ->editColumn('status', function (Order $order) use ($isDraft) {
-                    if( $isDraft ){
-                        return '-';
-                    } else {
-                        return getPaymentStatus($order->status);
-                    }
-                    
+
+                    return getPaymentStatus($order->status);
                 })
-                ->addColumn('action', function (Order $order)  use ($isDraft) {    
-                    if( $isDraft ){
-                        return '-';
-                    } else {
-                        return getOrderHistoryAction($order->id, $order);
-                    }                
-                    
+                ->addColumn('action', function (Order $order)  use ($isDraft) {
+
+                    return getOrderHistoryAction($order->id, $order);
                 })
                 ->rawColumns(['action', 'status', 'pax'])->make(true);
         }
@@ -83,7 +73,6 @@ class BookingHistoryController extends Controller
         $pagename = "view-booking-history";
         $Order = Order::find($id);
         if ($Order) {
-
             return view('agent.booking-history.view', ['pagename' => $pagename, 'order' => $Order]);
         }
         return redirect()->route('home');
@@ -413,5 +402,43 @@ class BookingHistoryController extends Controller
         }
         $tableStr .= '</table>';
         return $tableStr;
+    }
+
+
+    public function orderCancel($id)
+    {
+        $user = auth()->user();
+        $Order = Order::where('id', $id)->where('agent_code', $user->agents->agent_code)->first();
+
+        if ($Order) {
+            $OrderHotelRoom = OrderHotelRoom::where('order_id', $Order->id)->where('id', $_GET['orde_room_id'])->first();
+            if ($OrderHotelRoom) {
+
+                $dataSave = [
+                    'user_id'        => $user->id,
+                    'agent_id'        => $user->agents->id,
+                    'transaction_type'     => 'Cancel Order Item',
+                    'pnr'     => $Order->prn_number,
+                    'amount'     => $OrderHotelRoom->price,
+                    'type'     => '1',
+                    'comment'     => 'Cancel Order Hotel Room Order ID#' . $Order->id . ' Hotel ID#' . $OrderHotelRoom->order_hotel_id . ' And Room ID#' . $OrderHotelRoom->id,
+                ];
+                $WalletTransaction = WalletTransaction::where('user_id', $user->id)->where('agent_id', $user->agents->id)->orderBy('created_at', 'desc')->first();
+                if ($WalletTransaction) {
+                    $dataSave['balance'] =  $WalletTransaction->balance + $OrderHotelRoom->price;
+                }                
+                WalletTransaction::create($dataSave);
+                $booking_amount = $Order->booking_amount - $OrderHotelRoom->price;
+                Order::where('id', $Order->id)
+                    ->update(['booking_amount' => $booking_amount]);
+                OrderHotelRoom::where('id', $OrderHotelRoom->id)->delete();
+                OrderHotelRoomPassenger::where('order_id', $Order->id)->where('order_hotel_room_id', $OrderHotelRoom->id)->delete();
+
+                return redirect()->back()->with('success', 'Cancel successfully!');
+            } else {
+                return redirect()->back()->with('error', 'Cancel failed!');
+            }
+        }
+        return redirect()->back()->with('error', 'Cancel failed!');
     }
 }

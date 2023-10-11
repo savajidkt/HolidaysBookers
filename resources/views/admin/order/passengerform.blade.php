@@ -3,194 +3,152 @@
         margin-top: 25px;
     }
 </style>
-@if ($model->adult->count() > 0)
+
+@if ($model->passenger_type == '1')
+<input type="hidden" name="type" value="all">
     <div class="row">
         <div class="col-12">
             <div class="d-flex align-items-center mb-1 mt-1">
                 <i data-feather="arrow-right-circle" class="font-medium-3"></i>
-                <h4 class="mb-0 ml-75">Passenger Adult Details</h4>
+                <h4 class="mb-0 ml-75">Lead Passenger</h4>
             </div>
             <hr class="my-2" />
         </div>
     </div>
-    <div class="row">
-        @php
-            $i = 0;
-        @endphp
-        @foreach ($model->adult as $adult)
-            <input type="hidden" class="form-control" name="adult[{{ $i }}][id]" value="{{ $adult->id }}">
-            <input type="hidden" class="form-control" name="adult[{{ $i }}][order_id]"
-                value="{{ $adult->order_id }}">
-            <div class="col-md-3 col-3">
-                <div class="form-group">
-                    <label for="basicInput">First Name</label>
-                    <input type="text" class="form-control" id="basicInput"
-                        name="adult[{{ $i }}][adult_first_name]" placeholder="First Name"
-                        value="{{ $adult->first_name }}">
-                    @error('adult_first_name')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-3 col-3">
-                <div class="form-group">
-                    <label for="basicInput">Last Name</label>
-                    <input type="text" class="form-control" id="basicInput"
-                        name="adult[{{ $i }}][adult_last_name]" placeholder="Last Name"
-                        value="{{ $adult->last_name }}">
-                    @error('adult_last_name')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-3 col-3">
-                <div class="form-group">
-                    <label class="form-label" for="role">ID Proof</label>
-                    <select name="adult[{{ $i }}][adult_id_proof_type]" class="form-control"
-                        id="id_proof_type" data-error="ID Proof is required">
-                        <option value="">Select Status</option>
-                        <option value="1" {{ isset($adult->id) && $adult->id_proof_type == 1 ? 'selected' : '' }}>
-                            Aadhaar Card </option>
-                        <option value="2" {{ isset($adult->id) && $adult->id_proof_type == 2 ? 'selected' : '' }}>
-                            Passport</option>
-                        <option value="3" {{ isset($adult->id) && $adult->id_proof_type == 3 ? 'selected' : '' }}>
-                            Driving Licence</option>
-                        <option value="4" {{ isset($adult->id) && $adult->id_proof_type == 4 ? 'selected' : '' }}>
-                            Voters ID Card</option>
-                        <option value="5" {{ isset($adult->id) && $adult->id_proof_type == 5 ? 'selected' : '' }}>
-                            PAN Card</option>
-                        <option value="6" {{ isset($adult->id) && $adult->id_proof_type == 6 ? 'selected' : '' }}>
-                            Other</option>
-                    </select>
-                    @error('adult_id_proof_type')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-3 col-3">
-                <div class="form-group">
-                    <label for="basicInput">ID No.</label>
-                    <input type="text" class="form-control" id="basicInput"
-                        name="adult[{{ $i }}][adult_id_proof_no]" placeholder="ID No"
-                        value="{{ $adult->id_proof_no }}">
-                    @error('adult_id_proof_no')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            @php
-                $i++;
-            @endphp
-        @endforeach
-    </div>
-@endif
-
-@if ($model->child->count() > 0)
-
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex align-items-center mb-1 mt-1">
-                <i data-feather="arrow-right-circle" class="font-medium-3"></i>
-                <h4 class="mb-0 ml-75">Passenger Child Details</h4>
-            </div>
-            <hr class="my-2" />
-        </div>
-    </div>
-    @php
-        $i = 0;
-    @endphp
-    @foreach ($model->child as $child)
-        <input type="hidden" class="form-control" name="child[{{ $i }}][id]" value="{{ $child->id }}">
-        <input type="hidden" class="form-control" name="child[{{ $i }}][order_id]"
-            value="{{ $child->order_id }}">
-
-        <div class="row">
-            <div class="col-md-2 col-2">
-                <div class="form-group">
-                    <label for="basicInput">First Name</label>
-                    <input type="text" class="form-control" id="basicInput"
-                        name="child[{{ $i }}][child_first_name]" placeholder="First Name"
-                        value="{{ $child->child_first_name }}">
-                    @error('child_first_name')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-2 col-2">
-                <div class="form-group">
-                    <label for="basicInput">Last Name</label>
-                    <input type="text" class="form-control" id="basicInput"
-                        name="child[{{ $i }}][child_last_name]" placeholder="Last Name"
-                        value="{{ $child->child_last_name }}">
-                    @error('child_last_name')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-2 col-2">
-                <div class="form-group">
-                    <label class="form-label" for="role">ID Proof</label>
-                    <select name="child[{{ $i }}][child_id_proof_type]" class="form-control"
-                        id="id_proof_type" data-error="ID Proof is required">
-                        <option value="">Select Status</option>
-                        <option value="1"
-                            {{ isset($child->id) && $child->child_id_proof_type == 1 ? 'selected' : '' }}>
-                            Aadhaar Card </option>
-                        <option value="2"
-                            {{ isset($child->id) && $child->child_id_proof_type == 2 ? 'selected' : '' }}>
-                            Passport</option>
-                        <option value="3"
-                            {{ isset($child->id) && $child->child_id_proof_type == 3 ? 'selected' : '' }}>
-                            Driving Licence</option>
-                        <option value="4"
-                            {{ isset($child->id) && $child->child_id_proof_type == 4 ? 'selected' : '' }}>
-                            Voters ID Card</option>
-                        <option value="5"
-                            {{ isset($child->id) && $child->child_id_proof_type == 5 ? 'selected' : '' }}>
-                            PAN Card</option>
-                        <option value="6"
-                            {{ isset($child->id) && $child->child_id_proof_type == 6 ? 'selected' : '' }}>
-                            Other</option>
-                    </select>
-                    @error('child_id_proof_type')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-2 col-2">
-                <div class="form-group">
-                    <label for="basicInput">ID No.</label>
-                    <input type="text" class="form-control" id="basicInput"
-                        name="child[{{ $i }}][child_id_proof_no]" placeholder="ID No"
-                        value="{{ $child->child_id_proof_no }}">
-                    @error('child_id_proof_no')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-2 col-2">
-                <div class="form-group">
-                    <label for="basicInput">Age</label>
-                    <input type="text" class="form-control" id="basicInput"
-                        name="child[{{ $i }}][child_age]" placeholder="ID No"
-                        value="{{ $child->child_age }}">
-                    @error('child_age')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            @if ($child->childBed->count() > 0)
-                <input type="hidden" class="form-control" name="child[{{ $i }}][order_child_id]"
-                    value="{{ $child->childBed[0]->order_child_id }}">
-                <div class="col-md-2 col-2">
-                    <div class="form-group">
-                        <label for="basicInput" class="bedchild"><i class="fa fa-bed fa-2x"></i></label>
+    @if (count($model->order_rooms) > 0)
+        @foreach ($model->order_rooms as $room_key => $room_value)
+            @if (count($model->order_rooms) > 0)
+                @foreach ($room_value->order_hotel_room_passenger as $pass_key => $pass_value)
+                    <div class="row">
+                        <div class="col-md-3 col-3">
+                            <div class="form-group">
+                                <label for="basicInput">Full Name
+                                    {{ $pass_value->is_adult == '0' ? '(Adult)' : '(Child)' }}</label>
+                                <input type="text" class="form-control" id="basicInput" name="name[{{ $pass_value->id }}]"
+                                    placeholder="Full Name" value="{{ $pass_value->name }}">
+                                @error('name')
+                                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-3">
+                            <div class="form-group">
+                                <label class="form-label" for="role">ID Proof</label>
+                                <select name="id_proof_type[{{ $pass_value->id }}]" class="form-control"
+                                    data-error="ID Proof is required">
+                                    <option value="">Select Status</option>
+                                    <option value="Aadhaar" {{ $pass_value->id_proof == 'Aadhaar' ? 'selected' : '' }}>
+                                        Aadhaar Card </option>
+                                    <option value="Passport"
+                                        {{ $pass_value->id_proof == 'Passport' ? 'selected' : '' }}>
+                                        Passport</option>
+                                    <option value="Driving Licence"
+                                        {{ $pass_value->id_proof == 'Driving Licence' ? 'selected' : '' }}>
+                                        Driving Licence</option>
+                                    <option value="Voters ID Card"
+                                        {{ $pass_value->id_proof == 'Voters ID Card' ? 'selected' : '' }}>
+                                        Voters ID Card</option>
+                                    <option value="PAN card"
+                                        {{ $pass_value->id_proof == 'PAN card' ? 'selected' : '' }}>
+                                        PAN Card</option>
+                                    <option value="Other" {{ $pass_value->id_proof == 'Other' ? 'selected' : '' }}>
+                                        Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-2">
+                            <div class="form-group">
+                                <label for="basicInput">ID No.</label>
+                                <input type="text" class="form-control" id="basicInput" name="id_proof_no[{{ $pass_value->id }}]"
+                                    placeholder="ID No" value="{{ $pass_value->id_proof_no }}">
+                            </div>
+                        </div>
+                        @if ($pass_value->is_adult == '0')
+                            <div class="col-md-2 col-2">
+                                <div class="form-group">
+                                    <label for="basicInput">Phone Code</label>
+                                    <input type="text" class="form-control" id="basicInput" name="phone_code[{{ $pass_value->id }}]"
+                                        placeholder="ID No" value="{{ $pass_value->phone_code }}">
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-2">
+                                <div class="form-group">
+                                    <label for="basicInput">Phone</label>
+                                    <input type="text" class="form-control" id="basicInput" name="phone[{{ $pass_value->id }}]"
+                                        placeholder="ID No" value="{{ $pass_value->phone }}">
+                                </div>
+                            </div>
+                        @endif
                     </div>
-                </div>
+                @endforeach
             @endif
+        @endforeach
+    @endif
+@else
+<input type="hidden" name="type" value="lead">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center mb-1 mt-1">
+                <i data-feather="arrow-right-circle" class="font-medium-3"></i>
+                <h4 class="mb-0 ml-75">Lead Passenger</h4>
+            </div>
+            <hr class="my-2" />
         </div>
-        @php
-            $i++;
-        @endphp
-    @endforeach
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-3">
+            <div class="form-group">
+                <label for="basicInput">Full Name</label>
+                <input type="text" class="form-control" id="basicInput" name="lead_passenger_name"
+                    placeholder="Full Name" value="{{ $model->lead_passenger_name }}">
+                @error('lead_passenger_name')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-3 col-3">
+            <div class="form-group">
+                <label class="form-label" for="role">ID Proof</label>
+                <select name="lead_passenger_id_proof" class="form-control" id="id_proof_type"
+                    data-error="ID Proof is required">
+                    <option value="">Select Status</option>
+                    <option value="Aadhaar" {{ $model->lead_passenger_id_proof == 'Aadhaar' ? 'selected' : '' }}>
+                        Aadhaar Card </option>
+                    <option value="Passport" {{ $model->lead_passenger_id_proof == 'Passport' ? 'selected' : '' }}>
+                        Passport</option>
+                    <option value="Driving Licence"
+                        {{ $model->lead_passenger_id_proof == 'Driving Licence' ? 'selected' : '' }}>
+                        Driving Licence</option>
+                    <option value="Voters ID Card"
+                        {{ $model->lead_passenger_id_proof == 'Voters ID Card' ? 'selected' : '' }}>
+                        Voters ID Card</option>
+                    <option value="PAN card" {{ $model->lead_passenger_id_proof == 'PAN card' ? 'selected' : '' }}>
+                        PAN Card</option>
+                    <option value="Other" {{ $model->lead_passenger_id_proof == 'Other' ? 'selected' : '' }}>
+                        Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2 col-2">
+            <div class="form-group">
+                <label for="basicInput">ID No.</label>
+                <input type="text" class="form-control" id="basicInput" name="lead_passenger_id_proof_no"
+                    placeholder="ID No" value="{{ $model->lead_passenger_id_proof_no }}">
+            </div>
+        </div>
+        <div class="col-md-2 col-2">
+            <div class="form-group">
+                <label for="basicInput">Phone Code</label>
+                <input type="text" class="form-control" id="basicInput" name="lead_passenger_phone_code"
+                    placeholder="ID No" value="{{ $model->lead_passenger_phone_code }}">
+            </div>
+        </div>
+        <div class="col-md-2 col-2">
+            <div class="form-group">
+                <label for="basicInput">Phone</label>
+                <input type="text" class="form-control" id="basicInput" name="lead_passenger_phone"
+                    placeholder="ID No" value="{{ $model->lead_passenger_phone }}">
+            </div>
+        </div>
+    </div>
 @endif

@@ -7,6 +7,7 @@ use App\Models\Order_Adult;
 use App\Models\Order_Child;
 use App\Models\Order_Child_Bed;
 use App\Models\Booking_payment_details;
+use App\Models\OrderHotelRoomPassenger;
 use Exception;
 
 class OrderRepository
@@ -17,7 +18,7 @@ class OrderRepository
     {
         $dataSave = [
             'status'    => $data['status'],
-            'payment'    => $data['payment'],
+            'payment_status'    => $data['payment_status'],
             'comments'    => $data['comments']
         ];
         if ($order->update($dataSave)) {
@@ -28,38 +29,35 @@ class OrderRepository
 
     public function updatePassenger(array $data, Order $order): Order
     {
-        if (count($data['adult']) > 0) {
-            foreach ($data['adult'] as $key => $value) {
-                $dataUpdate = [
-                    'first_name'    => $value['adult_first_name'],
-                    'last_name'    => $value['adult_last_name'],
-                    'id_proof_type'    => $value['adult_id_proof_type'],
-                    'id_proof_no'     => $value['adult_id_proof_no'],
-                ];
-                Order_Adult::where('id', $value['id'])->where('order_id', $value['order_id'])->update($dataUpdate);
+
+
+        if ($data['type'] == "lead") {
+
+            $dataSave = [
+                'lead_passenger_name'    => $data['lead_passenger_name'],
+                'lead_passenger_id_proof'    => $data['lead_passenger_id_proof'],
+                'lead_passenger_id_proof_no'    => $data['lead_passenger_id_proof_no'],
+                'lead_passenger_phone_code'    => $data['lead_passenger_phone_code'],
+                'lead_passenger_phone'    => $data['lead_passenger_phone']
+            ];
+            if ($order->update($dataSave)) {
+                return $order;
+            }
+        } else {
+            if (is_array($data['name']) && count($data['name'])  > 0) {
+                foreach ($data['name'] as $key => $value) {
+
+                    $dataUpdate = [
+                        'name'    => isset($value) ? $value : '',
+                        'id_proof'    => isset($data['id_proof_type'][$key]) ? $data['id_proof_type'][$key] : '',
+                        'id_proof_no'    => isset($data['id_proof_no'][$key]) ? $data['id_proof_no'][$key] : '',
+                        'phone_code'     => isset($data['phone_code'][$key]) ? $data['phone_code'][$key] : '',
+                        'phone'     => isset($data['phone'][$key]) ? $data['phone'][$key] : '',
+                    ];
+                    OrderHotelRoomPassenger::where('id', $key)->update($dataUpdate);
+                }
             }
         }
-
-        if (count($data['child']) > 0) {
-            foreach ($data['child'] as $key => $value) {
-                $dataUpdate = [
-                    'child_first_name'    => $value['child_first_name'],
-                    'child_last_name'    => $value['child_last_name'],
-                    'child_id_proof_type'    => $value['child_id_proof_type'],
-                    'child_id_proof_no'     => $value['child_id_proof_no'],
-                    'child_age'     => $value['child_age'],
-                ];
-                Order_Child::where('id', $value['id'])->where('order_id', $value['order_id'])->update($dataUpdate);
-
-                // if (isset($value['order_child_id']) && strlen($value['order_child_id']) > 0) {
-                //     $dataUpdate = [
-                //         'order_child_id'    => $value['order_child_id'],                        
-                //     ];
-                //     Order_Child_Bed::where('id', $value['id'])->where('order_id', $value['order_id'])->where('order_child_id', $value['order_child_id'])->update($dataUpdate);
-                // }
-            }
-        }
-
         return $order;
         throw new Exception('Order update successfully!');
     }
@@ -68,14 +66,13 @@ class OrderRepository
     public function updatePayment(array $data, Order $order): Order
     {
 
-        if (Booking_payment_details::where('order_id', '=', $data['order_id'])->count() > 0) {            
-            $booking_payment_details = Booking_payment_details::where('order_id', '=', $data['order_id'])->get();           
+        if (Booking_payment_details::where('order_id', '=', $data['order_id'])->count() > 0) {
+            $booking_payment_details = Booking_payment_details::where('order_id', '=', $data['order_id'])->get();
             $dataUpdate = [
                 'paid_amount'    => ($booking_payment_details[0]->paid_amount + $data['paid_amount']),
                 'remaining_amount'     => ($booking_payment_details[0]->remaining_amount - $data['paid_amount'])
             ];
             Booking_payment_details::where('order_id', $data['order_id'])->update($dataUpdate);
-
         } else {
             // insert
             $dataCreate = [

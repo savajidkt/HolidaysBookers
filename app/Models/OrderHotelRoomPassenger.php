@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderHotelRoomPassenger extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = "order_passengers";
     protected $fillable = [
         'order_id',
@@ -20,6 +21,7 @@ class OrderHotelRoomPassenger extends Model
         'name',
         'id_proof',
         'id_proof_no',
+        'phone_code',
         'phone',
         'is_adult',
         'child_age',

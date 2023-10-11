@@ -23,6 +23,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweet-alert.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweetalert2.min.css') }}">
     
+    
     <!-- Main-StyleSheet include -->
     <style>
         .help-block-error,
@@ -150,7 +151,28 @@
 
     @include('layouts.front-scripts')
     @yield('page-script')
+    <script src="http://localhost/holidays-bookers/public/assets/front/js/sweet-alert.min.js"></script>
+    @if (Session::has('success'))
+    <script type="text/javascript">    
+        swal({
+            title: "",
+            text: "{!! Session::get('success') !!}",
+            type: "success",
+            
+        })
+    </script>
+@endif
 
+@if (Session::has('error'))
+
+    <script type="text/javascript">    
+        swal({
+            title: "",
+            text: "{!! Session::get('error') !!}",
+            type: "error",
+        })
+    </script>
+@endif
     @if (Route::has('home'))
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript">

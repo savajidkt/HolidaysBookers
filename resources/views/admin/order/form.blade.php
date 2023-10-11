@@ -13,13 +13,13 @@
             <label class="form-label" for="role">Order Status</label>
             <select name="status" class="form-control" id="status" data-error="Status is required">
                 <option value="">Select Status</option>
-                <option value="1" {{ isset($model->id) && $model->status == 1 ? 'selected' : '' }}>
+                <option value="1" {{ ($model->status == 1) ? 'selected' : '' }}>
                     Processed </option>
-                <option value="2" {{ isset($model->id) && $model->status == 2 ? 'selected' : '' }}>
+                <option value="2" {{ ($model->status == 2) ? 'selected' : '' }}>
                     Confirmed</option>
-                <option value="3" {{ isset($model->id) && $model->status == 3 ? 'selected' : '' }}>
+                <option value="3" {{  ($model->status == 3) ? 'selected' : '' }}>
                     Cancelled</option>
-                <option value="4" {{ isset($model->id) && $model->status == 4 ? 'selected' : '' }}>
+                <option value="4" {{  ($model->status == 4) ? 'selected' : '' }}>
                     Vouchered</option>
             </select>
             @error('status')
@@ -32,13 +32,13 @@
             <label for="itemname">Payment Received</label>
             <div class="demo-inline-spacing">
                 <div class="custom-control custom-radio">
-                    <input type="radio" id="yes" name="payment" class="custom-control-input" value="1"
-                        {{ $model->payment == 1 ? 'checked' : '' }}>
+                    <input type="radio" id="yes" name="payment_status" class="custom-control-input" value="1"
+                        {{ ($model->payment_status == 1) ? 'checked' : '' }}>
                     <label class="custom-control-label" for="yes">Yes</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input type="radio" id="no" name="payment" class="custom-control-input" value="0"
-                        {{ $model->payment == 0 ? 'checked' : '' }}>
+                    <input type="radio" id="no" name="payment_status" class="custom-control-input" value="0"
+                        {{ ($model->payment_status == 0) ? 'checked' : '' }}>
                     <label class="custom-control-label" for="no">No</label>
                 </div>                
             </div>

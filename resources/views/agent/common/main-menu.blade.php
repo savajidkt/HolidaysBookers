@@ -100,7 +100,23 @@
                 </div>
             </div>
         </div>
-
+        <div class="sidebar__item" data-position="81">
+            <div class="accordion -db-sidebar js-accordion">
+                <div class="accordion__item">
+                    <div class="accordion__button">
+                        <div class="sidebar__button  col-12 d-flex items-center justify-between">
+                            <div class="d-flex items-center text-15 lh-1 fw-500">
+                                <a href="{{ route('agent.draft') }}"
+                                    class="icon text-center mr-15 text-24"><i class="icon ion-ios-pie"></i></a>
+                                <a href="{{ route('agent.draft') }}">
+                                    My Draft
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="sidebar__item" data-position="81">
             <div class="accordion -db-sidebar js-accordion">
                 <div class="accordion__item">
@@ -117,24 +133,7 @@
                     </div>
                 </div>
             </div>
-        </div>        
-        <div class="sidebar__item" data-position="81">
-            <div class="accordion -db-sidebar js-accordion">
-                <div class="accordion__item">
-                    <div class="accordion__button">
-                        <div class="sidebar__button  col-12 d-flex items-center justify-between">
-                            <div class="d-flex items-center text-15 lh-1 fw-500">
-                                <a href="{{ route('home') }}"
-                                    class="icon text-center mr-15 text-24"><i class="icon ion-ios-pie"></i></a>
-                                <a href="{{ route('home') }}">
-                                    New Quotation
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>        
+        </div>                     
         <div class="sidebar__item" data-position="90">
             <div class="accordion -db-sidebar js-accordion">
                 <div class="accordion__item">

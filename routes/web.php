@@ -58,6 +58,7 @@ use App\Http\Controllers\Agent\TransactionController as AgentTransactionControll
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Corporate\DashboardController as CorporateDashboardController;
 use App\Http\Controllers\Agent\BookingHistoryController as AgentBookingHistoryController;
+use App\Http\Controllers\Agent\DraftHistoryController as AgentDraftHistoryController;
 use App\Http\Controllers\Agent\TravelCalendarController as AgentTravelCalendarController;
 
 
@@ -239,11 +240,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/order/order-invoice/{order}', [OrdersController::class, 'orderInvoice'])->name('order-invoice');
     Route::get('/order/order-invoice-download/{order}', [OrdersController::class, 'orderInvoiceDownload'])->name('order-invoice-download');
     Route::get('/order/order-voucher/{order}', [OrdersController::class, 'orderVoucher'])->name('order-voucher');
-    Route::get('/order/order-voucher-download/{order}', [OrdersController::class, 'orderVoucherDownload'])->name('order-voucher-download');
+    Route::post('/order/order-voucher-download', [OrdersController::class, 'orderVoucherDownload'])->name('order-voucher-download');
     Route::get('/order/order-itinerary/{order}', [OrdersController::class, 'orderItinerary'])->name('order-itinerary');
     Route::get('/order/order-itinerary-download/{order}', [OrdersController::class, 'orderItineraryDownload'])->name('order-itinerary-download');
 
     Route::post('/order/change-status', [OrdersController::class, 'changeStatus'])->name('change-order-status');
+
+    Route::post('/get-booking-calendar-list', [OrdersController::class, 'getBookingCalendarList'])->name('get-booking-calendar-list');
 });
 
 Auth::routes();
@@ -255,6 +258,10 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/view-booking-history/{id}', [AgentBookingHistoryController::class, 'show'])->name('agent.view-booking-history');
     Route::get('/invoice-download/{order}', [AgentBookingHistoryController::class, 'orderInvoiceDownload'])->name('agent-invoice-download');
 
+    Route::get('/booking-hotel-cancel/{id}', [AgentBookingHistoryController::class, 'orderCancel'])->name('agent.booking-hotel-cancel');
+
+    Route::get('/save-history/draft', [AgentDraftHistoryController::class, 'index'])->name('agent.draft');
+
     Route::get('/travel-calendar', [AgentTravelCalendarController::class, 'index'])->name('agent.travel-calendar');
     Route::get('/wishlist', [AgentWishlistController::class, 'index'])->name('agent.wishlist');
     Route::get('/my-profile', [AgentMyProfileController::class, 'editProfile'])->name('agent.my-profile');
@@ -265,6 +272,17 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::post('/my-change-password', [AgentMyProfileController::class, 'updateChangePassword'])->name('agent.my-change-password');
     Route::get('/transaction/{id}', [AgentTransactionController::class, 'index'])->name('agent.transaction');
     Route::get('/quotation', [AgentQuotationController::class, 'index'])->name('agent.quotation');
+    Route::get('/quotation/order-delete/{id}', [AgentQuotationController::class, 'deleteOrder'])->name('agent.order-delete');
+    Route::get('/quotation/order-room-delete/{id}', [AgentQuotationController::class, 'deleteRoom'])->name('agent.order-room-delete');
+
+    Route::get('/draft/draft-order-delete/{id}', [AgentDraftHistoryController::class, 'draftDeleteOrder'])->name('agent.draft-order-delete');
+    Route::get('/draft/draft-order-room-delete/{id}', [AgentDraftHistoryController::class, 'draftDeleteRoom'])->name('agent.draft-order-room-delete');
+    Route::get('/draft/view/{id}', [AgentDraftHistoryController::class, 'view'])->name('agent.draft-order-view');
+
+    Route::get('/quotation/view/{id}', [AgentQuotationController::class, 'view'])->name('agent.order-view');
+    Route::get('/quotation/order-download/{id}', [AgentQuotationController::class, 'downloadPdf'])->name('agent.order-download');
+    Route::post('/quotation/order-send/{id}', [AgentQuotationController::class, 'sendEmailPdf'])->name('agent.order-send');
+    Route::post('/quotation/edit-price', [AgentQuotationController::class, 'editPrice'])->name('agent.order-edit-price');
     //Route::get('/new-quotation', [AgentQuotationController::class, 'home'])->name('agent.new-quotation');
 
     Route::post('/hotel-list', [HotelListController::class, 'index'])->name('hotel-list');
@@ -282,6 +300,8 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::post('remove-cart-hotel', [CartController::class, 'removeCartHotel'])->name('remove-cart-hotel');
     Route::post('save-cart-quote', [CartController::class, 'saveCartQuote'])->name('save-cart-quote');
     Route::get('remove-cart', [CartController::class, 'removeCart'])->name('remove-cart');
+    Route::post('checkout/quote-add-to-cart', [CheckoutController::class, 'quoteTempStore'])->name('quote-temp-store');
+    Route::post('checkout/draft-add-to-cart', [CheckoutController::class, 'draftTempStore'])->name('draft-temp-store');
 });
 
 Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {
@@ -330,5 +350,6 @@ Route::post('/checkout/post-registration', [CheckoutController::class, 'postRegi
 Route::post('/checkout/post-login', [CheckoutController::class, 'postLogin'])->name('post-login');
 
 Route::post('/checkout/ajax', [CheckoutController::class, 'ajaxTempStore'])->name('ajax-temp-store');
+
 Route::post('/checkout/ajax-remove', [CheckoutController::class, 'ajaxTempRemove'])->name('ajax-temp-remove');
 Route::post('wishlist', [FrontWishlistController::class, 'store'])->name('add-to-wishlist');

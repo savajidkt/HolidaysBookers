@@ -26,7 +26,10 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/jquery.dataTables.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/front/select/css/select2.min.css') }}">
-    
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweet-alert.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweetalert2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/agent-custom-style.css') }}">
+
     <!-- Main-StyleSheet include -->
     <style>
         .help-block-error {
@@ -105,7 +108,8 @@
 
     <script src="{{ asset('assets/front/select/js/form-select2.js') }}"></script>
     <script src="{{ asset('assets/front/select/js/select2.full.min.js') }}"></script>
-    
+    <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery.blockUI.js') }}"></script>
 
     @if (Route::is('agent.travel-calendar'))
         <script src="{{ asset('assets/front/js/index.global.min.js') }}"></script>
@@ -113,20 +117,21 @@
         <script>
             var bookingCal = "";
             document.addEventListener('DOMContentLoaded', function() {
+                
                 var calendarEl = document.getElementById('calendar');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
                 $.ajax({
                     url: moduleConfig.getAgentBookingList,
                     type: "POST",
                     dataType: "json",
                     data: {},
                     success: function(data) {
-                        //console.log(data.booking);
-                        bookingCal = data.booking
+
                         var calendar = new FullCalendar.Calendar(calendarEl, {
                             initialView: 'dayGridMonth',
                             headerToolbar: {
@@ -135,57 +140,56 @@
                                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
                             },
                             events: data.booking,
-
                             // events: [{
                             //         title: 'All Day Event',
-                            //         start: '2023-05-01'
+                            //         start: '2023-10-01'
                             //     },
                             //     {
                             //         title: 'Long Event',
-                            //         start: '2023-05-07',
-                            //         end: '2023-05-10'
+                            //         start: '2023-10-07',
+                            //         end: '2023-10-10'
                             //     },
                             //     {
                             //         groupId: '999',
                             //         title: 'Repeating Event',
-                            //         start: '2023-05-09T16:00:00'
+                            //         start: '2023-10-09T16:00:00'
                             //     },
                             //     {
                             //         groupId: '999',
                             //         title: 'Repeating Event',
-                            //         start: '2023-05-16T16:00:00'
+                            //         start: '2023-10-16T16:00:00'
                             //     },
                             //     {
                             //         title: 'Conference',
-                            //         start: '2023-05-11',
-                            //         end: '2023-05-15T16:00:00'
+                            //         start: '2023-10-11',
+                            //         end: '2023-10-15T16:00:00'
                             //     },
                             //     {
                             //         title: 'Meeting',
-                            //         start: '2023-05-12T10:30:00',
-                            //         end: '2023-05-12T12:30:00'
+                            //         start: '2023-10-12T10:30:00',
+                            //         end: '2023-10-12T12:30:00'
                             //     },
                             //     {
                             //         title: 'Lunch',
-                            //         start: '2023-05-12T12:00:00'
+                            //         start: '2023-10-12T12:00:00'
                             //     },
                             //     {
                             //         title: 'Meeting',
-                            //         start: '2023-05-12T14:30:00'
+                            //         start: '2023-10-12T14:30:00'
                             //     },
                             //     {
                             //         title: 'Birthday Party',
-                            //         start: '2023-05-13T07:00:00'
+                            //         start: '2023-10-13T07:00:00'
                             //     },
                             //     {
                             //         title: 'Click for Google',
                             //         url: 'http://google.com/',
-                            //         start: '2023-05-28'
+                            //         start: '2023-10-28'
                             //     },
                             //     {
                             //         title: 'Marrage',
-                            //         start: '2023-05-19',
-                            //         end: '2023-05-21'
+                            //         start: '2023-10-19',
+                            //         end: '2023-10-21'
                             //     }
                             // ]
 
@@ -198,6 +202,27 @@
     @endif
 
     @yield('page-script')
+    @if (Session::has('success'))
+        <script type="text/javascript">
+            swal({
+                title: "",
+                text: "{!! Session::get('success') !!}",
+                type: "success",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
+
+    @if (Session::has('error'))
+        <script type="text/javascript">
+            swal({
+                title: "",
+                text: "{!! Session::get('error') !!}",
+                type: "error",
+            })
+        </script>
+    @endif
 </body>
 
 </html>

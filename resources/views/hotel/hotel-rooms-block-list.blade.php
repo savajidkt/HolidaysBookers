@@ -86,6 +86,7 @@
                                             
                                             $bookingParam = [];
                                             $bookingParam = [
+                                                'is_type' => 'hotel',
                                                 'hotel_id' => isset($room['hotel_id']) ? $room['hotel_id'] : '',
                                                 'room_id' => isset($room['room_id']) ? $room['room_id'] : '',
                                                 'price_id' => isset($priceroom['price_id']) ? $priceroom['price_id'] : '',
@@ -107,11 +108,15 @@
                                         @endphp
 
                                         @if (is_array($bookingCartArr) && count($bookingCartArr))
-                                            @foreach ($bookingCartArr as $key => $value)
-                                                @if ($value['hotel_id'] == $room['hotel_id'] && $value['room_id'] == $room['room_id'])
-                                                    @php
-                                                        $isAddedCart = true;
-                                                    @endphp
+                                            @foreach ($bookingCartArr as $bo_key => $bo_value)
+                                                @if ($bo_key == 'hotel')
+                                                    @foreach ($bo_value as $key => $value)
+                                                        @if ($value['hotel_id'] == $room['hotel_id'] && $value['room_id'] == $room['room_id'])
+                                                            @php
+                                                                $isAddedCart = true;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
                                                 @endif
                                             @endforeach
                                         @endif
@@ -119,33 +124,33 @@
                                         @if ($isAddedCart)
                                             <button type="button"
                                                 class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
-                                                <span class="icons">Added</span></div>
-                                            </button>
-                                        @else
-                                            <button type="button"
-                                                data-extra="{{ selectRoomBooking($bookingParam, true) }}"
-                                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
-                                                <span class="icons">Add</span>
-                                                <div class="icon-arrow-top-right ml-15"></div>
-                                                <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
-                                            </button>
-                                        @endif
-
-
+                                                <span class="icons">Added</span>
                                     </div>
-                                </div>
+                                    </button>
+                                @else
+                                    <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
+                                        class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+                                        <span class="icons">Add</span>
+                                        <div class="icon-arrow-top-right ml-15"></div>
+                                        <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                                    </button>
+                    @endif
 
-                            </div>
-                        </div>
-                    @endforeach
-                @endif
+
             </div>
         </div>
-    @endforeach
-@else
-    <div class="px-10 py-10 border-light">
-        <div class="d-flex items-center">
-            <div class="button text-dark-1">No room found!</div>
+
         </div>
+        </div>
+    @endforeach
+@endif
+</div>
+</div>
+@endforeach
+@else
+<div class="px-10 py-10 border-light">
+    <div class="d-flex items-center">
+        <div class="button text-dark-1">No room found!</div>
     </div>
+</div>
 @endif

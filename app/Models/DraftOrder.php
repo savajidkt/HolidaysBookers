@@ -40,6 +40,7 @@ class DraftOrder extends Model
         'lead_passenger_phone',      
     ];
 
+<<<<<<< HEAD
     /**
      * Method getActionAttribute
      *
@@ -204,4 +205,15 @@ class DraftOrder extends Model
     // {
     //     return $this->hasMany(Order_Child_Bed::class, 'order_id', 'id');
     // }
+=======
+    public function draft_hotel()
+    {
+        return $this->hasMany(DraftOrderHotel::class, 'draft_id', 'id');
+    }
+
+    public function draft_hotel_rooms()
+    {
+        return $this->hasMany(DraftOrderHotelRoom::class, 'draft_id', 'id');
+    }
+>>>>>>> eaf5c587bdde40833701dc134f9d3daa0a00a061
 }

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\OfflineRoomChildPrice;
 use App\Models\Order;
 use App\Models\Order_Room;
+use App\Models\OrderHotelRoom;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -212,15 +213,11 @@ if (!function_exists('formatdate')) {
         if ($format) {
 
             return date($format, strtotime($date));
-
         } else {
 
             return date("d/m/Y", strtotime($date));
-
         }
-
     }
-
 }
 
 
@@ -231,14 +228,18 @@ if (!function_exists('calculateBalance')) {
     function calculateBalance($agent_id, $type, $amount)
     {
         $letest = WalletTransaction::where('agent_id', $agent_id)->latest()->first();
-        if ($type == 0) {
-            if ($letest->balance >= $amount) {
-                return  numberFormat($letest->balance - $amount);
-            } else {
-                return redirect()->route('agents.index')->with('error', "Please enter less then balance amount");
+        if (isset($letest->balance)) {
+            if ($type == 0) {
+                if ($letest->balance >= $amount) {
+                    return  numberFormat($letest->balance - $amount);
+                } else {
+                    return redirect()->route('agents.index')->with('error', "Please enter less then balance amount");
+                }
+            } else if ($type == 1) {
+                return  numberFormat($letest->balance + $amount);
             }
-        } else if ($type == 1) {
-            return  numberFormat($letest->balance + $amount);
+        } else {
+            return  numberFormat($amount);
         }
         return redirect()->route('agents.index')->with('error', "HB Credit type not found");
     }
@@ -253,7 +254,7 @@ if (!function_exists('availableBalance')) {
     {
         $letest = WalletTransaction::where('agent_id', $agent_id)->orderBy('id', 'DESC')->latest()->first();
 
-        if ($letest->balance > 0) {
+        if (isset($letest->balance) &&  $letest->balance > 0) {
             return  numberFormat($letest->balance, $currency);
         } else {
             return  numberFormat(0);
@@ -908,8 +909,12 @@ if (!function_exists('getFinalAmountChackOut')) {
         $amountFinal = 0;
         $data = getBookingCart('bookingCart');
         if (is_array($data) && count($data) > 0) {
-            foreach ($data as $key => $value) {
-                $amountFinal = $amountFinal + $value['finalAmount'];
+            foreach ($data as $bo_key => $bo_value) {
+                if ($bo_key == 'hotel') {
+                    foreach ($bo_value as $key => $value) {
+                        $amountFinal = $amountFinal + $value['finalAmount'];
+                    }
+                }
             }
         }
         return numberFormat($amountFinal);
@@ -921,13 +926,16 @@ if (!function_exists('getOriginAmountChackOut')) {
     {
 
         $amountOrigin = 0;
-
         if (is_array($data['cartData']) && count($data['cartData']) > 0) {
-            foreach ($data['cartData'] as $key => $value) {
-                $amountOrigin = $amountOrigin + $value['originAmount'];
+            foreach ($data['cartData'] as $bo_key => $bo_value) {
+                if ($bo_key == 'hotel') {
+                    foreach ($bo_value as $key => $value) {
+                        $amountOrigin = $amountOrigin + $value['originAmount'];
+                    }
+                }
             }
         }
-        return numberFormat($amountOrigin);
+        return floatval(numberFormat($amountOrigin));
     }
 }
 
@@ -1143,12 +1151,13 @@ if (!function_exists('InvoiceNumberGenerator')) {
         $latestNumberData = 1;
         $latestNumberData = Order::latest()->first();
 
+
         if ($latestNumberData) {
-            $latestNumberData = 1;
+            $latestNumberData = $latestNumberData->id;
         }
 
         if (strlen($prefix) > 0) {
-            return 'HB' . (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
+            return $prefix . '' . (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
         } else {
             return (str_pad($latestNumberData + 1, 4, '0', STR_PAD_LEFT));
         }
@@ -1167,17 +1176,16 @@ if (!function_exists('dateFormatNewMethod')) {
 
     {
 
-        
+
         $timestamp = strtotime($date);
         if ($timestamp === FALSE) {
             $timestamp = strtotime(str_replace('/', '-', $date));
         }
         return date("Y-m-d", $timestamp);
-    
 
-    //     $_firstDate = date("m-d-Y", strtotime($date));
-    //     return date("Y-m-d",strtotime($_firstDate));
+
+        //     $_firstDate = date("m-d-Y", strtotime($date));
+        //     return date("Y-m-d",strtotime($_firstDate));
 
     }
-
 }

@@ -10,7 +10,7 @@
                     </div>
                 
                     <div class="col-md-6 text-right">                        
-                        Balance Remaining: <h4 class="mb-0 ml-75">
+                        Balance Remaining: <h4 class="mb-0 ml-75">                           
                             {{ numberFormat($model->booking_payment->remaining_amount, $model->booking_currency) }}</h4>
                            
                     </div>

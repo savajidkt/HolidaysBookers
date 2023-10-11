@@ -1,4 +1,5 @@
 var ClickBTN_Draft = false;
+var ClickBTN_Quote = false;
 var FrmCheckoutPreference = function () {
     var FrmCheckoutFormValidation = function () {
         var FrmCheckoutPreferenceForm = $('#CheckoutFrm');
@@ -62,7 +63,7 @@ var FrmCheckoutPreference = function () {
                             return false;
                         }
                     }
-                }             
+                }
             },
             messages: {
 
@@ -91,7 +92,24 @@ var FrmCheckoutPreference = function () {
                 }
             },
             submitHandler: function (form) {
-                form.submit();                
+
+                var lead_passengers_country_code = $("<input>")
+                    .attr("type", "hidden")
+                    .attr("name", "lead_passengers_country_code").val($(".lead_passengers .phonenumber").intlTelInput("getSelectedCountryData").dialCode);
+
+                var all_passengers_country_code = $("<input>")
+                    .attr("type", "hidden")
+                    .attr("name", "all_passengers_country_code").val($(".all_passengers .phonenumber").intlTelInput("getSelectedCountryData").dialCode);
+
+                $('#CheckoutFrm').append(lead_passengers_country_code);
+                $('#CheckoutFrm').append(all_passengers_country_code);
+
+                if (ClickBTN_Quote) {
+                    $("#saveQuotePopup").modal("show");
+                } else {
+                    form.submit();
+                }
+
             }
         });
     }
@@ -163,7 +181,7 @@ var FrmCheckoutPreference = function () {
                   
                 </div>
                           </div>`;
-                          window.location.reload();
+                            window.location.reload();
                         } else {
                             string = `<div class="col-12">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
@@ -191,10 +209,17 @@ var FrmCheckoutPreference = function () {
 
 $(document).ready(function () {
     FrmCheckoutPreference.init();
-    $(document).on('click', '.saveQuote', function () {
+    $(document).on('click', '.saveDraft', function () {
         ClickBTN_Draft = true;
         $('.button_name_cls').val('');
         $('.button_name_cls').val('Draft');
+        $('#CheckoutFrm').submit();
+    });
+    $(document).on('click', '.saveQuote', function () {
+        ClickBTN_Draft = true;
+        ClickBTN_Quote = true;
+        $('.button_name_cls').val('');
+        $('.button_name_cls').val('Quote');
         $('#CheckoutFrm').submit();
     });
     $(document).on('click', '.saveOrder', function () {
@@ -202,6 +227,61 @@ $(document).ready(function () {
         $('.button_name_cls').val('');
         $('.button_name_cls').val('Order');
         $('#CheckoutFrm').submit();
+    });
+
+    $(document).on('click', '#saveQuotePopup .quoteBtnClick', function () {
+
+        $isValidChk = true;
+        $isValidAmt = true;
+        $isValidEmail = true;
+        $isValidName = true;
+        if (typeof $('.popup_margin_type:checked').val() === "undefined") {
+            $('#popup_margin_type-error').removeClass('hide');
+            $isValidChk = false;
+        } else {
+
+            $('#popup_margin_type-error').addClass('hide');
+            $isValidChk = true;
+        }
+
+        if ($('.quote_email').val() == "") {
+            $('#quote_email-error').removeClass('hide');
+            $isValidEmail = false;
+
+        } else {
+            $('#quote_email-error').addClass('hide');
+            $isValidEmail = true;
+        }
+
+        if ($('.margin_amt').val() == "") {
+            $('#margin_amt-error').removeClass('hide');
+            $isValidAmt = false;
+        } else {
+
+            $('#margin_amt-error').addClass('hide');
+            $isValidAmt = true;
+        }
+
+        if ($('.quote_name').val() == "") {
+            $('#quote_name-error').removeClass('hide');
+            $isValidName = false;
+        } else {
+
+            $('#quote_name-error').addClass('hide');
+            $isValidName = true;
+        }
+
+        //if ($isValidChk && $isValidAmt && $isValidEmail) {
+        if ($isValidName) {
+            ClickBTN_Quote = false;
+            // $('.popup_margin_type_cls').val($('.popup_margin_type:checked').val());
+            // $('.quote_email_cls').val($('.quote_email').val());
+            // $('.margin_amt_cls').val($('.margin_amt').val());
+            $('.quote_name_cls').val($('.quote_name').val());
+            $('#CheckoutFrm').submit();
+        } else {
+            return false;
+        }
     });
 
     $(document).on('click', '.SelectRoomBook', function () {
@@ -248,7 +328,7 @@ $(document).ready(function () {
         });
         $.ajax({
             beforeSend: function () {
-               
+
             },
             complete: function () {
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
@@ -282,16 +362,16 @@ $(document).ready(function () {
     $('.addvalidation').each(function () {
         $(this).rules("add", {
             required: true
-            });
-           
-    });    
+        });
+
+    });
     $('.lead_addvalidation').each(function () {
 
         $(this).rules("add", {
             required: true
-            });
-           
-    });    
+        });
+
+    });
 
     checkboxPassenger();
 

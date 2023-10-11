@@ -18,6 +18,10 @@ class DraftOrderHotel extends Model
 
     public function order_hotel_room()
     {
+<<<<<<< HEAD
         return $this->hasMany(DraftOrderHotelRoom::class, 'order_hotel_id', 'id');
+=======
+        return $this->hasMany(DraftOrderHotelRoom::class, 'draft_hotel_id', 'id');
+>>>>>>> eaf5c587bdde40833701dc134f9d3daa0a00a061
     }
 }

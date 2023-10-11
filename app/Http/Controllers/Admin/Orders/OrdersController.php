@@ -50,14 +50,8 @@ class OrdersController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->editColumn('package_id', function (Order $order) {
-                    return $order->package_id;
-                })
-                ->editColumn('hotel_id', function (Order $order) {
-                    return $order->hotel->hotel_name;
-                })
-                ->editColumn('hotel_city_id', function (Order $order) {
-                    return $order->city->name;
+                ->editColumn('prn_number', function (Order $order) {
+                    return $order->prn_number;
                 })
                 ->editColumn('status', function (Order $order) {
                     return $order->status_name;
@@ -65,32 +59,19 @@ class OrdersController extends Controller
                 ->editColumn('created_at', function (Order $order) {
                     return dateFormat($order->created_at, 'd M, Y');
                 })
-                ->editColumn('check_in_date', function (Order $order) {
-                    return dateFormat($order->check_in_date, 'd M, Y');
-                })
-                ->editColumn('check_out_date', function (Order $order) {
-                    return dateFormat($order->check_out_date, 'd M, Y');
-                })
-                ->editColumn('guest_lead', function (Order $order) {
-                    return $order->guest_lead;
-                })
-                ->editColumn('cancelled_date', function (Order $order) {
-                    return dateFormat($order->cancelled_date, 'd M, Y');
-                })
                 ->editColumn('total_rooms', function (Order $order) {
                     return $order->total_rooms;
                 })
                 ->editColumn('total_nights', function (Order $order) {
                     return $order->total_nights;
                 })
-                ->editColumn('payment', function (Order $order) {
-                    return $order->payment_name;
+                ->editColumn('payment_status', function (Order $order) {
+                    return $order->payment_status_name;
                 })
-
                 ->addColumn('action', function (Order $order) {
                     return $order->action;
                 })
-                ->rawColumns(['action', 'status', 'payment'])->make(true);
+                ->rawColumns(['action', 'status', 'payment_status'])->make(true);
         }
 
         return view('admin.order.index', ['user' => $user]);
@@ -108,7 +89,6 @@ class OrdersController extends Controller
      */
     public function show(Order $order)
     {
-
         return view('admin.order.view', ['model' => $order]);
     }
 
@@ -134,6 +114,7 @@ class OrdersController extends Controller
      */
     public function edit(Order $order)
     {
+
         return view('admin.order.edit', ['model' => $order]);
     }
 
@@ -147,7 +128,9 @@ class OrdersController extends Controller
      */
     public function update(Request $request, Order $order)
     {
+
         if ($request->action == "order") {
+
             $this->orderRepository->update($request->all(), $order);
         } else if ($request->action == "passenger") {
             $this->orderRepository->updatePassenger($request->all(), $order);
@@ -180,6 +163,7 @@ class OrdersController extends Controller
 
     public function orderInvoice(Order $order)
     {
+
         return view('admin.order.invoice', ['model' => $order, 'orderTable' => $this->orderTableCreate($order)]);
     }
 
@@ -340,10 +324,10 @@ class OrdersController extends Controller
                             Date: ' . date('d M, Y', strtotime($order->check_in_date)) . ' To ' . date('d M, Y', strtotime($order->check_out_date)) . '<br />
                         </td>
                         <td>                            
-                                Invoice Number:	N/A<br />
-                                Invoice Date:	N/A<br />
-                                PNR No.:	N/A<br />
-                                Deadline Date:	N/A
+                                Invoice Number:	' . $order->invoice_no . '<br />
+                                Invoice Date:	' . $order->invoice_no . '<br />
+                                PNR No.:	' . $order->invoice_no . '<br />
+                                
                         </td>
                     </tr>
                 </table>
@@ -434,11 +418,103 @@ class OrdersController extends Controller
         return view('admin.order.voucher', ['model' => $order]);
     }
 
-    public function orderVoucherDownload(Order $order)
+
+    public function getHotelNameAndAddress($order)
     {
-        $roomData = unserialize($order->formdata->form_data_serialize);
+        $hotelStr = '';
+        if (count($order->order_hotel) > 0) {
+            foreach ($order->order_hotel as $key => $value) {
+
+
+
+                $hotelStr .= '<table cellpadding="0" cellspacing="0">
+        <tr class="information">
+           <td colspan="2">
+              <table>
+                 <tr>
+                    <td>
+                       <strong>' . $value->hotel->hotel_name . '</strong><br />
+                       ' . $value->hotel->hotel_address . ' ' . $value->hotel->country->name . ' ' . $value->hotel->city->name . ' ' . $value->hotel->hotel_pincode . '<br />                           
+                    </td>                   
+                 </tr>
+              </table>
+           </td>
+        </tr>
+     </table><hr class="my-2">';
+
+                if ($order->passenger_type == "0") {
+
+                    $hotelStr .= '<table cellpadding="0" cellspacing="0">			
+				
+<tr class="heading">
+    <td>GUEST NAME</td>
+    <td class="text-center">CONTACT NUMBER</td>
+    <td class="text-center">ADULT</td>
+    <td class="text-center">CHILD</td>									
+    <td class="text-right">TOTAL</td>					
+</tr>				
+<tr class="item">
+    <td>' . $order->lead_passenger_name . '</td>
+    <td class="text-center">' . $order->lead_passenger_phone_code . ' ' . $order->lead_passenger_phone . '</td>
+    <td class="text-center">' . $order->total_adult . '</td>
+    <td class="text-center">' . $order->total_child . '</td>					
+    <td class="text-right">' . $order->total_adult + $order->total_child . '</td>
+</tr>				
+</table>';
+                } else {
+
+                    if (count($value->order_hotel_room) > 0) {
+                        foreach ($value->order_hotel_room as $sub_key => $sub_value) {
+
+                            if (count($sub_value->order_hotel_room_passenger) > 0) {
+
+                                foreach ($sub_value->order_hotel_room_passenger as $pass_key => $pass_value) {
+
+                                    if ($pass_value->is_adult == "0") {
+
+
+                                        $hotelStr .= '<table cellpadding="0" cellspacing="0">			
+                    
+    <tr class="heading">
+        <td>GUEST NAME</td>
+        <td class="text-center">CONTACT NUMBER</td>
+        <td class="text-center">ADULT</td>
+        <td class="text-center">CHILD</td>									
+        <td class="text-right">TOTAL</td>					
+    </tr>				
+    <tr class="item">
+        <td>' . $pass_value->name . '</td>
+        <td class="text-center">' . $pass_value->phone_code . ' ' . $pass_value->phone . '</td>
+        <td class="text-center">' . $order->total_adult . '</td>
+        <td class="text-center">' . $order->total_child . '</td>					
+        <td class="text-right">' . $order->total_adult + $order->total_child . '</td>
+    </tr>				
+    </table>';
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $hotelStr;
+    }
+
+    public function orderVoucherDownload(Request $request)
+    {
+
+        $order = Order::find($request->order_id);
+     
+               
+        //$roomData = unserialize($order->formdata->form_data_serialize);
         $hotelListingRepository = new HotelListingRepository;
-        $hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
+        $hotelsDetails = $this->getHotelNameAndAddress($order);
+        //dd($hotelsDetails);
+        //$hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
         $contenidoDinamico = "Prueba";
         $dompdf = new Dompdf();
         $options = new Options();
@@ -571,68 +647,24 @@ class OrdersController extends Controller
                                 State: Delhi (State Code: 07), Country: India.<br />
                                 (P) +91 1148015307/ +91 1142268354 (M) +91 9810560003/+91 991056000<br />
                                 (PAN) AAECH3953Q (CIN) U63030DL2017PTC327553 (GSTIN) 07AAECH3953Q1Z0
-								</td>								
+								</td>
+                                <td>                            
+                                PNR No.:	' . $order->prn_number . '<br />
+                             </td>								
 							</tr>
 						</table>
 					</td>
 				</tr>		
 			</table>
             <hr class="my-2">
-            <table cellpadding="0" cellspacing="0">				
-            <tr class="information">
-            <td colspan="2">
-                <table>
-                    <tr>
-                        <td>
-                        <strong>' . $hotelsDetails['hotel']['hotel_name'] . '</strong><br />
-                        ' . $hotelsDetails['hotel']['hotel_address'] . '<br />                           
-                        </td>
-                        <td>                            
-                                
-PNR No.:	N/A<br />
-                               
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>		
-			</table>
-            <hr class="my-2">
-            <table cellpadding="0" cellspacing="0">			
-				
-				<tr class="heading">
-					<td>GUEST NAME</td>
-					<td class="text-center">CONTACT NUMBER</td>
-					<td class="text-center">ADULT</td>
-					<td class="text-center">CHILD</td>									
-					<td class="text-right">TOTAL</td>					
-				</tr>				
-				<tr class="item">
-					<td>' . $order->guest_lead . '</td>
-					<td class="text-center">' . $order->guest_phone . '</td>
-					<td class="text-center">' . count($order->adult) . '</td>
-					<td class="text-center">' . count($order->child) . '</td>					
-					<td class="text-right">' . count($order->adult) + count($order->child) . '</td>
-				</tr>				
-			</table>
-            <hr class="my-2">
-            <table cellpadding="0" cellspacing="0">                   
-                            <tr>
-                                <td class="text-left">
-                                     <strong>Check In ' . date('d M, Y', strtotime($order->check_in_date)) . '</strong><br />                               
-                                </td>                       
-                                <td class="text-left">
-                                     <strong>Check Out ' . date('d M, Y', strtotime($order->check_out_date)) . '</strong><br />                               
-                                </td>                       
-                                <td class="text-right">
-                                     <strong>Night/s ' . $order->total_nights . '</strong><br />                               
-                                </td>                       
-                            </tr>                      
-                	
-			</table>
+            
+            
+            
+            
+            ' . $hotelsDetails . '
 
             <hr class="my-2">
-            ' . $this->roomTableCreate($roomData['cartData']) . '            
+           CartDATA          
             <table cellpadding="0" cellspacing="0">				
                 <tr class="information">
                     <td colspan="2">
@@ -702,10 +734,15 @@ PNR No.:	N/A<br />
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         Storage::put('public/order/' . $order->id . '/vouchers/order-vouchers-' . $order->id . '.pdf', $dompdf->output());
+
         $filePath = storage_path('app/public/order/' . $order->id . '/vouchers/order-vouchers-' . $order->id . '.pdf');
-        $order->notify(new OrderNotification($order, $filePath));
-        $order->update(array('mail_sent' => 1));
-        return redirect()->route('orders.index')->with('success', "Order generate voucher & send mail successfully!");
+        $order->notify(new OrderNotification($order, $filePath));       
+        $order->confirmation_no = $request->confirmation_code;
+        $order->mail_sent = '1';
+        $order->voucher = '1';
+        $order->save();
+        return redirect()->back()->with('success', 'Order generate voucher & send mail successfully!');   
+        //return redirect()->route('orders.index')->with('success', "Order generate voucher & send mail successfully!");
     }
     /**
      * Method orderItinerary
@@ -1010,11 +1047,8 @@ PNR No.:	N/A<br />
         $total = 0;
         $tax = 0;
         $discount = 0;
-
-        $hotelListingRepository = new HotelListingRepository;
-        $hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
-        $requiredParamArr = unserialize($order->formdata->form_data_serialize);
         $tableStr = '';
+
 
         $tableStr .= '<div class="table-responsive mt-2">';
         $tableStr .= '<table class="table m-0">';
@@ -1029,70 +1063,77 @@ PNR No.:	N/A<br />
         $tableStr .= '</tr>';
         $tableStr .= '</thead>';
         $tableStr .= '</tbody>';
-        if (is_array($requiredParamArr['cartData']) && count($requiredParamArr['cartData']) > 0) {
-            $tableStr .= '<tr>';
-            $tableStr .= '<td class="py-1 pl-4"><p class="font-weight-semibold mb-25">' . $hotelsDetails['hotel']['hotel_name'] . '</p></td>';
-            $tableStr .= '<td class="py-1">' . $order->total_nights . '</td>';
-            $tableStr .= '<td class="py-1">' . $order->total_rooms . '</td>';
-            $tableStr .= '<td class="py-1">' . count($order->adult) . '</td>';
-            $tableStr .= '<td class="py-1">' . count($order->child) . '</td>';
-            $tableStr .= '<td class="py-1"></td>';
-            $tableStr .= '</tr>';
-            foreach ($requiredParamArr['cartData'] as $key => $value) {
-                $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+
+        if (count($order->order_hotel) > 0) {
+            foreach ($order->order_hotel as $key => $value) {
+
                 $tableStr .= '<tr>';
-                $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $offlineRoom->roomtype->room_type . ' * 1</li></ul></td>';
+                $tableStr .= '<td class="py-1 pl-4"><p class="font-weight-semibold mb-25">' . $value->hotel->hotel_name . '</p></td>';
                 $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="py-1">' . count($value->order_hotel_room) . '</td>';
+                $tableStr .= '<td class="py-1">' . $order->total_adult . '</td>';
+                $tableStr .= '<td class="py-1">' . $order->total_child . '</td>';
                 $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '<td class="text-right">' . numberFormat($value['finalAmount'], $order->booking_currency) . '</td>';
                 $tableStr .= '</tr>';
-                $subTotal = $subTotal + $value['finalAmount'];
+
+                if (count($value->order_hotel_room) > 0) {
+                    foreach ($value->order_hotel_room as $sub_key => $sub_value) {
+                        $tableStr .= '<tr>';
+                        $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $sub_value->room_name . '</li></ul></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="text-right">' . numberFormat($sub_value->price, $order->booking_currency) . '</td>';
+                        $tableStr .= '</tr>';
+                        $subTotal = $subTotal + $sub_value->price;
+                    }
+                }
             }
-
-            $tableStr .= '</tbody>';
-            $tableStr .= '</table>';
-            $tableStr .= '</div>';
-
-            $tableStr .= '<hr class="my-2" />';
-            $tableStr .= '<div class="row invoice-sales-total-wrapper mt-3">';
-            $tableStr .= '<div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">';
-            $tableStr .= '<p class="mb-25 font-weight-bold">Name : Holidays Bookers DMC india pvt.Ltd</p>';
-            $tableStr .= '<p class="mb-25 font-weight-bold">Bank : ICICI BANK LTD</p>';
-            $tableStr .= '<p class="mb-25 font-weight-bold">Branch : 9A, Phelps Building, Connaught Place, New Delhi.</p>';
-            $tableStr .= '<p class="mb-25 font-weight-bold">A/c No : 000705045370</p>';
-            $tableStr .= '<p class="mb-0 font-weight-bold">IFSC Code : ICIC0000007</p>';
-            $tableStr .= '</div>';
-            $tableStr .= '<div class="col-md-6 d-flex justify-content-end order-md-2 order-1">';
-            $tableStr .= '<div class="invoice-total-wrapper">';
-
-            $tableStr .= '<div class="invoice-total-item">';
-            $tableStr .= '<p class="invoice-total-title">Subtotal:</p>';
-            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($subTotal, $order->booking_currency) . '</p>';
-            $tableStr .= '</div>';
-
-            $tableStr .= '<div class="invoice-total-item">';
-            $tableStr .= '<p class="invoice-total-title">Discount:</p>';
-            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($discount, $order->booking_currency) . '</p>';
-            $tableStr .= '</div>';
-
-
-            $tableStr .= '<div class="invoice-total-item">';
-            $tableStr .= '<p class="invoice-total-title">Tax:</p>';
-            $tableStr .= '<p class="invoice-total-amount"> ' . numberFormat($tax, $order->booking_currency) . '</p>';
-            $tableStr .= '</div>';
-
-            $total = ($subTotal + $tax) - $discount;
-            $tableStr .= '<div class="invoice-total-item">';
-            $tableStr .= '<p class="invoice-total-title">Total:</p>';
-            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($total, $order->booking_currency) . '</p>';
-            $tableStr .= '</div>';
-
-            $tableStr .= '</div>';
-            $tableStr .= '</div>';
-            $tableStr .= '</div>';
         }
+
+        $tableStr .= '</tbody>';
+        $tableStr .= '</table>';
+        $tableStr .= '</div>';
+
+        $tableStr .= '<hr class="my-2" />';
+        $tableStr .= '<div class="row invoice-sales-total-wrapper mt-3">';
+        $tableStr .= '<div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">';
+        $tableStr .= '<p class="mb-25 font-weight-bold">Name : Holidays Bookers DMC india pvt.Ltd</p>';
+        $tableStr .= '<p class="mb-25 font-weight-bold">Bank : ICICI BANK LTD</p>';
+        $tableStr .= '<p class="mb-25 font-weight-bold">Branch : 9A, Phelps Building, Connaught Place, New Delhi.</p>';
+        $tableStr .= '<p class="mb-25 font-weight-bold">A/c No : 000705045370</p>';
+        $tableStr .= '<p class="mb-0 font-weight-bold">IFSC Code : ICIC0000007</p>';
+        $tableStr .= '</div>';
+        $tableStr .= '<div class="col-md-6 d-flex justify-content-end order-md-2 order-1">';
+        $tableStr .= '<div class="invoice-total-wrapper">';
+
+        $tableStr .= '<div class="invoice-total-item">';
+        $tableStr .= '<p class="invoice-total-title">Subtotal:</p>';
+        $tableStr .= '<p class="invoice-total-amount">' . numberFormat($subTotal, $order->booking_currency) . '</p>';
+        $tableStr .= '</div>';
+
+        $tableStr .= '<div class="invoice-total-item">';
+        $tableStr .= '<p class="invoice-total-title">Discount:</p>';
+        $tableStr .= '<p class="invoice-total-amount">' . numberFormat($discount, $order->booking_currency) . '</p>';
+        $tableStr .= '</div>';
+
+
+        $tableStr .= '<div class="invoice-total-item">';
+        $tableStr .= '<p class="invoice-total-title">Tax:</p>';
+        $tableStr .= '<p class="invoice-total-amount"> ' . numberFormat($tax, $order->booking_currency) . '</p>';
+        $tableStr .= '</div>';
+
+        $total = ($subTotal + $tax) - $discount;
+        $tableStr .= '<div class="invoice-total-item">';
+        $tableStr .= '<p class="invoice-total-title">Total:</p>';
+        $tableStr .= '<p class="invoice-total-amount">' . numberFormat($total, $order->booking_currency) . '</p>';
+        $tableStr .= '</div>';
+
+        $tableStr .= '</div>';
+        $tableStr .= '</div>';
+        $tableStr .= '</div>';
+
 
         return $tableStr;
     }
@@ -1105,9 +1146,9 @@ PNR No.:	N/A<br />
         $tax = 0;
         $discount = 0;
 
-        $hotelListingRepository = new HotelListingRepository;
-        $hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
-        $requiredParamArr = unserialize($order->formdata->form_data_serialize);
+        //$hotelListingRepository = new HotelListingRepository;
+        //$hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
+        // $requiredParamArr = unserialize($order->formdata->form_data_serialize);
         $tableStr = '';
         $tableStr .= '<table cellpadding="0" cellspacing="0">';
         $tableStr .= '<tr class="heading">';
@@ -1119,66 +1160,71 @@ PNR No.:	N/A<br />
         $tableStr .= '<td class="text-right">TOTAL</td>';
         $tableStr .= '</tr>';
         $tableStr .= '';
-        if (is_array($requiredParamArr['cartData']) && count($requiredParamArr['cartData']) > 0) {
-            $tableStr .= '<tr class="item">';
-            $tableStr .= '<td class="">' . $hotelsDetails['hotel']['hotel_name'] . '</td>';
-            $tableStr .= '<td class="text-center">' . $order->total_nights . '</td>';
-            $tableStr .= '<td class="text-center">' . $order->total_rooms . '</td>';
-            $tableStr .= '<td class="text-center">' . count($order->adult) . '</td>';
-            $tableStr .= '<td class="text-center">' . count($order->child) . '</td>';
-            $tableStr .= '<td class="text-right"></td>';
-            $tableStr .= '</tr>';
-            foreach ($requiredParamArr['cartData'] as $key => $value) {
-                $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+        if (count($order->order_hotel) > 0) {
+            foreach ($order->order_hotel as $key => $value) {
                 $tableStr .= '<tr>';
-                $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $offlineRoom->roomtype->room_type . ' * 1</li></ul></td>';
-                $tableStr .= '<td class="text-center"></td>';
-                $tableStr .= '<td class="text-center"></td>';
-                $tableStr .= '<td class="text-center"></td>';
-                $tableStr .= '<td class="text-center"></td>';
-                $tableStr .= '<td class="text-right">' . numberFormat($value['finalAmount'], $order->booking_currency) . '</td>';
+                $tableStr .= '<td class="py-1 pl-4"><p class="font-weight-semibold mb-25">' . $value->hotel->hotel_name . '</p></td>';
+                $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="py-1">' . count($value->order_hotel_room) . '</td>';
+                $tableStr .= '<td class="py-1">' . $order->total_adult . '</td>';
+                $tableStr .= '<td class="py-1">' . $order->total_child . '</td>';
+                $tableStr .= '<td class="py-1"></td>';
                 $tableStr .= '</tr>';
-                $subTotal = $subTotal + $value['finalAmount'];
+
+                if (count($value->order_hotel_room) > 0) {
+                    foreach ($value->order_hotel_room as $sub_key => $sub_value) {
+                        $tableStr .= '<tr>';
+                        $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $sub_value->room_name . '</li></ul></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="text-right">' . numberFormat($sub_value->price, $order->booking_currency) . '</td>';
+                        $tableStr .= '</tr>';
+                        $subTotal = $subTotal + $sub_value->price;
+                    }
+                }
             }
-
-            $tableStr .= '<tr class="total">';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Subtotal: <strong>' . numberFormat($subTotal, $order->booking_currency) . '</strong></td>';
-            $tableStr .= '</tr>';
-
-            $tableStr .= '<tr class="total">';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Discount: <strong>' . numberFormat($discount, $order->booking_currency) . '</strong></td>';
-            $tableStr .= '</tr>';
-
-            $tableStr .= '<tr class="total">';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Tax:<strong> ' . numberFormat($tax, $order->booking_currency) . '</strong></td>';
-            $tableStr .= '</tr>';
-
-            $total = ($subTotal + $tax) - $discount;
-
-            $tableStr .= '<tr class="total">';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Total:<strong>' . numberFormat($total, $order->booking_currency) . '</strong></td>';
-            $tableStr .= '</tr>';
         }
+
+        $tableStr .= '<tr class="total">';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td class="text-right">Subtotal: <strong>' . numberFormat($subTotal, $order->booking_currency) . '</strong></td>';
+        $tableStr .= '</tr>';
+
+        $tableStr .= '<tr class="total">';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td class="text-right">Discount: <strong>' . numberFormat($discount, $order->booking_currency) . '</strong></td>';
+        $tableStr .= '</tr>';
+
+        $tableStr .= '<tr class="total">';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td class="text-right">Tax:<strong> ' . numberFormat($tax, $order->booking_currency) . '</strong></td>';
+        $tableStr .= '</tr>';
+
+        $total = ($subTotal + $tax) - $discount;
+
+        $tableStr .= '<tr class="total">';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td></td>';
+        $tableStr .= '<td class="text-right">Total:<strong>' . numberFormat($total, $order->booking_currency) . '</strong></td>';
+        $tableStr .= '</tr>';
+
         $tableStr .= '</table>';
         return $tableStr;
     }
@@ -1211,5 +1257,61 @@ PNR No.:	N/A<br />
         }
 
         return $tableStr;
+    }
+
+    public function getBookingCalendarList(Request $request)
+    {
+
+        $bookingData = Order::select('*')->where('payment_status', 1)->get();
+        $bookingArr = [];
+        $bookingDataArr = [];
+        if (count($bookingData)) {
+            foreach ($bookingData as $key => $value) {
+                $bookingDataArr[] = $this->getBookedHotel($value);
+            }
+            if (count($bookingDataArr) > 0) {
+                foreach ($bookingDataArr as $key => $value) {
+                    if (count($value) > 0) {
+                        foreach ($value as $sub_key => $sub_value) {
+                            $bookingArr[] = $sub_value;
+                        }
+                    }
+                }
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'booking' => $bookingArr,
+            'message' => ''
+        ]);
+    }
+
+    public function getBookedHotel($order)
+    {
+        $returnArr = [];
+        if (count($order->order_hotel)) {
+            foreach ($order->order_hotel as $key => $value) {
+                $returnArr[] = $this->getBookedHotelRoom($value, $order->prn_number);
+            }
+        }
+        return $returnArr;
+    }
+
+    public function getBookedHotelRoom($hotel, $prn_number)
+    {
+        $returnArr = [];
+        if (count($hotel->order_hotel_room)) {
+            foreach ($hotel->order_hotel_room as $key => $value) {
+                $returnTempArr = [];
+                $returnTempArr['title'] = $prn_number;
+                //$returnTempArr['title'] = $prn_number . '-' . $hotel->hotel_name . ' - ' . $value->room_name . ' ( Adult ' . $value->adult . ' - Child ' . $value->child . ')';
+                $returnTempArr['start'] = $value->check_in_date;
+                $returnTempArr['end'] = $value->check_out_date;
+                $returnTempArr['url'] =  route('orders.show',  $value->order_id);
+                $returnArr = $returnTempArr;
+            }
+        }
+        return $returnArr;
     }
 }
