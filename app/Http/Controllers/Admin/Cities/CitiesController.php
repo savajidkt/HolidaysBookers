@@ -48,8 +48,18 @@ class CitiesController extends Controller
                 ->editColumn('state_id', function (City $city) {
                     return $city->state->name;
                 })
+                ->filterColumn('state_id', function ($query, $keyword) {
+                    $query->whereHas('state', function ($query) use ($keyword) {
+                        $query->where('name', 'LIKE', '%' . $keyword . '%');
+                    });
+                })
                 ->editColumn('country_id', function (City $city) {
                     return $city->state->country->name;
+                })
+                ->filterColumn('country_id', function ($query, $keyword) {
+                    $query->whereHas('state.country', function ($query) use ($keyword) {
+                        $query->where('name', 'LIKE', '%' . $keyword . '%');
+                    });
                 })
                 ->editColumn('status', function (City $city) {
                     return $city->status_name;

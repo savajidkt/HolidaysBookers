@@ -90,7 +90,7 @@ class AgentsController extends Controller
                 })->addColumn('balance', function(User $user){
                     //dd($user->agents->getbalance);
                     return (isset($user->agents->getbalance)) ? $user->agents->getbalance->balance : '0';
-                    
+
                 })->editColumn('status', function (User $user) {
                     return $user->status_name;
                 })->orderColumn('full_name', function ($query, $order) {
@@ -128,7 +128,6 @@ class AgentsController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        // dd($request);
         $this->agentRepository->create($request->all());
         return redirect()->route('agents.index')->with('success', "User created successfully!");
     }

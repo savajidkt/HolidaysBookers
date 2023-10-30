@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="form-group">
             <label class="form-label" for="country">{{ __('city/city.form_country_name') }} <span class="text-danger">*</span></label>
-            <select name="country_id" class="select2 form-control" id="country_id" data-minimum-results-for-search="Infinity"
+            <select name="country_id" class="select2 form-control" id="country_id" 
                 data-error="{{ __('city/message.country_name_required') }}">
                 <option value="">{{ __('city/city.form_country_select') }}</option>
                 @foreach ($countries as $country)
@@ -20,7 +20,7 @@
     <div class="col-12">
         <div class="form-group loaderDisplay">
             <label class="form-label" for="country">{{ __('city/city.form_state_name') }} <span class="text-danger">*</span></label>
-            <select name="state_id" class="select2 form-control" id="state_id" data-minimum-results-for-search="Infinity"
+            <select name="state_id" class="select2 form-control" id="state_id" 
                 data-error="{{ __('city/message.state_name_required') }}">
                 <option value="">{{ __('city/city.form_state_status') }}</option>
                 @if ($states)

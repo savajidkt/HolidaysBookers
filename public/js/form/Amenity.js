@@ -1,5 +1,5 @@
-var FrmAmenityPreference = function() {
-    var AmenityFormValidation = function() {
+var FrmAmenityPreference = function () {
+    var AmenityFormValidation = function () {
         var FrmAmenityPreferenceForm = $('#FrmAmenity');
         var error4 = $('.error-message', FrmAmenityPreferenceForm);
         var success4 = $('.error-message', FrmAmenityPreferenceForm);
@@ -25,7 +25,7 @@ var FrmAmenityPreference = function() {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 if (element.attr("name") == "status") {
                     error.insertAfter("#status_id");
                 } else if (element.attr("name") == "type") {
@@ -34,7 +34,7 @@ var FrmAmenityPreference = function() {
                     error.insertAfter(element);
                 }
             },
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -42,12 +42,12 @@ var FrmAmenityPreference = function() {
     }
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             AmenityFormValidation();
         }
     };
 }();
 
-$(document).ready(function() {
+$(document).ready(function () {
     FrmAmenityPreference.init();
 });

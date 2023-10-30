@@ -63,7 +63,6 @@ class ReachRepository
         throw new Exception(__('reach-us/message.updated_error'));
     }
 
-
     /**
      * Method delete
      *

@@ -198,7 +198,6 @@
     <!-- users list ends -->
 @endsection
 
-{{-- model code --}}
 
 
 @section('extra-script')

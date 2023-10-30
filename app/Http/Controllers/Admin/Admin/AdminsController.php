@@ -77,7 +77,7 @@ class AdminsController extends Controller
         $rawData=[];
         $rawData    = new Admin;        
         // $roles    =  Role::where('status',Role::ACTIVE); 
-        $roles    =  Role::where('status',Role::ACTIVE)->get(); 
+        $roles    =  Role::where('status',Role::ACTIVE)->get();
         $permissions    =  Permission::all()->groupBy('module');
         return view('admin.admin.create', ['model' => $rawData,'roles'=>$roles,'permissions'=>$permissions]);
     }

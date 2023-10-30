@@ -7,9 +7,9 @@
             @endphp
 
             @if(isset($user->userMeta->user_avatar) && strlen($user->userMeta->user_avatar) > 0)
-                <div class="avatar avatar-cover"
+            <div class="avatar avatar-cover"
                     style="background-image: url('{{ url(Storage::url('app/upload/avatar/' . $user->id . '/' . $user->usermeta->user_avatar)) }}')">
-                </div>
+            </div>
             @else
                 <div class="avatar avatar-cover"
                     style="background-image: url('{{ url(Storage::url('app/upload/avatar/avatar.png')) }}')">
@@ -100,6 +100,7 @@
                 </div>
             </div>
         </div>
+
         <div class="sidebar__item" data-position="81">
             <div class="accordion -db-sidebar js-accordion">
                 <div class="accordion__item">
@@ -116,7 +117,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
         <div class="sidebar__item" data-position="81">
             <div class="accordion -db-sidebar js-accordion">
                 <div class="accordion__item">
@@ -133,7 +134,7 @@
                     </div>
                 </div>
             </div>
-        </div>                     
+        </div>        
         <div class="sidebar__item" data-position="90">
             <div class="accordion -db-sidebar js-accordion">
                 <div class="accordion__item">

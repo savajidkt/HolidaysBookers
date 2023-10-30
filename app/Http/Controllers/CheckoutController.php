@@ -48,14 +48,18 @@ class CheckoutController extends Controller
 
     public function index(Request $request)
     {
-
+       
+      
         $requiredParamArr = getBookingCart('bookingCart');
+        
         if ($requiredParamArr) {
-            return view('checkout.checkout', ['hotelListingRepository' => $this->hotelListingRepository, 'hotelsDetails' => [], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
+            return view('checkout.checkout', ['hotelListingRepository' =>$this->hotelListingRepository,'hotelsDetails' =>[], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
         } else {
             return redirect()->route('home');
         }
+
     }
+
 
     public function postLogin(Request $request)
     {
@@ -124,29 +128,30 @@ class CheckoutController extends Controller
                 return redirect()->route('agent.draft')->with('error', 'Your booking draft created failed!');
             }
         } else {
-            $SafeencryptionObj = new Safeencryption;
-            if ($request->payment_method == 1) {
-                //Pay On time limit
-                // $this->payOnTimeLimit($data);
-            } else if ($request->payment_method == 2) {
-                //Pay using wallet
-                if (availableBalance(auth()->user()->agents->id) > getFinalAmountChackOut()) {
-                    $data = $this->checkoutRepository->createBooking($request->all());
-                    $res = $this->payUsingWallet($data);
-                    if ($res) {
-                        $this->removeTempData($data);
-                        return redirect()->route('checkout.show', [$SafeencryptionObj->encode($res->id)])->with('success', 'Your booking created successfully!');
-                    } else {
-                        return redirect()->back()->with('error', 'Insufficient Balance');
-                    }
+        $SafeencryptionObj = new Safeencryption;
+
+        if ($request->payment_method == 1) {
+            //Pay On time limit
+            // $this->payOnTimeLimit($data);
+        } else if ($request->payment_method == 2) {
+            //Pay using wallet
+            if (availableBalance(auth()->user()->agents->id) > getFinalAmountChackOut()) {
+                $data = $this->checkoutRepository->createBooking($request->all());
+                $res = $this->payUsingWallet($data);
+                if ($res) {
+                    $this->removeTempData($data);
+                    return redirect()->route('checkout.show', [$SafeencryptionObj->encode($res->id)])->with('success', 'Your booking created successfully!');
                 } else {
                     return redirect()->back()->with('error', 'Insufficient Balance');
                 }
-            } else if ($request->payment_method == 3) {
-                //Pay On Online payment            
-                $dataObj = $this->checkoutRepository->createBooking($request->all());
-                return view('checkout.rozarpay', ['requestData' => $request->all(), 'dataObj' => $dataObj]);
+            } else {
+                return redirect()->back()->with('error', 'Insufficient Balance');
             }
+        } else if ($request->payment_method == 3) {
+            //Pay On Online payment            
+            $dataObj = $this->checkoutRepository->createBooking($request->all());
+            return view('checkout.rozarpay', ['requestData' => $request->all(), 'dataObj' => $dataObj]);
+        }
         }
         //return redirect()->route('checkout.show', [])->with('error', 'Your booking created successfully!');
 
@@ -165,6 +170,7 @@ class CheckoutController extends Controller
 
     public function saveAsDraft($request)
     {
+      
 
         $data = $this->checkoutRepository->createBookingDraft($request->all());
         $res = $this->checkoutRepository->createOrderBookingDraft($data);
@@ -233,7 +239,7 @@ class CheckoutController extends Controller
     }
     public function payOnOnline(Request $request)
     {
-
+        
         $SafeencryptionObj = new Safeencryption;
         $input = $request->all();
         $api = new Api(env('RAZORPAY_KEY_ID'), env('RAZORPAY_KEY_SECRET'));
@@ -243,7 +249,7 @@ class CheckoutController extends Controller
         $data = Checkout::where('unique_number', $input['temp_order_id'])->first();
         $extra_data = unserialize($data->extra_data);
         $hotelsDetails = $this->hotelListingRepository->hotelDetailsArr(getHotelID($extra_data));
-
+       
 
         //$input['temp_order_id']
         if (count($input)  && !empty($input['razorpay_payment_id']) && !empty($input['temp_order_id'])) {
@@ -257,11 +263,11 @@ class CheckoutController extends Controller
                     }
                 }
             } catch (\Exception $e) {
-
+               
                 return redirect()->route('review-your-booking', [$SafeencryptionObj->encode($hotelsDetails['hotel']['id'])])->with('error', $e->getMessage());
             }
-        }
-
+        }  
+            
         return redirect()->route('review-your-booking', [$SafeencryptionObj->encode($hotelsDetails['hotel']['id'])])->with('error', 'internal server error');
     }
 
@@ -295,7 +301,7 @@ class CheckoutController extends Controller
                     'comment'     => 'Booking Hotel',
                     'balance'     => numberFormat($balance),
                 ];
-                return $this->checkoutRepository->updateCredit($dataDebit);
+                return $this->checkoutRepository->updateCredit($dataDebit);                
             }
         }
         return false;
@@ -312,7 +318,8 @@ class CheckoutController extends Controller
         return response()->json([
             'status' => true,
             'redirectURL' => route('cart'),
-            'message' => ''
+            'message' => '',
+            'cartItem' => getCartTotalItem()
         ]);
     }
 
@@ -445,7 +452,6 @@ class CheckoutController extends Controller
 
     public function quoteTempStore(Request $request)
     {
-        
         $QuoteOrder = QuoteOrder::find($request->order_id);
         if ($QuoteOrder) {
             $this->getAddToCartHotelData($request, $QuoteOrder);

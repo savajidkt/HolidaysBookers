@@ -1,5 +1,5 @@
-var FrmVehicleTypePreference = function() {
-    var VehicleTypeFormValidation = function() {
+var FrmVehicleTypePreference = function () {
+    var VehicleTypeFormValidation = function () {
         var FrmVehicleTypePreferenceForm = $('#FrmVehicleType');
         var error4 = $('.error-message', FrmVehicleTypePreferenceForm);
         var success4 = $('.error-message', FrmVehicleTypePreferenceForm);
@@ -25,14 +25,14 @@ var FrmVehicleTypePreference = function() {
                     required: $("select[name=status]").attr('data-error')
                 },
             },
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 if (element.attr("name") == "status") {
                     error.insertAfter("#status_id");
                 } else {
                     error.insertAfter(element);
                 }
             },
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -40,12 +40,12 @@ var FrmVehicleTypePreference = function() {
     }
     return {
         //main function to initiate the module
-        init: function() {
+        init: function () {
             VehicleTypeFormValidation();
         }
     };
 }();
 
-$(document).ready(function() {
+$(document).ready(function () {
     FrmVehicleTypePreference.init();
 });

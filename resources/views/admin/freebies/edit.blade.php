@@ -1,5 +1,5 @@
 @extends('admin.layout.app')
-@section('page_title', 'Edit freebies')
+@section('page_title', 'Edit Freebies')
 @section('content')
     <section class="bs-validation">
         <div class="row">
@@ -7,7 +7,7 @@
             <div class="col-md-6 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Edit freebies</h4>
+                        <h4 class="card-title">Edit Freebies</h4>
                     </div>
                     <div class="card-body">
                         <form id="FrmFreebies" class="needs-validation1" novalidate method="post"

@@ -32,6 +32,9 @@ class PermissionsController extends Controller
                 ->addIndexColumn()
                 ->addColumn('module', function (Permission $permission) {
                     return $permission->module;
+                })->filterColumn('module', function ($query, $keyword) {
+                    $sql = "CONCAT(permissions.module)  like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
                 })->addColumn('name', function (Permission $permission) {
                     return $permission->name;
                 })->addColumn('type', function (Permission $permission) {

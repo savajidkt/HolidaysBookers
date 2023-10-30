@@ -42,9 +42,7 @@ class CartController extends Controller
     public function index()
     {
         $bookingCartArr = getBookingCart('bookingCart');
-        // setBookingCart('bookingCart', []);
-        //dd($bookingCartArr);
-        if (count($bookingCartArr) > 0) {
+        if ( is_array($bookingCartArr) && count($bookingCartArr) > 0) {
             return view('cart.index', ['bookingCartArr' => $bookingCartArr, 'hotelListingRepository' => $this->hotelListingRepository]);
         } else {
             return redirect()->route('home');
@@ -56,24 +54,24 @@ class CartController extends Controller
         $bookingCartArr = getBookingCart('bookingCart');
        
 
-        if (count($bookingCartArr) > 0) {
+        if (is_array($bookingCartArr) && count($bookingCartArr) > 0) {
 
             foreach ($bookingCartArr as $bo_key => $bo_value) {
                
-                $newTempArray = [];
+        $newTempArray = [];
                 if ($bo_key == 'hotel') {
                     unset($bookingCartArr[$bo_key]);
                    
                     foreach ($bo_value as $key => $value) {
-                        if ($value['hotel_id'] == $request->hotel_id && $value['room_id'] == $request->hotel_room_id) {
+                if ($value['hotel_id'] == $request->hotel_id && $value['room_id'] == $request->hotel_room_id) {
                             unset($newTempArray[$key]);
-                        } else {
-                            $newTempArray[] = $value;
-                        }
-                    }
+                } else {
+                    $newTempArray[] = $value;
+                }
+            }
                     if (count($newTempArray) > 0) {
                         $bookingCartArr['hotel'] = $newTempArray;
-                    }
+        }
                 }
             }
         }

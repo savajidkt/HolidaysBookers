@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Apis;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\CreateRequest;
 use App\Http\Requests\api\EditRequest;
-use App\Models\api;
+use App\Models\Api;
 use App\Repositories\ApiRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;

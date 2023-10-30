@@ -180,7 +180,7 @@
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label class="form-label" for="role">Currency <span class="text-danger">*</span></label>
-                <select class="select2-room-currency form-control" name="currency_id"
+                <select class="select2-room-currency form-control" id="currency_id" name="currency_id"
                     data-error="Currency is required"></select>
                 <div class="CurrencyError"></div>
                 @error('currency_id')
@@ -847,7 +847,22 @@
     </div>
 </div> --}}
 @section('extra-script')
+    <script>
+        $('.select2').select2();
+    </script>
     <script src="{{ asset('js/form/Offline-Room.js') }}"></script>
+    <script>
+        $('#currency_id').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#currency_id-error').show();
+                $('#currency_id').addClass('error');
+            } else {
+                $('#currency_id-error').hide();
+                $('#currency_id').removeClass('error');
+            }
+        });
+    </script>
     <!-- BEGIN: Page Vendor JS-->
     <script src="{{ asset('app-assets/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
     <!-- END: Page Vendor JS-->
@@ -857,7 +872,7 @@
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.time.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
     <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
-    <!-- BEGIN: Page JS-->
+
     <script>
         var PackageMinDate = new Date();
          var packageBasic = $('.start-date-basic');
@@ -879,6 +894,7 @@
             });
         }
     </script>
+    <!-- BEGIN: Page JS-->
     <!-- BEGIN: Page JS-->
 
     <script src="{{ asset('app-assets/js/scripts/forms/form-repeater-without-dropzone.js') }}"></script>

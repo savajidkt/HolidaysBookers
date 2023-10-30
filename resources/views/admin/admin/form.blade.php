@@ -48,64 +48,74 @@
 
             <div class="col-12">
                 <div class="form-group">
-                    
                     @if($model->id == '')
-                        <label class="form-label" for="basic-default-password1">Password  <span class="text-danger">*</span></label>
+                    <label class="form-label" for="basic-default-password1">Password  <span class="text-danger">*</span></label>
                         <input type="password" id="password" name="password" class="form-control" placeholder="" data-error="password is required"/>
-                        <div class="valid-feedback">Looks good!</div>
-                        @error('password')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
+                    <div class="valid-feedback">Looks good!</div>
+                    @error('password')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
                     @endif
                     @if($model->id != '')
-                        <label class="form-label" for="basic-default-password1">Password</label>
+                    <label class="form-label" for="basic-default-password1">Password</label>
                         <input type="password" id="password" name="password" class="form-control" placeholder="" />
-                        <div class="valid-feedback">Looks good!</div>
-                        @error('password')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
+                    <div class="valid-feedback">Looks good!</div>
+                    @error('password')
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
                     @endif
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    
                     @if($model->id != '')
-                        <label class="form-label" for="basic-default-password1">Confirm Password</label>
+                    <label class="form-label" for="basic-default-password1">Confirm Password</label>
                         <input type="password" id="confirm-password" name="confirm_password" class="form-control" placeholder="" />
-                        <div class="valid-feedback">Looks good!</div>
+                    <div class="valid-feedback">Looks good!</div>
                         @error('confirm_password')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
                     @endif
                     @if($model->id == '')
-                        <label class="form-label" for="basic-default-password1">Confirm Password <span class="text-danger">*</span></label>
+                    <label class="form-label" for="basic-default-password1">Confirm Password <span class="text-danger">*</span></label>
                         <input type="password" id="confirm-password" require name="confirm_password" class="form-control" placeholder="" data-error="Confirm password is required"/>
-                        <div class="valid-feedback">Looks good!</div>
+                    <div class="valid-feedback">Looks good!</div>
                         @error('confirm_password')
-                        <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                        @enderror
+                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
+                    @enderror
                     @endif
                 </div>
             </div>
-            <div class="col-12">
+            <!-- <div class="col-6">
                 @if($model->id != '')
-                <div class="row">
-                    <div class="col-12">
-                        <a class="btn btn-outline-secondary waves-effect"
-                            href="{{ route('admins.index') }}">Back</a>
+                    <div class="form-group">
                         <button type="submit" id="user-save" class="btn btn-primary">Update</button>
                     </div>
-                </div>
                 @endif
                 @if($model->id == '')
-                <div class="row">
-                    <div class="col-12">
-                        <a class="btn btn-outline-secondary waves-effect"
-                            href="{{ route('admins.index') }}">Back</a>
-                            <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
+                    <div class="form-group">
+                        <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
                     </div>
-                </div>
+                @endif
+            </div> -->
+            <div class="col-12">
+                @if($model->id != '')
+                    <div class="row">
+                        <div class="col-12">
+                            <a class="btn btn-outline-secondary waves-effect"
+                                href="{{ route('admins.index') }}">Back</a>
+                            <button type="submit" id="user-save" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                @endif
+                @if($model->id == '')
+                    <div class="row">
+                        <div class="col-12">
+                            <a class="btn btn-outline-secondary waves-effect"
+                                href="{{ route('admins.index') }}">Back</a>
+                                <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
                 @endif
             </div>
         </div>

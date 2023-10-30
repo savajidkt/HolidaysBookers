@@ -140,7 +140,7 @@
     <!-- users list ends -->
 @endsection
 
-{{-- model code --}}
+
 
 @section('extra-script')
     <script src="{{ asset('app-assets/js/scripts/pages/app-user-list.js') }}"></script>

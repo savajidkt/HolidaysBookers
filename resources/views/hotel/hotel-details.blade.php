@@ -2,9 +2,20 @@
 @section('page_title', 'Hotel Details')
 @section('content')
     @php
-        $search_from = date('m-d-Y', strtotime(date('Y-m-d')));
-        $search_to = date('m-d-Y', strtotime(date('Y-m-d')));
+  
+        $search_from = date('d/m/Y', strtotime(date('Y-m-d')));
+        $search_to = date('d/m/Y', strtotime(date('Y-m-d')));
     @endphp
+    @if (isset($requestedArr) && isset($requestedArr['search_from']))
+    @php
+        $search_from = $requestedArr['search_from'] ? $requestedArr['search_from'] : date('d/m/Y', strtotime(date('Y-m-d')));
+    @endphp
+@endif
+@if (isset($requestedArr) && isset($requestedArr['search_to']))
+    @php
+        $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m/Y', strtotime(date('Y-m-d')));
+    @endphp
+@endif
     <script>
         var check_in_startDate = "{!! $search_from !!}";
         var check_in_endDate = "{!! $search_to !!}";
@@ -39,6 +50,7 @@
 
                                     <div data-x-dd-click="searchMenu-loc">
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
+
                                         <div class="text-15 text-light-1 ls-2 lh-16">
                                             <input autocomplete="off" type="search" placeholder="Where are you going?"
                                                 class="js-search js-dd-focus" name="location" id="location"
@@ -48,7 +60,9 @@
                                             <input type="hidden" class="hidden_country_id" name="country_id"
                                                 value="{{ isset($requestedArr['country_id']) ? $requestedArr['country_id'] : '' }}" />
                                         </div>
+                                        
                                     </div>
+
                                     <div class="searchMenu-loc__field shadow-2 js-popup-window" data-x-dd="searchMenu-loc"
                                         data-x-dd-toggle="-is-active">
                                         <div class="bg-white px-30 py-30 sm:px-0 sm:py-15 rounded-4">
@@ -88,6 +102,7 @@
                                             <input type="hidden" id="hidden_to" name="search_to"
                                                 value="{{ date('Y-m-d', strtotime($requestedArr['search_to'])) }}">
                                         </div>
+                                      
                                     </div>
                                     <div style="display: none" class="searchMenu-date__field shadow-2"
                                         data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">
@@ -107,6 +122,7 @@
                                                 class="js-count-room">{{ getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1 }}</span>
                                             room
                                         </div>
+         
                                     </div>
                                     <div style="display:none;" class="searchMenu-guests__field shadow-2"
                                         data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
@@ -116,7 +132,6 @@
                                                     <div class="text-15 fw-500">Adults</div>
                                                     <div class="text-14 lh-12 text-light-1 mt-5">(Above 12 Years)</div>
                                                 </div>
-
                                                 <div class="col-auto">
                                                     <div class="d-flex items-center js-counter"
                                                         data-value-change=".js-count-adult">
@@ -124,13 +139,11 @@
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
                                                             <i class="icon-minus text-12"></i>
                                                         </button>
-
                                                         <div class="flex-center size-20 ml-15 mr-15">
                                                             <div class="text-15 js-count count-adults">
                                                                 {{ $requestedArr['adult'] ? $requestedArr['adult'] : 1 }}
                                                             </div>
                                                         </div>
-
                                                         <button type="button"
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
                                                             <i class="icon-plus text-12"></i>
@@ -138,9 +151,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="border-top-light mt-24 mb-24"></div>
-
                                             <div class="row y-gap-10 justify-between items-center">
                                                 <div class="col-auto">
                                                     <div class="text-15 lh-12 fw-500">Children</div>
@@ -154,13 +165,11 @@
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
                                                             <i class="icon-minus text-12"></i>
                                                         </button>
-
                                                         <div class="flex-center size-20 ml-15 mr-15">
                                                             <div class="text-15 js-count count-childs">
                                                                 {{ $requestedArr['child'] ? $requestedArr['child'] : 0 }}
                                                             </div>
                                                         </div>
-
                                                         <button type="button"
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up">
                                                             <i class="icon-plus text-12"></i>
@@ -284,7 +293,6 @@
                                                             class="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down">
                                                             <i class="icon-minus text-12"></i>
                                                         </button>
-
                                                         <div class="flex-center size-20 ml-15 mr-15">
                                                             <div class="text-15 js-count count-rooms">
                                                                 {{ $requestedArr['room'] ? $requestedArr['room'] : 1 }}
@@ -307,7 +315,6 @@
                                         Search
                                     </button>
                                 </div>
-
                             </div>
                         </div>
                     </form>
@@ -710,13 +717,13 @@
                             @foreach ($bookingCartArr as $bo_key => $bo_value)
                                 @if ($bo_key == 'hotel')
                                     @foreach ($bo_value as $key => $value)
-                                        @if ($value['hotel_id'] == $rooms['hotel_id'] && $value['room_id'] == $rooms['room_id'])
-                                            @php
-                                                $isAddedCart = true;
-                                            @endphp
-                                        @endif
-                                    @endforeach
+                                @if ($value['hotel_id'] == $rooms['hotel_id'] && $value['room_id'] == $rooms['room_id'])
+                                    @php
+                                        $isAddedCart = true;
+                                    @endphp
                                 @endif
+                            @endforeach
+                        @endif
                             @endforeach
                         @endif
 

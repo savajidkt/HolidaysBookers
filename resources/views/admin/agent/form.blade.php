@@ -10,7 +10,7 @@
         <div class="form-group">
             <label class="form-label" for="agent_company_name">{{ __('agent/agent.agent_company_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="agent_company_name" name="agent_company_name" class="form-control"
-                placeholder="{{ __('agent/agent.agent_company_name') }}" 
+                placeholder="{{ __('agent/agent.agent_company_name') }}"
                 value="{{ isset($model->agent_company_name) ? $model->agent_company_name : old('agent_company_name') }}"
                 data-error="{{ __('agent/agent.agent_company_name') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -83,7 +83,7 @@
         <div class="form-group">
             <label class="form-label" for="agent_designation">{{ __('agent/agent.agent_designation') }} <span class="text-danger">*</span></label>
             <input type="text" id="agent_designation" name="agent_designation" class="form-control"
-                placeholder="{{ __('agent/agent.agent_designation') }}"
+                placeholder="{{ __('agent/agent.agent_designation') }}" onkeydown="return /[a-z]/i.test(event.key)"
                 value="{{ isset($model->agent_designation) ? $model->agent_designation : old('agent_designation') }}"
                 data-error="{{ __('agent/agent.agent_designation') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -95,7 +95,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_dob">{{ __('agent/agent.agent_dob') }} <span class="text-danger">*</span></label>
-            <input type="text" id="fp-default" name="agent_dob" class="form-control  date-format"
+            <input type="text" id="fp-default" name="agent_dob" class="form-control flatpickr-basic flatpickr-input date-format"
                 placeholder="DD-MM-YYYY" placeholder="{{ __('agent/agent.agent_dob') }}"
                 value="{{(isset($model->agent_dob))? formatdate($model->agent_dob):''}}"
                 data-error="{{ __('agent/agent.agent_dob') }}" />
@@ -699,7 +699,6 @@
     <script>
         $('.select2').select2();
     </script>
-    
     <script src="{{ asset('js/form/Agent.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.date.js') }}"></script>
@@ -710,5 +709,47 @@
             redirectUrl: "{!! route('get-state-list') !!}",
             getCities: "{!! route('get-city-list') !!}",
         };
+    </script>
+    <script>
+        $('#agent_company_type').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#agent_company_type-error').show();
+                $('#agent_company_type').addClass('error');
+            } else {
+                $('#agent_company_type-error').hide();
+                $('#agent_company_type').removeClass('error');
+            }
+        });
+        $('#agent_country').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#agent_country-error').show();
+                $('#agent_country').addClass('error');
+            } else {
+                $('#agent_country-error').hide();
+                $('#agent_country').removeClass('error');
+            }
+        });
+        $('#agent_state').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#agent_state-error').show();
+                $('#agent_state').addClass('error');
+            } else {
+                $('#agent_state-error').hide();
+                $('#agent_state').removeClass('error');
+            }
+        });
+        $('#agent_city').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#agent_city-error').show();
+                $('#agent_city').addClass('error');
+            } else {
+                $('#agent_city-error').hide();
+                $('#agent_city').removeClass('error');
+            }
+        });
     </script>
 @endsection

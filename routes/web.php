@@ -107,8 +107,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/agent/import-agents', [AgentsController::class, 'importAgents'])->name('importsAgents');
     Route::get('/agent/export', [AgentsController::class, 'agentExcelExport'])->name('agentExport');
 
-    Route::resource('/vendors', VendorController::class);
-
     Route::resource('/packages', PackagesController::class);
     Route::post('/package/change-status', [PackagesController::class, 'changeStatus'])->name('change-package-status');
     Route::post('/package/get-cities-by-country', [PackagesController::class, 'getCitiesByCountryList'])->name('get-cities-by-country-url');
@@ -257,6 +255,8 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/booking-history/{id}', [AgentBookingHistoryController::class, 'index'])->name('agent.booking-history');
     Route::get('/view-booking-history/{id}', [AgentBookingHistoryController::class, 'show'])->name('agent.view-booking-history');
     Route::get('/invoice-download/{order}', [AgentBookingHistoryController::class, 'orderInvoiceDownload'])->name('agent-invoice-download');
+    Route::get('/export-single-order/{order}', [AgentBookingHistoryController::class, 'exportSingleOrder'])->name('agent-export-single-order');
+    Route::post('/export-orders', [AgentBookingHistoryController::class, 'exportOrders'])->name('agent-export-orders');
 
     Route::get('/booking-hotel-cancel/{id}', [AgentBookingHistoryController::class, 'orderCancel'])->name('agent.booking-hotel-cancel');
 
@@ -274,7 +274,7 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/quotation', [AgentQuotationController::class, 'index'])->name('agent.quotation');
     Route::get('/quotation/order-delete/{id}', [AgentQuotationController::class, 'deleteOrder'])->name('agent.order-delete');
     Route::get('/quotation/order-room-delete/{id}', [AgentQuotationController::class, 'deleteRoom'])->name('agent.order-room-delete');
-
+    
     Route::get('/draft/draft-order-delete/{id}', [AgentDraftHistoryController::class, 'draftDeleteOrder'])->name('agent.draft-order-delete');
     Route::get('/draft/draft-order-room-delete/{id}', [AgentDraftHistoryController::class, 'draftDeleteRoom'])->name('agent.draft-order-room-delete');
     Route::get('/draft/view/{id}', [AgentDraftHistoryController::class, 'view'])->name('agent.draft-order-view');
@@ -291,7 +291,7 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/review-your-booking/{id}', [CheckoutController::class, 'checkout'])->name('review-your-booking');
     Route::resource('/checkout', CheckoutController::class);
 
-    Route::post('/get-booking-list', [AgentDashboardController::class, 'getBookingList'])->name('get-booking-list');
+    Route::post('/get-booking-list', [AgentDashboardController::class, 'getBookingList'])->name('get-booking-list');        
     Route::post('razorpaypayment', [CheckoutController::class, 'payOnOnline'])->name('razorpaypayment');
     Route::post('razorpaypayment-success', [CheckoutController::class, 'payOnOnlineSuccess'])->name('razorpaypaymentSuccess');
     Route::post('razorpaypayment-failed', [CheckoutController::class, 'payOnOnlineFailed'])->name('razorpaypaymentFailed');
@@ -311,13 +311,14 @@ Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], functio
     Route::get('/verification', [VerificationController::class, 'index'])->name('customer.verification');
     Route::get('/verification/update/{id}', [VerificationController::class, 'edit'])->name('customer.verification-update');
     Route::post('/verification/update/{id}', [VerificationController::class, 'update'])->name('customer.verification-update');
-
+   
     Route::get('/my-profile', [MyProfileController::class, 'editProfile'])->name('customer.my-profile');
     Route::post('/my-profile', [MyProfileController::class, 'updateProfile'])->name('customer.my-profile');
     Route::get('/my-location', [MyProfileController::class, 'editLocation'])->name('customer.my-location');
     Route::post('/my-location', [MyProfileController::class, 'updateLocation'])->name('customer.my-location');
     Route::get('/my-change-password', [MyProfileController::class, 'editChangePassword'])->name('customer.my-change-password');
     Route::post('/my-change-password', [MyProfileController::class, 'updateChangePassword'])->name('customer.my-change-password');
+    
 });
 
 Route::group(['prefix' => 'corporate', 'middleware' => ['corporateauth']], function () {
@@ -332,7 +333,7 @@ Route::group(['authGrouping' => 'users.auth'], function () {
 
 // Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/city-hotel-list', [HotelListController::class, 'getLocations'])->name('city-hotel-list');
 Route::get('/hotel-list-ajax', [HotelListController::class, 'ajaxHotelListing'])->name('hotel-list-ajax');
@@ -350,6 +351,5 @@ Route::post('/checkout/post-registration', [CheckoutController::class, 'postRegi
 Route::post('/checkout/post-login', [CheckoutController::class, 'postLogin'])->name('post-login');
 
 Route::post('/checkout/ajax', [CheckoutController::class, 'ajaxTempStore'])->name('ajax-temp-store');
-
 Route::post('/checkout/ajax-remove', [CheckoutController::class, 'ajaxTempRemove'])->name('ajax-temp-remove');
 Route::post('wishlist', [FrontWishlistController::class, 'store'])->name('add-to-wishlist');

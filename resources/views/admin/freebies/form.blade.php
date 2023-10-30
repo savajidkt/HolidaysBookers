@@ -3,7 +3,9 @@
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">Name <span class="text-danger">*</span></label>
             <input type="text" id="basic-addon-name" name="name" class="form-control"
-                placeholder="Freebies name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
+                placeholder="Freebies name" 
+                onkeydown="return /[a-zA-Z ]/.test(event.key)" 
+                oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);"
                 value="{{ isset($model->name) ? $model->name : old('name') }}"
                 aria-describedby="basic-addon-name"
                 data-error="Freebies name is required." />
@@ -13,7 +15,7 @@
             @enderror
         </div>
     </div>
-
+    
     <div class="col-12">
         <div class="form-group">
             <label class="form-label" for="type">Type <span class="text-danger">*</span></label>

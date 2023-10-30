@@ -81,4 +81,17 @@ class RoleRepository
         throw new Exception('Role delete failed.');
     }
 
+     /**
+     * Method changeStatus
+     *
+     * @param array $input [explicite description]
+     *
+     * @return bool
+     */
+    public function changeStatus(array $input, Role $role): bool
+    {
+        $role->status = !$input['status'];
+        return $role->save();
+    }
+
 }

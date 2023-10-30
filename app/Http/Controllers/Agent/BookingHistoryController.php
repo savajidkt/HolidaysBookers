@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Agent;
 
+use App\Exports\ExportOrders;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 use App\Repositories\HotelListingRepository;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookingHistoryController extends Controller
 {
@@ -34,6 +36,7 @@ class BookingHistoryController extends Controller
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 1)->where('order_type', 1);
             } else if ($status == "unpaid") {
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('payment_status', 0)->where('order_type', 1);
+            
             } else {
                 $data = Order::select('*')->where('agent_code', $user->agents->agent_code)->where('status', orderStatusByID(strtolower($status)))->where('order_type', 1);
             }
@@ -49,7 +52,7 @@ class BookingHistoryController extends Controller
                     return $order->guest_name;
                 })
                 ->addColumn('pax', function (Order $order) {
-                    return 'Room : ' . $order->total_rooms . ' Adult : ' . $order->total_adult . '<br> Children : ' . $order->total_child . '<br> Night : ' . $order->total_nights;
+                    return 'Room : ' . $order->total_rooms . ' Adult : ' . $order->total_adult . '<br> Children : ' . $order->total_child.'<br> Night : '.$order->total_nights;
                 })
                 ->editColumn('booking_amount', function (Order $order) {
                     return numberFormat($order->booking_amount, globalCurrency());
@@ -57,10 +60,14 @@ class BookingHistoryController extends Controller
                 ->editColumn('status', function (Order $order) use ($isDraft) {
 
                     return getPaymentStatus($order->status);
+                    
+                    
                 })
-                ->addColumn('action', function (Order $order)  use ($isDraft) {
+                ->addColumn('action', function (Order $order)  use ($isDraft) {    
 
                     return getOrderHistoryAction($order->id, $order);
+                                  
+                    
                 })
                 ->rawColumns(['action', 'status', 'pax'])->make(true);
         }
@@ -69,10 +76,10 @@ class BookingHistoryController extends Controller
 
     public function show($id)
     {
-
         $pagename = "view-booking-history";
         $Order = Order::find($id);
-        if ($Order) {
+        if ($Order) {           
+
             return view('agent.booking-history.view', ['pagename' => $pagename, 'order' => $Order]);
         }
         return redirect()->route('home');
@@ -200,10 +207,11 @@ class BookingHistoryController extends Controller
 								<td class="title">
 									<img src="' . url('/public/app-assets/images/logo/HBPdfLogo.png') . '" />
 								</td>
-								<td>
-                                (w)www.holidaysbookers.com<br />
-                                (e)accounts@holidaysbookers.com
-								</td>
+                                <td>
+                                    <a href="http://www.holidaysbookers.com" target="_blank">(w)www.holidaysbookers.com</a><br />
+                                    <a href="mailto:accounts@holidaysbookers.com" target="_blank">(e)accounts@holidaysbookers.com</a>
+                                </td>
+
 							</tr>
 						</table>
 					</td>
@@ -241,7 +249,7 @@ class BookingHistoryController extends Controller
                         </td>
                         <td>                            
                                 Invoice Number:	' . $order->invoice_no . '<br />
-                                Invoice Date:	' . date('d M, Y', strtotime($order->created_at)) . '<br />                               
+                                Invoice Date:	'.date('d M, Y', strtotime($order->created_at)).'<br />                               
                         </td>
                     </tr>
                 </table>
@@ -328,6 +336,8 @@ class BookingHistoryController extends Controller
         $tax = 0;
         $taxAmt = 0;
         $discount = 0;
+
+        
         $tableStr = '';
         $tableStr .= '<table cellpadding="0" cellspacing="0">';
         $tableStr .= '<tr class="heading">';
@@ -344,14 +354,15 @@ class BookingHistoryController extends Controller
             $taxAmt = $order->tax_amount;
             foreach ($order->order_hotel as $key => $value) {
                 $order_hotel_room = OrderHotelRoom::where('order_hotel_id', $value->id)->first();
-                $tableStr .= '<tr class="item">';
+            $tableStr .= '<tr class="item">';
                 $tableStr .= '<td class="">' . $value->hotel_name . '</td>';
                 $tableStr .= '<td class="text-center">' . (int) dateDiffInDays($order_hotel_room->check_in_date, $order_hotel_room->check_out_date) . '</td>';
                 $tableStr .= '<td class="text-center">1</td>';
                 $tableStr .= '<td class="text-center">' . $order_hotel_room->adult . '</td>';
                 $tableStr .= '<td class="text-center">' . $order_hotel_room->child . '</td>';
-                $tableStr .= '<td class="text-right"></td>';
-                $tableStr .= '</tr>';
+            $tableStr .= '<td class="text-right"></td>';
+            $tableStr .= '</tr>';
+
                 $tableStr .= '<tr>';
                 $tableStr .=  '<td><ul style="margin: 0px !important;"><li style="font-size:12px;">' . $order_hotel_room->room_name . '<br> From ' . date('d M, Y', strtotime($order_hotel_room->check_in_date)) . ' To ' . date('d M, Y', strtotime($order_hotel_room->check_out_date)) . ' </li></ul></td>';
                 $tableStr .= '<td class="text-center"></td>';
@@ -362,6 +373,7 @@ class BookingHistoryController extends Controller
                 $tableStr .= '</tr>';
                 $subTotal = $subTotal + $order_hotel_room->price;
             }
+
             $tableStr .= '<tr class="total">';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
@@ -386,7 +398,7 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Tax (' . $tax . '%):<strong> ' . numberFormat($taxAmt, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Tax ('.$tax.'%):<strong> ' . numberFormat($taxAmt, $order->booking_currency) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $total = ($subTotal + $taxAmt) - $discount;
@@ -440,5 +452,23 @@ class BookingHistoryController extends Controller
             }
         }
         return redirect()->back()->with('error', 'Cancel failed!');
+    }
+
+    public function exportSingleOrder(Order $Order)
+    {
+
+        return Excel::download(new ExportOrders($Order), 'order.csv');        
+    }
+
+    public function exportOrders(Request $request)
+    {
+        echo "all";
+}
+
+    public function getCustom($id)
+    {
+        echo "jj";
+        dd($id);
+        exit;
     }
 }

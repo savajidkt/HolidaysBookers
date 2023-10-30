@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('page_title', 'Home')
+@section('page_title', 'Checkout')
 @section('content')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/front/js/intlTelInput/css/intlTelInput.css') }}">
     <style>
@@ -102,30 +102,30 @@
                                 <div class="col-md-6">
                                     <div class="form-input firstname">
                                         <input type="hidden" name="bookingKey" value="{{ $bookingKey }}">
-                                        <input type="text" name="firstname" required
+                                        <input type="text" name="firstname" required onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                             value="{{ $user->first_name ? $user->first_name : '' }}">
-                                        <label class="lh-1 text-16 text-light-1">First Name</label>
+                                        <label class="lh-1 text-16 text-light-1">First Name <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-input lastname">
-                                        <input type="text" name="lastname" required
+                                        <input type="text" name="lastname" required onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                             value="{{ $user->last_name ? $user->last_name : '' }}">
-                                        <label class="lh-1 text-16 text-light-1">Last Name</label>
+                                        <label class="lh-1 text-16 text-light-1">Last Name <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-input email">
                                         <input type="text" name="email" required
                                             value="{{ $user->email ? $user->email : '' }}">
-                                        <label class="lh-1 text-16 text-light-1">Email</label>
+                                        <label class="lh-1 text-16 text-light-1">Email <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-input phone">
-                                        <input type="text" name="phone" required
+                                        <input type="text" name="phone" required oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
                                             value="{{ isset($user->usermeta->phone_number) ? $user->usermeta->phone_number : '' }}">
-                                        <label class="lh-1 text-16 text-light-1">Phone Number</label>
+                                        <label class="lh-1 text-16 text-light-1">Phone Number <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -143,22 +143,22 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-input registration_number">
-                                                <input type="text" name="registration_number" required value="">
-                                                <label class="lh-1 text-16 text-light-1">Registration Number</label>
+                                                <input type="text" name="registration_number" required value="" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">
+                                                <label class="lh-1 text-16 text-light-1">Registration Number <span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-input registered_company_name">
                                                 <input type="text" name="registered_company_name" required
-                                                    value="">
-                                                <label class="lh-1 text-16 text-light-1">Registered Company name</label>
+                                                    value="" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">
+                                                <label class="lh-1 text-16 text-light-1">Registered Company name <span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-input registered_company_address">
                                                 <input type="text" name="registered_company_address" required
-                                                    value="">
-                                                <label class="lh-1 text-16 text-light-1">Registered Company address</label>
+                                                    value="" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">
+                                                <label class="lh-1 text-16 text-light-1">Registered Company address <span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                     </div>
@@ -256,18 +256,18 @@
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label for="exampleFormControlInput1">First
-                                                                                    Name- Adult</label>
+                                                                                    Name- Adult <span class="text-danger">*</span></label>
                                                                                 <input type="text"
-                                                                                    class="form-control addvalidation"
+                                                                                    class="form-control addvalidation" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                                                     name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][firstname][]">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label for="exampleFormControlInput1">Last
-                                                                                    Name- Adult</label>
+                                                                                    Name- Adult <span class="text-danger">*</span></label>
                                                                                 <input type="text"
-                                                                                    class="form-control addvalidation"
+                                                                                    class="form-control addvalidation" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                                                     name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][lastname][]">
                                                                             </div>
                                                                         </div>
@@ -298,9 +298,9 @@
                                                                             <div class="form-group">
                                                                                 <label for="exampleFormControlInput1">ID
                                                                                     Proof
-                                                                                    No- Adult</label>
+                                                                                    No- Adult <span class="text-danger">*</span></label>
                                                                                 <input type="text"
-                                                                                    class="form-control addvalidation"
+                                                                                    class="form-control addvalidation" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
                                                                                     name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][id_proof_no][]">
                                                                             </div>
                                                                         </div>
@@ -426,17 +426,17 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="exampleFormControlInput1">First
-                                                                Name- Adult</label>
+                                                                Name- Adult <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control lead_addvalidation"
-                                                                name="lead_firstname">
+                                                                name="lead_firstname" onkeydown="return /[a-zA-Z ]/.test(event.key)">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="exampleFormControlInput1">Last
-                                                                Name- Adult</label>
+                                                                Name- Adult <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control lead_addvalidation"
-                                                                name="lead_lastname">
+                                                                name="lead_lastname" onkeydown="return /[a-zA-Z ]/.test(event.key)">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
@@ -458,17 +458,17 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="exampleFormControlInput1">ID Proof
-                                                                No- Adult</label>
+                                                                No- Adult <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control lead_addvalidation"
-                                                                name="lead_id_proof_no">
+                                                                name="lead_id_proof_no" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="exampleFormControlInput1">Phone
-                                                                Number- Adult</label>
-                                                            <input type="text" id=""
+                                                                Number- Adult <span class="text-danger">*</span></label>
+                                                            <input type="text" id="" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
                                                                 class="form-control phonenumber lead_addvalidation"
                                                                 placeholder="Phone Number" name="lead_phonenumber">
                                                         </div>
@@ -492,7 +492,7 @@
                                                     </div>
                                                     <div class="text-14 lh-12 ml-10">By proceeding with this booking, I
                                                         agree to
-                                                        GoTrip Terms of Use and Privacy Policy.</div>
+                                                        GoTrip Terms of Use and Privacy Policy. <span class="text-danger">*</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -508,7 +508,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="text-14 lh-1 ml-10">Pay using wallet (Balance :
-                                                            {{ availableBalance($user->agents->id, 'INR') }})
+                                                            {{ availableBalance($user->agents->id, 'INR') }}) <span class="text-danger">*</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -521,7 +521,7 @@
                                                             <div class="radio__icon"></div>
                                                         </div>
                                                     </div>
-                                                    <div class="text-14 lh-1 ml-10">Pay On Online payment</div>
+                                                    <div class="text-14 lh-1 ml-10">Pay On Online payment <span class="text-danger">*</span></div>
                                                 </div>
                                             </div>
                                         </div>

@@ -24,28 +24,28 @@
                         <a class="nav-link active" id="account-pill-hotel-details" data-toggle="pill"
                             href="#account-vertical-hotel-details" aria-expanded="true">
                             <i data-feather='arrow-right-circle'></i>
-                            <span class="font-weight-bold">Hotel Details</span>
+                            <span class="font-weight-bold">HOTEL DETAILS</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-front-office" data-toggle="pill"
                             href="#account-vertical-front-office" aria-expanded="false">
                             <i data-feather='arrow-right-circle'></i>
-                            <span class="font-weight-bold">Front Office</span>
+                            <span class="font-weight-bold">FRONT OFFICE</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-sales" data-toggle="pill"
                             href="#account-vertical-sales" aria-expanded="false">
                             <i data-feather='arrow-right-circle'></i>
-                            <span class="font-weight-bold">Sales & Management</span>
+                            <span class="font-weight-bold">SALES & MANAGEMENT</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="account-pill-reservation" data-toggle="pill"
                             href="#account-vertical-reservation" aria-expanded="false">
                             <i data-feather='arrow-right-circle'></i>
-                            <span class="font-weight-bold">Reservation</span>
+                            <span class="font-weight-bold">RESERVATION</span>
                         </a>
                     </li>
                     
@@ -53,7 +53,7 @@
                         <a class="nav-link" id="account-pill-galleries-details" data-toggle="pill"
                             href="#account-vertical-galleries-details" aria-expanded="false">
                             <i data-feather='arrow-right-circle'></i>
-                            <span class="font-weight-bold">Gallery</span>
+                            <span class="font-weight-bold">GALLERY</span>
                         </a>
                     </li>
                 </ul>
@@ -71,114 +71,114 @@
                                    
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Country</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->country->name) ? $model->country->name : '' }}</strong>
+                                            <strong for="account-username">Country</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->country->name) ? $model->country->name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">City</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->city->name) ? $model->city->name : '' }}</strong>
+                                            <strong for="account-username">City</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->city->name) ? $model->city->name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Category</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->category) ? $model->category : '' }} Star</strong>
+                                            <strong for="account-username">Category</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->category) ? $model->category : '' }} Star</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Hotel Group</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->hotelgroup->name) ? $model->hotelgroup->name : '' }}</strong>
+                                            <strong for="account-username">Hotel Group</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->hotelgroup->name) ? $model->hotelgroup->name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Phone Number</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->phone_number) ? $model->phone_number : '' }}</strong>
+                                            <strong for="account-username">Phone Number</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->phone_number) ? $model->phone_number : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Fax Number</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->fax_number) ? $model->fax_number : '' }}</strong>
+                                            <strong for="account-username">Fax Number</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->fax_number) ? $model->fax_number : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Address</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->hotel_address) ? $model->hotel_address : '' }}</strong>
+                                            <strong for="account-username">Address</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->hotel_address) ? $model->hotel_address : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Pincode</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->hotel_pincode) ? $model->hotel_pincode : '' }}</strong>
+                                            <strong for="account-username">Pincode</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->hotel_pincode) ? $model->hotel_pincode : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Email</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->hotel_email) ? $model->hotel_email : '' }}</strong>
+                                            <strong for="account-username">Email</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->hotel_email) ? $model->hotel_email : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Hotel Freebies</label>
-                                            <strong
-                                                class="disp-below">{{ $freebiesName }}</strong>
+                                            <strong for="account-username">Hotel Freebies</strong>
+                                            <span
+                                                class="disp-below">{{ $freebiesName }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Hotel Amenities</label>
-                                            <strong
-                                                class="disp-below">{{ $amenitiesName }}</strong>
+                                            <strong for="account-username">Hotel Amenities</strong>
+                                            <span
+                                                class="disp-below">{{ $amenitiesName }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Property Type</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->property->property_name) ? $model->property->property_name : '' }}</strong>
+                                            <strong for="account-username">Property Type</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->property->property_name) ? $model->property->property_name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Rating</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->hotel_review) ? $model->hotel_review : '' }}</strong>
+                                            <strong for="account-username">Rating</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->hotel_review) ? $model->hotel_review : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Latitude</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->hotel_latitude) ? $model->hotel_latitude : '' }}</strong>
+                                            <strong for="account-username">Latitude</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->hotel_latitude) ? $model->hotel_latitude : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Longitude</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->hotel_longitude) ? $model->hotel_longitude : '' }}</strong>
+                                            <strong for="account-username">Longitude</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->hotel_longitude) ? $model->hotel_longitude : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Cancel Days</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->cancel_days) ? $model->cancel_days : '' }}</strong>
+                                            <strong for="account-username">Cancel Days</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->cancel_days) ? $model->cancel_days : '' }}</span>
                                         </div>
                                     </div>
                                  </div>
@@ -186,16 +186,16 @@
                                  <div class="row">
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group">
-                                            <label for="account-username"> Hotel Description </label>
-                                            <strong
-                                                class="disp-below">{!! isset($model->hotel_description) ? $model->hotel_description : '' !!}</strong>
+                                            <strong for="account-username"> Hotel Description </strong>
+                                            <span
+                                                class="disp-below">{!! isset($model->hotel_description) ? $model->hotel_description : '' !!}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group">
-                                            <label for="account-username">Cancellation Policy</label>
-                                            <strong
-                                                class="disp-below">{!! isset($model->cancellation_policy) ? $model->cancellation_policy : '' !!}</strong>
+                                            <strong for="account-username">Cancellation Policy</strong>
+                                            <span
+                                                class="disp-below">{!! isset($model->cancellation_policy) ? $model->cancellation_policy : '' !!}</span>
                                         </div>
                                     </div>
                                  </div>
@@ -206,30 +206,30 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Name</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->front_office_first_name) ? $model->front_office_first_name : '' }}</strong>
+                                            <strong for="account-username">Name</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->front_office_first_name) ? $model->front_office_first_name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Designation</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->front_office_designation) ? $model->front_office_designation : '' }}</strong>
+                                            <strong for="account-username">Designation</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->front_office_designation) ? $model->front_office_designation : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Contact Number</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->front_office_contact_number) ? $model->front_office_contact_number : '' }}</strong>
+                                            <strong for="account-username">Contact Number</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->front_office_contact_number) ? $model->front_office_contact_number : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Email</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->front_office_email) ? $model->front_office_email : '' }}</strong>
+                                            <strong for="account-username">Email</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->front_office_email) ? $model->front_office_email : '' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -239,30 +239,30 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Name</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->sales_first_name) ? $model->sales_first_name : '' }}</strong>
+                                            <strong for="account-username">Name</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->sales_first_name) ? $model->sales_first_name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Designation</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->sales_designation) ? $model->sales_designation : '' }}</strong>
+                                            <strong for="account-username">Designation</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->sales_designation) ? $model->sales_designation : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Contact Number</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->sales_contact_number) ? $model->sales_contact_number : '' }}</strong>
+                                            <strong for="account-username">Contact Number</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->sales_contact_number) ? $model->sales_contact_number : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Email</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->sales_email) ? $model->sales_email : '' }}</strong>
+                                            <strong for="account-username">Email</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->sales_email) ? $model->sales_email : '' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -272,30 +272,30 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Name</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->reservation_first_name) ? $model->reservation_first_name : '' }}</strong>
+                                            <strong for="account-username">Name</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->reservation_first_name) ? $model->reservation_first_name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Designation</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->reservation_designation) ? $model->reservation_designation : '' }}</strong>
+                                            <strong for="account-username">Designation</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->reservation_designation) ? $model->reservation_designation : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Contact Number</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->reservation_contact_number) ? $model->reservation_contact_number : '' }}</strong>
+                                            <strong for="account-username">Contact Number</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->reservation_contact_number) ? $model->reservation_contact_number : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-2">
                                         <div class="form-group">
-                                            <label for="account-username">Email</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->reservation_email) ? $model->reservation_email : '' }}</strong>
+                                            <strong for="account-username">Email</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->reservation_email) ? $model->reservation_email : '' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -326,6 +326,12 @@
                                                                     $i++;
                                                                 @endphp
                                                             @endforeach
+                                                            @if (strlen($model->hotel_image_location)> 0)
+                                                            <div class="carousel-item {{ $i == 1 ? 'active' : '' }}">
+                                                                <img src="{{ url('storage/app/upload/Hotel/' . $model->id . '/'  . $model->hotel_image_location) }}"
+                                                                    class="img-fluid d-block w-100" alt="cf-img-1" style="height: 550px !important;" />
+                                                            </div>
+                                                            @endif
                                                         </div>
                                                         <a class="carousel-control-prev" href="#carouselExampleFade"
                                                             role="button" data-slide="prev">

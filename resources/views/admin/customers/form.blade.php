@@ -33,7 +33,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">Date of birth <span class="text-danger">*</span></label>
-            <input type="text" id="fp-default" name="dob" class="form-control date-format"
+            <input type="text" id="fp-default" name="dob" class="form-control flatpickr-basic flatpickr-input"
                 placeholder="DD-MM-YYYY" placeholder="Date of birth is required"
                 value="{{(isset($model->dob))? formatdate($model->dob):''}}" data-error="Date of birth is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

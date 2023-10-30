@@ -88,21 +88,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @php
+                                    @php
                                             $i = 0;
-                                            
-                                        @endphp
+                                  
+                                    @endphp
                                         @foreach ($order->order_rooms_with_cancel as $key => $value)
-                                            @php
-                                                $i++;
-                                            @endphp
-                                            <div class="row y-gap-20 mb-15 mt-15 justify-between">
-                                                <div class="col-auto">
+                                                @php
+                                                
+                                                    $i++;
+                                                @endphp
+                                                <div class="row y-gap-20 mb-15 mt-15 justify-between">
+                                                    <div class="col-auto">
                                                     <div class="fw-500">Room {{ $i }} :
                                                         {{ $value->hotel_details->hotel_name }} :
                                                         <span class="fw-300">{{ $value->room_name }}</span>
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 <div class="col-auto pull-right">
                                                     <div class="fw-500">
                                                         @if ($value->deleted_at == null)
@@ -115,56 +116,58 @@
                                                                 Cancelled
                                                             </a>
                                                         @endif
-
-                                                    </div>
+                                                    
+                                                </div>
                                                 </div>
                                             </div>
                                             @if ($value->order_hotel_room_passenger_with_cancel)
                                                 @foreach ($value->order_hotel_room_passenger_with_cancel as $key => $value)
-                                                    <div
+                                            <div
                                                         class="row mb-15 {{ $value->is_adult == 1 ? ' border-type-2' : 'border-type-1' }} rounded-8">
-                                                        <div class="col-12">
-                                                            <div class="d-flex justify-between ">
-                                                                <div class="text-15 lh-16">Name</div>
-                                                                <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                <div class="col-12">
+                                                    <div class="d-flex justify-between ">
+                                                        <div class="text-15 lh-16">Name</div>
+                                                        <div class="text-15 lh-16 fw-500 text-blue-1">
                                                                     {{ $value->name }}
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                        <div class="col-12">
-                                                            <div class="d-flex justify-between border-top-light pt-10">
-                                                                <div class="text-15 lh-16">ID Proof</div>
-                                                                <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-flex justify-between border-top-light pt-10">
+                                                        <div class="text-15 lh-16">ID Proof</div>
+                                                        <div class="text-15 lh-16 fw-500 text-blue-1">
                                                                     {{ $value->id_proof }}
-                                                                </div>
-                                                            </div>
                                                         </div>
-                                                        <div class="col-12">
-                                                            <div class="d-flex justify-between border-top-light pt-10">
-                                                                <div class="text-15 lh-16">ID Proof No</div>
-                                                                <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-flex justify-between border-top-light pt-10">
+                                                        <div class="text-15 lh-16">ID Proof No</div>
+                                                        <div class="text-15 lh-16 fw-500 text-blue-1">
                                                                     {{ $value->id_proof_no }}
-                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                        @if ($value->is_adult == 0)
+                                                    <div class="col-12">
+                                                        <div class="d-flex justify-between border-top-light pt-10">
+                                                            <div class="text-15 lh-16">Phone</div>
+                                                            <div class="text-15 lh-16 fw-500 text-blue-1">
+                                                                        {{ $value->phone }}
                                                             </div>
                                                         </div>
-                                                        @if ($value->is_adult == 0)
-                                                            <div class="col-12">
-                                                                <div class="d-flex justify-between border-top-light pt-10">
-                                                                    <div class="text-15 lh-16">Phone</div>
-                                                                    <div class="text-15 lh-16 fw-500 text-blue-1">
-                                                                        {{ $value->phone }}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                    </div>
+                                                @endif
+                                               
                                                     </div>
                                                 @endforeach
-                                            @endif
-                                        @endforeach
-
+                                                @endif
+                                        @endforeach                                         
+                                      
                                     </div>
                                 @else
                                     <div class=" px-20 py-20 mt-20">
+
                                         <div class="row y-gap-20 mb-15 mt-15 justify-between">
                                             <div class="col-auto">
                                                 <div class="fw-500">Hotels Details
@@ -172,9 +175,11 @@
                                             </div>
                                             <div class="col-auto">
                                                 <div class="fw-500">Lead Passenger
-                                                </div>
                                             </div>
-                                        </div>
+                                            
+                                                    </div>
+                                               
+                                                </div>
                                         @php
                                             $i = 0;
                                         @endphp
@@ -187,7 +192,6 @@
                                                     <div class="fw-500">Room {{ $i }} :
                                                         {{ $value->hotel_details->hotel_name }} :
                                                         <span class="fw-300">{{ $value->room_name }}</span>
-
                                                     </div>
                                                 </div>
                                                 <div class="col-auto pull-right">
@@ -210,37 +214,40 @@
                                                     <div class="text-15 lh-16">Name</div>
                                                     <div class="text-15 lh-16 fw-500 text-blue-1">
                                                         {{ $order->lead_passenger_name }}
+                                                            </div>
+                                                          
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
                                             <div class="col-12">
                                                 <div class="d-flex justify-between border-top-light pt-10">
                                                     <div class="text-15 lh-16">ID Proof</div>
                                                     <div class="text-15 lh-16 fw-500 text-blue-1">
                                                         {{ $order->lead_passenger_id_proof }}
                                                     </div>
-                                                </div>
-                                            </div>
+                                                        </div>
+                                                    </div>
                                             <div class="col-12">
                                                 <div class="d-flex justify-between border-top-light pt-10">
                                                     <div class="text-15 lh-16">ID Proof No</div>
                                                     <div class="text-15 lh-16 fw-500 text-blue-1">
                                                         {{ $order->lead_passenger_id_proof_no }}
-                                                    </div>
                                                 </div>
                                             </div>
+                                        </div>
                                             <div class="col-12">
                                                 <div class="d-flex justify-between border-top-light pt-10">
                                                     <div class="text-15 lh-16">Phone</div>
                                                     <div class="text-15 lh-16 fw-500 text-blue-1">
                                                         {{ $order->lead_passenger_phone }}
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                           
+                                            </div>
+                                           
+                                                </div>
+                                            </div>
                                 @endif
-                            </div>
+                                        </div>
                             @php
                                 $finalAmt = 0;
                             @endphp
@@ -255,37 +262,37 @@
                                                         @if ($value->order_hotel_room_with_cancel)
                                                             @foreach ($value->order_hotel_room_with_cancel as $key1 => $value1)
                                                                 @if ($value1->deleted_at == null)
-                                                                    @php
-                                                                        $finalAmt = $finalAmt + $value1->price;
-                                                                    @endphp
-                                                                    <li class="">
+                                                        @php
+                                                                    $finalAmt = $finalAmt + $value1->price;
+                                                        @endphp
+                                                        <li class="">
                                                                     @else
                                                                     <li class="orderCancelCls">
                                                                 @endif
 
 
-                                                                <div class="text-15 fw-500">
-                                                                    <i class="fa fa-bed"></i>
-                                                                    {{ $value->hotel_name }}
-                                                                    <br>
-                                                                    <span class="text-12 fw-500">
-                                                                        {{ $value1->room_name }}, Adults
-                                                                        {{ $value1->adult }}, Children
-                                                                        {{ $value1->child }}</span>
-                                                                    <br>
-                                                                    <span class="text-12 fw-500">
-                                                                        From
-                                                                        {{ date('d M, Y', strtotime($value1->check_in_date)) }}
-                                                                        To
-                                                                        {{ date('d M, Y', strtotime($value1->check_out_date)) }}
-                                                                    </span>
-                                                                    <span class="pull-right text-15 fw-500">
-                                                                        {{ numberFormat($value1->price, trim($order->order_currency)) }}
-                                                                    </span>
-                                                                </div>
-                                                                <div class="mt-10 border-top-light"></div>
-                                                                </li>
-                                                            @endforeach
+                                                            <div class="text-15 fw-500">
+                                                                <i class="fa fa-bed"></i>
+                                                                        {{ $value->hotel_name }}
+                                                                <br>
+                                                                        <span class="text-12 fw-500">
+                                                                            {{ $value1->room_name }}, Adults
+                                                                            {{ $value1->adult }}, Children
+                                                                            {{ $value1->child }}</span>
+                                                                <br>
+                                                                <span class="text-12 fw-500">
+                                                                    From
+                                                                            {{ date('d M, Y', strtotime($value1->check_in_date)) }}
+                                                                    To
+                                                                            {{ date('d M, Y', strtotime($value1->check_out_date)) }}
+                                                                </span>
+                                                                <span class="pull-right text-15 fw-500">
+                                                                            {{ numberFormat($value1->price, trim($order->order_currency)) }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="mt-10 border-top-light"></div>
+                                                        </li>
+                                                    @endforeach
                                                         @endif
                                                     @endforeach
                                                     <li class="">
@@ -296,14 +303,14 @@
                                                                 @php
                                                                     
                                                                     $finalAmt = $finalAmt + $order->tax_amount;
-                                                                    
+
                                                                 @endphp
                                                                 {{ numberFormat($order->tax_amount, trim($order->order_currency)) }}
                                                             </span>
-                                                        </div>
-                                                    </li>
+                                                            </div>
+                                                        </li>
                                                 </ul>
-                                            @endif
+                                                @endif
                                         </div>
                                         <div class="border-top-light mt-30 mb-20"></div>
                                         <div class="row y-gap-20 justify-between items-center">

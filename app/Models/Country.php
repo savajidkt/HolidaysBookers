@@ -87,10 +87,10 @@ class Country extends Model
 
     public function states()
     {
-        return $this->hasMany(State::class, 'country_id', 'id');
+        return $this->hasMany(State::class, 'country_id', 'id')->where('status', 1);
     }
     public function cities()
     {
-        return $this->hasMany(City::class, 'country_id', 'id');
+        return $this->hasMany(City::class, 'country_id', 'id')->where('status', 1);
     }
 }

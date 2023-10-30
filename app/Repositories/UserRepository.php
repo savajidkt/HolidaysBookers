@@ -241,7 +241,8 @@ class UserRepository
 
     public function updateCustomerLocation(array $data, User $user): User
     {
-        
+
+
         $dataSave = [
             'country_id'     => $data['country'],
             'address_1'     => $data['address'],
@@ -261,7 +262,6 @@ class UserRepository
             
             UserMeta::create($dataSave);
         }
-        
 
         return $user;
 

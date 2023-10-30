@@ -30,7 +30,7 @@ class QuotationController extends Controller
     {
         $pagename = "quotation";
         $user = auth()->user();
-        $QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->paginate(10);
+        $QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->orderBy('id', 'desc')->paginate(10);
         return view('agent.quotation.index', ['user' => $user, 'pagename' => $pagename, 'quoteData' => $QuoteOrder]);
     }
 
@@ -89,13 +89,10 @@ class QuotationController extends Controller
         }
     }
 
-   
-
     public function downloadPdf($order_id)
     {
-
+        
         $user = auth()->user();
-
         $QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->where('id', $order_id)->first();
         $logo = url('storage/app/upload/' . $user->agents->user_id . '/' . $user->agents->agent_company_logo);
         $contenidoDinamico = "Prueba";
@@ -264,7 +261,7 @@ class QuotationController extends Controller
                         <table>
                             <tr>
                                 <td class="pt-98">                               
-                               
+
                                 Receiver\'s Signature
                                 </td>                       
                                 <td>
@@ -304,7 +301,7 @@ class QuotationController extends Controller
 
         $dompdf->loadHtml($htmlTemplate);
         $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
+                    $dompdf->render();
         $filename = "quotation-" . $user->agents->agent_code . "-download";
         return $dompdf->stream($filename . ".pdf");
     }
@@ -349,10 +346,11 @@ class QuotationController extends Controller
                         $tableStr .= '<td class="py-1">' . $value->price + $value->extra_markup_price . '</td>';
                         $tableStr .= '</tr>';
                         $subTotal = $subTotal + ($value->price + $value->extra_markup_price);
-                    }
                 }
             }
+        
         }
+    }
 
         $tableStr .= '<tr class="total">';
         $tableStr .= '<td></td>';
@@ -402,7 +400,6 @@ class QuotationController extends Controller
     {
 
         $user = auth()->user();
-
         $QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->where('id', $order_id)->first();
         $logo = url('storage/app/upload/' . $user->agents->user_id . '/' . $user->agents->agent_company_logo);
         $contenidoDinamico = "Prueba";
@@ -571,7 +568,7 @@ class QuotationController extends Controller
                         <table>
                             <tr>
                                 <td class="pt-98">                               
-                               
+
                                 Receiver\'s Signature
                                 </td>                       
                                 <td>
@@ -611,14 +608,15 @@ class QuotationController extends Controller
 
         $dompdf->loadHtml($htmlTemplate);
         $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
+                    $dompdf->render();
         $filename = "quotation-" . $user->agents->agent_code . "-download-" . date('Y-m-d-h-i-s') . ".pdf";
 
-        $output = $dompdf->output();
+                    $output = $dompdf->output();
         $filePath = storage_path('app/quote_pdf/' . $filename);
-        file_put_contents($filePath, $output);
-        $this->sendEmailWithQuote($filePath);
-        return redirect()->back()->with('success', 'Mail sent successfully.');
+                    file_put_contents($filePath, $output);
+                    $this->sendEmailWithQuote($filePath);
+                    return redirect()->back()->with('success', 'Mail sent successfully.');
+                    
     }
 
     public function sendEmailWithQuote($filePath)
@@ -635,7 +633,6 @@ class QuotationController extends Controller
                 $reviews = isset($_POST['reviews']) ? $_POST['reviews'] : '';
                 $emailsArr = explode(',', $_POST['emails']);
             }
-
             if (count($emailsArr) >  0) {
                 foreach ($emailsArr as $key => $value) {
                     $paramArr = [
@@ -647,9 +644,9 @@ class QuotationController extends Controller
                     Mail::to(trim($value))->send(new QuoteMail($paramArr));
                 }
             }
-        } catch (\Exception $e) {           
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
         return true;
-    }
+    }  
 }

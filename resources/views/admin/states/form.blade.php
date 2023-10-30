@@ -70,10 +70,10 @@
     $('#country_id').on('change', function() {
         var selected_option_value = $(this).find(":selected").val();
         if (selected_option_value == '') {
-            $('#status-error').show();
+            $('#country_id-error').show();
             $('#country_id').addClass('error');
         } else {
-            $('#status-error').hide();
+            $('#country_id-error').hide();
             $('#country_id').removeClass('error');
         }
     });

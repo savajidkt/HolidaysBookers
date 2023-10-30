@@ -58,8 +58,8 @@ class AgentRepository
                         //dd($convertedDate);
                         $UserProfileArr[$key] = $convertedDate;
                     }else{
-                        $UserProfileArr[$key] = $data[$key];
-                    }
+                    $UserProfileArr[$key] = $data[$key];
+                }
                     
                 }
             }
@@ -144,8 +144,8 @@ class AgentRepository
                             //dd($convertedDate);
                             $UserProfileArr[$key] = $convertedDate;
                         }else{
-                            $UserProfileArr[$key] = $data[$key];
-                        }
+                        $UserProfileArr[$key] = $data[$key];
+                    }
                         
                         
                     }

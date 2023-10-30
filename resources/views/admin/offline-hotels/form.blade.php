@@ -175,7 +175,7 @@
         <div class="form-group">
             <label class="form-label" for="hotel_address">Address <span class="text-danger">*</span></label>
             <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address" oninput="this.value = this.value.replace(/[^0-9a-zA-Z\s]+/g, '').replace(/(\..*)\./g, '$1');"
-            placeholder="Address"
+                placeholder="Address"
                 cols="30" rows="2">{{ isset($model->hotel_address) ? $model->hotel_address : old('hotel_address') }}</textarea>
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_address')

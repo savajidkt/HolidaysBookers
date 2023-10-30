@@ -37,7 +37,6 @@ class RegisterdMail extends Mailable
         // $this->password     = $password;
         $this->data = $data;
         $this->title        = 'Begin Your Relational Intelligence Assessment - Login Credentials';
-       
     }
 
     /**
@@ -45,7 +44,6 @@ class RegisterdMail extends Mailable
      *
      * @return $this
      */
-    
     public function build()
     {
         $data = $this->data;

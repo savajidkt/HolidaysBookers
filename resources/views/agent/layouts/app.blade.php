@@ -29,7 +29,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweet-alert.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweetalert2.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/agent-custom-style.css') }}">
-
+    
     <!-- Main-StyleSheet include -->
     <style>
         .help-block-error {
@@ -117,14 +117,12 @@
         <script>
             var bookingCal = "";
             document.addEventListener('DOMContentLoaded', function() {
-                
                 var calendarEl = document.getElementById('calendar');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-
                 $.ajax({
                     url: moduleConfig.getAgentBookingList,
                     type: "POST",
@@ -140,6 +138,7 @@
                                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
                             },
                             events: data.booking,
+
                             // events: [{
                             //         title: 'All Day Event',
                             //         start: '2023-10-01'

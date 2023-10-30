@@ -37,9 +37,12 @@ class RolesController extends Controller
                 ->editColumn('slug', function (Role $role) {
                     return $role->slug;
                 })
+                ->editColumn('status', function (Role $role) {
+                    return $role->status_name;
+                })
                 ->addColumn('action', function (Role $role) {
                     return $role->action;
-                })->rawColumns(['action'])->make(true);
+                })->rawColumns(['action','status'])->make(true);
         }
 
         return view('admin.roles.index',['user'=>$user]);
@@ -131,7 +134,7 @@ class RolesController extends Controller
     public function changeStatus(Request $request): JsonResponse
     {
         $input = $request->all();
-        $admin  = Role::find($input['user_id']);
+        $role  = Role::find($input['user_id']);
         // dd($user);
         if ($this->roleRepository->changeStatus($input, $role)) {
             return response()->json([

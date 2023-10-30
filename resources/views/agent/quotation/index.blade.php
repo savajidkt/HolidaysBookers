@@ -25,7 +25,7 @@
                 @endphp
                 {{-- {{ dd($value->created_at) }} --}}
                 @if ($i == 1)
-                    <div class="py-30 px-30 rounded-4 bg-white shadow-3 booking-history-manager">
+        <div class="py-30 px-30 rounded-4 bg-white shadow-3 booking-history-manager">
                     @else
                         <div class="mt-20 py-30 px-30 rounded-4 bg-white shadow-3 booking-history-manager">
                 @endif
@@ -69,8 +69,9 @@
                                             <div class="col-auto">
                                                 <a href="javascript:void(0);" class="text-blue-1 mt-5"
                                                     data-order-id="{{ $value->id }}"> </a>
+                                    </div>
+                                   
                                             </div>
-                                        </div>
                                     </div>
                                     <div class="col-md-2">
                                         <h3 class="text-18 lh-14 fw-500">Creation</h3>
@@ -153,7 +154,7 @@
                                                                 data-order-id="{{ $value->id }}"
                                                                 data-room-id="{{ $roomvalue->id }}"
                                                                 class="text-blue-1 mt-5 QuoteRoomDelete">Delete
-                                                            </a>
+                                                </a>
                                                             <a href="javascript:void(0);"
                                                                 data-order-id="{{ $value->id }}"
                                                                 data-room-id="{{ $roomvalue->id }}" data-cart-type="single"
@@ -184,10 +185,14 @@
                 </div>
             </div>
             <div class="pt-24">
-                <div class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 "><a href="javascript:void(0);"
+                {{-- <div class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 "><a href="javascript:void(0);"
                         class="QuoteRoomAddToCart" data-order-id="{{ $value->id }}" data-cart-type="all">Add to
                         cart</a>
-                </div>
+                </div> --}}
+                <a href="javascript:void(0);" class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 QuoteRoomAddToCart"
+                         data-order-id="{{ $value->id }}" data-cart-type="all">Add to
+                        cart
+                </a>
                 <span class="fw-500 text-blue-1 QuoteDetails">
                     {{-- <a href="javascript:void(0);" class="text-blue-1 mt-5"
                         data-order-id="{{ $value->id }}">Duplicate</a> --}}
@@ -236,7 +241,7 @@
                     </div>
                     <div class="col-auto">
                         <div class="size-40 flex-center rounded-full">...</div>
-                    </div>
+                                            </div>
                     <div class="col-auto">
                         <div class="size-40 flex-center rounded-full">20</div>
                     </div>
@@ -277,7 +282,7 @@
                                     <input type="text" class="has-value emailInput pvpInput" value="" disabled>
                                     <label class="lh-1 text-14 text-light-1">PVP</label>
                                 </div>
-                            </div>
+                                            </div>
                             +
                             <div class="col-4">
                                 <div class="form-input extra_markup_price-error">
@@ -285,8 +290,8 @@
                                         class="has-value emailInput extra_markup_price">
                                     <label class="lh-1 text-14 text-light-1">
                                         Markup</label>
-                                </div>
-                            </div>
+                                            </div>
+                                        </div>
                             Rs=
                             <div class="col-4">
                                 <div class="form-input">
@@ -294,8 +299,9 @@
                                         disabled>
                                     <label class="lh-1 text-14 text-light-1">
                                         Service final price</label>
+                                    </div>
                                 </div>
-                            </div>
+                           
                         </div>
 
                         <div class="col-12 ">
@@ -305,12 +311,11 @@
                             </button>
                         </div>
                     </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    @include('agent.common.footer')
+        @include('agent.common.footer')
     </div>
 @endsection
 @section('page-script')
@@ -432,7 +437,9 @@
                 $('#addtocartFRM').append($(input2));
                 $('#addtocartFRM').append($(input3));
 
-                $('#addtocartFRM').submit();            
+                $('#addtocartFRM').submit();
+
+               
 
             });
         });

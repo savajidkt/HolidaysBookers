@@ -21,6 +21,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Slug</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -60,6 +61,10 @@
                 {
                     data: 'slug',
                     name: 'slug'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'action',

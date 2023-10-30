@@ -18,17 +18,18 @@
         <!-- list section start -->
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                <h4 class="card-title">Hotel Orders List</h4>
+                <h4 class="card-title">Hotel Orders List</h4>              
             </div>
             <div class="card-datatable pt-0 table-responsive">
                 <table class="user-list-table datatables-ajax table">
                     <thead class="thead-light">
                         <tr>
                             <th></th>
-
                             <th>PNR No.</th>
+                          
                             <th>{{ __('core.status') }}</th>
                             <th>Booking Date</th>
+                            
                             <th>No. Of Rooms</th>
                             <th>Total Nights</th>
                             <th>Payment Received</th>
@@ -63,7 +64,7 @@
                         searchable: false
                     },
                     {
-                        data: 'prn_number',
+                        data: 'prn_number',                        
                     },
                     {
                         data: 'status',
@@ -75,6 +76,7 @@
                         name: 'created_at'
                     },
                     {
+                  
                         data: 'total_rooms',
                         name: 'total_rooms'
                     },

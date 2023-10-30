@@ -56,9 +56,9 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">Hotel Name</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->hotel->hotel_name) ? $model->hotel->hotel_name : '' }}</strong>
+                                            <strong for="account-username">Hotel Name</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->hotel->hotel_name) ? $model->hotel->hotel_name : '' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -68,9 +68,9 @@
                                 <div class="row">
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group">
-                                            <label for="account-username">Type</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->roomtype->room_type) ? $model->roomtype->room_type : '' }}</strong>
+                                            <strong for="account-username">Type</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->roomtype->room_type) ? $model->roomtype->room_type : '' }}</span>
                                         </div>
                                     </div>
                                     {{-- <div class="col-12 col-sm-6">
@@ -82,54 +82,54 @@
                                     </div> --}}
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group">
-                                            <label for="account-username">Amenities</label>
-                                            <strong class="disp-below">
+                                            <strong for="account-username">Amenities</strong>
+                                            <span class="disp-below">
                                                 {{ $amenitiesName }}
-                                            </strong>
+                                            </span>
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group">
-                                            <label for="account-username">Freebies</label>
-                                            <strong class="disp-below">
+                                            <strong for="account-username">Freebies</strong>
+                                            <span class="disp-below">
                                                 {{ $freebiesName }}
-                                            </strong>
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">Max Occupancy</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->occ_sleepsmax) ? $model->occ_sleepsmax : '' }}</strong>
+                                            <strong for="account-username">Max Occupancy</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->occ_sleepsmax) ? $model->occ_sleepsmax : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">No. of Beds</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->occ_num_beds) ? $model->occ_num_beds : '' }}</strong>
+                                            <strong for="account-username">No. of Beds</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->occ_num_beds) ? $model->occ_num_beds : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">Max Adults</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->occ_max_adults) ? $model->occ_max_adults : '' }}</strong>
+                                            <strong for="account-username">Max Adults</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->occ_max_adults) ? $model->occ_max_adults : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">Max Children When Max Adults</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->occ_max_child_w_max_adults) ? $model->occ_max_child_w_max_adults : '' }}</strong>
+                                            <strong for="account-username">Max Children When Max Adults</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->occ_max_child_w_max_adults) ? $model->occ_max_child_w_max_adults : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <label for="account-username">Max Children Without Extra Bed</label>
-                                            <strong
-                                                class="disp-below">{{ isset($model->occ_max_child_wo_extra_bed) ? $model->occ_max_child_wo_extra_bed : '' }}</strong>
+                                            <strong for="account-username">Max Children Without Extra Bed</strong>
+                                            <span
+                                                class="disp-below">{{ isset($model->occ_max_child_wo_extra_bed) ? $model->occ_max_child_wo_extra_bed : '' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -159,6 +159,12 @@
                                                                         class="img-fluid d-block w-100" alt="cf-img-1" style="height: 550px !important;" />
                                                                 </div>
                                                             @endforeach
+                                                            @if (strlen($model->room_image)> 0)
+                                                            <div class="carousel-item {{ $i == 1 ? 'active' : '' }}">
+                                                                <img src="{{ url('storage/app/upload/Hotel/' . $model->hotel_id . '/Room/' . $model->id . '/' . $model->room_image) }}"
+                                                                    class="img-fluid d-block w-100" alt="cf-img-1" style="height: 550px !important;" />
+                                                            </div>
+                                                            @endif
                                                         </div>
                                                         <a class="carousel-control-prev" href="#carouselExampleFade"
                                                             role="button" data-slide="prev">

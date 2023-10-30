@@ -28,13 +28,14 @@
                                     <h1 class="text-22 fw-500">Sign in or create an account</h1>
                                     <p class="mt-10">Already have an account? <a href="{{ route('login') }}"
                                             class="text-blue-1">Log in</a></p>
-                                </div>
+                                    </div>
                                 <div class="col-12">
                                     <div class="form-input ferrorCls">
                                         <input id="first_name" type="text" class="form-control" name="first_name"
                                             value="{{ old('first_name') }}" onkeydown="return /[a-z]/i.test(event.key)">
                                         <label class="lh-1 text-14 text-light-1">First Name <span class="text-danger">*</span></label>
                                     </div>
+                                   
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input lerrorCls">
@@ -42,6 +43,7 @@
                                             value="{{ old('last_name') }}" onkeydown="return /[a-z]/i.test(event.key)">
                                         <label class="lh-1 text-14 text-light-1">Last Name <span class="text-danger">*</span></label>
                                     </div>
+                                   
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input eerrorCls">
@@ -49,6 +51,7 @@
                                             value="{{ old('email') }}">
                                         <label class="lh-1 text-14 text-light-1">Email <span class="text-danger">*</span></label>
                                     </div>
+                                    
                                 </div>
                                 <input type="hidden" name="type" value="1">
                                 {{-- <div class="col-4">
@@ -94,6 +97,7 @@
                                         <input id="password" type="password" class="form-control" name="password">
                                         <label class="lh-1 text-14 text-light-1">Password <span class="text-danger">*</span></label>
                                     </div>
+                                    
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input pcerrorCls">
@@ -102,15 +106,15 @@
                                         <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }} <span class="text-danger">*</span></label>
                                     </div>
                                 </div>
-
+                               
                                 <div class="col-12">
                                     {{-- <input class="button py-20 -dark-1 bg-blue-1 text-white" type="submit"
                                         value="{{ __('Register') }}"> --}}
-                                    <button type="submit" class="button py-20 -dark-1 bg-blue-1 text-white w-100">
-                                        <span class="icons">Sign Up</span>
-                                        <div class="icon-arrow-top-right ml-15"></div>
-                                        <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
-                                    </button>
+                                        <button type="submit" class="button py-20 -dark-1 bg-blue-1 text-white w-100">
+                                            <span class="icons">Sign Up</span>
+                                            <div class="icon-arrow-top-right ml-15"></div>
+                                            <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                                        </button>
                                 </div>
                             </div>
                         </div>

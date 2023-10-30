@@ -9,7 +9,7 @@
     <div class="col-8">
         <div class="form-group">
             <label class="form-label" for="basic-addon-name">Meal Plan <span class="text-danger">*</span></label>
-            <input type="text" id="basic-addon-name" name="name" class="form-control" placeholder="Meal Plan Name"
+            <input type="text" id="basic-addon-name" name="name" class="form-control" onkeydown="return /[a-zA-Z ]/.test(event.key)" placeholder="Meal Plan Name"
                 value="{{ isset($model->name) ? $model->name : old('name') }}"
                 aria-describedby="basic-addon-name" data-error="Meal plan name is required" />
             <div class="valid-feedback">{{ __('core.looks_good') }}</div>

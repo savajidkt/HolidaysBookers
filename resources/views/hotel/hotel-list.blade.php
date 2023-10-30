@@ -9,18 +9,17 @@
         }
     </style>
     @php
-        
-        $search_from = date('m-d-Y', strtotime(date('Y-m-d')));
-        $search_to = date('m-d-Y', strtotime(date('Y-m-d')));
+        $search_from = date('d/m/Y', strtotime(date('Y-m-d')));
+        $search_to = date('d/m/Y', strtotime(date('Y-m-d')));
     @endphp
     @if (isset($requestedArr) && isset($requestedArr['search_from']))
         @php
-            $search_from = $requestedArr['search_from'] ? date('m-d-Y', strtotime($requestedArr['search_from'])) : date('m-d-Y', strtotime(date('Y-m-d')));
+            $search_from = $requestedArr['search_from'] ? $requestedArr['search_from'] : date('d/m/Y', strtotime(date('Y-m-d')));
         @endphp
     @endif
     @if (isset($requestedArr) && isset($requestedArr['search_to']))
         @php
-            $search_to = $requestedArr['search_to'] ? date('m-d-Y', strtotime($requestedArr['search_to'])) : date('m-d-Y', strtotime(date('Y-m-d')));
+            $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m/Y', strtotime(date('Y-m-d')));
         @endphp
     @endif
     <script>
@@ -379,7 +378,7 @@
                             </div>
                         </div>
                         <div class="sidebar__item pb-30">
-                            <h5 class="text-18 fw-500 mb-10">Price</h5>
+                            <h5 class="text-18 fw-500 mb-10">Nightly Price</h5>
                             <div class="row x-gap-10 y-gap-30">
                                 <div class="col-12">
                                     <div class="js-price-rangeSlider" id="js-price-rangeSlider">
@@ -466,13 +465,13 @@
                                     <div class="item d-flex align-items-center">
                                         <div class="mr-5">
                                             Sort by:
-                                        </div>
+                                </div>
                                         <input type="hidden" name="orderby" value="">
                                         <div class="dropdown orderby">
                                             <span
                                                 class="button -blue-1 h-40 px-20 rounded-100 bg-blue-1-05 text-15 text-blue-1 show"
                                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                <i class="icon-up-down text-14 mr-10"></i>
+                                        <i class="icon-up-down text-14 mr-10"></i>
                                                 <span class="dropdown-toggle">
                                                     Recommended
                                                 </span>
@@ -487,10 +486,12 @@
                                                     (High to low)</a>
                                                 <a class="dropdown-item" href="#" data-value="rate_high_low">Rating
                                                     (High to low)</a>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                  
                             </div>
                         </div> --}}
                     </div>
@@ -551,7 +552,7 @@
     <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
 
     <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script>
-
+    
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -637,7 +638,7 @@
                     // starArr.push('all');
                 }
 
-
+                
                 getAllHotelList(filterObj);
 
             });
@@ -670,8 +671,6 @@
         }, false);
 
         function getAllHotelList(requested) {
-
-
             $.ajax({
                 type: 'GET',
                 url: moduleConfig.ajaxURL + '?page=' + requested.page,

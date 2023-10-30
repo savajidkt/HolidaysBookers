@@ -177,7 +177,6 @@
                 <option value="0" {{ isset($model->id) && $model->status == 0 ? 'selected' : '' }}>
                     {{ __('core.inactive') }}</option>
             </select>
-            
             @error('status')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror

@@ -17,7 +17,7 @@ class CreateReachusTable extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('show_other_textbox')->default(false)->comment('1=Yes, 0=No');
-            $table->string('textbox_lable')->nullable();
+            $table->string('textbox_lable');
             $table->boolean('status')->default(false)->comment('1=Active, 0=Inactive');
             $table->softDeletes();
             $table->timestamps();

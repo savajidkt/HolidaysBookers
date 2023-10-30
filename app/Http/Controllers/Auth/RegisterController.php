@@ -59,9 +59,7 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'type' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'same:password_confirmation'],
-            'password_confirmation' => ['required', 'string', 'min:6'],
-            
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
 
@@ -73,7 +71,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
 
         $user = User::create([
             'first_name' => $data['first_name'],
@@ -82,7 +79,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        
+
         Mail::to($user->email)->send(new RegisterdMail($data));
 
         $agent_code = createAgentCode($user->id);

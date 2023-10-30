@@ -25,14 +25,13 @@
                                 </div>
 
                                 <div class="col-12 " style="border-bottom: 1px dashed #ccc;">
-                                    <h1 class="text-22 fw-500">Log In</h1>
+                                    <h1 class="text-22 fw-500">Log In</h1>                                   
                                 </div>
-
                                 <div class="col-12">
                                     <h4 class="form-title text-22 fw-500">Welcome back</h4>
                                     <p class="mt-10">Don't have an account yet? <a href="{{ route('register') }}"
                                             class="text-blue-1">Sign up for free</a></p>
-                                </div>
+                                    </div>
                                 <div class="col-12">
                                     <div class="form-input emailDiv">
                                         <input id="email" type="email" class="form-control" name="email"
@@ -73,8 +72,9 @@
                                 <div class="col-12">
                                     <input class="button py-20 -dark-1 bg-blue-1 text-white" type="submit" value="Sign In">
                                 </div>
-                                
+                          
                             </div>
+                    
                         </div>
                     </form>
                 </div>

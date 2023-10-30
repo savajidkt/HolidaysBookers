@@ -253,4 +253,18 @@ class Order extends Model
     // {
     //     return $this->hasMany(Order_Child_Bed::class, 'order_id', 'id');
     // }
+
+    public static function getCustom($order)
+    {
+        $returnArr = [];
+        $returnArr['prn_number'] = $order->prn_number;
+        $returnArr['invoice_no'] = $order->invoice_no;
+        $returnArr['confirmation_no'] = $order->confirmation_no;
+        $returnArr['booking_amount'] = $order->booking_amount;
+        $returnArr['booking_currency'] = $order->booking_currency;
+
+        //dd($order);
+        return $returnArr;
+       
+    }
 }

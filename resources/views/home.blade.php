@@ -2,10 +2,10 @@
 @section('page_title', 'Home')
 @section('content')
 
-    <script>
-        var check_in_startDate = "{!! date('m-d-Y') !!}";
-        var check_in_endDate = "{!! date('m-d-Y') !!}";
-    </script>
+<script>
+    var check_in_startDate = "{!! date('d/m/Y') !!}";
+    var check_in_endDate = "{!! date('d/m/Y') !!}";
+</script>
 
     <section data-anim-wrap class="masthead -type-3 relative z-5">
         <div data-anim-child="fade delay-1" class="masthead__bg bg-dark-3">

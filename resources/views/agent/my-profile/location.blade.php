@@ -1,6 +1,5 @@
 @extends('agent.layouts.app')
 @section('page_title', 'My Location')
-
 @section('content')
     <div class="dashboard__content bg-light-2 bravo_user_profile">
         <div class="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
@@ -118,5 +117,3 @@
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/myprofile/location-information.js') }}"></script>
 @endsection
-
-

@@ -21,6 +21,7 @@ var FrmCheckoutPreference = function () {
                 email: {
                     email: true,
                     required: true,
+                    emailExt: true
                 },
                 phone: {
                     required: true,
@@ -63,7 +64,7 @@ var FrmCheckoutPreference = function () {
                             return false;
                         }
                     }
-                }
+                }             
             },
             messages: {
 
@@ -107,8 +108,8 @@ var FrmCheckoutPreference = function () {
                 if (ClickBTN_Quote) {
                     $("#saveQuotePopup").modal("show");
                 } else {
-                    form.submit();
-                }
+                form.submit();                
+            }
 
             }
         });
@@ -127,6 +128,7 @@ var FrmCheckoutPreference = function () {
             rules: {
                 email: {
                     required: true,
+                    emailExt: true
                 },
                 password: {
                     required: true,
@@ -181,7 +183,7 @@ var FrmCheckoutPreference = function () {
                   
                 </div>
                           </div>`;
-                            window.location.reload();
+                          window.location.reload();
                         } else {
                             string = `<div class="col-12">
                             <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
@@ -201,7 +203,13 @@ var FrmCheckoutPreference = function () {
         //main function to initiate the module
         init: function () {
             FrmCheckoutFormValidation();
-            FrmCheckoutLoginFormValidation()
+            FrmCheckoutLoginFormValidation();
+
+            jQuery.validator.addMethod("emailExt", function(value, element, param) {
+
+                return value.match(/^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/);
+
+            }, 'Please enter a valid email address.');
 
         }
     };
@@ -328,7 +336,7 @@ $(document).ready(function () {
         });
         $.ajax({
             beforeSend: function () {
-
+               
             },
             complete: function () {
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
@@ -362,16 +370,16 @@ $(document).ready(function () {
     $('.addvalidation').each(function () {
         $(this).rules("add", {
             required: true
-        });
-
-    });
+            });
+           
+    });    
     $('.lead_addvalidation').each(function () {
 
         $(this).rules("add", {
             required: true
-        });
-
-    });
+            });
+           
+    });    
 
     checkboxPassenger();
 

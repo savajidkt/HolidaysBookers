@@ -59,6 +59,7 @@ class OrdersController extends Controller
                 ->editColumn('created_at', function (Order $order) {
                     return dateFormat($order->created_at, 'd M, Y');
                 })
+              
                 ->editColumn('total_rooms', function (Order $order) {
                     return $order->total_rooms;
                 })
@@ -68,6 +69,7 @@ class OrdersController extends Controller
                 ->editColumn('payment_status', function (Order $order) {
                     return $order->payment_status_name;
                 })
+
                 ->addColumn('action', function (Order $order) {
                     return $order->action;
                 })
@@ -89,6 +91,7 @@ class OrdersController extends Controller
      */
     public function show(Order $order)
     {
+
         return view('admin.order.view', ['model' => $order]);
     }
 
@@ -114,7 +117,6 @@ class OrdersController extends Controller
      */
     public function edit(Order $order)
     {
-
         return view('admin.order.edit', ['model' => $order]);
     }
 
@@ -128,9 +130,7 @@ class OrdersController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-
         if ($request->action == "order") {
-
             $this->orderRepository->update($request->all(), $order);
         } else if ($request->action == "passenger") {
             $this->orderRepository->updatePassenger($request->all(), $order);
@@ -163,7 +163,6 @@ class OrdersController extends Controller
 
     public function orderInvoice(Order $order)
     {
-
         return view('admin.order.invoice', ['model' => $order, 'orderTable' => $this->orderTableCreate($order)]);
     }
 
@@ -647,7 +646,7 @@ class OrdersController extends Controller
                                 State: Delhi (State Code: 07), Country: India.<br />
                                 (P) +91 1148015307/ +91 1142268354 (M) +91 9810560003/+91 991056000<br />
                                 (PAN) AAECH3953Q (CIN) U63030DL2017PTC327553 (GSTIN) 07AAECH3953Q1Z0
-								</td>
+								</td>								
                                 <td>                            
                                 PNR No.:	' . $order->prn_number . '<br />
                              </td>								
@@ -657,10 +656,10 @@ class OrdersController extends Controller
 				</tr>		
 			</table>
             <hr class="my-2">
-            
-            
-            
-            
+                                     
+                                
+                    
+                	
             ' . $hotelsDetails . '
 
             <hr class="my-2">
@@ -734,9 +733,8 @@ class OrdersController extends Controller
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         Storage::put('public/order/' . $order->id . '/vouchers/order-vouchers-' . $order->id . '.pdf', $dompdf->output());
-
         $filePath = storage_path('app/public/order/' . $order->id . '/vouchers/order-vouchers-' . $order->id . '.pdf');
-        $order->notify(new OrderNotification($order, $filePath));       
+        $order->notify(new OrderNotification($order, $filePath));
         $order->confirmation_no = $request->confirmation_code;
         $order->mail_sent = '1';
         $order->voucher = '1';
@@ -1049,6 +1047,7 @@ class OrdersController extends Controller
         $discount = 0;
         $tableStr = '';
 
+        
 
         $tableStr .= '<div class="table-responsive mt-2">';
         $tableStr .= '<table class="table m-0">';
@@ -1067,72 +1066,72 @@ class OrdersController extends Controller
         if (count($order->order_hotel) > 0) {
             foreach ($order->order_hotel as $key => $value) {
 
-                $tableStr .= '<tr>';
+            $tableStr .= '<tr>';
                 $tableStr .= '<td class="py-1 pl-4"><p class="font-weight-semibold mb-25">' . $value->hotel->hotel_name . '</p></td>';
                 $tableStr .= '<td class="py-1"></td>';
                 $tableStr .= '<td class="py-1">' . count($value->order_hotel_room) . '</td>';
                 $tableStr .= '<td class="py-1">' . $order->total_adult . '</td>';
                 $tableStr .= '<td class="py-1">' . $order->total_child . '</td>';
-                $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '</tr>';
+            $tableStr .= '<td class="py-1"></td>';
+            $tableStr .= '</tr>';
 
                 if (count($value->order_hotel_room) > 0) {
                     foreach ($value->order_hotel_room as $sub_key => $sub_value) {
-                        $tableStr .= '<tr>';
+                $tableStr .= '<tr>';
                         $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $sub_value->room_name . '</li></ul></td>';
-                        $tableStr .= '<td class="py-1"></td>';
-                        $tableStr .= '<td class="py-1"></td>';
-                        $tableStr .= '<td class="py-1"></td>';
-                        $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '<td class="py-1"></td>';
                         $tableStr .= '<td class="text-right">' . numberFormat($sub_value->price, $order->booking_currency) . '</td>';
-                        $tableStr .= '</tr>';
+                $tableStr .= '</tr>';
                         $subTotal = $subTotal + $sub_value->price;
                     }
                 }
             }
-        }
+            }
 
-        $tableStr .= '</tbody>';
-        $tableStr .= '</table>';
-        $tableStr .= '</div>';
+            $tableStr .= '</tbody>';
+            $tableStr .= '</table>';
+            $tableStr .= '</div>';
 
-        $tableStr .= '<hr class="my-2" />';
-        $tableStr .= '<div class="row invoice-sales-total-wrapper mt-3">';
-        $tableStr .= '<div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">';
-        $tableStr .= '<p class="mb-25 font-weight-bold">Name : Holidays Bookers DMC india pvt.Ltd</p>';
-        $tableStr .= '<p class="mb-25 font-weight-bold">Bank : ICICI BANK LTD</p>';
-        $tableStr .= '<p class="mb-25 font-weight-bold">Branch : 9A, Phelps Building, Connaught Place, New Delhi.</p>';
-        $tableStr .= '<p class="mb-25 font-weight-bold">A/c No : 000705045370</p>';
-        $tableStr .= '<p class="mb-0 font-weight-bold">IFSC Code : ICIC0000007</p>';
-        $tableStr .= '</div>';
-        $tableStr .= '<div class="col-md-6 d-flex justify-content-end order-md-2 order-1">';
-        $tableStr .= '<div class="invoice-total-wrapper">';
+            $tableStr .= '<hr class="my-2" />';
+            $tableStr .= '<div class="row invoice-sales-total-wrapper mt-3">';
+            $tableStr .= '<div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">';
+            $tableStr .= '<p class="mb-25 font-weight-bold">Name : Holidays Bookers DMC india pvt.Ltd</p>';
+            $tableStr .= '<p class="mb-25 font-weight-bold">Bank : ICICI BANK LTD</p>';
+            $tableStr .= '<p class="mb-25 font-weight-bold">Branch : 9A, Phelps Building, Connaught Place, New Delhi.</p>';
+            $tableStr .= '<p class="mb-25 font-weight-bold">A/c No : 000705045370</p>';
+            $tableStr .= '<p class="mb-0 font-weight-bold">IFSC Code : ICIC0000007</p>';
+            $tableStr .= '</div>';
+            $tableStr .= '<div class="col-md-6 d-flex justify-content-end order-md-2 order-1">';
+            $tableStr .= '<div class="invoice-total-wrapper">';
 
-        $tableStr .= '<div class="invoice-total-item">';
-        $tableStr .= '<p class="invoice-total-title">Subtotal:</p>';
-        $tableStr .= '<p class="invoice-total-amount">' . numberFormat($subTotal, $order->booking_currency) . '</p>';
-        $tableStr .= '</div>';
+            $tableStr .= '<div class="invoice-total-item">';
+            $tableStr .= '<p class="invoice-total-title">Subtotal:</p>';
+            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($subTotal, $order->booking_currency) . '</p>';
+            $tableStr .= '</div>';
 
-        $tableStr .= '<div class="invoice-total-item">';
-        $tableStr .= '<p class="invoice-total-title">Discount:</p>';
-        $tableStr .= '<p class="invoice-total-amount">' . numberFormat($discount, $order->booking_currency) . '</p>';
-        $tableStr .= '</div>';
+            $tableStr .= '<div class="invoice-total-item">';
+            $tableStr .= '<p class="invoice-total-title">Discount:</p>';
+            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($discount, $order->booking_currency) . '</p>';
+            $tableStr .= '</div>';
 
 
-        $tableStr .= '<div class="invoice-total-item">';
-        $tableStr .= '<p class="invoice-total-title">Tax:</p>';
-        $tableStr .= '<p class="invoice-total-amount"> ' . numberFormat($tax, $order->booking_currency) . '</p>';
-        $tableStr .= '</div>';
+            $tableStr .= '<div class="invoice-total-item">';
+            $tableStr .= '<p class="invoice-total-title">Tax:</p>';
+            $tableStr .= '<p class="invoice-total-amount"> ' . numberFormat($tax, $order->booking_currency) . '</p>';
+            $tableStr .= '</div>';
 
-        $total = ($subTotal + $tax) - $discount;
-        $tableStr .= '<div class="invoice-total-item">';
-        $tableStr .= '<p class="invoice-total-title">Total:</p>';
-        $tableStr .= '<p class="invoice-total-amount">' . numberFormat($total, $order->booking_currency) . '</p>';
-        $tableStr .= '</div>';
+            $total = ($subTotal + $tax) - $discount;
+            $tableStr .= '<div class="invoice-total-item">';
+            $tableStr .= '<p class="invoice-total-title">Total:</p>';
+            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($total, $order->booking_currency) . '</p>';
+            $tableStr .= '</div>';
 
-        $tableStr .= '</div>';
-        $tableStr .= '</div>';
-        $tableStr .= '</div>';
+            $tableStr .= '</div>';
+            $tableStr .= '</div>';
+            $tableStr .= '</div>';
 
 
         return $tableStr;
@@ -1148,7 +1147,7 @@ class OrdersController extends Controller
 
         //$hotelListingRepository = new HotelListingRepository;
         //$hotelsDetails = $hotelListingRepository->hotelDetails($order->hotel_id);
-        // $requiredParamArr = unserialize($order->formdata->form_data_serialize);
+       // $requiredParamArr = unserialize($order->formdata->form_data_serialize);
         $tableStr = '';
         $tableStr .= '<table cellpadding="0" cellspacing="0">';
         $tableStr .= '<tr class="heading">';
@@ -1165,65 +1164,65 @@ class OrdersController extends Controller
                 $tableStr .= '<tr>';
                 $tableStr .= '<td class="py-1 pl-4"><p class="font-weight-semibold mb-25">' . $value->hotel->hotel_name . '</p></td>';
                 $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '<td class="py-1">' . count($value->order_hotel_room) . '</td>';
+                $tableStr .= '<td class="py-1">'.count($value->order_hotel_room).'</td>';
                 $tableStr .= '<td class="py-1">' . $order->total_adult . '</td>';
                 $tableStr .= '<td class="py-1">' . $order->total_child . '</td>';
                 $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '</tr>';
+            $tableStr .= '</tr>';
 
                 if (count($value->order_hotel_room) > 0) {
                     foreach ($value->order_hotel_room as $sub_key => $sub_value) {
-                        $tableStr .= '<tr>';
+                $tableStr .= '<tr>';
                         $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $sub_value->room_name . '</li></ul></td>';
                         $tableStr .= '<td class="py-1"></td>';
                         $tableStr .= '<td class="py-1"></td>';
                         $tableStr .= '<td class="py-1"></td>';
                         $tableStr .= '<td class="py-1"></td>';
                         $tableStr .= '<td class="text-right">' . numberFormat($sub_value->price, $order->booking_currency) . '</td>';
-                        $tableStr .= '</tr>';
+                $tableStr .= '</tr>';
                         $subTotal = $subTotal + $sub_value->price;
                     }
                 }
             }
-        }
+            }
 
-        $tableStr .= '<tr class="total">';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td class="text-right">Subtotal: <strong>' . numberFormat($subTotal, $order->booking_currency) . '</strong></td>';
-        $tableStr .= '</tr>';
+            $tableStr .= '<tr class="total">';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td class="text-right">Subtotal: <strong>' . numberFormat($subTotal, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '</tr>';
 
-        $tableStr .= '<tr class="total">';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td class="text-right">Discount: <strong>' . numberFormat($discount, $order->booking_currency) . '</strong></td>';
-        $tableStr .= '</tr>';
+            $tableStr .= '<tr class="total">';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td class="text-right">Discount: <strong>' . numberFormat($discount, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '</tr>';
 
-        $tableStr .= '<tr class="total">';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td class="text-right">Tax:<strong> ' . numberFormat($tax, $order->booking_currency) . '</strong></td>';
-        $tableStr .= '</tr>';
+            $tableStr .= '<tr class="total">';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td class="text-right">Tax:<strong> ' . numberFormat($tax, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '</tr>';
 
-        $total = ($subTotal + $tax) - $discount;
+            $total = ($subTotal + $tax) - $discount;
 
-        $tableStr .= '<tr class="total">';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td></td>';
-        $tableStr .= '<td class="text-right">Total:<strong>' . numberFormat($total, $order->booking_currency) . '</strong></td>';
-        $tableStr .= '</tr>';
+            $tableStr .= '<tr class="total">';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td></td>';
+            $tableStr .= '<td class="text-right">Total:<strong>' . numberFormat($total, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '</tr>';
 
         $tableStr .= '</table>';
         return $tableStr;
@@ -1261,12 +1260,12 @@ class OrdersController extends Controller
 
     public function getBookingCalendarList(Request $request)
     {
-
+      
         $bookingData = Order::select('*')->where('payment_status', 1)->get();
         $bookingArr = [];
         $bookingDataArr = [];
         if (count($bookingData)) {
-            foreach ($bookingData as $key => $value) {
+            foreach ($bookingData as $key => $value) {                    
                 $bookingDataArr[] = $this->getBookedHotel($value);
             }
             if (count($bookingDataArr) > 0) {
@@ -1278,7 +1277,7 @@ class OrdersController extends Controller
                     }
                 }
             }
-        }
+}
 
         return response()->json([
             'status' => true,

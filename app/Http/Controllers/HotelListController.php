@@ -32,7 +32,7 @@ class HotelListController extends Controller
 
     public function index(Request $request)
     {
-        // dd($request);
+
         $country =  [];
         $requestedArr = [];
 
@@ -48,10 +48,12 @@ class HotelListController extends Controller
             $requestedArr['search_to'] = "";
         }
 
-        if ($request->search_from == null || $request->search_to == null) {
+        if ($request->search_from != null || $request->search_to != null) {
             $dateArr = explode(' - ', $request->daterange);
-            $requestedArr['search_from'] = date('Y-m-d', strtotime($dateArr[0]));
-            $requestedArr['search_to'] = date('Y-m-d', strtotime($dateArr[1]));
+            $requestedArr['search_from'] = $dateArr[0];
+           // $requestedArr['search_from'] = date('Y-m-d', strtotime($dateArr[0]));
+           // $requestedArr['search_to'] = date('Y-m-d', strtotime($dateArr[1]));
+            $requestedArr['search_to'] = $dateArr[1];
         }
 
         // $requestedArr['extra_data'] = getChildCount($request->all());   
@@ -80,11 +82,12 @@ class HotelListController extends Controller
 
     public function ajaxHotelListing(Request $request)
     {
-      
+
         if ($request->ajax()) {
             $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
             $hotelListArray = $this->hotelListingRepository->hotelLists($request);
+
             $hotelCount = $this->hotelListingRepository->hotelCount($request);
             //$hotelList = (object) $hotelListArray;
             //$hotelList->loadMissing(['rooms']);
@@ -125,7 +128,6 @@ class HotelListController extends Controller
 
     public function show($id)
     {
-        
         $safeencryptionObj = new Safeencryption;
         $requestParam = unserialize($safeencryptionObj->decode($id));
         if (!$requestParam['hotel_id']) {

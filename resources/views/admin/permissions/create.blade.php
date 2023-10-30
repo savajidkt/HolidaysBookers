@@ -16,6 +16,8 @@
                         @include('admin.permissions.form')
                         <div class="row">
                             <div class="col-12">
+                                <a class="btn btn-outline-secondary waves-effect"
+                            href="{{ route('permissions.index') }}">{{ __('core.back') }}</a>
                                 <button type="submit" id="user-save" class="btn btn-primary">Submit</button>
                             </div>
                         </div>

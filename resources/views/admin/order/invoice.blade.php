@@ -131,7 +131,6 @@
                                         <td class="pr-1">PNR No.:</td>
                                         <td class="font-weight-bold">{{ $model->prn_number }}</td>
                                     </tr>
-                                    
                                 </tbody>
                             </table>
                         </div>

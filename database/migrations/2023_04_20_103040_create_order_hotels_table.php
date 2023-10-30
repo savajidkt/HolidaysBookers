@@ -19,7 +19,6 @@ class CreateOrderHotelsTable extends Migration
             $table->unsignedBigInteger('hotel_id');
             $table->string('hotel_name');
             $table->boolean('type')->default(false)->comment('0 = Offline, 1 = API');
-
             $table->foreign('order_id')->references('id')->on('order_masters')->onDelete('cascade');
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
                         

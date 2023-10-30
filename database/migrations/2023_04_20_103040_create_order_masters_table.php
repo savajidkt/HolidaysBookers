@@ -52,7 +52,7 @@ class CreateOrderMastersTable extends Migration
             $table->string('lead_passenger_id_proof_no')->nullable();
             $table->string('lead_passenger_phone')->nullable();
             $table->boolean('order_type')->default(false)->comment('0 = Draft, 1 = Order');
-            $table->boolean('status')->default(1)->comment('1 = Processed, 2 = Confirmed, 3 = Cancelled, 4 = Vouchered');           
+            $table->boolean('status')->default(1)->comment('1 = Processed, 2 = Confirmed, 3 = Cancelled, 4 = Vouchered');            
             $table->softDeletes();
             $table->timestamps();
         });

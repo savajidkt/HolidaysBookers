@@ -332,7 +332,7 @@ $(document).ready(function () {
                         type: "success",
                         showCancelButton: true,
                         confirmButtonColor: '#DD6B55',
-                        confirmButtonText: 'Checkout now',
+                        confirmButtonText: 'Go To Cart',
                         cancelButtonText: "Continue shopping",
                         closeOnConfirm: false,
                         closeOnCancel: true
@@ -340,12 +340,16 @@ $(document).ready(function () {
                     function(resp) {
                         if (resp) {                           
                             window.location = data.redirectURL; 
-                        } else {  
+                        } else {                          
                             $('.ClickTome span').html('Added');
                             $('.ClickTome div').remove();
                             currentBTN.removeAttr('data-extra');
                             currentBTN.removeClass('SelectRoomBook');                             
                             currentBTN.removeClass('ClickTome'); 
+
+                            $('#lblCartCount').html('');
+                            $('#lblCartCount').html(data.cartItem);
+
                             swal.close();
                         }
                     });
@@ -424,7 +428,10 @@ $(document).ready(function () {
             startDate: check_in_startDate,
             endDate: check_in_endDate,
             opens: 'left',
-            minDate: new Date()
+            minDate: new Date(),
+            locale: {
+                format: 'DD/MM/YYYY'
+              }
         }, function (start, end, label) {
             $('#hidden_from').val(start.format('YYYY-MM-DD'));
             $('#hidden_to').val(end.format('YYYY-MM-DD'));

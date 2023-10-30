@@ -86,7 +86,12 @@
                             class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white">Become
                             An Expert</a>
                     @else
-                        <a class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white"
+                        <a class="button -outline-blue-1 px-30 fw-400 text-14 h-50 text-blue-1 ml-20"
+                            href="{{ route('cart') }}">
+                            <i class="fa" style="font-size:24px">&#xf07a;</i>
+                            <span class='badge badge-warning' id='lblCartCount'> {{ getCartTotalItem() }} </span>
+                        </a>
+                        <a class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white ml-20"
                             href="{{ route('agent.dashboard') }}">
                             {{ __('Dashboard') }}
                         </a>
@@ -106,6 +111,8 @@
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
+
+                        
                     @endguest
                 </div>
 
