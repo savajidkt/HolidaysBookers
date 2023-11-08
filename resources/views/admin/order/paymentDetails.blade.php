@@ -8,11 +8,11 @@
                     <div class="col-md-6">
                         <h4 class="card-title">Payment Details</h4>
                     </div>
-                
-                    <div class="col-md-6 text-right">                        
+
+                    <div class="col-md-6 text-right">
                         Balance Remaining: <h4 class="mb-0 ml-75">
                             {{ numberFormat($model->booking_payment->remaining_amount, $model->booking_currency) }}</h4>
-                           
+
                     </div>
                 </div>
                 <div class="card-body mt-3">
@@ -38,41 +38,44 @@
                             </div>
 
                             @if ($model->booking_payment->remaining_amount > 0)
-                            <div class="col-xl-3 col-md-6 col-12 mb-1">
-                                <div class="form-group">
-                                    <label for="basicInput">Advance Amount</label>
-                                    <input type="text" class="form-control" id="basicInput" name="paid_amount"
-                                        placeholder="Advance Amount" value=""
-                                        onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')">
-                                    @error('paid_amount')
-                                        <div class="invalid-feedback" style="display: block;">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+                                <div class="col-xl-3 col-md-6 col-12 mb-1">
+                                    <div class="form-group">
+                                        <label for="basicInput">Advance Amount</label>
+                                        <input type="text" class="form-control" id="basicInput" name="paid_amount"
+                                            placeholder="Advance Amount" value=""
+                                            onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')">
+                                        @error('paid_amount')
+                                            <div class="invalid-feedback" style="display: block;">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                           
-                            <div class="col-xl-3 col-md-6 col-12">
-                               
-                                <button type="submit" id="user-save" class="btn btn-primary mt-2"><span
-                                        class="spinner-border spinner-border-sm buttonLoader hide" role="status"
-                                        aria-hidden="true"></span><span
-                                        class="ml-25 align-middle">{{ __('core.update') }}</span></button>
-                            </div>
+
+                                <div class="col-xl-3 col-md-6 col-12">
+
+                                    <button type="submit" id="user-save" class="btn btn-primary mt-2"><span
+                                            class="spinner-border spinner-border-sm buttonLoader hide" role="status"
+                                            aria-hidden="true"></span><span
+                                            class="ml-25 align-middle">{{ __('core.update') }}</span></button>
+                                </div>
                             @endif
-                            
+
                         </div>
                     </form>
                     <a class="btn btn-outline-secondary waves-effect"
-                    href="{{ route('orders.index') }}">{{ __('core.back') }}</a>
+                        href="{{ route('orders.index') }}">{{ __('core.back') }}</a>
                     @if ($model->mail_sent == 1)
                         <a target="_blank" class="btn btn btn-info waves-effect"
-                            href="{{ url('storage/app/public/order/' . $model->id . '/vouchers/order-vouchers-' . $model->id . '.pdf') }}"><i class="fa fa-cloud-download" aria-hidden="true"></i> Voucher</a>
-                        <a class="btn btn btn-info waves-effect" href="{{ route('order-itinerary', $model) }}"><i class="fa fa-cloud-download" aria-hidden="true"></i> Itinerary</a>
-                        <a class="btn btn btn-info waves-effect" href="{{ route('order-invoice', $model) }}"><i class="fa fa-cloud-download" aria-hidden="true"></i> Invoice</a>
+                            href="{{ url('storage/app/public/order/' . $model->id . '/vouchers/order-vouchers-' . $model->id . '.pdf') }}"><i
+                                class="fa fa-cloud-download" aria-hidden="true"></i> Voucher</a>
+                        {{-- <a class="btn btn btn-info waves-effect" href="{{ route('order-itinerary', $model) }}"><i
+                                class="fa fa-cloud-download" aria-hidden="true"></i> Itinerary</a> --}}
+                        <a class="btn btn btn-info waves-effect" href="{{ route('order-invoice', $model) }}"><i
+                                class="fa fa-cloud-download" aria-hidden="true"></i> Invoice</a>
                     @else
-                        <a class="btn btn btn-info waves-effect"
-                            href="{{ route('order-voucher-download', $model) }}">Generate
+                        <a class="btn btn btn-info waves-effect Generate_action" data-order-id="{{ $model->id }}"
+                            href="javascript:void(0);">Generate
                             voucher &
                             send mail</a>
                     @endif
@@ -80,6 +83,27 @@
 
                 </div>
             </div>
-        </div>       
+        </div>
     </section>
+@endsection
+
+
+
+
+@section('extra-script')
+
+    <script type="text/javascript">
+        $(function() {
+            var order_id = "{!! $model->id !!}"
+            $(document).on('click', '.Generate_action', function () {
+            
+               
+                $('<form action="{!! route('order-voucher-download') !!}" method="POST">' +
+                    '<input type="hidden" name="_token" value="' +
+                    $('meta[name="csrf-token"]').attr('content') + '" />' +
+                    '<input type="hidden" name="order_id" value="' + order_id + '" />' +
+                    '</form>').appendTo('body').submit();
+            });
+        });
+    </script>
 @endsection

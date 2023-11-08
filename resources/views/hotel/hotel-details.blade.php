@@ -727,10 +727,10 @@
                             @endforeach
                         @endif
 
-                        @if ($isAddedCart)
-                            <a href="javascript:void(0);" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
+                        {{-- @if ($isAddedCart) --}}
+                            {{-- <a href="javascript:void(0);" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
                                 <span class="icons">Added</span>
-                            </a>
+                            </a> --}}
                             {{-- <a href="{{ route('review-your-booking', $safeencryptionObj->encode($rooms['hotel_id'])) }}"
                                                                 class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
                                                                 <span class="icons">View</span>
@@ -743,14 +743,14 @@
                                 <div class="icon-trash ml-15"></div>
                                 <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
                             </button> --}}
-                        @else
+                        {{-- @else --}}
                             <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
                                 class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
                                 <span class="icons">SELECT ROOM</span>
                                 <div class="icon-arrow-top-right ml-15"></div>
                                 <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
                             </button>
-                        @endif
+                        {{-- @endif --}}
         </div>
         </div>
         </div>

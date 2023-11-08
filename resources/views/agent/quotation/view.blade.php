@@ -443,7 +443,7 @@
 
                                         <div class="form-input frmSubject">
 
-                                            <input type="text" name="subject" value="">
+                                            <input type="text" name="subject" value="" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">
 
                                             <label class="lh-1 text-16 text-light-1">Subject <span class="text-danger">*</span></label>
 
@@ -455,7 +455,7 @@
 
                                         <div class="form-input frmMessage">
 
-                                            <textarea name="reviews" rows="4">You will find the corresponding documentation attached</textarea>
+                                            <textarea name="reviews" rows="4" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">You will find the corresponding documentation attached</textarea>
 
                                             <label class="lh-1 text-16 text-light-1">Reviews <span class="text-danger">*</span></label>
 

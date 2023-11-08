@@ -314,7 +314,7 @@
 
                                                                                     <input type="text"
                                                                                         class="form-control phonenumber"
-                                                                                        placeholder="Phone Number"
+                                                                                        placeholder="Phone Number" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
                                                                                         name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][phonenumber][]">
 
                                                                                 </div>
@@ -475,6 +475,13 @@
                                                     </div>
 
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlInput1">Agency Reference</label>
+                                                <input type="text" class="form-control"
+                                                    name="agency_reference">
                                             </div>
                                         </div>
                                     </div>

@@ -751,7 +751,7 @@ class OrdersController extends Controller
      */
     public function orderItinerary(Order $order)
     {
-        //dd(count($order->adult));
+        dd($order->adult);
         return view('admin.order.itinerary', ['model' => $order]);
     }
 

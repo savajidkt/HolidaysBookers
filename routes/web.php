@@ -255,6 +255,7 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('/booking-history/{id}', [AgentBookingHistoryController::class, 'index'])->name('agent.booking-history');
     Route::get('/view-booking-history/{id}', [AgentBookingHistoryController::class, 'show'])->name('agent.view-booking-history');
     Route::get('/invoice-download/{order}', [AgentBookingHistoryController::class, 'orderInvoiceDownload'])->name('agent-invoice-download');
+    Route::get('/voucher-download/{order}', [AgentBookingHistoryController::class, 'orderVoucherDownload'])->name('agent-voucher-download');
     Route::get('/export-single-order/{order}', [AgentBookingHistoryController::class, 'exportSingleOrder'])->name('agent-export-single-order');
     Route::post('/export-orders', [AgentBookingHistoryController::class, 'exportOrders'])->name('agent-export-orders');
 

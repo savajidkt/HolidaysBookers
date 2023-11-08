@@ -341,11 +341,11 @@ $(document).ready(function () {
                         if (resp) {                           
                             window.location = data.redirectURL; 
                         } else {                          
-                            $('.ClickTome span').html('Added');
-                            $('.ClickTome div').remove();
-                            currentBTN.removeAttr('data-extra');
-                            currentBTN.removeClass('SelectRoomBook');                             
-                            currentBTN.removeClass('ClickTome'); 
+                            //$('.ClickTome span').html('Added');
+                            //$('.ClickTome div').remove();
+                            //currentBTN.removeAttr('data-extra');
+                            //currentBTN.removeClass('SelectRoomBook');                             
+                            //currentBTN.removeClass('ClickTome'); 
 
                             $('#lblCartCount').html('');
                             $('#lblCartCount').html(data.cartItem);

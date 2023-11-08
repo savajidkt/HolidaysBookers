@@ -129,20 +129,20 @@
                                             @endforeach
                                         @endif
                                     
-                                        @if ($isAddedCart)
-                                            <button type="button"
+                                        {{-- @if ($isAddedCart) --}}
+                                            {{-- <button type="button"
                                                 class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
                                                 <span class="icons">Added</span>
-                                    </div>
-                                            </button>
-                                        @else
+                                    
+                                            </button> --}}
+                                        {{-- @else --}}
                                     <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
                                                 class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
                                                 <span class="icons">Add</span>
                                                 <div class="icon-arrow-top-right ml-15"></div>
                                                 <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
                                             </button>
-                                        @endif
+                                        {{-- @endif --}}
                                     
                                     
                                                     </div>

@@ -44,7 +44,7 @@
         <div class="form-group">
             <label class="form-label" for="nature_of_business">{{ __('agent/agent.nature_of_business') }} <span class="text-danger">*</span></label>
             <input type="text" id="nature_of_business" name="nature_of_business" class="form-control"
-                placeholder="{{ __('agent/agent.nature_of_business') }}"
+                placeholder="{{ __('agent/agent.nature_of_business') }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
                 value="{{ isset($model->nature_of_business) ? $model->nature_of_business : old('nature_of_business') }}"
                 data-error="{{ __('agent/agent.nature_of_business') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -95,7 +95,7 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="agent_dob">{{ __('agent/agent.agent_dob') }} <span class="text-danger">*</span></label>
-            <input type="text" id="fp-default" name="agent_dob" class="form-control flatpickr-basic flatpickr-input date-format"
+            <input type="text" id="fp-default" name="agent_dob" class="form-control flatpickr-basic flatpickr-input"
                 placeholder="DD-MM-YYYY" placeholder="{{ __('agent/agent.agent_dob') }}"
                 value="{{(isset($model->agent_dob))? formatdate($model->agent_dob):''}}"
                 data-error="{{ __('agent/agent.agent_dob') }}" />
@@ -280,9 +280,9 @@
     @endphp
     <div class="col-4 iata_number_hide {{ $hide }}" id="iata_number_hide">
         <div class="form-group">
-            <label class="form-label" for="agent_iata_number">{{ __('agent/agent.agent_iata_number') }}</label>
+            <label class="form-label" for="agent_iata_number">{{ __('agent/agent.agent_iata_number') }} <span class="text-danger">*</span></label>
             <input type="text" id="agent_iata_number" name="agent_iata_number" class="form-control"
-                placeholder="{{ __('agent/agent.agent_iata_number') }}"
+                placeholder="{{ __('agent/agent.agent_iata_number') }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
                 value="{{ isset($model->agent_iata_number) ? $model->agent_iata_number : old('agent_iata_number') }}"
                 data-error="{{ __('agent/agent.agent_iata_number') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -296,7 +296,7 @@
             <label class="form-label"
                 for="agent_other_certification">{{ __('agent/agent.agent_other_certification') }}</label>
             <input type="text" id="agent_other_certification" name="agent_other_certification"
-                class="form-control" placeholder="{{ __('agent/agent.agent_other_certification') }}"
+                class="form-control" placeholder="{{ __('agent/agent.agent_other_certification') }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
                 value="{{ isset($model->agent_other_certification) ? $model->agent_other_certification : old('agent_other_certification') }}"
                 data-error="{{ __('agent/agent.agent_other_certification') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -750,6 +750,24 @@
                 $('#agent_city-error').hide();
                 $('#agent_city').removeClass('error');
             }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const agentWebsiteInput = document.getElementById('agent_website');
+        
+            agentWebsiteInput.addEventListener('input', function() {
+                const inputValue = this.value.trim();
+                const regex = /^(http:\/\/www\.|www\.)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}(:[0-9]{1,5})?(\/.*)?$/;
+        
+                if (regex.test(inputValue)) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            });
         });
     </script>
 @endsection

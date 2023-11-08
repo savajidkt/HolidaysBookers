@@ -2046,10 +2046,12 @@ if (!function_exists('getOrderHistoryAction')) {
 
         $action = '';
 
-        $action .= '<a href="' . route('agent.view-booking-history', $id) . '" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+        $action .= '<a href="' . route('agent.view-booking-history', $id) . '" class="btn btn-info btn-sm" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
 
-        $action .= '<a href="' . route('agent-invoice-download', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Invoice" data-animation="false"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';
-        $action .= '<a href="' . route('agent-export-single-order', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Export Order" data-animation="false"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a> ';
+        $action .= '<a href="' . route('agent-invoice-download', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Invoice" data-animation="false" title="Download Invoice"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';
+        $action .= '<a href="' . route('agent-export-single-order', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Export Order" data-animation="false" title="Export Order"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a> ';
+
+        $action .= '<a href="' . route('agent-voucher-download', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Voucher" data-animation="false" title="Download Voucher"><i class="fa fa-download" aria-hidden="true"></i></a> ';
         return $action;
 
     }

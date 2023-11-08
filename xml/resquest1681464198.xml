@@ -1,0 +1,9 @@
+<HotelDetailsRequest>
+        <Authentication>
+        <AgentCode>CD32395</AgentCode>
+            <UserName>holidaysbookers</UserName>
+            <Password>RezLive4HB@996</Password>
+        </Authentication>
+        <Hotels>
+        <HotelId>100077</HotelId>
+        </Hotels></HotelDetailsRequest>

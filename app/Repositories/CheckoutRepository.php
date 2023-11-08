@@ -97,7 +97,7 @@ class CheckoutRepository
             'registration_number'     => $data['registration_number'],
             'registered_company_name'     => $data['registered_company_name'],
             'registered_company_address'     => $data['registered_company_address'],
-            // 'coupon_code'     => $data['coupon_code'],
+            'agency_reference'     => $data['agency_reference'],
             // 'coupon_amount'     => $data['coupon_amount'],            
             'total_amount'     => getFinalAmountChackOut(),
             'currency'     => globalCurrency(),
@@ -166,8 +166,8 @@ class CheckoutRepository
         $OrderData['tax'] = ($extra_data['taxes_and_fees']) ? $extra_data['taxes_and_fees'] : 0;
         $OrderData['tax_amount'] = ($extra_data['taxes_and_fees_amt']) ? $extra_data['taxes_and_fees_amt'] : 0;
 
-        $OrderData['agent_markup_type'] = $user->agents->agent_global_markups_type;
-        $OrderData['agent_markup_val'] = $user->agents->agent_global_markup;
+        $OrderData['agent_markup_type'] = $user->agents->agent_global_markups_type ?? '';
+        $OrderData['agent_markup_val'] = $user->agents->agent_global_markup ?? '';
         $OrderData['total_price_markup'] = 0;
         $OrderData['agent_code'] = ($user->agents->agent_code) ? $user->agents->agent_code : '';
         $OrderData['agent_email'] = ($user->email) ? $user->email : '';
@@ -619,8 +619,8 @@ class CheckoutRepository
         $OrderData['tax'] = ($extra_data['taxes_and_fees']) ? $extra_data['taxes_and_fees'] : 0;
         $OrderData['tax_amount'] = ($extra_data['taxes_and_fees_amt']) ? $extra_data['taxes_and_fees_amt'] : 0;
 
-        $OrderData['agent_markup_type'] = $user->agents->agent_global_markups_type;
-        $OrderData['agent_markup_val'] = $user->agents->agent_global_markup;
+        $OrderData['agent_markup_type'] = $user->agents->agent_global_markups_type ?? '';
+        $OrderData['agent_markup_val'] = $user->agents->agent_global_markup ?? '';
         $OrderData['total_price_markup'] = 0;
         $OrderData['agent_code'] = ($user->agents->agent_code) ? $user->agents->agent_code : '';
         $OrderData['agent_email'] = ($user->email) ? $user->email : '';
@@ -805,11 +805,11 @@ class CheckoutRepository
             $i = 1;
             foreach ($data['hotel'] as $key => $value) {
                 if (isset($value['room_no_' . $i]['adults']) && is_numeric($value['room_no_' . $i]['adults'])) {
-                    $adultCount = $adultCount + $value['room_no_' . $i]['adults'];
+                    $adultCount = $adultCount + (int) $value['room_no_' . $i]['adults'];
                 }
 
                 if (isset($value['room_no_' . $i]['childs']) && is_numeric($value['room_no_' . $i]['childs'])) {
-                    $childCount = $childCount + $value['room_no_' . $i]['childs'];
+                    $childCount = $childCount + (int) $value['room_no_' . $i]['childs'];
                 }
 
                 $i++;
@@ -890,8 +890,8 @@ class CheckoutRepository
         $OrderData['tax'] = ($extra_data['taxes_and_fees']) ? $extra_data['taxes_and_fees'] : 0;
         $OrderData['tax_amount'] = ($extra_data['taxes_and_fees_amt']) ? $extra_data['taxes_and_fees_amt'] : 0;
 
-        $OrderData['agent_markup_type'] = $user->agents->agent_global_markups_type;
-        $OrderData['agent_markup_val'] = $user->agents->agent_global_markup;
+        $OrderData['agent_markup_type'] = $user->agents->agent_global_markups_type ?? '';
+        $OrderData['agent_markup_val'] = $user->agents->agent_global_markup ?? '';
         $OrderData['total_price_markup'] = 0;
         $OrderData['quote_name'] = ($extra_data['quote_name']) ? $extra_data['quote_name'] : 0;
         $OrderData['agent_code'] = ($user->agents->agent_code) ? $user->agents->agent_code : '';

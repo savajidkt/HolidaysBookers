@@ -40,6 +40,7 @@ class Checkout extends Model
         'payment_method',
         'passenger',
         'extra_data',
+        'agency_reference',
     ];   
 
     public function user()
