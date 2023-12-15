@@ -48,6 +48,7 @@ use App\Http\Controllers\Admin\VehicleTypes\VehicleTypesController;
 use App\Http\Controllers\Admin\OfflineHotels\OfflineHotelsController;
 use App\Http\Controllers\Admin\PropertyTypes\PropertyTypesController;
 use App\Http\Controllers\Admin\ProductMarkups\ProductMarkupsController;
+use App\Http\Controllers\Admin\Surcharge\SurchargeController;
 use App\Http\Controllers\WishlistController as FrontWishlistController;
 use App\Http\Controllers\Agent\WishlistController as AgentWishlistController;
 use App\Http\Controllers\Admin\WalletTransactions\WalletTransactionsController;
@@ -60,8 +61,9 @@ use App\Http\Controllers\Corporate\DashboardController as CorporateDashboardCont
 use App\Http\Controllers\Agent\BookingHistoryController as AgentBookingHistoryController;
 use App\Http\Controllers\Agent\DraftHistoryController as AgentDraftHistoryController;
 use App\Http\Controllers\Agent\TravelCalendarController as AgentTravelCalendarController;
-
-
+use App\Http\Controllers\Admin\Complimentaries\ComplimentariesController;
+use App\Http\Controllers\Admin\Promotional\PromotionalController;
+use App\Http\Controllers\Admin\StopSale\StopSaleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -215,6 +217,25 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('/mealplans', MealPlansController::class);
     Route::post('/mealplan/change-status', [MealPlansController::class, 'changeStatus'])->name('change-meal-plan-status');
     Route::post('/mealplan/add-meal-plan', [MealPlansController::class, 'addMealPlansPopup'])->name('add-meal-plan');
+    Route::post('/add-surcharge-plan', [SurchargeController::class, 'addSurchargePlansPopup'])->name('add-surcharge-plan');
+    Route::post('/add-surcharge-list-plan', [SurchargeController::class, 'addSurchargePlanListPopup'])->name('add-surcharge-list-plan');
+    Route::post('/add-surcharge-list-edit-plan', [SurchargeController::class, 'addSurchargePlanListEditPopup'])->name('add-surcharge-list-edit-plan');
+    Route::post('/add-surcharge-list-delete-plan', [SurchargeController::class, 'addSurchargePlanListDeletePopup'])->name('add-surcharge-list-delete-plan');
+
+    Route::post('/add-complimentary-plan', [ComplimentariesController::class, 'addComplimentaryPlanPopup'])->name('add-complimentary-plan');
+    Route::post('/add-complimentary-list-plan', [ComplimentariesController::class, 'addComplimentaryPlanListPopup'])->name('add-complimentary-list-plan');
+    Route::post('/add-complimentary-list-edit-plan', [ComplimentariesController::class, 'addComplimentaryPlanListEditPopup'])->name('add-complimentary-list-edit-plan');
+    Route::post('/add-complimentary-list-delete-plan', [ComplimentariesController::class, 'addComplimentaryPlanListDeletePopup'])->name('add-complimentary-list-delete-plan');
+
+    Route::post('/add-stop-sale-plan', [StopSaleController::class, 'addStopSalePlanPopup'])->name('add-stop-sale-plan');
+    Route::post('/add-stop-sale-list-plan', [StopSaleController::class, 'addStopSalePlanListPopup'])->name('add-stop-sale-list-plan');
+    Route::post('/add-stop-sale-list-edit-plan', [StopSaleController::class, 'addStopSalePlanListEditPopup'])->name('add-stop-sale-list-edit-plan');
+    Route::post('/add-stop-sale-list-delete-plan', [StopSaleController::class, 'addStopSalePlanListDeletePopup'])->name('add-stop-sale-list-delete-plan');
+
+    Route::post('/add-promotional-plan', [PromotionalController::class, 'addPromotionalPlanPopup'])->name('add-promotional-plan');
+    Route::post('/add-promotional-list-plan', [PromotionalController::class, 'addPromotionalPlanListPopup'])->name('add-promotional-list-plan');
+    Route::post('/add-promotional-list-edit-plan', [PromotionalController::class, 'addPromotionalPlanListEditPopup'])->name('add-promotional-list-edit-plan');
+    Route::post('/add-promotional-list-delete-plan', [PromotionalController::class, 'addPromotionalPlanListDeletePopup'])->name('add-promotional-list-delete-plan');
 
     Route::resource('/currencies', CurrenciesController::class);
     Route::post('/currency/change-status', [CurrenciesController::class, 'changeStatus'])->name('change-currency-status');

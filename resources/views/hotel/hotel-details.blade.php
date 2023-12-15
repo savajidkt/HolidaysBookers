@@ -46,7 +46,7 @@
                         {{-- @csrf --}}
                         <div class="mainSearch -col-3-big bg-white px-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 mt-30">
                             <div class="button-grid items-center">
-                                <div class="searchMenu-loc pl-20 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
+                                <div class="pl-20 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
 
                                     <div data-x-dd-click="searchMenu-loc">
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>

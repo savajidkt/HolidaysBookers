@@ -397,7 +397,7 @@
     <div class="col-4 otherData {{ $hide }}">
         <div class="form-group">
             <label class="form-label" for="agent_know_about">{{ __('agent/agent.agent_know_about') }}</label>
-            <input type="text" id="othername" name="othername" class="form-control"
+            <input type="text" id="othername" name="othername" class="form-control" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
                 value="{{ isset($model->othername) ? $model->othername : old('othername') }}" />
         </div>
     </div>

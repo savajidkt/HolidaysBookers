@@ -170,5 +170,10 @@ class OfflineHotel extends Authenticatable
     {
         return $this->belongsTo(PropertyType::class, 'property_type_id', 'id');
     }
+
+    public function surcharges()
+    {
+        return $this->hasMany(Surcharge::class,'hotel_id', 'id');
+    }
    
 }

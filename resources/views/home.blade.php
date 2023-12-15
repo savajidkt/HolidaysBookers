@@ -53,10 +53,10 @@
                                         enctype="multipart/form-data" action="{{ route('hotel-list') }}">
                                         {{-- @csrf --}}
                                         <div
-                                            class="mainSearch bg-white pr-20 py-20 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 shadow-1">
+                                            class="mainSearch bg-white pr-20 py-20 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 shadow-1 searchMenu-loc">
                                             <div class="button-grid items-center">
                                                 <div
-                                                    class="searchMenu-loc px-30 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
+                                                    class="px-30 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
                                                     <div data-x-dd-click="searchMenu-loc">
                                                         <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
                                                         <div class="text-15 text-light-1 ls-2 lh-16">
@@ -67,6 +67,8 @@
                                                             <input type="hidden" class="hidden_city_id" name="city_id" />
                                                             <input type="hidden" class="hidden_country_id"
                                                                 name="country_id" />
+                                                                <input type="hidden" class="hidden_hotel_id"
+                                                                name="selected_hotel_id" />
                                                         </div>
                                                         <span id="basic-addon-location-error"
                                                             class="help-block help-block-error"></span>
@@ -80,7 +82,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                                                <div class="px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                                                     <div data-x-dd-click="searchMenu-date">
                                                         <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
                                                         <div class="text-15 text-light-1 ls-2 lh-16">
@@ -242,7 +244,7 @@
                                                     <div class="searchMenu-loc__field shadow-2 js-popup-window"
                                                         data-x-dd="searchMenu-loc" data-x-dd-toggle="-is-active">
                                                         <div class="bg-white px-30 py-30 sm:px-0 sm:py-15 rounded-4">
-                                                            <div class="y-gap-5 js-results">
+                                                            <div class="y-gap-5 js-results left-right-serach-from">
 
                                                             </div>
                                                         </div>

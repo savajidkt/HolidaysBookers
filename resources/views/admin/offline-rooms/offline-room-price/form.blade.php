@@ -1,3 +1,24 @@
+<?php
+
+
+
+if( isset($pricemodel->from_date) ){
+    
+    $pricemodel->from_date = date('d/m/Y',strtotime($pricemodel->from_date));
+    //echo $from_date; exit;
+} 
+ if( isset($pricemodel->to_date)  ){
+    $pricemodel->to_date = date('d/m/Y',strtotime($pricemodel->to_date));
+} 
+ if( isset($pricemodel->booking_start_date)  ){
+    $pricemodel->booking_start_date = date('d/m/Y',strtotime($pricemodel->booking_start_date));
+} 
+ if( isset($pricemodel->booking_end_date)  ){
+    $pricemodel->booking_end_date = date('d/m/Y',strtotime($pricemodel->booking_end_date));
+}
+
+?>
+
 <script>
     var HotelsList = "";
     var HotelsRoomType = "";
@@ -17,6 +38,7 @@
     var TravelEndDate = "{!! isset($pricemodel->to_date) ? $pricemodel->to_date : '' !!}";
     var BookingStartDate = "{!! isset($pricemodel->booking_start_date) ? $pricemodel->booking_start_date : '' !!}";
     var BookingEndDate = "{!! isset($pricemodel->booking_end_date) ? $pricemodel->booking_end_date : '' !!}";
+
 </script>
 <style>
     .input-group-addon {
@@ -103,28 +125,24 @@
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label for="itemname">Price Type <span class="text-danger">*</span></label>
+                <input type="hidden" id="Normal" name="price_type" class="custom-control-input" value="1">
                 <div class="demo-inline-spacing">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="Normal" name="price_type" class="custom-control-input"
-                            value="1" {{ $pricemodel->price_type == 1 ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="Normal">Normal</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="Promotional" name="price_type" class="custom-control-input"
-                            value="3" {{ $pricemodel->price_type == 3 ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="Promotional">Promotional</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="BlackoutSale" name="price_type" class="custom-control-input"
-                            value="2" {{ $pricemodel->price_type == 2 ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="BlackoutSale">Blackout Sale</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="StopSale" name="price_type" class="custom-control-input"
-                            value="0"
-                            {{ strlen($pricemodel->price_type) > 0 && $pricemodel->price_type == 0 ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="StopSale">Stop Sale</label>
-                    </div>
+                    <a data-hotel-id="{{ $model->hotel->id }}" class="badge badge-success promotionalPlan"
+                        style="color:#FFF; float: right;">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Promotional
+                    </a>
+                    <a data-hotel-id="{{ $model->hotel->id }}" class="badge badge-success surchargePlan"
+                        style="color:#FFF; float: right;">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Surcharge
+                    </a>
+                    <a data-hotel-id="{{ $model->hotel->id }}" class="badge badge-success stopSalePlan"
+                        style="color:#FFF; float: right;">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Stop Sale
+                    </a>
+                    <a data-hotel-id="{{ $model->hotel->id }}" data-room-id="{{ $model->id }}"
+                        class="badge badge-success complimentaryPlan" style="color:#FFF; float: right;">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Extra Room Complimentary
+                    </a>
                 </div>
                 <div class="price_typeCLS"></div>
                 @error('room_type')
@@ -138,7 +156,8 @@
             <div class="form-group">
                 <label for="itemcost">Travel Date Validity <span class="text-danger">*</span></label>
                 <div class="input-group input-daterange">
-                    <input type="text" id="start_date" name="start_date" value =" {{ formatdate($pricemodel->from_date). ' to ' . formatdate($pricemodel->to_date)}}"
+                    <input type="text" id="start_date" name="start_date"
+                        value =" {{ formatdate($pricemodel->from_date) . ' to ' . formatdate($pricemodel->to_date) }}"
                         class="form-control start-date-basic flatpickr-input" placeholder="DD-MM-YYYY To DD-MM-YYYY"
                         placeholder="Start Date" data-error="Start Date is required" />
                 </div>
@@ -164,10 +183,11 @@
     <div class="col-3">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label for="itemname">Room Meal Plan</label>
+                <label for="itemname">Included Room Meal Plan</label>
                 <a class="badge badge-success roomMealPlanBTN" style="color:#FFF; float: right;">
                     <i class="fa fa-plus" aria-hidden="true"></i> Add New Meal Plan
                 </a>
+               
                 <select class="select2-room-meal-plan form-control" name="meal_plan"></select>
                 <div class="room_MealPlanCLS"></div>
                 @error('meal_plan')
@@ -297,7 +317,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Child no Bed <span class="text-danger">*</span></label>
+                <label>Child no Bed (0-4 Years)</label>
                 <input type="number" class="form-control" name="price_p_n_cob"
                     value="{{ isset($pricemodel->price_p_n_cob) ? $pricemodel->price_p_n_cob : old('price_p_n_cob') }}"
                     data-error="Child no bed is required" />
@@ -310,13 +330,20 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Infant/Complimentary child <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" name="price_p_n_ccob"
-                    value="{{ isset($pricemodel->price_p_n_ccob) ? $pricemodel->price_p_n_ccob : old('price_p_n_ccob') }}"
-                    data-error="Infant/Complimentary child is required" />
-                @error('price_p_n_ccob')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
+                <label>Child no Bed (5-12 Years)</label>
+                <input type="number" class="form-control" name="price_p_n_cob_5_12"
+                    value="{{ isset($pricemodel->price_p_n_cob_5_12) ? $pricemodel->price_p_n_cob_5_12 : old('price_p_n_cob_5_12') }}"
+                    data-error="Child no bed is required" />                
+            </div>            
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="col-md-12 col-12">           
+            <div class="form-group">
+                <label>Child no Bed (13-18 Years)</label>
+                <input type="number" class="form-control" name="price_p_n_cob_13_18"
+                    value="{{ isset($pricemodel->price_p_n_cob_13_18) ? $pricemodel->price_p_n_cob_13_18 : old('price_p_n_cob_13_18') }}"
+                    data-error="Child no bed is required" />              
             </div>
         </div>
     </div>
@@ -383,7 +410,7 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Child no Bed</label>
+                <label>Child no Bed (0-4 Years)</label>
                 <input type="number" class="form-control " name="tax_p_n_cob"
                     value="{{ isset($pricemodel->tax_p_n_cob) ? $pricemodel->tax_p_n_cob : old('tax_p_n_cob') }}"
                     data-error="Child no bed is required" />
@@ -396,13 +423,20 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Infant/Complimentary child</label>
-                <input type="number" class="form-control " name="tax_p_n_ccob"
-                    value="{{ isset($pricemodel->tax_p_n_ccob) ? $pricemodel->tax_p_n_ccob : old('tax_p_n_ccob') }}"
-                    data-error="Infant/Complimentary child is required" />
-                @error('tax_p_n_ccob')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
+                <label>Child no Bed (5-12 Years)</label>
+                <input type="number" class="form-control" name="tax_p_n_cob_5_12"
+                    value="{{ isset($pricemodel->tax_p_n_cob_5_12) ? $pricemodel->tax_p_n_cob_5_12 : old('tax_p_n_cob_5_12') }}"
+                    data-error="Child no bed is required" />                
+            </div>            
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="col-md-12 col-12">           
+            <div class="form-group">
+                <label>Child no Bed (13-18 Years)</label>
+                <input type="number" class="form-control" name="tax_p_n_cob_13_18"
+                    value="{{ isset($pricemodel->tax_p_n_cob_13_18) ? $pricemodel->tax_p_n_cob_13_18 : old('tax_p_n_cob_13_18') }}"
+                    data-error="Child no bed is required" />              
             </div>
         </div>
     </div>
@@ -878,7 +912,6 @@
          var packageBasic = $('.start-date-basic');
         if (packageBasic.length) {
             packageBasic.flatpickr({
-                minDate: RoomMinDate,
                 mode: 'range',
                 defaultDate: [TravelStartDate, TravelEndDate],
                 dateFormat: "d/m/Y"
@@ -887,12 +920,39 @@
         var packageTravelBasic = $('.booking-basic');
         if (packageTravelBasic.length) {
             packageTravelBasic.flatpickr({
-                minDate: RoomMinDate,
                 mode: 'range',
                 defaultDate: [BookingStartDate, BookingEndDate],
                 dateFormat: "d/m/Y"
             });
         }
+        var surchargeBasic = $('.basic-surcharge');
+        if (surchargeBasic.length) {
+            surchargeBasic.flatpickr({
+                mode: 'range',
+                dateFormat: "d/m/Y",
+                defaultDate: [BookingStartDate, BookingEndDate],
+
+            });
+        }
+
+        var stopSaleBasic = $('.basic-stopSale');
+        if (stopSaleBasic.length) {
+            stopSaleBasic.flatpickr({
+                dateFormat: "d/m/Y",
+                // defaultDate: [''],
+
+            });
+        }
+        var promotionalBasic = $('.basic-promotional');
+        if (promotionalBasic.length) {
+            promotionalBasic.flatpickr({
+                dateFormat: "d/m/Y",
+                mode: 'range',
+                defaultDate: [BookingStartDate, BookingEndDate],
+
+            });
+        }
+        
     </script>
     <!-- BEGIN: Page JS-->
     <!-- BEGIN: Page JS-->
@@ -905,6 +965,26 @@
         var moduleConfig = {
             addRoomTypeURL: "{!! route('add-room-type') !!}",
             addRoomMealPlanURL: "{!! route('add-meal-plan') !!}",
+            addRoomSurchargePlanURL: "{!! route('add-surcharge-plan') !!}",
+            addRoomSurchargePlanListURL: "{!! route('add-surcharge-list-plan') !!}",
+            addRoomSurchargePlanListEditURL: "{!! route('add-surcharge-list-edit-plan') !!}",
+            addRoomSurchargePlanListDeleteURL: "{!! route('add-surcharge-list-delete-plan') !!}",
+            
+            addRoomComplimentaryPlanURL: "{!! route('add-complimentary-plan') !!}",
+            addRoomComplimentaryPlanListURL: "{!! route('add-complimentary-list-plan') !!}",
+            addRoomComplimentaryPlanListEditURL: "{!! route('add-complimentary-list-edit-plan') !!}",
+            addRoomComplimentaryPlanListDeleteURL: "{!! route('add-complimentary-list-delete-plan') !!}",
+           
+            addRoomStopSalePlanURL: "{!! route('add-stop-sale-plan') !!}",
+            addRoomStopSalePlanListURL: "{!! route('add-stop-sale-list-plan') !!}",
+            addRoomStopSalePlanListEditURL: "{!! route('add-stop-sale-list-edit-plan') !!}",
+            addRoomStopSalePlanListDeleteURL: "{!! route('add-stop-sale-list-delete-plan') !!}",
+
+            addRoomPromotionalPlanURL: "{!! route('add-promotional-plan') !!}",
+            addRoomPromotionalPlanListURL: "{!! route('add-promotional-list-plan') !!}",
+            addRoomPromotionalPlanListEditURL: "{!! route('add-promotional-list-edit-plan') !!}",
+            addRoomPromotionalPlanListDeleteURL: "{!! route('add-promotional-list-delete-plan') !!}",
+
             addAmenityURL: "{!! route('add-amenity') !!}",
             addFreebiesURL: "{!! route('add-freebies') !!}",
             addRoomsURL: "{!! route('offlinerooms.store') !!}",

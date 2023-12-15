@@ -11,6 +11,7 @@
     @php
         $search_from = date('d/m/Y', strtotime(date('Y-m-d')));
         $search_to = date('d/m/Y', strtotime(date('Y-m-d')));
+        $selected_hotel_id = '';
     @endphp
     @if (isset($requestedArr) && isset($requestedArr['search_from']))
         @php
@@ -22,6 +23,13 @@
             $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m/Y', strtotime(date('Y-m-d')));
         @endphp
     @endif
+
+    @if (isset($requestedArr) && isset($requestedArr['selected_hotel_id']) && $requestedArr['selected_hotel_id'] != null)
+        @php
+            $selected_hotel_id = $requestedArr['selected_hotel_id'];
+        @endphp
+    @endif
+
     <script>
         var check_in_startDate = "{!! $search_from !!}";
         var check_in_endDate = "{!! $search_to !!}";
@@ -37,7 +45,7 @@
         filterObj.requested_search_from = "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}";
         filterObj.requested_search_to = "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}";
         filterObj.requested_location = "{!! $requestedArr['location'] ? $requestedArr['location'] : '' !!}";
-
+        filterObj.selected_hotel_id = "{!! $selected_hotel_id !!}";
         filterObj.start_price_range = "";
         filterObj.end_price_range = "";
     </script>
@@ -54,7 +62,7 @@
                         {{-- @csrf --}}
                         <div class="mainSearch -col-3-big bg-white px-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 mt-30">
                             <div class="button-grid items-center">
-                                <div class="searchMenu-loc pl-20 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
+                                <div class="pl-20 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
 
                                     <div data-x-dd-click="searchMenu-loc">
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
@@ -423,85 +431,41 @@
                             </div>
                         </div>
 
-                        {{-- <div class="sidebar__item">
-                            <h5 class="text-18 fw-500 mb-10">Room Amenities</h5>
-                            <div class="sidebar-checkbox">
-                                @if ($amenitiesArr->count() > 0)
-                                    @foreach ($amenitiesArr as $key => $value)
-                                        @if ($value->type == 2)
-                                            <div class="row y-gap-10 items-center justify-between room_amenities">
-                                                <div class="col-auto">
-                                                    <div class="d-flex items-center">
-                                                        <div class="form-checkbox ">
-                                                            <input type="checkbox" name="room_amenities[]"
-                                                                value="{{ $value->id }}" class="room_amenity">
-                                                            <div class="form-checkbox__mark">
-                                                                <div class="form-checkbox__icon icon-check"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-15 ml-10">{{ $value->amenity_name }}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                @endif
-                            </div>
-                        </div> --}}
+                        
                     </aside>
                 </div>
 
                 <div class="col-xl-9 col-lg-8">
-                    <div class="row y-gap-10 items-center justify-between">
-                        <div class="col-auto">
-                            <div class="text-18"><span class="fw-500"><span class="foundPropertyCount"></span>
-                                    properties</span> in
-                                {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
-                            </div>
-                        </div>
-                        {{-- <div class="col-auto">
-                            <div class="row x-gap-20 y-gap-20">
-                                <div class="col-auto">
-                                    <div class="item d-flex align-items-center">
-                                        <div class="mr-5">
-                                            Sort by:
-                                </div>
-                                        <input type="hidden" name="orderby" value="">
-                                        <div class="dropdown orderby">
-                                            <span
-                                                class="button -blue-1 h-40 px-20 rounded-100 bg-blue-1-05 text-15 text-blue-1 show"
-                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <i class="icon-up-down text-14 mr-10"></i>
-                                                <span class="dropdown-toggle">
-                                                    Recommended
-                                                </span>
-                                            </span>
-                                            <div class="dropdown-menu dropdown-menu-right show"
-                                                aria-labelledby="dropdownMenuButton"
-                                                style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate(0px, -42px);">
-                                                <a class="dropdown-item" href="#" data-value="">Recommended</a>
-                                                <a class="dropdown-item" href="#" data-value="price_low_high">Price
-                                                    (Low to high)</a>
-                                                <a class="dropdown-item" href="#" data-value="price_high_low">Price
-                                                    (High to low)</a>
-                                                <a class="dropdown-item" href="#" data-value="rate_high_low">Rating
-                                                    (High to low)</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                  
-                            </div>
-                        </div> --}}
-                    </div>
-                    <div class="mt-30"></div>
                     <div class="row y-gap-30 ajax-list-display1">
                         <div id="overlay">
                             <div class="cv-spinner">
                                 <span class="spinner"></span>
                             </div>
                         </div>
+                        <?php if(strlen($selected_hotel_id) > 0) { ?>
+                        <div class="row y-gap-30 ajax-list-display-selected">
+                            <?php 
+                                echo $hotelListView;
+                                ?>
+                        </div>
+                    <div class="row y-gap-10 items-center justify-between">
+                        <div class="col-auto">
+                            <div class="text-18"><span class="fw-500"><span class="foundPropertyCount"></span>
+                                    Other hotels </span> in
+                                {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
+                            </div>
+                        </div>
+                        
+                    </div>
+                        <?php } else { ?>
+                            <div class="col-auto">
+                                <div class="text-18"><span class="fw-500"><span class="foundPropertyCount"></span>
+                                        properties</span> in
+                                    {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
+                            </div>
+                        </div>
+                        <?php } ?>
+
                         <div class="row y-gap-30 ajax-list-display">
                         </div>
                     </div>
@@ -570,6 +534,7 @@
             filterObjParamEndPrice: filterObj.end_price_range,
             filterObjParamCityID: filterObj.requested_city_id,
             filterObjParamLocation: filterObj.requested_location,
+            filterObjParamSelectedHotel: filterObj.selected_hotel_id,
             ajaxRoomURL: "{!! route('room-list-ajax') !!}",
             addToWishList: "{!! route('add-to-wishlist') !!}",
             addedToCartBooking: "{!! route('ajax-temp-store') !!}",
@@ -692,7 +657,8 @@
                     requested_city_id: requested.requested_city_id,
                     requested_country_id: requested.requested_country_id,
                     requested_location: requested.requested_location,
-                    page: requested.page,
+                    requested_selected_hotel_id: requested.selected_hotel_id,
+                    // page: requested.page,
                     requested_search_from: requested.requested_search_from,
                     requested_search_to: requested.requested_search_to,
                     room_amenities: requested.room_amenities,
@@ -724,4 +690,29 @@
             });
         }
     </script>
+    <script>
+        function changeImage(image) {
+                var newSrc = image.src;
+                document.getElementById('expandedImg').src = newSrc;
+            }
+    </script>
+    <script>
+        function toggleTextAndIcon(element) {
+                var text = element.textContent.trim();
+                if (text === 'More prices & boards') {
+                    element.innerHTML = 'Hide board types' +
+                       '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">' +
+                          '<path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>' +
+                       '</svg>';
+                } else {
+                    element.innerHTML = 'More prices & boards ' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">' +
+                            '<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>' +
+                        '</svg>';
+                }
+            }
+
+    </script>
+    
+   
 @endsection

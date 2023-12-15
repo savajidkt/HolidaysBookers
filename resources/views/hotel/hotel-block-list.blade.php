@@ -15,7 +15,7 @@
         @if (isset($hotel['room']['finalAmount']) && $hotel['room']['finalAmount'] > 0)
             <div class="col-12 topScroll" data-hot="{{ $hotel['id'] }}">
                 <div class="border-top-light pt-30">
-                    <div class="row x-gap-20 y-gap-20">
+                    <div class="row x-gap-20 y-gap-20 main-hb-hotal-list">
                         <div class="col-md-auto">
                             <div class="cardImage ratio ratio-1:1 w-250 md:w-1/1 rounded-4">
                                 <div class="cardImage__content">
@@ -42,9 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md">
-
-
+                        <div class="col-md sec-hb-list-block">
                             @php
                                 $singlePageParam = [
                                     'hotel_id' => $hotel['id'],
@@ -73,17 +71,29 @@
                                     @endif
                                 </h3>
                             </a>
-                            <div class="row x-gap-10 y-gap-10 items-center pt-10">
+                            <div class="row x-gap-10 y-gap-10 items-center ">
                                 <div class="col-auto">
                                     <p class="text-14">Westminster Borough, London</p>
                                 </div>
 
                             </div>
-                            <div class="text-14 lh-15 mt-20">
+                            <div class="text-14 lh-15">
                                 <div class="fw-500">{{ $hotel['room']['room_name'] ?? '' }}</div>
                                 <div class="text-light-1">{{ $hotel['room']['occ_num_beds'] ?? '' }} Beds</div>
                             </div>
-                            <div class="text-14 text-green-2 lh-15 mt-10">
+                          
+                            @if ($hotel['hotel_amenities'])
+                                <div class="row x-gap-10 y-gap-10">
+                                    @foreach ($hotel['hotel_amenities'] as $amenity)
+                                        <div class="col-auto">
+                                            <div class="border-light rounded-100 py-5 px-20 text-14 lh-14">
+                                                {{ $amenity['amenity_name'] }}
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                              <div class="text-14 text-green-2 lh-15 hb-list-dropdown">
                                 <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="map"
                                     class="viewMoreRooms bg-blue-1 text-white mt-24">
                                     Map
@@ -97,19 +107,8 @@
                                     Description
                                 </a>
                             </div>
-                            @if ($hotel['hotel_amenities'])
-                                <div class="row x-gap-10 y-gap-10 pt-20">
-                                    @foreach ($hotel['hotel_amenities'] as $amenity)
-                                        <div class="col-auto">
-                                            <div class="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                                                {{ $amenity['amenity_name'] }}
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endif
                         </div>
-                        <div class="col-md-auto text-right md:text-left">
+                        <div class="col-md-auto text-right md:text-left last-hb-list-block">
                             <div class="row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
                                 <div class="col-auto">
                                     <div class="text-14 lh-14 fw-500">Exceptional</div>
@@ -121,13 +120,17 @@
                                 </div>
                             </div>
 
-                            <div class="">
-                                <div class="text-14 text-light-1 mt-50 md:mt-20">
+                            <div class="last-hb-list-block-d">
+                                <div class="text-14 text-light-1  md:mt-20">
                                     {{ $hotel['room']['min_nights'] ?? 0 }}
                                     nights, {{ $hotel['room']['occ_max_adults'] ?? 0 }} adult
                                 </div>
-                                <div class="text-22 lh-12 fw-600 mt-5">
-                                    {{ numberFormat($hotel['room']['finalAmount'] ?? 0, $hotel['room']['currency'] ?? 0) }}
+                                <div class="current-amount">
+                                    {{ number_format($hotel['room']['finalAmount'] ?? 0, 2, '.', ',') }} Rs
+                                </div>
+                                <div class="text-22 lh-12 fw-600 mt-5 offer-amount">
+                                    <!--{{ numberFormat($hotel['room']['finalAmount'] ?? 0, $hotel['room']['currency'] ?? 0) }}-->
+                                    {{ number_format($hotel['room']['finalAmount'] ?? 0, 2, '.', ',') }} Rs
                                 </div>
 
                                 @php
@@ -182,14 +185,20 @@
                                 {{-- @else --}}
                                     <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
                                         class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+                                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
+  <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
+</svg>
                                         <span class="icons">Add</span>
-                                        <div class="icon-arrow-top-right ml-15"></div>
+                                        <!--<div class="icon-arrow-top-right ml-15"></div>-->
                                         <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
                                     </button>
-                                    <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see"
-                                        class="viewMoreRooms button -md -dark-1 bg-blue-1 text-white mt-24">
-                                        See More <div class="icon-eye ml-15"></div>
+                                   <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see" class="viewMoreRooms" onclick="toggleTextAndIcon(this)">
+                                        More prices & boards
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
                                     </a>
+
                                 {{-- @endif --}}
 
 
@@ -213,7 +222,7 @@
             <div class="col-12 is-hide slide-out-div-{{ $hotel['id'] }}">
             </div>
             <div class="col-12 is-hide map-{{ $hotel['id'] }}">
-                <div class="px-10 py-10 border-light">
+                <div class="border-light">
                     <div class="d-flex items-center">
                         @if (strlen($hotel['hotel_latitude']) > 0 && strlen($hotel['hotel_longitude']) > 0)
                             <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0"
@@ -227,78 +236,47 @@
                 </div>
             </div>
             <div class="col-12 is-hide images-{{ $hotel['id'] }}">
-                <div class="px-10 py-10 border-light">
-                    <div class="d-flex items-center">
-                        <div class="galleryGrid -type-2">
-                            <div class="galleryGrid__item relative d-flex justify-end items-end">
-
+                <div class=" border-light-hb">
+                   
                                 <article id="hotel-photo-210074" class="photo">
-                                    <div class="gallery-tb">
-                                        <div class="tb-row">
-                                            {{-- <div class="photo" style="background-image: url(https://static.hotelbeds.com/static/custom/<!-- NO USER INFO -->/images/loading_photo.gif)">
-                                            <div>
-                                                <span id="photo-big-210074" title="Room" alt="Room" style="background-image: url('https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_w_001.jpg"></span>
-                                            </div>
-                                        </div> --}}
-                                            <div>
-                                                {{-- <div class="container"> --}}
-                                                <span onclick="this.parentElement.style.display='none'"
-                                                    class="closebtn">&times;</span>
-                                                <img id="expandedImg" style="width:100%">
-                                                <div id="imgtext"></div>
-                                                {{-- </div> --}}
-                                            </div>
-                                            <div id="photos-small-210074" class="photos-small">
-                                                {{-- <div class="row"> --}}
-                                                <div class="column">
-                                                    <img src="https://tse4.mm.bing.net/th?id=OIP.H6Znb4LwWOEUCbMW8sxrTgHaEo&pid=Api&P=0&h=180"
-                                                        alt="Nature" style="width:100%"
-                                                        onclick="myFunction(this);">
-                                                </div>
-                                                <div class="column">
-                                                    <img src="https://tse1.mm.bing.net/th?id=OIP._IgGc9h6kbuSmYLsRhBNvwHaEo&pid=Api&P=0&h=180.jpg"
-                                                        alt="Snow" style="width:100%"
-                                                        onclick="myFunction(this);">
-                                                </div>
-                                                <div class="column">
-                                                    <img src="https://tse1.mm.bing.net/th?id=OIP.NbfPECA64xbFnmW58MbWDQHaEo&pid=Api&P=0&h=180"
-                                                        alt="Mountains" style="width:100%"
-                                                        onclick="myFunction(this);">
-                                                </div>
-                                                <div class="column">
-                                                    <img src="https://tse1.mm.bing.net/th?id=OIP.1YM53mG10H_U25iPjop83QHaEo&pid=Api&P=0&h=180"
-                                                        alt="Lights" style="width:100%"
-                                                        onclick="myFunction(this);">
-                                                </div>
-                                                {{-- </div> --}}
-                                                {{-- <div class="">
-                                                    <span class="photo-small" id="img-210074-0" title="Lobby" alt="Lobby" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_l_001.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_l_001.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-1" title="General view" alt="General view" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_a_001.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_a_001.jpg')"></span>
-                                                </div>
-                                                <div class="hovered">
-                                                    <span class="photo-small" id="img-210074-2" title="Room" alt="Room" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_w_001.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_w_001.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-3" title="Pool" alt="Pool" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_p_001.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_p_001.jpg')"></span>
-                                                </div>
-                                                <div class="">
-                                                    <span class="photo-small" id="img-210074-4" title="Restaurant" alt="Restaurant" data-big-src="https://photos.hotelbeds.com/giata/bigger/21/210074/210074a_hb_r_001.jpg" style="background-image: url('https://photos.hotelbeds.com/giata/21/210074/210074a_hb_r_001.jpg')"></span>
-                                                </div> --}}
-                                            </div>
-                                        </div>
-                                    </div>
+                                                <div class="gallery-tb">
+                                                    <div class="tb-row">
+                                                                <div>
+                                                                     <img id="expandedImg" src="https://tse4.mm.bing.net/th?id=OIP.H6Znb4LwWOEUCbMW8sxrTgHaEo&pid=Api&P=0&h=180" style="width:100%">
+                                                                </div>
+                                                                <!-- Grid of smaller images -->
+                                                                <div class="photos-small">
+                                                                    <div class="column">
+                                                                        <img src="https://tse4.mm.bing.net/th?id=OIP.H6Znb4LwWOEUCbMW8sxrTgHaEo&pid=Api&P=0&h=180"
+                                                                            alt="Nature" style="width:100%" onclick="changeImage(this);">
+                                                                    </div>
+                                                                    <div class="column">
+                                                                        <img src="https://tse1.mm.bing.net/th?id=OIP._IgGc9h6kbuSmYLsRhBNvwHaEo&pid=Api&P=0&h=180.jpg"
+                                                                            alt="Snow" style="width:100%" onclick="changeImage(this);">
+                                                                    </div>
+                                                                    <div class="column">
+                                                                        <img src="https://tse1.mm.bing.net/th?id=OIP.NbfPECA64xbFnmW58MbWDQHaEo&pid=Api&P=0&h=180"
+                                                                            alt="Mountains" style="width:100%" onclick="changeImage(this);">
+                                                                    </div>
+                                                                    <div class="column">
+                                                                        <img src="https://tse1.mm.bing.net/th?id=OIP.1YM53mG10H_U25iPjop83QHaEo&pid=Api&P=0&h=180"
+                                                                            alt="Lights" style="width:100%" onclick="changeImage(this);">
+                                                                    </div>
+                                                                    <div class="column">
+                                                                        <img src="https://tse1.mm.bing.net/th?id=OIP.1YM53mG10H_U25iPjop83QHaEo&pid=Api&P=0&h=180"
+                                                                            alt="Lights" style="width:100%" onclick="changeImage(this);">
+                                                                    </div>
+                                                                    <!-- Add more image columns as needed -->
+                                                                </div>
 
-                                </article>
-
-                            </div>
-                        </div>
-                    </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                    
                 </div>
             </div>
             <div class="col-12 is-hide description-{{ $hotel['id'] }}">
-                <div class="px-10 py-10 border-light">
+                <div class="border-light">
                     {!! $hotel['hotel_description'] !!}
                 </div>
             </div>

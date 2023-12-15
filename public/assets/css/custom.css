@@ -1,0 +1,157 @@
+.col-md.sec-hb-list-block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.hb-list-dropdown {
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.hb-list-dropdown a.viewMoreRooms {
+    height: 40px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    margin: 0 !important;
+}
+.hb-list-dropdown a.viewMoreRooms:hover {
+   color:#fff;
+}
+
+.main-hb-hotal-list {
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: 0 0 10px #0003;
+    border-radius: 5px;
+}
+.current-amount {
+    text-decoration: line-through;
+}
+.SelectRoomBook {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+.SelectRoomBook svg.bi.bi-cart4 {
+    font-size: 28px;
+    width: 25px;
+    height: 25px;
+}
+.last-hb-list-block {
+    background-color: #f5f6fd;
+    max-width: 250px !important;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+.last-hb-list-block-d {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.gallery-tb .tb-row {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+
+}
+.gallery-tb .photos-small {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    height: fit-content;
+        gap: 3px;
+
+}
+a.viewMoreRooms {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.cardImage .rounded-4 {
+    border-radius: 4px;
+    height: -webkit-fill-available;
+    object-fit: cover;
+}
+.col-12.bg-blue-2.show-data-hb-list {
+    display: flex;
+    justify-content: space-between;
+        padding: 0 15px;
+        align-items: center;
+}
+.show-data-hb-list .divAvailRoom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.show-data-hb-list .item-line.add-border {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.show-data-hb-list .item-pricing-detail-border.form-serviceadd {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/*media Query*/
+@media screen and (max-width: 1200px) {
+   .hb-list-dropdown {
+    position:relative;
+   justify-content: left ;
+}
+.last-hb-list-block {
+    max-width: 100%;
+}
+}
+
+.searchMenu-loc__field {
+    margin-top: 2px;
+    width: 100%;
+   
+}
+.searchMenu-loc__field .y-gap-5.js-results {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+.searchMenu-loc__field .y-gap-5.js-results .locationDiv h4{
+margin-bottom: 10px;
+}
+.searchMenu-loc__field .y-gap-5.js-results .hotelDiv h4{
+margin-bottom: 10px;
+}
+
+.locationDiv {
+    border-right: 1px solid;
+}
+.hotelDiv {
+    padding: 0 0px 0 30px;
+}
+body .daterangepicker {
+    border-radius: 4px;
+    box-shadow: 0 10px 35px 0 rgba(5,16,54,.102);
+    font-family: inherit;
+    margin-top: 0;
+    max-width: 1069px;
+    padding: 30px;
+    transition: all .2s cubic-bezier(.165,.84,.44,1);
+    width: 100%;
+    right: 21.9% !important;
+    left: auto !important;
+    top: 690px !important;
+    margin: 0 auto !important;
+}
+.daterangepicker.ltr.show-calendar.opensleft {
+    position: unset !important;
+    margin-top: 1px !important;
+}

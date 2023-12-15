@@ -14,8 +14,7 @@ class HotelListingRepository
 {
 
 
-
-    public function hotelLists($request)
+    public function hotelSelectedLists($request)
     {
         $hotels = OfflineHotel::with(['rooms.price'])->where(function ($query) use ($request) {
             if (strlen($request->hotel_amenities) > 0) {
@@ -35,11 +34,11 @@ class HotelListingRepository
                 }
             })
             ->where(function ($query) use ($request) {
-                if (strlen($request->star) > 0 && $request->star != "all") {
-                    $query->whereIn('hotels.category', explode(', ', $request->star));
+                if (strlen($request->requested_selected_hotel_id) > 0) {
+                    $query->where('hotels.id', '=', $request->requested_selected_hotel_id);
                 }
             })
-            ->paginate(10);
+            ->paginate(1);
         $hotelsListingArray = [];
         foreach ($hotels as $key => $hotel) {
             $hotelsListingArray[$key]['id'] = $hotel->id;
@@ -141,6 +140,266 @@ class HotelListingRepository
                 $hotelRoomArray['min_nights'] = $roomPrice->min_nights;
                 $hotelRoomArray['occ_max_adults'] = $roomPrice->room->occ_max_adults;
                 $hotelRoomArray['currency'] = $roomPrice->currency->code;               
+            }
+            
+            $hotelsListingArray[$key]['room'] = $hotelRoomArray;
+            
+        }
+        
+        return ['model' => $hotels, 'data' => $hotelsListingArray];
+    }
+
+    public function hotelLists($request)
+    {
+        $adults = getLowestGuest();
+        $hotels = OfflineHotel::with(['rooms.price'])->where(function ($query) use ($request) {
+            if (strlen($request->hotel_amenities) > 0) {
+                $query->whereHas('hotelamenity', function ($query) use ($request) {
+                    $query->whereIn('amenities_id', explode(', ', $request->hotel_amenities));
+                });
+            }
+        })
+            ->where(function ($query) use ($request) {
+                if (strlen($request->requested_country_id) > 0) {
+                    $query->where('hotels.hotel_country', '=', $request->requested_country_id);
+                }
+            })
+            ->where(function ($query) use ($request) {
+                if (strlen($request->requested_city_id) > 0) {
+                    $query->where('hotels.hotel_city', '=', $request->requested_city_id);
+                }
+            })
+            ->where(function ($query) use ($request) {
+                if (strlen($request->star) > 0 && $request->star != "all") {
+                    $query->whereIn('hotels.category', explode(', ', $request->star));
+                }
+            })
+            ->where(function ($query) use ($request) {
+                if (strlen($request->requested_selected_hotel_id) > 0 && $request->requested_selected_hotel_id != NULL && strlen($request->requested_selected_hotel_id ) > 0) {
+                    $query->where('hotels.id', '!=', $request->requested_selected_hotel_id);
+                }
+            })->whereHas('rooms',function ($query) use ($request,$adults) {
+                $query->where(function($query) use ($adults) {
+                    $query->where('occ_sleepsmax', '>=', $adults)->where('status', OfflineRoom::ACTIVE);
+                });
+            })
+            ->paginate(10);
+        $hotelsListingArray = [];
+        foreach ($hotels as $key => $hotel) {
+            $hotelsListingArray[$key]['id'] = $hotel->id;
+            $hotelsListingArray[$key]['hotel_country'] = $hotel->country->name;
+            $hotelsListingArray[$key]['hotel_city'] = $hotel->city->name;
+            $hotelsListingArray[$key]['hotel_group_id'] = $hotel->hotelgroup->name;
+            $hotelsListingArray[$key]['property_type_id'] = $hotel->property->property_name;
+            $hotelsListingArray[$key]['api_id'] = $hotel->api_id;
+            $hotelsListingArray[$key]['hotel_code'] = $hotel->hotel_code;
+            $hotelsListingArray[$key]['hotel_name'] = $hotel->hotel_name;
+            $hotelsListingArray[$key]['category'] = $hotel->category;
+            $hotelsListingArray[$key]['phone_number'] = $hotel->phone_number;
+            $hotelsListingArray[$key]['fax_number'] = $hotel->fax_number;
+            $hotelsListingArray[$key]['hotel_address'] = $hotel->hotel_address;
+            $hotelsListingArray[$key]['hotel_pincode'] = $hotel->hotel_pincode;
+            $hotelsListingArray[$key]['currency'] = $hotel->currency;
+            $hotelsListingArray[$key]['hotel_image_location'] = $hotel->hotel_image_location;
+            $hotelsListingArray[$key]['hotel_description'] = $hotel->hotel_description;
+            $hotelsListingArray[$key]['hotel_review'] = $hotel->hotel_review;
+            $hotelsListingArray[$key]['hotel_email'] = $hotel->hotel_email;
+            $hotelsListingArray[$key]['hotel_latitude'] = $hotel->hotel_latitude;
+            $hotelsListingArray[$key]['hotel_longitude'] = $hotel->hotel_longitude;
+            $hotelsListingArray[$key]['is_new'] = $hotel->is_new;
+            $hotelsListingArray[$key]['cancel_days'] = $hotel->cancel_days;
+            $hotelsListingArray[$key]['cancellation_policy'] = $hotel->cancellation_policy;
+            $hotelsListingArray[$key]['hotel_type'] = $hotel->hotel_type;
+
+            $hotelsListingArray[$key]['hotel_amenities'] = $hotel->hotelamenity->toArray();
+            $hotelsListingArray[$key]['hotel_groups'] =  $hotel->hotelgroup->toArray();
+            $hotelsListingArray[$key]['hotel_images'] = $hotel->images->toArray();
+
+            $hotelRoomArray = [];
+
+
+            $hotelsDetails = OfflineHotel::find($hotel->id)->toArray();
+            $hotelArr['hotel'] = $hotelsDetails;
+            $tempRoomArray = [];
+            $roomsIds = $hotel->rooms->pluck('id')->toArray();
+
+            $searchGuestArr = getSearchCookies('searchGuestArr'); 
+            $roomCount = getSearchCookies('searchGuestRoomCount');
+            $startDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_from'));
+            $endDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_to'));
+
+                $normalDays = 0;
+                $promoDays = 0;
+                $blackDays = 0;
+                $normalDaysPrice = 0;
+                $promoDaysPrice = 0;
+                $blackDaysPrice = 0;
+                $childPrice = 0;
+                $filterObjParamChild = getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0;
+               $tempRoomArray = [];
+               // First loop 4 rows
+                foreach ($hotel->rooms as $key => $room) {
+                    // search room 2 row
+                    foreach ($searchGuestArr as $searchRoom) {
+                        $totalAdChild = $searchRoom->adult + $searchRoom->child;
+                        $rooms = $hotel->rooms()->where('occ_sleepsmax','>=',$totalAdChild)->where('status', OfflineRoom::ACTIVE)->get();
+                        if($rooms){
+                            foreach ($rooms as  $srRoom) {
+                                if(!array_key_exists($srRoom->id,$tempRoomArray)){
+                                        $tempRoomArray[$srRoom->id] = $srRoom;
+                                }
+                            }
+                        }
+                    }
+                }
+                //Lowet Price get
+                $roomTemArr = [];
+                $startDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_from'));
+                $endDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_to'));
+                $normalDays = 0;
+                $promoDays = 0;
+                $blackDays = 0;
+                $normalDaysPrice = 0;
+                $promoDaysPrice = 0;
+                $blackDaysPrice = 0;
+                $childPrice = 0;
+                $i=1;
+                foreach ($tempRoomArray as $key => $temRoom) {
+                    if($i <= $roomCount){
+                    $roomPrice =$temRoom->price()->where('room_id',$temRoom->id)->orderBy('price_p_n_twin_sharing')->limit(1)->first();
+
+                    if ($roomPrice->price_type == OfflineRoomPrice::NORMAL) {
+                        $normalDays = $normalDays + dateDiffInDays($startDate, $endDate);
+                        $normalDaysPrice = $roomPrice->price_p_n_twin_sharing;
+                        if ($filterObjParamChild > 0) {
+                            $childPrice = getChildrenPrice($searchGuestArr, $roomPrice);
+
+                        }
+                    }
+                    $surCharges = getDateWiseSurcharge($hotel,$startDate, $endDate);
+
+                    if($surCharges){
+                        foreach ($surCharges as $key => $surcharge) {
+
+                        }
+                        //Datechecker($surCharge->surcharge_date_start, $startDate);
+
+                        $blackDays = $blackDays + dateDiffInDays($startDate, $endDate);
+                        $blackDaysPrice = $roomPrice->price_p_n_single_adult * $blackDays;
+                        if ($filterObjParamChild > 0) {
+                            $childPrice = getChildrenPrice($searchGuestArr, $roomPrice);
+                        } 
+                    }
+                    die;
+                    // if ($roomPrice->price_type == OfflineRoomPrice::PROMOTIONAL) {
+                    //     $promoDays = $promoDays + dateDiffInDays($roomPrice->from_date, $roomPrice->to_date);
+                    //     $promoDaysPrice = $roomPrice->price_p_n_single_adult * $promoDays;
+                    //     if ($filterObjParamChild > 0) {
+                    //         $childPrice = getChildrenPrice($searchGuestArr, $roomPrice);
+                    //     }
+                    // }
+
+                    // if ($roomPrice->price_type == OfflineRoomPrice::BLACKOUTSALE) {
+                    //     $blackDays = $blackDays + dateDiffInDays($roomPrice->from_date, $roomPrice->to_date);
+                    //     $blackDaysPrice = $roomPrice->price_p_n_single_adult * $blackDays;
+                    //     if ($filterObjParamChild > 0) {
+                    //         $childPrice = getChildrenPrice($searchGuestArr, $roomPrice);
+                    //     }
+                    // }
+                        if( $normalDays >= ($promoDays + $blackDays) ){
+                            $normalDays = ($normalDays - ($promoDays + $blackDays));
+                        }
+
+                        $normalDaysPrice = $normalDaysPrice * $normalDays;
+
+                        $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice + $childPrice);
+                        
+                        $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr);
+
+                    }
+                 $i++;
+                }
+                dd($normalDaysPrice);
+                die;
+
+               
+
+
+                
+               
+
+            $roomPrice = OfflineRoomPrice::whereIn('room_id', $roomsIds)->orderBy('price_p_n_twin_sharing')->limit(1)->first();
+          
+            $hotelsListingArray[$key]['hotel_amenities'] = $hotel->hotelamenity->toArray();
+            $hotelsListingArray[$key]['hotel_groups'] =  $hotel->hotelgroup->toArray();
+            $hotelsListingArray[$key]['hotel_images'] = $hotel->images->toArray();
+            if ($roomPrice) {
+
+                $hotelsDetails = OfflineHotel::find($hotel->id)->toArray();
+       
+                $hotelArr['hotel'] = $hotelsDetails;
+
+                $searchGuestArr = getSearchCookies('searchGuestArr'); 
+                $startDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_from'));
+               $endDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_to'));
+
+                $normalDays = 0;
+                $promoDays = 0;
+                $blackDays = 0;
+                $normalDaysPrice = 0;
+                $promoDaysPrice = 0;
+                $blackDaysPrice = 0;
+                $childPrice = 0;
+
+                $filterObjParamChild = getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0;
+                if ($roomPrice->price_type == OfflineRoomPrice::NORMAL) {
+                    $normalDays = $normalDays + dateDiffInDays($startDate, $endDate);
+                    $normalDaysPrice = $roomPrice->price_p_n_single_adult;
+                    if ($filterObjParamChild > 0) {
+                        $childPrice = getChildrenPrice($searchGuestArr, $roomPrice);
+                    }
+                }
+                if ($roomPrice->price_type == OfflineRoomPrice::PROMOTIONAL) {
+                    $promoDays = $promoDays + dateDiffInDays($roomPrice->from_date, $roomPrice->to_date);
+                    $promoDaysPrice = $roomPrice->price_p_n_single_adult * $promoDays;
+                    if ($filterObjParamChild > 0) {
+                        $childPrice = getChildrenPrice($searchGuestArr, $roomPrice);
+                    }
+                }
+                if ($roomPrice->price_type == OfflineRoomPrice::BLACKOUTSALE) {
+                    $blackDays = $blackDays + dateDiffInDays($roomPrice->from_date, $roomPrice->to_date);
+                    $blackDaysPrice = $roomPrice->price_p_n_single_adult * $blackDays;
+                    if ($filterObjParamChild > 0) {
+                        $childPrice = getChildrenPrice($searchGuestArr, $roomPrice);
+                    }
+                }
+
+                if( $normalDays >= ($promoDays + $blackDays) ){
+                    $normalDays = ($normalDays - ($promoDays + $blackDays));
+                }
+                
+                $normalDaysPrice = $normalDaysPrice * $normalDays;
+                $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice + $childPrice);
+
+                $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr);
+
+                $hotelRoomArray['normal_day'] = (int) $normalDays; // + $price->price_p_n_cwb
+                $hotelRoomArray['normal_price'] = numberFormat($normalDaysPrice); // + $price->price_p_n_cwb
+                $hotelRoomArray['child_price'] = numberFormat($childPrice); // + $price->price_p_n_cwb
+                $hotelRoomArray['originAmount'] = numberFormat(($total_priceArr['originAmount']) ? $total_priceArr['originAmount'] : 0);
+                $hotelRoomArray['adminproductMarkupAmount'] = numberFormat(($total_priceArr['productMarkupAmount']) ? $total_priceArr['productMarkupAmount'] : 0);
+                $hotelRoomArray['adminagentMarkupAmount'] = numberFormat(($total_priceArr['agentMarkupAmount']) ? $total_priceArr['agentMarkupAmount'] : 0);
+                $hotelRoomArray['agentMarkupAmount'] = numberFormat(($total_priceArr['agentGlobalMarkupAmount']) ? $total_priceArr['agentGlobalMarkupAmount'] : 0);
+                $hotelRoomArray['finalAmount'] = numberFormat(($total_priceArr['finalAmount']) ? $total_priceArr['finalAmount'] : 0);
+                
+                $hotelRoomArray['hotel_id'] = $hotel->id;
+                $hotelRoomArray['price_id'] = $roomPrice->id;
+                $hotelRoomArray['room_id'] = $roomPrice->room_id;
+                $hotelRoomArray['room_name'] = $roomPrice->room->roomtype->room_type;
+                $hotelRoomArray['occ_num_beds'] = $roomPrice->room->occ_num_beds;
+                $hotelRoomArray['min_nights'] = $roomPrice->min_nights;
+                $hotelRoomArray['occ_max_adults'] = $roomPrice->room->occ_max_adults;
+                $hotelRoomArray['currency'] = $roomPrice->currency->code;
             }
             
             $hotelsListingArray[$key]['room'] = $hotelRoomArray;

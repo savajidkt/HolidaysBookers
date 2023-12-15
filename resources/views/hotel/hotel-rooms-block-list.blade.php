@@ -1,35 +1,35 @@
 <style>
-    .hotel-pricing .even.cebra_gray {
-    background: #f3f5f5;
-    border-top: 1px solid #bcc7c4;
-}
-.hotel-pricing .even {
-    width: 100%;
-}
-.hotel-pricing .tb {
-    display: table;
-}
-.hotel-pricing .even .room-type-col.td-left{
-    display: table-cell;
-    vertical-align: middle;
-    padding: 6px 10px 8px 10px;
-}
+/*    .hotel-pricing .even.cebra_gray {*/
+/*    background: #f3f5f5;*/
+/*    border-top: 1px solid #bcc7c4;*/
+/*}*/
+/*.hotel-pricing .even {*/
+/*    width: 100%;*/
+/*}*/
+/*.hotel-pricing .tb {*/
+/*    display: table;*/
+/*}*/
+/*.hotel-pricing .even .room-type-col.td-left{*/
+/*    display: table-cell;*/
+/*    vertical-align: middle;*/
+/*    padding: 6px 10px 8px 10px;*/
+/*}*/
 
-..hotel-pricing .even .room-type-col {
-    position: relative;
-    top: 0;
-}
+/*..hotel-pricing .even .room-type-col {*/
+/*    position: relative;*/
+/*    top: 0;*/
+/*}*/
 
-.hotel-pricing .even .item-pay-at.td-right {
-    display: table-cell;
-    text-align: right;
-    padding: 10px 30px 10px 10px;
-}
+/*.hotel-pricing .even .item-pay-at.td-right {*/
+/*    display: table-cell;*/
+/*    text-align: right;*/
+/*    padding: 10px 30px 10px 10px;*/
+/*}*/
 
-.hotel-pricing .even .item-pay-at {
-    position: relative;
-    top: 0;
-}
+/*.hotel-pricing .even .item-pay-at {*/
+/*    position: relative;*/
+/*    top: 0;*/
+/*}*/
 </style>
 @if (count($hotelRooms) > 0)
     @foreach ($hotelRooms as $key => $room)
@@ -37,8 +37,8 @@
         
         //dd($hotelRooms);
         ?>
-        <div class="row bg-blue-2 mt-20">
-            <div>
+        <div class="col-12">
+            <div class="col-12 bg-blue-2 show-data-hb-list">
                 <div class="tb even cebra_gray">
                     <div class="room-type-col td-left">
                             <div class="divAvailRoom">
@@ -76,7 +76,7 @@
                                                                         <div class="avail-price">
                                             <span>
                                                 {{ numberFormat($priceroom['finalAmount'], $priceroom['currency']) }}
-                                                                </span>
+                                                                                                              </span>
                                                         </span>
                                     
                                     
@@ -138,8 +138,11 @@
                                         {{-- @else --}}
                                     <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
                                                 class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
+  <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
+</svg>
                                                 <span class="icons">Add</span>
-                                                <div class="icon-arrow-top-right ml-15"></div>
+                                                <!--<div class="icon-arrow-top-right ml-15"></div>-->
                                                 <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
                                             </button>
                                         {{-- @endif --}}

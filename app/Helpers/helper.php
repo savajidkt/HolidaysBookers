@@ -1,89 +1,49 @@
 <?php
-
-
-
 use Carbon\Carbon;
-
 use App\Models\City;
-
 use App\Models\Reach;
-
 use App\Models\State;
-
 use App\Models\Wishlist;
-
 use App\Models\AgentMarkup;
-
 use App\Models\OfflineRoom;
-
 use App\Models\ProductMarkup;
-
 use App\Libraries\Safeencryption;
-
 use App\Models\WalletTransaction;
-
 use App\Exceptions\GeneralException;
-
 use Illuminate\Support\Facades\Auth;
-
 use App\Models\OfflineRoomChildPrice;
-
 use App\Models\Order;
-
 use App\Models\Order_Room;
 use App\Models\OrderHotelRoom;
 use Illuminate\Support\Facades\Storage;
-
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
-
 if (!function_exists('home_route')) {
-
     /**
-
      * Return the route to the "home" page depending on authentication/authorization status.
-
      *
-
      * @return string
-
      */
-
     function home_route()
-
     {
-
-        return 'dashboard';
-
+       return 'dashboard';
     }
-
 }
 
 
 
 // Global helpers file with misc functions.
-
 if (!function_exists('app_name')) {
-
     /**
-
      * Helper to grab the application name.
-
      *
-
      * @return mixed
-
      */
-
     function app_name()
-
     {
-
         return config('app.name');
-
     }
-
 }
 
 
@@ -1051,25 +1011,13 @@ if (!function_exists('getOrderBookedBy')) {
 
 
 if (!function_exists('dateDiffInDays')) {
-
-
-
     function dateDiffInDays($date1, $date2)
-
     {
-
         // Calculating the difference in timestamps
-
         $diff = strtotime($date2) - strtotime($date1);
-
-
-
         // 1 day = 24 hours
-
         // 24 * 60 * 60 = 86400 seconds
-
         return abs(round($diff / 86400));
-
     }
 
 }
@@ -2046,12 +1994,10 @@ if (!function_exists('getOrderHistoryAction')) {
 
         $action = '';
 
-        $action .= '<a href="' . route('agent.view-booking-history', $id) . '" class="btn btn-info btn-sm" title="View"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+        $action .= '<a href="' . route('agent.view-booking-history', $id) . '" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
 
-        $action .= '<a href="' . route('agent-invoice-download', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Invoice" data-animation="false" title="Download Invoice"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';
-        $action .= '<a href="' . route('agent-export-single-order', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Export Order" data-animation="false" title="Export Order"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i></a> ';
+        $action .= '<a href="' . route('agent-invoice-download', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Invoice" data-animation="false"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';
 
-        $action .= '<a href="' . route('agent-voucher-download', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Voucher" data-animation="false" title="Download Voucher"><i class="fa fa-download" aria-hidden="true"></i></a> ';
         return $action;
 
     }
@@ -2293,3 +2239,94 @@ if (!function_exists('getCartTotalItem')) {
         return $cartItem;
     }
 }
+
+if (!function_exists('getSearchWiseRommLowestPrice')) {
+    function getSearchWiseRommLowestPrice($rooms)
+    {
+        $searchGuestArr = getSearchCookies('searchGuestArr');
+        foreach($searchGuestArr as $search){
+            $aultsTotal = $search->adult + $search->child;
+           foreach($rooms as $room){
+            $room->where('occ_max_adults','>=',$aultsTotal);
+            
+            dd($room);
+          }
+        }
+        
+        dd($searchGuestArr);
+    }
+}
+if (!function_exists('getLowestGuest')) {
+    function getLowestGuest()
+    {
+        $searchGuestArr = getSearchCookies('searchGuestArr');
+        foreach($searchGuestArr as $key => $value){
+            $max_accupancy[] = $value->adult + $value->child;
+
+        }
+
+        return min($max_accupancy);
+    }
+}
+if (!function_exists('getLowestGuestArray')) {
+    function getLowestGuestArray()
+    {
+        $searchGuestArr = getSearchCookies('searchGuestArr');
+        foreach($searchGuestArr as $key => $value){
+            $max_accupancy[] = $value->adult + $value->child;
+
+        }
+
+        return min($max_accupancy);
+    }
+}
+if (!function_exists('getDateWiseSurcharge')) {
+    function getDateWiseSurcharge($hotel,$startDate,$endDate)
+    {
+        // $surCharge = $hotel->surcharges()->whereDate('surcharge_date_start', '>=', $startDate)
+        //             ->whereDate('surcharge_date_end', '<=', $endDate)->get();
+
+        $surCharges = $hotel->surcharges()
+                    ->where(function ($query) use ($startDate, $endDate) {
+                        $query->where('surcharge_date_start', '>=', $startDate)
+                            ->where('surcharge_date_start', '<', $endDate);
+                    })
+                    ->orWhere(function ($query) use ($startDate, $endDate) {
+                        $query->where('surcharge_date_end', '>', $startDate)
+                            ->where('surcharge_date_end', '<=', $endDate);
+                    })
+                    ->orWhere(function ($query) use ($startDate, $endDate) {
+                        $query->where('surcharge_date_start', '<=', $startDate)
+                            ->where('surcharge_date_end', '>=', $endDate);
+                    })->get();
+
+            foreach ($surCharges as $key => $surcharge) {
+                
+                // $stDate = Datechecker($surcharge->surcharge_date_start,$startDate);
+                // $edDate = Datechecker($surcharge->surcharge_date_end,$endDate);
+                // echo dateDiffInDays($stDate,$edDate);
+                // echo '<br>';
+                
+            }
+
+        //return $surCharges;
+    }
+}
+if (!function_exists('Datechecker')) {
+    function Datechecker($startDate,$endDate)
+    { 
+        $dateToCompare1 = Carbon::createFromFormat('Y-m-d',$startDate);
+        //$dateToCompare2 = Carbon::createFromFormat('Y-m-d',$endDate);
+        if($dateToCompare1->gte($endDate)){
+            $returnDate =  $dateToCompare1;
+        }else{
+            $returnDate =  $endDate;
+        }
+        return $returnDate;
+    }
+}
+
+        
+
+
+

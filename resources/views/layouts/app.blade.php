@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/app.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweet-alert.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sweetalert2.min.css') }}">
-    
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/custom.css') }}">
     <!-- Main-StyleSheet include -->
     <style>
         .help-block-error,

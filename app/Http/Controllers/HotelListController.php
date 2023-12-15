@@ -61,9 +61,28 @@ class HotelListController extends Controller
         $requestedArr['child'] = getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0;
         $requestedArr['room'] = getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1;
         $requestedArr['extra_data'] = getSearchCookies('searchGuestArr');
+        $hotelListView = '';
 
 
-        return view('hotel.hotel-list', ['requestedArr' => $requestedArr, 'country' => $country, 'amenitiesArr' => $amenitiesArr]);
+        if( isset($request->selected_hotel_id) && $request->selected_hotel_id != NULL && $request->selected_hotel_id > 0 ){            
+            $hotelListArray = $this->hotelListingRepository->hotelSelectedLists($request);
+            if( $hotelListArray ){  
+                $requestParam = [];
+                $requestParam['requested_city_id'] = $request->city_id;
+                $requestParam['requested_country_id'] = $request->country_id;
+                $requestParam['requested_location'] = $request->location;
+                $requestParam['requested_selected_hotel_id'] = $request->selected_hotel_id;
+                $requestParam['requested_search_from'] = $request->search_from ? date('d/m/Y', strtotime($request->search_from)) : date('d/m/Y', strtotime(date('Y-m-d')));
+                $requestParam['requested_search_to'] = $request->search_to ? date('d/m/Y', strtotime($request->search_to)) : date('d/m/Y', strtotime(date('Y-m-d')));                                    
+                $hotelListView = view('hotel.hotel-block-list-single', [
+                    'hotelList'         => $hotelListArray['data'],                    
+                    'requestParam'          => $requestParam,
+                'bookingCartArr' => getBookingCart('bookingCart')
+                ])->render();
+            }
+        }    
+
+        return view('hotel.hotel-list', ['requestedArr' => $requestedArr, 'country' => $country, 'amenitiesArr' => $amenitiesArr, 'hotelListView' =>$hotelListView]);
     }
 
     public function getLocations(Request $request)
@@ -72,11 +91,17 @@ class HotelListController extends Controller
         $citiesData = [];
         if (strlen(trim($search)) > 0) {
             $citiesData = City::select('cities.*', 'countries.name as country')->leftJoin('countries', 'countries.id', '=', 'cities.country_id')->where('cities.status', City::ACTIVE)->where('cities.name', 'LIKE', '%' . $search . '%')->get();
+            $hotelData = OfflineHotel::
+            select('hotels.id as id','hotels.hotel_name as name', 'hotels.hotel_country as country_id','hotels.hotel_city as city_id', 'countries.name as country', 'cities.name as cities')
+            ->leftJoin('countries', 'countries.id', '=', 'hotels.hotel_country')
+            ->leftJoin('cities', 'cities.id', '=', 'hotels.hotel_city')
+            ->where('hotels.hotel_name', 'LIKE', '%' . $search . '%')->get();
         }
         return response()->json([
             'status' => true,
             'message' => '',
             'data' => $citiesData,
+            'hotelData' => $hotelData,
         ]);
     }
 
@@ -89,8 +114,7 @@ class HotelListController extends Controller
             $hotelListArray = $this->hotelListingRepository->hotelLists($request);
 
             $hotelCount = $this->hotelListingRepository->hotelCount($request);
-            //$hotelList = (object) $hotelListArray;
-            //$hotelList->loadMissing(['rooms']);
+            
             return response()->json([
                 'status'        => 200,
                 'message'       => 'successfully.',

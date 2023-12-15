@@ -32,8 +32,8 @@
                             <div class="row y-gap-20 pt-20">
                                 <div class="col-12">
                                     <div class="form-input frmName">
-                                        <input type="text" name="name" value="{{ old('name') }}">
-                                        <label class="lh-1 text-16 text-light-1">Full Name</label>
+                                        <input type="text" name="name" value="{{ old('name') }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">
+                                        <label class="lh-1 text-16 text-light-1">Full Name <span class="text-danger">*</span></label>
                                     </div>
                                     @if ($errors->has('name'))
                                         <span class="text-error-2">{{ $errors->first('name') }}</span>
@@ -42,7 +42,7 @@
                                 <div class="col-12">
                                     <div class="form-input frmEmail">
                                         <input type="text" name="email" value="{{ old('email') }}">
-                                        <label class="lh-1 text-16 text-light-1">Email</label>
+                                        <label class="lh-1 text-16 text-light-1">Email <span class="text-danger">*</span></label>
                                     </div>
                                     @if ($errors->has('email'))
                                         <span class="text-error-2">{{ $errors->first('email') }}</span>
@@ -51,7 +51,7 @@
                                 <div class="col-12">
                                     <div class="form-input frmPhone">
                                         <input type="text" name="phone" value="{{ old('phone') }}">
-                                        <label class="lh-1 text-16 text-light-1">Contact Number</label>
+                                        <label class="lh-1 text-16 text-light-1">Contact Number <span class="text-danger">*</span></label>
                                     </div>
                                     @if ($errors->has('phone'))
                                         <span class="text-error-2">{{ $errors->first('phone') }}</span>
@@ -60,7 +60,7 @@
                                 <div class="col-12">
                                     <div class="form-input frmMessage">
                                         <textarea name="message" rows="4">{{ old('message') }}</textarea>
-                                        <label class="lh-1 text-16 text-light-1">Your Messages</label>
+                                        <label class="lh-1 text-16 text-light-1">Your Messages <span class="text-danger">*</span></label>
                                     </div>
                                     @if ($errors->has('message'))
                                         <span class="text-error-2">{{ $errors->first('message') }}</span>

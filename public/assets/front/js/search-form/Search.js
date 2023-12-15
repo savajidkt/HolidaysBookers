@@ -13,15 +13,21 @@ var FrmSearchPreference = function () {
                 location: {
                     required: true,
                 },
-                daterange: {
-                    required: true,
+                search_to: {
+                    required: function () {
+                        if ($('#hidden_to').val() == "" || $('#hidden_from').val() == "") {
+                            return true;
+                        } else {
+                            return false;
+                        }
                 }
+            },
             },
             messages: {
                 location: {
                     required: 'Location is required!'
                 },
-                daterange: {
+                search_to: {
                     required: 'Check in - Check out is required!'
                 }
             },
@@ -32,12 +38,11 @@ var FrmSearchPreference = function () {
                
                 createCookie('location', JSON.stringify($('#location').val()), 1);
                 createCookie('hidden_city_id', JSON.stringify($('.hidden_city_id').val()), 1);
+                createCookie('hidden_hotel_id', JSON.stringify($('.hidden_hotel_id').val()), 1);
                 createCookie('country_id', JSON.stringify($('.hidden_country_id').val()), 1);
                 createCookie('search_from', JSON.stringify($('#hidden_from').val()), 1);
                 createCookie('search_to', JSON.stringify($('#hidden_to').val()), 1);
-                //$("<input />").attr("type", "hidden").attr("name", "adult").attr("value", $('.count-adults').html().trim()).appendTo("#SearchFrm");
-                //$("<input />").attr("type", "hidden").attr("name", "child").attr("value", $('.count-childs').html().trim()).appendTo("#SearchFrm");
-                //$("<input />").attr("type", "hidden").attr("name", "room").attr("value", $('.count-rooms').html().trim()).appendTo("#SearchFrm");
+                
                 form.submit();
             }
         });
@@ -59,6 +64,7 @@ var FrmSearchPreference = function () {
                     },
                     success: function (data) {
                         var CityData = [];
+                        var HotelData = [];
                         response($.map(data.data, function (item) {
                             CityData.push({
                                 'city_id': item.id,
@@ -67,7 +73,19 @@ var FrmSearchPreference = function () {
                                 'country_id': item.country_id
                             });
                         }));
-                        liveSearches(CityData);
+                        response($.map(data.hotelData, function (item) {
+                            HotelData.push({
+                                'hotel_id': item.id,
+                                'city_id': item.city_id,
+                                'hotel_name': item.name,
+                                'city': item.cities,
+                                'country': item.country,
+                                'country_id': item.country_id
+                            });
+                        }));
+
+                        liveSearches(CityData, HotelData);
+                        
                     }
                 });
             },
@@ -290,7 +308,22 @@ var FrmSearchPreference = function () {
     };
 }();
 
+function changeDatepickerLocation() {
+    $(".daterangepicker.ltr.show-calendar").appendTo(".masthead__tabs.is-in-view");
+}
+window.addEventListener("load", function () {
+    setTimeout(changeDatepickerLocation, 500);
+});
+
+// function changeDatepickerLocation() {
+//     $(".daterangepicker.ltr.show-calendar").appendTo(".mainSearch");
+// }
+// window.addEventListener("load", function () {
+//     setTimeout(changeDatepickerLocation, 500);
+// });
+
 $(document).ready(function () {
+    
 
     FrmSearchPreference.init();
 
@@ -530,6 +563,9 @@ $(document).ready(function () {
             $('.transfer_return_round').hide();
         }
     });
+  
+        $(".daterangepicker.ltr.show-calendar").appendTo(".masthead__tabs.is-in-view");
+    
 });
 
 var createCookie = function (cname, cvalue, exdays) {
@@ -809,7 +845,8 @@ function getAllRoomslList(hotel_id) {
     });
 }
 
-function liveSearches(data) {
+function liveSearches(data,hotelData) {
+    
     const targets = document.querySelectorAll('.js-liverSearch')
     if (!targets) return
 
@@ -826,8 +863,10 @@ function liveSearches(data) {
 
                 const cityId = $(option).attr('data-city_id');
                 const CountryId = $(option).attr('data-country_id');
+                const HotelId = $(option).attr('data-hotel_id');
                 $('.hidden_city_id').val(cityId);
                 $('.hidden_country_id').val(CountryId);
+                $('.hidden_hotel_id').val(HotelId);
 
                 search.value = title.replace(/^\s+|\s+$/gm, '')
                 el.querySelector('.js-popup-window').classList.remove('-is-active')
@@ -851,9 +890,11 @@ function liveSearches(data) {
 
     const showList = (searchTerm, resultsEl) => {
         resultsEl.innerHTML = '';
-
-        data
-            .filter((item) => item.city.toLowerCase().includes(searchTerm))
+        var div5 = "";
+        const div1 = document.createElement('div')
+        div1.className = "locationDiv";
+        div1.innerHTML = `<h4 class="text-18 fw-500">Destinations & zones</h4>`;
+        data.filter((item) => item.city.toLowerCase().includes(searchTerm))
             .forEach((e) => {
                 const div = document.createElement('div')
 
@@ -868,9 +909,38 @@ function liveSearches(data) {
               </div>
             </button>
           `
-                resultsEl.appendChild(div)
+                div1.appendChild(div);
+
             })
+            resultsEl.appendChild(div1);
+
+        if (hotelData.length !== 0) {
+            const div2 = document.createElement('div')
+        div2.className = "hotelDiv";
+        div2.innerHTML = `<h4 class="text-18 fw-500">Hotels</h4>`;
+        
+        hotelData.filter((item) => item.hotel_name.toLowerCase().includes(searchTerm))
+            .forEach((e) => {
+                const div3 = document.createElement('div')
+                div3.innerHTML = `
+            <button type="button" class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option" data-hotel_id="${e.hotel_id}" data-city_id="${e.city_id}" data-country_id="${e.country_id}">
+              <div class="d-flex">
+                <div class="icon-bed text-light-1 text-20 pt-4"></div>
+                <div class="ml-10">
+                  <div class="text-15 lh-12 fw-500 js-search-option-target">${e.hotel_name}</div>
+                  <div class="text-14 lh-12 text-light-1 mt-5">${e.city}${e.country}</div>
+                </div>
+              </div>
+            </button>
+          `
+                div2.appendChild(div3);
+
+            })
+           
+
+        resultsEl.appendChild(div2);
     }
+}
 }
 
 function priceRangeSlider() {
@@ -908,3 +978,4 @@ function priceRangeSlider() {
         })
     })
 }
+
