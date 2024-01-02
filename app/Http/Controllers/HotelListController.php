@@ -14,6 +14,7 @@ use App\Models\OfflineRoomPrice;
 use App\Libraries\Safeencryption;
 use App\Repositories\HotelListingRepository;
 use App\Repositories\HotelRoomListingRepository;
+use Carbon\Carbon;
 
 class HotelListController extends Controller
 {
@@ -61,8 +62,14 @@ class HotelListController extends Controller
         $requestedArr['child'] = getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0;
         $requestedArr['room'] = getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1;
         $requestedArr['extra_data'] = getSearchCookies('searchGuestArr');
-        $hotelListView = '';
 
+        $startDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_from'));
+        $endDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_to'));        
+        $requestedArr['nights'] = dateDiffInDays($startDate, $endDate);
+        $requestedArr['startDate'] = $startDate;
+        $requestedArr['endDate'] = $endDate;
+        $hotelListView = '';
+       
 
         if( isset($request->selected_hotel_id) && $request->selected_hotel_id != NULL && $request->selected_hotel_id > 0 ){            
             $hotelListArray = $this->hotelListingRepository->hotelSelectedLists($request);
@@ -135,7 +142,7 @@ class HotelListController extends Controller
     public function ajaxRoomListing(Request $request)
     {
         if ($request->ajax()) {
-            $hotelRooms = $this->hotelRoomListingRepository->hotelRoomLists($request->all());
+            $hotelRooms = $this->hotelRoomListingRepository->hotelRoomLists($request->all());           
             $SafeencryptionObj = new Safeencryption;
             return response()->json([
                 'status'        => 200,

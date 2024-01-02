@@ -1,5 +1,6 @@
 var dt_table_hotels;
 var varHotelsID = HotelID;
+var selectedMealId;
 var FrmOfflineRoomPreference = function () {
     var FrmOfflineRoomValidation = function () {
         var FrmOfflineRoomPreferenceForm = $('#FrmOfflineRoom');
@@ -213,7 +214,7 @@ var FrmOfflineRoomPreference = function () {
                 },
                 start_date: {
                     required: true
-                },               
+                },
                 currency_id: {
                     required: true
                 },
@@ -243,8 +244,7 @@ var FrmOfflineRoomPreference = function () {
                 },
                 price_p_n_ccob: {
                     required: true
-                },               
-
+                },
             },
             groups: {
                 //travelGroup: "start_date end_date",
@@ -259,7 +259,6 @@ var FrmOfflineRoomPreference = function () {
                 start_date: {
                     required: 'Travel date validity is required'
                 },
-                
                 currency_id: {
                     required: $("select[name=currency_id]").attr('data-error')
                 },
@@ -290,7 +289,6 @@ var FrmOfflineRoomPreference = function () {
                 price_p_n_ccob: {
                     required: $("input[name=price_p_n_ccob]").attr('data-error')
                 },
-               
             },
             errorPlacement: function (error, element) {
                 if (element.attr("name") == "price_type") {
@@ -307,7 +305,7 @@ var FrmOfflineRoomPreference = function () {
                     error.insertAfter(element);
                 }
             },
-            submitHandler: function (form) {               
+            submitHandler: function (form) {
                 $(".buttonLoader").removeClass('hide');
                 form.submit();
             }
@@ -329,9 +327,9 @@ var FrmOfflineRoomPreference = function () {
         $('.Cancelation-Policy input[type=radio]').change(function () {
 
             if ($(this).val() == 'refundeble') {
-               
-                    $('.div_cancelation_policy').removeClass('hide');
-                
+
+                $('.div_cancelation_policy').removeClass('hide');
+
             } else {
                 $('.div_cancelation_policy').addClass('hide');
             }
@@ -574,6 +572,32 @@ var FrmOfflineRoomPreference = function () {
         });
         $('.select2-room-meal-plan').val(HotelsRoomMealPlanID);
         $('.select2-room-meal-plan').trigger('change');
+
+    }
+    var OfflineHotelRoomsMealPlanComplimentary = function () {
+        var selectRoomType = $('.select2-room-meal-plan-complimentary');
+        var hotelRoomData = [{
+            id: '',
+            text: ''
+        }];
+        $.each(HotelsRoomMealPlan, function (key, val) {
+            hotelRoomData.push({
+                id: key,
+                text: val
+            });
+        });
+
+        selectRoomType.wrap('<div class="position-relative"></div>').select2({
+            placeholder: "Select Complimentary",
+            allowClear: true,
+            tags: true,
+            dropdownAutoWidth: true,
+            dropdownParent: selectRoomType.parent(),
+            width: '100%',
+            data: hotelRoomData
+        });
+        //$('.select2-room-meal-plan-complimentary').val(selectedMealId);
+        $('.select2-room-meal-plan-complimentary').trigger('change');
 
     }
     var OfflineHotelAmenities = function () {
@@ -935,13 +959,18 @@ var FrmOfflineRoomPreference = function () {
                             jQuery('.listFooter .list-group').html('');
                             $('#complimentaryPlanFrm .modal-footer .btn-primary span').html('');
                             $('#complimentaryPlanFrm .modal-footer .btn-primary span').html('Submit');
-                            $('#complimentaryPlanFrm #id').val('');
-                            $('#complimentaryPlanFrm #action').val('');
-                            $("input[name='complimentary_name']").val('');
+                            if( jQuery('#complimentaryPlanFrm input[name="action"]').val() == "update" ){                               
+                                $('#complimentaryPlanFrm #id').val('');
+                                $('#complimentaryPlanFrm #id').val($('.complimentaryPlan').attr('data-room-id'));
+                                $('#complimentaryPlanFrm #action').val('');
+                                $('#complimentaryPlanFrm #action').val('add');
+                            }
+                           
+                            complimentarySelected('');                            
                             $("input[name='complimentary_price']").val('');
-                            
+
                             $.each(data.responce, function (k, v) {
-                                jQuery('.listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><p class="mb-0 fw-medium">' + v.complimentary_name + '</p><h5 class="card-title mb-0">' + v.complimentary_price + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
+                                jQuery('.listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><p class="mb-0 fw-medium">' + v.mealplans.name + '</p><h5 class="card-title mb-0">' + v.complimentary_price + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
                             });
                         }
                         $("#complimentaryPlanFrm .buttonLoader").addClass('hide');
@@ -964,7 +993,7 @@ var FrmOfflineRoomPreference = function () {
             rules: {
                 hotel_id: {
                     required: true
-                },                
+                },
                 stop_sale_date: {
                     required: true
                 }
@@ -993,11 +1022,11 @@ var FrmOfflineRoomPreference = function () {
                         if (data.status) {
                             jQuery('#stopSalePlanFrm .listFooter .list-group').html('');
                             $('#stopSalePlanFrm .btn-primary span').html('');
-                            $('#stopSalePlanFrm .btn-primary span').html('Submit');                            
+                            $('#stopSalePlanFrm .btn-primary span').html('Submit');
                             $('#stopSalePlanFrm #action').val('add');
-                            $("input[name='stop_sale_date']").val(''); 
+                            $("input[name='stop_sale_date']").val('');
                             $.each(data.responce, function (k, v) {
-                                var date_start = "";                               
+                                var date_start = "";
                                 const date = new Date(v.stop_sale_date);
                                 date_start = date.getDate() + '/' + (parseInt(date.getMonth()) + parseInt(1)) + '/' + date.getFullYear();
                                 jQuery('#stopSalePlanFrm .listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><h5 class="card-title mb-0">' + date_start + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editStopSalebtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + ' >Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltStopSalebtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
@@ -1200,6 +1229,7 @@ var FrmOfflineRoomPreference = function () {
             OfflineHotel();
             OfflineHotelRooms();
             OfflineHotelRoomsMealPlan();
+            OfflineHotelRoomsMealPlanComplimentary();
             OfflineHotelAmenities();
             FrmAddAmenity();
             FrmAddRoomType();
@@ -1249,6 +1279,7 @@ $(document).ready(function () {
         });
 
     });
+
     $(document).on('click', '.listFooter .editbtn', function () {
 
         $.ajax({
@@ -1262,7 +1293,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.status) {
                     $("input[name='surcharge_name']").val(data.responce[0].surcharge_name);
-                    $("input[name='surcharge_price']").val(data.responce[0].surcharge_price);
+                    $("input[name='surcharge_price']").val(data.responce[0].surcharge_price);                   
                     var date_start = "";
                     var date_end = "";
                     const date = new Date(data.responce[0].surcharge_date_start);
@@ -1291,8 +1322,6 @@ $(document).ready(function () {
             }
         });
     });
-
-
 
     $(document).on('click', '.listFooter .dltbtn', function () {
         var hotel_id = $(this).attr('data-hotel-id');
@@ -1342,10 +1371,10 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', '.complimentaryPlan', function () {  
+    $(document).on('click', '.complimentaryPlan', function () {
         $('#complimentaryPlan #hotel_id').val($(this).attr('data-hotel-id'));
         $('#complimentaryPlan #id').val($(this).attr('data-room-id'));
-           
+
         $.ajax({
             type: 'POST',
             url: moduleConfig.addRoomComplimentaryPlanListURL,
@@ -1356,9 +1385,11 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.status) {
+                    complimentarySelected('');
+                    $("input[name='complimentary_price']").val('');
                     jQuery('.listFooter .list-group').html('');
-                    $.each(data.responce, function (k, v) {                       
-                        jQuery('.listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><p class="mb-0 fw-medium">' + v.complimentary_name + '</p><h5 class="card-title mb-0">' + v.complimentary_price + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
+                    $.each(data.responce, function (k, v) {
+                        jQuery('.listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><p class="mb-0 fw-medium">' + v.mealplans.name + '</p><h5 class="card-title mb-0">' + v.complimentary_price + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
                     });
                 }
                 $('#complimentaryPlan').modal('show');
@@ -1379,10 +1410,10 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.status) {
+                    complimentarySelected(data.responce[0].mealplans_id);                    
                     
-                    $("input[name='complimentary_name']").val(data.responce[0].complimentary_name);
-                    $("input[name='complimentary_price']").val(data.responce[0].complimentary_price); 
-                                       
+                    $("input[name='complimentary_price']").val(data.responce[0].complimentary_price);
+
                     $('#complimentaryPlan .modal-footer .btn-primary span').html('');
                     $('#complimentaryPlan .modal-footer .btn-primary span').html('Update');
                     $('#complimentaryPlan #id').val(data.responce[0].id);
@@ -1424,16 +1455,16 @@ $(document).ready(function () {
                     success: function (data) {
                         if (data.status) {
                             jQuery('.listFooter .list-group').html('');
-                            $.each(data.responce, function (k, v) {    
-                                
+                            $.each(data.responce, function (k, v) {
+
                                 $('#complimentaryPlanFrm .modal-footer .btn-primary span').html('');
                                 $('#complimentaryPlanFrm .modal-footer .btn-primary span').html('Submit');
-                                
+
                                 $('#complimentaryPlanFrm #action').val('add');
-                                $("input[name='complimentary_name']").val('');
+                                complimentarySelected('')
                                 $("input[name='complimentary_price']").val('');
 
-                                jQuery('.listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><p class="mb-0 fw-medium">' + v.complimentary_name + '</p><h5 class="card-title mb-0">' + v.complimentary_price + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
+                                jQuery('.listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><p class="mb-0 fw-medium">' + v.mealplans.name + '</p><h5 class="card-title mb-0">' + v.complimentary_price + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltComplimentarybtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
                             });
                         }
                         $('#complimentaryPlan').modal('show');
@@ -1467,13 +1498,13 @@ $(document).ready(function () {
     $('#cutoff_price').change(function () {
         $('.before_check_in_days').html('');
         var optionStr = "";
-        if( $(this).val() > 1 ){            
-            for (let index = 0; index <  $(this).val(); index++) {
-                optionStr += "<option value=\""+index+"\">"+index+" Days</option>";                
-            }           
+        if ($(this).val() > 1) {
+            for (let index = 0; index < $(this).val(); index++) {
+                optionStr += "<option value=\"" + index + "\">" + index + " Days</option>";
+            }
             $('.before_check_in_days').html(optionStr);
         } else {
-            optionStr += "<option value=\"0\">0 Days</option>"; 
+            optionStr += "<option value=\"0\">0 Days</option>";
             $('.before_check_in_days').html(optionStr);
         }
     });
@@ -1492,9 +1523,8 @@ $(document).ready(function () {
 
     }, "Please check your dates.");
 
-    
     $(document).on('click', '.stopSalePlan', function () {
-        
+
         $('#stopSalePlan #hotel_id').val($(this).attr('data-hotel-id'));
         $.ajax({
             type: 'POST',
@@ -1507,10 +1537,10 @@ $(document).ready(function () {
                 if (data.status) {
                     jQuery('#stopSalePlan .listFooter .list-group').html('');
                     $.each(data.responce, function (k, v) {
-                        var date_start = "";                               
-                                const date = new Date(v.stop_sale_date);
+                        var date_start = "";
+                        const date = new Date(v.stop_sale_date);                        
                         date_start = date.getDate() + '/' + (parseInt(date.getMonth()) + parseInt(1)) + '/' + date.getFullYear();
-                                jQuery('#stopSalePlanFrm .listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><h5 class="card-title mb-0">' + date_start + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editStopSalebtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + ' >Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltStopSalebtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
+                        jQuery('#stopSalePlanFrm .listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><h5 class="card-title mb-0">' + date_start + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editStopSalebtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + ' >Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltStopSalebtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
                     });
                 }
                 $('#stopSalePlan').modal('show');
@@ -1530,7 +1560,8 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.status) {
-                    $("input[name='stop_sale_date']").val(data.responce[0].stop_sale_date);                    
+                    $("input[name='stop_sale_date']").val(data.responce[0].stop_sale_date);
+                   
                     var date_start = "";                    
                     const date = new Date(data.responce[0].stop_sale_date);
                     var dateMonth = parseInt(date.getMonth()) + parseInt(1);
@@ -1539,7 +1570,7 @@ $(document).ready(function () {
 
                     var surchargeBasic = $('.basic-stopSale');
                     if (surchargeBasic.length) {
-                        surchargeBasic.flatpickr({                            
+                        surchargeBasic.flatpickr({
                             dateFormat: "d/m/Y",
                             defaultDate: [date_start],
                         });
@@ -1553,7 +1584,7 @@ $(document).ready(function () {
                 $('#stopSalePlan').modal('show');
             }
         });
-});
+    });
     $(document).on('click', '.listFooter .dltStopSalebtn', function () {
         var hotel_id = $(this).attr('data-hotel-id');
         var id = $(this).attr('data-id');
@@ -1584,20 +1615,20 @@ $(document).ready(function () {
                     success: function (data) {
                         if (data.status) {
                             jQuery('.listFooter .list-group').html('');
-                            $.each(data.responce, function (k, v) {    
-                                
+                            $.each(data.responce, function (k, v) {
+
                                 $('#stopSalePlan .btn-primary span').html('');
                                 $('#stopSalePlan .btn-primary span').html('Submit');
-                                
-                                $('#stopSalePlan #action').val('add');
-                                $("input[name='stop_sale_date']").val('');                                
 
-                                var date_start = "";                               
+                                $('#stopSalePlan #action').val('add');
+                                $("input[name='stop_sale_date']").val('');
+
+                                var date_start = "";
                                 const date = new Date(v.stop_sale_date);
                                 date_start = date.getDate() + '/' + (parseInt(date.getMonth()) + parseInt(1)) + '/' + date.getFullYear();
                                 jQuery('#stopSalePlanFrm .listFooter .list-group').append('<li class="list-group-item d-flex justify-content-between flex-column flex-sm-row"><div class="offer"><h5 class="card-title mb-0">' + date_start + '</h5></div><div class="apply mt-3 mt-sm-0"><button type="button" class="btn btn-outline-primary waves-effect editStopSalebtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + ' >Edit</button><button type="button" class="btn btn-outline-primary waves-effect dltStopSalebtn" data-hotel-id=' + v.hotel_id + ' data-id=' + v.id + '>Delete</button></div></li>');
 
-                                
+
                             });
                         }
                         $('#stopSalePlan').modal('show');
@@ -1745,3 +1776,35 @@ $(document).ready(function () {
     });
 
 });
+
+
+function complimentarySelected(id){
+    var selectRoomType = $('.select2-room-meal-plan-complimentary');
+                            var hotelRoomData = [{
+                                id: '',
+                                text: ''
+                            }];
+                            $.each(HotelsRoomMealPlan, function (key, val) {
+                                hotelRoomData.push({
+                                    id: key,
+                                    text: val
+                                });
+                            });
+        
+                            selectRoomType.wrap('<div class="position-relative"></div>').select2({
+                                placeholder: "Select Complimentary",
+                                allowClear: true,
+                                tags: true,
+                                dropdownAutoWidth: true,
+                                dropdownParent: selectRoomType.parent(),
+                                width: '100%',
+                                data: hotelRoomData
+                            });
+                            if( id ){
+                                $('.select2-room-meal-plan-complimentary').val(id);
+                            } else {
+                                $('.select2-room-meal-plan-complimentary').val('');
+                            }
+                            
+                            $('.select2-room-meal-plan-complimentary').trigger('change');
+}

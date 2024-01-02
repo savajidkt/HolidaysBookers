@@ -17,12 +17,13 @@ class CreateComplimentariesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('hotel_id');
             $table->unsignedBigInteger('room_id');            
-            $table->string('complimentary_name')->nullable();                      
+            $table->unsignedBigInteger('mealplans_id');                                           
             $table->double('complimentary_price', 10, 2)->default(0);
 
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
             $table->foreign('room_id')->references('id')->on('offline_rooms')->onDelete('cascade');
+            $table->foreign('mealplans_id')->references('id')->on('mealplans')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

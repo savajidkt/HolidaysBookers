@@ -17,7 +17,12 @@ class Complimentary extends Model
     protected $fillable = [
         'hotel_id',        
         'room_id',
-        'complimentary_name',
+        'mealplans_id',
         'complimentary_price'
     ];  
+    
+    public function mealplans()
+    { 
+       return $this->belongsTo(MealPlan::class,'mealplans_id', 'id');
+    }
 }

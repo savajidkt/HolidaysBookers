@@ -175,5 +175,14 @@ class OfflineHotel extends Authenticatable
     {
         return $this->hasMany(Surcharge::class,'hotel_id', 'id');
     }
+
+    public function prompstionals()
+    {
+        return $this->hasMany(Promotional::class,'hotel_id', 'id');
+    }
+    public function stopsale()
+    {
+        return $this->hasMany(StopSale::class,'hotel_id', 'id');
+    }
    
 }

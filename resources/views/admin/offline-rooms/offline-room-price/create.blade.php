@@ -18,15 +18,15 @@
                                 <div class="col-12">
                                     <a class="btn btn-outline-secondary btn-sm  waves-effect"
                                         href="{{ route('view-room-price', $model) }}">{{ __('core.back') }}</a>
-                                    <button type="submit" id="user-save" name="save" value="save"class="btn btn-primary btn-sm "><span
+                                    <button type="submit" id="user-save" name="save"
+                                        value="save"class="btn btn-primary btn-sm "><span
                                             class="spinner-border spinner-border-sm buttonLoader hide" role="status"
-                                            aria-hidden="true"></span><span
-                                            class="ml-25 align-middle" >Save</span></button>
-                                    <button type="submit" id="user-save" class="btn btn-primary btn-sm "  name="save" value="save and new">
-                                        <span
-                                            class="spinner-border spinner-border-sm buttonLoader hide" role="status"
-                                            aria-hidden="true"></span><span
-                                            class="ml-25 align-middle">Save And New</span></button>
+                                            aria-hidden="true"></span><span class="ml-25 align-middle">Save</span></button>
+                                    <button type="submit" id="user-save" class="btn btn-primary btn-sm " name="save"
+                                        value="save and new">
+                                        <span class="spinner-border spinner-border-sm buttonLoader hide" role="status"
+                                            aria-hidden="true"></span><span class="ml-25 align-middle">Save And
+                                            New</span></button>
                                 </div>
                             </div>
                         </form>
@@ -52,7 +52,8 @@
                                                                 Plan<span class="text-danger">*</span></label>
                                                             <input type="text" id="basic-addon-name" name="name"
                                                                 class="form-control" placeholder="Meal Plan" value=""
-                                                                aria-describedby="basic-addon-name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
+                                                                aria-describedby="basic-addon-name"
+                                                                onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                                 data-error="Meal plan name is required" />
                                                         </div>
                                                     </div>
@@ -88,28 +89,33 @@
                                                 <form action="" method="post" id="surchargePlanFrm"
                                                     enctype="multipart/form-data">
                                                     @csrf
-                                                    <input type="hidden" name="hotel_id" id="hotel_id">                                                            
-                                                    <input type="hidden" name="id" id="id">                                                            
-                                                    <input type="hidden" name="action" id="action" value="add">                                                            
+                                                    <input type="hidden" name="hotel_id" id="hotel_id">
+                                                    <input type="hidden" name="id" id="id">
+                                                    <input type="hidden" name="action" id="action" value="add">
                                                     <div class="row g-3">
                                                         <div class="col-sm-4 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Surcharge Name</label>
-                                                            <input type="text" name="surcharge_name" class="form-control" placeholder="Surcharge Name">                                                            
+                                                            <label class="form-label" for="plFirstName">Surcharge
+                                                                Name</label>
+                                                            <input type="text" name="surcharge_name"
+                                                                class="form-control" placeholder="Surcharge Name">
 
                                                         </div>
                                                         <div class="col-sm-4 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plLastName">Surcharge Price</label>
+                                                            <label class="form-label" for="plLastName">Surcharge
+                                                                Price</label>
                                                             <input type="text" name="surcharge_price"
-                                                                class="form-control" placeholder="10000">                                                            
+                                                                class="form-control" placeholder="10000">
                                                         </div>
                                                         <div class="col-sm-4">
-                                                            <label class="form-label" for="plUserName">Surcharge Date</label>                                                            
+                                                            <label class="form-label" for="plUserName">Surcharge
+                                                                Date</label>
 
-                                                                <input type="text" id="surcharge_date" name="surcharge_date"
-                                                                class="form-control basic-surcharge flatpickr-input" placeholder="DD-MM-YYYY To DD-MM-YYYY"
-                                                                value =""
+                                                            <input type="text" id="surcharge_date"
+                                                                name="surcharge_date"
+                                                                class="form-control basic-surcharge flatpickr-input"
+                                                                placeholder="DD-MM-YYYY To DD-MM-YYYY" value =""
                                                                 data-error="Surcharge date is required" />
-                                                            
+
                                                         </div>
 
                                                     </div>
@@ -123,8 +129,8 @@
                                                     <div class="modal-footer listFooter">
                                                         <div class="col-12">
                                                             <ul class="list-group">
-                                                                
-                                                            </ul>                                                            
+
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -152,20 +158,22 @@
                                                 <form action="" method="post" id="complimentaryPlanFrm"
                                                     enctype="multipart/form-data">
                                                     @csrf
-                                                    <input type="hidden" name="hotel_id" id="hotel_id">                                                            
-                                                    <input type="hidden" name="id" id="id">                                                            
-                                                    <input type="hidden" name="action" id="action" value="add">                                                            
+                                                    <input type="hidden" name="hotel_id" id="hotel_id">
+                                                    <input type="hidden" name="id" id="id">
+                                                    <input type="hidden" name="action" id="action" value="add">
                                                     <div class="row g-3">
                                                         <div class="col-sm-6 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Complimentary Name</label>
-                                                            <input type="text" name="complimentary_name" class="form-control" placeholder="Complimentary Name">                                                            
+                                                            <label class="form-label" for="plFirstName">Complimentary
+                                                                Name</label>                                                            
+                                                                <select class="select2-room-meal-plan-complimentary form-control" name="complimentary_name"></select>
 
                                                         </div>
                                                         <div class="col-sm-6 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plLastName">Complimentary Price</label>
+                                                            <label class="form-label" for="plLastName">Complimentary
+                                                                Price</label>
                                                             <input type="text" name="complimentary_price"
-                                                                class="form-control" placeholder="10000">                                                            
-                                                        </div>                                                       
+                                                                class="form-control" placeholder="10000">
+                                                        </div>
 
                                                     </div>
                                                     <div class="modal-footer">
@@ -178,8 +186,8 @@
                                                     <div class="modal-footer listFooter">
                                                         <div class="col-12">
                                                             <ul class="list-group">
-                                                                
-                                                            </ul>                                                            
+
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -239,6 +247,7 @@
                                                             <label class="form-label" for="plFirstName">Child no Bed (13-18 Years)</label>
                                                             <input type="number" name="child_with_no_bed_13_18" class="form-control" placeholder="Child no Bed (13-18 Years)">
                                                         </div>
+                                                        
                                                         <div class="col-sm-4">
                                                             <label class="form-label" for="plUserName">Date Validity</label>
                                                             <input type="text" id="date_validity"

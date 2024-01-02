@@ -73,14 +73,11 @@
                             </a>
                             <div class="row x-gap-10 y-gap-10 items-center ">
                                 <div class="col-auto">
-                                    <p class="text-14">Westminster Borough, London</p>
+                                    <p class="text-14"><i class="icon-location"></i>{{ $hotel['hotel_address'] }}</p>
                                 </div>
 
                             </div>
-                            <div class="text-14 lh-15">
-                                <div class="fw-500">{{ $hotel['room']['room_name'] ?? '' }}</div>
-                                <div class="text-light-1">{{ $hotel['room']['occ_num_beds'] ?? '' }} Beds</div>
-                            </div>
+                           
                           
                             @if ($hotel['hotel_amenities'])
                                 <div class="row x-gap-10 y-gap-10">
@@ -109,22 +106,10 @@
                             </div>
                         </div>
                         <div class="col-md-auto text-right md:text-left last-hb-list-block">
-                            <div class="row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
-                                <div class="col-auto">
-                                    <div class="text-14 lh-14 fw-500">Exceptional</div>
-                                    <div class="text-14 lh-14 text-light-1"> {{ $hotel['hotel_review'] }} reviews</div>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="flex-center text-white fw-600 text-14 size-40 rounded-4 bg-blue-1">
-                                        {{ $hotel['hotel_review'] }}</div>
-                                </div>
-                            </div>
+                           
 
                             <div class="last-hb-list-block-d">
-                                <div class="text-14 text-light-1  md:mt-20">
-                                    {{ $hotel['room']['min_nights'] ?? 0 }}
-                                    nights, {{ $hotel['room']['occ_max_adults'] ?? 0 }} adult
-                                </div>
+                               
                                 <div class="current-amount">
                                     {{ number_format($hotel['room']['finalAmount'] ?? 0, 2, '.', ',') }} Rs
                                 </div>
@@ -183,16 +168,8 @@
                                         See More <div class="icon-eye ml-15"></div>
                                     </a> --}}
                                 {{-- @else --}}
-                                    <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
-                                        class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
-                                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
-  <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
-</svg>
-                                        <span class="icons">Add</span>
-                                        <!--<div class="icon-arrow-top-right ml-15"></div>-->
-                                        <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
-                                    </button>
-                                   <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see" class="viewMoreRooms" onclick="toggleTextAndIcon(this)">
+                                    
+                                   <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="see" class="viewMoreRooms button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5" onclick="toggleTextAndIcon(this)">
                                         More prices & boards
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>

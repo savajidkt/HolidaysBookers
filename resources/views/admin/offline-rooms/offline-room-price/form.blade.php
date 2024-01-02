@@ -1,20 +1,17 @@
 <?php
 
-
-
-if( isset($pricemodel->from_date) ){
-    
-    $pricemodel->from_date = date('d/m/Y',strtotime($pricemodel->from_date));
+if (isset($pricemodel->from_date)) {
+    $pricemodel->from_date = date('d/m/Y', strtotime($pricemodel->from_date));
     //echo $from_date; exit;
-} 
- if( isset($pricemodel->to_date)  ){
-    $pricemodel->to_date = date('d/m/Y',strtotime($pricemodel->to_date));
-} 
- if( isset($pricemodel->booking_start_date)  ){
-    $pricemodel->booking_start_date = date('d/m/Y',strtotime($pricemodel->booking_start_date));
-} 
- if( isset($pricemodel->booking_end_date)  ){
-    $pricemodel->booking_end_date = date('d/m/Y',strtotime($pricemodel->booking_end_date));
+}
+if (isset($pricemodel->to_date)) {
+    $pricemodel->to_date = date('d/m/Y', strtotime($pricemodel->to_date));
+}
+if (isset($pricemodel->booking_start_date)) {
+    $pricemodel->booking_start_date = date('d/m/Y', strtotime($pricemodel->booking_start_date));
+}
+if (isset($pricemodel->booking_end_date)) {
+    $pricemodel->booking_end_date = date('d/m/Y', strtotime($pricemodel->booking_end_date));
 }
 
 ?>
@@ -38,7 +35,6 @@ if( isset($pricemodel->from_date) ){
     var TravelEndDate = "{!! isset($pricemodel->to_date) ? $pricemodel->to_date : '' !!}";
     var BookingStartDate = "{!! isset($pricemodel->booking_start_date) ? $pricemodel->booking_start_date : '' !!}";
     var BookingEndDate = "{!! isset($pricemodel->booking_end_date) ? $pricemodel->booking_end_date : '' !!}";
-
 </script>
 <style>
     .input-group-addon {
@@ -172,7 +168,7 @@ if( isset($pricemodel->from_date) ){
                 <div class="input-group input-daterange">
                     <input type="text" name="booking_start_date"
                         class="form-control booking-basic flatpickr-input" placeholder="DD-MM-YYYY To DD-MM-YYYY"
-                        value =" {{ formatdate($pricemodel->booking_start_date). ' to ' . formatdate($pricemodel->booking_end_date)}}"
+                        value =" {{ formatdate($pricemodel->booking_start_date) . ' to ' . formatdate($pricemodel->booking_end_date) }}"
                         data-error="Booking start date is required" />
                 </div>
                 <div class="BookingDateValidity"></div>
@@ -187,7 +183,6 @@ if( isset($pricemodel->from_date) ){
                 <a class="badge badge-success roomMealPlanBTN" style="color:#FFF; float: right;">
                     <i class="fa fa-plus" aria-hidden="true"></i> Add New Meal Plan
                 </a>
-               
                 <select class="select2-room-meal-plan form-control" name="meal_plan"></select>
                 <div class="room_MealPlanCLS"></div>
                 @error('meal_plan')
@@ -333,20 +328,21 @@ if( isset($pricemodel->from_date) ){
                 <label>Child no Bed (5-12 Years)</label>
                 <input type="number" class="form-control" name="price_p_n_cob_5_12"
                     value="{{ isset($pricemodel->price_p_n_cob_5_12) ? $pricemodel->price_p_n_cob_5_12 : old('price_p_n_cob_5_12') }}"
-                    data-error="Child no bed is required" />                
-            </div>            
+                    data-error="Child no bed is required" />
+            </div>
         </div>
     </div>
     <div class="col-2">
-        <div class="col-md-12 col-12">           
+        <div class="col-md-12 col-12">
             <div class="form-group">
                 <label>Child no Bed (13-18 Years)</label>
                 <input type="number" class="form-control" name="price_p_n_cob_13_18"
                     value="{{ isset($pricemodel->price_p_n_cob_13_18) ? $pricemodel->price_p_n_cob_13_18 : old('price_p_n_cob_13_18') }}"
-                    data-error="Child no bed is required" />              
+                    data-error="Child no bed is required" />
             </div>
         </div>
     </div>
+
 
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
@@ -426,17 +422,17 @@ if( isset($pricemodel->from_date) ){
                 <label>Child no Bed (5-12 Years)</label>
                 <input type="number" class="form-control" name="tax_p_n_cob_5_12"
                     value="{{ isset($pricemodel->tax_p_n_cob_5_12) ? $pricemodel->tax_p_n_cob_5_12 : old('tax_p_n_cob_5_12') }}"
-                    data-error="Child no bed is required" />                
-            </div>            
+                    data-error="Child no bed is required" />
+            </div>
         </div>
     </div>
     <div class="col-2">
-        <div class="col-md-12 col-12">           
+        <div class="col-md-12 col-12">
             <div class="form-group">
                 <label>Child no Bed (13-18 Years)</label>
                 <input type="number" class="form-control" name="tax_p_n_cob_13_18"
                     value="{{ isset($pricemodel->tax_p_n_cob_13_18) ? $pricemodel->tax_p_n_cob_13_18 : old('tax_p_n_cob_13_18') }}"
-                    data-error="Child no bed is required" />              
+                    data-error="Child no bed is required" />
             </div>
         </div>
     </div>
@@ -617,7 +613,8 @@ if( isset($pricemodel->from_date) ){
                             <div class="col-2">
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
-                                        <label for="itemcost">Per Night Charge <span class="text-danger">*</span></label>
+                                        <label for="itemcost">Per Night Charge <span
+                                                class="text-danger">*</span></label>
                                         <input type="number" class="form-control" name="night_charge"
                                             value="" />
                                     </div>
@@ -880,6 +877,9 @@ if( isset($pricemodel->from_date) ){
         </div>
     </div>
 </div> --}}
+
+
+
 @section('extra-script')
     <script>
         $('.select2').select2();
@@ -909,20 +909,25 @@ if( isset($pricemodel->from_date) ){
 
     <script>
         var PackageMinDate = new Date();
-         var packageBasic = $('.start-date-basic');
+        var packageBasic = $('.start-date-basic');
         if (packageBasic.length) {
             packageBasic.flatpickr({
+
                 mode: 'range',
                 defaultDate: [TravelStartDate, TravelEndDate],
                 dateFormat: "d/m/Y"
             });
         }
+        console.log(BookingStartDate);
+        console.log(BookingEndDate);
         var packageTravelBasic = $('.booking-basic');
         if (packageTravelBasic.length) {
             packageTravelBasic.flatpickr({
+
                 mode: 'range',
+                dateFormat: "d/m/Y",
                 defaultDate: [BookingStartDate, BookingEndDate],
-                dateFormat: "d/m/Y"
+
             });
         }
         var surchargeBasic = $('.basic-surcharge');
@@ -965,16 +970,17 @@ if( isset($pricemodel->from_date) ){
         var moduleConfig = {
             addRoomTypeURL: "{!! route('add-room-type') !!}",
             addRoomMealPlanURL: "{!! route('add-meal-plan') !!}",
+            
             addRoomSurchargePlanURL: "{!! route('add-surcharge-plan') !!}",
             addRoomSurchargePlanListURL: "{!! route('add-surcharge-list-plan') !!}",
             addRoomSurchargePlanListEditURL: "{!! route('add-surcharge-list-edit-plan') !!}",
             addRoomSurchargePlanListDeleteURL: "{!! route('add-surcharge-list-delete-plan') !!}",
-            
+
             addRoomComplimentaryPlanURL: "{!! route('add-complimentary-plan') !!}",
             addRoomComplimentaryPlanListURL: "{!! route('add-complimentary-list-plan') !!}",
             addRoomComplimentaryPlanListEditURL: "{!! route('add-complimentary-list-edit-plan') !!}",
             addRoomComplimentaryPlanListDeleteURL: "{!! route('add-complimentary-list-delete-plan') !!}",
-           
+
             addRoomStopSalePlanURL: "{!! route('add-stop-sale-plan') !!}",
             addRoomStopSalePlanListURL: "{!! route('add-stop-sale-list-plan') !!}",
             addRoomStopSalePlanListEditURL: "{!! route('add-stop-sale-list-edit-plan') !!}",

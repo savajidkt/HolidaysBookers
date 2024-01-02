@@ -17,7 +17,7 @@ class ComplimentaryRepository
         $dataSave = [
             'hotel_id'    => $data['hotel_id'],
             'room_id'    => $data['id'],
-            'complimentary_name'    => $data['complimentary_name'],
+            'mealplans_id'    => $data['complimentary_name'],
             'complimentary_price'    => $data['complimentary_price']            
         ];        
         return Complimentary::create($dataSave);
@@ -28,7 +28,7 @@ class ComplimentaryRepository
         $surcharge = Complimentary::find($data['id']);
         
         $dataSave = [            
-            'complimentary_name'    => $data['complimentary_name'],
+            'mealplans_id'    => $data['complimentary_name'],
             'complimentary_price'    => $data['complimentary_price']
         ];
 

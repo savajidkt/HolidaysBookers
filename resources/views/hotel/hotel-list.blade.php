@@ -431,7 +431,7 @@
                             </div>
                         </div>
 
-                        
+
                     </aside>
                 </div>
 
@@ -443,28 +443,93 @@
                             </div>
                         </div>
                         <?php if(strlen($selected_hotel_id) > 0) { ?>
-                        <div class="row y-gap-30 ajax-list-display-selected">
-                            <?php 
-                                echo $hotelListView;
-                                ?>
-                        </div>
-                    <div class="row y-gap-10 items-center justify-between">
-                        <div class="col-auto">
-                            <div class="text-18"><span class="fw-500"><span class="foundPropertyCount"></span>
-                                    Other hotels </span> in
-                                {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
-                            </div>
-                        </div>
-                        
-                    </div>
-                        <?php } else { ?>
                             <div class="col-auto">
-                                <div class="text-18"><span class="fw-500"><span class="foundPropertyCount"></span>
-                                        properties</span> in
+                                <div class="text-18">                                    
                                     {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
+                                </div>
+                                <div class="text-12">
+                                    <span class="fw-500"><span class="">{{ dateFormat($requestedArr['startDate'],'M d, Y') }} - {{ dateFormat($requestedArr['endDate'],'M d, Y') }} ({{ $requestedArr['nights'] }} Nights)</span></span>
+                                    <span class="fw-500"><span class="">{{ $requestedArr['room'] }} Rooms, {{ $requestedArr['adult'] }} Adults, {{ $requestedArr['child'] }} Children</span></span>                                    
+                                </div>
                             </div>
+                        <div class="row y-gap-30 ajax-list-display-selected">
+                            <?php
+                            echo $hotelListView;
+                            ?>
                         </div>
                         <?php } ?>
+
+                        <div class="row y-gap-10 items-center justify-between">
+                            <?php if(strlen($selected_hotel_id) > 0) { ?>
+                            <div class="col-auto">
+                                <div class="text-18">
+                                    <span class="fw-500"><span class="foundPropertyCount"></span>
+                                        Other hotels </span> in
+                                    {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
+                                </div>
+                                <div class="text-12">
+                                    <span class="fw-500"><span class="">{{ dateFormat($requestedArr['startDate'],'M d, Y') }} - {{ dateFormat($requestedArr['endDate'],'M d, Y') }} ({{ $requestedArr['nights'] }} Nights)</span></span>
+                                    <span class="fw-500"><span class="">{{ $requestedArr['room'] }} Rooms, {{ $requestedArr['adult'] }} Adults, {{ $requestedArr['child'] }} Children</span></span>                                    
+                                </div>
+                            </div>
+                            {{-- <div class="col-auto">
+                                <div class="row x-gap-20 y-gap-20">
+                                    <div class="col-auto">
+                                        <button
+                                            class="button -blue-1 h-40 px-20 rounded-100 bg-blue-1-05 text-15 text-blue-1">
+                                            <i class="icon-up-down text-14 mr-10"></i>
+                                            Top picks for your search
+                                        </button>
+                                    </div>
+                                    <div class="col-auto d-none lg:d-block">
+                                        <button data-x-click="filterPopup"
+                                            class="button -blue-1 h-40 px-20 rounded-100 bg-blue-1-05 text-15 text-blue-1">
+                                            <i class="icon-up-down text-14 mr-10"></i>
+                                            Filter
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <?php } else { ?>
+                            <div class="col-auto">
+                                <div class="text-18">
+                                    <span class="fw-500">
+                                        <span class="foundPropertyCount"></span>
+                                        properties</span> in
+                                    {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
+                                </div>
+                                <div class="text-12">
+                                    <span class="fw-500"><span class="">{{ dateFormat($requestedArr['startDate'],'M d, Y') }} - {{ dateFormat($requestedArr['endDate'],'M d, Y') }} ({{ $requestedArr['nights'] }} Nights)</span></span>
+                                    <span class="fw-500"><span class="">{{ $requestedArr['room'] }} Rooms, {{ $requestedArr['adult'] }} Adults, {{ $requestedArr['child'] }} Children</span></span>                                    
+                                </div>
+                            </div>
+                            {{-- <div class="col-auto">
+                                <div class="row x-gap-20 y-gap-20">
+                                    <div class="col-auto">
+                                        <button
+                                            class="button -blue-1 h-40 px-20 rounded-100 bg-blue-1-05 text-15 text-blue-1">
+                                            <i class="icon-up-down text-14 mr-10"></i>
+                                            Top picks for your search
+                                        </button>
+                                    </div>
+
+                                    <div class="col-auto d-none lg:d-block">
+                                        <button data-x-click="filterPopup"
+                                            class="button -blue-1 h-40 px-20 rounded-100 bg-blue-1-05 text-15 text-blue-1">
+                                            <i class="icon-up-down text-14 mr-10"></i>
+                                            Filter
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <?php } ?>
+                        </div>
+
+                        
+
+
+
+
 
                         <div class="row y-gap-30 ajax-list-display">
                         </div>
@@ -516,7 +581,7 @@
     <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
 
     <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script>
-    
+
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -603,7 +668,7 @@
                     // starArr.push('all');
                 }
 
-                
+
                 getAllHotelList(filterObj);
 
             });
@@ -692,27 +757,26 @@
     </script>
     <script>
         function changeImage(image) {
-                var newSrc = image.src;
-                document.getElementById('expandedImg').src = newSrc;
-            }
+            var newSrc = image.src;
+            document.getElementById('expandedImg').src = newSrc;
+        }
     </script>
     <script>
         function toggleTextAndIcon(element) {
-                var text = element.textContent.trim();
-                if (text === 'More prices & boards') {
-                    element.innerHTML = 'Hide board types' +
-                       '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">' +
-                          '<path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>' +
-                       '</svg>';
-                } else {
-                    element.innerHTML = 'More prices & boards ' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">' +
-                            '<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>' +
-                        '</svg>';
-                }
+            var text = element.textContent.trim();
+            if (text === 'More prices & boards') {
+                element.innerHTML = 'Hide board types' +
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">' +
+                    '<path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>' +
+                    '</svg>';
+            } else {
+                element.innerHTML = 'More prices & boards ' +
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">' +
+                    '<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>' +
+                    '</svg>';
             }
-
+        }
     </script>
-    
-   
+
+
 @endsection
