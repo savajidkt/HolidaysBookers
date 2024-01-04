@@ -918,8 +918,7 @@ if (isset($pricemodel->booking_end_date)) {
                 dateFormat: "d/m/Y"
             });
         }
-        console.log(BookingStartDate);
-        console.log(BookingEndDate);
+        
         var packageTravelBasic = $('.booking-basic');
         if (packageTravelBasic.length) {
             packageTravelBasic.flatpickr({

@@ -167,6 +167,7 @@ class HotelListController extends Controller
 
         $hotelsRelated = [];
         $hotelsRoomDetails = $this->hotelListingRepository->hotelDetails($requestParam['hotel_id']);
+        
         if (!$hotelsRoomDetails) {
             return redirect()->route('home');
         }

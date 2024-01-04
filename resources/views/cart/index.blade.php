@@ -56,10 +56,11 @@
                             @endphp
                             @if (count($hotelsDetails) > 0 && count($hotelsDetails['hotel']) > 0)
                                 @php
+                               
                                     $hotelsRoomDetails = $hotelsDetails['roomDetails'];
                                     $hotelsDetails = $hotelsDetails['hotel'];
                                     $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<span class="pull-right">' . numberFormat($value['finalAmount'], globalCurrency()) . '</span></li>';
-                                    $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'] . ' <span class="pull-right"> ' . numberFormat($value['finalAmount'], globalCurrency()) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
+                                    $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'].'<br>'.$offlineRoom->roomtype->room_type . ' <span class="pull-right"> ' . numberFormat($value['finalAmount'], globalCurrency()) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
                                     $serviceSectionAMT = $serviceSectionAMT + $value['finalAmount'];
                                 @endphp
 
@@ -111,11 +112,10 @@
                                                                 </div>
                                                                 <div class="d-flex items-center">
                                                                     <i class="icon-calendar-2 text-12 mr-10"></i>
-                                                                    <div class="text-14 lh-15 mt-5">From
-                                                                        {{ date('d M, Y', strtotime(getSearchCookies('search_from'))) }}
-
+                                                                    <div class="text-14 lh-15 mt-5">From                                                                        
+                                                                        {{ dateFormat( str_replace('/', '-', $value['search_from']),'d M, Y'); }}                                                                        
                                                                         To
-                                                                        {{ date('d M, Y', strtotime(getSearchCookies('search_to'))) }}
+                                                                        {{ dateFormat( str_replace('/', '-', $value['search_to']),'d M, Y'); }}                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -124,7 +124,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row pt-10">
+                                            {{-- <div class="row pt-10">
                                                 <div class="text-20 fw-500 mb-10">
                                                     Remarks
                                                 </div>
@@ -133,8 +133,8 @@
                                                             Car park YES (with additional debit notes). Check-in hour 14:00
                                                             -
                                                         </div>
-                                            </div>
-                                            <div class="row pt-10">
+                                            </div> --}}
+                                            {{-- <div class="row pt-10">
                                                 <div class="text-20 fw-500 mb-10">
                                                     Rate Information
                                                 </div>
@@ -142,7 +142,7 @@
                                                             modifications,
                                                     therefore you would need to cancel and create a new booking.
                                                     Cancellation charges apply as per cancellation policy. </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="border-top-light mt-30 mb-20"></div>
                                             <div class="row pt-10">
                                                 <div class="fw-500 mb-10">
@@ -157,23 +157,15 @@
                                                 <div class="text-15 fw-500 mb-10">Cancellation fees</div>
                                                 <div class="col-6 border-right-px">
                                                     <div class="y-gap-8">
-                                                        <div class="items-center text-green-2">
-                                                                    <div class="text-13 pull-left">Until 23:58 PM on
-                                                                        15/08/2023
+                                                        <?php if($offlineRoom->price[0]->cancelation_policy != "refundeble"){ ?>
+                                                            <div class="items-center">
+                                                                <div class="text-13 pull-left">Non refundable</div>
                                                             </div>
-                                                            <div class="text-13 pull-right"><i
-                                                                    class="fa fa-check-circle text-12"></i>
-                                                                Free</div>
-                                                        </div>
-                                                        <div class="items-center">
-                                                                    <div class="text-13 pull-left">After 23:59 PM on
-                                                                        15/08/2023
-                                                                    </div>
-                                                                    <div class="text-13 pull-right text-danger"> 15,831.96
-                                                                        Rs
-                                                            </div>
-                                                            
-                                                        </div>
+                                                            <?php } else { ?>
+                                                                <?php echo CancellationFeesCalculated($offlineRoom->price[0],  $value['search_from']); ?>
+                                                            <?php } ?>
+                                                        
+                                                        
                                                     </div>
                                                 </div>
                                                 <div class="col-6">

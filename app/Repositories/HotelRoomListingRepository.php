@@ -163,9 +163,10 @@ class HotelRoomListingRepository {
 
                     $GroupByPrices = OfflineRoomPrice::where('id', $price->id)->groupBy('meal_plan_id')->get();
                     $Complimentary = Complimentary::where('hotel_id',$srRoom->hotel_id)->get();
-                    dd($GroupByPrices);
+                    
                     foreach ($GroupByPrices as $pkey => $price) {
                         $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr);
+                       
                         $roomPriceListingArray[$pkey]['price_id'] = $price->id;
                         $roomPriceListingArray[$pkey]['meal_plan'] = $price->mealplan->name;
                         $roomPriceListingArray[$pkey]['meal_plan_short'] = getCharacterOfString($price->mealplan->name);
@@ -196,7 +197,7 @@ class HotelRoomListingRepository {
                 }
             }
         }
-        dd($roomListingArray);
+        
         return $roomListingArray;
     }
 

@@ -112,7 +112,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="row pt-10">
+                                                                        {{-- <div class="row pt-10">
                                                                             <div class="text-20 fw-500 mb-10">
                                                                                 Remarks
                                                                             </div>
@@ -126,7 +126,7 @@
                                                                             <div class="text-15">Lorem Ipsum is simply dummy
                                                                                 text of the printing and typesetting
                                                                             </div>
-                                                                        </div>
+                                                                        </div> --}}
                                                                         <div class="border-top-light mt-30 mb-20"></div>
                                                                         <div class="row pt-10">
                                                                             <div class="fw-500 mb-10">
@@ -141,26 +141,15 @@
                                                                             </div>
                                                                             <div class="col-6 border-right-px">
                                                                                 <div class="y-gap-8">
-                                                                                    <div class="items-center text-green-2">
-                                                                                        <div class="text-13 pull-left">Lorem
-                                                                                            Ipsum Until
-                                                                                            23:58 PM on
-                                                                                            15/08/2023
+                                                                                    <?php if($offlineRoom->price[0]->cancelation_policy != "refundeble"){ ?>
+                                                                                        <div class="items-center">
+                                                                                            <div class="text-13 pull-left">Non refundable</div>
                                                                                         </div>
-                                                                                        <div class="text-13 pull-right"><i
-                                                                                                class="fa fa-check-circle text-12"></i>
-                                                                                            Free</div>
-                                                                                    </div>
-                                                                                    <div class="items-center">
-                                                                                        <div class="text-13 pull-left">After
-                                                                                            23:59 PM on
-                                                                                            15/08/2023
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="text-13 pull-right text-danger">
-                                                                                            15,831.96
-                                                                                            Rs</div>
-                                                                                    </div>
+                                                                                        <?php } else { ?>
+                                                                                            <?php echo CancellationFeesCalculated($offlineRoom->price[0],  $value['search_from']); ?>
+                                                                                        <?php } ?>
+                                                                                    
+                                                                                    
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-6">

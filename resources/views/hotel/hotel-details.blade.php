@@ -2,20 +2,20 @@
 @section('page_title', 'Hotel Details')
 @section('content')
     @php
-  
+
         $search_from = date('d/m/Y', strtotime(date('Y-m-d')));
         $search_to = date('d/m/Y', strtotime(date('Y-m-d')));
     @endphp
     @if (isset($requestedArr) && isset($requestedArr['search_from']))
-    @php
-        $search_from = $requestedArr['search_from'] ? $requestedArr['search_from'] : date('d/m/Y', strtotime(date('Y-m-d')));
-    @endphp
-@endif
-@if (isset($requestedArr) && isset($requestedArr['search_to']))
-    @php
-        $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m/Y', strtotime(date('Y-m-d')));
-    @endphp
-@endif
+        @php
+            $search_from = $requestedArr['search_from'] ? $requestedArr['search_from'] : date('d/m/Y', strtotime(date('Y-m-d')));
+        @endphp
+    @endif
+    @if (isset($requestedArr) && isset($requestedArr['search_to']))
+        @php
+            $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m/Y', strtotime(date('Y-m-d')));
+        @endphp
+    @endif
     <script>
         var check_in_startDate = "{!! $search_from !!}";
         var check_in_endDate = "{!! $search_to !!}";
@@ -60,7 +60,7 @@
                                             <input type="hidden" class="hidden_country_id" name="country_id"
                                                 value="{{ isset($requestedArr['country_id']) ? $requestedArr['country_id'] : '' }}" />
                                         </div>
-                                        
+
                                     </div>
 
                                     <div class="searchMenu-loc__field shadow-2 js-popup-window" data-x-dd="searchMenu-loc"
@@ -102,7 +102,7 @@
                                             <input type="hidden" id="hidden_to" name="search_to"
                                                 value="{{ date('Y-m-d', strtotime($requestedArr['search_to'])) }}">
                                         </div>
-                                      
+
                                     </div>
                                     <div style="display: none" class="searchMenu-date__field shadow-2"
                                         data-x-dd="searchMenu-date" data-x-dd-toggle="-is-active">
@@ -122,7 +122,7 @@
                                                 class="js-count-room">{{ getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 1 }}</span>
                                             room
                                         </div>
-         
+
                                     </div>
                                     <div style="display:none;" class="searchMenu-guests__field shadow-2"
                                         data-x-dd="searchMenu-guests" data-x-dd-toggle="-is-active">
@@ -623,12 +623,13 @@
             @if (isset($hotelsRoomDetails) && count($hotelsRoomDetails) > 0)
                 @php
                     $i = 0;
+                   
                 @endphp
                 @foreach ($hotelsRoomDetails as $key => $rooms)
                     @if (isset($rooms['room_data_arr']) && count($rooms['room_data_arr']) > 0)
                         @foreach ($rooms['room_data_arr'] as $key => $rooms1)
                             @php
-                                
+
                                 $i++;
                             @endphp
                             @if ($i != 1)
@@ -681,7 +682,7 @@
                                                     class="col-lg-auto col-md-6 border-left-light lg:border-none text-right lg:text-left">
                                                     <div class="pl-40 lg:pl-0">
                                                         @php
-                                                            
+
                                                             $priceCalArr = 1000; //getAgentRoomPrice($value_child, $hotelsDetails);
                                                         @endphp
                                                         {{-- <div class="text-14 lh-14 text-light-1 mb-5">Min
@@ -717,40 +718,29 @@
                             @foreach ($bookingCartArr as $bo_key => $bo_value)
                                 @if ($bo_key == 'hotel')
                                     @foreach ($bo_value as $key => $value)
-                                @if ($value['hotel_id'] == $rooms['hotel_id'] && $value['room_id'] == $rooms['room_id'])
-                                    @php
-                                        $isAddedCart = true;
-                                    @endphp
+                                        @if ($value['hotel_id'] == $rooms['hotel_id'] && $value['room_id'] == $rooms['room_id'])
+                                            @php
+                                                $isAddedCart = true;
+                                            @endphp
+                                        @endif
+                                    @endforeach
                                 @endif
                             @endforeach
                         @endif
-                            @endforeach
-                        @endif
 
-                        {{-- @if ($isAddedCart) --}}
-                            {{-- <a href="javascript:void(0);" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
-                                <span class="icons">Added</span>
-                            </a> --}}
-                            {{-- <a href="{{ route('review-your-booking', $safeencryptionObj->encode($rooms['hotel_id'])) }}"
-                                                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
-                                                                <span class="icons">View</span>
-                                                                <div class="icon-arrow-top-right ml-15"></div>
-                                                            </a> --}}
 
-                            {{-- <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
-                                class="button h-50 px-24 -dark-1 bg-red-1 text-white mt-5 RemoveRoomBook">
-                                <span class="icons">REMOVE</span>
-                                <div class="icon-trash ml-15"></div>
-                                <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
-                            </button> --}}
-                        {{-- @else --}}
-                            <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
-                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
-                                <span class="icons">SELECT ROOM</span>
-                                <div class="icon-arrow-top-right ml-15"></div>
-                                <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
-                            </button>
-                        {{-- @endif --}}
+                        <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
+                            class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-cart4" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
+                            </svg>
+                            <span class="icons">Add</span>
+
+                            <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                        </button>
+
         </div>
         </div>
         </div>

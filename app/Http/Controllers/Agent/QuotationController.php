@@ -30,7 +30,7 @@ class QuotationController extends Controller
     {
         $pagename = "quotation";
         $user = auth()->user();
-        $QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->orderBy('id', 'desc')->paginate(10);
+        $QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->orderBy('id', 'desc')->paginate(10);       
         return view('agent.quotation.index', ['user' => $user, 'pagename' => $pagename, 'quoteData' => $QuoteOrder]);
     }
 

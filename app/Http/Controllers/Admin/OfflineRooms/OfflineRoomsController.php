@@ -330,6 +330,7 @@ class OfflineRoomsController extends Controller
      */
     public function updatePrice(Request $request, OfflineRoomPrice $offlineroomprice)
     {
+      
         $offlineroom =  $offlineroomprice->room;
         $this->offlineRoomRepository->updatePrice($request->all(), $offlineroomprice);
         return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price updated successfully!');

@@ -683,9 +683,9 @@ class CheckoutRepository
             $addHotelRoom['hotel_id'] = $value['hotel_id'];
             $addHotelRoom['room_id'] = $value['room_id'];
             $addHotelRoom['room_price_id'] = $value['price_id'];
-            $addHotelRoom['room_name'] = $roomType->roomtype->room_type;
-            $addHotelRoom['check_in_date'] = $value['search_from'];
-            $addHotelRoom['check_out_date'] = $value['search_to'];
+            $addHotelRoom['room_name'] = $roomType->roomtype->room_type;            
+            $addHotelRoom['check_in_date'] = dateFormat( str_replace('/', '-', $value['search_from']),'Y-m-d');
+            $addHotelRoom['check_out_date'] = dateFormat(str_replace('/', '-', $value['search_to']), 'Y-m-d');
             $addHotelRoom['origin_amount'] = $value['originAmount'];
             $addHotelRoom['product_markup_amount'] = $value['productMarkupAmount'];
             $addHotelRoom['agent_markup_amount'] = $value['agentMarkupAmount'];
@@ -780,6 +780,7 @@ class CheckoutRepository
         $extra_data['lead_passengers_country_code'] = $data['lead_passengers_country_code'];
         $extra_data['all_passengers_country_code'] = $data['all_passengers_country_code'];
         $extra_data['quote_name'] = $data['quote_name'];
+       
         // $extra_data['extra_margin_type'] = $data['popup_margin_type'];
         // $extra_data['extra_margin_amt'] = $data['margin_amt'];
         // $extra_data['extra_quote_email'] = $data['quote_email'];
@@ -862,8 +863,7 @@ class CheckoutRepository
     public function createOrderBookingQuote(Checkout $checkout, $paymentResponce = ''): QuoteOrder
     {
         $user = User::find($checkout->user_id);
-        $extra_data = unserialize($checkout->extra_data);
-
+        $extra_data = unserialize($checkout->extra_data);       
         $phone_code = "";
         $this->order_Rooms = $extra_data['cartData'];
         $passenger = unserialize($checkout->passenger);
@@ -913,7 +913,7 @@ class CheckoutRepository
         // $OrderData['extra_margin_type'] = $extra_data['extra_margin_type'];
         // $OrderData['extra_margin_amt'] = $extra_data['extra_margin_amt'];
         // $OrderData['extra_quote_email'] = $extra_data['extra_quote_email'];
-
+        
         $OrderData =  QuoteOrder::create($OrderData);
         $this->addQuoteOrderHotels($extra_data, $OrderData->id, $passengerLead);
 
@@ -928,6 +928,7 @@ class CheckoutRepository
 
     public function addQuoteOrderHotels($cartHotel, $OrderID, $passengerLead)
     {
+        
         if ($cartHotel['cartData'] > 0) {
             $addHotel = [];
             $addHotel['quote_id'] = $OrderID;
@@ -938,7 +939,7 @@ class CheckoutRepository
                         $addHotel['hotel_id'] = $hotelsDetails->id;
                         $addHotel['hotel_name'] = $hotelsDetails->hotel_name;
                         $addHotel['type'] = $hotelsDetails->hotel_type;
-
+                       
                         $hotelData = QuoteOrderHotel::create($addHotel);
                         $this->addQuoteOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLead);
                     }
@@ -950,6 +951,8 @@ class CheckoutRepository
 
     public function addQuoteOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLead)
     {
+       
+
         if (count($value) > 0) {
             $roomType = OfflineRoom::find($value['room_id']);
             $addHotelRoom = [];
@@ -959,8 +962,8 @@ class CheckoutRepository
             $addHotelRoom['room_id'] = $value['room_id'];
             $addHotelRoom['room_price_id'] = $value['price_id'];
             $addHotelRoom['room_name'] = $roomType->roomtype->room_type;
-            $addHotelRoom['check_in_date'] = $value['search_from'];
-            $addHotelRoom['check_out_date'] = $value['search_to'];
+            $addHotelRoom['check_in_date'] = dateFormat( str_replace('/', '-', $value['search_from']),'Y-m-d');
+            $addHotelRoom['check_out_date'] = dateFormat(str_replace('/', '-', $value['search_to']), 'Y-m-d');
             $addHotelRoom['origin_amount'] = $value['originAmount'];
             $addHotelRoom['product_markup_amount'] = $value['productMarkupAmount'];
             $addHotelRoom['agent_markup_amount'] = $value['agentMarkupAmount'];
@@ -970,6 +973,7 @@ class CheckoutRepository
             $addHotelRoom['child'] = $value['child'];
             $addHotelRoom['child_with_bed'] = 0;
             $addHotelRoom['child_without_bed'] = 0;
+            
             $hotelRoomData = QuoteOrderHotelRoom::create($addHotelRoom);
             $this->addQuoteOrderHotelRoomPassengers($cartHotel, $value, $OrderID, $hotelData, $hotelRoomData, $passengerLead);
         }

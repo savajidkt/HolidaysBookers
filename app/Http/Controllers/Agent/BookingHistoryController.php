@@ -48,8 +48,8 @@ class BookingHistoryController extends Controller
                 ->editColumn('is_pay_using', function (Order $order) {
                     return paymentMethodName($order->is_pay_using);
                 })
-                ->editColumn('passenger_type', function (Order $order) {
-                    return $order->guest_name;
+                ->editColumn('passenger_type', function (Order $order) {                    
+                    return $order->passenger_type;
                 })
                 ->addColumn('pax', function (Order $order) {
                     return 'Room : ' . $order->total_rooms . ' Adult : ' . $order->total_adult . '<br> Children : ' . $order->total_child.'<br> Night : '.$order->total_nights;
@@ -58,16 +58,10 @@ class BookingHistoryController extends Controller
                     return numberFormat($order->booking_amount, globalCurrency());
                 })
                 ->editColumn('status', function (Order $order) use ($isDraft) {
-
                     return getPaymentStatus($order->status);
-                    
-                    
                 })
                 ->addColumn('action', function (Order $order)  use ($isDraft) {    
-
                     return getOrderHistoryAction($order->id, $order);
-                                  
-                    
                 })
                 ->rawColumns(['action', 'status', 'pax'])->make(true);
         }

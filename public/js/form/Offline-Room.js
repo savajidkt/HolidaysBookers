@@ -328,9 +328,18 @@ var FrmOfflineRoomPreference = function () {
 
             if ($(this).val() == 'refundeble') {
 
+                $('.repeaterCancelationPoliciesCLS input[type=number]').each(function(){                    
+                    $(this).rules("add", "required");
+                })
+
                 $('.div_cancelation_policy').removeClass('hide');
 
             } else {
+
+                $('.repeaterCancelationPoliciesCLS input[type=number]').each(function(){                    
+                    $(this).rules("remove", "required");
+                })
+
                 $('.div_cancelation_policy').addClass('hide');
             }
 

@@ -233,38 +233,19 @@ class OfflineRoomRepository
             'price_type'     => $data['price_type']
         ];
 
-        $offlineRoomPrice =  OfflineRoomPrice::create($RoomPriceArr);
-
-        /**
-         * Inser Room Child Price Data
-         */
-
-        // $RoomChildPriceArr = [
-        //     'room_id'     => $offlineroom->id,
-        //     'price_id'     => $offlineRoomPrice->id,
-        //     'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
-        //     'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
-        // ];
-
-        // if (isset($data['childrens']) && is_array($data['childrens']) && count($data['childrens']) > 0) {
-        //     foreach ($data['childrens'] as $key => $value) {
-        //         $RoomChildPriceArr['min_age'] = $value['main_age'];
-        //         $RoomChildPriceArr['max_age'] = $value['max_age'];
-        //         $RoomChildPriceArr['cwb_price'] = $value['cwb_price'];
-        //         $RoomChildPriceArr['cnb_price'] = $value['cnb_price'];
-        //         OfflineRoomChildPrice::create($RoomChildPriceArr);
-        //     }
-        // }
+        $offlineRoomPrice =  OfflineRoomPrice::create($RoomPriceArr);       
         
-        if (isset($data['cancelation-policies']) && is_array($data['cancelation-policies']) && count($data['cancelation-policies']) > 0) {
-            foreach ($data['cancelation-policies'] as $key => $value) {
-                $cancelationArr['room_id'] = $offlineroom->id;
-                $cancelationArr['price_id'] = $offlineRoomPrice->id;
-                $cancelationArr['before_check_in_days'] = $value['before_check_in_days'];                
-                $cancelationArr['night'] = $value['night'];
-                $cancelationArr['night_charge'] = $value['night_charge'];
-                $cancelationArr['description'] = $value['description'];
-                OfflineRoomCancelationPolicies::create($cancelationArr);
+        if ($data['cancelation_policy'] != "non_refundeble") {
+            if (isset($data['cancelation-policies']) && is_array($data['cancelation-policies']) && count($data['cancelation-policies']) > 0) {
+                foreach ($data['cancelation-policies'] as $key => $value) {
+                    $cancelationArr['room_id'] = $offlineroom->id;
+                    $cancelationArr['price_id'] = $offlineRoomPrice->id;
+                    $cancelationArr['before_check_in_days'] = $value['before_check_in_days'];                
+                    $cancelationArr['night'] = $value['night'];
+                    $cancelationArr['night_charge'] = $value['night_charge'];
+                    $cancelationArr['description'] = $value['description'];
+                    OfflineRoomCancelationPolicies::create($cancelationArr);
+                }
             }
         }
         return $offlineroom;
@@ -324,41 +305,25 @@ class OfflineRoomRepository
             'days_sunday'     => isset($data['days_sunday']) ? 1 : 0,
             'price_type'     => $data['price_type']
         ];
-        $offlineroomprice->update($RoomPriceArr);
+        $offlineroomprice->update($RoomPriceArr);        
 
-        // $RoomChildPriceArr = [
-        //     'from_date'     => isset($TravelDate[0]) ? $TravelDate[0] : '',
-        //     'to_date'     => isset($TravelDate[1]) ? $TravelDate[1] : '',
-        // ];
-
-        // if (is_array($data['childrens']) && count($data['childrens']) > 0) {
-        //     foreach ($data['childrens'] as $key => $value) {
-        //         $RoomChildPriceArr['min_age'] = $value['main_age'];
-        //         $RoomChildPriceArr['max_age'] = $value['max_age'];
-        //         $RoomChildPriceArr['cwb_price'] = $value['cwb_price'];
-        //         $RoomChildPriceArr['cnb_price'] = $value['cnb_price'];
-        //         if (!isset($value['id']) || strlen($value['id']) == 0 || $value['id'] == "" || $value['id'] == NULL) {
-        //             $RoomChildPriceArr['room_id'] = $offlineroomprice->room_id;
-        //             $RoomChildPriceArr['price_id'] = $offlineroomprice->id;
-        //             OfflineRoomChildPrice::create($RoomChildPriceArr);
-        //         } else {
-        //             OfflineRoomChildPrice::where('id', $value['id'])->where('room_id', $value['room_id'])->where('price_id', $value['price_id'])->update($RoomChildPriceArr);
-        //         }
-        //     }
-        // }
-
-        if (is_array($data['cancelation-policies']) && count($data['cancelation-policies']) > 0) {
-            OfflineRoomCancelationPolicies::where('room_id', $offlineroomprice->room_id)->where('price_id', $offlineroomprice->id)->delete();
-            foreach ($data['cancelation-policies'] as $key => $value) {
-                $cancelationArr['before_check_in_days'] = $value['before_check_in_days'];                
-                $cancelationArr['night'] = $value['night'];
-                $cancelationArr['night_charge'] = $value['night_charge'];
-                $cancelationArr['description'] = $value['description'];
-                $cancelationArr['room_id'] = $offlineroomprice->room_id;
-                $cancelationArr['price_id'] = $offlineroomprice->id;
-                OfflineRoomCancelationPolicies::create($cancelationArr);
-            }
-        }        
+        
+        if ($data['cancelation_policy'] != "non_refundeble") {
+            if (is_array($data['cancelation-policies']) && count($data['cancelation-policies']) > 0) {
+                OfflineRoomCancelationPolicies::where('room_id', $offlineroomprice->room_id)->where('price_id', $offlineroomprice->id)->delete();
+                foreach ($data['cancelation-policies'] as $key => $value) {
+                    $cancelationArr['before_check_in_days'] = $value['before_check_in_days'];                
+                    $cancelationArr['night'] = $value['night'];
+                    $cancelationArr['night_charge'] = $value['night_charge'];
+                    $cancelationArr['description'] = $value['description'];
+                    $cancelationArr['room_id'] = $offlineroomprice->room_id;
+                    $cancelationArr['price_id'] = $offlineroomprice->id;
+                    OfflineRoomCancelationPolicies::create($cancelationArr);
+                }
+            }        
+        } else {
+            OfflineRoomCancelationPolicies::where('room_id', $offlineroomprice->room_id)->where('price_id', $offlineroomprice->id)->delete(); 
+        }      
         return $offlineroomprice;
     }
 

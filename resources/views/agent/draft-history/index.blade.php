@@ -66,7 +66,7 @@
                                                 <h3 class="text-18 lh-14 fw-500">From - to</h3>
                                                 <div class="row x-gap-10 y-gap-10 items-center">
                                                     <div class="col-auto">
-                                                        <p class="text-14">
+                                                        <p class="text-14">                                                            
                                                             {{ dateFormat($roomvalue->check_in_date, 'd/m/Y') }} -
                                                             {{ dateFormat($roomvalue->check_out_date, 'd/m/Y') }}</p>
                                                     </div>

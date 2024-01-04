@@ -42,6 +42,7 @@ class CartController extends Controller
     public function index()
     {
         $bookingCartArr = getBookingCart('bookingCart');
+        
         if ( is_array($bookingCartArr) && count($bookingCartArr) > 0) {
             return view('cart.index', ['bookingCartArr' => $bookingCartArr, 'hotelListingRepository' => $this->hotelListingRepository]);
         } else {
