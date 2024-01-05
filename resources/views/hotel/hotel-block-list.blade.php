@@ -110,12 +110,11 @@
 
                             <div class="last-hb-list-block-d">
                                
-                                <div class="current-amount">
-                                    {{ number_format($hotel['room']['finalAmount'] ?? 0, 2, '.', ',') }} Rs
-                                </div>
+                                {{-- <div class="current-amount"> --}}
+                                    {{-- {{ getNumberWithCommaGlobalCurrency($hotel['room']['finalAmount']) }}                                     --}}
+                                {{-- </div> --}}
                                 <div class="text-22 lh-12 fw-600 mt-5 offer-amount">
-                                    <!--{{ numberFormat($hotel['room']['finalAmount'] ?? 0, $hotel['room']['currency'] ?? 0) }}-->
-                                    {{ number_format($hotel['room']['finalAmount'] ?? 0, 2, '.', ',') }} Rs
+                                    {{ getNumberWithCommaGlobalCurrency($hotel['room']['finalAmount']) }}                                   
                                 </div>
 
                                 @php

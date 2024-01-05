@@ -161,7 +161,7 @@ class Order extends Model
         return $payment_status;
     }
 
-    public function getPassenger_typeNameAttribute(): string
+    public function getPassengerTypeNameAttribute(): string
     {
         switch ($this->passenger_type) {
             case 0:

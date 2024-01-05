@@ -41,7 +41,7 @@ class ComplimentariesController extends Controller
         
         return response()->json([
             'status' => true,
-            'responce' => Complimentary::where('hotel_id', $request->hotel_id)->with('mealplans')->get(),
+            'responce' => Complimentary::where('hotel_id', $request->hotel_id)->where('room_id', $request->room_id)->with('mealplans')->get(),
             'message' => ''
         ]);
     }

@@ -28,7 +28,7 @@ html, body {
 
 .invoice-print .invoice-total-wrapper {
   width : 100%;
-  max-width : 12rem;
+  max-width : 20rem;
 }
 
 .invoice-print .invoice-total-wrapper .invoice-total-item {

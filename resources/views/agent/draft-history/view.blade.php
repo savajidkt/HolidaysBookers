@@ -168,7 +168,7 @@
                                                                                 </div>
                                                                                 <div class="col-auto">
                                                                                     <div class="text-18 lh-13 fw-500">
-                                                                                        {{ numberFormat($value['price'] + $value['extra_markup_price'], globalCurrency()) }}
+                                                                                        {{ getNumberWithCommaGlobalCurrency($value['price'] + $value['extra_markup_price']) }}
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -188,7 +188,7 @@
                                             <div class="col-12">
                                                 <div class="d-flex pull-right">
                                                     <div class="text-15 lh-15 text-light-1 fw-500 ml-10"> Total: <span
-                                                            class="text-20">{{ numberFormat($serviceSectionAMT, globalCurrency()) }}<span>
+                                                            class="text-20">{{ getNumberWithCommaGlobalCurrency($serviceSectionAMT) }}<span>
                                                             </span></span></div>
                                                 </div>
                                             </div>

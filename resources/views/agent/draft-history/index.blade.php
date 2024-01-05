@@ -75,8 +75,8 @@
                                             <div class="col-md-3">
                                                 <h3 class="text-18 lh-14 fw-500">
 
-                                                    {{ numberFormat($roomvalue->price, $value->booking_currency) }}
-                                                    {{ $roomvalue->extra_markup_price ? '(markup: ' . numberFormat($roomvalue->extra_markup_price, $value->booking_currency) . ')' : '' }}
+                                                    {{ getNumberWithCommaGlobalCurrency($roomvalue->price) }}
+                                                    {{ $roomvalue->extra_markup_price ? '(markup: ' . getNumberWithCommaGlobalCurrency($roomvalue->extra_markup_price) . ')' : '' }}
 
                                                 </h3>
                                                 <div class="row x-gap-10 y-gap-10 items-center">
@@ -113,7 +113,7 @@
                 <div class="col-auto">
                     <div class="text-14 lh-14 fw-500">Pay to Holidays Bookers</div>
                     <div class="text-14 lh-14 text-light-1">Total: <span
-                            class="text-18 lh-14 fw-500">{{ numberFormat($payAmount, $value->booking_currency) }}</span>
+                            class="text-18 lh-14 fw-500">{{ getNumberWithCommaGlobalCurrency($payAmount) }}</span>
                     </div>
                 </div>
             </div>

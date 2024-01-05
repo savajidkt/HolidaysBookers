@@ -5,10 +5,10 @@
         <div class="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
             <div class="col-auto">
                 <h1 class="text-30 lh-14 fw-600">Transaction History</h1>
-                <div class="text-15 text-light-1">Lorem ipsum dolor sit amet, consectetur.</div>
+                
             </div>
-            <div class="col-auto">
-                <h1 class="text-30 lh-14 fw-600">Balance: INR 0.00</h1>
+            <div class="col-auto">                
+                <h1 class="text-30 lh-14 fw-600">Balance: {{ getNumberWithCommaGlobalCurrency(availableBalance($user->agents->id)) }}</h1>
             </div>
         </div>
         <div class="py-30 px-30 rounded-4 bg-white shadow-3 booking-history-manager">

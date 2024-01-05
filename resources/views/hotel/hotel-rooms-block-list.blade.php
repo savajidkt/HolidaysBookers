@@ -39,9 +39,9 @@
                                     <div class="total-price-col dispo-calendar ">
                                         <div class="avail-price">
                                             <span>
-                                                {{ numberFormat($priceroom['finalAmount'], $priceroom['currency']) }}
+                                                {{ getNumberWithCommaGlobalCurrency($priceroom['finalAmount']) }}                                               
                                             </span>
-                                            </span>
+                                            
                                         </div>
                                     </div>
                                     <div class="item-action-col">
@@ -66,6 +66,7 @@
                                                 'agentGlobalMarkupAmount' => isset($priceroom['agentMarkupAmount']) ? numberFormat($priceroom['agentMarkupAmount']) : '',
                                                 'finalAmount' => isset($priceroom['finalAmount']) ? numberFormat($priceroom['finalAmount']) : '',
                                             ];
+                                            
                                             $isAddedCart = false;
                                         @endphp
 

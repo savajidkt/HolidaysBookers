@@ -1516,6 +1516,7 @@ if (!function_exists('getFinalAmount')) {
 
     {
 
+      
 
 
         $returnArr = [];
@@ -1569,9 +1570,8 @@ if (!function_exists('getFinalAmount')) {
             }
 
         }
-
         $returnArr['finalAmount'] = (float) $price + (float) $returnArr['productMarkupAmount'] + (float) $returnArr['agentMarkupAmount'] + (float) $returnArr['agentGlobalMarkupAmount'];
-
+        
         return $returnArr;
 
     }
@@ -1648,7 +1648,8 @@ if (!function_exists('globalCurrency')) {
 
     {
 
-        return 'INR ';
+        //return 'INR ';
+        return '₹';
 
     }
 
@@ -2361,6 +2362,15 @@ if (!function_exists('getDateWisePromotional')) {
     }
 
 }
+
+if (!function_exists('getDateDiffDays')) {
+    function getDateDiffDays($startDate, $endDate)
+    {  
+        return dateDiffInDays($startDate, $endDate);       
+    }
+
+}
+
 if (!function_exists('getDateNormalPrice')) {
     function getDateNormalPrice($startDate, $endDate,$promoDays,$blackDays)
     {   $normalDays =0;
@@ -2430,5 +2440,26 @@ if (!function_exists('CancellationFeesCalculated')) {
             }
         }
             
+    }
+}
+
+if (!function_exists('getNumberWithComma')) {
+    function getNumberWithComma($number, $currency = ""){
+        if( strlen($currency) > 0 ){
+            return $currency.' '.number_format($number, 2, '.', ',');
+        } else {
+            return number_format($number, 2, '.', ',');
+        }
+        
+    }
+}
+
+if (!function_exists('getNumberWithCommaGlobalCurrency')) {
+    function getNumberWithCommaGlobalCurrency($number, $isBack=""){        
+        if( strlen($isBack) > 0 ){
+            return number_format($number, 2, '.', ',').' '.globalCurrency();
+        } else {
+            return globalCurrency().' '.number_format($number, 2, '.', ',');
+        }
     }
 }

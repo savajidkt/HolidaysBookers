@@ -74,9 +74,9 @@
 
                                                 $hotelsDetails = $hotelsDetails['hotel'];
 
-                                                $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<span class="pull-right">' . numberFormat($value['finalAmount'], globalCurrency()) . '</span></li>';
+                                                $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<span class="pull-right">' . getNumberWithComma($value['finalAmount'], globalCurrency()) . '</span></li>';
 
-                                                $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'] . ' <span class="pull-right"> ' . numberFormat($value['finalAmount'], globalCurrency()) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
+                                                $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'] . ' <span class="pull-right"> ' . getNumberWithComma($value['finalAmount'], globalCurrency()) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
 
                                                 $serviceSectionAMT = $serviceSectionAMT + $value['price'] + $value['extra_markup_price'];                                                
 
@@ -317,7 +317,7 @@
 
                                                                                     <div class="text-18 lh-13 fw-500">
 
-                                                                                        {{ numberFormat($value['price'] + $value['extra_markup_price'], globalCurrency()) }}
+                                                                                        {{ getNumberWithComma($value['price'] + $value['extra_markup_price'], globalCurrency()) }}
 
                                                                                     </div>
 
@@ -357,7 +357,7 @@
 
                                                     <div class="text-15 lh-15 text-light-1 fw-500 ml-10"> Total: <span
 
-                                                            class="text-20">{{ numberFormat($serviceSectionAMT, globalCurrency()) }}<span>
+                                                            class="text-20">{{ getNumberWithComma($serviceSectionAMT, globalCurrency()) }}<span>
 
                                                             </span></span></div>
 

@@ -524,13 +524,6 @@
                             </div> --}}
                             <?php } ?>
                         </div>
-
-                        
-
-
-
-
-
                         <div class="row y-gap-30 ajax-list-display">
                         </div>
                     </div>

@@ -239,7 +239,7 @@
                                     <div class="col-12 col-sm-3">
                                         <div class="form-group">
                                             <label for="account-username">Original Amount</label>
-                                            <strong class="disp-below">{{ $model->order_amount }}</strong>
+                                            <strong class="disp-below">{{ getNumberWithComma($model->order_amount, $model->order_currency) }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-3">
@@ -251,7 +251,7 @@
                                     <div class="col-12 col-sm-3">
                                         <div class="form-group">
                                             <label for="account-username">Booking Amount</label>
-                                            <strong class="disp-below">{{ $model->booking_amount }}</strong>
+                                            <strong class="disp-below">{{ getNumberWithComma($model->booking_amount, $model->order_currency) }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-3">

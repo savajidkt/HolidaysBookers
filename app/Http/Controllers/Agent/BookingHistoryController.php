@@ -49,13 +49,13 @@ class BookingHistoryController extends Controller
                     return paymentMethodName($order->is_pay_using);
                 })
                 ->editColumn('passenger_type', function (Order $order) {                    
-                    return $order->passenger_type;
+                    return $order->passenger_type_name;
                 })
                 ->addColumn('pax', function (Order $order) {
                     return 'Room : ' . $order->total_rooms . ' Adult : ' . $order->total_adult . '<br> Children : ' . $order->total_child.'<br> Night : '.$order->total_nights;
                 })
                 ->editColumn('booking_amount', function (Order $order) {
-                    return numberFormat($order->booking_amount, globalCurrency());
+                    return getNumberWithCommaGlobalCurrency($order->booking_amount);
                 })
                 ->editColumn('status', function (Order $order) use ($isDraft) {
                     return getPaymentStatus($order->status);
@@ -363,7 +363,7 @@ class BookingHistoryController extends Controller
                 $tableStr .= '<td class="text-center"></td>';
                 $tableStr .= '<td class="text-center"></td>';
                 $tableStr .= '<td class="text-center"></td>';
-                $tableStr .= '<td class="text-right">' . numberFormat($order_hotel_room->price, $order->booking_currency) . '</td>';
+                $tableStr .= '<td class="text-right">' . getNumberWithCommaGlobalCurrency($order_hotel_room->price) . '</td>';
                 $tableStr .= '</tr>';
                 $subTotal = $subTotal + $order_hotel_room->price;
             }
@@ -374,7 +374,7 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Subtotal: <strong>' . numberFormat($subTotal, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Subtotal: <strong>' . getNumberWithCommaGlobalCurrency($subTotal) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $tableStr .= '<tr class="total">';
@@ -383,7 +383,7 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Discount: <strong>' . numberFormat($discount, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Discount: <strong>' . getNumberWithCommaGlobalCurrency($discount) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $tableStr .= '<tr class="total">';
@@ -392,7 +392,7 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Tax ('.$tax.'%):<strong> ' . numberFormat($taxAmt, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Tax ('.$tax.'%):<strong> ' . getNumberWithCommaGlobalCurrency($taxAmt) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $total = ($subTotal + $taxAmt) - $discount;
@@ -403,7 +403,7 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Total:<strong>' . numberFormat($total, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Total:<strong>' . getNumberWithCommaGlobalCurrency($total) . '</strong></td>';
             $tableStr .= '</tr>';
         }
         $tableStr .= '</table>';

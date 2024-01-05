@@ -674,22 +674,17 @@
                                                 <div class="col-lg col-md-6">
 
                                                     <div class="y-gap-5">
-                                                        hhhh
+                                                        Description Hare
                                                     </div>
 
                                                 </div>
                                                 <div
                                                     class="col-lg-auto col-md-6 border-left-light lg:border-none text-right lg:text-left">
-                                                    <div class="pl-40 lg:pl-0">
-                                                        @php
-
-                                                            $priceCalArr = 1000; //getAgentRoomPrice($value_child, $hotelsDetails);
-                                                        @endphp
-                                                        {{-- <div class="text-14 lh-14 text-light-1 mb-5">Min
-                                                            1 night</div> --}}
-                                                        <div class="text-20 lh-14 fw-500">
+                                                    <div class="pl-40 lg:pl-0">                                                       
+                                                        
                                                             @if (is_array($rooms['room_price']) && count($rooms['room_price']))
-                                                                {{ numberFormat($rooms['room_price'][0]['finalAmount'], globalCurrency()) }}
+                                                            <div class="text-20 lh-14 fw-500">
+                                                            {{ getNumberWithCommaGlobalCurrency($rooms['room_price'][0]['finalAmount']) }}                                                                
                                                         </div>
                         @endif
                         @php
@@ -712,6 +707,7 @@
                                     'finalAmount' => isset($rooms['room_price'][0]['finalAmount']) ? numberFormat($rooms['room_price'][0]['finalAmount']) : '',
                                 ];
                             }
+                            
                             $isAddedCart = false;
                         @endphp
                         @if (is_array($bookingCartArr) && count($bookingCartArr))

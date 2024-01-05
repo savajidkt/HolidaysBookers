@@ -59,8 +59,8 @@
                                
                                     $hotelsRoomDetails = $hotelsDetails['roomDetails'];
                                     $hotelsDetails = $hotelsDetails['hotel'];
-                                    $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<span class="pull-right">' . numberFormat($value['finalAmount'], globalCurrency()) . '</span></li>';
-                                    $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'].'<br>'.$offlineRoom->roomtype->room_type . ' <span class="pull-right"> ' . numberFormat($value['finalAmount'], globalCurrency()) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
+                                    $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] .'<br>'.$offlineRoom->roomtype->room_type . '<span class="pull-right">' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . '</span></li>';
+                                    $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'].'<br>'.$offlineRoom->roomtype->room_type . ' <span class="pull-right"> ' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
                                     $serviceSectionAMT = $serviceSectionAMT + $value['finalAmount'];
                                 @endphp
 
@@ -149,7 +149,7 @@
 
                                                     {{ $offlineRoom->roomtype->room_type }}
                                                     <div class="pull-right">
-                                                                {{ numberFormat($value['finalAmount'], globalCurrency()) }}
+                                                                {{ getNumberWithCommaGlobalCurrency($value['finalAmount']) }}
                                                             </div>
                                                 </div>
                                             </div>
@@ -181,7 +181,7 @@
                                                     </div>
                                                     <div class="col-auto">
                                                         <div class="text-18 lh-13 fw-500">
-                                                            {{ numberFormat($value['finalAmount'], globalCurrency()) }}
+                                                            {{ getNumberWithCommaGlobalCurrency($value['finalAmount']) }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -205,7 +205,7 @@
                                             echo $serviceSection;
                                         @endphp
                                         <li class="text-14 border-bottom-light mt-5 mb-5 fw-500">Total<span
-                                                class="pull-right fw-500">{{ numberFormat($serviceSectionAMT, globalCurrency()) }}</span>
+                                                class="pull-right fw-500">{{ getNumberWithCommaGlobalCurrency($serviceSectionAMT) }}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -216,7 +216,7 @@
                                 <div class="d-flex pull-right">
                                     <div class="text-15 lh-15 text-light-1 fw-500 ml-10"> Total net price to pay to Holidays
                                         Bookers: <span
-                                            class="text-20">{{ numberFormat($serviceSectionAMT, globalCurrency()) }}<span>
+                                            class="text-20">{{ getNumberWithCommaGlobalCurrency($serviceSectionAMT) }}<span>
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +259,7 @@
                             <div class="row y-gap-20 justify-between items-center">
                                 <div class="">
                                     <div class="text-15 fw-500">Booking total: <span
-                                            class="pull-right text-20">{{ numberFormat($serviceSectionAMT, globalCurrency()) }}</span>
+                                            class="pull-right text-20">{{ getNumberWithCommaGlobalCurrency($serviceSectionAMT) }}</span>
                                     </div>
                                     <a class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white mt-20"
                                         href="{{ route('checkout.index') }}">

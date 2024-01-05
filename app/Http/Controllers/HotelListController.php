@@ -119,9 +119,7 @@ class HotelListController extends Controller
             $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
             $hotelListArray = $this->hotelListingRepository->hotelLists($request);
-
-            $hotelCount = $this->hotelListingRepository->hotelCount($request);
-            
+            $hotelCount = $this->hotelListingRepository->hotelCount($request);            
             return response()->json([
                 'status'        => 200,
                 'message'       => 'successfully.',
@@ -142,7 +140,8 @@ class HotelListController extends Controller
     public function ajaxRoomListing(Request $request)
     {
         if ($request->ajax()) {
-            $hotelRooms = $this->hotelRoomListingRepository->hotelRoomLists($request->all());           
+            $hotelRooms = $this->hotelRoomListingRepository->hotelRoomLists($request->all());  
+            
             $SafeencryptionObj = new Safeencryption;
             return response()->json([
                 'status'        => 200,

@@ -515,7 +515,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="text-14 lh-1 ml-10">Pay using wallet (Balance :
-                                                            {{ availableBalance($user->agents->id, 'INR') }}) <span class="text-danger">*</span>
+                                                            {{ getNumberWithCommaGlobalCurrency(availableBalance($user->agents->id)) }}) <span class="text-danger">*</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -587,9 +587,13 @@
                                                     @endphp
 
                                                     <li class="text-14"><i class="fa fa-bed"></i>
-                                                        {{ $hotelsDetails['hotel']['hotel_name'] }}<span
+                                                        
+                                                        {{ $hotelsDetails['hotel']['hotel_name'] }}
+                                                        <p class="text-14">{{ $offlineRoom->roomtype->room_type }}</p>
+                                                        <span
                                                             class="pull-right">
-                                                            {{ numberFormat($value['finalAmount'], globalCurrency()) }}</span>
+                                                            {{ getNumberWithCommaGlobalCurrency($value['finalAmount']) }}
+                                                        </span>
                                                     </li>
 
                                                     @php
@@ -608,7 +612,7 @@
                                 </div>
                                 <div class="col-auto">
 
-                                    <div class="text-15">{{ numberFormat($Taxes_and_fees_amt, globalCurrency()) }}</div>
+                                    <div class="text-15">{{ getNumberWithCommaGlobalCurrency($Taxes_and_fees_amt) }}</div>
                                 </div>
                             </div>
                             <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
@@ -618,7 +622,7 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="text-18 lh-13 fw-500">
-                                            {{ numberFormat($amountFinal + $Taxes_and_fees_amt, globalCurrency()) }}
+                                            {{ getNumberWithCommaGlobalCurrency($amountFinal + $Taxes_and_fees_amt) }}
                                         </div>
                                     </div>
                                 </div>

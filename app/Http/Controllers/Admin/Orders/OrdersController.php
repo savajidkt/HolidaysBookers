@@ -1065,26 +1065,24 @@ class OrdersController extends Controller
 
         if (count($order->order_hotel) > 0) {
             foreach ($order->order_hotel as $key => $value) {
-
-            $tableStr .= '<tr>';
+                $tableStr .= '<tr>';
                 $tableStr .= '<td class="py-1 pl-4"><p class="font-weight-semibold mb-25">' . $value->hotel->hotel_name . '</p></td>';
                 $tableStr .= '<td class="py-1"></td>';
                 $tableStr .= '<td class="py-1">' . count($value->order_hotel_room) . '</td>';
                 $tableStr .= '<td class="py-1">' . $order->total_adult . '</td>';
                 $tableStr .= '<td class="py-1">' . $order->total_child . '</td>';
-            $tableStr .= '<td class="py-1"></td>';
-            $tableStr .= '</tr>';
-
+                $tableStr .= '<td class="py-1"></td>';
+                $tableStr .= '</tr>';
                 if (count($value->order_hotel_room) > 0) {
                     foreach ($value->order_hotel_room as $sub_key => $sub_value) {
-                $tableStr .= '<tr>';
+                        $tableStr .= '<tr>';
                         $tableStr .=  '<td><ul style="margin: 0px !important;"><li>' . $sub_value->room_name . '</li></ul></td>';
-                $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '<td class="py-1"></td>';
-                $tableStr .= '<td class="py-1"></td>';
-                        $tableStr .= '<td class="text-right">' . numberFormat($sub_value->price, $order->booking_currency) . '</td>';
-                $tableStr .= '</tr>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="py-1"></td>';
+                        $tableStr .= '<td class="text-right">' .getNumberWithComma($sub_value->price, $order->booking_currency) . '</td>';
+                        $tableStr .= '</tr>';
                         $subTotal = $subTotal + $sub_value->price;
                     }
                 }
@@ -1094,7 +1092,6 @@ class OrdersController extends Controller
             $tableStr .= '</tbody>';
             $tableStr .= '</table>';
             $tableStr .= '</div>';
-
             $tableStr .= '<hr class="my-2" />';
             $tableStr .= '<div class="row invoice-sales-total-wrapper mt-3">';
             $tableStr .= '<div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">';
@@ -1109,24 +1106,24 @@ class OrdersController extends Controller
 
             $tableStr .= '<div class="invoice-total-item">';
             $tableStr .= '<p class="invoice-total-title">Subtotal:</p>';
-            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($subTotal, $order->booking_currency) . '</p>';
+            $tableStr .= '<p class="invoice-total-amount">' . getNumberWithComma($subTotal, $order->booking_currency). '</p>';
             $tableStr .= '</div>';
 
             $tableStr .= '<div class="invoice-total-item">';
             $tableStr .= '<p class="invoice-total-title">Discount:</p>';
-            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($discount, $order->booking_currency) . '</p>';
+            $tableStr .= '<p class="invoice-total-amount">' . getNumberWithComma($discount, $order->booking_currency) . '</p>';
             $tableStr .= '</div>';
 
 
             $tableStr .= '<div class="invoice-total-item">';
             $tableStr .= '<p class="invoice-total-title">Tax:</p>';
-            $tableStr .= '<p class="invoice-total-amount"> ' . numberFormat($tax, $order->booking_currency) . '</p>';
+            $tableStr .= '<p class="invoice-total-amount"> ' . getNumberWithComma($tax, $order->booking_currency) . '</p>';
             $tableStr .= '</div>';
 
             $total = ($subTotal + $tax) - $discount;
             $tableStr .= '<div class="invoice-total-item">';
             $tableStr .= '<p class="invoice-total-title">Total:</p>';
-            $tableStr .= '<p class="invoice-total-amount">' . numberFormat($total, $order->booking_currency) . '</p>';
+            $tableStr .= '<p class="invoice-total-amount">' . getNumberWithComma($total, $order->booking_currency) . '</p>';
             $tableStr .= '</div>';
 
             $tableStr .= '</div>';
@@ -1178,7 +1175,7 @@ class OrdersController extends Controller
                         $tableStr .= '<td class="py-1"></td>';
                         $tableStr .= '<td class="py-1"></td>';
                         $tableStr .= '<td class="py-1"></td>';
-                        $tableStr .= '<td class="text-right">' . numberFormat($sub_value->price, $order->booking_currency) . '</td>';
+                        $tableStr .= '<td class="text-right">' . getNumberWithComma($sub_value->price, $order->booking_currency) . '</td>';
                 $tableStr .= '</tr>';
                         $subTotal = $subTotal + $sub_value->price;
                     }
@@ -1192,7 +1189,7 @@ class OrdersController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Subtotal: <strong>' . numberFormat($subTotal, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Subtotal: <strong>' . getNumberWithComma($subTotal, $order->booking_currency) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $tableStr .= '<tr class="total">';
@@ -1201,7 +1198,7 @@ class OrdersController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Discount: <strong>' . numberFormat($discount, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Discount: <strong>' . getNumberWithComma($discount, $order->booking_currency) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $tableStr .= '<tr class="total">';
@@ -1210,7 +1207,7 @@ class OrdersController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Tax:<strong> ' . numberFormat($tax, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Tax:<strong> ' . getNumberWithComma($tax, $order->booking_currency) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $total = ($subTotal + $tax) - $discount;
@@ -1221,7 +1218,7 @@ class OrdersController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Total:<strong>' . numberFormat($total, $order->booking_currency) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Total:<strong>' . getNumberWithComma($total, $order->booking_currency) . '</strong></td>';
             $tableStr .= '</tr>';
 
         $tableStr .= '</table>';

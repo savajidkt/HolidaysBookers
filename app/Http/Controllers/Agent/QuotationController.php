@@ -91,6 +91,7 @@ class QuotationController extends Controller
 
     public function downloadPdf($order_id)
     {
+       
         
         $user = auth()->user();
         $QuoteOrder = QuoteOrder::where('agent_code', $user->agents->agent_code)->where('id', $order_id)->first();
@@ -343,7 +344,7 @@ class QuotationController extends Controller
                         $tableStr .= '<td class="py-1">' .  $value->child . '</td>';
                         $tableStr .= '<td class="py-1">' . $value->check_in_date . '</td>';
                         $tableStr .= '<td class="py-1">' . $value->check_out_date . '</td>';
-                        $tableStr .= '<td class="py-1">' . $value->price + $value->extra_markup_price . '</td>';
+                        $tableStr .= '<td class="py-1">' . getNumberWithComma($value->price + $value->extra_markup_price, $quoteData->booking_currency) . '</td>';
                         $tableStr .= '</tr>';
                         $subTotal = $subTotal + ($value->price + $value->extra_markup_price);
                 }
@@ -358,7 +359,7 @@ class QuotationController extends Controller
         $tableStr .= '<td></td>';
         $tableStr .= '<td></td>';
         $tableStr .= '<td></td>';
-        $tableStr .= '<td class="text-right">Subtotal: <strong>' . numberFormat($subTotal, $quoteData->booking_currency) . '</strong></td>';
+        $tableStr .= '<td class="text-right">Subtotal: <strong>' . getNumberWithComma($subTotal, $quoteData->booking_currency) . '</strong></td>';
         $tableStr .= '</tr>';
 
         $tableStr .= '<tr class="total">';
@@ -367,7 +368,7 @@ class QuotationController extends Controller
         $tableStr .= '<td></td>';
         $tableStr .= '<td></td>';
         $tableStr .= '<td></td>';
-        $tableStr .= '<td class="text-right">Discount: <strong>' . numberFormat($discount, $quoteData->booking_currency) . '</strong></td>';
+        $tableStr .= '<td class="text-right">Discount: <strong>' . getNumberWithComma($discount, $quoteData->booking_currency) . '</strong></td>';
         $tableStr .= '</tr>';
 
         $tableStr .= '<tr class="total">';
@@ -376,7 +377,7 @@ class QuotationController extends Controller
         $tableStr .= '<td></td>';
         $tableStr .= '<td></td>';
         $tableStr .= '<td></td>';
-        $tableStr .= '<td class="text-right">Tax:<strong> ' . numberFormat($tax, $quoteData->booking_currency) . '</strong></td>';
+        $tableStr .= '<td class="text-right">Tax:<strong> ' . getNumberWithComma($tax, $quoteData->booking_currency) . '</strong></td>';
         $tableStr .= '</tr>';
 
         $total = ($subTotal + $tax) - $discount;
@@ -387,7 +388,7 @@ class QuotationController extends Controller
         $tableStr .= '<td></td>';
         $tableStr .= '<td></td>';
         $tableStr .= '<td></td>';
-        $tableStr .= '<td class="text-right">Total:<strong>' . numberFormat($total, $quoteData->booking_currency) . '</strong></td>';
+        $tableStr .= '<td class="text-right">Total:<strong>' . getNumberWithComma($total, $quoteData->booking_currency) . '</strong></td>';
         $tableStr .= '</tr>';
         $tableStr .= '</table>';
 

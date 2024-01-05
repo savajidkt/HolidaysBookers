@@ -64,7 +64,7 @@
                                                         $orderAmtWithTax = $orderAmtWithTax + $requiredParamArr['taxes_and_fees_amt'];
                                                     }
                                                 @endphp
-                                                {{ numberFormat($orderAmtWithTax, $order->booking_currency) }}</div>
+                                                {{ getNumberWithCommaGlobalCurrency($orderAmtWithTax) }}</div>
                                         </div>
                                         <div class="col-lg-3 col-md-6">
                                             <div class="text-15 lh-12">Payment Method</div>
@@ -287,7 +287,7 @@
                                                                             {{ date('d M, Y', strtotime($value1->check_out_date)) }}
                                                                 </span>
                                                                 <span class="pull-right text-15 fw-500">
-                                                                            {{ numberFormat($value1->price, trim($order->order_currency)) }}
+                                                                            {{ getNumberWithCommaGlobalCurrency($value1->price) }}
                                                                 </span>
                                                             </div>
                                                             <div class="mt-10 border-top-light"></div>
@@ -305,7 +305,7 @@
                                                                     $finalAmt = $finalAmt + $order->tax_amount;
 
                                                                 @endphp
-                                                                {{ numberFormat($order->tax_amount, trim($order->order_currency)) }}
+                                                                {{ getNumberWithCommaGlobalCurrency($order->tax_amount) }}
                                                             </span>
                                                             </div>
                                                         </li>
@@ -317,7 +317,7 @@
                                             <div class="">
                                                 <div class="text-15 fw-500">Booking Amount:
                                                     <span
-                                                        class="pull-right text-20">{{ numberFormat($finalAmt, trim($order->order_currency)) }}</span>
+                                                        class="pull-right text-20">{{ getNumberWithCommaGlobalCurrency($finalAmt) }}</span>
                                                 </div>
                                             </div>
                                         </div>
