@@ -119,6 +119,7 @@ class HotelListController extends Controller
             $SafeencryptionObj = new Safeencryption;
             $page = $request->page;
             $hotelListArray = $this->hotelListingRepository->hotelLists($request);
+           
             $hotelCount = $this->hotelListingRepository->hotelCount($request);            
             return response()->json([
                 'status'        => 200,

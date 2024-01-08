@@ -113,6 +113,7 @@ class AgentRepository
 
 
        
+       
         $UserArr = [
             'first_name'    => $data['agent_first_name'],
             'last_name'    => $data['agent_last_name'],
@@ -140,8 +141,7 @@ class AgentRepository
                         if($key == 'agent_dob')
                         {
                             $start_date= $data['agent_dob'];
-                            $convertedDate= DateTime::createFromFormat('d/m/Y', $start_date)->format('Y-m-d');
-                            //dd($convertedDate);
+                            $convertedDate= DateTime::createFromFormat('d/m/Y', $start_date)->format('Y-m-d');                           
                             $UserProfileArr[$key] = $convertedDate;
                         }else{
                         $UserProfileArr[$key] = $data[$key];
@@ -150,8 +150,7 @@ class AgentRepository
                         
                     }
                 }
-            }
-
+            }            
             $agent->update($UserProfileArr);
             //$agent->notify(new RegisterdEmailNotification($password,$agent));
         }

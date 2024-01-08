@@ -10,6 +10,7 @@ use App\Models\ProductMarkup;
 use App\Libraries\Safeencryption;
 use App\Models\WalletTransaction;
 use App\Exceptions\GeneralException;
+use App\Models\Currency;
 use Illuminate\Support\Facades\Auth;
 use App\Models\OfflineRoomChildPrice;
 use App\Models\Order;
@@ -1335,43 +1336,21 @@ if (!function_exists('getAgentRoomPrice')) {
 
 
     function getAgentRoomPrice($price, $hotelsDetails)
-
     {
-
-
-
-        $calculateAmount = 0;
-
+        $calculateAmount = [];
         $user = auth()->user();
-
         //1=Offline, 2=API 
-
         if ($hotelsDetails['hotel']['hotel_type'] == 1) {
-
-
-
             // Admin Product Markup in (%)
-
             $productMarkupArr = getProductWiseMarkup($hotelsDetails, 'Offline Hotel');
-
             // Admin Agent Markup
-
             $agentmarkupArr = getAgentWiseMarkup($hotelsDetails, $user, 'Offline Hotel');
-
             // Agent Global Markup
-
             $agentglobalmarkupArr = getAgentGlobalWiseMarkup($hotelsDetails, $user, 'Offline Hotel');
-
-
-
             $calculateAmount = getFinalAmount($price, $productMarkupArr, $agentmarkupArr, $agentglobalmarkupArr);
-
         }
-
-
-
+        
         return $calculateAmount;
-
     }
 
 }
@@ -1513,65 +1492,37 @@ if (!function_exists('getFinalAmount')) {
 
 
     function getFinalAmount($price, $productMarkupArr, $agentmarkupArr, $agentglobalmarkupArr)
-
     {
-
-      
-
-
+        
         $returnArr = [];
-
         $returnArr['originAmount'] = $price;
-
         $returnArr['productMarkupAmount'] = 0;
-
         $returnArr['agentMarkupAmount'] = 0;
-
         $returnArr['finalAmount'] = 0;
-
         if (is_array($productMarkupArr)) {
-
             if ($productMarkupArr['type'] == "percentage") {
-
                 $returnArr['productMarkupAmount'] = (float) $price * (float) $productMarkupArr['percentage'] / 100;
-
             } else {
-
                 $returnArr['productMarkupAmount'] = $productMarkupArr['amount'];
-
             }
-
         }
 
         if (is_array($agentmarkupArr)) {
-
             if ($agentmarkupArr['type'] == "percentage") {
-
                 $returnArr['agentMarkupAmount'] = (float) $price * (float) $agentmarkupArr['percentage'] / 100;
-
             } else {
-
                 $returnArr['agentMarkupAmount'] = $agentmarkupArr['amount'];
-
             }
-
         }
 
         if (is_array($agentglobalmarkupArr)) {
-
             if ($agentglobalmarkupArr['type'] == "percentage") {
-
                 $returnArr['agentGlobalMarkupAmount'] = (float) $price * (float) $agentglobalmarkupArr['percentage'] / 100;
-
             } else {
-
                 $returnArr['agentGlobalMarkupAmount'] = $agentglobalmarkupArr['amount'];
-
             }
-
         }
         $returnArr['finalAmount'] = (float) $price + (float) $returnArr['productMarkupAmount'] + (float) $returnArr['agentMarkupAmount'] + (float) $returnArr['agentGlobalMarkupAmount'];
-        
         return $returnArr;
 
     }
@@ -1641,23 +1592,48 @@ if (!function_exists('getFinalAmountOLD')) {
 
 
 if (!function_exists('globalCurrency')) {
-
-
-
     function globalCurrency()
-
     {
-
-        //return 'INR ';
-        return '₹';
-
+        $currency = getBookingCart('currencySet');        
+        if(is_array($currency) && count($currency) > 0){
+            return $currency['symbol'];
+        } else {
+            $currency  = Currency::where('country_id',6)->first(); 
+            $currencyArr['id'] = $currency->id;
+            $currencyArr['name'] = $currency->name;
+            $currencyArr['code'] = $currency->code;
+            $currencyArr['symbol'] = $currency->symbol;
+            setBookingCart('currencySet', $currencyArr);
+            return $currency->code;
+        }
     }
-
 }
 
+if (!function_exists('getUserWiseGlobalCurrency')) {
+    function getUserWiseGlobalCurrency($country_id)
+    { 
 
-
-
+        $currency  = Currency::where('country_id',$country_id)->first(); 
+       
+        if($currency){
+            $currencyArr = [];
+            $currencyArr['id'] = $currency->id;
+            $currencyArr['name'] = $currency->name;
+            $currencyArr['code'] = $currency->code;
+            $currencyArr['symbol'] = $currency->symbol;
+            setBookingCart('currencySet', $currencyArr); 
+            return $currency->code;            
+        } else {
+            $currency  = Currency::where('country_id',6)->first(); 
+            $currencyArr['id'] = $currency->id;
+            $currencyArr['name'] = $currency->name;
+            $currencyArr['code'] = $currency->code;
+            $currencyArr['symbol'] = $currency->symbol;
+            setBookingCart('currencySet', $currencyArr); 
+            return $currency->code;
+        }
+    }
+}
 
 if (!function_exists('getBookingCart')) {
 

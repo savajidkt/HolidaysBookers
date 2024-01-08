@@ -150,6 +150,8 @@
 
     @include('layouts.front-scripts')
     @yield('page-script')
+    
+    
     <script src="http://localhost/holidays-bookers/public/assets/front/js/sweet-alert.min.js"></script>
     @if (Session::has('success'))
     <script type="text/javascript">    

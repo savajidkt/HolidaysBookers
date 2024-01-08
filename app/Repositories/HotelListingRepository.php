@@ -219,14 +219,10 @@ class HotelListingRepository
             $hotelsListingArray[$key]['cancel_days'] = $hotel->cancel_days;
             $hotelsListingArray[$key]['cancellation_policy'] = $hotel->cancellation_policy;
             $hotelsListingArray[$key]['hotel_type'] = $hotel->hotel_type;
-
             $hotelsListingArray[$key]['hotel_amenities'] = $hotel->hotelamenity->toArray();
             $hotelsListingArray[$key]['hotel_groups'] =  $hotel->hotelgroup->toArray();
             $hotelsListingArray[$key]['hotel_images'] = $hotel->images->toArray();
-
             $hotelRoomArray = [];
-
-
             $hotelsDetails = OfflineHotel::find($hotel->id)->toArray();
             $hotelArr['hotel'] = $hotelsDetails;
             $tempRoomArray = [];
@@ -245,8 +241,8 @@ class HotelListingRepository
                 $blackDaysPrice = 0;
                 $childPrice = 0;
                 $filterObjParamChild = getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0;
-               $tempRoomArray = [];
-               $tempSearRoomArray = [];
+                $tempRoomArray = [];
+                $tempSearRoomArray = [];
                // First loop 4 rows
                 // foreach ($hotel->rooms as $key => $room) {
                 //     // search room 2 row
@@ -387,14 +383,14 @@ class HotelListingRepository
                         $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice);
                         $totalFinalPrice = $totalFinalPrice + $finalRoomPrice; 
                         
+                        
                     }
                  }
                  $i++;
                 } //temp room end
-                $total_priceArr = getAgentRoomPrice($totalFinalPrice, $hotelArr);
-                
-                $hotelsDetails = OfflineHotel::find($hotel->id)->toArray();
                
+                $total_priceArr = getAgentRoomPrice($totalFinalPrice, $hotelArr);               
+                $hotelsDetails = OfflineHotel::find($hotel->id)->toArray();               
                 $hotelArr['hotel'] = $hotelsDetails;
                 $hotelRoomArray['normal_day'] = (int) $normalDays; // + $price->price_p_n_cwb
                 $hotelRoomArray['normal_price'] = numberFormat($normalDaysPrice); // + $price->price_p_n_cwb
@@ -403,13 +399,9 @@ class HotelListingRepository
                 $hotelRoomArray['adminproductMarkupAmount'] = numberFormat(($total_priceArr['productMarkupAmount']) ? $total_priceArr['productMarkupAmount'] : 0);
                 $hotelRoomArray['adminagentMarkupAmount'] = numberFormat(($total_priceArr['agentMarkupAmount']) ? $total_priceArr['agentMarkupAmount'] : 0);
                 $hotelRoomArray['agentMarkupAmount'] = numberFormat(($total_priceArr['agentGlobalMarkupAmount']) ? $total_priceArr['agentGlobalMarkupAmount'] : 0);
-                $hotelRoomArray['finalAmount'] = numberFormat(($total_priceArr['finalAmount']) ? $total_priceArr['finalAmount'] : 0);
-                
+                $hotelRoomArray['finalAmount'] = numberFormat(($total_priceArr['finalAmount']) ? $total_priceArr['finalAmount'] : 0);                
                 $hotelRoomArray['hotel_id'] = $hotel->id;
-                
-           
-            $hotelsListingArray[$key]['room'] = $hotelRoomArray;
-            
+                $hotelsListingArray[$key]['room'] = $hotelRoomArray;            
         }
        
         return ['model' => $hotels, 'data' => $hotelsListingArray];

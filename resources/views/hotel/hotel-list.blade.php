@@ -572,6 +572,7 @@
 
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/search-form/Search.js') }}"></script>
+    <script src="{{ asset('assets/front/js/search-form/Currencies.js') }}"></script> 
 
     <script src="{{ asset('assets/front/js/sweet-alert.min.js') }}"></script>
 

@@ -86,6 +86,26 @@
                             class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white">Become
                             An Expert</a>
                     @else
+<?php  
+                       
+                        
+                            $user = Auth::user(); 
+                            $c_code = "";
+                            if( $user->user_type == '1' ){
+                                $c_code = getUserWiseGlobalCurrency($user->agents->agent_country);  
+                            } else if( $user->user_type == '2' ){
+                                $c_code = getUserWiseGlobalCurrency($user->usermeta->country_id);  
+                            }
+                                                            
+                            
+                                          
+                                           
+                        ?>
+                        <button class="d-flex items-center text-14 text-dark-1">
+                            <span class="js-currencyMenu-mainTitle">{{ $c_code }}</span>
+                            
+                        </button>
+
                         <a class="button -outline-blue-1 px-30 fw-400 text-14 h-50 text-blue-1 ml-20"
                             href="{{ route('cart') }}">
                             <i class="fa" style="font-size:24px">&#xf07a;</i>

@@ -94,3 +94,10 @@
         </div>
     </div>
 </footer>
+
+<script type="text/javascript">
+    var moduleConfigCommon = {
+        allCurrencies: "{!! route('get-currencies') !!}",
+        setCurrencies: "{!! route('set-currencies') !!}"
+    };
+</script>

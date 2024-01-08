@@ -15,9 +15,13 @@ class CreateCurrenciesTable extends Migration
     {
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('country_id');
             $table->string('name');
             $table->string('code');
+            $table->string('symbol');            
+            $table->double('rate',10,2)->nullable();
             $table->boolean('status')->default(false)->comment('1=Active, 0=Inactive');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

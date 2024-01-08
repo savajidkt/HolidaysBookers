@@ -324,6 +324,9 @@ Route::group(['prefix' => 'agent', 'middleware' => ['agentauth']], function () {
     Route::get('remove-cart', [CartController::class, 'removeCart'])->name('remove-cart');
     Route::post('checkout/quote-add-to-cart', [CheckoutController::class, 'quoteTempStore'])->name('quote-temp-store');
     Route::post('checkout/draft-add-to-cart', [CheckoutController::class, 'draftTempStore'])->name('draft-temp-store');
+
+    Route::get('/get-currencies', [CurrenciesController::class, 'getAllCurrencies'])->name('get-currencies');
+    Route::post('/set-currencies', [CurrenciesController::class, 'setCurrencies'])->name('set-currencies');
 });
 
 Route::group(['prefix' => 'customer', 'middleware' => ['customerauth']], function () {

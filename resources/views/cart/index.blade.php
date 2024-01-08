@@ -287,6 +287,7 @@
     <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
     <script src="{{ asset('assets/front/js/jquery.blockUI.js') }}"></script>
     <script src="{{ asset('assets/front/js/Cart.js') }}"></script>
+    <script src="{{ asset('assets/front/js/search-form/Currencies.js') }}"></script>    
     <script type="text/javascript">
         var moduleConfig = {
             removeHotel: "{!! route('remove-cart-hotel') !!}",

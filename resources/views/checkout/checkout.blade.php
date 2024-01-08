@@ -727,6 +727,7 @@
     <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/Check-out.js') }}"></script>
+    <script src="{{ asset('assets/front/js/search-form/Currencies.js') }}"></script>   
     <script src="{{ asset('assets/front/js/intlTelInput/js/intlTelInput-jquery.min.js') }}"></script>
     <script type="text/javascript">
         $(".phonenumber").intlTelInput({

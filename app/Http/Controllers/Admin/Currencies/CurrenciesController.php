@@ -147,4 +147,49 @@ class CurrenciesController extends Controller
 
         throw new Exception('Currency status does not change. Please check sometime later.');
     }
+
+
+
+    public function getAllCurrencies(Request $request): JsonResponse
+    {
+        
+        $currency  = Currency::where('status',1)->get();
+        if($currency){ 
+            return response()->json([
+                'status' => true,
+                'data' => $currency,               
+                'getdata' =>  getBookingCart('currencySet'),               
+            ]);        
+        } else {
+            return response()->json([
+                'status' => false,                
+            ]);
+        }
+       
+    }
+
+    public function setCurrencies(Request $request): JsonResponse
+    {
+       
+        $currency  = Currency::find($request->id);
+        if($currency){ 
+          
+            $currencyArr = [];
+            $currencyArr['id'] = $currency->id;
+            $currencyArr['name'] = $currency->name;
+            $currencyArr['code'] = $currency->code;
+            $currencyArr['symbol'] = $currency->symbol;
+            setBookingCart('currencySet', $currencyArr);
+            return response()->json([
+                'status' => true,
+                'data' => $currency->id,                           
+                'code' => $currency->code                             
+            ]);        
+        } else {
+            return response()->json([
+                'status' => false,                
+            ]);
+        }
+       
+    }
 }
