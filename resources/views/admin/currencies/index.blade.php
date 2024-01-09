@@ -25,6 +25,7 @@
                             <th>{{ __('core.id') }}</th>
                             <th>Name</th>
                             <th>Code</th>
+                            <th>Rate</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -68,6 +69,10 @@
                     {
                         data: 'code',
                         name: 'code'
+                    },
+                    {
+                        data: 'rate',
+                        name: 'rate'
                     },
                     {
                         data: 'status',

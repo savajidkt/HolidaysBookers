@@ -18,8 +18,11 @@ class CurrencyRepository
     public function create(array $data): Currency
     {
         $dataSave = [
+            'country_id'    => $data['country_id'],
             'name'    => $data['name'],
             'code'    => $data['code'],
+            'symbol'    => $data['symbol'],
+            'rate'    => $data['rate'],
             'status'     => $data['status'],
         ];
         $currency =  Currency::create($dataSave);
@@ -38,10 +41,14 @@ class CurrencyRepository
     public function update(array $data, Currency $currency): Currency
     {
         $dataSave = [
+            'country_id'    => $data['country_id'],
             'name'    => $data['name'],
             'code'    => $data['code'],
+            'symbol'    => $data['symbol'],
+            'rate'    => $data['rate'],
             'status'     => $data['status'],
         ];
+        
         if ($currency->update($dataSave)) {
             return $currency;
         }

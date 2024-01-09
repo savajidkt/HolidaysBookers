@@ -85,4 +85,9 @@ class Currency extends Model
         }
         return $status;
     }
+
+    public function country()
+    { 
+       return $this->belongsTo(country::class,'country_id', 'id');
+    }
 }

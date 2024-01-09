@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Currencies;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Currency\CreateRequest;
 use App\Http\Requests\Currency\EditRequest;
+use App\Models\Country;
 use App\Models\Currency;
 use App\Repositories\CurrencyRepository;
 use Exception;
@@ -40,6 +41,9 @@ class CurrenciesController extends Controller
                 ->editColumn('code', function (Currency $currency) {
                     return $currency->code;
                 })
+                ->editColumn('rate', function (Currency $currency) {
+                    return $currency->rate;
+                })
                 ->editColumn('status', function (Currency $currency) {
                     return $currency->status_name;
                 })
@@ -60,7 +64,7 @@ class CurrenciesController extends Controller
     public function create()
     {        
         $rawData    = new Currency;
-        return view('admin.currencies.create', ['model' => $rawData]);
+        return view('admin.currencies.create', ['model' => $rawData, 'countries' => Country::all()]);
     }
 
     /**
@@ -95,8 +99,9 @@ class CurrenciesController extends Controller
      * @return void
      */
     public function edit(Currency $currency)
-    {
-        return view('admin.currencies.edit', ['model' => $currency]);
+    {        
+        
+        return view('admin.currencies.edit', ['model' => $currency, 'countries' => Country::all()]);
     }
 
 
