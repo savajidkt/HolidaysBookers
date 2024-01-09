@@ -57,13 +57,17 @@
                         </a>
                     </div>                    
                 </div>
-                <div class="tabs__content pt-30 js-tabs-content">
-                    <div class="tabs__pane -tab-item-1 is-tab-el-active">
-                        <div class="overflow-scroll scroll-bar-1">
-                            No Transaction History
-                        </div>
-                    </div>
-                </div>
+                <table class="table-3 -border-bottom col-12 user-list-table datatables-ajax table" style="width: 100%;">
+                    <thead class="bg-light-2">
+                        <tr>
+                            <th>S No</th>
+                            <th>Order ID</th>
+                            <th>Amount</th>
+                            <th>Payment Method</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>                
             </div>
         </div>
         @include('agent.common.footer')

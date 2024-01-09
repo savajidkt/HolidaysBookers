@@ -106,6 +106,7 @@ class CheckoutRepository
             'extra_data'     => serialize($extra_data),
             'unique_number'     => generateUniqueNumber('order', $langth=4),
         ];
+        
         $CheckoutRepository =  Checkout::create($dataSave);
         return $CheckoutRepository;
     }
@@ -206,7 +207,7 @@ class CheckoutRepository
         $OrderData =  Order::create($OrderData);
 
         if (strlen($WalletTransaction_id) > 0 && $WalletTransaction_id > 0) {
-            WalletTransaction::where('id', $WalletTransaction_id)->update(['pnr' => $OrderData->prn_number]);
+           // WalletTransaction::where('id', $WalletTransaction_id)->update(['pnr' => $OrderData->prn_number]);
         }
 
         $dataSave = [
@@ -214,6 +215,7 @@ class CheckoutRepository
             'total_amount'        => $OrderData->booking_amount,
             'paid_amount'     => $OrderData->booking_amount,                        
         ];
+        
         Booking_payment_details::create($dataSave);
 
         $this->addOrderHotels($extra_data, $OrderData->id, $passengerLead);
@@ -269,8 +271,9 @@ class CheckoutRepository
             $addHotelRoom['room_id'] = $value['room_id'];
             $addHotelRoom['room_price_id'] = $value['price_id'];
             $addHotelRoom['room_name'] = $roomType->roomtype->room_type;
-            $addHotelRoom['check_in_date'] = $value['search_from'];
-            $addHotelRoom['check_out_date'] = $value['search_to'];
+            $addHotelRoom['check_in_date'] = dateFormat( str_replace('/', '-', $value['search_from']),'Y-m-d');            
+            $addHotelRoom['check_out_date'] = dateFormat( str_replace('/', '-', $value['search_to']),'Y-m-d');
+            
             $addHotelRoom['origin_amount'] = $value['originAmount'];
             $addHotelRoom['product_markup_amount'] = $value['productMarkupAmount'];
             $addHotelRoom['agent_markup_amount'] = $value['agentMarkupAmount'];
@@ -280,7 +283,9 @@ class CheckoutRepository
             $addHotelRoom['child'] = $value['child'];
             $addHotelRoom['child_with_bed'] = 0;
             $addHotelRoom['child_without_bed'] = 0;
+            
             $hotelRoomData = OrderHotelRoom::create($addHotelRoom);
+            
             $this->addOrderHotelRoomPassengers($cartHotel, $value, $OrderID, $hotelData, $hotelRoomData, $passengerLead);
         }
         return true;

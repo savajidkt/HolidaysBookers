@@ -24,6 +24,7 @@
                 <span class="role-name badge badge-info">Agent</span>
                 <h5 class="text-16">{{ $user->first_name }} {{ $user->last_name }}</h5>
                 <p class="text-10 mb-0">Member Since {{ date('M Y', strtotime($user->created_at)) }}</p>
+                <p class="text-10 mb-0">Balance: {{ getNumberWithCommaGlobalCurrency(availableBalance($user->agents->id)) }}</p>
             </div>
         </div>
     </div>
@@ -135,7 +136,7 @@
                 </div>
             </div>
         </div>        
-        <div class="sidebar__item" data-position="90">
+        {{-- <div class="sidebar__item" data-position="90">
             <div class="accordion -db-sidebar js-accordion">
                 <div class="accordion__item">
                     <div class="accordion__button">
@@ -151,7 +152,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="sidebar__item" data-position="95">
             <div class="accordion -db-sidebar js-accordion">
                 <div class="accordion__item">

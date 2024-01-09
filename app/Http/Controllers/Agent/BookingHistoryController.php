@@ -363,7 +363,7 @@ class BookingHistoryController extends Controller
                 $tableStr .= '<td class="text-center"></td>';
                 $tableStr .= '<td class="text-center"></td>';
                 $tableStr .= '<td class="text-center"></td>';
-                $tableStr .= '<td class="text-right">' . getNumberWithCommaGlobalCurrency($order_hotel_room->price) . '</td>';
+                $tableStr .= '<td class="text-right" style="font-family: DejaVu Sans; sans-serif;">' . getNumberWithCommaGlobalCurrency($order_hotel_room->price) . '</td>';
                 $tableStr .= '</tr>';
                 $subTotal = $subTotal + $order_hotel_room->price;
             }
@@ -374,7 +374,7 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Subtotal: <strong>' . getNumberWithCommaGlobalCurrency($subTotal) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Subtotal: <strong style="font-family: DejaVu Sans; sans-serif;">' . getNumberWithCommaGlobalCurrency($subTotal) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $tableStr .= '<tr class="total">';
@@ -383,7 +383,7 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Discount: <strong>' . getNumberWithCommaGlobalCurrency($discount) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Discount: <strong style="font-family: DejaVu Sans; sans-serif;">' . getNumberWithCommaGlobalCurrency($discount) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $tableStr .= '<tr class="total">';
@@ -392,7 +392,7 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Tax ('.$tax.'%):<strong> ' . getNumberWithCommaGlobalCurrency($taxAmt) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Tax ('.$tax.'%):<strong style="font-family: DejaVu Sans; sans-serif;"> ' . getNumberWithCommaGlobalCurrency($taxAmt) . '</strong></td>';
             $tableStr .= '</tr>';
 
             $total = ($subTotal + $taxAmt) - $discount;
@@ -403,7 +403,7 @@ class BookingHistoryController extends Controller
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
             $tableStr .= '<td></td>';
-            $tableStr .= '<td class="text-right">Total:<strong>' . getNumberWithCommaGlobalCurrency($total) . '</strong></td>';
+            $tableStr .= '<td class="text-right">Total:<strong style="font-family: DejaVu Sans; sans-serif;">' . getNumberWithCommaGlobalCurrency($total) . '</strong></td>';
             $tableStr .= '</tr>';
         }
         $tableStr .= '</table>';

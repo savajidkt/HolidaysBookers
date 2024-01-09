@@ -128,7 +128,7 @@ class CheckoutController extends Controller
                 return redirect()->route('agent.draft')->with('error', 'Your booking draft created failed!');
             }
         } else {
-        $SafeencryptionObj = new Safeencryption;
+            $SafeencryptionObj = new Safeencryption;
 
         if ($request->payment_method == 1) {
             //Pay On time limit
@@ -136,6 +136,7 @@ class CheckoutController extends Controller
         } else if ($request->payment_method == 2) {
             //Pay using wallet
             if (availableBalance(auth()->user()->agents->id) > getFinalAmountChackOut()) {
+                
                 $data = $this->checkoutRepository->createBooking($request->all());
                 $res = $this->payUsingWallet($data);
                 if ($res) {
@@ -148,6 +149,7 @@ class CheckoutController extends Controller
                 return redirect()->back()->with('error', 'Insufficient Balance');
             }
         } else if ($request->payment_method == 3) {
+            dd($request->all());
             //Pay On Online payment            
             $dataObj = $this->checkoutRepository->createBooking($request->all());
             return view('checkout.rozarpay', ['requestData' => $request->all(), 'dataObj' => $dataObj]);
