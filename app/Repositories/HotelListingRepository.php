@@ -122,7 +122,7 @@ class HotelListingRepository
                 $normalDaysPrice = $normalDaysPrice * $normalDays;
                 $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice + $childPrice);
 
-                $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr);
+                $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr, $roomPrice->currency->code);
 
                 $hotelRoomArray['normal_day'] = (int) $normalDays; // + $price->price_p_n_cwb
                 $hotelRoomArray['normal_price'] = numberFormat($normalDaysPrice); // + $price->price_p_n_cwb
@@ -193,6 +193,7 @@ class HotelListingRepository
             })
             ->paginate(10);
            
+          
         $hotelsListingArray = [];
         foreach ($hotels as $key => $hotel) {
             $hotelsListingArray[$key]['id'] = $hotel->id;
@@ -302,7 +303,7 @@ class HotelListingRepository
                  if($i <= $roomCount){
 
                     $roomPrice =$temRoom->price()->where('room_id',$temRoom->id)->orderBy('price_p_n_twin_sharing')->limit(1)->first();
-                    
+                   
                     if($roomPrice){
                        
                             //BLACKOUTSALE
@@ -388,8 +389,8 @@ class HotelListingRepository
                  }
                  $i++;
                 } //temp room end
-               
-                $total_priceArr = getAgentRoomPrice($totalFinalPrice, $hotelArr);               
+              
+                $total_priceArr = getAgentRoomPrice($totalFinalPrice, $hotelArr, $roomPrice->currency->code);               
                 $hotelsDetails = OfflineHotel::find($hotel->id)->toArray();               
                 $hotelArr['hotel'] = $hotelsDetails;
                 $hotelRoomArray['normal_day'] = (int) $normalDays; // + $price->price_p_n_cwb
@@ -578,7 +579,7 @@ class HotelListingRepository
                         }
 
                         $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice);
-                        //$total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr);
+                        
                     }
 
                     //$normalDays = ($normalDays - ($promoDays + $blackDays));
@@ -587,9 +588,12 @@ class HotelListingRepository
 
                     $GroupByPrices = OfflineRoomPrice::where('id', $price->id)->groupBy('meal_plan_id')->get();
                     $Complimentary = Complimentary::where('hotel_id',$srRoom->hotel_id)->get();
-                    
+                    $currency_Code = "";
                     foreach ($GroupByPrices as $pkey => $price) {
-                        $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr);
+                        if( strlen($currency_Code) == 0 ){
+                            $currency_Code = $price->currency->code;
+                        } 
+                        $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr, $currency_Code);
                        
                         $roomPriceListingArray[$pkey]['price_id'] = $price->id;
                         $roomPriceListingArray[$pkey]['meal_plan'] = $price->mealplan->name;
@@ -723,8 +727,12 @@ class HotelListingRepository
             $normalDaysPrice = $normalDaysPrice * $normalDays;
             $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice + $childPrice);
             $GroupByPrices = OfflineRoomPrice::where('room_id', $roomPrice->id)->groupBy('meal_plan_id')->get();
+            $currency_Code = "";
             foreach ($GroupByPrices as $pkey => $price) {
-                $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr);
+                if( strlen($currency_Code) == 0 ){
+                    $currency_Code = $price->currency->code;
+                } 
+                $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr, $currency_Code);
                 $roomPriceListingArray[$pkey]['price_id'] = $price->id;
                 $roomPriceListingArray[$pkey]['meal_plan'] = $price->mealplan->name;
                 $roomPriceListingArray[$pkey]['meal_plan_short'] = getCharacterOfString($price->mealplan->name);

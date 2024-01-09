@@ -23,7 +23,11 @@ class Currency extends Model
     //protected $table = "currencies";
     protected $fillable = [
         'name',
+        'country_id',
+        'name',
         'code',
+        'symbol',
+        'rate',
         'status'
     ];
 

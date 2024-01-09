@@ -177,22 +177,26 @@ class HotelRoomListingRepository {
                             $finalRoomPrice = $finalRoomPrice + $complimentaryPriceWithDays;
                         } 
                     }
-                    
+                    $currency_Code = "";
                     foreach ($GroupByPrices as $pkey => $price) {
-                        $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr);                       
+                        if( strlen($currency_Code) == 0 ){
+                            $currency_Code = $price->currency->code;
+                        }                        
+                        $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr, $currency_Code);                       
                         $roomPriceListingArray[$pkey]['price_id'] = $price->id;
                         $roomPriceListingArray[$pkey]['meal_plan'] = $price->mealplan->name;
                         $roomPriceListingArray[$pkey]['meal_plan_short'] = getCharacterOfString($price->mealplan->name);
                         $roomPriceListingArray[$pkey]['currency'] = $price->currency->code;
-                        $roomPriceListingArray[$pkey]['market_price'] = numberFormat($price->market_price);
-                        $roomPriceListingArray[$pkey]['price_p_n_single_adult'] = numberFormat($finalRoomPrice);
-                        $roomPriceListingArray[$pkey]['price_p_n_cwb'] = numberFormat($price->price_p_n_cwb);
-                        $roomPriceListingArray[$pkey]['price_p_n_cob'] = numberFormat($price->price_p_n_cob);
-                        $roomPriceListingArray[$pkey]['price_p_n_ccob'] = numberFormat($price->price_p_n_ccob);
+                        $roomPriceListingArray[$pkey]['market_price'] = currencyExchange($price->market_price, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code);                        
+                        $roomPriceListingArray[$pkey]['price_p_n_single_adult'] = currencyExchange($finalRoomPrice, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code);                        
+                        $roomPriceListingArray[$pkey]['price_p_n_cwb'] = currencyExchange($price->price_p_n_cwb, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code);
+                        $roomPriceListingArray[$pkey]['price_p_n_cwb'] = currencyExchange($price->price_p_n_cwb, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code);
+                        $roomPriceListingArray[$pkey]['price_p_n_cob'] = currencyExchange($price->price_p_n_cob, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code);
+                        $roomPriceListingArray[$pkey]['price_p_n_ccob'] = currencyExchange($price->price_p_n_ccob, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code);
                         $roomPriceListingArray[$pkey]['normal_day'] = (int) $normalDays; // + $price->price_p_n_cwb
-                        $roomPriceListingArray[$pkey]['normal_price'] = numberFormat($normalDaysPrice); // + $price->price_p_n_cwb
-                        $roomPriceListingArray[$pkey]['child_price'] = numberFormat($balckChildPrice); // + $price->price_p_n_cwb
-                        $roomPriceListingArray[$pkey]['complimentaryPrice'] = numberFormat(($complimentaryPrice) ? $complimentaryPrice : 0);
+                        $roomPriceListingArray[$pkey]['normal_price'] = currencyExchange($normalDaysPrice, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code); // + $price->price_p_n_cwb
+                        $roomPriceListingArray[$pkey]['child_price'] = currencyExchange($balckChildPrice, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code); // + $price->price_p_n_cwb
+                        $roomPriceListingArray[$pkey]['complimentaryPrice'] = currencyExchange(($complimentaryPrice) ? $complimentaryPrice : 0, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code);
                         $roomPriceListingArray[$pkey]['totalDays'] = $totalDays;
                         $roomPriceListingArray[$pkey]['originAmount'] = numberFormat(($total_priceArr['originAmount']) ? $total_priceArr['originAmount'] : 0);                        
                         $roomPriceListingArray[$pkey]['adminproductMarkupAmount'] = numberFormat(($total_priceArr['productMarkupAmount']) ? $total_priceArr['productMarkupAmount'] : 0);

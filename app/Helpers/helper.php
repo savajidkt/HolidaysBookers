@@ -1335,7 +1335,7 @@ if (!function_exists('getAgentRoomPrice')) {
 
 
 
-    function getAgentRoomPrice($price, $hotelsDetails)
+    function getAgentRoomPrice($price, $hotelsDetails, $currentCurrency = "")
     {
         $calculateAmount = [];
         $user = auth()->user();
@@ -1347,7 +1347,7 @@ if (!function_exists('getAgentRoomPrice')) {
             $agentmarkupArr = getAgentWiseMarkup($hotelsDetails, $user, 'Offline Hotel');
             // Agent Global Markup
             $agentglobalmarkupArr = getAgentGlobalWiseMarkup($hotelsDetails, $user, 'Offline Hotel');
-            $calculateAmount = getFinalAmount($price, $productMarkupArr, $agentmarkupArr, $agentglobalmarkupArr);
+            $calculateAmount = getFinalAmount($price, $productMarkupArr, $agentmarkupArr, $agentglobalmarkupArr,  $currentCurrency);
         }
         
         return $calculateAmount;
@@ -1491,11 +1491,11 @@ if (!function_exists('getFinalAmount')) {
 
 
 
-    function getFinalAmount($price, $productMarkupArr, $agentmarkupArr, $agentglobalmarkupArr)
+    function getFinalAmount($price, $productMarkupArr, $agentmarkupArr, $agentglobalmarkupArr, $currentCurrency = "")
     {
         
         $returnArr = [];
-        $returnArr['originAmount'] = $price;
+        $returnArr['originAmount'] = currencyExchange($price, getcurrencyExchangeRate($currentCurrency), getcurrencyExchangeDefualtRate(), $currentCurrency);
         $returnArr['productMarkupAmount'] = 0;
         $returnArr['agentMarkupAmount'] = 0;
         $returnArr['finalAmount'] = 0;
@@ -1505,6 +1505,9 @@ if (!function_exists('getFinalAmount')) {
             } else {
                 $returnArr['productMarkupAmount'] = $productMarkupArr['amount'];
             }
+
+            $returnArr['productMarkupAmount'] = currencyExchange($returnArr['productMarkupAmount'], getcurrencyExchangeRate($currentCurrency), getcurrencyExchangeDefualtRate(), $currentCurrency);
+            
         }
 
         if (is_array($agentmarkupArr)) {
@@ -1513,6 +1516,7 @@ if (!function_exists('getFinalAmount')) {
             } else {
                 $returnArr['agentMarkupAmount'] = $agentmarkupArr['amount'];
             }
+            $returnArr['agentMarkupAmount'] = currencyExchange($returnArr['agentMarkupAmount'], getcurrencyExchangeRate($currentCurrency), getcurrencyExchangeDefualtRate(), $currentCurrency);
         }
 
         if (is_array($agentglobalmarkupArr)) {
@@ -1521,8 +1525,10 @@ if (!function_exists('getFinalAmount')) {
             } else {
                 $returnArr['agentGlobalMarkupAmount'] = $agentglobalmarkupArr['amount'];
             }
+            $returnArr['agentGlobalMarkupAmount'] = currencyExchange($returnArr['agentGlobalMarkupAmount'], getcurrencyExchangeRate($currentCurrency), getcurrencyExchangeDefualtRate(), $currentCurrency);
         }
-        $returnArr['finalAmount'] = (float) $price + (float) $returnArr['productMarkupAmount'] + (float) $returnArr['agentMarkupAmount'] + (float) $returnArr['agentGlobalMarkupAmount'];
+        $returnArr['finalAmount'] = (float) $returnArr['originAmount'] + (float) $returnArr['productMarkupAmount'] + (float) $returnArr['agentMarkupAmount'] + (float) $returnArr['agentGlobalMarkupAmount'];        
+        
         return $returnArr;
 
     }
@@ -2437,5 +2443,104 @@ if (!function_exists('getNumberWithCommaGlobalCurrency')) {
         } else {
             return globalCurrency().' '.number_format($number, 2, '.', ',');
         }
+    }
+}
+
+
+if (!function_exists('currencyExchangerates')) {
+    function currencyExchangerates($amount, $from, $to){        
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.apilayer.com/exchangerates_data/convert?to=".$to."&from=".$from."&amount=".$amount,
+        CURLOPT_HTTPHEADER => array(
+            "Content-Type: text/plain",
+            "apikey: uSdEhR8HQyrVGWMvKRkmil8x8ydplRjv"
+        ),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET"
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+}
+
+function currencyExchange($amount,$from_rate,$to_rate, $code) {
+   $currencySet = getBookingCart('currencySet');
+   $defualtCode = "";
+    if(is_array($currencySet) && count($currencySet) > 0){
+         $defualtCode = $currencySet['code'];
+    }
+
+    if( $defualtCode == $code ){
+        return $amount; 
+    } else {
+        return (float) number_format(($amount/$from_rate)*$to_rate, 2, '.', ''); 
+    }
+}
+
+
+function getcurrencyExchangeRate($code) {
+    $score = Currency::where('code',$code)->first(); 
+    if( $score ){
+        return $score->rate;                               
+    }
+    return 0;
+ }
+
+ function getcurrencyExchangeDefualtRate() {
+    $currencySet = getBookingCart('currencySet');
+    if(is_array($currencySet) && count($currencySet) > 0){        
+        $score = Currency::where('code',$currencySet['code'])->first();
+        if( $score ){
+            return $score->rate;                               
+        } 
+   }   
+    return 0;
+ }
+
+
+if (!function_exists('currencyExchangeratesUpdate')) {
+    function currencyExchangeratesUpdate($base='INR'){        
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => "https://api.apilayer.com/exchangerates_data/latest?symbols=&base=".$base,
+          CURLOPT_HTTPHEADER => array(
+            "Content-Type: text/plain",
+            "apikey: uSdEhR8HQyrVGWMvKRkmil8x8ydplRjv"
+          ),
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "GET"
+        ));        
+        $response = curl_exec($curl);        
+        curl_close($curl);  
+        $conversionResult = json_decode($response, true);      
+       
+        if( is_array($conversionResult) && $conversionResult['success'] == 1 ){
+           
+            if( is_array($conversionResult['rates'] ) ){
+               
+                foreach ($conversionResult['rates'] as $key => $value) {
+                    $key = trim($key,'[');
+                    $key = trim($key,']');                    
+                    $score = Currency::where('code',$key)->first(); 
+                    if( $score ){
+                        $score->rate = $value;                       
+                        $score->save(); 
+                    }
+                }
+            }            
+        }
+        return true;
     }
 }
