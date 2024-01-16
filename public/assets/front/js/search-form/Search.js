@@ -326,8 +326,6 @@ $(document).ready(function () {
     
 
     FrmSearchPreference.init();
-
-
     $(document).on('click', '.SelectRoomBook', function () {
        
         $(this).closest('.SelectRoomBook').find('.icon-arrow-top-right').hide();
