@@ -15,7 +15,7 @@
                             <a class="magnifier" data-type="agencia" data-hotel-code="973236"
                                 data-room-title="{{ $room['room_type'] }}" data-room-code="SUI"
                                 data-room-characteristic="ST" data-load-ajax="true">
-                                {{ $room['room_type'] }}
+                                {{ $room['room_type'] }} {{ $room['room_title_with_child'] }}
                             </a>
                         </div>
                     </div>
@@ -39,9 +39,8 @@
                                     <div class="total-price-col dispo-calendar ">
                                         <div class="avail-price">
                                             <span>
-                                                {{ getNumberWithCommaGlobalCurrency($priceroom['finalAmount']) }}                                               
+                                                {{ getNumberWithCommaGlobalCurrency($priceroom['finalAmount']) }}
                                             </span>
-                                            
                                         </div>
                                     </div>
                                     <div class="item-action-col">
@@ -84,13 +83,7 @@
                                             @endforeach
                                         @endif
 
-                                        {{-- @if ($isAddedCart) --}}
-                                        {{-- <button type="button"
-                                                class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
-                                                <span class="icons">Added</span>
-                                    
-                                            </button> --}}
-                                        {{-- @else --}}
+                                        
                                         <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
                                             class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -99,10 +92,8 @@
                                                     d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
                                             </svg>
                                             <span class="icons">Add</span>
-                                            <!--<div class="icon-arrow-top-right ml-15"></div>-->
                                             <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
                                         </button>
-                                        {{-- @endif --}}
 
 
                                     </div>

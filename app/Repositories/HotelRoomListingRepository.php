@@ -49,13 +49,16 @@ class HotelRoomListingRepository {
         $roomPriceListingArray = [];
         $tempRoomArray = [];
         $tempSearRoomArray = [];
-
         foreach ($searchGuestArr as $searchRoom) {
             $totalAdChild = $searchRoom->adult + $searchRoom->child;
             $rooms = $hotel->rooms()->where('occ_sleepsmax', '>=', $totalAdChild)->where('status', OfflineRoom::ACTIVE)->get();
+            
+            $age=[];
+           foreach($searchRoom->childAge as $child){
+                $age[] = $child->age;
+           }
             if ($rooms) {
                 foreach ($rooms as $roomkey => $srRoom) {
-                    
                     $roomPriceListingArray = [];
                     $roomTempArray = [];
                     $tempSearRoomArray[$srRoom->id] = $searchRoom;
@@ -63,6 +66,18 @@ class HotelRoomListingRepository {
                     $roomListingArray[$roomkey]['room_id'] = $srRoom->id;
                     $roomListingArray[$roomkey]['min_nights'] = $srRoom->min_nights;
                     $roomListingArray[$roomkey]['room_type'] = $srRoom->roomtype->room_type;
+                    $room_title_with_child='';
+                    if($searchRoom->adult){
+                        $room_title_with_child ='for '.$searchRoom->adult.' adults';
+                    }
+                    if($searchRoom->child){
+                        $room_title_with_child .=', '.$searchRoom->child.' children - '.implode(',',$age).' years old';
+                    }
+
+                    $roomListingArray[$roomkey]['room_title_with_child'] = $room_title_with_child; 
+                    $roomListingArray[$roomkey]['room_adults'] = $searchRoom->adult;
+                    $roomListingArray[$roomkey]['room_childs'] = $searchRoom->child;
+                    $roomListingArray[$roomkey]['room_child_age'] = $searchRoom->childAge;
                     $roomTempArray['room'] = $srRoom->toArray();
                     $roomTempArray['room']['room_amenities'] = $srRoom->roomamenity->toArray();
                     $roomTempArray['room']['room_mealplans'] = isset($srRoom->mealplan) ? $srRoom->mealplan->toArray() : [];
@@ -163,17 +178,16 @@ class HotelRoomListingRepository {
                    // $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice + $balckChildPrice);
 
                     $GroupByPrices = OfflineRoomPrice::where('id', $price->id)->groupBy('meal_plan_id')->get();
-                    $Complimentary = Complimentary::where('hotel_id',$srRoom->hotel_id)->where('room_id',$srRoom->id)->get();
+                    $Complimentary = Complimentary::where('hotel_id',$srRoom->hotel_id)->get();
                     $complimentaryPrice = 0;
                     $totalDays = getDateDiffDays($startDate, $endDate);
 
-                   
                     $currency_Code = "";
                     foreach ($GroupByPrices as $pkey => $price) {
                         if( strlen($currency_Code) == 0 ){
                             $currency_Code = $price->currency->code;
-                        }                        
-                        $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr, $currency_Code);                       
+                        }
+                        $total_priceArr = getAgentRoomPrice($finalRoomPrice, $hotelArr, $currency_Code);
                         $roomPriceListingArray[$pkey]['price_id'] = $price->id;
                         $roomPriceListingArray[$pkey]['meal_plan'] = $price->mealplan->name;
                         $roomPriceListingArray[$pkey]['meal_plan_short'] = getCharacterOfString($price->mealplan->name);
@@ -219,7 +233,7 @@ class HotelRoomListingRepository {
                             $roomCompliPriceListing['normal_day'] = (int) $normalDays; // + $price->price_p_n_cwb
                             $roomCompliPriceListing['normal_price'] = currencyExchange($normalDaysPrice, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code); // + $price->price_p_n_cwb
                             $roomCompliPriceListing['child_price'] = currencyExchange($balckChildPrice, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code); // + $price->price_p_n_cwb
-                            $roomCompliPriceListing['complimentaryPrice'] = currencyExchange(($complimentaryPrice) ? $complimentaryPrice : 0, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code);
+                            $roomCompliPriceListing['complimentaryPrice'] = currencyExchange(($complimentaryPriceWithDays) ? $complimentaryPriceWithDays : 0, getcurrencyExchangeRate($currency_Code), getcurrencyExchangeDefualtRate(), $currency_Code);
                             $roomCompliPriceListing['totalDays'] = $totalDays;
                             $roomCompliPriceListing['originAmount'] = numberFormat(($total_priceArr['originAmount']) ? $total_priceArr['originAmount'] : 0);                        
                             $roomCompliPriceListing['adminproductMarkupAmount'] = numberFormat(($total_priceArr['productMarkupAmount']) ? $total_priceArr['productMarkupAmount'] : 0);
@@ -228,21 +242,18 @@ class HotelRoomListingRepository {
                             $roomCompliPriceListing['finalAmount'] = numberFormat(($total_priceArr['finalAmount']) ? $total_priceArr['finalAmount'] : 0);
                            array_push($roomPriceListingArray,$roomCompliPriceListing);
                         }
-                       
                     }
                     
-                   // dd($roomPriceListingArray);
-
-                    usort($roomPriceListingArray, function ($item1, $item2) {
-                        return $item1['finalAmount'] <=> $item2['finalAmount'];
-                    });
+                     usort($roomPriceListingArray, function ($item1, $item2) {
+                         return $item1['finalAmount'] <=> $item2['finalAmount'];
+                     });
 
                     $roomListingArray[$roomkey]['room_facilities'] = [];
                     $roomListingArray[$roomkey]['room_price'] = $roomPriceListingArray;
                 }
             }
         }
-        
+        //dd($roomListingArray);
         return $roomListingArray;
     }
 
