@@ -30,6 +30,7 @@ use App\Models\QuoteOrderHotelRoom;
 use App\Models\QuoteOrderHotelRoomPassenger;
 use App\Models\RoomType;
 use App\Models\WalletTransaction;
+use App\Notifications\BookingNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -220,13 +221,23 @@ class CheckoutRepository
 
         $this->addOrderHotels($extra_data, $OrderData->id, $passengerLead);
 
-        // Below code implement is pendding
+        // Send Email Booking email
+        
+        $this->SendEmailAdmin($OrderData);
+        $this->SendEmailAgent($OrderData);
 
+        // Below code implement is pendding
         //$this->addOrderPackage($extra_data, $OrderData->id, $passengerLead);
         //$this->addOrderTransfere($extra_data, $OrderData->id, $passengerLead);
         //$this->addOrderSightseeing($extra_data, $OrderData->id, $passengerLead);       
 
         return $OrderData;
+    }
+    public function SendEmailAdmin($order){
+        $order->notify(new BookingNotification($order,'admin'));
+    }
+    public function SendEmailAgent($order){
+        $order->notify(new BookingNotification($order,'agent'));
     }
 
     public function addOrderPackage($cartHotel, $OrderID, $passengerLead)

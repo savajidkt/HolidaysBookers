@@ -484,51 +484,13 @@
                                 marginwidth="0"
                                 src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={{ $hotelsDetails['hotel']['hotel_latitude'] }},{{ $hotelsDetails['hotel']['hotel_longitude'] }}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
                         @endif
-                        <div class="row y-gap-10">
-                            <div class="col-12">
-                                <div class="d-flex items-center">
-                                    <i class="icon-award text-20 text-blue-1"></i>
-                                    <div class="text-14 fw-500 ml-10">Exceptional location - Inside city center</div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="d-flex items-center">
-                                    <i class="icon-pedestrian text-20 text-blue-1"></i>
-                                    <div class="text-14 fw-500 ml-10">Exceptional for walking</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-top-light mt-15 mb-15"></div>
-                        <div class="text-15 fw-500">Popular landmarks</div>
-                        <div class="d-flex justify-between pt-10">
-                            <div class="text-14">Royal Pump Room Museum</div>
-                            <div class="text-14 text-light-1">0.1 km</div>
-                        </div>
-                        <div class="d-flex justify-between pt-5">
-                            <div class="text-14">Harrogate Turkish Baths</div>
-                            <div class="text-14 text-light-1">0.1 km</div>
-                        </div>
+                        
+                        
                     </div>
                     <div class="px-30 py-30 border-light rounded-4 mt-30">
-                        <div class="d-flex items-center">
-                            <div class="size-40 flex-center bg-blue-1 rounded-4">
-                                <div class="text-14 fw-600 text-white">{{ $hotelsDetails['hotel']['hotel_review'] }}</div>
-                            </div>
-                            <div class="text-14 ml-10">
-                                <div class="lh-15 fw-500">Exceptional</div>
-                                <div class="lh-15 text-light-1">3,014 reviews</div>
-                            </div>
-                        </div>
-
-                        <div class="d-flex mt-20">
-                            <i class="icon-group text-16 mr-10 pt-5"></i>
-                            <div class="text-15">Highly rated by guests – 86% would recommend</div>
-                        </div>
-
+                        <div class="text-18 fw-500">Hotel Amenities</div>
                         <div class="border-top-light mt-20 mb-20"></div>
-
                         <div class="row x-gap-10 y-gap-10">
-
                             @if ($hotelsDetails['hotel']['hotel_amenities'])
                                 <div class="row x-gap-10 y-gap-10 pt-20">
                                     @foreach ($hotelsDetails['hotel']['hotel_amenities'] as $amenity)
@@ -548,71 +510,25 @@
                     </div>
 
                     <div class="px-30 py-30 border-light rounded-4 mt-30">
-                        <div class="text-18 fw-500">Property highlights</div>
+                        <div class="text-18 fw-500">Hotel Freebies</div>
+                        <div class="border-top-light mt-20 mb-20"></div>
 
-                        <div class="row x-gap-20 y-gap-20 pt-20">
-                            <div class="col-auto">
-                                <i class="icon-city text-24 text-blue-1"></i>
-                            </div>
-                            <div class="col-auto">
-                                <div class="text-15">In London City Centre</div>
-                            </div>
-                        </div>
-
-                        <div class="row x-gap-20 y-gap-20 pt-5">
-                            <div class="col-auto">
-                                <i class="icon-airplane text-24 text-blue-1"></i>
-                            </div>
-                            <div class="col-auto">
-                                <div class="text-15">Airport transfer</div>
-                            </div>
-                        </div>
-
-                        <div class="row x-gap-20 y-gap-20 pt-5">
-                            <div class="col-auto">
-                                <i class="icon-bell-ring text-24 text-blue-1"></i>
-                            </div>
-                            <div class="col-auto">
-                                <div class="text-15">Front desk [24-hour]</div>
-                            </div>
-                        </div>
-
-                        <div class="row x-gap-20 y-gap-20 pt-5">
-                            <div class="col-auto">
-                                <i class="icon-tv text-24 text-blue-1"></i>
-                            </div>
-                            <div class="col-auto">
-                                <div class="text-15">Premium TV channels</div>
-                            </div>
-                        </div>
+                        @if (count($hotelsDetails['hotel']['hotel_freebies']) > 0)                       
+                                @foreach ($hotelsDetails['hotel']['hotel_freebies'] as $hotelfreebies)
+                                    <div class="row x-gap-20 y-gap-20 ">                           
+                                        <div class="col-auto">
+                                            <div class="text-15"><i class="icon-like text-12 text-blue-1 mr-10"></i> {{ $hotelfreebies['name'] }}</div>
+                                        </div>
+                                    </div>
+                                @endforeach                      
+                            @endif
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="pt-30">
-        <div class="container">
-            <div class="row y-gap-30">
-                <div class="col-12">
-                    <div class="px-24 py-20 rounded-4 bg-green-1">
-                        <div class="row x-gap-20 y-gap-20 items-center">
-                            <div class="col-auto">
-                                <div class="flex-center size-60 rounded-full bg-white">
-                                    <i class="icon-star text-yellow-1 text-30"></i>
-                                </div>
-                            </div>
-
-                            <div class="col-auto">
-                                <h4 class="text-18 lh-15 fw-500">This property is in high demand!</h4>
-                                <div class="text-15 lh-15">7 travelers have booked today.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
     <section id="rooms" class="pt-30">
         <div class="container">
             <div class="row pb-20">
