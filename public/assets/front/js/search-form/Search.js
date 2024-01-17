@@ -1,3 +1,6 @@
+var MySearchArr = [];
+
+
 var FrmSearchPreference = function () {
     var FrmSearchFormValidation = function () {
         var FrmSearchPreferenceForm = $('#SearchFrm');
@@ -50,6 +53,10 @@ var FrmSearchPreference = function () {
     var FrmAutocomplete = function () {
         $("#location").autocomplete({
             source: function (request, response) {
+
+                MySearchArr['city'] = [];
+                MySearchArr['hotel'] = []; 
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -59,33 +66,17 @@ var FrmSearchPreference = function () {
                     url: moduleConfig.searchLocationByName,
                     type: "POST",
                     dataType: "json",
+                    async: false,
+                    cache: false,
                     data: {
                         search: request.term
                     },
-                    success: function (data) {
-                        var CityData = [];
-                        var HotelData = [];
-                        response($.map(data.data, function (item) {
-                            CityData.push({
-                                'city_id': item.id,
-                                'city': item.name,
-                                'country': item.country,
-                                'country_id': item.country_id
-                            });
-                        }));
-                        response($.map(data.hotelData, function (item) {
-                            HotelData.push({
-                                'hotel_id': item.id,
-                                'city_id': item.city_id,
-                                'hotel_name': item.name,
-                                'city': item.cities,
-                                'country': item.country,
-                                'country_id': item.country_id
-                            });
-                        }));
-
-                        liveSearches(CityData, HotelData);
-                        
+                    success: function (data) {    
+                        if(data.status){                                             
+                            MySearchArr['city'] = data.data;
+                            MySearchArr['hotel'] = data.hotelData; 
+                            liveSearches();
+                        }                                              
                     }
                 });
             },
@@ -326,6 +317,8 @@ $(document).ready(function () {
     
 
     FrmSearchPreference.init();
+
+
     $(document).on('click', '.SelectRoomBook', function () {
        
         $(this).closest('.SelectRoomBook').find('.icon-arrow-top-right').hide();
@@ -785,8 +778,7 @@ function changeNumber() {
 }
 
 function getAllRoomslList(hotel_id) {
-    console.log(moduleConfig.filterObj);
-
+   
     $.ajax({
         type: 'POST',
         url: moduleConfig.ajaxRoomURL,
@@ -843,7 +835,11 @@ function getAllRoomslList(hotel_id) {
     });
 }
 
-function liveSearches(data,hotelData) {
+function liveSearches() {
+
+    const data = MySearchArr['city'];
+    const hotelData = MySearchArr['hotel'];
+   
     
     const targets = document.querySelectorAll('.js-liverSearch')
     if (!targets) return
@@ -887,15 +883,15 @@ function liveSearches(data,hotelData) {
     })
 
     const showList = (searchTerm, resultsEl) => {
+        
         resultsEl.innerHTML = '';
         var div5 = "";
         const div1 = document.createElement('div')
         div1.className = "locationDiv";
-        div1.innerHTML = `<h4 class="text-18 fw-500">Destinations & zones</h4>`;
-        data.filter((item) => item.city.toLowerCase().includes(searchTerm))
-            .forEach((e) => {
+        div1.innerHTML = `<h4 class="text-18 fw-500">Destinations & zones</h4>`;        
+        data.filter((item) => item.city.toLowerCase().includes(searchTerm))       
+            .forEach((e) => {               
                 const div = document.createElement('div')
-
                 div.innerHTML = `
             <button type="button" class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option" data-city_id="${e.city_id}" data-country_id="${e.country_id}">
               <div class="d-flex">

@@ -15,6 +15,7 @@ use App\Libraries\Safeencryption;
 use App\Repositories\HotelListingRepository;
 use App\Repositories\HotelRoomListingRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class HotelListController extends Controller
 {
@@ -96,19 +97,47 @@ class HotelListController extends Controller
     {
         $search = $request->search;
         $citiesData = [];
+        $hotelData = [];
+        $citiesArr = [];
+        $hotelArr = [];
         if (strlen(trim($search)) > 0) {
-            $citiesData = City::select('cities.*', 'countries.name as country')->leftJoin('countries', 'countries.id', '=', 'cities.country_id')->where('cities.status', City::ACTIVE)->where('cities.name', 'LIKE', '%' . $search . '%')->get();
+            
+            $citiesData = City::select('cities.*', 'countries.name as country')->leftJoin('countries', 'countries.id', '=', 'cities.country_id')->where('cities.status', City::ACTIVE)->where('cities.name', 'LIKE', $search . '%')->limit(20)->get();
+
             $hotelData = OfflineHotel::
             select('hotels.id as id','hotels.hotel_name as name', 'hotels.hotel_country as country_id','hotels.hotel_city as city_id', 'countries.name as country', 'cities.name as cities')
             ->leftJoin('countries', 'countries.id', '=', 'hotels.hotel_country')
             ->leftJoin('cities', 'cities.id', '=', 'hotels.hotel_city')
-            ->where('hotels.hotel_name', 'LIKE', '%' . $search . '%')->get();
+            ->where('hotels.hotel_name', 'LIKE', $search . '%')->get();
+}
+
+        if( $citiesData ){
+            foreach ($citiesData as $key => $value) {
+                $citiesArr[] = array(
+                    'city_id'=> $value->id,
+                    'city'=> $value->name,
+                    'country'=> $value->country,
+                    'country_id'=> $value->country_id
+                );                        
+            }
+        }
+        if( $hotelData ){
+            foreach ($hotelData as $key => $value) {
+                $hotelArr[] = array(
+                    'hotel_id'=> $value->id,
+                    'city_id'=> $value->city_id,
+                    'hotel_name'=> $value->name,
+                    'city'=> $value->cities,
+                    'country'=> $value->country,                    
+                    'country_id'=> $value->country_id,
+                );                        
+            }
         }
         return response()->json([
             'status' => true,
             'message' => '',
-            'data' => $citiesData,
-            'hotelData' => $hotelData,
+            'data' => $citiesArr,
+            'hotelData' => $hotelArr,
         ]);
     }
 
