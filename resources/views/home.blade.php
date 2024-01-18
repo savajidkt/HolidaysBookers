@@ -20,7 +20,7 @@
                         <p data-anim-child="slide-up delay-5" class="text-white mt-5">Discover amzaing places at exclusive
                             deals</p>
                     </div>
-                    <div data-anim-child="slide-up delay-6" class="masthead__tabs">
+                    <div data-anim-child="slide-up delay-6" class="masthead__tabs list-htl-date1">
                         <div class="tabs -bookmark js-tabs">
                             <div class="tabs__controls d-flex items-center js-tabs-controls">
                                 <div class="">
@@ -83,7 +83,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
-                                                    <div data-x-dd-click="searchMenu-date">
+                                                    <div data-x-dd-click="searchMenu-date 1">
                                                         <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
                                                         <div class="text-15 text-light-1 ls-2 lh-16">
                                                             <input class="form-control" placeholder="Check in - Check out"

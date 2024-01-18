@@ -50,7 +50,6 @@
                             @if ($bo_key == 'hotel')
                                 @foreach ($bo_value as $key => $value)
                             @php
-                       
                                 $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
                                 $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
                                 
@@ -125,7 +124,25 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+                                            {{-- <div class="row pt-10">
+                                                <div class="text-20 fw-500 mb-10">
+                                                    Remarks
+                                                </div>
+                                                        <div class="text-15">Check-in hour from 14:00. Car park Yes with
+                                                            charges.
+                                                            Car park YES (with additional debit notes). Check-in hour 14:00
+                                                            -
+                                                        </div>
+                                            </div> --}}
+                                            {{-- <div class="row pt-10">
+                                                <div class="text-20 fw-500 mb-10">
+                                                    Rate Information
+                                                </div>
+                                                        <div class="text-15">Please note that these rates don't allow
+                                                            modifications,
+                                                    therefore you would need to cancel and create a new booking.
+                                                    Cancellation charges apply as per cancellation policy. </div>
+                                            </div> --}}
                                             <div class="border-top-light mt-30 mb-20"></div>
                                             <div class="row pt-10">
                                                 <div class="fw-500 mb-10">
@@ -140,6 +157,7 @@
                                                 <div class="text-15 fw-500 mb-10">Cancellation fees</div>
                                                 <div class="col-6 border-right-px">
                                                     <div class="y-gap-8">
+                                                        
                                                         <?php if($offlineRoom->price[0]->cancelation_policy != "refundeble"){ ?>
                                                             <div class="items-center">
                                                                 <div class="text-13 pull-left">Non refundable</div>

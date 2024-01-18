@@ -1,17 +1,16 @@
 @if (Route::has('hotel-details'))
-    <header data-add-bg="" class="header bg-white shadow-3 js-header" data-x="header" data-x-toggle="is-menu-opened">
+    <header data-add-bg="" class="header bg-white " data-x="header" data-x-toggle="is-menu-opened">
     {{-- <header data-add-bg="" class="header -fixed bg-white js-header" data-x="header" data-x-toggle="is-menu-opened"> --}}
     @else
-        <header data-add-bg="" class="header bg-white shadow-3 js-header" data-x="header" data-x-toggle="is-menu-opened">
+    <header data-add-bg="" class="header bg-white shadow-3 js-header" data-x="header" data-x-toggle="is-menu-opened">
 @endif
-
-<div data-anim="fade" class="header__container px-30 sm:px-20">
-    <div class="row justify-between items-center">
+<div class="container">
+<div data-anim="fade 12" class="header__container">
+    <div class="sub-header justify-between items-center">
         <div class="col-auto">
-            <div class="d-flex items-center">
-                <a href="{{ url('/') }}" class="header-logo mr-30" data-x="header-logo"
+            <div class="header-hb-logo-menu">
+                <a href="{{ url('/') }}" class="header-logo" data-x="header-logo"
                     data-x-toggle="is-logo-dark">
-                    <img src="{{ asset('assets/front') }}/img/general/logo-dark.png" alt="logo icon">
                     <img src="{{ asset('assets/front') }}/img/general/logo-dark.png" alt="logo icon">
                 </a>
                 <div class="header-menu " data-x="mobile-menu" data-x-toggle="is-menu-active">
@@ -78,12 +77,12 @@
                     </div> --}}
 
 
-                <div class="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
+                <div class="d-flex items-center ml-20 is-menu-opened-hide md:d-none main-login-btn">
 
                     @guest
 
                         <a href="{{ route('adminLogin') }}"
-                            class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white">Become
+                            class="button header-login-btn">Become
                             An Expert</a>
                     @else
 <?php  
@@ -119,7 +118,7 @@
                     @guest
                         @if (Route::has('login'))
                             <a href="{{ route('login') }}"
-                                class="button -outline-blue-1 px-30 fw-400 text-14 h-50 text-blue-1 ml-20">Sign In</a>
+                                class="button header-login-btn">Sign In</a>
                         @endif
                     @else
                         <a class="button -outline-blue-1 px-30 fw-400 text-14 h-50 text-blue-1 ml-20 logout"
@@ -150,5 +149,6 @@
         </div>
 
     </div>
+</div>
 </div>
 </header>

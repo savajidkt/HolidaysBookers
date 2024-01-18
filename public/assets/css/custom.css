@@ -154,7 +154,7 @@ margin-bottom: 10px;
 .hotelDiv {
     padding: 0 0px 0 30px;
 }
-body .daterangepicker {
+body .list-htl-date1 .daterangepicker {
     border-radius: 4px;
     box-shadow: 0 10px 35px 0 rgba(5,16,54,.102);
     font-family: inherit;
@@ -168,9 +168,12 @@ body .daterangepicker {
     top: 690px !important;
     margin: 0 auto !important;
 }
-.daterangepicker.ltr.show-calendar.opensleft {
-    position: unset !important;
+.list-htl-date1 .daterangepicker.ltr.show-calendar.opensleft {
+    position: absolute !important;
     margin-top: 1px !important;
+    top: 165px !important;
+    width: 100%;
+    right: 0 !important;
 }
 
 /*16/01/2024*/
@@ -310,4 +313,49 @@ font-family: 'FontAwesome';
     }
     .tooltip-trigger-free p{
         color: green;
+    }
+    
+    /*header*/
+    .sub-header.justify-between.items-center {
+        display: flex;
+    }
+   .header-hb-logo-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .header .header-logo {
+    position: relative;
+    max-width: 250px;
+    width: 100%;
+    }
+    .header .header-logo img {
+        width: 100%;
+    }
+    .header .header-menu .menu__nav a {
+        height: 70px;
+        font-size: clamp(0.875rem, 0.8376rem + 0.2395vw, 1.125rem);
+        font-weight: 500;
+        color: #091136;
+    }
+    .header .header-menu .menu__nav a:hover {
+            color:#EE1C25;
+        }
+    .header .header-menu .menu__nav > li {
+        padding: 0;
+    }
+   a.button.header-login-btn {
+        padding: 0 25px;
+        height: 45px;
+        background-color: #091136;
+        color: #fff;
+        border-radius: 50px;
+    }
+    a.button.header-login-btn:hover {
+        background-color: transparent;
+        border: 1px solid #EE1C25;
+        color: #EE1C25 !important;
+    }
+    .main-login-btn{
+            gap: 20px;
     }
