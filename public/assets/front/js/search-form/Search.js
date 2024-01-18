@@ -51,6 +51,7 @@ var FrmSearchPreference = function () {
         });
     }
     var FrmAutocomplete = function () {
+        
         $("#location").autocomplete({
             source: function (request, response) {
 
@@ -80,12 +81,15 @@ var FrmSearchPreference = function () {
                     }
                 });
             },
+        
             minLength: 3,
             select: function (event, ui) {},
             open: function () {
+                console.log('open');
                 $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
             },
             close: function () {
+                console.log('close');
                 $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
             }
         });

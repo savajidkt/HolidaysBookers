@@ -1,9 +1,6 @@
 @if (count($hotelRooms) > 0)
     @foreach ($hotelRooms as $key => $room)
-        <?php
-        
-        //dd($hotelRooms);
-        ?>
+       
         <div class="col-12">
             <div class="col-12 bg-blue-2 show-data-hb-list">
                 <div class="tb even cebra_gray htl-active">

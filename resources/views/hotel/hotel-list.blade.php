@@ -9,6 +9,7 @@
         }
     </style>
     @php
+   // dd($requestedArr);
         $search_from = date('d/m/Y', strtotime(date('Y-m-d')));
         $search_to = date('d/m/Y', strtotime(date('Y-m-d')));
         $selected_hotel_id = '';
@@ -111,9 +112,9 @@
                                             <input class="form-control daterange" placeholder="Check in - Check out"
                                                 name="daterange" />
                                             <input type="hidden" id="hidden_from" name="search_from"
-                                                value="{{ date('Y-m-d', strtotime($requestedArr['search_from'])) }}">
+                                                value="{{ date('Y-m-d', strtotime(str_replace('/','-',$requestedArr['search_from']))) }}">
                                             <input type="hidden" id="hidden_to" name="search_to"
-                                                value="{{ date('Y-m-d', strtotime($requestedArr['search_to'])) }}">
+                                                value="{{ date('Y-m-d', strtotime(str_replace('/','-',$requestedArr['search_to']))) }}">
                                         </div>
                                     </div>
                                     <div style="display: none" class="searchMenu-date__field shadow-2"
