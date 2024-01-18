@@ -83,7 +83,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
-                                                    <div data-x-dd-click="searchMenu-date 1">
+                                                    <div data-x-dd-click="searchMenu-date">
                                                         <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
                                                         <div class="text-15 text-light-1 ls-2 lh-16">
                                                             <input class="form-control" placeholder="Check in - Check out"
