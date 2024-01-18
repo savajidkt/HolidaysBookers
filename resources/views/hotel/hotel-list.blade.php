@@ -104,7 +104,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
+                                <div class="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar list-htl-date">
                                     <div data-x-dd-click="searchMenu-date">
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
                                         <div class="text-15 text-light-1 ls-2 lh-16">
@@ -770,6 +770,15 @@
                     '</svg>';
             }
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+                // Use event delegation to ensure the code runs even if .list-htl-date is added later
+                $(document).on('click', '.list-htl-date', function() {
+                    $('.daterangepicker.ltr.show-calendar.opensleft').appendTo(this);
+                });
+            });
+
     </script>
 
 

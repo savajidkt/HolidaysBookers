@@ -30,7 +30,33 @@
                     <div class="hotal-room-list">
                     @if (is_array($room['room_price']) && count($room['room_price']) > 0)
                         @foreach ($room['room_price'] as $pricekey => $priceroom)
-                                            <div class="item-line add-border">
+                                @php
+                                    $bookingParam = [];
+                                    $bookingParam = [
+                                        'is_type' => 'hotel',
+                                        'hotel_id' => isset($room['hotel_id']) ? $room['hotel_id'] : '',
+                                        'room_id' => isset($room['room_id']) ? $room['room_id'] : '',
+                                        'price_id' => isset($priceroom['price_id']) ? $priceroom['price_id'] : '',
+                                        'adult' => getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 0,
+                                        'child' => getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0,
+                                        'room' => getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 0,
+
+                                        'city_id' => isset($requestParam['filterObjParamCityID']) ? $requestParam['filterObjParamCityID'] : '',
+                                        'search_from' => isset($requestParam['filterObjParamStartDate']) ? $requestParam['filterObjParamStartDate'] : '',
+                                        'search_to' => isset($requestParam['filterObjParamEndDate']) ? $requestParam['filterObjParamEndDate'] : '',
+
+                                        'originAmount' => isset($priceroom['originAmount']) ? numberFormat($priceroom['originAmount']) : '',
+                                        'productMarkupAmount' => isset($priceroom['adminproductMarkupAmount']) ? numberFormat($priceroom['adminproductMarkupAmount']) : '',
+                                        'agentMarkupAmount' => isset($priceroom['adminagentMarkupAmount']) ? numberFormat($priceroom['adminagentMarkupAmount']) : '',
+                                        'agentGlobalMarkupAmount' => isset($priceroom['agentMarkupAmount']) ? numberFormat($priceroom['agentMarkupAmount']) : '',
+                                        'finalAmount' => isset($priceroom['finalAmount']) ? numberFormat($priceroom['finalAmount']) : '',
+                                    ];
+                                    
+                                    $isAddedCart = false;
+                                    $offlineRoom = getRoomDetailsByRoomID($room['room_id']);
+                                    
+                                @endphp
+                                <div class="item-line add-border">
                                 <div class="board-col ">
                                     <div class="percentage-col">
                                         <div id="disporoomboard_973236_0" class="board-shortname generic-tooltip"
@@ -39,12 +65,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div
-                                    class="hb-add-border">
+                                <div class="hb-add-border">
                                     <hr>
                                     <div class="hb-form-serviceadd">
                                         <div class="sub-hb-htl-list">
-                                            <span class="ng-star-inserted"> Free cancellation until 11/02/2024 </span>
+                                            <div class="tooltip-trigger-popup">
+                                                
+                                           
+                                            <div class="tooltip-popup">
+                                                <span class="tooltip-trigger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
+  <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
+</svg> Non refundable</span>
+                                                <div class="tooltip">This is a tooltip text</div>
+                                            </div>
+                                            <div class="tooltip-popup-free">
+                                                 <span class="tooltip-trigger-free">
+                                                    <div class="icon-tool">
+                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
+                                                              <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
+                                                      </svg>free Cancellation unit
+                                                 </div><p>08/03/2024</p></span>
+                                                <div class="tooltip">This is a tooltip text</div>
+                                            </div>
+                                             </div>
+                                            <span class="ng-star-inserted">  {{ CancellationFeesCalculated($offlineRoom->price[0],  $bookingParam['search_from'])  }} </span>
                                             <div class="hb-table__info__features">
                                                 <div class="hb-ng-star-inserted">
                                                    <span class="hb-packaging__text"> Product for packaging </span>
@@ -60,30 +104,7 @@
                                             </div>
                                         </div>
                                         <div class="item-action-col">
-                                            @php
-                                                $bookingParam = [];
-                                                $bookingParam = [
-                                                    'is_type' => 'hotel',
-                                                    'hotel_id' => isset($room['hotel_id']) ? $room['hotel_id'] : '',
-                                                    'room_id' => isset($room['room_id']) ? $room['room_id'] : '',
-                                                    'price_id' => isset($priceroom['price_id']) ? $priceroom['price_id'] : '',
-                                                    'adult' => getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 0,
-                                                    'child' => getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0,
-                                                    'room' => getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 0,
-    
-                                                    'city_id' => isset($requestParam['filterObjParamCityID']) ? $requestParam['filterObjParamCityID'] : '',
-                                                    'search_from' => isset($requestParam['filterObjParamStartDate']) ? $requestParam['filterObjParamStartDate'] : '',
-                                                    'search_to' => isset($requestParam['filterObjParamEndDate']) ? $requestParam['filterObjParamEndDate'] : '',
-    
-                                                    'originAmount' => isset($priceroom['originAmount']) ? numberFormat($priceroom['originAmount']) : '',
-                                                    'productMarkupAmount' => isset($priceroom['adminproductMarkupAmount']) ? numberFormat($priceroom['adminproductMarkupAmount']) : '',
-                                                    'agentMarkupAmount' => isset($priceroom['adminagentMarkupAmount']) ? numberFormat($priceroom['adminagentMarkupAmount']) : '',
-                                                    'agentGlobalMarkupAmount' => isset($priceroom['agentMarkupAmount']) ? numberFormat($priceroom['agentMarkupAmount']) : '',
-                                                    'finalAmount' => isset($priceroom['finalAmount']) ? numberFormat($priceroom['finalAmount']) : '',
-                                                ];
-                                                
-                                                $isAddedCart = false;
-                                            @endphp
+                                            
     
                                             @if (is_array($bookingCartArr) && count($bookingCartArr))
                                                 @foreach ($bookingCartArr as $bo_key => $bo_value)

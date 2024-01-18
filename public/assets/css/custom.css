@@ -59,6 +59,8 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    justify-content: space-between;
+    height: 100%;
 }
 .gallery-tb .tb-row {
     display: grid;
@@ -249,3 +251,63 @@ font-family: 'FontAwesome';
     font-style: normal;
     color: #091136;
 }
+.searchMenu-date.list-htl-date {
+    position: unset !important;
+}
+.list-htl-date .daterangepicker.ltr.show-calendar.opensleft {
+    position: absolute !important;
+    top: 81px !important;
+    width: 100% !important;
+    max-width: -webkit-fill-available;
+    left: 0 !important;
+    right: 0 !important;
+}
+     .tooltip {
+        display: none;
+        position: absolute;
+        background-color: #333;
+        color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        z-index: 1;
+        min-width: 300px;
+        text-align: center;
+        top: -30px;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+   .tooltip::before {
+        content: '';
+        border-top: 12px solid #333;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        position: absolute;
+        bottom: -17px;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+        .tooltip-trigger:hover+.tooltip {
+            display: block;
+        }
+         .tooltip-trigger-free:hover+.tooltip {
+            display: block;
+        }
+            .tooltip-popup,.tooltip-popup-free {
+        position: relative;
+    }
+
+    span.tooltip-trigger-free {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .icon-tool {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: green;
+    }
+    .tooltip-trigger-free p{
+        color: green;
+    }
