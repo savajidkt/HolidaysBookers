@@ -49,7 +49,7 @@ class HotelRoomListingRepository {
         $roomPriceListingArray = [];
         $tempRoomArray = [];
         $tempSearRoomArray = [];
-        foreach ($searchGuestArr as $searchRoom) {
+        foreach ($searchGuestArr as $key=>$searchRoom) {
             $totalAdChild = $searchRoom->adult + $searchRoom->child;
             $rooms = $hotel->rooms()->where('occ_sleepsmax', '>=', $totalAdChild)->where('status', OfflineRoom::ACTIVE)->get();
             
@@ -62,10 +62,10 @@ class HotelRoomListingRepository {
                     $roomPriceListingArray = [];
                     $roomTempArray = [];
                     $tempSearRoomArray[$srRoom->id] = $searchRoom;
-                    $roomListingArray[$roomkey]['hotel_id'] = $srRoom->hotel_id;
-                    $roomListingArray[$roomkey]['room_id'] = $srRoom->id;
-                    $roomListingArray[$roomkey]['min_nights'] = $srRoom->min_nights;
-                    $roomListingArray[$roomkey]['room_type'] = $srRoom->roomtype->room_type;
+                    $roomListingArray[$key][$roomkey]['hotel_id'] = $srRoom->hotel_id;
+                    $roomListingArray[$key][$roomkey]['room_id'] = $srRoom->id;
+                    $roomListingArray[$key][$roomkey]['min_nights'] = $srRoom->min_nights;
+                    $roomListingArray[$key][$roomkey]['room_type'] = $srRoom->roomtype->room_type;
                     $room_title_with_child='';
                     if($searchRoom->adult){
                         $room_title_with_child ='for '.$searchRoom->adult.' adults';
@@ -74,10 +74,10 @@ class HotelRoomListingRepository {
                         $room_title_with_child .=', '.$searchRoom->child.' children - '.implode(',',$age).' years old';
                     }
 
-                    $roomListingArray[$roomkey]['room_title_with_child'] = $room_title_with_child; 
-                    $roomListingArray[$roomkey]['room_adults'] = $searchRoom->adult;
-                    $roomListingArray[$roomkey]['room_childs'] = $searchRoom->child;
-                    $roomListingArray[$roomkey]['room_child_age'] = $searchRoom->childAge;
+                    $roomListingArray[$key][$roomkey]['room_title_with_child'] = $room_title_with_child; 
+                    $roomListingArray[$key][$roomkey]['room_adults'] = $searchRoom->adult;
+                    $roomListingArray[$key][$roomkey]['room_childs'] = $searchRoom->child;
+                    $roomListingArray[$key][$roomkey]['room_child_age'] = $searchRoom->childAge;
                     $roomTempArray['room'] = $srRoom->toArray();
                     $roomTempArray['room']['room_amenities'] = $srRoom->roomamenity->toArray();
                     $roomTempArray['room']['room_mealplans'] = isset($srRoom->mealplan) ? $srRoom->mealplan->toArray() : [];
@@ -248,8 +248,8 @@ class HotelRoomListingRepository {
                          return $item1['finalAmount'] <=> $item2['finalAmount'];
                      });
 
-                    $roomListingArray[$roomkey]['room_facilities'] = [];
-                    $roomListingArray[$roomkey]['room_price'] = $roomPriceListingArray;
+                    $roomListingArray[$key][$roomkey]['room_facilities'] = [];
+                    $roomListingArray[$key][$roomkey]['room_price'] = $roomPriceListingArray;
                 }
             }
         }

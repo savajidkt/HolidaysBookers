@@ -2418,6 +2418,40 @@ if (!function_exists('CancellationFeesCalculated')) {
     }
 }
 
+if (!function_exists('RoomWiseCancellationPolicy')) {
+    function RoomWiseCancellationPolicy($roomPriceData, $fromDate)
+    {
+        
+        if($roomPriceData->cancelationpolicies ){
+            foreach ($roomPriceData->cancelationpolicies as $key => $value) {
+                $date = Carbon::createFromFormat('Y-m-d H:i:s', dateFormat( str_replace('/', '-', $fromDate),'Y-m-d H:i:s'));
+                $date->subDay($value->before_check_in_days);
+                $endOfDay = $date->endOfDay();
+                $currentDate = Carbon::createFromFormat('Y-m-d')->now();
+                if($date->format('Y-m-d') > $currentDate){
+                    if( $value->night_charge < 1 ){
+                        echo '<div class="items-center text-green-2">
+                        <div class="text-13 pull-left">Until '.$endOfDay->format('g:i A').' on
+                            '.$date->format('Y-m-d').'
+                                </div><div class="text-13 pull-right"><i
+                                class="fa fa-check-circle text-12"></i>
+                            Free</div>
+                        </div>';
+                    } else {
+                        echo '<div class="items-center">
+                                <div class="text-13 pull-left">After '.$endOfDay->format('g:i A').' on '.$date->format('Y-m-d').'</div>
+                                <div class="text-13 pull-right text-danger"> '.$value->night_charge.' '.globalCurrency().'</div>
+                              </div>';
+                    }
+                }
+                
+
+            }
+        }
+
+    }
+}
+
 if (!function_exists('getNumberWithComma')) {
     function getNumberWithComma($number, $currency = ""){
         if( strlen($currency) > 0 ){
