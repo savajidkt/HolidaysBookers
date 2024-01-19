@@ -2571,3 +2571,66 @@ if (!function_exists('currencyExchangeratesUpdate')) {
         return true;
     }
 }
+
+
+function orderTableHTML($order)
+    {
+
+        $subTotal = 0;
+        $total = 0;
+        $tax = 0;
+        $discount = 0;
+        $tableStr = '';
+
+        $tableStr .= '<table style="width: 100%;color:#384860;font-weight:normal;" cellpadding="2" cellspacing="0">';
+        $tableStr .= '<thead style="background-color:#e9e9e9;">';
+        $tableStr .= '<tr>';
+        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:50%;text-align: left;padding-left: 5px;font-weight:bold;">HOTEL</td>';                
+        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:30%;text-align: right;padding-right: 5px;font-weight:bold;">Adult</td>';
+        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:30%;text-align: right;padding-right: 5px;font-weight:bold;">Child</td>';
+        $tableStr .= '</tr>';
+        $tableStr .= '</thead>';
+        $tableStr .= '<tbody>';
+
+        if (count($order->order_hotel) > 0) {           
+            foreach ($order->order_hotel as $key => $value) {                
+                $tableStr .= '<tr>';
+                $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:50%;text-align: left; border-bottom:1px solid #e9e9e9;">' . $value->hotel->hotel_name.'</p>';                                                                                                    
+                $tableStr .= '<ul style="margin: 0px !important;">
+                                <li>' . $value->order_hotel_room[0]->room_name . '</li>
+                                <li>' . dateFormat($value->order_hotel_room[0]->check_in_date,'M d, Y').' - '.dateFormat($value->order_hotel_room[0]->check_out_date,'M d, Y') . '</li>
+                                </ul></td>';                        
+                $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:50%;text-align: right; border-bottom:1px solid #e9e9e9;">' . $value->order_hotel_room[0]->adult . '</td>';
+                $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:50%;text-align: right; border-bottom:1px solid #e9e9e9;">' . $value->order_hotel_room[0]->child . '</td>';
+                $tableStr .= '</tr>';
+                $subTotal = $subTotal + $value->order_hotel_room[0]->price;
+            }
+        }
+
+        $total = ($subTotal + $tax) - $discount;
+
+        $tableStr .= '<tr>';
+        $tableStr .= '<td colspan="1" style="padding-top:8px;padding-bottom:8px;text-align: right;">SubTotal</td>';
+        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:20%;text-align: right;font-weight:bold">' . getNumberWithComma($subTotal, $order->booking_currency). '</td>';
+        $tableStr .= '<tr>';
+
+        $tableStr .= '<tr>';
+        $tableStr .= '<td colspan="1" style="padding-top:8px;padding-bottom:8px;text-align: right;">Discount</td>';
+        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:20%;text-align: right;font-weight:bold">' . getNumberWithComma($discount, $order->booking_currency) . '</td>';
+        $tableStr .= '<tr>';
+
+        $tableStr .= '<tr>';
+        $tableStr .= '<td colspan="1" style="padding-top:8px;padding-bottom:8px;text-align: right;">Tax</td>';
+        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:20%;text-align: right;font-weight:bold">' . getNumberWithComma($tax, $order->booking_currency) . '</td>';
+        $tableStr .= '<tr>';
+
+        $tableStr .= '<tr>';
+        $tableStr .= '<td colspan="1" style="padding-top:8px;padding-bottom:8px;text-align: right;">Total</td>';
+        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:20%;text-align: right;font-weight:bold">' . getNumberWithComma($total, $order->booking_currency) . '</td>';
+        $tableStr .= '<tr>';
+
+        $tableStr .= '</tbody>';
+        $tableStr .= '</table>'; 
+
+        return $tableStr;
+    }
