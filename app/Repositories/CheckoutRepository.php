@@ -223,8 +223,9 @@ class CheckoutRepository
 
         // Send Email Booking email
         
-        $this->SendEmailAdmin($OrderData);
+        $this->SendEmailAdmin($OrderData);        
         $this->SendEmailAgent($OrderData);
+
 
         // Below code implement is pendding
         //$this->addOrderPackage($extra_data, $OrderData->id, $passengerLead);

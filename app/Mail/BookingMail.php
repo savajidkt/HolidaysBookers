@@ -37,22 +37,27 @@ class BookingMail extends Mailable
      * @return $this
      */
     public function build()
-    {        
+    {      
        
-        if( $this->type == "admin" ){           
+        $tableView = orderTableHTML($this->order); 
+        if( $this->type == "admin" ){                                
             return $this
             ->to(env('ADMIN_EMAIL'))
             ->subject($this->title)
             ->view('emails.order-admin', [
-                'order_id'     => $this->order->id              
+                'order'     => $this->order,           
+                'tableView'     => $tableView,  
+                'templateName'     => 'Order',          
             ]);
             
-        } else if( $this->type == "agent" ){          
+        } else if( $this->type == "agent" ){                          
             return $this
             ->to($this->order->agent_email)
             ->subject($this->title)
             ->view('emails.order-agent', [
-                'order_id'     => $this->order->id             
+                'order'     => $this->order,           
+                'tableView'     => $tableView,  
+                'templateName'     => 'Order',         
             ]);
         }
         
