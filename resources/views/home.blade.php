@@ -378,7 +378,7 @@
                                         enctype="multipart/form-data" action="{{ route('hotel-list') }}">                                        --}}
 
                                     <div
-                                        class="mainSearch -col-4 -w-1070 bg-white shadow-1 rounded-4 pr-20 py-20 lg:px-20 lg:pt-5 lg:pb-20 mt-15">
+                                        class="mainSearch  bg-white ">
                                         <div class="button-grid items-center transfer-cls">
                                             <div class="searchMenu-loc px-24 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
 

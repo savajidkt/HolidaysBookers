@@ -1,6 +1,5 @@
 @if (count($hotelRooms) > 0)
-@foreach ($hotelRooms as $key => $room1)
-    @foreach ($room1 as $key => $room)
+    @foreach ($hotelRooms as $key => $room)
         <div class="col-12">
             <div class="col-12 bg-blue-2 show-data-hb-list">
                 <div class="tb even cebra_gray htl-active">
@@ -16,6 +15,8 @@
                                 {{ $room['room_type'] }}
                             </a>
                             <p>{{ $room['room_title_with_child'] }}</p>
+                            
+
                             </div>
                             
                         </div>
@@ -64,35 +65,39 @@
                                 </div>
                                 <div class="hb-add-border">
                                     <hr>
+                                    
                                     <div class="hb-form-serviceadd">
                                         <div class="sub-hb-htl-list">
-                                            <div class="tooltip-trigger-popup">
                                             
-                                           @if($offlineRoom->price[0]->cancelation_policy=='non_refundeble')
-                                            <div class="tooltip-popup">
-                                                <span class="tooltip-trigger">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
-  <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
-</svg> Non refundable</span>
-                                                <div class="tooltip">Non refundable</div>
-                                            </div>
+                                         <div class="tooltip-trigger-popup">                                            
+                                           @if($offlineRoom->price[0]->cancelation_policy=='non_refundeble')                                            
+                                             <div class="tooltip -top px-30 h-50">
+                                                <i class="fa fa-ban" aria-hidden="true"></i> Non refundable
+                                                <div class="tooltip__content">Non refundable</div>
+                                              </div>
                                             @endif
                                             @if($offlineRoom->price[0]->cancelation_policy=='refundeble')
-                                            <div class="tooltip-popup-free">
-                                                 <span class="tooltip-trigger-free">
-                                                    <div class="icon-tool">
-                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ban" viewBox="0 0 16 16">
-                                                              <path d="M15 8a6.97 6.97 0 0 0-1.71-4.584l-9.874 9.875A7 7 0 0 0 15 8M2.71 12.584l9.874-9.875a7 7 0 0 0-9.874 9.874ZM16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0"/>
-                                                      </svg>Free Cancellation unit
-                                                 </div><p>08/03/2024</p></span>
-                                                <div class="tooltip">
-                                                    Cancellation Charges<br>
-                                                    Date and time is calculated based on local time of destination.
+                                                @php
+                                                $cancellatoin = RoomWiseCancellationPolicy($offlineRoom->price[0],  $bookingParam['search_from']);
+                                                @endphp
+                                                <div class="tooltip -top px-30 h-50">
+                                                    @if($cancellatoin['free'])
+                                                <i class="fa fa-ban" aria-hidden="true"></i>Free Cancellation unit <p>{{ $cancellatoin['free'] }}</p>
+                                                
+                                                    @endif 
+                                                    <div class="tooltip__content">Cancellation Charges<br>
+                                                        @if(isset($cancellatoin['charge']))
+                                                            @foreach ($cancellatoin['charge'] as $cancel )
+                                                                {{ $cancel['after'] }}  {{ $cancel['charge'] }} <br>
+                                                            @endforeach
+                                                        @endif
+                                                        Date and time is calculated based on local time of destination.
+                                                    </div>
+                                                    
+                                                    
                                                 </div>
-                                            </div>
                                             @endif
-                                             </div>
-                                            <span class="ng-star-inserted">  {{ CancellationFeesCalculated($offlineRoom->price[0],  $bookingParam['search_from'])  }} </span>
+                                         </div>
                                             <div class="hb-table__info__features">
                                                 <div class="hb-ng-star-inserted">
                                                    <span class="hb-packaging__text"> Product for packaging </span>
@@ -149,7 +154,6 @@
                 </div>  
             </div>
         </div>
-    @endforeach
     @endforeach
 @else
     <div class="px-10 py-10 border-light">

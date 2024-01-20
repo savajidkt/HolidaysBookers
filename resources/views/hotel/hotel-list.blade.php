@@ -9,7 +9,6 @@
         }
     </style>
     @php
-   // dd($requestedArr);
         $search_from = date('d/m/Y', strtotime(date('Y-m-d')));
         $search_to = date('d/m/Y', strtotime(date('Y-m-d')));
         $selected_hotel_id = '';
@@ -51,9 +50,9 @@
         filterObj.end_price_range = "";
     </script>
     <div class="header-margin"></div>
-    <section class="pt-40 pb-40 bg-dark-2">
+    <section class="hb-single-search-hotal">
         <div class="container">
-            <div class="row">
+            <div class="sub-list-hb-single-search-hotal">
                 <div class="col-12">
                     <div class="text-center">
                         <h1 class="text-30 fw-600 text-white">Find Your Dream Luxury Hotel</h1>
@@ -61,10 +60,9 @@
                     <form class="" id="SearchFrm" method="get" enctype="multipart/form-data"
                         action="{{ route('hotel-list') }}">
                         {{-- @csrf --}}
-                        <div class="mainSearch -col-3-big bg-white px-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-4 mt-30">
+                        <div class="mainSearch SearchFrm-result">
                             <div class="button-grid items-center">
                                 <div class="pl-20 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
-
                                     <div data-x-dd-click="searchMenu-loc">
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
                                         <div class="text-15 text-light-1 ls-2 lh-16">
@@ -112,9 +110,9 @@
                                             <input class="form-control daterange" placeholder="Check in - Check out"
                                                 name="daterange" />
                                             <input type="hidden" id="hidden_from" name="search_from"
-                                                value="{{ date('Y-m-d', strtotime(str_replace('/','-',$requestedArr['search_from']))) }}">
+                                                value="{{ date('Y-m-d', strtotime($requestedArr['search_from'])) }}">
                                             <input type="hidden" id="hidden_to" name="search_to"
-                                                value="{{ date('Y-m-d', strtotime(str_replace('/','-',$requestedArr['search_to']))) }}">
+                                                value="{{ date('Y-m-d', strtotime($requestedArr['search_to'])) }}">
                                         </div>
                                     </div>
                                     <div style="display: none" class="searchMenu-date__field shadow-2"
@@ -330,7 +328,7 @@
                                 </div>
                                 <div class="button-item">
                                     <button
-                                        class="mainSearch__submit button -dark-1 py-15 px-40 col-12 rounded-4 bg-blue-1 text-white">
+                                        class="mainSearch__submit button header-login-btn">
                                         <i class="icon-search text-20 mr-10"></i>
                                         Search
                                     </button>
@@ -774,7 +772,6 @@
     </script>
     <script>
         $(document).ready(function() {
-                // Use event delegation to ensure the code runs even if .list-htl-date is added later
                 $(document).on('click', '.list-htl-date', function() {
                     $('.daterangepicker.ltr.show-calendar.opensleft').appendTo(this);
                 });

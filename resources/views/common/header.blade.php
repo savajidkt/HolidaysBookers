@@ -105,12 +105,12 @@
                             
                         </button>
 
-                        <a class="button -outline-blue-1 px-30 fw-400 text-14 h-50 text-blue-1 ml-20"
+                        <a class="button"
                             href="{{ route('cart') }}">
                             <i class="fa" style="font-size:24px">&#xf07a;</i>
-                            <span class='badge badge-warning' id='lblCartCount'> {{ getCartTotalItem() }} </span>
+                            <sup class='badge badge-warning' id='lblCartCount'> {{ getCartTotalItem() }} </sup>
                         </a>
-                        <a class="button -white bg-blue-1 px-30 fw-400 text-14 h-50 text-white ml-20"
+                        <a class="button header-login-btn"
                             href="{{ route('agent.dashboard') }}">
                             {{ __('Dashboard') }}
                         </a>
@@ -121,7 +121,7 @@
                                 class="button header-login-btn">Sign In</a>
                         @endif
                     @else
-                        <a class="button -outline-blue-1 px-30 fw-400 text-14 h-50 text-blue-1 ml-20 logout"
+                        <a class="button header-login-btn logout"
                             href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
