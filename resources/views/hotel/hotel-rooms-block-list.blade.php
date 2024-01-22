@@ -79,12 +79,15 @@
                                             @if($offlineRoom->price[0]->cancelation_policy=='refundeble')
                                                 @php
                                                 $cancellatoin = RoomWiseCancellationPolicy($offlineRoom->price[0],  $bookingParam['search_from']);
+                                                
                                                 @endphp
                                                 <div class="tooltip -top px-30 h-50">
                                                     @if($cancellatoin['free'])
-                                                <i class="fa fa-ban" aria-hidden="true"></i>Free Cancellation unit <p>{{ $cancellatoin['free'] }}</p>
-                                                
+                                                    <i class="fa fa-ban" aria-hidden="true"></i>Free Cancellation unit <p>{{ $cancellatoin['free'] }}</p>
+                                                    @else
+                                                    <i class="fa fa-ban" aria-hidden="true"></i>Non refundable
                                                     @endif 
+                                                  
                                                     <div class="tooltip__content">Cancellation Charges<br>
                                                         @if(isset($cancellatoin['charge']))
                                                             @foreach ($cancellatoin['charge'] as $cancel )

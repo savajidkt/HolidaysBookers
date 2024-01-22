@@ -2407,7 +2407,7 @@ if (!function_exists('CancellationFeesCalculated')) {
                     echo '<div class="items-center">
                     <div class="text-13 pull-left">After '.$endOfDay->format('g:i A').' on
                         '.$date->format('Y-m-d').'
-                    </div><div class="text-13 pull-right text-danger"> '.$value->night_charge.' '.globalCurrency().'
+                    </div><div class="text-13 pull-right text-danger"> '.globalCurrency().$value->night_charge.'
                     </div>
                 </div>';
                 }
@@ -2423,24 +2423,36 @@ if (!function_exists('RoomWiseCancellationPolicy')) {
     {   $freeCancellation ='';
         $CancellationArr =[];
         $CancellationReturn = [];
-        if($roomPriceData->cancelationpolicies ){
+        $cancelationpolicies = $roomPriceData->cancelationpolicies()->orderBy('before_check_in_days', 'DESC')->get();
+        
+        if($cancelationpolicies){
             
-            foreach ($roomPriceData->cancelationpolicies as $key => $value) {
-                $date = Carbon::createFromFormat('Y-m-d H:i:s', dateFormat( str_replace('/', '-', $fromDate),'Y-m-d H:i:s'));
-                $date->subDay($value->before_check_in_days);
-                $endOfDay = $date->endOfDay();
+            foreach ($cancelationpolicies as $key => $value) {
+                $checkInDate = Carbon::createFromFormat('Y-m-d H:i:s', dateFormat( str_replace('/', '-', $fromDate),'Y-m-d H:i:s'));
+                $checkInDate->subDay($value->before_check_in_days);
+                $endOfDay = $checkInDate->endOfDay();
                 $currentDate = Carbon::now();
-                if($date->format('Y-m-d') > $currentDate){
-                    if( $value->night_charge < 1 ){
-                       $freeCancellation = $date->format('Y-m-d').' '.$endOfDay->format('g:i A');
-                    }else{
-                        $CancellationArr[$key]['after'] = $date->format('Y-m-d').', '.$endOfDay->format('g:i A');
-                        $CancellationArr[$key]['charge'] = globalCurrency().''.$value->night_charge;
+                if($value->before_check_in_days <= 0){
+                    $freeCancellation = $checkInDate->format('Y-m-d').' '.$endOfDay->format('g:i A');
+                }else{
+                    if($checkInDate->format('Y-m-d') > $currentDate){
+                        if( $value->night_charge < 1){
+                           $freeCancellation = $checkInDate->format('Y-m-d').' '.$endOfDay->format('g:i A');
+                        }else{
+                            $CancellationArr[$key]['date'] = $checkInDate->format('Y-m-d');
+                            $CancellationArr[$key]['check_in_date'] = $checkInDate->format('Y-m-d');
+                            $CancellationArr[$key]['after'] = $checkInDate->format('Y-m-d').', '.$endOfDay->format('g:i A');
+                            $CancellationArr[$key]['charge'] = globalCurrency().''.$value->night_charge;
+                            $CancellationArr[$key]['days'] = $value->before_check_in_days;
+                        }
                     }
-
                 }
-
-
+            }
+            if(empty($freeCancellation)){
+                $ddate = Carbon::parse($CancellationArr[0]['date']);
+                $endOfDay = $ddate->endOfDay();
+                $beforeDate = $ddate->subDay();
+                $freeCancellation = $beforeDate->format('Y-m-d').' '.$endOfDay->format('g:i A');
             }
             $CancellationReturn['free'] = $freeCancellation;
             $CancellationReturn['charge'] = $CancellationArr;
