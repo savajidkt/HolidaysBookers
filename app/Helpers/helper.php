@@ -10,6 +10,7 @@ use App\Models\ProductMarkup;
 use App\Libraries\Safeencryption;
 use App\Models\WalletTransaction;
 use App\Exceptions\GeneralException;
+use App\Models\Agent;
 use App\Models\Currency;
 use Illuminate\Support\Facades\Auth;
 use App\Models\OfflineRoomChildPrice;
@@ -2449,10 +2450,12 @@ if (!function_exists('RoomWiseCancellationPolicy')) {
                 }
             }
             if(empty($freeCancellation)){
-                $ddate = Carbon::parse($CancellationArr[0]['date']);
-                $endOfDay = $ddate->endOfDay();
-                $beforeDate = $ddate->subDay();
-                $freeCancellation = $beforeDate->format('Y-m-d').' '.$endOfDay->format('g:i A');
+                if( count($CancellationArr) > 0 ){ 
+                    $ddate = Carbon::parse($CancellationArr[0]['date']);
+                    $endOfDay = $ddate->endOfDay();
+                    $beforeDate = $ddate->subDay();
+                    $freeCancellation = $beforeDate->format('Y-m-d').' '.$endOfDay->format('g:i A');
+                }
             }
             $CancellationReturn['free'] = $freeCancellation;
             $CancellationReturn['charge'] = $CancellationArr;
@@ -2592,55 +2595,81 @@ function orderTableHTML($order)
         $discount = 0;
         $tableStr = '';
 
-        $tableStr .= '<table style="width: 100%;color:#384860;font-weight:normal;" cellpadding="2" cellspacing="0">';
-        $tableStr .= '<thead style="background-color:#e9e9e9;">';
+        $tableStr .= '<table style="width:100%; border-collapse: collapse; padding: 25px;">';
+     
         $tableStr .= '<tr>';
-        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:50%;text-align: left;padding-left: 5px;font-weight:bold;">HOTEL</td>';                
-        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:30%;text-align: right;padding-right: 5px;font-weight:bold;">Adult</td>';
-        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:30%;text-align: right;padding-right: 5px;font-weight:bold;">Child</td>';
+        $tableStr .= '<th style="text-align: left; padding: 25px;">Hotel</th>';                
+        $tableStr .= '<th style="text-align: center; padding: 25px;">Adult</th>';
+        $tableStr .= '<th style="text-align: center; padding: 25px;">Child</th>';
         $tableStr .= '</tr>';
-        $tableStr .= '</thead>';
-        $tableStr .= '<tbody>';
+     
+        
 
         if (count($order->order_hotel) > 0) {           
             foreach ($order->order_hotel as $key => $value) {                
-                $tableStr .= '<tr>';
-                $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:50%;text-align: left; border-bottom:1px solid #e9e9e9;">' . $value->hotel->hotel_name.'</p>';                                                                                                    
+                $tableStr .= '<tr style="border-top: 1px solid; border-bottom: 1px solid;">';
+                $tableStr .= '<td style="text-align: left; padding: 25px;">' . $value->hotel->hotel_name;                                                                                                    
                 $tableStr .= '<ul style="margin: 0px !important;">
                                 <li>' . $value->order_hotel_room[0]->room_name . '</li>
                                 <li>' . dateFormat($value->order_hotel_room[0]->check_in_date,'M d, Y').' - '.dateFormat($value->order_hotel_room[0]->check_out_date,'M d, Y') . '</li>
-                                </ul></td>';                        
-                $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:50%;text-align: right; border-bottom:1px solid #e9e9e9;">' . $value->order_hotel_room[0]->adult . '</td>';
-                $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:50%;text-align: right; border-bottom:1px solid #e9e9e9;">' . $value->order_hotel_room[0]->child . '</td>';
+                                </ul>
+                                </td>';                        
+                $tableStr .= '<td style="text-align: center; padding: 25px;">' . $value->order_hotel_room[0]->adult . '</td>';
+                $tableStr .= '<td style="text-align: center; padding: 25px;">' . $value->order_hotel_room[0]->child . '</td>';
                 $tableStr .= '</tr>';
                 $subTotal = $subTotal + $value->order_hotel_room[0]->price;
             }
-        }
+        }       
+        $tableStr .= '</table>';
 
         $total = ($subTotal + $tax) - $discount;
 
+        $tableStr .= '<table style="border-collapse: collapse; width: 100%;">';
         $tableStr .= '<tr>';
-        $tableStr .= '<td colspan="1" style="padding-top:8px;padding-bottom:8px;text-align: right;">SubTotal</td>';
-        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:20%;text-align: right;font-weight:bold">' . getNumberWithComma($subTotal, $order->booking_currency). '</td>';
-        $tableStr .= '<tr>';
-
-        $tableStr .= '<tr>';
-        $tableStr .= '<td colspan="1" style="padding-top:8px;padding-bottom:8px;text-align: right;">Discount</td>';
-        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:20%;text-align: right;font-weight:bold">' . getNumberWithComma($discount, $order->booking_currency) . '</td>';
-        $tableStr .= '<tr>';
-
-        $tableStr .= '<tr>';
-        $tableStr .= '<td colspan="1" style="padding-top:8px;padding-bottom:8px;text-align: right;">Tax</td>';
-        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:20%;text-align: right;font-weight:bold">' . getNumberWithComma($tax, $order->booking_currency) . '</td>';
-        $tableStr .= '<tr>';
-
-        $tableStr .= '<tr>';
-        $tableStr .= '<td colspan="1" style="padding-top:8px;padding-bottom:8px;text-align: right;">Total</td>';
-        $tableStr .= '<td style="padding-top:8px;padding-bottom:8px;width:20%;text-align: right;font-weight:bold">' . getNumberWithComma($total, $order->booking_currency) . '</td>';
-        $tableStr .= '<tr>';
-
-        $tableStr .= '</tbody>';
-        $tableStr .= '</table>'; 
+        $tableStr .= '<td style="background-position: center; background-size: cover;">';
+        $tableStr .= '<table cellpadding="0" cellspacing="0" width="100%" style="max-width: 1024px">';
+        $tableStr .= '<tr style="width: 100%;">';
+        $tableStr .= '<td style="border-top: 1px solid black;  padding: 25px; text-align: left; width: 60%;"></td>';
+        $tableStr .= '<td style="border-top: 1px solid black;  padding: 25px; text-align: right; width: 20%;">';
+        $tableStr .= '<table style="width: 100%;">';
+        $tableStr .= '<tr><td>Subtotal:</td></tr>';
+        $tableStr .= '<tr><td>Discount:</td></tr>';
+        $tableStr .= '<tr><td>Tax:</td></tr>';
+        $tableStr .= '<tr><td>Total:</td></tr>';
+        $tableStr .= '</table>';
+        $tableStr .= '</td>';
+        $tableStr .= '<td style="border-top: 1px solid black;  padding: 25px; text-align: left; width: 20%;">';
+        $tableStr .= '<table style="width: 100%; text-align: end;">';
+        $tableStr .= '<tr><td><b>' . getNumberWithComma($subTotal, $order->booking_currency). '</b></td></tr>';
+        $tableStr .= '<tr><td><b>' . getNumberWithComma($discount, $order->booking_currency) . '</b></td></tr>';
+        $tableStr .= '<tr><td><b>' . getNumberWithComma($tax, $order->booking_currency) . '</b></td></tr>';
+        $tableStr .= '<tr><td><b>' . getNumberWithComma($total, $order->booking_currency) . '</b></td></tr>';
+        $tableStr .= '</table>';
+        $tableStr .= '</td>';
+        $tableStr .= '</tr>';
+        $tableStr .= '</table>';
+        $tableStr .= '</td>';
+        $tableStr .= '</tr>';
+        $tableStr .= '</table>';
 
         return $tableStr;
+    }
+
+
+    if (!function_exists('getAgentDetailsByCode')) {
+
+       
+    
+        function getAgentDetailsByCode($agent_code)
+    
+        {
+    
+            $agent = Agent::where('agent_code', $agent_code)->first();            
+            if( $agent ){
+                return $agent;
+            }
+            return false;
+    
+        }
+    
     }

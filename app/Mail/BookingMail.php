@@ -38,8 +38,10 @@ class BookingMail extends Mailable
      */
     public function build()
     {      
-       
+      
         $tableView = orderTableHTML($this->order); 
+    
+  
         if( $this->type == "admin" ){                                
             return $this
             ->to(env('ADMIN_EMAIL'))
@@ -47,7 +49,8 @@ class BookingMail extends Mailable
             ->view('emails.order-admin', [
                 'order'     => $this->order,           
                 'tableView'     => $tableView,  
-                'templateName'     => 'Order',          
+                'templateName'     => 'Order', 
+                'receive'     => 'admin',         
             ]);
             
         } else if( $this->type == "agent" ){                          
@@ -57,7 +60,8 @@ class BookingMail extends Mailable
             ->view('emails.order-agent', [
                 'order'     => $this->order,           
                 'tableView'     => $tableView,  
-                'templateName'     => 'Order',         
+                'templateName'     => 'Order',  
+                'receive'     => 'agent',       
             ]);
         }
         

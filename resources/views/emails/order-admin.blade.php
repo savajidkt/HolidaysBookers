@@ -1,39 +1,54 @@
 
 @include('emails.partials.template-header')
-<tr>
-    <td>
-        <table style="width: 100%">
-            <tr>
-                <td style="padding:40px;">
-                    <p style="color:#384860; font-weight:normal; padding-bottom:15px;font-weight:bold;">
-                        Welcome to the Holidays Bookers!
-                    </p>
-                    <p style="padding-bottom:0px;background:#f1f1f1;height:1px;width:100%;margin-bottom:30px;">&nbsp;</p>
 
-                    <p style="color:#384860; font-weight:normal; padding-bottom:5px;">
-                        <strong>Order ID: </strong>{{ $order->id }}
-                    </p>
-					<p style="color:#384860; font-weight:normal; padding-bottom:5px;">
-                        <strong>PRN Number: </strong>{{ $order->prn_number }}
-                    </p>
-					<p style="color:#384860; font-weight:normal; padding-bottom:5px;">
-                        <strong>Invoice Number: </strong>{{ $order->invoice_no }}
-                    </p>
-					<p style="color:#384860; font-weight:normal; padding-bottom:5px;">
-                        <strong>Payment Type: </strong>{{ $order->is_pay_using == 1 ? 'Online' : 'Wallet' }}
-                    </p>
-                    <p style="color:#384860; font-weight:normal; padding-bottom:5px;">
-                        <strong>Agent Code: </strong>{{ $order->agent_code }}
-                    </p>
-                    <p style="color:#384860; font-weight:normal; padding-bottom:5px;">
-                        <strong>Agent Email: </strong>{{ $order->agent_email }}
-                    </p> 
-                    <p style="color:#384860; font-weight:normal; padding-bottom:15px;">
-                    <?php echo $tableView ?>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </td>
-</tr>
+@php
+    $agentData = getAgentDetailsByCode($order->agent_code);     
+@endphp
+<table>
+    <tr>       
+        <td class="left-column" style="width: 100%; padding: 25px;" >
+            <li style="list-style: none;"><b>Admin </b>placed a new order on your store</li>            
+        </td>                                      
+    </tr>
+</table> 
+
+<table cellpadding="0" cellspacing="0" width="100%">
+    <tr style="width: 100%; padding: 25px;">
+        <td style="padding:25px; text-align: left; width: 60%;">
+            <b>To,</b><br>
+                {{ $agentData->agent_first_name .' '.$agentData->agent_last_name }}<br>
+                (Agent Code) {{ $agentData->agent_code }} <br>
+                Email: {{ $agentData->user->email }}<br>
+                Mo: {{ $agentData->user->usermeta->phone_number }} <br>           
+        </td>
+        <td style="padding: 25px; text-align: right; width: 20%;">
+            <table style="width: 100%;">
+                <tr>
+                    <td>Invoice Number</td>
+                </tr>
+                <tr>
+                    <td>Invoice Date</td>
+                </tr>
+                <tr>
+                    <td>PNR No</td>
+                </tr>
+            </table>
+        </td>
+        <td style="padding: 25px; text-align: left; width: 20%;">
+            <table style="width: 100%;">
+                <tr>
+                    <td><b>{{ $order->invoice_no }}</b></td>
+                </tr>
+                <tr>
+                    <td><b>{{ dateFormat($order->created_at,'M d, Y') }}</b></td>
+                </tr>
+                <tr>
+                    <td><b>{{ $order->prn_number }}</b></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<?php echo $tableView ?>
 @include('emails.partials.template-footer')
