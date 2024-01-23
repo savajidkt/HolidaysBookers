@@ -454,7 +454,6 @@ class HotelListingRepository
                             }
                             $normalDaysPrice = $normalDaysPrice + ($normalChildPrice * $normalDays);
 
-                    
 
                         $hotelRoomArray['price_id'] = $roomPrice->id;
                         $hotelRoomArray['room_id'] = $roomPrice->room_id;

@@ -6,22 +6,27 @@
 }
 .hb-list-dropdown {
     position: absolute;
-    bottom: 0px;
+    bottom: 10px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     gap: 10px;
 }
 .hb-list-dropdown a.viewMoreRooms {
-    height: 40px;
     width: max-content;
     display: flex;
     align-items: center;
-    padding: 0 15px;
     margin: 0 !important;
+    padding: 0 25px !important;
+    height: 45px;
+    background-color: #091136 !important;
+    color: #fff;
+    border-radius: 50px;
 }
 .hb-list-dropdown a.viewMoreRooms:hover {
-   color:#fff;
+    background-color: transparent !important;
+    border: 1px solid #EE1C25;
+    color: #EE1C25 !important;
 }
 
 .main-hb-hotal-list {
@@ -265,7 +270,7 @@ font-family: 'FontAwesome';
     left: 0 !important;
     right: 0 !important;
 }
-     /* .tooltip {
+     .tooltip {
         display: none;
         position: absolute;
         background-color: #333;
@@ -298,7 +303,7 @@ font-family: 'FontAwesome';
         }
             .tooltip-popup,.tooltip-popup-free {
         position: relative;
-    } */
+    }
 
     span.tooltip-trigger-free {
         display: flex;
@@ -392,6 +397,11 @@ font-family: 'FontAwesome';
         border-radius: 50px;
         width: 100%;
     }
+    button.mainSearch__submit.button.header-login-btn:hover{
+            background-color: transparent;
+        border: 1px solid #EE1C25;
+        color: #EE1C25 !important;
+    }
     
     .langMenu.js-langMenu.guestModal {
             backdrop-filter: blur(10px);
@@ -420,3 +430,15 @@ font-family: 'FontAwesome';
             box-shadow: 0 0 5px #fff;
             overflow: scroll;
         }
+        
+       
+            .langMenu.js-langMenu.guestModal .langMenu__content.bg-white.rounded-4::-webkit-scrollbar {
+              display: none;
+            }
+            .langMenu.js-langMenu.guestModal .langMenu__content.bg-white.rounded-4 {
+              -ms-overflow-style: none; 
+              scrollbar-width: none; 
+            }
+            p:empty{
+                display:none !important;
+            }
