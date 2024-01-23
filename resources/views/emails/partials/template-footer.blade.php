@@ -17,7 +17,7 @@
                 </div>
             </td>
             <td style="width: 50%; text-align: end;">
-                &copy; {{ d('Y') }} Holidays Bookers. All rights reserved.
+                &copy; {{ date('Y') }} Holidays Bookers. All rights reserved.
             </td>
         </tr>
     </tfoot>

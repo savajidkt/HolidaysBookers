@@ -113,8 +113,10 @@
                                             <h2 style="font-size: 17px; font-weight: 700; color: #091136;">
                                                 {{ $agentData->agent_company_name }}<br>
                                                 {{ $agentData->agent_office_address }}<br>
-                                                {{ $agentData->agent_office_address }},
-                                                {{ $agentData->agent_office_address }}.</h2>
+                                                City: {{ $agentData->city->name }}, State: {{ $agentData->state->name }}, Country: {{ $agentData->country->name }} - {{ $agentData->agent_pincode }}<br>
+                                                (P): {{ $agentData->agent_mobile_number }} <br>
+                                                (PAN): {{ $agentData->agent_pan_number }} (GST) {{ $agentData->agent_gst_number }}<br>
+                                            </h2>
                                         </td>
                                     </tr>
 

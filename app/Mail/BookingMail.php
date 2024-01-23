@@ -43,7 +43,7 @@ class BookingMail extends Mailable
     
   
         if( $this->type == "admin" ){                                
-            return $this
+             $this
             ->to(env('ADMIN_EMAIL'))
             ->subject($this->title)
             ->view('emails.order-admin', [
@@ -54,7 +54,7 @@ class BookingMail extends Mailable
             ]);
             
         } else if( $this->type == "agent" ){                          
-            return $this
+             $this
             ->to($this->order->agent_email)
             ->subject($this->title)
             ->view('emails.order-agent', [
@@ -64,6 +64,7 @@ class BookingMail extends Mailable
                 'receive'     => 'agent',       
             ]);
         }
+        
         
     }
 }

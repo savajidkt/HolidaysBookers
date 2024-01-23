@@ -185,7 +185,6 @@ class CheckoutController extends Controller
 
     public function SendEmailQuotePDF($res)
     {
-
         $QuoteOrder = new QuoteOrder();
         $QuoteOrder->notify(new QuoteOrderNotification($res));
         return redirect()->route('contact-us')->with('success', 'Thank you for contact us. we will contact you shortly.');
