@@ -1090,183 +1090,115 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 </section>
 
 <section id="rooms" class="pt-30">
-
    <div class="container">
-
-      <div class="row pb-20">
-
-         <div class="col-auto">
-
-            <h3 class="text-22 fw-500">Available Rooms</h3>
-
-         </div>
-
-      </div>
-
-      @if (isset($hotelsRoomDetails) && count($hotelsRoomDetails) > 0)
-      @foreach ($hotelsRoomDetails as $key => $rooms1)
-         <div class="bg-blue-2 rounded-4 px-30 py-30 sm:px-20 sm:py-20">
-            <div class="row y-gap-30" style="background: #fff;overflow: hidden;border-radius: 15px;">
-               <div class="col-xl-auto img-sgl-hb">
+     <div class="row pb-20">
+       <div class="col-auto">
+         <h3 class="text-22 fw-500">Available Rooms</h3>
+       </div>
+     </div>
+     @if (isset($hotelsRoomDetails) && count($hotelsRoomDetails) > 0)
+     @foreach ($hotelsRoomDetails as $key => $rooms1)
+     
+     <div class="border-light rounded-4 px-30 py-30 sm:px-20 sm:py-20">
+       <div class="row y-gap-20">
+         <div class="col-12">           
+           <div class="roomGrid">
+             <div class="roomGrid__header">
+               <div>{{ $rooms1['room_type'] ? $rooms1['room_type'] : '' }}</div>               
+             </div>
+             <div class="roomGrid__grid">
+               <div>
                   @if ($rooms1['room_image'])
-                  <div class="">
-                    <img style="width:200px;" src="{{ url(Storage::url('app/upload/Hotel/' . $img['hotel_id'] . '/Room/'.$rooms1['room_id'].'/' . $rooms1['room_image'])) }}" alt="{{ $hotelsDetails['hotel']['hotel_name'] }}">
-                  </div>
-                  @endif
+                 <div class="ratio ratio-1:1">                   
+                   <img alt="image" class="img-ratio rounded-4" src="{{ url(Storage::url('app/upload/Hotel/' . $img['hotel_id'] . '/Room/'.$rooms1['room_id'].'/' . $rooms1['room_image'])) }}" alt="{{ $hotelsDetails['hotel']['hotel_name'] }}">
+                 </div>
+                 @endif
+                 @if (count($rooms1['room_amenities']) > 0)
+                 <div class="y-gap-5 mt-20">
+                  @foreach ($rooms1['room_amenities'] as $roomamenities)
+                   <div class="d-flex items-center">
+                     <i class="icon-no-smoke text-20 mr-10"></i>
+                     <div class="text-15">{{ $roomamenities['amenity_name'] }}</div>
+                   </div>
+                   @endforeach                  
+                 </div>
+                 @endif                 
                </div>
-               <div class="col-xl">
-                  <div class="" style="height: 100%;display: flex;align-items: center;width: 100%;justify-content: space-between;">
-                     <div class="row y-gap-30" style="width:100%">
-                       <div class="col-lg col-md-6" style="display: flex; gap: 20px;">
-                         <div class="">
-                         <div> {{ $rooms1['room_type'] ? $rooms1['room_type'] : '' }} </div>
-                        @if (count($rooms1['room_amenities']) > 0)
-                        <div>
-                           @foreach ($rooms1['room_amenities'] as $roomamenities)
-                              <div class="d-flex items-center">
-                                 <i class="icon-check text-12 mr-10"></i>
-                                 <div class="text-15">{{ $roomamenities['amenity_name'] }}
-                                 </div>
-                              </div>
-                           @endforeach
-                        </div>
-                     @endif
-
-                  </div>
-                  <div class="y-gap-5"> Description Hare</div>
-                  </div>
-
-                        <div
-
-                           class="col-lg-auto col-md-6 border-left-light lg:border-none text-right lg:text-left">
-
-                          <div style="display: flex; align-items: center; flex-direction: column;gap: 15px;">
-
-                              @if (is_array($rooms1['room_price']) && count($rooms1['room_price']))
-
-                              <div class="text-20 lh-14 fw-500">
-
-                                 {{ getNumberWithCommaGlobalCurrency($rooms1['room_price'][0]['finalAmount']) }}                                                                
-
-                              </div>
-
-                              @endif
-
-                              @php
+               <div class="y-gap-30">
+                 <div class="roomGrid__content">
+                   <div>
+                     <div class="text-15 fw-500 mb-10">Your price includes:</div>
+                     <div class="y-gap-8">
+                       <div class="d-flex items-center text-green-2">
+                         <i class="icon-check text-12 mr-10"></i>
+                         <div class="text-15">Pay at the hotel</div>
+                       </div>
+                       <div class="d-flex items-center text-green-2">
+                         <i class="icon-check text-12 mr-10"></i>
+                         <div class="text-15">Pay nothing until March 30, 2022</div>
+                       </div>
+                       <div class="d-flex items-center text-green-2">
+                         <i class="icon-check text-12 mr-10"></i>
+                         <div class="text-15">Free cancellation before April 1, 2022</div>
+                       </div>
+                     </div>
+                   </div>
+                   <div>
+                     <div class="d-flex items-center text-light-1">
+                       <div class="icon-man text-24"></div>
+                       <div class="icon-man text-24"></div>
+                     </div>
+                   </div>  
+                   <div>
+                     @if (is_array($rooms1['room_price']) && count($rooms1['room_price']))
+                     <div class="text-18 lh-15 fw-500"> {{ getNumberWithCommaGlobalCurrency($rooms1['room_price'][0]['finalAmount']) }}  </div> 
+                     @endif 
+                   </div>                 
+                   <div>
+                      
+                     @php
 
                               if (is_array($rooms1['room_price']) && count($rooms1['room_price'])) {
-
-                              $bookingParam = [
-
-                              'is_type' => 'hotel',
-
-                              'hotel_id' => isset($rooms1['hotel_id']) ? $rooms1['hotel_id'] : '',
-
-                              'room_id' => isset($rooms1['room_id']) ? $rooms1['room_id'] : '',
-
-                              'price_id' => isset($rooms1['room_price'][0]['price_id']) ? $rooms1['room_price'][0]['price_id'] : '',
-
-                              'adult' => isset($requestParam['adult']) ? $requestParam['adult'] : '',
-
-                              'child' => isset($requestParam['child']) ? $requestParam['child'] : '',
-
-                              'room' => isset($requestParam['room']) ? $requestParam['room'] : '',
-
-                              'city_id' => isset($requestParam['city_id']) ? $requestParam['city_id'] : '',
-
-                              'search_from' => isset($requestParam['search_from']) ? $requestParam['search_from'] : '',
-
-                              'search_to' => isset($requestParam['search_to']) ? $requestParam['search_to'] : '',
-
-                              'originAmount' => isset($rooms1['room_price'][0]['originAmount']) ? numberFormat($rooms1['room_price'][0]['originAmount']) : '',
-
-                              'productMarkupAmount' => isset($rooms1['room_price'][0]['adminproductMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['adminproductMarkupAmount']) : '',
-
-                              'agentMarkupAmount' => isset($rooms1['room_price'][0]['adminagentMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['adminagentMarkupAmount']) : '',
-
-                              'agentGlobalMarkupAmount' => isset($rooms1['room_price'][0]['agentMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['agentMarkupAmount']) : '',
-
-                              'finalAmount' => isset($rooms1['room_price'][0]['finalAmount']) ? numberFormat($rooms1['room_price'][0]['finalAmount']) : '',
-
-                              ];
-
+                                 $bookingParam = [
+                                    'is_type' => 'hotel',
+                                    'hotel_id' => isset($rooms1['hotel_id']) ? $rooms1['hotel_id'] : '',
+                                    'room_id' => isset($rooms1['room_id']) ? $rooms1['room_id'] : '',
+                                    'price_id' => isset($rooms1['room_price'][0]['price_id']) ? $rooms1['room_price'][0]['price_id'] : '',
+                                    'adult' => isset($requestParam['adult']) ? $requestParam['adult'] : '',
+                                    'child' => isset($requestParam['child']) ? $requestParam['child'] : '',
+                                    'room' => isset($requestParam['room']) ? $requestParam['room'] : '',
+                                    'city_id' => isset($requestParam['city_id']) ? $requestParam['city_id'] : '',
+                                    'search_from' => isset($requestParam['search_from']) ? $requestParam['search_from'] : '',
+                                    'search_to' => isset($requestParam['search_to']) ? $requestParam['search_to'] : '',
+                                    'originAmount' => isset($rooms1['room_price'][0]['originAmount']) ? numberFormat($rooms1['room_price'][0]['originAmount']) : '',
+                                    'productMarkupAmount' => isset($rooms1['room_price'][0]['adminproductMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['adminproductMarkupAmount']) : '',
+                                    'agentMarkupAmount' => isset($rooms1['room_price'][0]['adminagentMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['adminagentMarkupAmount']) : '',
+                                    'agentGlobalMarkupAmount' => isset($rooms1['room_price'][0]['agentMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['agentMarkupAmount']) : '',
+                                    'finalAmount' => isset($rooms1['room_price'][0]['finalAmount']) ? numberFormat($rooms1['room_price'][0]['finalAmount']) : '',
+                                 ];
                               }
 
                               $isAddedCart = false;
 
-                              @endphp
-
-                              @if (is_array($bookingCartArr) && count($bookingCartArr))
-
-                              @foreach ($bookingCartArr as $bo_key => $bo_value)
-
-                              @if ($bo_key == 'hotel')
-
-                              @foreach ($bo_value as $key => $value)
-
-                              @if ($value['hotel_id'] == $rooms1['hotel_id'] && $value['room_id'] == $rooms1['room_id'])
-
-                              @php
-
-                              $isAddedCart = true;
-
-                              @endphp
-
-                              @endif
-
-                              @endforeach
-
-                              @endif
-
-                              @endforeach
-
-                              @endif
-
-                              <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
-
-                                 class="button SelectRoomBook add-btn">
-
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-
-                                    class="bi bi-cart4" viewBox="0 0 16 16">
-
-                                    <path
-
-                                       d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
-
-                                 </svg>
-
-                                 <span class="icons">Add</span>
-
-                                 <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
-
-                              </button>
-
-                           </div>
-
-                        </div>
-
-                     </div>
-
-                  </div>
-
-                 
-
-               </div>
-
-            </div>
-
+                     @endphp
+                     <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}" class="button SelectRoomBook add-btn">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                         Add
+                     <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
+                  </button>                                    
+                   </div>                   
+                 </div>                 
+               </div>               
+             </div>
+           </div>
          </div>
+       </div>
+     </div>  
+     @endforeach
 
-        
-
-      @endforeach
-
-      @endif
-
+     @endif   
    </div>
-
-</section>
+ </section>
 
 <div class="container mt-40 mb-40">
 
