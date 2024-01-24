@@ -779,38 +779,6 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
                </div>
 
-               {{-- 
-
-               <div class="col-auto">
-
-                  @if (isset($hotelsDetails['hotel']['price']))
-
-                  <div class="text-14 text-right">
-
-                     From
-
-                     <span
-
-                        class="text-22 text-dark-1 fw-500">{{ isset($hotelsDetails['hotel']['price']) ? $hotelsDetails['hotel']['price'] : '' }}</span>
-
-                  </div>
-
-                  @endif
-
-                  <button type="button" class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5">
-
-                     <span class="icons">Book Now</span> 
-
-                     <div class="icon-arrow-top-right ml-15"></div>
-
-                     <div class="fa fa-spinner fa-spin ml-15"  style="display: none;"></div>
-
-                  </button>
-
-               </div>
-
-               --}}
-
             </div>
 
             <div id="overview" class="row y-gap-40 pt-40">
@@ -1136,101 +1104,37 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
       </div>
 
       @if (isset($hotelsRoomDetails) && count($hotelsRoomDetails) > 0)
-
-      @php
-
-      $i = 0;
-
-      @endphp
-
-      @foreach ($hotelsRoomDetails as $key => $rooms)
-      
-
-      @if (isset($rooms['room_data_arr']) && count($rooms['room_data_arr']) > 0)
-
-      @foreach ($rooms['room_data_arr'] as $key => $rooms1)
-
-      @php
-
-      $i++;
-
-      @endphp
-
-      @if ($i != 1)
-
-      <div class="mt-20">
-
-         @endif
-
+      @foreach ($hotelsRoomDetails as $key => $rooms1)
          <div class="bg-blue-2 rounded-4 px-30 py-30 sm:px-20 sm:py-20">
-
             <div class="row y-gap-30" style="background: #fff;overflow: hidden;border-radius: 15px;">
-
                <div class="col-xl-auto img-sgl-hb">
-
-                  @if (strlen($rooms1['room_image']) > 0)
-
+                  @if ($rooms1['room_image'])
                   <div class="">
-
-                    <img style="width:200px;" src="{{ url(Storage::url('app/upload/Hotel/' . $img['hotel_id'] . '/Room/'.$rooms['room_id'].'/' . $rooms1['room_image'])) }}"
-
-                                    alt="{{ $hotelsDetails['hotel']['hotel_name'] }}">
-
+                    <img style="width:200px;" src="{{ url(Storage::url('app/upload/Hotel/' . $img['hotel_id'] . '/Room/'.$rooms1['room_id'].'/' . $rooms1['room_image'])) }}" alt="{{ $hotelsDetails['hotel']['hotel_name'] }}">
                   </div>
-
                   @endif
-
-                 
-
                </div>
-
                <div class="col-xl">
-
                   <div class="" style="height: 100%;display: flex;align-items: center;width: 100%;justify-content: space-between;">
-
                      <div class="row y-gap-30" style="width:100%">
-
                        <div class="col-lg col-md-6" style="display: flex; gap: 20px;">
-
                          <div class="">
-
-                                 <div>
-
-                                    {{ $rooms['room_type'] ? $rooms['room_type'] : '' }}
-
+                         <div> {{ $rooms1['room_type'] ? $rooms1['room_type'] : '' }} </div>
+                        @if (count($rooms1['room_amenities']) > 0)
+                        <div>
+                           @foreach ($rooms1['room_amenities'] as $roomamenities)
+                              <div class="d-flex items-center">
+                                 <i class="icon-check text-12 mr-10"></i>
+                                 <div class="text-15">{{ $roomamenities['amenity_name'] }}
                                  </div>
-
-                     @if (count($rooms1['room_amenities']) > 0)
-
-                     <div>
-
-                        @foreach ($rooms1['room_amenities'] as $roomamenities)
-
-                        <div class="d-flex items-center">
-
-                           <i class="icon-check text-12 mr-10"></i>
-
-                           <div class="text-15">{{ $roomamenities['amenity_name'] }}
-
-                           </div>
-
+                              </div>
+                           @endforeach
                         </div>
-
-                        @endforeach
-
-                     </div>
-
                      @endif
 
                   </div>
-
-                           <div class="y-gap-5">
-
-                              Description Hare
-
-                           </div>
-
-                        </div>
+                  <div class="y-gap-5"> Description Hare</div>
+                  </div>
 
                         <div
 
@@ -1238,11 +1142,11 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
                           <div style="display: flex; align-items: center; flex-direction: column;gap: 15px;">
 
-                              @if (is_array($rooms['room_price']) && count($rooms['room_price']))
+                              @if (is_array($rooms1['room_price']) && count($rooms1['room_price']))
 
                               <div class="text-20 lh-14 fw-500">
 
-                                 {{ getNumberWithCommaGlobalCurrency($rooms['room_price'][0]['finalAmount']) }}                                                                
+                                 {{ getNumberWithCommaGlobalCurrency($rooms1['room_price'][0]['finalAmount']) }}                                                                
 
                               </div>
 
@@ -1250,17 +1154,17 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
                               @php
 
-                              if (is_array($rooms['room_price']) && count($rooms['room_price'])) {
+                              if (is_array($rooms1['room_price']) && count($rooms1['room_price'])) {
 
                               $bookingParam = [
 
                               'is_type' => 'hotel',
 
-                              'hotel_id' => isset($rooms['hotel_id']) ? $rooms['hotel_id'] : '',
+                              'hotel_id' => isset($rooms1['hotel_id']) ? $rooms1['hotel_id'] : '',
 
-                              'room_id' => isset($rooms['room_id']) ? $rooms['room_id'] : '',
+                              'room_id' => isset($rooms1['room_id']) ? $rooms1['room_id'] : '',
 
-                              'price_id' => isset($rooms['room_price'][0]['price_id']) ? $rooms['room_price'][0]['price_id'] : '',
+                              'price_id' => isset($rooms1['room_price'][0]['price_id']) ? $rooms1['room_price'][0]['price_id'] : '',
 
                               'adult' => isset($requestParam['adult']) ? $requestParam['adult'] : '',
 
@@ -1274,15 +1178,15 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
                               'search_to' => isset($requestParam['search_to']) ? $requestParam['search_to'] : '',
 
-                              'originAmount' => isset($rooms['room_price'][0]['originAmount']) ? numberFormat($rooms['room_price'][0]['originAmount']) : '',
+                              'originAmount' => isset($rooms1['room_price'][0]['originAmount']) ? numberFormat($rooms1['room_price'][0]['originAmount']) : '',
 
-                              'productMarkupAmount' => isset($rooms['room_price'][0]['adminproductMarkupAmount']) ? numberFormat($rooms['room_price'][0]['adminproductMarkupAmount']) : '',
+                              'productMarkupAmount' => isset($rooms1['room_price'][0]['adminproductMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['adminproductMarkupAmount']) : '',
 
-                              'agentMarkupAmount' => isset($rooms['room_price'][0]['adminagentMarkupAmount']) ? numberFormat($rooms['room_price'][0]['adminagentMarkupAmount']) : '',
+                              'agentMarkupAmount' => isset($rooms1['room_price'][0]['adminagentMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['adminagentMarkupAmount']) : '',
 
-                              'agentGlobalMarkupAmount' => isset($rooms['room_price'][0]['agentMarkupAmount']) ? numberFormat($rooms['room_price'][0]['agentMarkupAmount']) : '',
+                              'agentGlobalMarkupAmount' => isset($rooms1['room_price'][0]['agentMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['agentMarkupAmount']) : '',
 
-                              'finalAmount' => isset($rooms['room_price'][0]['finalAmount']) ? numberFormat($rooms['room_price'][0]['finalAmount']) : '',
+                              'finalAmount' => isset($rooms1['room_price'][0]['finalAmount']) ? numberFormat($rooms1['room_price'][0]['finalAmount']) : '',
 
                               ];
 
@@ -1300,7 +1204,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
                               @foreach ($bo_value as $key => $value)
 
-                              @if ($value['hotel_id'] == $rooms['hotel_id'] && $value['room_id'] == $rooms['room_id'])
+                              @if ($value['hotel_id'] == $rooms1['hotel_id'] && $value['room_id'] == $rooms1['room_id'])
 
                               @php
 
@@ -1346,9 +1250,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
                   </div>
 
-                  @endforeach
-
-                  @endif
+                 
 
                </div>
 
@@ -1356,11 +1258,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
          </div>
 
-         @if ($i != 1)
-
-      </div>
-
-      @endif
+        
 
       @endforeach
 
