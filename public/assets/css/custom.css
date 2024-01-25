@@ -270,7 +270,7 @@ font-family: 'FontAwesome';
     left: 0 !important;
     right: 0 !important;
 }
-     .tooltip {
+     /* .tooltip {
         display: none;
         position: absolute;
         background-color: #333;
@@ -303,7 +303,7 @@ font-family: 'FontAwesome';
         }
             .tooltip-popup,.tooltip-popup-free {
         position: relative;
-    }
+    } */
 
     span.tooltip-trigger-free {
         display: flex;

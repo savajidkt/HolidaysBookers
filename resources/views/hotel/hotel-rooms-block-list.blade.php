@@ -42,7 +42,6 @@
                                         'city_id' => isset($requestParam['filterObjParamCityID']) ? $requestParam['filterObjParamCityID'] : '',
                                         'search_from' => isset($requestParam['filterObjParamStartDate']) ? $requestParam['filterObjParamStartDate'] : '',
                                         'search_to' => isset($requestParam['filterObjParamEndDate']) ? $requestParam['filterObjParamEndDate'] : '',
-
                                         'originAmount' => isset($priceroom['originAmount']) ? numberFormat($priceroom['originAmount']) : '',
                                         'productMarkupAmount' => isset($priceroom['adminproductMarkupAmount']) ? numberFormat($priceroom['adminproductMarkupAmount']) : '',
                                         'agentMarkupAmount' => isset($priceroom['adminagentMarkupAmount']) ? numberFormat($priceroom['adminagentMarkupAmount']) : '',
@@ -68,8 +67,7 @@
                                     
                                     <div class="hb-form-serviceadd">
                                         <div class="sub-hb-htl-list">
-                                            
-                                         <div class="tooltip-trigger-popup">                                            
+                                         <div class="tooltip-trigger-popup">
                                            @if($offlineRoom->price[0]->cancelation_policy=='non_refundeble')                                            
                                              <div class="tooltip -top px-30 h-50">
                                                 <i class="fa fa-ban" aria-hidden="true"></i> Non refundable

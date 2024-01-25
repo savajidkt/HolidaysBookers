@@ -1104,7 +1104,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
          <div class="col-12">           
            <div class="roomGrid">
              <div class="roomGrid__header">
-               <div>{{ $rooms1['room_type'] ? $rooms1['room_type'] : '' }}</div>               
+               <div>{{ $rooms1['room_type'] ? $rooms1['room_type'] : '' }} {{ $rooms1['room_title_with_child'] ? $rooms1['room_title_with_child'] : '' }}</div>               
              </div>
              <div class="roomGrid__grid">
                <div>
@@ -1125,78 +1125,100 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
                  @endif                 
                </div>
                <div class="y-gap-30">
-                 <div class="roomGrid__content">
-                   <div>
-                     <div class="text-15 fw-500 mb-10">Your price includes:</div>
-                     <div class="y-gap-8">
-                       <div class="d-flex items-center text-green-2">
-                         <i class="icon-check text-12 mr-10"></i>
-                         <div class="text-15">Pay at the hotel</div>
-                       </div>
-                       <div class="d-flex items-center text-green-2">
-                         <i class="icon-check text-12 mr-10"></i>
-                         <div class="text-15">Pay nothing until March 30, 2022</div>
-                       </div>
-                       <div class="d-flex items-center text-green-2">
-                         <i class="icon-check text-12 mr-10"></i>
-                         <div class="text-15">Free cancellation before April 1, 2022</div>
-                       </div>
-                     </div>
-                   </div>
-                   <div>
-                     <div class="d-flex items-center text-light-1">
-                       <div class="icon-man text-24"></div>
-                       <div class="icon-man text-24"></div>
-                     </div>
-                   </div>  
-                   <div>
-                     @if (is_array($rooms1['room_price']) && count($rooms1['room_price']))
-                     <div class="text-18 lh-15 fw-500"> {{ getNumberWithCommaGlobalCurrency($rooms1['room_price'][0]['finalAmount']) }}  </div> 
-                     @endif 
-                   </div>                 
-                   <div>
-                      
-                     @php
+                  @php
+                     $offlineRoom = getRoomDetailsByRoomID($rooms1['room_id']);
+                  @endphp
+                  @foreach ($rooms1['room_price'] as $priceKey=> $roomPrice )
+                  @php
 
-                              if (is_array($rooms1['room_price']) && count($rooms1['room_price'])) {
+                              if (is_array($roomPrice) && count($roomPrice)) {
                                  $bookingParam = [
                                     'is_type' => 'hotel',
                                     'hotel_id' => isset($rooms1['hotel_id']) ? $rooms1['hotel_id'] : '',
                                     'room_id' => isset($rooms1['room_id']) ? $rooms1['room_id'] : '',
-                                    'price_id' => isset($rooms1['room_price'][0]['price_id']) ? $rooms1['room_price'][0]['price_id'] : '',
+                                    'price_id' => isset($roomPrice['price_id']) ? $roomPrice['price_id'] : '',
                                     'adult' => isset($requestParam['adult']) ? $requestParam['adult'] : '',
                                     'child' => isset($requestParam['child']) ? $requestParam['child'] : '',
                                     'room' => isset($requestParam['room']) ? $requestParam['room'] : '',
                                     'city_id' => isset($requestParam['city_id']) ? $requestParam['city_id'] : '',
                                     'search_from' => isset($requestParam['search_from']) ? $requestParam['search_from'] : '',
                                     'search_to' => isset($requestParam['search_to']) ? $requestParam['search_to'] : '',
-                                    'originAmount' => isset($rooms1['room_price'][0]['originAmount']) ? numberFormat($rooms1['room_price'][0]['originAmount']) : '',
-                                    'productMarkupAmount' => isset($rooms1['room_price'][0]['adminproductMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['adminproductMarkupAmount']) : '',
-                                    'agentMarkupAmount' => isset($rooms1['room_price'][0]['adminagentMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['adminagentMarkupAmount']) : '',
-                                    'agentGlobalMarkupAmount' => isset($rooms1['room_price'][0]['agentMarkupAmount']) ? numberFormat($rooms1['room_price'][0]['agentMarkupAmount']) : '',
-                                    'finalAmount' => isset($rooms1['room_price'][0]['finalAmount']) ? numberFormat($rooms1['room_price'][0]['finalAmount']) : '',
+                                    'originAmount' => isset($roomPrice['originAmount']) ? numberFormat($roomPrice['originAmount']) : '',
+                                    'productMarkupAmount' => isset($roomPrice['adminproductMarkupAmount']) ? numberFormat($roomPrice['adminproductMarkupAmount']) : '',
+                                    'agentMarkupAmount' => isset($roomPrice['adminagentMarkupAmount']) ? numberFormat($roomPrice['adminagentMarkupAmount']) : '',
+                                    'agentGlobalMarkupAmount' => isset($roomPrice['agentMarkupAmount']) ? numberFormat($roomPrice['agentMarkupAmount']) : '',
+                                    'finalAmount' => isset($roomPrice['finalAmount']) ? numberFormat($roomPrice['finalAmount']) : '',
                                  ];
                               }
 
                               $isAddedCart = false;
 
                      @endphp
+                 
+                 <div class="roomGrid__content">
+                   <div>
+                     <div class="text-15 fw-500 mb-10">{{ $roomPrice['meal_plan'] }}:</div>
+                   </div>
+                   <div>
+                      <div class="y-gap-5">
+                        <div class="tooltip-trigger-popup">
+                           @if($offlineRoom->price[0]->cancelation_policy=='non_refundeble')
+                           <div class="tooltip -top px-30 h-50">
+                              <i class="fa fa-ban" aria-hidden="true"></i> Non refundable
+                              <div class="tooltip__content">Non refundable</div>
+                            </div>
+                            @endif
+                            @if($offlineRoom->price[0]->cancelation_policy=='refundeble')
+                                @php
+                                $cancellatoin = RoomWiseCancellationPolicy($offlineRoom->price[0],  $bookingParam['search_from']);
+                                @endphp
+                                <div class="tooltip -top px-30 h-50">
+                                    @if($cancellatoin['free'])
+                                    <i class="fa fa-ban" aria-hidden="true"></i>Free Cancellation unit <p>{{ $cancellatoin['free'] }}</p>
+                                    @else
+                                    <i class="fa fa-ban" aria-hidden="true"></i>Non refundable
+                                    @endif
+                                    <div class="tooltip__content">Cancellation Charges<br>
+                                       @if(isset($cancellatoin['charge']))
+                                           @foreach ($cancellatoin['charge'] as $cancel )
+                                               {{ $cancel['after'] }}  {{ $cancel['charge'] }} <br>
+                                           @endforeach
+                                       @endif
+                                       Date and time is calculated based on local time of destination.
+                                   </div>
+                                   
+                                 </div>           
+                            @endif
+                        </div>
+                     </div>
+                   </div>
+                   
+                   <div>
+                     @if (is_array($roomPrice))
+                     <div class="text-18 lh-15 fw-500"> {{ getNumberWithCommaGlobalCurrency($roomPrice['finalAmount']) }}  </div> 
+                     @endif 
+                   </div>                 
+                   <div>
+                      
+                     
                      <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}" class="button SelectRoomBook add-btn">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                          Add
                      <div class="fa fa-spinner fa-spin ml-15" style="display: none;"></div>
-                  </button>                                    
-                   </div>                   
-                 </div>                 
-               </div>               
+                  </button>
+                   </div>
+                 </div>
+                 @endforeach
+                 
+               </div>
              </div>
            </div>
          </div>
        </div>
-     </div>  
+     </div>
      @endforeach
 
-     @endif   
+     @endif
    </div>
  </section>
 
