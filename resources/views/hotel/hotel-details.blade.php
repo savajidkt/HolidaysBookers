@@ -1075,7 +1075,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
                </div>
 
-               @endforeach                      
+               @endforeach
 
                @endif
 
@@ -1098,10 +1098,9 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
      </div>
      @if (isset($hotelsRoomDetails) && count($hotelsRoomDetails) > 0)
      @foreach ($hotelsRoomDetails as $key => $rooms1)
-     
      <div class="border-light rounded-4 px-30 py-30 sm:px-20 sm:py-20">
        <div class="row y-gap-20">
-         <div class="col-12">           
+         <div class="col-12">
            <div class="roomGrid">
              <div class="roomGrid__header">
                <div>{{ $rooms1['room_type'] ? $rooms1['room_type'] : '' }} {{ $rooms1['room_title_with_child'] ? $rooms1['room_title_with_child'] : '' }}</div>               

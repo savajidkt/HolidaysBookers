@@ -577,10 +577,10 @@ class HotelListingRepository
                     $roomPriceListingArray = [];
                     $roomTempArray = [];
                     $tempSearRoomArray[$srRoom->id] = $searchRoom;
-                    $roomListingArray[$roomkey]['hotel_id'] = $srRoom->hotel_id;
-                    $roomListingArray[$roomkey]['room_id'] = $srRoom->id;
-                    $roomListingArray[$roomkey]['min_nights'] = $srRoom->min_nights;
-                    $roomListingArray[$roomkey]['room_type'] = $srRoom->roomtype->room_type;
+                    $roomListingArray[$room_key]['hotel_id'] = $srRoom->hotel_id;
+                    $roomListingArray[$room_key]['room_id'] = $srRoom->id;
+                    $roomListingArray[$room_key]['min_nights'] = $srRoom->min_nights;
+                    $roomListingArray[$room_key]['room_type'] = $srRoom->roomtype->room_type;
                     $room_title_with_child='';
                     if($searchRoom->adult){
                         $room_title_with_child ='for '.$searchRoom->adult.' adults';
@@ -591,13 +591,13 @@ class HotelListingRepository
 
                     $roomListingArray[$room_key]['room_title_with_child'] = $room_title_with_child;
                     //$roomTempArray['room'] = $srRoom->toArray();
-                    $roomListingArray[$roomkey]['room_amenities'] = $srRoom->roomamenity->toArray();
-                    $roomListingArray[$roomkey]['room_mealplans'] = isset($srRoom->mealplan) ? $srRoom->mealplan->toArray() : [];
-                    $roomListingArray[$roomkey]['room_freebies'] = $srRoom->roomfreebies->toArray();
-                    $roomListingArray[$roomkey]['room_image'] = $srRoom->room_image;
-                    $roomListingArray[$roomkey]['room_images'] = $srRoom->images->toArray();
-                    $roomListingArray[$roomkey]['room_child'] = [];
-                    $roomListingArray[$roomkey]['room_facilities'] = [];
+                    $roomListingArray[$room_key]['room_amenities'] = $srRoom->roomamenity->toArray();
+                    $roomListingArray[$room_key]['room_mealplans'] = isset($srRoom->mealplan) ? $srRoom->mealplan->toArray() : [];
+                    $roomListingArray[$room_key]['room_freebies'] = $srRoom->roomfreebies->toArray();
+                    $roomListingArray[$room_key]['room_image'] = $srRoom->room_image;
+                    $roomListingArray[$room_key]['room_images'] = $srRoom->images->toArray();
+                    $roomListingArray[$room_key]['room_child'] = [];
+                    $roomListingArray[$room_key]['room_facilities'] = [];
 
                     $startDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_from'));
                     $endDate = Carbon::createFromFormat('Y-m-d', getSearchCookies('search_to'));
