@@ -139,6 +139,31 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 </style>
 
 <div class="header-margin"></div>
+<div class="singleMenu js-singleMenu">
+   <div class="singleMenu__content">
+     <div class="container">
+       <div class="row y-gap-20 justify-between items-center">
+         <div class="col-auto">
+           <div class="singleMenu__links row x-gap-30 y-gap-10">
+             <div class="col-auto">
+               <a href="#overview">Overview</a>
+             </div>
+             <div class="col-auto">
+               <a href="#rooms">Rooms</a>
+             </div>
+            
+             <div class="col-auto">
+               <a href="#facilities">Facilities</a>
+             </div>
+             <div class="col-auto">
+               <a href="#releted">Releted</a>
+             </div>
+           </div>
+         </div>           
+       </div>
+     </div>
+   </div>
+ </div>
 
 <section class="hb-single-search-hotal">
 
@@ -739,124 +764,6 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
          <div class="single-hb-page-list">
 
-            <div class="row justify-between">
-
-               <div class="col-auto">
-
-                  <div class="row items-center">
-
-                     <div class="col-auto">
-
-                        <h1 class="text-26 fw-600">{{ $hotelsDetails['hotel']['hotel_name'] }}</h1>
-
-                     </div>
-
-                     @if ($hotelsDetails['hotel']['category'] > 0)
-
-                     <div class="col-auto">
-
-                        @for ($i = 1; $i <= $hotelsDetails['hotel']['category']; $i++)
-
-                        <i class="icon-star text-10 text-yellow-1"></i>
-
-                        @endfor
-
-                     </div>
-
-                     @endif
-
-                  </div>
-
-                  <div class="row x-gap-20 y-gap-20 items-center">
-
-                     <div class="col-auto">
-
-                        <div class="text-15 text-light-1">{{ $hotelsDetails['hotel']['hotel_address'] }}</div>
-
-                     </div>
-
-                  </div>
-
-               </div>
-
-            </div>
-
-            <div id="overview" class="row y-gap-40 pt-40">
-
-               <div class="col-12">
-
-                  <h3 class="text-22 fw-500 pt-40 border-top-light">Overview</h3>
-
-                  <p class="text-dark-1 text-15 mt-20">
-
-                     {!! $hotelsDetails['hotel']['hotel_description'] !!}
-
-                  </p>
-
-               </div>
-
-               @if (count($hotelsDetails['hotel']['hotel_amenities']) > 0)
-
-               <div class="col-12">
-
-                  <h3 class="text-22 fw-500 pt-40 border-top-light">Most Popular Hotel Amenities</h3>
-
-                  <div class="row y-gap-10 pt-20">
-
-                     @foreach ($hotelsDetails['hotel']['hotel_amenities'] as $hotelamenities)
-
-                     <div class="col-md-5">
-
-                        <div class="d-flex x-gap-15 y-gap-15 items-center">
-
-                           <i class="icon-check"></i>
-
-                           <div class="text-15">{{ $hotelamenities['amenity_name'] }}</div>
-
-                        </div>
-
-                     </div>
-
-                     @endforeach
-
-                  </div>
-
-               </div>
-
-               @endif
-
-               @if (count($hotelsDetails['hotel']['hotel_freebies']) > 0)
-
-               <div class="col-12">
-
-                  <h3 class="text-22 fw-500 pt-40 border-top-light">Most Popular Hotel Freebies</h3>
-
-                  <div class="row y-gap-10 pt-20">
-
-                     @foreach ($hotelsDetails['hotel']['hotel_freebies'] as $hotelfreebies)
-
-                     <div class="col-md-5">
-
-                        <div class="d-flex x-gap-15 y-gap-15 items-center">
-
-                           <i class="icon-check"></i>
-
-                           <div class="text-15">{{ $hotelfreebies['name'] }}</div>
-
-                        </div>
-
-                     </div>
-
-                     @endforeach
-
-                  </div>
-
-               </div>
-
-               @endif
-
-            </div>
-
             <div class="galleryGrid -type-2 pt-40">
 
                <div class="galleryGrid__item relative d-flex justify-end">
@@ -994,6 +901,125 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
                @endif
 
             </div>
+            <div class="row justify-between">
+
+               <div class="col-auto">
+
+                  <div class="row items-center">
+
+                     <div class="col-auto">
+
+                        <h1 class="text-26 fw-600">{{ $hotelsDetails['hotel']['hotel_name'] }}</h1>
+
+                     </div>
+
+                     @if ($hotelsDetails['hotel']['category'] > 0)
+
+                     <div class="col-auto">
+
+                        @for ($i = 1; $i <= $hotelsDetails['hotel']['category']; $i++)
+
+                        <i class="icon-star text-10 text-yellow-1"></i>
+
+                        @endfor
+
+                     </div>
+
+                     @endif
+
+                  </div>
+
+                  <div class="row x-gap-20 y-gap-20 items-center">
+
+                     <div class="col-auto">
+
+                        <div class="text-15 text-light-1">{{ $hotelsDetails['hotel']['hotel_address'] }}</div>
+
+                     </div>
+
+                  </div>
+
+               </div>
+
+            </div>
+
+            <div id="overview" class="row y-gap-40 pt-40">
+
+               <div class="col-12">
+
+                  <h3 class="text-22 fw-500 pt-40 border-top-light">Overview</h3>
+
+                  <p class="text-dark-1 text-15 mt-20">
+
+                     {!! $hotelsDetails['hotel']['hotel_description'] !!}
+
+                  </p>
+
+               </div>
+
+               @if (count($hotelsDetails['hotel']['hotel_amenities']) > 0)
+
+               <div class="col-12">
+
+                  <h3 class="text-22 fw-500 pt-40 border-top-light">Most Popular Hotel Amenities</h3>
+
+                  <div class="row y-gap-10 pt-20">
+
+                     @foreach ($hotelsDetails['hotel']['hotel_amenities'] as $hotelamenities)
+
+                     <div class="col-md-5">
+
+                        <div class="d-flex x-gap-15 y-gap-15 items-center">
+
+                           <i class="icon-check"></i>
+
+                           <div class="text-15">{{ $hotelamenities['amenity_name'] }}</div>
+
+                        </div>
+
+                     </div>
+
+                     @endforeach
+
+                  </div>
+
+               </div>
+
+               @endif
+
+               @if (count($hotelsDetails['hotel']['hotel_freebies']) > 0)
+
+               <div class="col-12">
+
+                  <h3 class="text-22 fw-500 pt-40 border-top-light">Most Popular Hotel Freebies</h3>
+
+                  <div class="row y-gap-10 pt-20">
+
+                     @foreach ($hotelsDetails['hotel']['hotel_freebies'] as $hotelfreebies)
+
+                     <div class="col-md-5">
+
+                        <div class="d-flex x-gap-15 y-gap-15 items-center">
+
+                           <i class="icon-check"></i>
+
+                           <div class="text-15">{{ $hotelfreebies['name'] }}</div>
+
+                        </div>
+
+                     </div>
+
+                     @endforeach
+
+                  </div>
+
+               </div>
+
+               @endif
+
+            </div>
+
+           
 
          </div>
 
@@ -1221,12 +1247,378 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
    </div>
  </section>
 
-<div class="container mt-40 mb-40">
 
-   <div class="border-top-light"></div>
 
-</div>
+<div id="facilities"></div>
+    <section class="mt-40">
+      <div class="container">
+        <div class="row x-gap-40 y-gap-40">
+          <div class="col-12">
+            <h3 class="text-22 fw-500">Facilities of The Crown Hotel</h3>
 
+            <div class="row x-gap-40 y-gap-40 pt-20">
+              <div class="col-xl-4">
+                <div class="row y-gap-30">
+                  <div class="col-12">
+
+                    <div class="">
+                      <div class="d-flex items-center text-16 fw-500">
+                        <i class="icon-bathtub text-20 mr-10"></i>
+                        Bathroom
+                      </div>
+
+                      <ul class="text-15 pt-10">
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Towels
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Bath or shower
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Private bathroom
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Toilet
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Free toiletries
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Hairdryer
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Bath
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </div>
+
+                  <div class="col-12">
+
+                    <div class="">
+                      <div class="d-flex items-center text-16 fw-500">
+                        <i class="icon-bed text-20 mr-10"></i>
+                        Bedroom
+                      </div>
+
+                      <ul class="text-15 pt-10">
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Linen
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Wardrobe or closet
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </div>
+
+                  <div class="col-12">
+
+                    <div class="">
+                      <div class="d-flex items-center text-16 fw-500">
+                        <i class="icon-bell-ring text-20 mr-10"></i>
+                        Reception services
+                      </div>
+
+                      <ul class="text-15 pt-10">
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Invoice provided
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Private check-in/check-out
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Luggage storage
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          24-hour front desk
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-4">
+                <div class="row y-gap-30">
+                  <div class="col-12">
+
+                    <div class="">
+                      <div class="d-flex items-center text-16 fw-500">
+                        <i class="icon-tv text-20 mr-10"></i>
+                        Media &amp; Technology
+                      </div>
+
+                      <ul class="text-15 pt-10">
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Flat-screen TV
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Satellite channels
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Radio
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Telephone
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          TV
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </div>
+
+                  <div class="col-12">
+
+                    <div class="">
+                      <div class="d-flex items-center text-16 fw-500">
+                        <i class="icon-juice text-20 mr-10"></i>
+                        Food &amp; Drink
+                      </div>
+
+                      <ul class="text-15 pt-10">
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Kid meals
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Special diet menus (on request)
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Breakfast in the room
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Bar
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Restaurant
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Tea/Coffee maker
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </div>
+
+                  <div class="col-12">
+
+                    <div class="">
+                      <div class="d-flex items-center text-16 fw-500">
+                        <i class="icon-washing-machine text-20 mr-10"></i>
+                        Cleaning services
+                      </div>
+
+                      <ul class="text-15 pt-10">
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Daily housekeeping
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Dry cleaning
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Laundry
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-4">
+                <div class="row y-gap-30">
+                  <div class="col-12">
+
+                    <div class="">
+                      <div class="d-flex items-center text-16 fw-500">
+                        <i class="icon-shield text-20 mr-10"></i>
+                        Safety &amp; security
+                      </div>
+
+                      <ul class="text-15 pt-10">
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Fire extinguishers
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          CCTV in common areas
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Smoke alarms
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          24-hour security
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </div>
+
+                  <div class="col-12">
+
+                    <div class="">
+                      <div class="d-flex items-center text-16 fw-500">
+                        <i class="icon-city-2 text-20 mr-10"></i>
+                        General
+                      </div>
+
+                      <ul class="text-15 pt-10">
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Hypoallergenic
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Non-smoking throughout
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Wake-up service
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Heating
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Packed lunches
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Carpeted
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Lift
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Fan
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Family rooms
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Facilities for disabled guests
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Ironing facilities
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Non-smoking rooms
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Iron
+                        </li>
+
+                        <li class="d-flex items-center">
+                          <i class="icon-check text-10 mr-20"></i>
+                          Room service
+                        </li>
+
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="releted"></div>
 <section class="layout-pt-md layout-pb-lg">
 
    <div class="container">

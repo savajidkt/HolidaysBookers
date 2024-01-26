@@ -1,5 +1,5 @@
 @if (Route::has('hotel-details'))
-    <header data-add-bg="" class="header bg-white " data-x="header" data-x-toggle="is-menu-opened">
+    <header data-add-bg="" class="header bg-white -fixed js-header" data-x="header" data-x-toggle="is-menu-opened">
     {{-- <header data-add-bg="" class="header -fixed bg-white js-header" data-x="header" data-x-toggle="is-menu-opened"> --}}
     @else
     <header data-add-bg="" class="header bg-white shadow-3 js-header" data-x="header" data-x-toggle="is-menu-opened">
