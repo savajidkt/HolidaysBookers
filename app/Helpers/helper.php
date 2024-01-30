@@ -2403,7 +2403,7 @@ if (!function_exists('RoomWiseCancellationPolicy')) {
         $cancelationpolicies = $roomPriceData->cancelationpolicies()->orderBy('before_check_in_days', 'DESC')->get();
         
         if($cancelationpolicies){
-            
+            $j=0;
             foreach ($cancelationpolicies as $key => $value) {
                 $checkInDate = Carbon::createFromFormat('Y-m-d H:i:s', dateFormat( str_replace('/', '-', $fromDate),'Y-m-d H:i:s'));
                 $checkInDate->subDay($value->before_check_in_days);
@@ -2416,17 +2416,20 @@ if (!function_exists('RoomWiseCancellationPolicy')) {
                         if( $value->night_charge < 1){
                            $freeCancellation = $checkInDate->format('Y-m-d').' '.$endOfDay->format('g:i A');
                         }else{
-                            $CancellationArr[$key]['date'] = $checkInDate->format('Y-m-d');
-                            $CancellationArr[$key]['check_in_date'] = $checkInDate->format('Y-m-d');
-                            $CancellationArr[$key]['after'] = $checkInDate->format('Y-m-d').', '.$endOfDay->format('g:i A');
-                            $CancellationArr[$key]['charge'] = globalCurrency().''.$value->night_charge;
-                            $CancellationArr[$key]['days'] = $value->before_check_in_days;
+                            $CancellationArr[$j]['date'] = $checkInDate->format('Y-m-d');
+                            $CancellationArr[$j]['check_in_date'] = $checkInDate->format('Y-m-d');
+                            $CancellationArr[$j]['after'] = $checkInDate->format('Y-m-d').', '.$endOfDay->format('g:i A');
+                            $CancellationArr[$j]['charge'] = globalCurrency().''.$value->night_charge;
+                            $CancellationArr[$j]['days'] = $value->before_check_in_days;
+                            $j++;
                         }
                     }
                 }
+               
+                
             }
             if(empty($freeCancellation)){
-                if( count($CancellationArr) > 0 ){ 
+                if( count($CancellationArr) > 0 ){
                     $ddate = Carbon::parse($CancellationArr[0]['date']);
                     $endOfDay = $ddate->endOfDay();
                     $beforeDate = $ddate->subDay();

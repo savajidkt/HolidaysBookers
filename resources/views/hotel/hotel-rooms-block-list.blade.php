@@ -77,7 +77,8 @@
                                             @if($offlineRoom->price[0]->cancelation_policy=='refundeble')
                                                 @php
                                                 $cancellatoin = RoomWiseCancellationPolicy($offlineRoom->price[0],  $bookingParam['search_from']);
-                                                
+                                                    //echo '<pre>';
+                                                    //print_r($cancellatoin);
                                                 @endphp
                                                 <div class="tooltip -top px-30 h-50">
                                                     @if($cancellatoin['free'])

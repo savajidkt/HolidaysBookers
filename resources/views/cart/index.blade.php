@@ -65,11 +65,14 @@
                                @endif
                                @php
                                    $room_title_with_child='';
+                                   $room_adult_with_child='';
                                     if($value['adult']){
                                         $room_title_with_child ='for '.$value['adult'].' adults';
+                                        $room_adult_with_child = $value['adult'].' Adults';
                                     }
                                     if($value['child']){
                                         $room_title_with_child .=', '.$value['child'].' children - '.implode(',',$age).' years old';
+                                        $room_adult_with_child .=', '.$value['child'].' Child - '.implode(',',$age).' years';
                                     }
 
                                @endphp
@@ -79,6 +82,7 @@
                                     $hotelsDetails = $hotelsDetails['hotel'];
                                     $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] .'<br>'.$offlineRoom->roomtype->room_type . '<span class="pull-right">' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . '</span></li>';
                                     $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'].'<br>'.$offlineRoom->roomtype->room_type . ' <span class="pull-right"> ' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
+                                    $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-user"></i> ' . $room_adult_with_child. '</li>';
                                     $serviceSectionAMT = $serviceSectionAMT + $value['finalAmount'];
                                 @endphp
 
