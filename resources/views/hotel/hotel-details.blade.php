@@ -1134,7 +1134,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
              <div class="roomGrid__grid">
                <div>
                   @if ($rooms1['room_image'])
-                 <div class="ratio ratio-1:1">                   
+                 <div class="ratio ratio-1:1">
                    <img alt="image" class="img-ratio rounded-4" src="{{ url(Storage::url('app/upload/Hotel/' . $img['hotel_id'] . '/Room/'.$rooms1['room_id'].'/' . $rooms1['room_image'])) }}" alt="{{ $hotelsDetails['hotel']['hotel_name'] }}">
                  </div>
                  @endif
@@ -1145,9 +1145,9 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
                      <i class="icon-no-smoke text-20 mr-10"></i>
                      <div class="text-15">{{ $roomamenities['amenity_name'] }}</div>
                    </div>
-                   @endforeach                  
+                   @endforeach
                  </div>
-                 @endif                 
+                 @endif
                </div>
                <div class="y-gap-30">
                   @php
@@ -1164,6 +1164,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
                                     'price_id' => isset($roomPrice['price_id']) ? $roomPrice['price_id'] : '',
                                     'adult' => isset($requestParam['adult']) ? $requestParam['adult'] : '',
                                     'child' => isset($requestParam['child']) ? $requestParam['child'] : '',
+                                    'room_child_age' => isset($rooms1['room_child_age']) ? $rooms1['room_child_age'] : '',
                                     'room' => isset($requestParam['room']) ? $requestParam['room'] : '',
                                     'city_id' => isset($requestParam['city_id']) ? $requestParam['city_id'] : '',
                                     'search_from' => isset($requestParam['search_from']) ? $requestParam['search_from'] : '',
@@ -1175,9 +1176,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
                                     'finalAmount' => isset($roomPrice['finalAmount']) ? numberFormat($roomPrice['finalAmount']) : '',
                                  ];
                               }
-
-                              $isAddedCart = false;
-
+                           $isAddedCart = false;
                      @endphp
                  
                  <div class="roomGrid__content">

@@ -37,6 +37,7 @@
                                         'price_id' => isset($priceroom['price_id']) ? $priceroom['price_id'] : '',
                                         'adult' => getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 0,
                                         'child' => getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0,
+                                        'room_child_age' => isset($room['room_child_age']) ? $room['room_child_age'] : '',
                                         'room' => getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 0,
 
                                         'city_id' => isset($requestParam['filterObjParamCityID']) ? $requestParam['filterObjParamCityID'] : '',
@@ -51,7 +52,6 @@
                                     
                                     $isAddedCart = false;
                                     $offlineRoom = getRoomDetailsByRoomID($room['room_id']);
-                                    
                                 @endphp
                                 <div class="item-line add-border">
                                 <div class="board-col ">

@@ -590,6 +590,7 @@ class HotelListingRepository
                     }
 
                     $roomListingArray[$room_key]['room_title_with_child'] = $room_title_with_child;
+                    $roomListingArray[$room_key]['room_child_age'] = $searchRoom->childAge;
                     //$roomTempArray['room'] = $srRoom->toArray();
                     $roomListingArray[$room_key]['room_amenities'] = $srRoom->roomamenity->toArray();
                     $roomListingArray[$room_key]['room_mealplans'] = isset($srRoom->mealplan) ? $srRoom->mealplan->toArray() : [];

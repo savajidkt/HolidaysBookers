@@ -1132,44 +1132,20 @@ function getChildrenPromoPrice($searchGuestArr, $price)
 
 if (!function_exists('selectRoomBooking')) {
 
-
-
     function selectRoomBooking($paramArr, $isArray = false)
-
     {
-
-
-
         $SafeencryptionObj = new Safeencryption;
-
         $id = "";
-
-
-
         if ($isArray) {
-
             return $SafeencryptionObj->encode(serialize($paramArr));
-
         }
-
-
-
         if (is_array($paramArr) && count($paramArr) > 0) {
-
             $string = "";
-
             foreach ($paramArr as $key => $value) {
-
                 $string .= $key . "=" . $value . "&";
-
             }
-
             $string = trim($string, '&');
-
-
-
             $id = $SafeencryptionObj->encode($string);
-
         }
 
         return $id;

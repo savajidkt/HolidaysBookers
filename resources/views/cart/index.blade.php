@@ -52,11 +52,29 @@
                             @php
                                 $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
                                 $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
-                                
                             @endphp
+                               @if ($value['room_child_age'])
+                                    @php
+                                        $age=[];
+                                    @endphp
+                                   @foreach ($value['room_child_age'] as $ckey => $child)
+                                        @php
+                                            $age[] = $child->age;
+                                        @endphp
+                                   @endforeach
+                               @endif
+                               @php
+                                   $room_title_with_child='';
+                                    if($value['adult']){
+                                        $room_title_with_child ='for '.$value['adult'].' adults';
+                                    }
+                                    if($value['child']){
+                                        $room_title_with_child .=', '.$value['child'].' children - '.implode(',',$age).' years old';
+                                    }
+
+                               @endphp
                             @if (count($hotelsDetails) > 0 && count($hotelsDetails['hotel']) > 0)
                                 @php
-                               
                                     $hotelsRoomDetails = $hotelsDetails['roomDetails'];
                                     $hotelsDetails = $hotelsDetails['hotel'];
                                     $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] .'<br>'.$offlineRoom->roomtype->room_type . '<span class="pull-right">' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . '</span></li>';
@@ -124,30 +142,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{-- <div class="row pt-10">
-                                                <div class="text-20 fw-500 mb-10">
-                                                    Remarks
-                                                </div>
-                                                        <div class="text-15">Check-in hour from 14:00. Car park Yes with
-                                                            charges.
-                                                            Car park YES (with additional debit notes). Check-in hour 14:00
-                                                            -
-                                                        </div>
-                                            </div> --}}
-                                            {{-- <div class="row pt-10">
-                                                <div class="text-20 fw-500 mb-10">
-                                                    Rate Information
-                                                </div>
-                                                        <div class="text-15">Please note that these rates don't allow
-                                                            modifications,
-                                                    therefore you would need to cancel and create a new booking.
-                                                    Cancellation charges apply as per cancellation policy. </div>
-                                            </div> --}}
+                                          
                                             <div class="border-top-light mt-30 mb-20"></div>
                                             <div class="row pt-10">
                                                 <div class="fw-500 mb-10">
 
-                                                    {{ $offlineRoom->roomtype->room_type }}
+                                                    {{ $offlineRoom->roomtype->room_type }} {{ $room_title_with_child }}
                                                     <div class="pull-right">
                                                                 {{ getNumberWithCommaGlobalCurrency($value['finalAmount']) }}
                                                             </div>
