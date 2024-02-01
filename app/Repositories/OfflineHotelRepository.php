@@ -48,7 +48,7 @@ class OfflineHotelRepository
             'hotel_longitude'    => $data['hotel_longitude'],
             'cancel_days'    => $data['cancel_days'],            
             'hotel_description'    => html_entity_decode($data['hotel_description']),
-            'cancellation_policy'    => html_entity_decode($data['cancellation_policy']),
+            'cancellation_policy'    => '',//html_entity_decode($data['cancellation_policy']),
             'front_office_first_name'         => $data['front_office_first_name'],
             'front_office_designation'         => $data['front_office_designation'],
             'front_office_contact_number'         => $data['front_office_contact_number'],
@@ -67,15 +67,37 @@ class OfflineHotelRepository
         $OfflineHotel = OfflineHotel::create($HotelArr);
         $OfflineHotel->hotelamenity()->attach($data['hotel_amenities']);
         $OfflineHotel->hotelfreebies()->attach($data['hotel_freebies']);
+
+        if (isset($data['subFacility']) && is_array($data['subFacility']) && count($data['subFacility']) > 0) {
+            $hotelincludefacilityArr = [];             
+            foreach ($data['subFacility'] as $key => $facility) {   
+                if( is_array($facility) && count($facility) > 0 ){
+                    foreach ($facility as $subkey => $subfacility) {   
+                        $hotelincludefacilityArr[] = array(
+                            'hotel_id' => $OfflineHotel->id,
+                            'facility_id'=>$key,
+                            'facilities_id' =>$subkey,        
+                        );
+                    }
+                }        
+            }               
+            $OfflineHotel->hotelincludefacility()->attach($hotelincludefacilityArr);               
+        }
+
         $images = [];
 
+        if( isset($request->hotel_gallery_image) ){
+
+        
         foreach ($request->hotel_gallery_image as $file) {
             $fileName = time() . Str::random(8) . '.' . $file->getClientOriginalExtension();
             $file->move(storage_path('app/upload/')."/Hotel/". $OfflineHotel->id."/gallery/", $fileName);
             $images[] = ['file_path' => $fileName];
         }
         $OfflineHotel->images()->createMany($images);
+    }
 
+    if( isset($request->hotel_image) ){
         if ($request->hotel_image) {
             foreach ($request['hotel_image'] as $files) {
                 $Filename = $files->getClientOriginalName();
@@ -83,6 +105,7 @@ class OfflineHotelRepository
             }
             $OfflineHotel->update(['hotel_image_location' => $Filename]);
         }
+    }
         //$user->notify(new RegisterdEmailNotification($password,$user));
         
         return $OfflineHotel;
@@ -135,7 +158,7 @@ class OfflineHotelRepository
             'hotel_longitude'    => $data['hotel_longitude'],
             'cancel_days'    => $data['cancel_days'],
             'hotel_description'    => html_entity_decode($data['hotel_description']),
-            'cancellation_policy'    => html_entity_decode($data['cancellation_policy']),
+            'cancellation_policy'    => "",//html_entity_decode($data['cancellation_policy']),
             'front_office_first_name'         => $data['front_office_first_name'],
             'front_office_designation'         => $data['front_office_designation'],
             'front_office_contact_number'         => $data['front_office_contact_number'],
@@ -161,6 +184,25 @@ class OfflineHotelRepository
             $offlinehotel->hotelfreebies()->detach();
             $offlinehotel->hotelfreebies()->attach($data['hotel_freebies']);
         }
+        
+
+        if (isset($data['subFacility']) && is_array($data['subFacility']) && count($data['subFacility']) > 0) {
+            $hotelincludefacilityArr = [];             
+            foreach ($data['subFacility'] as $key => $facility) {   
+                if( is_array($facility) && count($facility) > 0 ){
+                    foreach ($facility as $subkey => $subfacility) {   
+                        $hotelincludefacilityArr[] = array(
+                            'hotel_id' => $offlinehotel->id,
+                            'facility_id'=>$key,
+                            'facilities_id' =>$subkey,        
+                        );
+                    }
+                }        
+            }   
+            $offlinehotel->hotelincludefacility()->detach();     
+            $offlinehotel->hotelincludefacility()->attach($hotelincludefacilityArr);               
+        }
+
 
         $images = [];
         if ($request->hotel_gallery_image) {

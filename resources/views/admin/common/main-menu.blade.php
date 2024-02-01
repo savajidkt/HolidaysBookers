@@ -183,6 +183,19 @@
                         </li>
                     @endif
 
+                    {{-- @if (
+                        $admin->can('hotel-facility-create') ||
+                            $admin->can('hotel-facility-edit') ||
+                            $admin->can('hotel-facility-delete') ||
+                            $admin->can('hotel-facility-view')) --}}
+                        <li class=" {{ (Request::segment(2) == 'hotelfacility') ? 'active' : '' }}">
+                            <a class="d-flex align-items-center" href="{{ url('admin/hotelfacility') }}">
+                                <i data-feather="circle"></i><span class="menu-item text-truncate"
+                                    data-i18n="Hotel Facility">Hotel Facility</span>
+                            </a>
+                        </li>                       
+                    {{-- @endif --}}
+
                     @if (
                         $admin->can('vehicle-type-create') ||
                             $admin->can('vehicle-type-edit') ||

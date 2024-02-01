@@ -911,6 +911,38 @@ class HotelListingRepository
         return $roomListingArray;
     }
 
+    public function hotelincludefacilities($hotelincludefacilities){
+
+        $returnArr = [];
+        if($hotelincludefacilities){         
+            foreach ($hotelincludefacilities as $key => $value) {                   
+                    if($value->hotelfacilitiy){                     
+                        foreach ($value->hotelfacilitiy as $key1 => $value1) {
+                            if($value1->facilities){                               
+                                $tempArrs = [];
+                                foreach ($value1->facilities as $key2 => $value2) {   
+                                    $tempArr = [];                                
+                                    $tempArr['id'] = $value2->id;
+                                    $tempArr['facility_id'] = $value2->facility_id;
+                                    $tempArr['name'] = $value2->name;
+                                    $tempArrs[] = $tempArr;
+                                }
+                                 if (!array_key_exists($value1->id,$returnArr)){
+                                    $returnArr[$value1->id] = [
+                                        'name' =>$value1->name,
+                                        'icon' =>$value1->icon                                       
+                                    ];
+                                 }
+                                    $returnArr[$value1->id]['child'] =  $tempArrs;
+
+                            }
+                        }
+                    }
+            }
+        }
+return $returnArr;       
+    }
+
     public function hotelDetailsArr($id)
     {
         $hotel = OfflineHotel::find($id);
@@ -920,6 +952,7 @@ class HotelListingRepository
         $hotelsListingArray['hotel']['hotel_freebies'] = $hotel->hotelfreebies->toArray();
         $hotelsListingArray['hotel']['hotel_groups'] =  $hotel->hotelgroup->toArray();
         $hotelsListingArray['hotel']['hotel_images'] = $hotel->images->toArray();
+        $hotelsListingArray['hotel']['hotel_include_facility'] = $this->hotelincludefacilities($hotel->hotelincludefacilities);
 
         $roomsIds = $hotel->rooms->pluck('id')->toArray();
         $roomPrice = OfflineRoomPrice::whereIn('room_id', $roomsIds)->orderBy('price_p_n_single_adult')->limit(1)->first();

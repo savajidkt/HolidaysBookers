@@ -62,8 +62,11 @@ use App\Http\Controllers\Agent\BookingHistoryController as AgentBookingHistoryCo
 use App\Http\Controllers\Agent\DraftHistoryController as AgentDraftHistoryController;
 use App\Http\Controllers\Agent\TravelCalendarController as AgentTravelCalendarController;
 use App\Http\Controllers\Admin\Complimentaries\ComplimentariesController;
+use App\Http\Controllers\Admin\HotelFacilities\HotelFacilitiesController;
+use App\Http\Controllers\Admin\HotelFacility\HotelFacilityController;
 use App\Http\Controllers\Admin\Promotional\PromotionalController;
 use App\Http\Controllers\Admin\StopSale\StopSaleController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -152,6 +155,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::resource('/amenities', AmenitiesController::class);
     Route::post('/amenity/change-status', [AmenitiesController::class, 'changeStatus'])->name('change-amenity-status');
     Route::post('/amenity/add-amenity', [AmenitiesController::class, 'addAmenityPopup'])->name('add-amenity');
+
+    Route::resource('/hotelfacility', HotelFacilityController::class);
+    Route::post('/hotelfacility/change-hotelfacility-status', [HotelFacilityController::class, 'changeStatus'])->name('change-hotelfacility-status');
+    
+    Route::resource('/hotelfacilities', HotelFacilitiesController::class);
+    Route::post('/hotelfacilities/change-hotelfacilities-status', [HotelFacilitiesController::class, 'changeStatus'])->name('change-hotelfacilities-status');
+    
 
     Route::resource('/freebies', FreebiesController::class);
     Route::post('/freebies/change-status', [FreebiesController::class, 'changeStatus'])->name('change-freebies-status');

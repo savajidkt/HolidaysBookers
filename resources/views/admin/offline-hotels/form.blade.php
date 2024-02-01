@@ -1,4 +1,5 @@
 @php
+
     $hotel_image_location = '';
     $images = [];
     if (isset($model->images)) {
@@ -6,11 +7,11 @@
             $images[$key]['file_path'] = url(Storage::url('app/upload/Hotel/' . $model->id . '/gallery/' . $img['file_path']));
         }
     }
-    
+
     if (strlen($model->hotel_image_location) > 0) {
         $hotel_image_location = url(Storage::url('app/upload/Hotel/' . $model->id . '/' . $model->hotel_image_location));
     }
-    
+
 @endphp
 <script>
     var HotelsFreebies = {!! json_encode($HotelsFreebies) !!};
@@ -41,7 +42,8 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_name">Hotel Name <span class="text-danger">*</span></label>
-            <input type="text" id="hotel_name" name="hotel_name" class="form-control" onkeydown="return /[a-zA-Z ]/.test(event.key)" placeholder="Hotel Name"
+            <input type="text" id="hotel_name" name="hotel_name" class="form-control"
+                onkeydown="return /[a-zA-Z ]/.test(event.key)" placeholder="Hotel Name"
                 value="{{ isset($model->hotel_name) ? $model->hotel_name : old('hotel_name') }}"
                 data-error="Hotel Name" />
             <div class="valid-feedback">Looks good!</div>
@@ -150,7 +152,8 @@
     <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="phone_number">Phone Number <span class="text-danger">*</span></label>
-            <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Phone Number" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
+            <input type="text" id="phone_number" name="phone_number" class="form-control" placeholder="Phone Number"
+                oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
                 value="{{ isset($model->phone_number) ? $model->phone_number : old('phone_number') }}"
                 data-error="Phone Number" />
             <div class="valid-feedback">Looks good!</div>
@@ -162,7 +165,7 @@
     <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="fax_number">Fax Number</label>
-            <input type="text" id="fax_number" name="fax_number" class="form-control"  placeholder="Fax Number"
+            <input type="text" id="fax_number" name="fax_number" class="form-control" placeholder="Fax Number"
                 value="{{ isset($model->fax_number) ? $model->fax_number : old('fax_number') }}"
                 data-error="Fax Number" />
             <div class="valid-feedback">Looks good!</div>
@@ -174,9 +177,9 @@
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_address">Address <span class="text-danger">*</span></label>
-            <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address" oninput="this.value = this.value.replace(/[^0-9a-zA-Z\s]+/g, '').replace(/(\..*)\./g, '$1');"
-                placeholder="Address"
-                cols="30" rows="2">{{ isset($model->hotel_address) ? $model->hotel_address : old('hotel_address') }}</textarea>
+            <textarea id="hotel_address" name="hotel_address" class="form-control" data-error="Address"
+                oninput="this.value = this.value.replace(/[^0-9a-zA-Z\s]+/g, '').replace(/(\..*)\./g, '$1');"
+                placeholder="Address" cols="30" rows="2">{{ isset($model->hotel_address) ? $model->hotel_address : old('hotel_address') }}</textarea>
             <div class="valid-feedback">Looks good!</div>
             @error('hotel_address')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -186,7 +189,8 @@
     <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_pincode">Pincode <span class="text-danger">*</span></label>
-            <input type="text" id="hotel_pincode" name="hotel_pincode" class="form-control" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
+            <input type="text" id="hotel_pincode" name="hotel_pincode" class="form-control"
+                oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
                 placeholder="Pincode"
                 value="{{ isset($model->hotel_pincode) ? $model->hotel_pincode : old('hotel_pincode') }}"
                 data-error="Pincode" />
@@ -225,7 +229,8 @@
     </div>
     <div class="col-4">
         <div class="form-group">
-            <label class="form-label" for="hotel_amenities">Hotel Amenities <span class="text-danger">*</span></label>
+            <label class="form-label" for="hotel_amenities">Hotel Amenities <span
+                    class="text-danger">*</span></label>
             <a class="badge badge-success roomAmenityBTN" style="color:#FFF; float: right;">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add Amenities
             </a>
@@ -261,7 +266,9 @@
     <div class="col-2">
         <div class="form-group">
             <label class="form-label" for="hotel_review">Rating <span class="text-danger">*</span></label>
-            <input type="text" id="hotel_review" name="hotel_review" class="form-control" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" placeholder="Rating"
+            <input type="text" id="hotel_review" name="hotel_review" class="form-control"
+                oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
+                placeholder="Rating"
                 value="{{ isset($model->hotel_review) ? $model->hotel_review : old('hotel_review') }}"
                 data-error="Rating" />
             <div class="valid-feedback">Looks good!</div>
@@ -320,7 +327,8 @@
         <hr class="my-2" />
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="front_office_first_name">Name <span class="text-danger">*</span></label>
+                <label class="form-label" for="front_office_first_name">Name <span
+                        class="text-danger">*</span></label>
                 <input type="text" id="front_office_first_name" name="front_office_first_name"
                     class="form-control" placeholder="Name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                     value="{{ isset($model->front_office_first_name) ? $model->front_office_first_name : old('front_office_first_name') }}"
@@ -333,7 +341,8 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="front_office_designation">Designation <span class="text-danger">*</span></label>
+                <label class="form-label" for="front_office_designation">Designation <span
+                        class="text-danger">*</span></label>
                 <input type="text" id="front_office_designation" name="front_office_designation"
                     class="form-control" placeholder="Designation"
                     value="{{ isset($model->front_office_designation) ? $model->front_office_designation : old('front_office_designation') }}"
@@ -346,7 +355,8 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="front_office_contact_number">Contact Number <span class="text-danger">*</span></label>
+                <label class="form-label" for="front_office_contact_number">Contact Number <span
+                        class="text-danger">*</span></label>
                 <input type="text" id="front_office_contact_number" name="front_office_contact_number"
                     class="form-control" placeholder="Contact Number"
                     value="{{ isset($model->front_office_contact_number) ? $model->front_office_contact_number : old('front_office_contact_number') }}"
@@ -392,7 +402,8 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="sales_designation">Designation <span class="text-danger">*</span></label>
+                <label class="form-label" for="sales_designation">Designation <span
+                        class="text-danger">*</span></label>
                 <input type="text" id="sales_designation" name="sales_designation" class="form-control"
                     placeholder="Designation"
                     value="{{ isset($model->sales_designation) ? $model->sales_designation : old('sales_designation') }}"
@@ -405,7 +416,8 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="sales_contact_number">Contact Number <span class="text-danger">*</span></label>
+                <label class="form-label" for="sales_contact_number">Contact Number <span
+                        class="text-danger">*</span></label>
                 <input type="text" id="sales_contact_number" name="sales_contact_number" class="form-control"
                     placeholder="Contact Number"
                     value="{{ isset($model->sales_contact_number) ? $model->sales_contact_number : old('sales_contact_number') }}"
@@ -418,7 +430,7 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="sales_email">Email  <span class="text-danger">*</span></label>
+                <label class="form-label" for="sales_email">Email <span class="text-danger">*</span></label>
                 <input type="text" id="sales_email" name="sales_email" class="form-control" placeholder="Email"
                     value="{{ isset($model->sales_email) ? $model->sales_email : old('sales_email') }}"
                     data-error="Email" />
@@ -437,7 +449,8 @@
         <hr class="my-2" />
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="reservation_first_name">Name <span class="text-danger">*</span></label>
+                <label class="form-label" for="reservation_first_name">Name <span
+                        class="text-danger">*</span></label>
                 <input type="text" id="reservation_first_name" name="reservation_first_name" class="form-control"
                     placeholder="Name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
                     value="{{ isset($model->reservation_first_name) ? $model->reservation_first_name : old('reservation_first_name') }}"
@@ -450,7 +463,8 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="reservation_designation">Designation <span class="text-danger">*</span></label>
+                <label class="form-label" for="reservation_designation">Designation <span
+                        class="text-danger">*</span></label>
                 <input type="text" id="reservation_designation" name="reservation_designation"
                     class="form-control" placeholder="Designation"
                     value="{{ isset($model->reservation_designation) ? $model->reservation_designation : old('reservation_designation') }}"
@@ -463,7 +477,8 @@
         </div>
         <div class="col-12">
             <div class="form-group">
-                <label class="form-label" for="reservation_contact_number">Contact Number <span class="text-danger">*</span></label>
+                <label class="form-label" for="reservation_contact_number">Contact Number <span
+                        class="text-danger">*</span></label>
                 <input type="text" id="reservation_contact_number" name="reservation_contact_number"
                     class="form-control" placeholder="Contact Number"
                     value="{{ isset($model->reservation_contact_number) ? $model->reservation_contact_number : old('reservation_contact_number') }}"
@@ -491,7 +506,7 @@
 
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-12">
 
         <div class="form-group">
             <label class="form-label" for="hotel_description">Hotel Description</label>
@@ -504,17 +519,68 @@
             <div class="hotel_description_Err"></div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-12">
         <div class="form-group">
-            <label class="form-label" for="cancellation_policy">Cancellation Policy</label>
-            <textarea name="cancellation_policy" class="my_cancellation_policy" id="my_cancellation_policy" cols="30"
-                rows="10">{{ isset($model->cancellation_policy) ? $model->cancellation_policy : '' }}</textarea>
-            <div class="valid-feedback">Looks good!</div>
-            @error('cancellation_policy')
-                <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-            @enderror
-            <div class="cancellation_policy_Err"></div>
-        </div>        
+            <label class="form-label" for="hotel_description">Hotel Facility</label>
+            @if ($HotelFacility)
+                @foreach ($HotelFacility as $key => $value)
+                    <div class="form-group">
+                        <div class="custom-control custom-switch">
+                            @php
+                                $isChecked = '';
+                                $ishide = 'hide';
+                            @endphp
+                            @if (is_array($HotelFacilityIDS) && count($HotelFacilityIDS) > 0)
+                                @foreach ($HotelFacilityIDS  as $key1 => $myID)
+                                    @if ($value->id == $myID)
+                                        @php                                      
+                                            $isChecked = 'checked';
+                                            $ishide = '';                                          
+                                            break;
+
+                                        @endphp
+                                    @endif
+                                @endforeach
+                            @endif
+                            <input {{ $isChecked }} type="checkbox" class="custom-control-input facilitiesSwitch"
+                                id="{{ $value->id }}" name="facilities[{{ $value->id }}]">
+                            <label class="custom-control-label"
+                                for="{{ $value->id }}">{{ $value->name }}</label>
+                        </div>
+                    </div>
+                    @if ($value->facilities)
+                        <div class="row {{ $ishide }}" id="row_{{ $value->id }}">
+                            @foreach ($value->facilities as $subkey => $subvalue)
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            @php
+                                            $isChecked1 = '';
+                                            
+                                        @endphp
+                                            @if (is_array($HotelFacilities_IDS) && count($HotelFacilities_IDS) > 0)
+                                                @foreach ($HotelFacilities_IDS  as $key2 => $myID2)
+                                                    @if ($subvalue->id == $myID2)
+                                                        @php                                      
+                                                            $isChecked1 = 'checked';                                                                                                 
+                                                            break;
+                                                        @endphp
+                                                    @endif
+                                                @endforeach
+                                            @endif
+
+                                            <input {{ $isChecked1 }} class="form-check-input" type="checkbox"
+                                                name="subFacility[{{ $value->id }}][{{ $subvalue->id }}]">
+                                            <label class="form-check-label">{{ $subvalue->name }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                @endforeach
+            @endif
+        </div>
     </div>
     <div class="col-4">
         <div class="form-group">
@@ -535,11 +601,24 @@
 
 @section('extra-script')
     <script>
+        $(function() {
+            $('.facilitiesSwitch').change(function() {
+                console.log($(this).attr('id'));
+                if ($(this).is(':checked')) {
+                    $('#row_' + $(this).attr('id')).removeClass('hide');
+                } else {
+                    $('#row_' + $(this).attr('id')).addClass('hide');
+                }
+            })
+        })
+    </script>
+
+    <script>
         $('.select2').select2();
     </script>
     <script>
-        $(document).ready(function(){
-            $('#fax_number').on('input', function(){
+        $(document).ready(function() {
+            $('#fax_number').on('input', function() {
                 var inputValue = $(this).val();
                 var sanitizedValue = inputValue.replace(/[^0-9+]/g, ''); // Allow only digits and plus
                 if (inputValue !== sanitizedValue) {
@@ -685,6 +764,6 @@
             var existingFileCount = 1; // The number of files already uploaded
             myHotelDropzone.options.maxFiles = myHotelDropzone.options.maxFiles - existingFileCount;
 
-        }        
+        }
     </script>
 @endsection
