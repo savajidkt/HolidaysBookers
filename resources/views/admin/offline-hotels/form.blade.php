@@ -648,24 +648,18 @@
             moduleConfig['addStoreURL'] = "{!! route('offlinehotels.store') !!}";
         </script>
     @endif
-    <script type="text/javascript">
-        console.log(moduleConfig);
-    </script>
+   
     {{-- <script src="{{ asset('js/form/Customer.js') }}"></script> --}}
     <script src="{{ asset('js/form/Offline-Hotel.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
     <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 
     <script type="text/javascript">
+     
         var hotel_description = CKEDITOR.replace('hotel_description');
         hotel_description.on('change', function() {
             hotel_description.updateElement();
-        });
-
-        var cancellation_policy = CKEDITOR.replace('cancellation_policy');
-        cancellation_policy.on('change', function() {
-            cancellation_policy.updateElement();
-        });
+        }); 
 
         Dropzone.autoDiscover = false;
         var myDropzone = new Dropzone("div#mydropzone", {
