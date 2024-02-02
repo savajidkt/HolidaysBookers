@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+
 class HotelListingRepository
 {
 
@@ -322,7 +323,8 @@ class HotelListingRepository
             $hotelsListingArray[$key]['cancel_days'] = $hotel->cancel_days;
             $hotelsListingArray[$key]['cancellation_policy'] = $hotel->cancellation_policy;
             $hotelsListingArray[$key]['hotel_type'] = $hotel->hotel_type;
-            $hotelsListingArray[$key]['hotel_amenities'] = $hotel->hotelamenity->toArray();
+            $hotelsListingArray[$key]['hotel_amenities'] = $hotel->hotelamenity->toArray();     
+            $hotelsListingArray[$key]['hotel_include_facility'] = hotelincludefacilities($hotel->hotelincludefacilities);     
             $hotelsListingArray[$key]['hotel_groups'] =  $hotel->hotelgroup->toArray();
             $hotelsListingArray[$key]['hotel_images'] = $hotel->images->toArray();
             $hotelRoomArray = [];
@@ -909,39 +911,7 @@ class HotelListingRepository
         }
      
         return $roomListingArray;
-    }
-
-    public function hotelincludefacilities($hotelincludefacilities){
-
-        $returnArr = [];
-        if($hotelincludefacilities){         
-            foreach ($hotelincludefacilities as $key => $value) {                   
-                    if($value->hotelfacilitiy){                     
-                        foreach ($value->hotelfacilitiy as $key1 => $value1) {
-                            if($value1->facilities){                               
-                                $tempArrs = [];
-                                foreach ($value1->facilities as $key2 => $value2) {   
-                                    $tempArr = [];                                
-                                    $tempArr['id'] = $value2->id;
-                                    $tempArr['facility_id'] = $value2->facility_id;
-                                    $tempArr['name'] = $value2->name;
-                                    $tempArrs[] = $tempArr;
-                                }
-                                 if (!array_key_exists($value1->id,$returnArr)){
-                                    $returnArr[$value1->id] = [
-                                        'name' =>$value1->name,
-                                        'icon' =>$value1->icon                                       
-                                    ];
-                                 }
-                                    $returnArr[$value1->id]['child'] =  $tempArrs;
-
-                            }
-                        }
-                    }
-            }
-        }
-return $returnArr;       
-    }
+    }   
 
     public function hotelDetailsArr($id)
     {
@@ -952,7 +922,8 @@ return $returnArr;
         $hotelsListingArray['hotel']['hotel_freebies'] = $hotel->hotelfreebies->toArray();
         $hotelsListingArray['hotel']['hotel_groups'] =  $hotel->hotelgroup->toArray();
         $hotelsListingArray['hotel']['hotel_images'] = $hotel->images->toArray();
-        $hotelsListingArray['hotel']['hotel_include_facility'] = $this->hotelincludefacilities($hotel->hotelincludefacilities);
+        
+        $hotelsListingArray['hotel']['hotel_include_facility'] = hotelincludefacilities($hotel->hotelincludefacilities);
 
         $roomsIds = $hotel->rooms->pluck('id')->toArray();
         $roomPrice = OfflineRoomPrice::whereIn('room_id', $roomsIds)->orderBy('price_p_n_single_adult')->limit(1)->first();

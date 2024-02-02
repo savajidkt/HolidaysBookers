@@ -189,15 +189,18 @@ class OfflineHotelRepository
         if (isset($data['subFacility']) && is_array($data['subFacility']) && count($data['subFacility']) > 0) {
             $hotelincludefacilityArr = [];             
             foreach ($data['subFacility'] as $key => $facility) {   
-                if( is_array($facility) && count($facility) > 0 ){
-                    foreach ($facility as $subkey => $subfacility) {   
-                        $hotelincludefacilityArr[] = array(
-                            'hotel_id' => $offlinehotel->id,
-                            'facility_id'=>$key,
-                            'facilities_id' =>$subkey,        
-                        );
-                    }
-                }        
+                if( array_key_exists($key, $data['facilities'])){
+                    if( is_array($facility) && count($facility) > 0 ){
+                        foreach ($facility as $subkey => $subfacility) {   
+                            $hotelincludefacilityArr[] = array(
+                                'hotel_id' => $offlinehotel->id,
+                                'facility_id'=>$key,
+                                'facilities_id' =>$subkey,        
+                            );
+                        }
+                    } 
+                }  
+
             }   
             $offlinehotel->hotelincludefacility()->detach();     
             $offlinehotel->hotelincludefacility()->attach($hotelincludefacilityArr);               

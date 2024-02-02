@@ -949,12 +949,23 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
                   <h3 class="text-22 fw-500 pt-40 border-top-light">Overview</h3>
 
+                  @if (count($hotelsDetails['hotel']['hotel_include_facility']) > 0)
+                  <div class="row x-gap-10 y-gap-10 pt-24">
+                     @foreach ($hotelsDetails['hotel']['hotel_include_facility'] as $key => $value)
+                     <div class="col-auto">                       
+                        <div class="d-flex items-center py-5 px-20 rounded-100 border-light">
+                           @if (strlen($value['icon']) > 0)            
+                           <img src="<?php echo url("storage/app/public/facility-icon/".$value['icon'])?>" style="margin-right: 10px;width:20px;">
+                       @endif  
+                           <div class="text-14 lh-15">{{ $value['name'] }}</div>
+                        </div>
+                      </div>
+                     @endforeach
+                  </div>
+                  @endif
                   <p class="text-dark-1 text-15 mt-20">
-
                      {!! $hotelsDetails['hotel']['hotel_description'] !!}
-
                   </p>
-
                </div>
 
                @if (count($hotelsDetails['hotel']['hotel_amenities']) > 0)
@@ -1304,7 +1315,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
 
             <div class="sectionTitle -md">
 
-               <h2 class="sectionTitle__title">Popular properties similar to The Crown Hotel</h2>
+               <h2 class="sectionTitle__title">Popular properties similar to {{ $hotelsDetails['hotel']['hotel_name'] }}</h2>
 
                <p class=" sectionTitle__text mt-5 sm:mt-0">Interdum et malesuada fames ac ante ipsum</p>
 

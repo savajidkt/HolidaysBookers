@@ -76,4 +76,7 @@ class HotelFacilities extends Model
 
         return $status;
     }    
+
+    
+
 }

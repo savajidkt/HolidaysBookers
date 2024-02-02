@@ -2652,3 +2652,26 @@ function orderTableHTML($order)
         }
     
     }
+
+
+    function hotelincludefacilities($hotelincludefacilities){
+       
+        $returnArr = [];
+        if($hotelincludefacilities){               
+            foreach ($hotelincludefacilities as $key => $value) {                
+                $tempArr = [];                                
+                $tempArr['id'] = $value->facilitiesone->id;
+                $tempArr['facility_id'] = $value->facilitiesone->facility_id;
+                $tempArr['name'] = $value->facilitiesone->name;
+                           
+                if (!array_key_exists($value->hotelfacilitiyOne->id,$returnArr)){                
+                    $returnArr[$value->hotelfacilitiyOne->id] = [
+                        'name' =>$value->hotelfacilitiyOne->name,
+                        'icon' =>$value->hotelfacilitiyOne->icon                                       
+                    ];
+                }            
+                $returnArr[$value->hotelfacilitiyOne->id]['child'][] =  $tempArr;
+            }
+        }   
+        return $returnArr;       
+    }

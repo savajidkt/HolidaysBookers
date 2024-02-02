@@ -27,6 +27,15 @@ class HotelIncludedFacilities extends Model
     {
         return $this->belongsToMany(HotelFacility::class, 'hotel_included_facilities', 'id', 'facility_id');
     }
+    public function hotelfacilitiyOne()
+    {
+        return $this->hasOne(HotelFacility::class, 'id', 'facility_id');
+    }
+
+    public function facilitiesone()
+    {
+        return $this->hasOne(HotelFacilities::class, 'id', 'facilities_id');
+    }
 
     
 }

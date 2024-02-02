@@ -79,16 +79,32 @@
                             </div>
                            
                           
-                            @if ($hotel['hotel_amenities'])
-                                <div class="row x-gap-10 y-gap-10">
-                                    @foreach ($hotel['hotel_amenities'] as $amenity)
-                                        <div class="col-auto">
-                                            <div class="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                                                {{ $amenity['amenity_name'] }}
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
+                            @if ($hotel['hotel_include_facility'])
+
+                            <div class="row x-gap-10 y-gap-10 ">
+                                @php
+                                    $i = 0;
+                                @endphp
+                                @foreach ($hotel['hotel_include_facility'] as $key => $value)
+                                @php
+                                $i++;
+                            @endphp
+                            @if ($i <= 4)
+                                
+                         
+                                <div class="col-auto">                       
+                                   <div class="d-flex items-center py-5 px-20 rounded-100 border-light">
+                                      @if (strlen($value['icon']) > 0)            
+                                      <img src="<?php echo url("storage/app/public/facility-icon/".$value['icon'])?>" style="margin-right: 10px;width:20px;">
+                                  @endif  
+                                      <div class="text-14 lh-15">{{ $value['name'] }}</div>
+                                   </div>
+                                 </div>
+                                 @endif
+                                @endforeach
+                             </div>
+
+                               
                             @endif
                               <div class="text-14 text-green-2 lh-15 hb-list-dropdown">
                                 <a href="javascript:void(0);" data-hotel-id="{{ $hotel['id'] }}" data-type="map"
