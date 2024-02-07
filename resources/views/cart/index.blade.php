@@ -47,16 +47,18 @@
 
                     @if (count($bookingCartArr) > 0)
                         @foreach ($bookingCartArr as $bo_key => $bo_value)
+                        {{-- {{ dd($bo_value) }} --}}
                             @if ($bo_key == 'hotel')
                                 @foreach ($bo_value as $key => $value)
                             @php
                                 $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
                                 $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
                             @endphp
+                             @php
+                             $age=[];
+                         @endphp
                                @if ($value['room_child_age'])
-                                    @php
-                                        $age=[];
-                                    @endphp
+                                   
                                    @foreach ($value['room_child_age'] as $ckey => $child)
                                         @php
                                             $age[] = $child->age;
