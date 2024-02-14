@@ -13,16 +13,11 @@
                                 data-room-title="{{ $room['room_type'] }}" data-room-code="SUI"
                                 data-room-characteristic="ST" data-load-ajax="true">
                                 {{ $room['room_type'] }}
-                            </a>
-                            <p>{{ $room['room_title_with_child'] }}</p>
-                            
-
-                            </div>
-                            
+                            </a>                           
+                            <p>{{ $room['room_title_with_child'] }}</p> 
+                            </div>                            
                         </div>
                     </div>
-
-
                 </div>
                 <div class="main-htl_list">  
                     <div class="hotal-room-list">
@@ -35,8 +30,8 @@
                                         'hotel_id' => isset($room['hotel_id']) ? $room['hotel_id'] : '',
                                         'room_id' => isset($room['room_id']) ? $room['room_id'] : '',
                                         'price_id' => isset($priceroom['price_id']) ? $priceroom['price_id'] : '',
-                                        'adult' => getSearchCookies('searchGuestAdultCount') ? getSearchCookies('searchGuestAdultCount') : 0,
-                                        'child' => getSearchCookies('searchGuestChildCount') ? getSearchCookies('searchGuestChildCount') : 0,
+                                        'adult' => isset($room['room_adults']) ? $room['room_adults'] : 0,
+                                        'child' => isset($room['room_childs']) ? $room['room_childs'] : 0,
                                         'room_child_age' => isset($room['room_child_age']) ? $room['room_child_age'] : '',
                                         'room' => getSearchCookies('searchGuestRoomCount') ? getSearchCookies('searchGuestRoomCount') : 0,
 
@@ -129,8 +124,7 @@
                                                         @endforeach
                                                     @endif
                                                 @endforeach
-                                            @endif
-    
+                                            @endif    
                                             
                                             <button type="button" data-extra="{{ selectRoomBooking($bookingParam, true) }}"
                                                 class="button h-50 px-24 -dark-1 bg-blue-1 text-white mt-5 SelectRoomBook">

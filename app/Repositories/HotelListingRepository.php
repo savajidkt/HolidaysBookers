@@ -567,6 +567,7 @@ class HotelListingRepository
         $tempRoomArray = [];
         $tempSearRoomArray = [];
         $room_key=0;
+        
         foreach ($searchGuestArr as $searchRoom) {
             $totalAdChild = $searchRoom->adult + $searchRoom->child;
             $rooms = $hotel->rooms()->where('occ_sleepsmax', '>=', $totalAdChild)->where('status', OfflineRoom::ACTIVE)->get();
@@ -593,6 +594,8 @@ class HotelListingRepository
 
                     $roomListingArray[$room_key]['room_title_with_child'] = $room_title_with_child;
                     $roomListingArray[$room_key]['room_child_age'] = $searchRoom->childAge;
+                    $roomListingArray[$room_key]['room_adults_count'] = $searchRoom->adult;
+                    $roomListingArray[$room_key]['room_child_count'] = $searchRoom->child;
                     //$roomTempArray['room'] = $srRoom->toArray();
                     $roomListingArray[$room_key]['room_amenities'] = $srRoom->roomamenity->toArray();
                     $roomListingArray[$room_key]['room_mealplans'] = isset($srRoom->mealplan) ? $srRoom->mealplan->toArray() : [];

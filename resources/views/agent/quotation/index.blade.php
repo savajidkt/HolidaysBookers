@@ -92,13 +92,39 @@
                                         $j = 1;
                                     @endphp
                                     @foreach ($value->quote_hotel_rooms as $roomkey => $roomvalue)
-                                        {{-- {{ dd($roomvalue->hotel_details->city->name) }} --}}
+                                       
                                         @php
+                                        $child_extraArr = [];
+                                        $age=[];
                                             $payAmount = $payAmount + $roomvalue->price;
                                             if ($roomvalue->extra_markup_price > 0) {
                                                 $payAmount = $payAmount + $roomvalue->extra_markup_price;
                                             }
                                         @endphp
+
+                                        @if (isset($roomvalue->child_extra))
+                                            @php
+                                                $child_extraArr = unserialize($roomvalue->child_extra);
+                                            @endphp                            
+                                        @foreach ($child_extraArr as $ckey => $child)
+                                            @php
+                                                $age[] = $child->age;
+                                            @endphp
+                                        @endforeach
+                                        @endif
+
+                                        @php
+                                   $room_title_with_child='';                                   
+                                    if($roomvalue->adult){
+                                        $room_title_with_child = dateDiffInDays($roomvalue->check_in_date, $roomvalue->check_out_date).' Nights, ';                                        
+                                        $room_title_with_child .='for '.$roomvalue->adult.' adults';                                        
+                                    }
+                                    if($roomvalue->child){
+                                        $room_title_with_child .=', '.$roomvalue->child.' children - '.implode(',',$age).' years old';                                        
+                                    }
+
+                               @endphp
+
                                         @if ($j == 1)
                                             <div class="col-md-12">
                                             @else
@@ -112,10 +138,9 @@
                                                 </h3>
                                                 <div class="row x-gap-10 y-gap-10 items-center">
                                                     <div class="col-auto">
-                                                        <p class="text-14">{{ $roomvalue->hotel_details->city->name }}
-                                                            {{ $roomvalue->room_name ? ', ' . $roomvalue->room_name : '' }}
-                                                            {{ $value->total_adult ? $value->total_adult . ' - Adults' : '' }}
-                                                            {{ $value->total_child ? $value->total_child . ' - Child' : '' }}
+                                                        <p class="text-14"><i class="icon-location-2 text-16 mr-5"></i> {{ $roomvalue->hotel_details->city->name }} </p>
+                                                        <p> {{ $roomvalue->room_name ?  $roomvalue->room_name : '' }}                                                           
+                                                            {{ $room_title_with_child }} 
                                                         </p>
                                                     </div>
                                                 </div>

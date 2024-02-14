@@ -189,6 +189,8 @@ class HotelListController extends Controller
 
     public function show($id)
     {
+
+        
       
         $safeencryptionObj = new Safeencryption;
         $requestParam = unserialize($safeencryptionObj->decode($id));
@@ -207,7 +209,7 @@ class HotelListController extends Controller
         if ($hotelsDetails) {
             $hotelsRelated = $this->hotelListingRepository->hotelRelated($hotelsDetails['hotel']);
         }
-
+       
      
         return view('hotel.hotel-details', ['requestedArr' => $requestParam, 'hotelsDetails' => $hotelsDetails, 'hotelsRoomDetails' => $hotelsRoomDetails, 'hotelsRelated' => $hotelsRelated, 'safeencryptionObj' => $safeencryptionObj, 'requestParam' => $requestParam, 'id' => $id, 'bookingCartArr' => getBookingCart('bookingCart')]);
     }

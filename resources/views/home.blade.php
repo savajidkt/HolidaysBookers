@@ -84,10 +84,10 @@
                                                 </div>
                                                 <div class="px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                                                     <div data-x-dd-click="searchMenu-date">
-                                                        <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
+                                                        <h4 class="text-15 fw-500 ls-2 lh-16 checkin-out">From - to <span class="nights"></span></h4>
                                                         <div class="text-15 text-light-1 ls-2 lh-16">
                                                             <input class="form-control" placeholder="Check in - Check out"
-                                                                name="daterange" />
+                                                                name="daterange" />                                                            
                                                             <input type="hidden" id="hidden_from" name="search_from"
                                                                 value="">
                                                             <input type="hidden" id="hidden_to" name="search_to"
@@ -2081,7 +2081,8 @@
 @section('page-script')
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    
+    <script src="{{ asset('assets/front/js/cdn.jsdelivr.net_npm_daterangepicker_daterangepicker.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="{{ asset('assets/front/js/jquery.cookie.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>

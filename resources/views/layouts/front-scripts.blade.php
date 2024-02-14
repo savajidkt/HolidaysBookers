@@ -92,15 +92,28 @@
                                         </select>
 
                                         <div
-                                            class="d-flex px-5 py-5 ageCWBCHK {{ $childAge->age > 2 ? 'is-show' : 'is-hide' }} ">
+                                            class="d-flex px-5 py-5 ageCWBCHK ">
                                             <div class="form-checkbox ">
-                                                <input type="checkbox" name="ageCWB" class="ageCWB"
+                                                <input type="radio" name="ageCWB" class="ageCWB" value="yes"
                                                     {{ $childAge->cwb == 'yes' ? 'checked' : '' }}>
                                                 <div class="form-checkbox__mark">
                                                     <div class="form-checkbox__icon icon-check"></div>
                                                 </div>
+                                                <div class="text-14 lh-12 ml-10">CWB</div>
                                             </div>
-                                            <div class="text-14 lh-12 ml-10">CWB</div>
+                                            
+                                        </div>
+                                        <div
+                                            class="d-flex px-5 py-5 ageCWBCHK">
+                                            <div class="form-checkbox ">
+                                                <input type="radio" name="ageCWB" class="ageCWB" value="no"
+                                                    {{ $childAge->cwb == 'yes' ? 'checked' : '' }}>
+                                                <div class="form-checkbox__mark">
+                                                    <div class="form-checkbox__icon icon-check"></div>
+                                                </div>
+                                                <div class="text-14 lh-12 ml-10">CNB</div>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 @endforeach
@@ -153,15 +166,15 @@
             @endif
             <div class="row py-30 sm:px-15 sm:py-15 row-block">
                 <div class="col-lg-6">
-                    <div class="accordion__icon size-40 flex-center bg-success-1 rounded-full mr-20 addMore"
+                    <div class="accordion__icon size-40 flex-center  rounded-full mr-20 addMore"
                         data-action="add">
                         <i class="icon-plus"></i>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="accordion__icon size-40 flex-center bg-success-1 rounded-full mr-20 SearchDone floatright"
+                    <div class="accordion__icon size-40 flex-center  rounded-full mr-20 SearchDone floatright"
                         data-action="add">
-                        <i class="icon-check"></i>
+                        Apply
                     </div>
                 </div>
             </div>

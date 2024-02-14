@@ -818,10 +818,12 @@ class CheckoutRepository
         $adultCount = 0;
         $childCount = 0;
         $roomCount = count($extra_data['cartData']);
+        $room_child_age = [];
 
         if ($roomCount > 0) {
             $i = 1;
             foreach ($data['hotel'] as $key => $value) {
+                
                 if (isset($value['room_no_' . $i]['adults']) && is_numeric($value['room_no_' . $i]['adults'])) {
                     $adultCount = $adultCount + (int) $value['room_no_' . $i]['adults'];
                 }
@@ -829,11 +831,31 @@ class CheckoutRepository
                 if (isset($value['room_no_' . $i]['childs']) && is_numeric($value['room_no_' . $i]['childs'])) {
                     $childCount = $childCount + (int) $value['room_no_' . $i]['childs'];
                 }
+               
+               
+                   
+                   if( isset($value['room_no_' . $i]['room_child_age']) && is_array($value['room_no_' . $i]['room_child_age']) && count($value['room_no_' . $i]['room_child_age']) > 0 ){                   
+                        foreach ($value['room_no_' . $i]['room_child_age'] as $child_key => $child_value) {                            
+                            if( is_array( $child_value) && count( $child_value) > 0 ){
+                                foreach ($child_value as $s_child_key => $s_child_value) {
+                                    $tempArr = [];
+                                    $tempArr['cwb'] = $value['room_no_' . $i]['room_child_age']["cwd"][$s_child_key];
+                                    $tempArr['age'] = $s_child_value;
+                                   
+                                    $room_child_age[$i][] = $tempArr;
+                                   
+                                }
+                            }
+                            break;
+                            //dd($room_child_age);
+                        }
+                   }                
 
                 $i++;
             }
         }
-
+        $room_child_age = json_decode(json_encode($room_child_age), FALSE);       
+        $extra_data['child_extra'] = $room_child_age;
 
         if ($data['passengers'] == "lead") {
             $learArr = [];
@@ -967,9 +989,8 @@ class CheckoutRepository
     }
 
     public function addQuoteOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLead)
-    {
-       
-
+    {       
+        
         if (count($value) > 0) {
             $roomType = OfflineRoom::find($value['room_id']);
             $addHotelRoom = [];
@@ -988,6 +1009,7 @@ class CheckoutRepository
             $addHotelRoom['price'] = $value['finalAmount'];
             $addHotelRoom['adult'] = $value['adult'];
             $addHotelRoom['child'] = $value['child'];
+            $addHotelRoom['child_extra'] = serialize($value['room_child_age']);
             $addHotelRoom['child_with_bed'] = 0;
             $addHotelRoom['child_without_bed'] = 0;
             

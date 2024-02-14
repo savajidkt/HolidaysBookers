@@ -661,7 +661,7 @@ function FrmAddMoreGuest() {
             collectionAge.each(function (index) {
                 var tempArr = [];
                 var cwb = "no";
-                if ($(this).find(".ageCWB").prop('checked') == true && $(this).find(".age :selected").val() > 2) {
+                if ($(this).find(".ageCWB").prop('checked') == true ) {
                     cwb = "yes";
                 }
 
@@ -678,6 +678,7 @@ function FrmAddMoreGuest() {
                     childAge: tempChildArr
             });
         });
+        
         createCookie('searchGuestArr', JSON.stringify(totalArray), 1);
         createCookie('searchGuestRoomCount', JSON.stringify(RoomsCount), 1);
         createCookie('searchGuestChildCount', JSON.stringify(ChildCount), 1);
@@ -729,6 +730,7 @@ function FrmAddMoreGuest() {
 
     jQuery(document).on('change', '.addDynamicChilds', function () {
         $(this).closest('.optionBox').find('.dynamicChilds').html('');
+        var roomNumber = $(this).closest('.optionBox').find('.roomNumber').html();
         for (var i = 1; i <= $(this).val(); i++) {
             var agess = `<div class="col-lg-2 agess">
             <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age</label>
@@ -744,32 +746,43 @@ function FrmAddMoreGuest() {
                 <option value="10">10</option>
                 <option value="11">11</option>
             </select>
-            <div class="d-flex px-5 py-5 ageCWBCHK is-hide">
+            <div class="d-flex px-5 py-5 ageCWBCHK">
                   <div class="form-checkbox ">
-                    <input type="checkbox" name="ageCWB" class="ageCWB">
+                    <input type="radio" name="ageCWB[`+roomNumber+`][`+i+`]" class="ageCWB" value="yes">
                     <div class="form-checkbox__mark">
                       <div class="form-checkbox__icon icon-check"></div>
                     </div>
-                  </div>
-                  <div class="text-14 lh-12 ml-10">CWB</div>
+                    <div class="text-14 lh-12 ml-10">CWB</div>
+                  </div>                  
+                </div>
+                <div class="d-flex px-5 py-5 ageCWBCHK">
+                  <div class="form-checkbox ">
+                    <input type="radio" name="ageCWB[`+roomNumber+`][`+i+`]" class="ageCWB" value="no">
+                    <div class="form-checkbox__mark">
+                      <div class="form-checkbox__icon icon-check"></div>
+                    </div>
+                    <div class="text-14 lh-12 ml-10">CNB</div>
+                  </div>                  
                 </div>
         </div>  `;
+        
             $(this).closest('.optionBox').find('.dynamicChilds').append(agess);
+            
         }
     });
 
-    jQuery(document).on('change', '.age', function () {
+    // jQuery(document).on('change', '.age', function () {
 
-        if ($(this).val() > 2) {
-            $(this).closest('.optionBox .agess').find('.ageCWBCHK').removeClass('is-hide');
-            $(this).closest('.optionBox .agess').find('.ageCWBCHK').addClass('is-show');
-        } else {
-            $(this).closest('.optionBox .agess').find('.ageCWBCHK .ageCWB').attr('checked', false);
-            $(this).closest('.optionBox .agess').find('.ageCWBCHK').removeClass('is-show');
-            $(this).closest('.optionBox .agess').find('.ageCWBCHK').addClass('is-hide');
-        }
+    //     if ($(this).val() > 2) {
+    //         $(this).closest('.optionBox .agess').find('.ageCWBCHK').removeClass('is-hide');
+    //         $(this).closest('.optionBox .agess').find('.ageCWBCHK').addClass('is-show');
+    //     } else {
+    //         $(this).closest('.optionBox .agess').find('.ageCWBCHK .ageCWB').attr('checked', false);
+    //         $(this).closest('.optionBox .agess').find('.ageCWBCHK').removeClass('is-show');
+    //         $(this).closest('.optionBox .agess').find('.ageCWBCHK').addClass('is-hide');
+    //     }
 
-    });
+    // });
 }
 
 function changeNumber() {

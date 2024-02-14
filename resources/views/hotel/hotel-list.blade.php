@@ -385,7 +385,7 @@
                             </div>
                         </div>
                         <div class="sidebar__item pb-30">
-                            <h5 class="text-18 fw-500 mb-10">Nightly Price</h5>
+                            <h5 class="text-18 fw-500 mb-10">Price Range</h5>
                             <div class="row x-gap-10 y-gap-30">
                                 <div class="col-12">
                                     <div class="js-price-rangeSlider" id="js-price-rangeSlider">

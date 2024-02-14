@@ -160,9 +160,10 @@ class CheckoutController extends Controller
     }
 
     public function saveAsQuote($request)
-    {
+    {        
         $data = $this->checkoutRepository->createBookingQuote($request->all());
         $res = $this->checkoutRepository->createOrderBookingQuote($data);
+        
         if ($res) {
             $this->removeTempData($data);
             return true;
@@ -312,7 +313,7 @@ class CheckoutController extends Controller
     public function ajaxTempStore(Request $request)
     {
         $SafeencryptionObj = new Safeencryption;
-        $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));
+        $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));       
         $cartsArr = $this->createCartData($requiredParamArr);
         // dd($cartsArr);
         setBookingCart('bookingCart', $cartsArr);
@@ -454,6 +455,7 @@ class CheckoutController extends Controller
     public function quoteTempStore(Request $request)
     {
         $QuoteOrder = QuoteOrder::find($request->order_id);
+       
         if ($QuoteOrder) {
             $this->getAddToCartHotelData($request, $QuoteOrder);
         }
@@ -475,17 +477,20 @@ class CheckoutController extends Controller
     public function getAddToCartHotelData($request, $QuoteOrder)
     {
 
+        
         $requiredParamArr = [];
-        foreach ($QuoteOrder->quote_hotel as $hotel_key => $hotel_value) {
-            $requiredParamArr['is_type'] = "hotel";
-           
+        foreach ($QuoteOrder->quote_hotel as $hotel_key => $hotel_value) {           
+            $requiredParamArr['is_type'] = "hotel";           
             foreach ($hotel_value->order_hotel_room as $room_key => $room_value) {
+                $child_extraArr = unserialize($room_value->child_extra);
                 if ($request->order_type == "single" && $request->order_id ==  $room_value->quote_id && $request->order_room_id == $room_value->id) {
+                    dd($room_value->child_extra);
                     $requiredParamArr['hotel_id'] = $room_value->hotel_id;
                     $requiredParamArr['room_id'] = $room_value->room_id;
                     $requiredParamArr['price_id'] = $room_value->room_price_id;
                     $requiredParamArr['adult'] = $room_value->adult;
                     $requiredParamArr['child'] = $room_value->child;
+                    $requiredParamArr['room_child_age'] = $child_extraArr;
                     $requiredParamArr['room'] = 1;
                     $requiredParamArr['city_id'] = "";
                     $requiredParamArr['search_from'] = dateFormat( str_replace('/', '-', $room_value->check_in_date),'Y-m-d');
@@ -497,12 +502,14 @@ class CheckoutController extends Controller
                     $requiredParamArr['finalAmount'] = $room_value->price;                    
                     $cartsArr = $this->createCartData($requiredParamArr);
                     setBookingCart('bookingCart', $cartsArr);
-                } else {
+                } else {                                        
                     $requiredParamArr['hotel_id'] = $room_value->hotel_id;
                     $requiredParamArr['room_id'] = $room_value->room_id;
                     $requiredParamArr['price_id'] = $room_value->room_price_id;
                     $requiredParamArr['adult'] = $room_value->adult;
                     $requiredParamArr['child'] = $room_value->child;
+                    $requiredParamArr['room_child_age'] = $child_extraArr;
+
                     $requiredParamArr['room'] = 1;
                     $requiredParamArr['city_id'] = "";
                     $requiredParamArr['search_from'] = dateFormat( str_replace('/', '-', $room_value->check_in_date),'Y-m-d');

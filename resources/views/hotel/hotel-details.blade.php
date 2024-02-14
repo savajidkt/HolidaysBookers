@@ -1135,6 +1135,7 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
      </div>
      @if (isset($hotelsRoomDetails) && count($hotelsRoomDetails) > 0)
      @foreach ($hotelsRoomDetails as $key => $rooms1)
+     
      <div class="border-light rounded-4 px-30 py-30 sm:px-20 sm:py-20">
        <div class="row y-gap-20">
          <div class="col-12">
@@ -1173,8 +1174,8 @@ $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m
                                     'hotel_id' => isset($rooms1['hotel_id']) ? $rooms1['hotel_id'] : '',
                                     'room_id' => isset($rooms1['room_id']) ? $rooms1['room_id'] : '',
                                     'price_id' => isset($roomPrice['price_id']) ? $roomPrice['price_id'] : '',
-                                    'adult' => isset($requestParam['adult']) ? $requestParam['adult'] : '',
-                                    'child' => isset($requestParam['child']) ? $requestParam['child'] : '',
+                                    'adult' => isset($rooms1['room_adults_count']) ? $rooms1['room_adults_count'] : '',
+                                    'child' => isset($rooms1['room_child_count']) ? $rooms1['room_child_count'] : '',
                                     'room_child_age' => isset($rooms1['room_child_age']) ? $rooms1['room_child_age'] : '',
                                     'room' => isset($requestParam['room']) ? $requestParam['room'] : '',
                                     'city_id' => isset($requestParam['city_id']) ? $requestParam['city_id'] : '',
