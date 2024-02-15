@@ -56,23 +56,20 @@ class CartController extends Controller
        
 
         if (is_array($bookingCartArr) && count($bookingCartArr) > 0) {
-
-            foreach ($bookingCartArr as $bo_key => $bo_value) {
-               
-        $newTempArray = [];
+            foreach ($bookingCartArr as $bo_key => $bo_value) {               
+                $newTempArray = [];
                 if ($bo_key == 'hotel') {
-                    unset($bookingCartArr[$bo_key]);
-                   
+                    unset($bookingCartArr[$bo_key]);                   
                     foreach ($bo_value as $key => $value) {
-                if ($value['hotel_id'] == $request->hotel_id && $value['room_id'] == $request->hotel_room_id) {
+                        if ($value['hotel_id'] == $request->hotel_id && $value['room_id'] == $request->hotel_room_id && $value['unique_id'] == $request->key_id) {
                             unset($newTempArray[$key]);
-                } else {
-                    $newTempArray[] = $value;
-                }
-            }
+                        } else {
+                            $newTempArray[] = $value;
+                        }
+                     }
                     if (count($newTempArray) > 0) {
                         $bookingCartArr['hotel'] = $newTempArray;
-        }
+                    }
                 }
             }
         }

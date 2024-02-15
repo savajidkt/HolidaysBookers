@@ -190,10 +190,11 @@ class HotelListController extends Controller
     public function show($id)
     {
 
-        
+       
       
         $safeencryptionObj = new Safeencryption;
         $requestParam = unserialize($safeencryptionObj->decode($id));
+        
         if (!$requestParam['hotel_id']) {
             return redirect()->route('home');
         }

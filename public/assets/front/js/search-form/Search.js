@@ -871,15 +871,27 @@ function liveSearches() {
 
             const title = option.querySelector('.js-search-option-target').innerHTML
             option.addEventListener('click', () => {
-
+                console.log(title);
                 const cityId = $(option).attr('data-city_id');
                 const CountryId = $(option).attr('data-country_id');
                 const HotelId = $(option).attr('data-hotel_id');
+                const countryName = $(option).attr('data-country_name');
                 $('.hidden_city_id').val(cityId);
                 $('.hidden_country_id').val(CountryId);
                 $('.hidden_hotel_id').val(HotelId);
 
                 search.value = title.replace(/^\s+|\s+$/gm, '')
+                
+                
+                
+                createCookie('location', JSON.stringify(search.value), 1);
+                createCookie('hidden_city_id', JSON.stringify(cityId), 1);
+                createCookie('hidden_hotel_id', JSON.stringify(HotelId), 1);
+                createCookie('country_id', JSON.stringify(CountryId), 1);
+                createCookie('countryName', JSON.stringify(countryName), 1);
+
+
+
                 el.querySelector('.js-popup-window').classList.remove('-is-active')
             })
         })
@@ -907,10 +919,11 @@ function liveSearches() {
         div1.className = "locationDiv";
         div1.innerHTML = `<h4 class="text-18 fw-500">Destinations & zones</h4>`;        
         data.filter((item) => item.city.toLowerCase().includes(searchTerm))       
-            .forEach((e) => {               
+            .forEach((e) => {      
+               
                 const div = document.createElement('div')
                 div.innerHTML = `
-            <button type="button" class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option" data-city_id="${e.city_id}" data-country_id="${e.country_id}">
+            <button type="button" class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option" data-city_id="${e.city_id}" data-country_id="${e.country_id}" data-country_name="${e.country}">
               <div class="d-flex">
                 <div class="icon-location-2 text-light-1 text-20 pt-4"></div>
                 <div class="ml-10">
@@ -934,7 +947,7 @@ function liveSearches() {
             .forEach((e) => {
                 const div3 = document.createElement('div')
                 div3.innerHTML = `
-            <button type="button" class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option" data-hotel_id="${e.hotel_id}" data-city_id="${e.city_id}" data-country_id="${e.country_id}">
+            <button type="button" class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option" data-hotel_id="${e.hotel_id}" data-city_id="${e.city_id}" data-country_id="${e.country_id}" data-country_name="${e.country}">
               <div class="d-flex">
                 <div class="icon-bed text-light-1 text-20 pt-4"></div>
                 <div class="ml-10">

@@ -39,7 +39,10 @@
                 <div class="row pb-20">
                     <div class="col-auto">
                         <h1><span class="fa fa-shopping-cart"></span> Cart</h1>
-                        <h3 class="text-22 fw-500">{{ count($bookingCartArr) > 0 ? count($bookingCartArr) : 0 }} products
+                        @php
+                            $hotelC = ($bookingCartArr['hotel']) ? count($bookingCartArr['hotel']) : 0;
+                        @endphp
+                        <h3 class="text-22 fw-500">{{ $hotelC }} products
                             added to the cart</h3>
                     </div>
                 </div>
@@ -85,7 +88,7 @@
                                     $hotelsRoomDetails = $hotelsDetails['roomDetails'];
                                     $hotelsDetails = $hotelsDetails['hotel'];
                                     $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] .'<br>'.$offlineRoom->roomtype->room_type . '<span class="pull-right">' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . '</span></li>';
-                                    $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'].'<br>'.$offlineRoom->roomtype->room_type . ' <span class="pull-right"> ' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
+                                    $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-bed"></i> ' . $hotelsDetails['hotel_name'].'<br>'.$offlineRoom->roomtype->room_type . ' <span class="pull-right"> ' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . ' <a href="javascript:void(0);" data-hotel-id="' . $value['hotel_id'] . '" data-hotel-room-id="' . $value['room_id'] . '"   data-cart-key="'.$value['unique_id'].'" class="removeHotel"><i class="fa fa-times text-danger"></i></a></span></li>';
                                     $serviceSectionLeft .= '<li class="text-14"><i class="fa fa-user"></i> ' . $room_adult_with_child. '</li>';
                                     $serviceSectionLeft .= '<li class="text-14"><div class="border-top-light mt-30 mb-20"></div></li>';
                                     $serviceSectionAMT = $serviceSectionAMT + $value['finalAmount'];
@@ -115,6 +118,7 @@
                                                                     <a href="javascript:void(0);"
                                                                         data-hotel-id="{{ $value['hotel_id'] }}"
                                                                         data-hotel-room-id="{{ $value['room_id'] }}"
+                                                                        data-cart-key="{{ $value['unique_id'] }}"
                                                                         class="removeHotel"> <i
                                                                             class="fa fa-times fa-2x text-danger"></i>
                                                                         Delete Product</a>

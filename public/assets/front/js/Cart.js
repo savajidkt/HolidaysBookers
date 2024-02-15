@@ -45,7 +45,8 @@ $(document).ready(function () {
             dataType: 'json',
             data: {
                 hotel_id: $(this).attr('data-hotel-id'),
-                hotel_room_id: $(this).attr('data-hotel-room-id')
+                hotel_room_id: $(this).attr('data-hotel-room-id'),
+                key_id: $(this).attr('data-cart-key')
             },
             success: function (data) {
                 window.location.reload();

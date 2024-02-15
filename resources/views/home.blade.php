@@ -2,9 +2,24 @@
 @section('page_title', 'Home')
 @section('content')
 
-<script>
-    var check_in_startDate = "{!! date('d/m/Y') !!}";
-    var check_in_endDate = "{!! date('d/m/Y') !!}";
+
+@php
+    $check_in_startDate = (getSearchCookies('search_from')) ? date('d/m/Y', strtotime(str_replace('-','/',getSearchCookies('search_from')))) :  date('d/m/Y');
+    $check_in_endDate = (getSearchCookies('search_to')) ? date('d/m/Y', strtotime(str_replace('-','/',getSearchCookies('search_to')))) :  date('d/m/Y');
+    $dateDiffInDays = dateDiffInDays(date('Y-m-d', strtotime(str_replace('/','-',$check_in_startDate))), date('Y-m-d', strtotime(str_replace('/','-',$check_in_endDate))));
+    
+    if( $dateDiffInDays > 0){
+        $dateDiffInDays = '('.$dateDiffInDays.' Nights )';
+    } else {
+        $dateDiffInDays = "";
+    }
+@endphp
+
+
+
+<script>   
+    var check_in_startDate = "{!! $check_in_startDate !!}";
+    var check_in_endDate = "{!! $check_in_endDate !!}";
 </script>
 
     <section data-anim-wrap class="masthead -type-3 relative z-5">
@@ -63,12 +78,12 @@
                                                             <input autocomplete="off" type="search"
                                                                 placeholder="Where are you going?"
                                                                 class="js-search js-dd-focus" name="location"
-                                                                id="location" />
-                                                            <input type="hidden" class="hidden_city_id" name="city_id" />
+                                                                id="location" value="{{ getSearchCookies('location') ? getSearchCookies('location') : '' }}" />
+                                                            <input type="hidden" class="hidden_city_id" name="city_id" value="{{ getSearchCookies('hidden_city_id') ? getSearchCookies('hidden_city_id') : '' }}"/>
                                                             <input type="hidden" class="hidden_country_id"
-                                                                name="country_id" />
+                                                                name="country_id" value="{{ getSearchCookies('country_id') ? getSearchCookies('country_id') : '' }}"/>
                                                                 <input type="hidden" class="hidden_hotel_id"
-                                                                name="selected_hotel_id" />
+                                                                name="selected_hotel_id" value="{{ getSearchCookies('hidden_hotel_id') ? getSearchCookies('hidden_hotel_id') : '' }}"/>
                                                         </div>
                                                         <span id="basic-addon-location-error"
                                                             class="help-block help-block-error"></span>
@@ -84,14 +99,14 @@
                                                 </div>
                                                 <div class="px-30 lg:py-20 lg:px-0 js-form-dd js-calendar">
                                                     <div data-x-dd-click="searchMenu-date">
-                                                        <h4 class="text-15 fw-500 ls-2 lh-16 checkin-out">From - to <span class="nights"></span></h4>
+                                                        <h4 class="text-15 fw-500 ls-2 lh-16 checkin-out">From - to <span class="nights">{{ $dateDiffInDays }}</span></h4>
                                                         <div class="text-15 text-light-1 ls-2 lh-16">
-                                                            <input class="form-control" placeholder="Check in - Check out"
+                                                            <input class="form-control" placeholder="From - to"
                                                                 name="daterange" />                                                            
-                                                            <input type="hidden" id="hidden_from" name="search_from"
-                                                                value="">
+                                                                <input type="hidden" id="hidden_from" name="search_from"
+                                                                value="{{ (getSearchCookies('search_from')) ? date('Y-m-d', strtotime(str_replace('/','-',getSearchCookies('search_from')))) : '' }}">
                                                             <input type="hidden" id="hidden_to" name="search_to"
-                                                                value="">
+                                                                value="{{ (getSearchCookies('search_to')) ? date('Y-m-d', strtotime(str_replace('/','-',getSearchCookies('search_to')))) : '' }}">
                                                         </div>
                                                         <span id="basic-addon-date-error"
                                                             class="help-block help-block-error"></span>

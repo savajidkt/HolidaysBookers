@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 @section('page_title', 'Home')
 @section('content')
@@ -9,18 +10,21 @@
         }
     </style>
     @php
+  
         $search_from = date('d/m/Y', strtotime(date('Y-m-d')));
         $search_to = date('d/m/Y', strtotime(date('Y-m-d')));
         $selected_hotel_id = '';
     @endphp
-    @if (isset($requestedArr) && isset($requestedArr['search_from']))
+    @if (isset($requestedArr) && isset($requestedArr['search_from']) || !empty(getSearchCookies('search_from')))
         @php
-            $search_from = $requestedArr['search_from'] ? $requestedArr['search_from'] : date('d/m/Y', strtotime(date('Y-m-d')));
+            //$search_from = $requestedArr['search_from'] ? $requestedArr['search_from'] : date('d/m/Y', strtotime(date('Y-m-d')));
+            $search_from = (getSearchCookies('search_from')) ? date('d/m/Y', strtotime(str_replace('/','-',getSearchCookies('search_from')))) : date('d/m/Y', strtotime(date('Y-m-d')));
         @endphp
     @endif
-    @if (isset($requestedArr) && isset($requestedArr['search_to']))
+    
+    @if (isset($requestedArr) && isset($requestedArr['search_to']) || !empty(getSearchCookies('search_to')))
         @php
-            $search_to = $requestedArr['search_to'] ? $requestedArr['search_to'] : date('d/m/Y', strtotime(date('Y-m-d')));
+            $search_to = (getSearchCookies('search_to')) ? date('d/m/Y', strtotime(str_replace('/','-',getSearchCookies('search_to')))) : date('d/m/Y', strtotime(date('Y-m-d')));
         @endphp
     @endif
 
@@ -30,8 +34,21 @@
         @endphp
     @endif
 
+    @php
+     
+   
+    $dateDiffInDays = dateDiffInDays(date('Y-m-d', strtotime(str_replace('/','-',$search_from))), date('Y-m-d', strtotime(str_replace('/','-',$search_to))));
+    
+    if( $dateDiffInDays > 0){
+        $dateDiffInDays = '('.$dateDiffInDays.' Nights )';
+    } else {
+        $dateDiffInDays = "";
+    }
+   
+@endphp
+
     <script>
-        var check_in_startDate = "{!! $search_from !!}";
+        var check_in_startDate = "{!! $search_from !!}";      
         var check_in_endDate = "{!! $search_to !!}";
         var extraParamHotel = [];
         var filterObj = {};
@@ -40,11 +57,11 @@
         filterObj.star = "";
         filterObj.price_range = "";
         filterObj.page = 1;
-        filterObj.requested_city_id = "{!! $requestedArr['city_id'] ? $requestedArr['city_id'] : '' !!}";
-        filterObj.requested_country_id = "{!! $requestedArr['country_id'] ? $requestedArr['country_id'] : '' !!}";
-        filterObj.requested_search_from = "{!! $requestedArr['search_from'] ? $requestedArr['search_from'] : '' !!}";
-        filterObj.requested_search_to = "{!! $requestedArr['search_to'] ? $requestedArr['search_to'] : '' !!}";
-        filterObj.requested_location = "{!! $requestedArr['location'] ? $requestedArr['location'] : '' !!}";
+        filterObj.requested_city_id = "{!! getSearchCookies('hidden_city_id') ? getSearchCookies('hidden_city_id') : '' !!}";
+        filterObj.requested_country_id = "{!! getSearchCookies('country_id') ? getSearchCookies('country_id') : '' !!}";
+        filterObj.requested_search_from = "{!! $search_from !!}";
+        filterObj.requested_search_to = "{!! $search_to !!}";
+        filterObj.requested_location = "{!! getSearchCookies('location') ? getSearchCookies('location') : '' !!}";  
         filterObj.selected_hotel_id = "{!! $selected_hotel_id !!}";
         filterObj.start_price_range = "";
         filterObj.end_price_range = "";
@@ -66,20 +83,24 @@
                                     <div data-x-dd-click="searchMenu-loc">
                                         <h4 class="text-15 fw-500 ls-2 lh-16">Location</h4>
                                         <div class="text-15 text-light-1 ls-2 lh-16">
+
+                                           
                                             <input autocomplete="off" type="search" placeholder="Where are you going?"
                                                 class="js-search js-dd-focus" name="location" id="location"
-                                                value="{{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}" />
+                                                value="{{ getSearchCookies('location') ? getSearchCookies('location') : '' }}" />
                                             <input type="hidden" class="hidden_city_id" name="city_id"
-                                                value="{{ isset($requestedArr['city_id']) ? $requestedArr['city_id'] : '' }}" />
+                                                value="{{ getSearchCookies('hidden_city_id') ? getSearchCookies('hidden_city_id') : '' }}" />
                                             <input type="hidden" class="hidden_country_id" name="country_id"
-                                                value="{{ isset($requestedArr['country_id']) ? $requestedArr['country_id'] : '' }}" />
+                                                value="{{ getSearchCookies('country_id') ? getSearchCookies('country_id') : '' }}" />
+                                                <input type="hidden" class="hidden_hotel_id"
+                                                                name="selected_hotel_id" value="{{ getSearchCookies('hidden_hotel_id') ? getSearchCookies('hidden_hotel_id') : '' }}"/>
                                         </div>
                                     </div>
                                     <div class="searchMenu-loc__field shadow-2 js-popup-window" data-x-dd="searchMenu-loc"
                                         data-x-dd-toggle="-is-active">
                                         <div class="bg-white px-30 py-30 sm:px-0 sm:py-15 rounded-4">
                                             <div class="y-gap-5 js-results">
-                                                @if (isset($requestedArr['location']) && strlen($requestedArr['location']) > 0)
+                                                @if (strlen(getSearchCookies('location')) > 0)
                                                     <div>
                                                         <button type="button"
                                                             class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option">
@@ -89,10 +110,10 @@
                                                                 <div class="ml-10">
                                                                     <div
                                                                         class="text-15 lh-12 fw-500 js-search-option-target">
-                                                                        {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
+                                                                        {{ getSearchCookies('location') ? getSearchCookies('location') : '' }}
                                                                     </div>
                                                                     <div class="text-14 lh-12 text-light-1 mt-5">
-                                                                        {{ isset($country->name) ? $country->name : '' }}
+                                                                        {{ getSearchCookies('countryName') ? getSearchCookies('countryName') : '' }}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -105,14 +126,14 @@
                                 </div>
                                 <div class="searchMenu-date px-30 lg:py-20 lg:px-0 js-form-dd js-calendar list-htl-date">
                                     <div data-x-dd-click="searchMenu-date">
-                                        <h4 class="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
+                                        <h4 class="text-15 fw-500 ls-2 lh-16 checkin-out">From - to <span class="nights">{{ $dateDiffInDays }}</span></h4>
                                         <div class="text-15 text-light-1 ls-2 lh-16">
-                                            <input class="form-control daterange" placeholder="Check in - Check out"
+                                            <input class="form-control daterange" placeholder="From - to"
                                                 name="daterange" />
                                                 <input type="hidden" id="hidden_from" name="search_from"
-                                                value="{{ date('Y-m-d', strtotime(str_replace('/','-',$requestedArr['search_from']))) }}">
+                                                value="{{ date('Y-m-d', strtotime(str_replace('/','-',$search_from))) }}">
                                             <input type="hidden" id="hidden_to" name="search_to"
-                                                value="{{ date('Y-m-d', strtotime(str_replace('/','-',$requestedArr['search_to']))) }}">
+                                                value="{{ date('Y-m-d', strtotime(str_replace('/','-',$search_to))) }}">
                                         </div>
                                     </div>
                                     <div style="display: none" class="searchMenu-date__field shadow-2"
@@ -495,7 +516,7 @@
                                     <span class="fw-500">
                                         <span class="foundPropertyCount"></span>
                                         properties</span> in
-                                    {{ isset($requestedArr['location']) ? $requestedArr['location'] : '' }}
+                                    {{  (getSearchCookies('location')) ? getSearchCookies('location') : '' }}
                                 </div>
                                 <div class="text-12">
                                     <span class="fw-500"><span class="">{{ dateFormat($requestedArr['startDate'],'M d, Y') }} - {{ dateFormat($requestedArr['endDate'],'M d, Y') }} ({{ $requestedArr['nights'] }} Nights)</span></span>
@@ -565,7 +586,7 @@
 @section('page-script')
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="{{ asset('assets/front/js/cdn.jsdelivr.net_npm_daterangepicker_daterangepicker.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 

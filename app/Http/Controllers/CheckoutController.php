@@ -327,10 +327,15 @@ class CheckoutController extends Controller
 
     public function createCartData($requiredParamArr)
     {
+
+        $today = date("YmdHis");
+        $uniqueId= $today.'_'.mt_rand();
+        
         $oldCart = getBookingCart('bookingCart');
         //$requiredParamArr['is_type'] = "package";
         if (is_array($requiredParamArr) && count($requiredParamArr) > 0) {
 
+            $requiredParamArr['unique_id'] = $uniqueId;
             if ($requiredParamArr['is_type'] == "hotel") {
                 if (is_array($oldCart) && count($oldCart) > 0) {
                     if (isset($oldCart['hotel'])) {
