@@ -17,6 +17,7 @@
                 @endphp
                 @foreach (getSearchCookies('searchGuestArr') as $guest)
                     @php
+                   
                         $i++;
                     @endphp
                     <div class="row optionBox">
@@ -65,6 +66,9 @@
                         </div>
                         <div class="dynamicChilds col-lg-6 text-center">
                             @if (is_array($guest->childAge) && count($guest->childAge) > 0)
+                            @php
+                                $j = 1;
+                            @endphp
                                 @foreach ($guest->childAge as $key => $childAge)
                                     <div class="col-lg-2 agess">
                                         <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age</label>
@@ -94,7 +98,7 @@
                                         <div
                                             class="d-flex px-5 py-5 ageCWBCHK ">
                                             <div class="form-checkbox ">
-                                                <input type="radio" name="ageCWB" class="ageCWB" value="yes"
+                                                <input type="radio" name="ageCWB[{{ $guest->room }}][{{ $j }}]" class="ageCWB" value="yes"
                                                     {{ $childAge->cwb == 'yes' ? 'checked' : '' }}>
                                                 <div class="form-checkbox__mark">
                                                     <div class="form-checkbox__icon icon-check"></div>
@@ -106,8 +110,8 @@
                                         <div
                                             class="d-flex px-5 py-5 ageCWBCHK">
                                             <div class="form-checkbox ">
-                                                <input type="radio" name="ageCWB" class="ageCWB" value="no"
-                                                    {{ $childAge->cwb == 'yes' ? 'checked' : '' }}>
+                                                <input type="radio" name="ageCWB[{{ $guest->room }}][{{ $j }}]" class="ageCWB" value="no"
+                                                    {{ $childAge->cwb == 'no' ? 'checked' : '' }}>
                                                 <div class="form-checkbox__mark">
                                                     <div class="form-checkbox__icon icon-check"></div>
                                                 </div>
@@ -116,6 +120,9 @@
                                             
                                         </div>
                                     </div>
+                                    @php
+                                    $j++
+                                @endphp
                                 @endforeach
                             @endif
                         </div>

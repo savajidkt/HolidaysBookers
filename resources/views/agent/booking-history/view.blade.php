@@ -32,8 +32,8 @@
         <div class="py-30 px-30 rounded-4 bg-white shadow-3 booking-history-manager">
             <div class="tabs -underline-2 js-tabs">
 
-                <section class="pt-40 layout-pb-md">
-                    <div class="container">
+                <section class="layout-pb-md">
+                    
                         <div class="row">
                             <div class="col-xl-7 col-lg-8">
                                 <div class="d-flex flex-column items-center  lg:md-40 sm:mt-24">
@@ -325,7 +325,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    
                 </section>
 
             </div>

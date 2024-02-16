@@ -94,3 +94,16 @@
     background-color: #218838;
     border-color: #1e7e34;
 }
+
+
+/*dashboard*/
+.dashboard .dashboard__sidebar.bg-white.scroll-bar-1 {
+    background-color: #091136 !important;
+    color: #fff;
+}
+.dashboard .sidebar__user .logo .avatar.avatar-cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px solid #ddd;
+    background-position: center;
+}

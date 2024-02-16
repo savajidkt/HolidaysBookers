@@ -871,7 +871,7 @@ function liveSearches() {
 
             const title = option.querySelector('.js-search-option-target').innerHTML
             option.addEventListener('click', () => {
-                console.log(title);
+                
                 const cityId = $(option).attr('data-city_id');
                 const CountryId = $(option).attr('data-country_id');
                 const HotelId = $(option).attr('data-hotel_id');

@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="py-30 px-30 rounded-4 bg-white shadow-3">
-            <div class="tabs -underline-2 js-tabs">
+            <div class="tabs">
                 <div class="tabs__controls row x-gap-40 y-gap-10 lg:x-gap-20 js-tabs-controls">
                     <div class="col-auto">
                         <span
@@ -105,7 +105,7 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            
                             <div class="d-inline-block pt-30">
                                 <button class="button h-50 px-24 -dark-1 bg-blue-1 text-white" type="submit"><i
                                         class="fa fa-save mr-2 pr-10"></i> Save Changes</button>

@@ -205,3 +205,30 @@
         </div>
     </div>
 </div>
+<style>
+    .dashboard__sidebar.bg-white.scroll-bar-1 {
+    background-color: #091136 !important;
+    color: #fff;
+}
+.avatar.avatar-cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px solid #ddd;
+    background-position: center;
+}
+.dashboard__content {
+    width: 100%;
+    padding: 100px 60px;
+    padding-bottom: 0;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.dashboard__sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.dashboard__sidebar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+</style>

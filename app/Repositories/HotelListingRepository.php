@@ -382,6 +382,7 @@ class HotelListingRepository
                 $promoTotalDays = 0;
                 $totalFinalPrice =0;
                 $i=1;
+                $currency_code = "";
 
                 foreach ($tempRoomArray as $tepmkey => $temRoom) {
 
@@ -465,6 +466,11 @@ class HotelListingRepository
                         $hotelRoomArray['occ_max_adults'] = $roomPrice->room->occ_max_adults;
                         $hotelRoomArray['currency'] = $roomPrice->currency->code;
                     
+                        if( empty($currency_code) ){
+                            $currency_code = $roomPrice->currency->code;
+                        }
+                        
+                    
                         $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice);
                         $totalFinalPrice = $totalFinalPrice + $finalRoomPrice; 
                         
@@ -474,7 +480,7 @@ class HotelListingRepository
                  $i++;
                 } //temp room end
               
-                $total_priceArr = getAgentRoomPrice($totalFinalPrice, $hotelArr, $roomPrice->currency->code);               
+                $total_priceArr = getAgentRoomPrice($totalFinalPrice, $hotelArr, $currency_code);               
                 $hotelsDetails = OfflineHotel::find($hotel->id)->toArray();               
                 $hotelArr['hotel'] = $hotelsDetails;
                 $hotelRoomArray['normal_day'] = (int) $normalDays; // + $price->price_p_n_cwb

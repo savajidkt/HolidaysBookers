@@ -452,6 +452,14 @@ class CheckoutController extends Controller
             unset($_COOKIE["country_id"]);
             setcookie('country_id', null, -1, '/');
         }
+        if (isset($_COOKIE['dateHomeDay'])) {
+            unset($_COOKIE["dateHomeDay"]);
+            setcookie('dateHomeDay', null, -1, '/');
+        }
+        if (isset($_COOKIE['countryName'])) {
+            unset($_COOKIE["countryName"]);
+            setcookie('countryName', null, -1, '/');
+        }
         setBookingCart('bookingCart', array());
 
         return $data->forceDelete();

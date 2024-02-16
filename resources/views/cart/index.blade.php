@@ -14,18 +14,16 @@
             position: relative;
         }
 
-        .pull-right.deleteCart {
-            position: absolute;
-            right: 14px;
-            top: 10px;
-
-            text-align: center;
-            padding: 0 5px;
-
-        }
-
+        
         ul.inline-block li {
             display: inline-block;
+        }
+        .pull-right.deleteCart {
+            position: absolute;
+            right: -15px;
+            top: -15px;
+            text-align: center;
+            padding: 0 0;
         }
     </style>
     @php
@@ -33,19 +31,36 @@
         $serviceSectionLeft = '';
         $serviceSectionAMT = 0;
     @endphp
-    <section id="rooms" class="pt-30 pb-30">
+    
+<section class="cart-page-block"  style="background-image: url('{{ asset('/assets/img/cart-banner.jpg') }}');">
         <div class="container">
-            <div class="row">
-                <div class="row pb-20">
-                    <div class="col-auto">
-                        <h1><span class="fa fa-shopping-cart"></span> Cart</h1>
-                        @php
+        <div class="cart-banner">
+            <div class="cart-banner-bg">
+                <h1>Cart</h1>
+@php
                             $hotelC = ($bookingCartArr['hotel']) ? count($bookingCartArr['hotel']) : 0;
                         @endphp
-                        <h3 class="text-22 fw-500">{{ $hotelC }} products
-                            added to the cart</h3>
+                <h3 class="text-22 fw-500">{{ $hotelC }} products added to the cart</h3>
+            </div>
+        </div>
+    </div>
+</section>
+<div>
+    <div class="container">
+         <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                    <li class="breadcrumb-item" >/</li>
+                    <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                </ol>
+            </nav>
                     </div>
                 </div>
+
+    
+    <section id="rooms">
+        <div class="container">
+            <div class="row">
                 <div class="col-xl-7 col-lg-8">
 
                     @if (count($bookingCartArr) > 0)
@@ -59,7 +74,7 @@
                             @endphp
                              @php
                              $age=[];
-                            // dd($value['room_child_age']);
+                            
                          @endphp
 
                                @if (isset($value['room_child_age']))
@@ -94,10 +109,10 @@
                                     $serviceSectionAMT = $serviceSectionAMT + $value['finalAmount'];
                                 @endphp
 
-                                <div class="border-light rounded-4 px-30 py-30 sm:px-20 sm:py-20 mb-30 myDelete">
+                                <div class="px-30 py-30 sm:px-20 sm:py-20 mb-30 myDelete cart-detales-block">
 
-                                    <div class="row y-gap-20">
-                                        <div class="col-12">
+                                    <div class="row ">
+                                        <div class="">
                                             <div class="roomGrid">
                                                 <div class="roomGrid__grid">
                                                     <div>
@@ -119,9 +134,7 @@
                                                                         data-hotel-id="{{ $value['hotel_id'] }}"
                                                                         data-hotel-room-id="{{ $value['room_id'] }}"
                                                                         data-cart-key="{{ $value['unique_id'] }}"
-                                                                        class="removeHotel"> <i
-                                                                            class="fa fa-times fa-2x text-danger"></i>
-                                                                        Delete Product</a>
+                                                                        class="removeHotel"> <i class="fa fa-trash" aria-hidden="true"></i></a>
                                                                 </div>
                                                             </div>
                                                             <div class="y-gap-8">
@@ -150,7 +163,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="border-top-light mt-30 mb-20"></div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -208,7 +221,7 @@
                     @endif
                         @endforeach
                     @endif
-                    <div class="border-light rounded-4 px-30 py-30 sm:px-20 sm:py-20 mb-30 myDelete">
+                    <div class="border-light rounded-4 px-30 py-30 sm:px-20 sm:py-20 mb-30 myDelete cart-detales-block">
                         <div class="row y-gap-20">
                             <div class="col-12">
                                 <div class="">
@@ -252,7 +265,7 @@
                 </div>
                 <div class="col-xl-5 col-lg-4">
                     <div class="ml-80 lg:ml-40 md:ml-0">
-                        <div class="px-30 py-30 border-light rounded-4">
+                        <div class="px-30 py-30 border-light rounded-4 cart-detales-block">
                             {{-- <div class="row x-gap-15 y-gap-20">
                                 <div class="col bg-blue-2 rounded-4 y-gap-30">
                                     <div class="lh-17 fw-500"></div>
