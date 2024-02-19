@@ -56,11 +56,11 @@ class OfflineRoom extends Authenticatable
      */
     public function getActionAttribute(): string
     {
-        $viewAction =  '<a href="' . route('view-room', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';
-        $editAction = '<a href="' . route('offlinerooms.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';
+        $viewAction =  '<a href="' . route('view-room', $this->id) . '" class="edit btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="View" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+        $editAction = '<a href="' . route('offlinerooms.edit', $this->id) . '" class="edit btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Edit" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a>';
         $addPriceAction = '<a href="' . route('add-room-price', $this->id) . '" class="edit btn btn-success btn-sm" data-toggle="tooltip" data-original-title="Add Price" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i></a>';
-        $priceListAction = '<a href="' . route('view-room-price', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="View Price" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
-        return $editAction . ' ' . $viewAction . ' ' . $addPriceAction . ' ' . $priceListAction . ' ' . $this->getDeleteButtonAttribute();
+        $priceListAction = '<a href="' . route('view-room-price', $this->id) . '" class="edit btn btn-primary  btn-sm" data-toggle="tooltip" data-original-title="View Price" data-animation="false"><i class="fa fa-exchange" aria-hidden="true"></i></a>';
+        return $editAction . ' ' . $viewAction . ' ' . $this->getDeleteButtonAttribute();
     }
 
     /**

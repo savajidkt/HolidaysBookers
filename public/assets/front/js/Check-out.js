@@ -12,47 +12,47 @@ var FrmCheckoutPreference = function () {
             focusInvalid: false,
             ignore: ".ignore",
             rules: {
-                firstname: {
-                    required: true,
-                },
-                lastname: {
-                    required: true,
-                },
-                email: {
-                    email: true,
-                    required: true,
-                    emailExt: true
-                },
-                phone: {
-                    required: true,
-                },
-                registration_number: {
-                    required: function () {
-                        if ($('input[name="gst_enable"]').is(':checked')) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                },
-                registered_company_name: {
-                    required: function () {
-                        if ($('input[name="gst_enable"]').is(':checked')) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                },
-                registered_company_address: {
-                    required: function () {
-                        if ($('input[name="gst_enable"]').is(':checked')) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                },
+                // firstname: {
+                //     required: true,
+                // },
+                // lastname: {
+                //     required: true,
+                // },
+                // email: {
+                //     email: true,
+                //     required: true,
+                //     emailExt: true
+                // },
+                // phone: {
+                //     required: true,
+                // },
+                // registration_number: {
+                //     required: function () {
+                //         if ($('input[name="gst_enable"]').is(':checked')) {
+                //             return true;
+                //         } else {
+                //             return false;
+                //         }
+                //     }
+                // },
+                // registered_company_name: {
+                //     required: function () {
+                //         if ($('input[name="gst_enable"]').is(':checked')) {
+                //             return true;
+                //         } else {
+                //             return false;
+                //         }
+                //     }
+                // },
+                // registered_company_address: {
+                //     required: function () {
+                //         if ($('input[name="gst_enable"]').is(':checked')) {
+                //             return true;
+                //         } else {
+                //             return false;
+                //         }
+                //     }
+                // },
                 agree: {
                     required: true,
                 },
@@ -70,21 +70,23 @@ var FrmCheckoutPreference = function () {
 
             },
             errorPlacement: function (error, element) {
-                if (element.attr("name") == "firstname") {
-                    error.insertAfter(".firstname");
-                } else if (element.attr("name") == "lastname") {
-                    error.insertAfter(".lastname");
-                } else if (element.attr("name") == "email") {
-                    error.insertAfter(".email");
-                } else if (element.attr("name") == "phone") {
-                    error.insertAfter(".phone");
-                } else if (element.attr("name") == "registration_number") {
-                    error.insertAfter(".registration_number");
-                } else if (element.attr("name") == "registered_company_name") {
-                    error.insertAfter(".registered_company_name");
-                } else if (element.attr("name") == "registered_company_address") {
-                    error.insertAfter(".registered_company_address");
-                } else if (element.attr("name") == "agree") {
+                // if (element.attr("name") == "firstname") {
+                //     error.insertAfter(".firstname");
+                // } else if (element.attr("name") == "lastname") {
+                //     error.insertAfter(".lastname");
+                // } else if (element.attr("name") == "email") {
+                //     error.insertAfter(".email");
+                // } else if (element.attr("name") == "phone") {
+                //     error.insertAfter(".phone");
+                // } else if (element.attr("name") == "registration_number") {
+                //     error.insertAfter(".registration_number");
+                // } else if (element.attr("name") == "registered_company_name") {
+                //     error.insertAfter(".registered_company_name");
+                // } else if (element.attr("name") == "registered_company_address") {
+                //     error.insertAfter(".registered_company_address");
+                // } 
+                
+                if (element.attr("name") == "agree") {
                     error.insertAfter(".agree");
                 } else if (element.attr("name") == "payment_method") {
                     error.insertAfter(".payment_methodcls");

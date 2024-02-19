@@ -1952,7 +1952,7 @@ if (!function_exists('getOrderHistoryAction')) {
 
         $action .= '<a href="' . route('agent.view-booking-history', $id) . '" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
 
-        $action .= '<a href="' . route('agent-invoice-download', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Invoice" data-animation="false"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';
+        //$action .= '<a href="' . route('agent-invoice-download', $order) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Download Invoice" data-animation="false"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';
 
         return $action;
 
@@ -2674,4 +2674,26 @@ function orderTableHTML($order)
             }
         }   
         return $returnArr;       
+    }
+
+
+    if (!function_exists('passengerDetailsWithRooms')) {
+
+        function passengerDetailsWithRooms($order)
+    
+        {    
+            $htmlString = '';            
+            if($order->order_rooms){
+                   $rooms = 0;
+                  
+                foreach ($order->order_rooms as $key => $value) {
+                    $rooms++;                    
+                }
+                
+                $htmlString .= 'Room : ' . $rooms . '<br> Adult : ' . $order->total_adult . '<br> Children : ' . $order->total_child.'<br>';  
+            }
+            
+            return $htmlString;
+        }
+    
     }

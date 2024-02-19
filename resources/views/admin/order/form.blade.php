@@ -18,13 +18,19 @@
                 <option value="2" {{ ($model->status == 2) ? 'selected' : '' }}>
                     Confirmed</option>
                 <option value="3" {{  ($model->status == 3) ? 'selected' : '' }}>
-                    Cancelled</option>
-                <option value="4" {{  ($model->status == 4) ? 'selected' : '' }}>
-                    Vouchered</option>
+                    Cancelled</option>                
             </select>
             @error('status')
                 <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
             @enderror
+        </div>
+    </div>
+    <div class="col-md-4 col-4 Extrainformation {{ ($model->payment_status == 0) ? 'hide' : '' }}">
+        <div class="form-group">
+            <label for="basicInput">Extra information
+                </label>
+            <input type="text" class="form-control" id="basicInput" name="status_comments"
+                placeholder="Extra information" value="{{ $model->status_comments }}">           
         </div>
     </div>
     <div class="col-md-4 col-4">
@@ -32,12 +38,12 @@
             <label for="itemname">Payment Received</label>
             <div class="demo-inline-spacing">
                 <div class="custom-control custom-radio">
-                    <input type="radio" id="yes" name="payment_status" class="custom-control-input" value="1"
+                    <input onchange="handleChange(this);"  type="radio" id="yes" name="payment_status" class="custom-control-input PaymentReceived" value="1"
                         {{ ($model->payment_status == 1) ? 'checked' : '' }}>
                     <label class="custom-control-label" for="yes">Yes</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input type="radio" id="no" name="payment_status" class="custom-control-input" value="0"
+                    <input onchange="handleChange(this);"  type="radio" id="no" name="payment_status" class="custom-control-input PaymentReceived" value="0"
                         {{ ($model->payment_status == 0) ? 'checked' : '' }}>
                     <label class="custom-control-label" for="no">No</label>
                 </div>                
@@ -48,6 +54,7 @@
             @enderror
         </div>
     </div>
+    
     <div class="col-md-12 col-12">
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Comments</label>
@@ -56,4 +63,14 @@
     </div>
 </div>
 @section('extra-script')
+<script type="text/javascript">
+                   
+    function handleChange(src) {     
+     if( src.value == 1 ){
+         $('.Extrainformation').removeClass('hide');
+     } else{
+         $('.Extrainformation').addClass('hide');
+     }
+ }
+</script>
 @endsection

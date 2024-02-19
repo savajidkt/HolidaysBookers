@@ -107,6 +107,11 @@ class OfflineRoomsController extends Controller
         return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'offlinehotel' => $offlinehotel, 'HotelsRoomMealPlan' => $HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies]);
     }
 
+    public function viewRoomList(OfflineHotel $offlinehotel)
+    {  
+        return view('admin.offline-rooms.view-room-lists', ['offlinehotel' => $offlinehotel]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -141,6 +146,7 @@ class OfflineRoomsController extends Controller
      */
     public function edit(OfflineRoom $offlineroom)
     {
+        
         $HotelsList  = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->pluck('hotel_name', 'id')->toArray();
         $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();

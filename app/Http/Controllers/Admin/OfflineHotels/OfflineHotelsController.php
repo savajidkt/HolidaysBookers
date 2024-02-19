@@ -91,8 +91,7 @@ class OfflineHotelsController extends Controller
                     return $hotel->phone_number;
                 })->editColumn('hotel_email', function (OfflineHotel $hotel) {
                     return $hotel->hotel_email;
-                })->editColumn('hotel_review', function (OfflineHotel $hotel) {
-                    return $hotel->hotel_review;
+                
                 })->addColumn('status', function (OfflineHotel $hotel) {
                     return $hotel->statusName;
                 })->filterColumn('status', function ($query, $keyword) {
@@ -187,6 +186,7 @@ class OfflineHotelsController extends Controller
      */
     public function edit(OfflineHotel $offlinehotel)
     {
+        
         $HotelsAmenitiesIDS = [];
         $HotelsFreebiesIDS = [];
         $HotelFacilityIDS = [];

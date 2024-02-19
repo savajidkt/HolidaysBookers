@@ -25,13 +25,12 @@
                     <thead class="thead-light">
                         <tr>
                             <th></th>
-                            <th>PNR No.</th>
-                          
+                            <th>PNR No.</th>                          
                             <th>{{ __('core.status') }}</th>
-                            <th>Booking Date</th>
+                            <th>Booking Date</th>                            
+                            <th>Lead Guest</th>
+                            <th>Passenger Details</th>
                             
-                            <th>No. Of Rooms</th>
-                            <th>Total Nights</th>
                             <th>Payment Received</th>
                             <th>{{ __('core.action') }}</th>
                         </tr>
@@ -77,13 +76,13 @@
                     },
                     {
                   
-                        data: 'total_rooms',
-                        name: 'total_rooms'
+                        data: 'passenger_type',
+                        name: 'passenger_type'
                     },
                     {
-                        data: 'total_nights',
-                        name: 'total_nights'
-                    },
+                        data: 'pax',
+                        name: 'pax'
+                    },                   
                     {
                         data: 'payment_status',
                         name: 'payment_status'

@@ -12,6 +12,29 @@
         font-size: 1.4em;
     }
 </style>
+<div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
+   
+    <div class="col-md-6">
+        <a class="btn btn-outline-secondary waves-effect" href="{{ route('orders.index') }}">Back</a>
+    </div>
+    <div class="col-md-6 text-right">                
+        @php
+            echo '<a href="' . route('orders.edit', $model->id) . '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Edit Order" data-animation="false"><i class="fa fa fa-edit" aria-hidden="true"></i></a> ';
+            echo '<a href="' . route('view-order-payment', $model->id) . '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Payment Details" data-animation="false"><i class="fa fa-check-square-o" aria-hidden="true"></i></a> ';
+            if ($model->mail_sent == 1) {
+                echo '<a target="_blank" href="' . url('storage/app/public/order/' . $model->id . '/vouchers/order-vouchers-' . $model->id . '.pdf') . '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Voucherd Download" data-animation="false"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';
+            } else {
+                echo '<a href="javascript:void(0);" class="edit btn btn-primary btn-sm Generate_action" data-order-id="' . $model->id . '" data-toggle="tooltip" data-original-title="Generate Voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+            }
+
+            echo '<a href="' . route('order-invoice', $model) . '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Invoice Download" data-animation="false"><i class="fa fa-cloud-download" aria-hidden="true"></i></a> ';
+            
+        @endphp
+    </div>
+</div>
+
+
+
     <section id="page-account-settings">
         <div class="row">
             <!-- left menu section -->
@@ -55,13 +78,20 @@
                                     <div class="col-12">
                                         <div class="d-flex align-items-center mb-1 mt-1">
                                             <i data-feather="arrow-right-circle" class="font-medium-3"></i>
-                                            <h4 class="mb-0 ml-75">Hotel Details</h4>
+                                            <h4 class="mb-0 ml-75">Hotel & Rooms Details</h4>
                                         </div>
                                         <hr class="my-2" />
                                     </div>
+                                    @php
+                                    $i = 0;
+                                @endphp
                                     @foreach ($model->order_hotel as $key => $value)
                                         @if (count($value->order_hotel_room) > 0)
+                                       
                                             @foreach ($value->order_hotel_room as $sub_key => $sub_value)
+                                            @php
+                                            $i++;
+                                        @endphp
                                                 <div class="row">
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
@@ -86,18 +116,39 @@
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
-                                                            <label for="account-username">Check-in</label>
+                                                            <label for="account-username">Room / Room #ID </label>
                                                             <strong
-                                                                class="disp-below">{{ $sub_value->check_in_date }}</strong>
+                                                                class="disp-below">{{ $i .' - #'.  $sub_value->id}}</strong>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 col-sm-4">
                                                         <div class="form-group">
-                                                            <label for="account-username">Check-out</label>
+                                                            <label for="account-username">Adult</label>
                                                             <strong
-                                                                class="disp-below">{{ $sub_value->check_out_date }}</strong>
+                                                                class="disp-below">{{ $sub_value->adult }}</strong>
                                                         </div>
                                                     </div>
+                                                    <div class="col-12 col-sm-4">
+                                                        <div class="form-group">
+                                                            <label for="account-username">Child</label>
+                                                            <strong
+                                                                class="disp-below">{{ $sub_value->child }}</strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4">
+                                                        <div class="form-group">
+                                                            <label for="account-username">Nights</label>
+                                                            <strong
+                                                                class="disp-below">{{ dateDiffInDays($sub_value->check_in_date, $sub_value->check_out_date) }} </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-4">
+                                                        <div class="form-group">
+                                                            <label for="account-username">From - to</label>
+                                                            <strong
+                                                                class="disp-below">{{ date('d/m/Y', strtotime($sub_value->check_in_date)) . ' - ' . date('d/m/Y', strtotime($sub_value->check_out_date)) }}</strong>
+                                                        </div>
+                                                    </div>                                                    
                                                 </div>
                                                 <hr class="my-2" />
                                             @endforeach
@@ -279,19 +330,7 @@
                                             <strong
                                                 class="disp-below">{{ $model->type == 1 ? 'API' : 'Offline' }}</strong>
                                         </div>
-                                    </div>
-                                    <div class="col-12 col-sm-3">
-                                        <div class="form-group">
-                                            <label for="account-username">Total Rooms</label>
-                                            <strong class="disp-below">{{ $model->total_rooms }}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-3">
-                                        <div class="form-group">
-                                            <label for="account-username">Total Nights</label>
-                                            <strong class="disp-below">{{ $model->total_nights }}</strong>
-                                        </div>
-                                    </div>
+                                    </div>                                    
 
                                     <div class="col-12 col-sm-3">
                                         <div class="form-group">
@@ -345,19 +384,7 @@
                                                 class="disp-below">{{ $model->is_pay_using == 1 ? 'Online' : 'Wallet' }}</strong>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-3">
-                                        <div class="form-group">
-                                            @php
-                                                echo '<a href="' . route('view-order-payment', $model->id) . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Payment Details" data-animation="false"><i class="fa fa-check-square-o" aria-hidden="true"></i></a> ';
-                                                if ($model->mail_sent == 1) {
-                                                    echo '<a target="_blank" href="' . url('storage/app/public/order/' . $model->id . '/vouchers/order-vouchers-' . $model->id . '.pdf') . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
-                                                } else {
-                                                    echo '<a href="javascript:void(0);" class="edit btn btn-info btn-sm Generate_action" data-order-id="' . $model->id . '" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
-                                                }
-                                                
-                                            @endphp
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>

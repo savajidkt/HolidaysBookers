@@ -51,8 +51,8 @@ class BookingHistoryController extends Controller
                 ->editColumn('passenger_type', function (Order $order) {                    
                     return $order->passenger_type_name;
                 })
-                ->addColumn('pax', function (Order $order) {
-                    return 'Room : ' . $order->total_rooms . ' Adult : ' . $order->total_adult . '<br> Children : ' . $order->total_child.'<br> Night : '.$order->total_nights;
+                ->addColumn('pax', function (Order $order) {                  
+                    return passengerDetailsWithRooms($order);
                 })
                 ->editColumn('booking_amount', function (Order $order) {
                     return getNumberWithCommaGlobalCurrency($order->booking_amount);
@@ -147,7 +147,7 @@ class BookingHistoryController extends Controller
 			.invoice-box table tr.total td:nth-child(2) {
 				
 			}
-			@media only screen and (max-width: 600px) {
+@mediaonly screen and (max-width: 600px) {
 				.invoice-box table tr.top table td {
 					width: 100%;
 					display: block;
@@ -343,20 +343,22 @@ class BookingHistoryController extends Controller
         $tableStr .= '<td class="text-right">TOTAL</td>';
         $tableStr .= '</tr>';
         $tableStr .= '';
-        if ($order->order_hotel) {
+       
+        if ($order->order_rooms) {
             $tax = $order->tax;
             $taxAmt = $order->tax_amount;
-            foreach ($order->order_hotel as $key => $value) {
-                $order_hotel_room = OrderHotelRoom::where('order_hotel_id', $value->id)->first();
-            $tableStr .= '<tr class="item">';
-                $tableStr .= '<td class="">' . $value->hotel_name . '</td>';
+            foreach ($order->order_rooms as $key => $value) {
+                
+                //$order_hotel_room = OrderHotelRoom::where('order_hotel_id', $value->hotel_id)->first();
+                $order_hotel_room = $value;              
+                $tableStr .= '<tr class="item">';
+                $tableStr .= '<td class="">' . $value->hotel_details->hotel_name . '</td>';
                 $tableStr .= '<td class="text-center">' . (int) dateDiffInDays($order_hotel_room->check_in_date, $order_hotel_room->check_out_date) . '</td>';
                 $tableStr .= '<td class="text-center">1</td>';
                 $tableStr .= '<td class="text-center">' . $order_hotel_room->adult . '</td>';
                 $tableStr .= '<td class="text-center">' . $order_hotel_room->child . '</td>';
-            $tableStr .= '<td class="text-right"></td>';
-            $tableStr .= '</tr>';
-
+                $tableStr .= '<td class="text-right"></td>';
+                $tableStr .= '</tr>';
                 $tableStr .= '<tr>';
                 $tableStr .=  '<td><ul style="margin: 0px !important;"><li style="font-size:12px;">' . $order_hotel_room->room_name . '<br> From ' . date('d M, Y', strtotime($order_hotel_room->check_in_date)) . ' To ' . date('d M, Y', strtotime($order_hotel_room->check_out_date)) . ' </li></ul></td>';
                 $tableStr .= '<td class="text-center"></td>';
@@ -530,7 +532,7 @@ class BookingHistoryController extends Controller
             }
             .invoice-box table tr.total td:nth-child(2) {
             }
-            @media only screen and (max-width: 600px) {
+@mediaonly screen and (max-width: 600px) {
             .invoice-box table tr.top table td {
             width: 100%;
             display: block;

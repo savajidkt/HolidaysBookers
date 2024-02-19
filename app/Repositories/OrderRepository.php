@@ -19,6 +19,7 @@ class OrderRepository
         $dataSave = [
             'status'    => $data['status'],
             'payment_status'    => $data['payment_status'],
+            'status_comments'    => isset($data['status_comments']) ? $data['status_comments'] : '',
             'comments'    => $data['comments']
         ];
         if ($order->update($dataSave)) {

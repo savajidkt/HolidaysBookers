@@ -75,7 +75,8 @@ class Order extends Model
         'lead_passenger_phone_code',
         'lead_passenger_phone',
         'order_type',
-        'status'
+        'status',
+        'status_comments'
     ];
 
     /**
@@ -87,28 +88,28 @@ class Order extends Model
     {
         $admin = auth()->user();
         $action = '';
-        $viewAction = '<a href="' . route('orders.show', $this->id) . '" class="edit btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
-        $editAction = '<a href="' . route('orders.edit', $this->id) . '" class="edit btn btn-info btn-sm" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a> ';
-        $paymentAction = '<a href="' . route('view-order-payment', $this->id) . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Payment Details" data-animation="false"><i class="fa fa-check-square-o" aria-hidden="true"></i></a> ';
+        $viewAction = '<a href="' . route('orders.show', $this->id) . '" class="edit btn btn-primary btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a> ';
+        $editAction = '<a href="' . route('orders.edit', $this->id) . '" class="edit btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="' . __('core.edit') . '" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i></a> ';
+        $paymentAction = '<a href="' . route('view-order-payment', $this->id) . '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Payment Details" data-animation="false"><i class="fa fa-check-square-o" aria-hidden="true"></i></a> ';
         if ($this->mail_sent == 1) {
-            $voucherAction = '<a target="_blank" href="' . url('storage/app/public/order/' . $this->id . '/vouchers/order-vouchers-' . $this->id . '.pdf') . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+            $voucherAction = '<a target="_blank" href="' . url('storage/app/public/order/' . $this->id . '/vouchers/order-vouchers-' . $this->id . '.pdf') . '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Voucher" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
         } else {
-            $voucherAction = '<a href="javascript:void(0);" class="edit btn btn-info btn-sm Generate_action" data-order-id="'.$this->id.'" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
+            $voucherAction = '<a href="javascript:void(0);" class="edit btn btn-primary btn-sm Generate_action" data-order-id="'.$this->id.'" data-toggle="tooltip" data-original-title="Generate voucher & send mail" data-animation="false"><i class="fa fa-file-o" aria-hidden="true"></i></a> ';
         }
 
         //if($admin->can('reach-us-view')){
         $action .= $viewAction;
         // }
         //if($admin->can('reach-us-view')){
-        $action .= $voucherAction;
-        $action .= $paymentAction;
+        //$action .= $voucherAction;
+        //$action .= $paymentAction;
         // }
         // if($admin->can('reach-us-edit')){
-        $action .= $editAction;
+        //$action .= $editAction;
         // } 
 
         // if($admin->can('reach-us-delete')){
-        $action .= $this->getDeleteButtonAttribute();
+        //$action .= $this->getDeleteButtonAttribute();
         // }
         return $action;
     }
@@ -152,10 +153,10 @@ class Order extends Model
         $payment_status = self::YES;
         switch ($this->payment_status) {
             case self::NO:
-                $payment_status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">No</span></a>';
+                $payment_status = '<a href="javascript:void(0)" class=""><span class="badge badge-danger " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">No</span></a><br>'.paymentMethodName($this->is_pay_using);
                 break;
             default:
-                $payment_status = '<a href="javascript:void(0)" class=""><span class="badge badge-success " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">Yes</span></a>';
+                $payment_status = '<a href="javascript:void(0)" class=""><span class="badge badge-success " data-reach_id="' . $this->id . '" data-status="' . $this->payment . '">Yes</span></a><br>'.paymentMethodName($this->is_pay_using);
                 break;
         }
         return $payment_status;

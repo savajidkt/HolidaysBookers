@@ -61,30 +61,7 @@
         <hr class="my-2" />
     </div>
 </div>
-<div class="row HotelWiseRooms ">
-    <div class="col-12">
-        <div class="card-datatable pt-0 table-responsive">
-            <table class="hotel-rooms-list-table datatables-ajax table dt-column-search-hotel-rooms-list">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>{{ __('core.id') }}</th>
-                        <th>Hotel Name</th>
-                        <th>Room Type</th>
-                        <th>Max Occupancy</th>
-                        <th>No. of Beds</th>
-                        <th>Max Adults</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-    <div class="col-12">
-        <hr class="my-2" />
-    </div>
-</div>
+
 <div class="row">
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">

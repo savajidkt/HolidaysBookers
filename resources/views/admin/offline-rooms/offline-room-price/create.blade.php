@@ -1,6 +1,15 @@
 @extends('admin.layout.app')
 @section('page_title', 'Add Room Price')
 @section('content')
+<div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
+   
+    <div class="col-md-6">
+        <a class="btn btn-outline-secondary waves-effect" href="{{ route('view-room-price', $model->id) }}">Back</a>
+    </div>    
+    <div class="col-md-6 text-right">                        
+        <a href="{{ route('view-room-price', $model->id) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="View Room Price lists" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>        
+    </div> 
+</div>
     <section class="form-control-repeater">
         <div class="row">
             <!-- Bootstrap Validation -->
@@ -16,8 +25,7 @@
                             @include('admin.offline-rooms.offline-room-price.form')
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <a class="btn btn-outline-secondary btn-sm  waves-effect"
-                                        href="{{ route('view-room-price', $model) }}">{{ __('core.back') }}</a>
+                                   
                                     <button type="submit" id="user-save" name="save"
                                         value="save"class="btn btn-primary btn-sm "><span
                                             class="spinner-border spinner-border-sm buttonLoader hide" role="status"

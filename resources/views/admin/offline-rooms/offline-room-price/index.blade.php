@@ -2,6 +2,15 @@
 @section('page_title', 'Offline Rooms')
 @section('content')
     <!-- users list start -->
+    <div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
+   
+        <div class="col-md-6">
+            <a class="btn btn-outline-secondary waves-effect" href="{{ route('view-room', $model->id) }}">Back</a>
+        </div>
+        <div class="col-md-6 text-right">                        
+            <a href="{{ route('add-room-price', $model) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="Add New Room Price" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i></a>        
+        </div>     
+    </div>
     <section class="app-user-list">
         <!-- users filter end -->
         <!-- list section start -->
@@ -10,15 +19,7 @@
 
                 <div class="col-md-6">
                     <h4 class="card-title">Offline Room Price</h4>
-                </div>
-                <div class="col-md-6 text-right">
-                    <a href="{{ route('offlinerooms.index') }}"><button type="reset"
-                            class="btn btn-outline-secondary btn-sm  waves-effectt">
-                            {{ __('core.back') }}</button></a>
-                    <a href="{{ route('add-room-price', $model) }}"><button type="reset"
-                            class="btn btn-primary btn-sm  mr-1 waves-effect waves-float waves-light">Add New Room
-                            Price</button></a>
-                </div>
+                </div>                
             </div>
 
             <div class="card-datatable pt-0 table-responsive">

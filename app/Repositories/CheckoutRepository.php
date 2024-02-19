@@ -55,18 +55,61 @@ class CheckoutRepository
         $extra_data['button_name'] = $data['button_name'];
         $extra_data['lead_passengers_country_code'] = $data['lead_passengers_country_code'];
         $extra_data['all_passengers_country_code'] = $data['all_passengers_country_code'];
+        
+        // $adultCount = 0;
+        // $childCount = 0;
+        // $roomCount = count($extra_data['cartData']);
+
+        // if (count($extra_data['cartData']) > 0) {
+        //     $i = 1;           
+        //     foreach ($data['hotel'] as $key => $value) {
+        //         $adultCount = $adultCount + (int) $value['room_no_' . $i]['adults'];
+        //         $childCount = $childCount + (int) $value['room_no_' . $i]['childs'];
+        //         $i++;
+        //     }
+        // }
+
+
         $adultCount = 0;
         $childCount = 0;
         $roomCount = count($extra_data['cartData']);
+        $room_child_age = [];
 
-        if (count($extra_data['cartData']) > 0) {
-            $i = 1;           
+        if ($roomCount > 0) {
+            $i = 1;
             foreach ($data['hotel'] as $key => $value) {
-                $adultCount = $adultCount + (int) $value['room_no_' . $i]['adults'];
-                $childCount = $childCount + (int) $value['room_no_' . $i]['childs'];
+                
+                if (isset($value['room_no_' . $i]['adults']) && is_numeric($value['room_no_' . $i]['adults'])) {
+                    $adultCount = $adultCount + (int) $value['room_no_' . $i]['adults'];
+                }
+
+                if (isset($value['room_no_' . $i]['childs']) && is_numeric($value['room_no_' . $i]['childs'])) {
+                    $childCount = $childCount + (int) $value['room_no_' . $i]['childs'];
+                }
+               
+               
+                   
+                   if( isset($value['room_no_' . $i]['room_child_age']) && is_array($value['room_no_' . $i]['room_child_age']) && count($value['room_no_' . $i]['room_child_age']) > 0 ){                   
+                        foreach ($value['room_no_' . $i]['room_child_age'] as $child_key => $child_value) {                            
+                            if( is_array( $child_value) && count( $child_value) > 0 ){
+                                foreach ($child_value as $s_child_key => $s_child_value) {
+                                    $tempArr = [];
+                                    $tempArr['cwb'] = $value['room_no_' . $i]['room_child_age']["cwd"][$s_child_key];
+                                    $tempArr['age'] = $s_child_value;
+                                   
+                                    $room_child_age[$i][] = $tempArr;
+                                   
+                                }
+                            }
+                            break;                            
+                        }
+                   }                
+
                 $i++;
             }
         }
+        $room_child_age = json_decode(json_encode($room_child_age), FALSE);       
+        $extra_data['child_extra'] = $room_child_age;
 
         if( $data['passengers'] == "lead" ){
             $learArr=[];
@@ -95,9 +138,9 @@ class CheckoutRepository
             'search_from'     => getSearchCookies('search_from'),
             'search_to'     => getSearchCookies('search_to'),
             'gst_enable'     => isset($data['gst_enable']) ? 1 : 0,
-            'registration_number'     => $data['registration_number'],
-            'registered_company_name'     => $data['registered_company_name'],
-            'registered_company_address'     => $data['registered_company_address'],
+            'registration_number'     => isset($data['registration_number']) ? $data['registration_number'] : '',
+            'registered_company_name'     => isset($data['registered_company_name'])?$data['registered_company_name'] : '',
+            'registered_company_address'     => isset($data['registered_company_address'])? $data['registered_company_address']: '',
             'agency_reference'     => $data['agency_reference'],
             // 'coupon_amount'     => $data['coupon_amount'],            
             'total_amount'     => getFinalAmountChackOut(),
@@ -132,7 +175,7 @@ class CheckoutRepository
     {
         $user = User::find($checkout->user_id);
         $extra_data = unserialize($checkout->extra_data);
-
+        
         $phone_code = "";
         $this->order_Rooms = $extra_data['cartData'];
         $passenger = unserialize($checkout->passenger);
@@ -275,6 +318,8 @@ class CheckoutRepository
     public function addOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLead)
     {
         if (count($value) > 0) {
+
+            
             $roomType = OfflineRoom::find($value['room_id']);
             $addHotelRoom = [];
             $addHotelRoom['order_id'] = $OrderID;
@@ -293,6 +338,7 @@ class CheckoutRepository
             $addHotelRoom['price'] = $value['finalAmount'];
             $addHotelRoom['adult'] = $value['adult'];
             $addHotelRoom['child'] = $value['child'];
+            $addHotelRoom['child_extra'] = serialize($value['room_child_age']);            
             $addHotelRoom['child_with_bed'] = 0;
             $addHotelRoom['child_without_bed'] = 0;
             
@@ -506,9 +552,9 @@ class CheckoutRepository
             'search_from'     => $bookingArr['search_from'],
             'search_to'     => $bookingArr['search_to'],
             'gst_enable'     => isset($data['gst_enable']) ? 1 : 0,
-            'registration_number'     => $data['registration_number'],
-            'registered_company_name'     => $data['registered_company_name'],
-            'registered_company_address'     => $data['registered_company_address'],
+            'registration_number'     => isset($data['registration_number']) ? $data['registration_number'] : '',
+            'registered_company_name'     => isset($data['registered_company_name'])?$data['registered_company_name'] : '',
+            'registered_company_address'     => isset($data['registered_company_address'])? $data['registered_company_address']: '',
             'coupon_code'     => $data['coupon_code'],
             'coupon_amount'     => $data['coupon_amount'],
             'tax'     => $data['tax'],
@@ -589,9 +635,9 @@ class CheckoutRepository
             'search_from'     => getSearchCookies('search_from'),
             'search_to'     => getSearchCookies('search_to'),
             'gst_enable'     => isset($data['gst_enable']) ? 1 : 0,
-            'registration_number'     => $data['registration_number'],
-            'registered_company_name'     => $data['registered_company_name'],
-            'registered_company_address'     => $data['registered_company_address'],
+            'registration_number'     => isset($data['registration_number']) ? $data['registration_number'] : '',
+            'registered_company_name'     => isset($data['registered_company_name'])?$data['registered_company_name'] : '',
+            'registered_company_address'     => isset($data['registered_company_address'])? $data['registered_company_address']: '',           
             'total_amount'     => getFinalAmountChackOut(),
             'currency'     => globalCurrency(),
             'payment_method'     => isset($data['payment_method']) ? $data['payment_method'] : 0,
@@ -846,8 +892,7 @@ class CheckoutRepository
                                    
                                 }
                             }
-                            break;
-                            //dd($room_child_age);
+                            break;                            
                         }
                    }                
 
@@ -883,9 +928,9 @@ class CheckoutRepository
             'search_from'     => getSearchCookies('search_from'),
             'search_to'     => getSearchCookies('search_to'),
             'gst_enable'     => isset($data['gst_enable']) ? 1 : 0,
-            'registration_number'     => $data['registration_number'],
-            'registered_company_name'     => $data['registered_company_name'],
-            'registered_company_address'     => $data['registered_company_address'],
+            'registration_number'     => isset($data['registration_number']) ? $data['registration_number'] : '',
+            'registered_company_name'     => isset($data['registered_company_name'])?$data['registered_company_name'] : '',
+            'registered_company_address'     => isset($data['registered_company_address'])? $data['registered_company_address']: '',
             'total_amount'     => getFinalAmountChackOut(),
             'currency'     => globalCurrency(),
             'payment_method'     => isset($data['payment_method']) ? $data['payment_method'] : 0,

@@ -63,9 +63,9 @@
                             <th>S No</th>
                             <th></th>
                             <th>Booking Date</th>
-                            <th>Status</th>
-                            <th>Guest Lead</th>
-                            <th>Pax</th>
+                            <th>Payment Method</th>
+                            <th>Lead Guest</th>
+                            <th>Passenger Details</th>
                             <th>Amount</th>
                             <th>Payment Status</th>
                             <th>Action</th>

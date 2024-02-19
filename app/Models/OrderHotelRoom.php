@@ -26,6 +26,7 @@ class OrderHotelRoom extends Model
         'price',
         'adult',
         'child',
+        'child_extra',
         'child_with_bed',
         'child_without_bed'        
     ];

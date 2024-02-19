@@ -41,8 +41,7 @@
                             <th>City</th>
                             <th>Country</th>
                             <th>Phone</th>
-                            <th>Email</th>
-                            <th>Rating</th>
+                            <th>Email</th>                           
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -233,10 +232,7 @@
                         data: 'hotel_email',
                         name: 'hotel_email'
                     },
-                    {
-                        data: 'hotel_review',
-                        name: 'hotel_review',
-                    },
+                   
                     {
                         data: 'status',
                         name: 'status',

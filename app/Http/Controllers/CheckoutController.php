@@ -110,7 +110,7 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
 
-
+        
         if ($request->button_name == "Quote") {
 
             $res = $this->saveAsQuote($request);
@@ -138,7 +138,8 @@ class CheckoutController extends Controller
             if (availableBalance(auth()->user()->agents->id) > getFinalAmountChackOut()) {
                 
                 $data = $this->checkoutRepository->createBooking($request->all());
-                $res = $this->payUsingWallet($data);
+               
+                $res = $this->payUsingWallet($data);               
                 if ($res) {
                     $this->removeTempData($data);
                     return redirect()->route('checkout.show', [$SafeencryptionObj->encode($res->id)])->with('success', 'Your booking created successfully!');
@@ -209,7 +210,7 @@ class CheckoutController extends Controller
         $data = $this->checkoutRepository->update($requiredParamArr, $checkout);
 
         // Add Payment Gatways Call here
-        dd($request->payment_method);
+       
         if ($request->payment_method == 1) {
             //Pay On time limit
             // $this->payOnTimeLimit($data);
@@ -404,6 +405,7 @@ class CheckoutController extends Controller
 
     public function show($id)
     {
+        
         $SafeencryptionObj = new Safeencryption;
         $OrderID = $SafeencryptionObj->decode($id);
         $Order = Order::find($OrderID);

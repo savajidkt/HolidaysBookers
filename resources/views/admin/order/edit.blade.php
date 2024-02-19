@@ -1,6 +1,11 @@
 @extends('admin.layout.app')
 @section('page_title', 'Edit Orders')
 @section('content')
+<div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
+    <div class="col-md-6">
+        <a class="btn btn-outline-secondary waves-effect" href="{{ route('orders.show', $model->id) }}">Back</a>
+    </div>    
+</div>
     <section class="bs-validation">
         <div class="row">
             <!-- Bootstrap Validation -->
@@ -18,9 +23,7 @@
                             @method('PUT')
                             @include('admin.order.form')
                             <div class="row">
-                                <div class="col-12">
-                                    <a class="btn btn-outline-secondary waves-effect"
-                                        href="{{ route('orders.index') }}">{{ __('core.back') }}</a>
+                                <div class="col-12">                                   
                                     <button type="submit" id="user-save" class="btn btn-primary"><span
                                             class="spinner-border spinner-border-sm buttonLoader hide" role="status"
                                             aria-hidden="true"></span><span
@@ -38,9 +41,7 @@
                             @method('PUT')
                             @include('admin.order.passengerform')
                             <div class="row">
-                                <div class="col-12">
-                                    <a class="btn btn-outline-secondary waves-effect"
-                                        href="{{ route('orders.index') }}">{{ __('core.back') }}</a>
+                                <div class="col-12">                                   
                                     <button type="submit" id="user-save" class="btn btn-primary"><span
                                             class="spinner-border spinner-border-sm buttonLoader hide" role="status"
                                             aria-hidden="true"></span><span

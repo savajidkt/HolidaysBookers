@@ -1,18 +1,24 @@
 @extends('admin.layout.app')
 @section('page_title', 'Hotel Room')
 @section('content')
+
+<div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
+   
+    <div class="col-md-6">
+        <a class="btn btn-outline-secondary waves-effect" href="{{ route('view-room-price', $model->room_id) }}">Back</a>
+    </div>
+    <div class="col-md-6 text-right">                        
+        <a href="{{ route('add-room-price', $model->room_id) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="Add New Room Price" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i></a>        
+    </div>    
+</div>
+
     <section id="page-account-settings">
         <div class="card">
 
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                 <div class="col-md-6">
                     <h4 class="card-title">Hotel Room Price: #{{ $model->id }}</h4>
-                </div>
-                <div class="col-md-6 text-right">
-                    <a href="{{ route('view-room-price', $model->room_id) }}"><button type="reset"
-                            class="btn btn-outline-secondary btn-sm  waves-effectt">
-                            {{ __('core.back') }}</button></a>
-                </div>
+                </div>               
             </div>
 
         </div>

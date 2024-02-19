@@ -1,6 +1,11 @@
 @extends('admin.layout.app')
 @section('page_title', 'Order Payment')
 @section('content')
+<div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
+    <div class="col-md-6">
+        <a class="btn btn-outline-secondary waves-effect" href="{{ route('orders.show', $model->id) }}">Back</a>
+    </div>    
+</div>
     <section id="page-account-settings">
         <div class="row">
             <div class="card col-12">
@@ -63,18 +68,15 @@
 
                         </div>
                     </form>
-                    <a class="btn btn-outline-secondary waves-effect"
-                        href="{{ route('orders.index') }}">{{ __('core.back') }}</a>
+                  
                     @if ($model->mail_sent == 1)
-                        <a target="_blank" class="btn btn btn-info waves-effect"
+                        <a target="_blank" class="btn btn btn-primary waves-effect"
                             href="{{ url('storage/app/public/order/' . $model->id . '/vouchers/order-vouchers-' . $model->id . '.pdf') }}"><i
-                                class="fa fa-cloud-download" aria-hidden="true"></i> Voucher</a>
-                        {{-- <a class="btn btn btn-info waves-effect" href="{{ route('order-itinerary', $model) }}"><i
-                                class="fa fa-cloud-download" aria-hidden="true"></i> Itinerary</a> --}}
-                        <a class="btn btn btn-info waves-effect" href="{{ route('order-invoice', $model) }}"><i
+                                class="fa fa-cloud-download" aria-hidden="true"></i> Voucherd</a>                      
+                        <a class="btn btn btn-primary waves-effect" href="{{ route('order-invoice', $model) }}"><i
                                 class="fa fa-cloud-download" aria-hidden="true"></i> Invoice</a>
                     @else
-                        <a class="btn btn btn-info waves-effect Generate_action" data-order-id="{{ $model->id }}"
+                        <a class="btn btn btn-primary waves-effect Generate_action" data-order-id="{{ $model->id }}"
                             href="javascript:void(0);">Generate
                             voucher &
                             send mail</a>

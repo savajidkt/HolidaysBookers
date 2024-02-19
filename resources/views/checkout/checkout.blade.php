@@ -78,7 +78,7 @@
                 <div class="col-xl-7 col-lg-8">
 
                     @if (isset($user->id))
-                        <h2 class="fw-500 md:mt-24">Let us know who you are</h2>
+                        {{-- <h2 class="fw-500 md:mt-24">Let us know who you are</h2> --}}
                         @if (\Session::has('error'))
                             <div class="col-12">
                                 <div class="d-flex items-center justify-between bg-error-1 pl-30 pr-20 py-30 rounded-8">
@@ -120,7 +120,7 @@
                                 <input type="hidden" name="margin_amt" class="margin_amt_cls" value="">
                                 <input type="hidden" name="quote_email" class="quote_email_cls" value="">
                                 <input type="hidden" name="quote_name" class="quote_name_cls" value="">
-                                <div class="checkout-detales-block">
+                                {{-- <div class="checkout-detales-block">
                                 <div class="col-md-12">
                                     <div class="form-input firstname">
                                         <input type="hidden" name="bookingKey" value="{{ $bookingKey }}">
@@ -150,8 +150,8 @@
                                             value="{{ isset($user->usermeta->phone_number) ? $user->usermeta->phone_number : '' }}" placeholder="Phone Number*" style="font-family: 'FontAwesome', Arial;">
                                     </div>
                                     </div>
-                                </div>
-                                <div class="col-12">
+                                </div> --}}
+                                {{-- <div class="col-12">
                                         <div class="d-flex items-center checkbox-check">
                                         <div class="form-checkbox ">
                                                 <input type="checkbox" id="cbx" name="gst_enable">
@@ -162,8 +162,8 @@
                                         </div>
                                           
                                     </div>
-                                </div>
-                                <div class="enablegst hide">
+                                </div> --}}
+                                {{-- <div class="enablegst hide">
                                    <div class="row input-tag-enablegst-block">
                                             <div class="input-tag-enablegst">
                                             <div class="form-input registration_number">
@@ -184,7 +184,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <h2 class="fw-500 md:mt-24">Passenger Details</h2>
                                 @if (is_array($requiredParamArr) && $requiredParamArr > 0)

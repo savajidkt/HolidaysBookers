@@ -86,7 +86,7 @@
 											<table style="width: 560px;" border="0" cellpadding="0" cellspacing="0" width="560" class="w100">
 												<tr>
 													<td style="width: 260px;box-sizing: border-box;" width="260" class="w40">
-														<img src="{{ asset('assets/img/email-logo.png') }}" alt="" style="width: 220px;" width="220">
+														<img src="https://hbsingapore.co.in/public/assets/front/img/general/logo-dark.png" alt="" style="width: 220px;" width="220">
 													</td>
 													<td style="width: 300px;box-sizing: border-box;text-align: right;" width="300" class="w60">
 														<h2 style="margin: 0;color: #fff;">Holidays Bookers</h2>
@@ -99,14 +99,7 @@
 
 									</tr>
 								</table>
-								<table style="width: 600px;" border="0" cellpadding="0" cellspacing="0" width="600" class="w100">
-									<tr>
-										<td class="w100">
-											<img src="https://hbsingapore.co.in/public/assets/front/img/general/logo-dark.png" alt="" style="width: 30%;display: block;" width="600" class="w100">
-										</td>
-
-									</tr>
-								</table>
+	
 								<table style="width: 600px;" border="0" cellpadding="0" cellspacing="0" width="600" class="w100">
 									<tr>
 										<!-- background-image: url({{ asset('assets/img/email-Background-Image.png') }}); background-size: cover;background-position: center; -->

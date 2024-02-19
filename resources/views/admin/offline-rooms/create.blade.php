@@ -1,13 +1,22 @@
 @extends('admin.layout.app')
 @section('page_title', 'Add Offline Room')
 @section('content')
+<div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
+   
+    <div class="col-md-6">
+        <a class="btn btn-outline-secondary waves-effect" href="{{ route('room-room-lists', $offlinehotel->id) }}">Back</a>
+    </div>
+    <div class="col-md-6 text-right">                        
+        <a href="{{ route('room-room-lists', $offlinehotel->id) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="View Room lists" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>        
+    </div>     
+</div>
     <section class="form-control-repeater">
         <div class="row">
             <!-- Bootstrap Validation -->
             <div class="col-md-12 col-12">
                 <div class="card">
                     <div class="card-header bg-primary bg-lighten-2 colors-container">
-                        <h4 class="card-title text-white">Add Offline Room</h4>
+                        <h4 class="card-title text-white">{{ $offlinehotel->hotel_name }} Add new offline room</h4>
                     </div>
                     <div class="card-body">
                         <form id="FrmOfflineRoom" class="room-repeater" method="post" enctype="multipart/form-data"
@@ -16,8 +25,7 @@
                             @include('admin.offline-rooms.form')
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <a class="btn btn-outline-secondary btn-sm waves-effect"
-                                        href="{{ route('offlinehotels.index') }}">{{ __('core.back') }}</a>
+                                   
                                     <button type="submit" id="user-save" class="btn btn-primary btn-sm"><span
                                             class="spinner-border spinner-border-sm buttonLoader hide" role="status"
                                             aria-hidden="true"></span><span

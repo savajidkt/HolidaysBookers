@@ -60,12 +60,12 @@ class OrdersController extends Controller
                     return dateFormat($order->created_at, 'd M, Y');
                 })
               
-                ->editColumn('total_rooms', function (Order $order) {
-                    return $order->total_rooms;
+                ->editColumn('passenger_type', function (Order $order) {
+                    return $order->passenger_type_name;
                 })
-                ->editColumn('total_nights', function (Order $order) {
-                    return $order->total_nights;
-                })
+                ->editColumn('pax', function (Order $order) {
+                    return passengerDetailsWithRooms($order);
+                })               
                 ->editColumn('payment_status', function (Order $order) {
                     return $order->payment_status_name;
                 })
@@ -73,7 +73,7 @@ class OrdersController extends Controller
                 ->addColumn('action', function (Order $order) {
                     return $order->action;
                 })
-                ->rawColumns(['action', 'status', 'payment_status'])->make(true);
+                ->rawColumns(['action', 'status', 'payment_status','pax'])->make(true);
         }
 
         return view('admin.order.index', ['user' => $user]);
@@ -117,6 +117,7 @@ class OrdersController extends Controller
      */
     public function edit(Order $order)
     {
+        
         return view('admin.order.edit', ['model' => $order]);
     }
 
@@ -508,7 +509,7 @@ class OrdersController extends Controller
 
         $order = Order::find($request->order_id);
      
-               
+             
         //$roomData = unserialize($order->formdata->form_data_serialize);
         $hotelListingRepository = new HotelListingRepository;
         $hotelsDetails = $this->getHotelNameAndAddress($order);
