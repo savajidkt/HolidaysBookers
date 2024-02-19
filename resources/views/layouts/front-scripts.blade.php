@@ -213,6 +213,78 @@
     </div>
 </div>
 
+<div class="langMenu is-hidden js-langMenu priceDetails CustomPriceDetails" data-x="priceDetails" data-x-toggle="is-hidden">
+    <div class="langMenu__bg" data-x-click="priceDetails"></div>
+
+    <div class="langMenu__content bg-white rounded-4">
+        <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+            <div class="text-20 fw-500 lh-15 priceDetailsHotel">VILLA DELUXE<p class="text-15">Room price details</p></div>
+            <button class="pointer" data-x-click="priceDetails">
+                <i class="icon-close"></i>
+            </button>
+        </div>
+
+        <div class="d-flex items-center justify-between px-30 py-20 sm:px-15">
+            <div class="text-20 fw-500 lh-15 priceDetailsHotel">Price per night (3 nights)<p class="text-15">Average: ₹25,831.48</p></div>            
+        </div>
+
+        <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15"> 
+            <div class="modalGrid__item js-item">
+                <div class="py-10 px-15 sm:px-5 sm:py-5">
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                </div>
+            </div>
+            <div class="modalGrid__item js-item">
+                <div class="py-10 px-15 sm:px-5 sm:py-5">
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                </div>
+            </div>
+            <div class="modalGrid__item js-item">
+                <div class="py-10 px-15 sm:px-5 sm:py-5">
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                </div>
+            </div>
+            <div class="modalGrid__item js-item">
+                <div class="py-10 px-15 sm:px-5 sm:py-5">
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                </div>
+            </div>
+            <div class="modalGrid__item js-item">
+                <div class="py-10 px-15 sm:px-5 sm:py-5">
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                </div>
+            </div>
+            <div class="modalGrid__item js-item">
+                <div class="py-10 px-15 sm:px-5 sm:py-5">
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                </div>
+            </div>
+            <div class="modalGrid__item js-item">
+                <div class="py-10 px-15 sm:px-5 sm:py-5">
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                </div>
+            </div>
+            <div class="modalGrid__item js-item">
+                <div class="py-10 px-15 sm:px-5 sm:py-5">
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+            <div class="text-20 fw-500 lh-15 priceDetailsHotel">Price details</div>            
+        </div>
+
+        <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
+            <div class="text-20 fw-500 lh-15 priceDetailsHotel"><p class="text-15">Total traveller price</p></div>
+            <button class="pointer" data-x-click="priceDetails">
+                ₹77,494.43
+            </button>
+        </div>
+
+    </div>
+</div>
+
 <div class="currencyMenu is-hidden js-currencyMenu" data-x="currency_old" data-x-toggle="is-hidden">
     <div class="currencyMenu__bg" data-x-click="currency"></div>
 

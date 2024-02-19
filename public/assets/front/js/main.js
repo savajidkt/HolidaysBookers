@@ -1754,6 +1754,7 @@
         const attributes = eventTarget.getAttribute('data-x-click').split(', ')
 
         attributes.forEach((el) => {
+          console.log(el);
           const target = document.querySelector(`[data-x=${el}]`)
 
           eventTarget.addEventListener('click', () => {

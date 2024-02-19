@@ -1,5 +1,6 @@
 @if (count($hotelRooms) > 0)
     @foreach ($hotelRooms as $key => $room)
+    
         <div class="col-12">
             <div class="col-12 bg-blue-2 show-data-hb-list">
                 <div class="tb even cebra_gray htl-active">
@@ -107,11 +108,12 @@
                                                 <span>
                                                     {{ getNumberWithCommaGlobalCurrency($priceroom['finalAmount']) }}
                                                 </span>
+                                                <p class="text-12">Conversion in Euro: 1192.08€</p>
+                                                <button data-x-click="priceDetails" class="text-blue-1 text-15 underline priceBreakup">Price details</button>
+                                                
                                             </div>
                                         </div>
                                         <div class="item-action-col">
-                                            
-    
                                             @if (is_array($bookingCartArr) && count($bookingCartArr))
                                                 @foreach ($bookingCartArr as $bo_key => $bo_value)
                                                     @if ($bo_key == 'hotel')

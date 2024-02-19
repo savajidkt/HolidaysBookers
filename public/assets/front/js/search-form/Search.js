@@ -82,7 +82,7 @@ var FrmSearchPreference = function () {
                 });
             },
         
-            minLength: 3,
+            minLength: 2,
             select: function (event, ui) {},
             open: function () {
                 console.log('open');
@@ -322,7 +322,12 @@ $(document).ready(function () {
 
     FrmSearchPreference.init();
 
+    
+    $(document).on('click', '.priceBreakup', function () {       
+        $('.CustomPriceDetails').removeClass('is-hidden');        
+    });
 
+    
     $(document).on('click', '.SelectRoomBook', function () {
        
         $(this).closest('.SelectRoomBook').find('.icon-arrow-top-right').hide();
@@ -693,8 +698,7 @@ function FrmAddMoreGuest() {
 
     jQuery(document).on('click', '.wishlistMe', function () {
         // $(this).addClass('teampCLS');
-        var tempD = $(this);
-        console.log(this);
+        var tempD = $(this);        
         if ($(this).attr('data-wishlist-u-id') > 0) {
 
             $.ajaxSetup({
