@@ -35,8 +35,8 @@ class HotelListController extends Controller
     public function index(Request $request)
     {
 
-        $this->hotelRoomListingRepository->priceDetails();
-        exit;
+       // $this->hotelRoomListingRepository->priceDetails();
+       // exit;
         $country =  [];
         $requestedArr = [];
 

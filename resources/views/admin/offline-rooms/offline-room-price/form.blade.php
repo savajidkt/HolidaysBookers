@@ -123,11 +123,11 @@ if (isset($pricemodel->booking_end_date)) {
                 <label for="itemname">Price Type <span class="text-danger">*</span></label>
                 <input type="hidden" id="Normal" name="price_type" class="custom-control-input" value="1">
                 <div class="demo-inline-spacing">
-                    <a data-hotel-id="{{ $model->hotel->id }}" class="badge badge-success promotionalPlan"
+                    <a data-hotel-id="{{ $model->hotel->id }}" data-room-id="{{ $model->id }}" class="badge badge-success promotionalPlan"
                         style="color:#FFF; float: right;">
                         <i class="fa fa-plus" aria-hidden="true"></i> Promotional
                     </a>
-                    <a data-hotel-id="{{ $model->hotel->id }}" class="badge badge-success surchargePlan"
+                    <a data-hotel-id="{{ $model->hotel->id }}" data-room-id="{{ $model->id }}" class="badge badge-success surchargePlan"
                         style="color:#FFF; float: right;">
                         <i class="fa fa-plus" aria-hidden="true"></i> Surcharge
                     </a>
@@ -137,7 +137,7 @@ if (isset($pricemodel->booking_end_date)) {
                     </a>
                     <a data-hotel-id="{{ $model->hotel->id }}" data-room-id="{{ $model->id }}"
                         class="badge badge-success complimentaryPlan" style="color:#FFF; float: right;">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Extra Room Complimentary
+                        <i class="fa fa-plus" aria-hidden="true"></i> Extra Meal Supplementary
                     </a>
                 </div>
                 <div class="price_typeCLS"></div>

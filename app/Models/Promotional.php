@@ -16,6 +16,7 @@ class Promotional extends Model
     protected $table = "promotionals";
     protected $fillable = [
         'hotel_id',        
+        'room_id',        
         'single_adult',
         'per_room',
         'extra_adult',
@@ -24,6 +25,7 @@ class Promotional extends Model
         'child_with_no_bed_5_12',
         'child_with_no_bed_13_18',
         'date_validity_start',
-        'date_validity_end'
+        'date_validity_end',
+        'apply_for'
     ];  
 }

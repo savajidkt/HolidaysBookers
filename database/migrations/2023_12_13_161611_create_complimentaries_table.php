@@ -19,6 +19,7 @@ class CreateComplimentariesTable extends Migration
             $table->unsignedBigInteger('room_id');            
             $table->unsignedBigInteger('mealplans_id');                                           
             $table->double('complimentary_price', 10, 2)->default(0);
+            $table->enum('apply_for',["0","1"])->default(0)->comment('0: Apply Room, 1 Apply Hotel');
 
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');

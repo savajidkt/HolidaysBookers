@@ -31,7 +31,7 @@ class SurchargeController extends Controller
         
         return response()->json([
             'status' => true,
-            'responce' => Surcharge::where('hotel_id', $request->hotel_id)->get(),
+            'responce' => Surcharge::where('hotel_id', $request->hotel_id)->where('room_id', $request->room_id)->get(),
             'message' => ''
         ]);
     }
@@ -41,7 +41,7 @@ class SurchargeController extends Controller
         
         return response()->json([
             'status' => true,
-            'responce' => Surcharge::where('hotel_id', $request->hotel_id)->get(),
+            'responce' => Surcharge::where('hotel_id', $request->hotel_id)->where('room_id', $request->room_id)->get(),
             'message' => ''
         ]);
     }
@@ -56,12 +56,13 @@ class SurchargeController extends Controller
     }
     public function addSurchargePlanListDeletePopup(Request $request): JsonResponse
     {     
+        
        if(strlen($request->hotel_id) && strlen($request->hotel_id) > 0){
         Surcharge::where('hotel_id', $request->hotel_id)->where('id', $request->id)->delete();        
        }
         return response()->json([
             'status' => true,
-            'responce' => Surcharge::where('hotel_id', $request->hotel_id)->get(),
+            'responce' => Surcharge::where('hotel_id', $request->hotel_id)->where('room_id', $request->room_id)->get(),
             'message' => ''
         ]);
     }

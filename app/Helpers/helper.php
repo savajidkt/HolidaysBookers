@@ -2465,6 +2465,16 @@ if (!function_exists('getNumberWithCommaGlobalCurrency')) {
     }
 }
 
+if (!function_exists('getNumberWithCommaGivenCurrency')) {
+    function getNumberWithCommaGivenCurrency($number, $currency=""){        
+        if( strlen($currency) > 0 ){            
+            return $currency.' '.number_format($number, 2, '.', ',');
+        } else {
+            return number_format($number, 2, '.', ',');
+        }
+    }
+}
+
 
 if (!function_exists('currencyExchangerates')) {
     function currencyExchangerates($amount, $from, $to){        

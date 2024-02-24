@@ -29,17 +29,17 @@ class PromotionalController extends Controller
         
         return response()->json([
             'status' => true,
-            'responce' => Promotional::where('hotel_id', $request->hotel_id)->get(),
+            'responce' => Promotional::where('hotel_id', $request->hotel_id)->where('room_id', $request->room_id)->get(),
             'message' => ''
         ]);
     }
 
     public function addPromotionalPlanListPopup(Request $request): JsonResponse
     {     
-        
+       // dd($request->all());
         return response()->json([
             'status' => true,
-            'responce' => Promotional::where('hotel_id', $request->hotel_id)->get(),
+            'responce' => Promotional::where('hotel_id', $request->hotel_id)->where('room_id', $request->room_id)->get(),
             'message' => ''
         ]);
     }
@@ -60,7 +60,7 @@ class PromotionalController extends Controller
        }
         return response()->json([
             'status' => true,
-            'responce' => Promotional::where('hotel_id', $request->hotel_id)->get(),
+            'responce' => Promotional::where('hotel_id', $request->hotel_id)->where('room_id', $request->room_id)->get(),
             'message' => ''
         ]);
     }

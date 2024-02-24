@@ -322,7 +322,7 @@ class HotelRoomListingRepository {
 
         $singleRoom = OfflineRoom::find($hotel_room_id);                        
         $singleRoom->loadMissing('price');
-        dd($singleRoom);
+        
         $roomListingArray = [];
         $roomPriceListingArray = [];
         $tempRoomArray = [];
@@ -371,15 +371,16 @@ class HotelRoomListingRepository {
                     //$tempSearRoomArray = [];
                    
                     foreach ($singleRoom->price as $pkey => $price) {
-                       
+                        
                         //BLACKOUTSALE
                         $surCharges = getDateWiseSurcharge($hotel, $startDate, $endDate);
+                        dd($surCharges);
                         if ($surCharges) {
                             foreach ($surCharges as $key => $surcharge) {
                                 $blackDays = $surcharge['days'];
                                 $blackTotalDays = $blackTotalDays + $blackDays;
                                 $blackDaysPrice = $blackDaysPrice + $surcharge['total_amount'];
-                                $adults = $tempSearRoomArray[$singleRoom->id]->adult;
+                                $adults = $room_adults;
                                 //$adults = 2;
                                 if ($adults > 2) {
                                     $extraAdult = $adults - 2;
@@ -401,7 +402,7 @@ class HotelRoomListingRepository {
                             foreach ($promoCharges as $key => $promocharge) {
                                 $promoDays = $promocharge['days'];
                                 $promoTotalDays = $promoTotalDays + $promoDays;
-                                $adults = $tempSearRoomArray[$singleRoom->id]->adult;
+                                $adults = $room_adults;
                                 if ($adults > 2) {
                                     $extraAdult = $adults - 2;
                                     $promocharge['per_room'] + ($promocharge['extra_adult'] * $extraAdult);
@@ -420,7 +421,7 @@ class HotelRoomListingRepository {
                         if ($price->price_type == OfflineRoomPrice::NORMAL) {
 
                             $normalDays = getDateNormalPrice($startDate, $endDate, $promoTotalDays, $blackTotalDays);
-                            $adults = $tempSearRoomArray[$singleRoom->id]->adult;
+                            $adults = $room_adults;
                             if ($adults > 2) {
                                 $extraAdult = $adults - 2;
                                 $normalPrice = $price->price_p_n_twin_sharing + ($price->price_p_n_extra_adult * $extraAdult);
@@ -436,7 +437,7 @@ class HotelRoomListingRepository {
 
                         $finalRoomPrice = ($normalDaysPrice + $promoDaysPrice + $blackDaysPrice);                        
                     }                   
-
+                    
                    
                     $GroupByPrices = OfflineRoomPrice::where('id', $price->id)->groupBy('meal_plan_id')->get();
                     $Complimentary = Complimentary::where('hotel_id',$singleRoom->hotel_id)->get();
@@ -470,7 +471,7 @@ class HotelRoomListingRepository {
                         $roomPriceListingArray[$pkey]['finalAmount'] = numberFormat(($total_priceArr['finalAmount']) ? $total_priceArr['finalAmount'] : 0);
                     }
 
-                    dd($roomPriceListingArray);
+                    
 
                     if( $Complimentary ){
                         foreach ($Complimentary as $ckey => $cvalue) {

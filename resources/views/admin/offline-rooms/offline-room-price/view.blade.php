@@ -4,11 +4,14 @@
 
 <div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
    
-    <div class="col-md-6">
-        <a class="btn btn-outline-secondary waves-effect" href="{{ route('view-room-price', $model->room_id) }}">Back</a>
+    <div class="col-md-6">        
+        <a class="btn btn-outline-secondary waves-effect" href="{{ route('offlinehotels.show', $model->room->hotel->id) }}">Back</a>
     </div>
     <div class="col-md-6 text-right">                        
-        <a href="{{ route('add-room-price', $model->room_id) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="Add New Room Price" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i></a>        
+         
+        <a href="{{ route('add-room-price', $model->room_id) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="Add Room Price" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i> Add Room Price</a>                
+        <a href="{{ route('edit-room-price', $model->id) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="Edit Room Price" data-animation="false"><i class="fa fa-edit" aria-hidden="true"></i> Edit Room Price</a>                
+        <a href="{{ route('room-create', $model->room->hotel->id) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="Add Room" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i> Add Room</a>
     </div>    
 </div>
 

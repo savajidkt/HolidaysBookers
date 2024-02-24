@@ -4,11 +4,9 @@
 <div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
    
     <div class="col-md-6">
-        <a class="btn btn-outline-secondary waves-effect" href="{{ route('view-room-price', $model->id) }}">Back</a>
+        <a class="btn btn-outline-secondary waves-effect" href="{{ route('offlinehotels.show', $model->hotel_id) }}">Back</a>
     </div>    
-    <div class="col-md-6 text-right">                        
-        <a href="{{ route('view-room-price', $model->id) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="View Room Price lists" data-animation="false"><i class="fa fa-eye" aria-hidden="true"></i></a>        
-    </div> 
+   
 </div>
     <section class="form-control-repeater">
         <div class="row">
@@ -99,6 +97,7 @@
                                                     @csrf
                                                     <input type="hidden" name="hotel_id" id="hotel_id">
                                                     <input type="hidden" name="id" id="id">
+                                                    <input type="hidden" name="room_id" id="room_id">
                                                     <input type="hidden" name="action" id="action" value="add">
                                                     <div class="row g-3">
                                                         <div class="col-sm-4 fv-plugins-icon-container">
@@ -124,6 +123,19 @@
                                                                 placeholder="DD-MM-YYYY To DD-MM-YYYY" value =""
                                                                 data-error="Surcharge date is required" />
 
+                                                        </div>
+                                                        <div class="col-sm-6 fv-plugins-icon-container mt-2">
+                                                            <label class="form-label" for="plLastName">Apply For</label>
+                                                            <div class="demo-inline-spacing">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="radio" class="custom-control-input" id="hotel_s" value="1" name="apply_for" >
+                                                                    <label class="custom-control-label" for="hotel_s">Hotel</label>
+                                                                </div>                                                       
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="radio" class="custom-control-input" id="room_s" value="0" name="apply_for" checked>
+                                                                    <label class="custom-control-label" for="room_s">Room</label>
+                                                                </div>                                                       
+                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -155,7 +167,7 @@
                             <div class="modal-dialog modal-lg modal-simple" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="myModalLabel120">Complimentary</h5>
+                                        <h5 class="modal-title" id="myModalLabel120">Meal Supplementary</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">×</span>
                                         </button>
@@ -167,20 +179,34 @@
                                                     enctype="multipart/form-data">
                                                     @csrf
                                                     <input type="hidden" name="hotel_id" id="hotel_id">
+                                                    <input type="hidden" name="room_id" id="room_id">
                                                     <input type="hidden" name="id" id="id">
                                                     <input type="hidden" name="action" id="action" value="add">
                                                     <div class="row g-3">
                                                         <div class="col-sm-6 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Complimentary
+                                                            <label class="form-label" for="plFirstName">Supplementary
                                                                 Name</label>                                                            
                                                                 <select class="select2-room-meal-plan-complimentary form-control" name="complimentary_name"></select>
 
                                                         </div>
                                                         <div class="col-sm-6 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plLastName">Complimentary
+                                                            <label class="form-label" for="plLastName">Supplementary
                                                                 Price</label>
                                                             <input type="text" name="complimentary_price"
                                                                 class="form-control" placeholder="10000">
+                                                        </div>
+                                                        <div class="col-sm-6 fv-plugins-icon-container mt-2">
+                                                            <label class="form-label" for="plLastName">Apply For</label>
+                                                            <div class="demo-inline-spacing">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="radio" class="custom-control-input" id="hotel_c" value="1" name="apply_for" >
+                                                                    <label class="custom-control-label" for="hotel_c">Hotel</label>
+                                                                </div>                                                       
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="radio" class="custom-control-input" id="room_c" value="0" name="apply_for" checked>
+                                                                    <label class="custom-control-label" for="room_c">Room</label>
+                                                                </div>                                                       
+                                                            </div>
                                                         </div>
 
                                                     </div>
@@ -225,6 +251,7 @@
                                                     @csrf
                                                     <input type="hidden" name="hotel_id" id="hotel_id">
                                                     <input type="hidden" name="id" id="id">
+                                                    <input type="hidden" name="room_id" id="room_id">
                                                     <input type="hidden" name="action" id="action" value="add">
                                                     <div class="row g-3">
                                                         <div class="col-sm-4 fv-plugins-icon-container">
@@ -264,6 +291,19 @@
                                                                 placeholder="DD-MM-YYYY To DD-MM-YYYY" value =""
                                                                 data-error="Date validity date is required" />
 
+                                                        </div>
+                                                        <div class="col-sm-6 fv-plugins-icon-container mt-2">
+                                                            <label class="form-label" for="plLastName">Apply For</label>
+                                                            <div class="demo-inline-spacing">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="radio" class="custom-control-input" id="hotel_p" value="1" name="apply_for_p" >
+                                                                    <label class="custom-control-label" for="hotel_p">Hotel</label>
+                                                                </div>                                                       
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="radio" class="custom-control-input" id="room_p" value="0" name="apply_for_p" checked>
+                                                                    <label class="custom-control-label" for="room_p">Room</label>
+                                                                </div>                                                       
+                                                            </div>
                                                         </div>
 
                                                     </div>

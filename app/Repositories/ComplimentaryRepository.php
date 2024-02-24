@@ -13,12 +13,14 @@ class ComplimentaryRepository
 
 
     public function addComplimentaryPopup(array $data): Complimentary
-    {            
+    {           
+        
         $dataSave = [
             'hotel_id'    => $data['hotel_id'],
             'room_id'    => $data['id'],
             'mealplans_id'    => $data['complimentary_name'],
-            'complimentary_price'    => $data['complimentary_price']            
+            'complimentary_price'    => $data['complimentary_price'],         
+            'apply_for'    => $data['apply_for']            
         ];        
         return Complimentary::create($dataSave);
     }
@@ -29,7 +31,8 @@ class ComplimentaryRepository
         
         $dataSave = [            
             'mealplans_id'    => $data['complimentary_name'],
-            'complimentary_price'    => $data['complimentary_price']
+            'complimentary_price'    => $data['complimentary_price'],
+            'apply_for'    => $data['apply_for']
         ];
 
         if ($surcharge->update($dataSave)) {

@@ -18,7 +18,8 @@ class Complimentary extends Model
         'hotel_id',        
         'room_id',
         'mealplans_id',
-        'complimentary_price'
+        'complimentary_price',
+        'apply_for'
     ];  
     
     public function mealplans()

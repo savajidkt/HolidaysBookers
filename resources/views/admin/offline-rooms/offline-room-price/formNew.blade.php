@@ -1,3 +1,20 @@
+<?php
+
+if (isset($pricemodel->from_date)) {
+    $pricemodel->from_date = date('d/m/Y', strtotime($pricemodel->from_date));
+    //echo $from_date; exit;
+}
+if (isset($pricemodel->to_date)) {
+    $pricemodel->to_date = date('d/m/Y', strtotime($pricemodel->to_date));
+}
+if (isset($pricemodel->booking_start_date)) {
+    $pricemodel->booking_start_date = date('d/m/Y', strtotime($pricemodel->booking_start_date));
+}
+if (isset($pricemodel->booking_end_date)) {
+    $pricemodel->booking_end_date = date('d/m/Y', strtotime($pricemodel->booking_end_date));
+}
+
+?>
 
 <script>
     var HotelsList = "";
@@ -30,7 +47,6 @@
         margin-top: 21px;
     }
 </style>
-
 <div class="row">
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
@@ -104,29 +120,26 @@
     <div class="col-12">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label for="itemname">Price Type</label>
+                <label for="itemname">Price Type <span class="text-danger">*</span></label>                
+                <input type="hidden" id="Normal" name="price_type" class="custom-control-input" value="1">
+              
                 <div class="demo-inline-spacing">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="Normal" name="price_type" class="custom-control-input"
-                            value="1" {{ $requestData['price_type'] == 1 ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="Normal">Normal</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="Promotional" name="price_type" class="custom-control-input"
-                            value="3" {{ $requestData['price_type'] == 3 ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="Promotional">Promotional</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="BlackoutSale" name="price_type" class="custom-control-input"
-                            value="2" {{ $requestData['price_type'] == 2 ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="BlackoutSale">Blackout Sale</label>
-                    </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="StopSale" name="price_type" class="custom-control-input"
-                            value="0"
-                            {{ strlen($requestData['price_type']) > 0 && $requestData['price_type'] == 0 ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="StopSale">Stop Sale</label>
-                    </div>
+                    <a data-hotel-id="{{ $model->hotel->id }}" data-room-id="{{ $model->id }}" class="badge badge-success promotionalPlan"
+                        style="color:#FFF; float: right;">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Promotional
+                    </a>
+                    <a data-hotel-id="{{ $model->hotel->id }}" data-room-id="{{ $model->id }}" class="badge badge-success surchargePlan"
+                        style="color:#FFF; float: right;">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Surcharge
+                    </a>
+                    <a data-hotel-id="{{ $model->hotel->id }}" class="badge badge-success stopSalePlan"
+                        style="color:#FFF; float: right;">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Stop Sale
+                    </a>
+                    <a data-hotel-id="{{ $model->hotel->id }}" data-room-id="{{ $model->id }}"
+                        class="badge badge-success complimentaryPlan" style="color:#FFF; float: right;">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Extra Meal Supplementary
+                    </a>
                 </div>
                 <div class="price_typeCLS"></div>
                 @error('room_type')
@@ -138,10 +151,11 @@
     <div class="col-6">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label for="itemcost">Travel Date Validity</label>
+                <label for="itemcost">Travel Date Validity <span class="text-danger">*</span></label>
                 <div class="input-group input-daterange">
                     <input type="text" id="start_date" name="start_date"
-                        class="form-control start-date-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
+                        value =" {{ formatdate($pricemodel->from_date) . ' to ' . formatdate($pricemodel->to_date) }}"
+                        class="form-control start-date-basic flatpickr-input" placeholder="DD-MM-YYYY To DD-MM-YYYY"
                         placeholder="Start Date" data-error="Start Date is required" />
                 </div>
                 <div class="TravelDateValidity"></div>
@@ -154,8 +168,8 @@
                 <label for="itemcost">Booking Date Validity</label>
                 <div class="input-group input-daterange">
                     <input type="text" name="booking_start_date"
-                        class="form-control booking-basic flatpickr-input" placeholder="YYYY-MM-DD To YYYY-MM-DD"
-                        value="{{ isset($requestData['booking_start_date']) ? $requestData['booking_start_date'] : old('booking_start_date') }}"
+                        class="form-control booking-basic flatpickr-input" placeholder="DD-MM-YYYY To DD-MM-YYYY"
+                        value =" {{ formatdate($pricemodel->booking_start_date) . ' to ' . formatdate($pricemodel->booking_end_date) }}"
                         data-error="Booking start date is required" />
                 </div>
                 <div class="BookingDateValidity"></div>
@@ -166,7 +180,7 @@
     <div class="col-3">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label for="itemname">Room Meal Plan</label>
+                <label for="itemname">Included Room Meal Plan</label>
                 <a class="badge badge-success roomMealPlanBTN" style="color:#FFF; float: right;">
                     <i class="fa fa-plus" aria-hidden="true"></i> Add New Meal Plan
                 </a>
@@ -181,8 +195,8 @@
     <div class="col-3">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label class="form-label" for="role">Currency</label>
-                <select class="select2-room-currency form-control" name="currency_id"
+                <label class="form-label" for="role">Currency <span class="text-danger">*</span></label>
+                <select class="select2-room-currency form-control" id="currency_id" name="currency_id"
                     data-error="Currency is required"></select>
                 <div class="CurrencyError"></div>
                 @error('currency_id')
@@ -247,9 +261,9 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Single Adult</label>
+                <label>Single Adult <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_single_adult"
-                    value="{{ isset($requestData['price_p_n_single_adult']) ? $requestData['price_p_n_single_adult'] : old('price_p_n_single_adult') }}"
+                value="{{ isset($requestData['price_p_n_single_adult']) ? $requestData['price_p_n_single_adult'] : old('price_p_n_single_adult') }}"
                     data-error="Single adult is required" />
                 @error('price_p_n_single_adult')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -260,9 +274,9 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Per Room</label>
+                <label>Per Room <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_twin_sharing"
-                    value="{{ isset($requestData['price_p_n_twin_sharing']) ? $requestData['price_p_n_twin_sharing'] : old('price_p_n_twin_sharing') }}"
+                value="{{ isset($requestData['price_p_n_twin_sharing']) ? $requestData['price_p_n_twin_sharing'] : old('price_p_n_twin_sharing') }}"
                     data-error="Per room is required" />
                 @error('price_p_n_twin_sharing')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -273,9 +287,9 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Extra Adult</label>
+                <label>Extra Adult <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_extra_adult"
-                    value="{{ isset($requestData['price_p_n_extra_adult']) ? $requestData['price_p_n_extra_adult'] : old('price_p_n_extra_adult') }}"
+                value="{{ isset($requestData['price_p_n_extra_adult']) ? $requestData['price_p_n_extra_adult'] : old('price_p_n_extra_adult') }}"
                     data-error="Extra adult is required" />
                 @error('price_p_n_extra_adult')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -286,9 +300,9 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Child with Bed</label>
+                <label>Child with Bed <span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="price_p_n_cwb"
-                    value="{{ isset($requestData['price_p_n_cwb']) ? $requestData['price_p_n_cwb'] : old('price_p_n_cwb') }}"
+                value="{{ isset($requestData['price_p_n_cwb']) ? $requestData['price_p_n_cwb'] : old('price_p_n_cwb') }}"
                     data-error="Child with bed is required" />
                 @error('price_p_n_cwb')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -299,9 +313,9 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Child no Bed</label>
+                <label>Child no Bed (0-4 Years)</label>
                 <input type="number" class="form-control" name="price_p_n_cob"
-                    value="{{ isset($requestData['price_p_n_cob']) ? $requestData['price_p_n_cob'] : old('price_p_n_cob') }}"
+                value="{{ isset($requestData['price_p_n_cob']) ? $requestData['price_p_n_cob'] : old('price_p_n_cob') }}"
                     data-error="Child no bed is required" />
                 @error('price_p_n_cob')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -312,16 +326,24 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Infant/Complimentary child</label>
-                <input type="number" class="form-control" name="price_p_n_ccob"
-                    value="{{ isset($requestData['price_p_n_ccob']) ? $requestData['price_p_n_ccob'] : old('price_p_n_ccob') }}"
-                    data-error="Infant/Complimentary child is required" />
-                @error('price_p_n_ccob')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
+                <label>Child no Bed (5-12 Years)</label>
+                <input type="number" class="form-control" name="price_p_n_cob_5_12"
+                    value="{{ isset($requestData['price_p_n_cob_5_12']) ? $requestData['price_p_n_cob_5_12'] : old('price_p_n_cob_5_12') }}"
+                    data-error="Child no bed is required" />
             </div>
         </div>
     </div>
+    <div class="col-2">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label>Child no Bed (13-18 Years)</label>
+                <input type="number" class="form-control" name="price_p_n_cob_13_18"
+                    value="{{ isset($requestData['price_p_n_cob_13_18']) ? $requestData['price_p_n_cob_13_18'] : old('price_p_n_cob_13_18') }}"
+                    data-error="Child no bed is required" />
+            </div>
+        </div>
+    </div>
+
 
     <div class="col-12">
         <div class="d-flex align-items-center mb-1 mt-1">
@@ -348,7 +370,7 @@
             <div class="form-group">
                 <label>Per Room</label>
                 <input type="number" class="form-control " name="tax_p_n_twin_sharing"
-                    value="{{ isset($requestData['tax_p_n_twin_sharing']) ? $requestData['tax_p_n_twin_sharing'] : old('tax_p_n_twin_sharing') }}"
+                value="{{ isset($requestData['tax_p_n_twin_sharing']) ? $requestData['tax_p_n_twin_sharing'] : old('tax_p_n_twin_sharing') }}"
                     data-error="Per room is required" />
                 @error('tax_p_n_twin_sharing')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -361,7 +383,7 @@
             <div class="form-group">
                 <label>Extra Adult</label>
                 <input type="number" class="form-control " name="tax_p_n_extra_adult"
-                    value="{{ isset($requestData['tax_p_n_extra_adult']) ? $requestData['tax_p_n_extra_adult'] : old('tax_p_n_extra_adult') }}"
+                value="{{ isset($requestData['tax_p_n_extra_adult']) ? $requestData['tax_p_n_extra_adult'] : old('tax_p_n_extra_adult') }}"
                     data-error="Extra adult is required" />
                 @error('tax_p_n_extra_adult')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -374,7 +396,7 @@
             <div class="form-group">
                 <label>Child with Bed</label>
                 <input type="number" class="form-control " name="tax_p_n_cwb"
-                    value="{{ isset($requestData['tax_p_n_cwb']) ? $requestData['tax_p_n_cwb'] : old('tax_p_n_cwb') }}"
+                value="{{ isset($requestData['tax_p_n_cwb']) ? $requestData['tax_p_n_cwb'] : old('tax_p_n_cwb') }}"
                     data-error="Child with bed is required" />
                 @error('tax_p_n_cwb')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -385,9 +407,9 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Child no Bed</label>
+                <label>Child no Bed (0-4 Years)</label>
                 <input type="number" class="form-control " name="tax_p_n_cob"
-                    value="{{ isset($requestData['tax_p_n_cob']) ? $requestData['tax_p_n_cob'] : old('tax_p_n_cob') }}"
+                value="{{ isset($requestData['tax_p_n_cob']) ? $requestData['tax_p_n_cob'] : old('tax_p_n_cob') }}"
                     data-error="Child no bed is required" />
                 @error('tax_p_n_cob')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -398,13 +420,20 @@
     <div class="col-2">
         <div class="col-md-12 col-12">
             <div class="form-group">
-                <label>Infant/Complimentary child</label>
-                <input type="number" class="form-control " name="tax_p_n_ccob"
-                    value="{{ isset($requestData['tax_p_n_ccob']) ? $requestData['tax_p_n_ccob'] : old('tax_p_n_ccob') }}"
-                    data-error="Infant/Complimentary child is required" />
-                @error('tax_p_n_ccob')
-                    <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
-                @enderror
+                <label>Child no Bed (5-12 Years)</label>
+                <input type="number" class="form-control" name="tax_p_n_cob_5_12"
+                value="{{ isset($requestData['tax_p_n_cob_5_12']) ? $requestData['tax_p_n_cob_5_12'] : old('tax_p_n_cob_5_12') }}"
+                    data-error="Child no bed is required" />
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="col-md-12 col-12">
+            <div class="form-group">
+                <label>Child no Bed (13-18 Years)</label>
+                <input type="number" class="form-control" name="tax_p_n_cob_13_18"
+                value="{{ isset($requestData['tax_p_n_cob_13_18']) ? $requestData['tax_p_n_cob_13_18'] : old('tax_p_n_cob_13_18') }}"
+                    data-error="Child no bed is required" />
             </div>
         </div>
     </div>
@@ -416,7 +445,7 @@
             <div class="form-group">
                 <label for="itemcost">Market Price Per Night</label>
                 <input type="number" class="form-control" name="market_price" placeholder="Market Price Per Night"
-                    value="{{ isset($requestData['market_price']) ? $requestData['market_price'] : old('market_price') }}"
+                value="{{ isset($requestData['market_price']) ? $requestData['market_price'] : old('market_price') }}"
                     data-error="Market price per night is required" />
                 @error('market_price')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -429,7 +458,7 @@
             <div class="form-group">
                 <label for="itemcost">Promo Code</label>
                 <input type="text" class="form-control" name="promo_code" placeholder="Promo Code"
-                    value="{{ isset($requestData['promo_code']) ? $requestData['promo_code'] : old('promo_code') }}"
+                value="{{ isset($requestData['promo_code']) ? $requestData['promo_code'] : old('promo_code') }}"
                     data-error="Promo code is required" />
                 <small class="text-muted" style="font-size: 10px;">Sent at the time of confirmation mail</small>
                 @error('promo_code')
@@ -445,11 +474,11 @@
                 <select name="rate_offered" class="form-control" id="rate_offered"
                     data-error="Rate offered is required">
                     <option value="NET_RATE"
-                        {{ $requestData['rate_offered'] == 'NET_RATE' ? 'selected' : '' }}>Net
-                        Rate</option>
-                    <option value="COMMISSIONABLE"
-                        {{ $requestData['rate_offered'] == 'COMMISSIONABLE' ? 'selected' : '' }}>
-                        Commissionable</option>
+                    {{ $requestData['rate_offered'] == 'NET_RATE' ? 'selected' : '' }}>Net
+                    Rate</option>
+                <option value="COMMISSIONABLE"
+                    {{ $requestData['rate_offered'] == 'COMMISSIONABLE' ? 'selected' : '' }}>
+                    Commissionable</option>
                 </select>
                 @error('rate_offered')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -458,7 +487,7 @@
         </div>
     </div>
     <div
-        class="col-3 is_rate_offered {{ strlen($requestData['rate_offered']) > 0 && $requestData['rate_offered'] == 'COMMISSIONABLE' ? 'show' : 'hide' }}">
+    class="col-3 is_rate_offered {{ strlen($requestData['rate_offered']) > 0 && $requestData['rate_offered'] == 'COMMISSIONABLE' ? 'show' : 'hide' }}">
         <div class="col-md-12 col-12">
             <div class="form-group">
                 <label for="itemcost">Commission %</label>
@@ -471,7 +500,6 @@
             </div>
         </div>
     </div>
-    
     <div class="col-12">
         <div class="col-md-12 col-12">
             <div class="form-group">
@@ -488,7 +516,7 @@
                             value="non_refundeble" name="cancelation_policy"
                             {{ (isset($requestData['cancelation_policy']) && $requestData['cancelation_policy'] == 'non_refundeble') ? 'checked' : '' }} />
                         <label class="custom-control-label" for="non_refundeble">Non Refundeble</label>
-                    </div>                    
+                    </div>
                 </div>
                 @error('cancelation_policy')
                     <div class="invalid-feedback" style="display: block;">{{ $message }}</div>
@@ -498,21 +526,25 @@
         </div>
     </div>
     <div
-        class="col-12 div_cancelation_policy {{ (strlen($requestData['cancelation_policy']) > 0 && $requestData['cancelation_policy'] == 'refundeble') || $requestData['cancelation_policy'] == null ? 'show' : 'hide' }}">
+    class="col-12 div_cancelation_policy {{ (strlen($requestData['cancelation_policy']) > 0 && $requestData['cancelation_policy'] == 'refundeble') || $requestData['cancelation_policy'] == null ? 'show' : 'hide' }}">
         <div class="room-cancelation-policies-repeater">
             <div data-repeater-list="cancelation-policies" class="repeaterCancelationPoliciesCLS">
+               
                 @if (count($requestData['cancelation-policies']) > 0)
-                    @foreach ($requestData['cancelation-policies'] as $policies)                    
-                        <div data-repeater-item class="testd">                            
+                    @foreach ($requestData['cancelation-policies'] as $policies)
+                        <div data-repeater-item class="testd">
+                            {{-- <input type="hidden" name="id" value="{{ $policies->id }}" />
+                            <input type="hidden" name="room_id" value="{{ $policies->room_id }}" />
+                            <input type="hidden" name="price_id" value="{{ $policies->price_id }}" /> --}}
                             <div class="row d-flex align-items-end">
                                 <div class="col-2">
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
                                             <label for="itemcost">Before Check-In Days</label>
-                                            <select name="before_check_in_days" class="form-control" id="before_check_in_days"
+                                            <select name="before_check_in_days"
+                                                class="form-control before_check_in_days" id=""
                                                 data-error="Before Check-In Days" aria-invalid="false">
                                                 @php echo forLoopByNumber(0, $requestData['cutoff_price'] - 1,  isset($policies['before_check_in_days']) ? $policies['before_check_in_days'] : '' ,'Days'); @endphp
-                                                                                           
                                             </select>
                                         </div>
                                     </div>
@@ -522,7 +554,7 @@
                                         <div class="form-group">
                                             <label for="itemcost">Night</label>
                                             <input type="number" class="form-control" name="night"
-                                                value="{{ isset($policies['night']) ? $policies['night'] : old('night') }}" />
+                                            value="{{ isset($policies['night']) ? $policies['night'] : old('night') }}" />
                                         </div>
                                     </div>
                                 </div>
@@ -530,12 +562,11 @@
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
                                             <label for="itemcost">Per Night Charge</label>
-                                            <input type="number" class="form-control" name="night_charge" 
+                                            <input type="number" class="form-control" name="night_charge"
                                             value="{{ isset($policies['night_charge']) ? $policies['night_charge'] : old('night_charge') }}" />
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-4">
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
@@ -558,7 +589,61 @@
                             </div>
                             <hr />
                         </div>
-                    @endforeach                
+                    @endforeach
+                @else
+                    <div data-repeater-item class="testd">
+                        <div class="row d-flex align-items-end">
+                            <div class="col-2">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="itemcost">Before Check-In Days</label>
+                                        <select name="before_check_in_days" class="form-control before_check_in_days"
+                                            id="" data-error="Before Check-In Days" aria-invalid="false">
+                                            <option value="0">0 Days</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="itemcost">Night <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" name="night" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="itemcost">Per Night Charge <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" name="night_charge"
+                                            value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="itemcost">Short Description</label>
+                                        <textarea class="form-control" name="description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-2">
+                                <div class="col-md-2 col-12 mb-50">
+                                    <div class="form-group">
+                                        <button class="btn btn-outline-danger btn-sm text-nowrap px-1"
+                                            data-repeater-delete type="button">
+                                            <i data-feather="x" class="mr-25"></i>
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
                 @endif
             </div>
             <div class="row">
@@ -656,92 +741,24 @@
         </div>
     </div>
 </div>
-{{-- <hr class="my-2" />
-<div class="room-repeater">
-    <div data-repeater-list="childrens" class="repeaterCLS">
-        @if (count($requestData['childrens']) > 0)
-        @php
-            $i = 0;
-        @endphp
-            @foreach ($requestData['childrens'] as $childs)
-            @php
-            $i++;
-        @endphp
-                <div data-repeater-item data-cls="repeaterChilds">                    
-                    <div class="row d-flex align-items-end">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center mb-1 mt-1">
-                                <h5 class="childTitile" id="child-{{ $i }}" child-title="child-name">Children Details {{ $i }}
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="col-md-12 col-12">
-                                <div class="form-group">
-                                    <label for="itemcost">Minimum child age</label>
-                                    <input type="number" class="form-control" name="main_age"
-                                        value="{{ isset($childs['main_age']) ? $childs['main_age'] : old('main_age') }}" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="col-md-12 col-12">
-                                <div class="form-group">
-                                    <label for="itemcost">Maximum child age</label>
-                                    <input type="number" class="form-control" name="max_age"
-                                        value="{{ isset($childs['max_age']) ? $childs['max_age'] : old('max_age') }}" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="col-md-12 col-12">
-                                <div class="form-group">
-                                    <label for="itemcost">Child with bed price</label>
-                                    <input type="number" class="form-control" name="cwb_price"
-                                        value="{{ isset($childs['cwb_price']) ? $childs['cwb_price'] : old('cwb_price') }}" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="col-md-12 col-12">
-                                <div class="form-group">
-                                    <label for="itemcost">Child without bed price</label>
-                                    <input type="number" class="form-control" name="cnb_price"
-                                        value="{{ isset($childs['cnb_price']) ? $childs['cnb_price'] : old('cnb_price') }}" />
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row col-4">
-                            <div class="col-md-2 col-12 mb-50">
-                                <div class="form-group">
-                                    <button 
-                                        class="btn btn-outline-danger btn-sm  text-nowrap px-1" data-repeater-delete
-                                        type="button">
-                                        <i data-feather="x" class="mr-25"></i>
-                                        <span>Delete</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                </div>
-            @endforeach       
-        @endif
-    </div>
-
-    <div class="row">
-        <div class="col-12">
-            <button class="btn btn-icon btn-primary " type="button" data-repeater-create>
-                <i data-feather="plus" class="mr-25"></i>
-                <span>Add More Children</span>
-            </button>
-        </div>
-    </div>
-</div> --}}
 @section('extra-script')
+    <script>
+        $('.select2').select2();
+    </script>
     <script src="{{ asset('js/form/Offline-Room.js') }}"></script>
+    <script>
+        $('#currency_id').on('change', function() {
+            var selected_option_value = $(this).find(":selected").val();
+            if (selected_option_value == '') {
+                $('#currency_id-error').show();
+                $('#currency_id').addClass('error');
+            } else {
+                $('#currency_id-error').hide();
+                $('#currency_id').removeClass('error');
+            }
+        });
+    </script>
     <!-- BEGIN: Page Vendor JS-->
     <script src="{{ asset('app-assets/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
     <!-- END: Page Vendor JS-->
@@ -751,6 +768,58 @@
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/picker.time.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/pickers/pickadate/legacy.js') }}"></script>
     <script src="{{ asset('app-assets/js/scripts/forms/pickers/form-pickers.js') }}"></script>
+
+    <script>
+        var PackageMinDate = new Date();
+        var packageBasic = $('.start-date-basic');
+        if (packageBasic.length) {
+            packageBasic.flatpickr({
+
+                mode: 'range',
+                defaultDate: [TravelStartDate, TravelEndDate],
+                dateFormat: "d/m/Y"
+            });
+        }
+        
+        var packageTravelBasic = $('.booking-basic');
+        if (packageTravelBasic.length) {
+            packageTravelBasic.flatpickr({
+
+                mode: 'range',
+                dateFormat: "d/m/Y",
+                defaultDate: [BookingStartDate, BookingEndDate],
+
+            });
+        }
+        var surchargeBasic = $('.basic-surcharge');
+        if (surchargeBasic.length) {
+            surchargeBasic.flatpickr({
+                mode: 'range',
+                dateFormat: "d/m/Y",
+                defaultDate: [BookingStartDate, BookingEndDate],
+
+            });
+        }
+
+        var stopSaleBasic = $('.basic-stopSale');
+        if (stopSaleBasic.length) {
+            stopSaleBasic.flatpickr({
+                dateFormat: "d/m/Y",
+                // defaultDate: [''],
+
+            });
+        }
+        var promotionalBasic = $('.basic-promotional');
+        if (promotionalBasic.length) {
+            promotionalBasic.flatpickr({
+                dateFormat: "d/m/Y",
+                mode: 'range',
+                defaultDate: [BookingStartDate, BookingEndDate],
+
+            });
+        }
+        
+    </script>
     <!-- BEGIN: Page JS-->
     <!-- BEGIN: Page JS-->
 
@@ -762,6 +831,27 @@
         var moduleConfig = {
             addRoomTypeURL: "{!! route('add-room-type') !!}",
             addRoomMealPlanURL: "{!! route('add-meal-plan') !!}",
+            
+            addRoomSurchargePlanURL: "{!! route('add-surcharge-plan') !!}",
+            addRoomSurchargePlanListURL: "{!! route('add-surcharge-list-plan') !!}",
+            addRoomSurchargePlanListEditURL: "{!! route('add-surcharge-list-edit-plan') !!}",
+            addRoomSurchargePlanListDeleteURL: "{!! route('add-surcharge-list-delete-plan') !!}",
+
+            addRoomComplimentaryPlanURL: "{!! route('add-complimentary-plan') !!}",
+            addRoomComplimentaryPlanListURL: "{!! route('add-complimentary-list-plan') !!}",
+            addRoomComplimentaryPlanListEditURL: "{!! route('add-complimentary-list-edit-plan') !!}",
+            addRoomComplimentaryPlanListDeleteURL: "{!! route('add-complimentary-list-delete-plan') !!}",
+
+            addRoomStopSalePlanURL: "{!! route('add-stop-sale-plan') !!}",
+            addRoomStopSalePlanListURL: "{!! route('add-stop-sale-list-plan') !!}",
+            addRoomStopSalePlanListEditURL: "{!! route('add-stop-sale-list-edit-plan') !!}",
+            addRoomStopSalePlanListDeleteURL: "{!! route('add-stop-sale-list-delete-plan') !!}",
+
+            addRoomPromotionalPlanURL: "{!! route('add-promotional-plan') !!}",
+            addRoomPromotionalPlanListURL: "{!! route('add-promotional-list-plan') !!}",
+            addRoomPromotionalPlanListEditURL: "{!! route('add-promotional-list-edit-plan') !!}",
+            addRoomPromotionalPlanListDeleteURL: "{!! route('add-promotional-list-delete-plan') !!}",
+
             addAmenityURL: "{!! route('add-amenity') !!}",
             addFreebiesURL: "{!! route('add-freebies') !!}",
             addRoomsURL: "{!! route('offlinerooms.store') !!}",

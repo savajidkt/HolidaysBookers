@@ -54,10 +54,12 @@ class SurchargeRepository
         $dates = explode(' to ', $data['surcharge_date']);          
         $dataSave = [
             'hotel_id'    => $data['hotel_id'],
+            'room_id'    => $data['room_id'],
             'surcharge_name'    => $data['surcharge_name'],
             'surcharge_price'    => $data['surcharge_price'],
             'surcharge_date_start'    => isset($dates[0]) ? Carbon::createFromFormat('d/m/Y', $dates[0])->format('Y-m-d') : '',
             'surcharge_date_end'    => isset($dates[1]) ? Carbon::createFromFormat('d/m/Y', $dates[1])->format('Y-m-d') : '',            
+            'apply_for'    => $data['apply_for'],
         ];
         
         return Surcharge::create($dataSave);
@@ -72,6 +74,7 @@ class SurchargeRepository
             'surcharge_price'    => $data['surcharge_price'],
             'surcharge_date_start'    => isset($dates[0]) ? Carbon::createFromFormat('d/m/Y', $dates[0])->format('Y-m-d') : '',
             'surcharge_date_end'    => isset($dates[1]) ? Carbon::createFromFormat('d/m/Y', $dates[1])->format('Y-m-d') : '',            
+            'apply_for'    => $data['apply_for'],
         ];
 
         if ($surcharge->update($dataSave)) {

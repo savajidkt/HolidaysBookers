@@ -119,9 +119,16 @@ class OfflineRoomsController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(CreateRequest $request)
-    {
+    {        
         $this->offlineRoomRepository->create($request, $request->all());
-        return redirect()->route('offlinerooms.index')->with('success', 'Offline Room created successfully!');
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'Offline Room created successfully!',
+            'url' => route('offlinehotels.show', $request->hotel_id)
+        ]);
+        //return redirect()->route('offlinehotels.show', $request->hotel_id)->with('success', 'Offline Room created successfully!');
+        //return redirect()->route('offlinerooms.index')->with('success', 'Offline Room created successfully!');
     }
 
     /**
@@ -169,10 +176,12 @@ class OfflineRoomsController extends Controller
     public function update(Request $request, OfflineRoom $offlineroom)
     {
 
+        
         $this->offlineRoomRepository->update($request, $request->all(), $offlineroom);
         return response()->json([
             'status' => true,
-            'message' => 'Offline Room updated successfully!'
+            'message' => 'Offline Room updated successfully!',
+            'url' => route('offlinehotels.show', $request->hotel_id)
         ]);
         //return redirect()->route('offlinerooms.index')->with('success', 'Offline Room updated successfully!');
     }
@@ -187,8 +196,9 @@ class OfflineRoomsController extends Controller
      */
     public function destroy(OfflineRoom $offlineroom)
     {
+        
         $this->offlineRoomRepository->delete($offlineroom);
-        return redirect()->route('offlinerooms.index')->with('success', 'Offline Room deleted successfully!');
+        return redirect()->route('offlinehotels.show', $offlineroom->hotel_id)->with('success', 'Offline Room deleted successfully!');
     }
 
     /**
@@ -306,7 +316,12 @@ class OfflineRoomsController extends Controller
             return view('admin.offline-rooms.offline-room-price.createNew', ['pricemodel' => $roomPrice, 'model' => $offlineroom, 'currencyList' => $currencyList, 'HotelsRoomMealPlan' => $HotelsRoomMealPlan, 'requestData' => $request->all()]);
         } else {
             $this->offlineRoomRepository->createPrice($request->all(), $offlineroom);
-            return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price created successfully!');
+            // return response()->json([
+            //     'status' => true,
+            //     'message' => 'Offline Room Price created successfully!',
+            //     'url' => route('offlinehotels.show', $offlineroom->hotel_id)
+            // ]);
+            return redirect()->route('offlinehotels.show', $offlineroom->hotel_id)->with('success', 'Offline Room Price created successfully!');
         }
     }
 
@@ -338,8 +353,9 @@ class OfflineRoomsController extends Controller
     {
       
         $offlineroom =  $offlineroomprice->room;
+        
         $this->offlineRoomRepository->updatePrice($request->all(), $offlineroomprice);
-        return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price updated successfully!');
+        return redirect()->route('offlinehotels.show', $offlineroom->hotel_id)->with('success', 'Offline Room Price updated successfully!');
     }
 
     /**
@@ -351,9 +367,9 @@ class OfflineRoomsController extends Controller
      */
     public function destroyPrice(OfflineRoomPrice $offlineroomprice)
     {
-        $offlineroom =  $offlineroomprice->room;
+        $offlineroom =  $offlineroomprice->room;        
         $this->offlineRoomRepository->deletePrice($offlineroomprice);
-        return redirect()->route('view-room-price', $offlineroom)->with('success', 'Offline Room Price deleted successfully!');
+        return redirect()->route('offlinehotels.show', $offlineroom->hotel_id)->with('success', 'Offline Room Price deleted successfully!');
     }
 
     /**
@@ -426,6 +442,7 @@ class OfflineRoomsController extends Controller
                         $query->where('room_type', 'LIKE', '%' . $keyword . '%');
                     });
                 })->addColumn('total_adult', function (OfflineRoom $room) {
+                   // dd($room);
                     return $room->total_adult;
                 })->filterColumn('total_adult', function ($query, $keyword) {
                     $query->where('total_adult', 'LIKE', '%' . $keyword . '%');
@@ -448,7 +465,8 @@ class OfflineRoomsController extends Controller
 
 
     public function showPrice(Request $request, OfflineRoomPrice $offlineroomprice)
-    {
+    {       
+
         $currencyList  = Currency::where('status', Currency::ACTIVE)->get(['code', 'name', 'id'])->toArray();
         return view('admin.offline-rooms.offline-room-price.view', ['model' => $offlineroomprice, 'currencyList' => $currencyList]);
     }

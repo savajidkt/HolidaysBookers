@@ -16,9 +16,11 @@ class Surcharge extends Model
     protected $table = "offline_rooms_surcharge";
     protected $fillable = [
         'hotel_id',        
+        'room_id',        
         'surcharge_name',
         'surcharge_price',
         'surcharge_date_start',
-        'surcharge_date_end'
+        'surcharge_date_end',
+        'apply_for',
     ];  
 }

@@ -33,6 +33,7 @@ use App\Models\Freebies;
 use App\Models\HotelFacility;
 use App\Models\HotelImage;
 use App\Models\HotelIncludedFacilities;
+use App\Models\OfflineRoom;
 use App\Models\RezliveHotel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -171,9 +172,11 @@ class OfflineHotelsController extends Controller
      */
     public function show(OfflineHotel $offlinehotel)
     {
+       
+        $OfflineRoom = OfflineRoom::where('hotel_id', $offlinehotel->id)->get();
         $amenitiesName = implode(' | ', $offlinehotel->hotelamenity()->pluck('amenity_name')->toArray());
         $freebiesName = implode(' | ', $offlinehotel->hotelfreebies()->pluck('name')->toArray());
-        return view('admin.offline-hotels.view', ['model' => $offlinehotel, 'amenitiesName' => $amenitiesName, 'freebiesName' => $freebiesName]);
+        return view('admin.offline-hotels.view', ['model' => $offlinehotel, 'offlineRoom' => $OfflineRoom, 'amenitiesName' => $amenitiesName, 'freebiesName' => $freebiesName]);
     }
 
 
