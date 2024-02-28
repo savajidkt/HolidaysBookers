@@ -17,7 +17,7 @@
                 @endphp
                 @foreach (getSearchCookies('searchGuestArr') as $guest)
                     @php
-                   
+
                         $i++;
                     @endphp
                     <div class="row optionBox">
@@ -54,7 +54,8 @@
                             </div>
                             <div class="col-lg-3 text-center">
                                 <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Child</label>
-                                <select name="child" id="child" class="addDynamicChilds text-center child"  data-old-c="{{ ($guest->child) ? $guest->child : 0 }}">
+                                <select name="child" id="child" class="addDynamicChilds text-center child"
+                                    data-old-c="{{ $guest->child ? $guest->child : 0 }}">
                                     <option value="0" {{ $guest->child == 0 ? 'selected' : '' }}>0</option>
                                     <option value="1" {{ $guest->child == 1 ? 'selected' : '' }}>1</option>
                                     <option value="2" {{ $guest->child == 2 ? 'selected' : '' }}>2</option>
@@ -66,12 +67,19 @@
                         </div>
                         <div class="dynamicChilds col-lg-6 text-center">
                             @if (is_array($guest->childAge) && count($guest->childAge) > 0)
-                            @php
-                                $j = 0;
-                            @endphp
+                                @php
+                                    $j = 0;
+                                @endphp
                                 @foreach ($guest->childAge as $key => $childAge)
                                     <div class="col-lg-2 agess">
-                                        <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age</label>
+                                        <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age                                            
+                                            <div class="tooltip-trigger-popup">
+                                                <div class="tooltip -top ">
+                                                    <i class="fa fa-question-circle" aria-hidden="true"></i>                                                   
+                                                    <div class="tooltip__content">You want child with bed please check the checkbox</div>
+                                                </div>
+                                            </div>
+                                        </label>
                                         <select name="age" id="age" class="age text-center">
                                             <option value="2" {{ $childAge->age == 2 ? 'selected' : '' }}>2
                                             </option>
@@ -95,34 +103,23 @@
                                             </option>
                                         </select>
 
-                                        <div
-                                            class="d-flex px-5 py-5 ageCWBCHK ">
+                                        <div class="d-flex px-5 py-5 ageCWBCHK ">
                                             <div class="form-checkbox ">
-                                                <input type="radio" name="ageCWB[{{ $guest->room }}][{{ $j }}]" class="ageCWB" value="yes"
+                                                <input type="radio"
+                                                    name="ageCWB[{{ $guest->room }}][{{ $j }}]"
+                                                    class="ageCWB" value="yes"
                                                     {{ $childAge->cwb == 'yes' ? 'checked' : '' }}>
                                                 <div class="form-checkbox__mark">
                                                     <div class="form-checkbox__icon icon-check"></div>
                                                 </div>
                                                 <div class="text-14 lh-12 ml-10">CWB</div>
                                             </div>
-                                            
-                                        </div>
-                                        <div
-                                            class="d-flex px-5 py-5 ageCWBCHK">
-                                            <div class="form-checkbox ">
-                                                <input type="radio" name="ageCWB[{{ $guest->room }}][{{ $j }}]" class="ageCWB" value="no"
-                                                    {{ $childAge->cwb == 'no' ? 'checked' : '' }}>
-                                                <div class="form-checkbox__mark">
-                                                    <div class="form-checkbox__icon icon-check"></div>
-                                                </div>
-                                                <div class="text-14 lh-12 ml-10">CNB</div>
-                                            </div>
-                                            
+
                                         </div>
                                     </div>
                                     @php
-                                    $j++
-                                @endphp
+                                        $j++;
+                                    @endphp
                                 @endforeach
                             @endif
                         </div>
@@ -156,7 +153,8 @@
                         </div>
                         <div class="col-lg-3 text-center">
                             <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Child</label>
-                            <select name="child" id="child" class="addDynamicChilds text-center child" data-old-c="0">
+                            <select name="child" id="child" class="addDynamicChilds text-center child"
+                                data-old-c="0">
                                 <option value="0">0</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -173,14 +171,13 @@
             @endif
             <div class="row py-30 sm:px-15 sm:py-15 row-block">
                 <div class="col-lg-6">
-                    <div class="accordion__icon size-40 flex-center  rounded-full mr-20 addMore"
-                        data-action="add">
+                    <div class="accordion__icon size-40 flex-center  rounded-full mr-20 addMore" data-action="add">
                         <i class="icon-plus"></i>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="accordion__icon size-40 flex-center  rounded-full mr-20 SearchDone floatright"
-                        data-action="add">
+                        data-action="add" style="cursor: pointer;">
                         Apply
                     </div>
                 </div>
@@ -213,70 +210,76 @@
     </div>
 </div>
 
-<div class="langMenu is-hidden js-langMenu priceDetails CustomPriceDetails" data-x="priceDetails" data-x-toggle="is-hidden">
+<div class="langMenu is-hidden js-langMenu priceDetails CustomPriceDetails" data-x="priceDetails"
+    data-x-toggle="is-hidden">
     <div class="langMenu__bg" data-x-click="priceDetails"></div>
 
     <div class="langMenu__content bg-white rounded-4">
         <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
-            <div class="text-20 fw-500 lh-15 priceDetailsHotel">VILLA DELUXE<p class="text-15">Room price details</p></div>
+            <div class="text-20 fw-500 lh-15 priceDetailsHotel">VILLA DELUXE<p class="text-15">Room price details</p>
+            </div>
             <button class="pointer" data-x-click="priceDetails">
                 <i class="icon-close"></i>
             </button>
         </div>
 
         <div class="d-flex items-center justify-between px-30 py-20 sm:px-15">
-            <div class="text-20 fw-500 lh-15 priceDetailsHotel">Price per night (3 nights)<p class="text-15">Average: ₹25,831.48</p></div>            
+            <div class="text-20 fw-500 lh-15 priceDetailsHotel">Price per night (3 nights)<p class="text-15">Average:
+                    ₹25,831.48</p>
+            </div>
         </div>
 
-        <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15"> 
+        <div class="modalGrid px-30 py-30 sm:px-15 sm:py-15">
             <div class="modalGrid__item js-item">
                 <div class="py-10 px-15 sm:px-5 sm:py-5">
-                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>
                 </div>
             </div>
             <div class="modalGrid__item js-item">
                 <div class="py-10 px-15 sm:px-5 sm:py-5">
-                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>
                 </div>
             </div>
             <div class="modalGrid__item js-item">
                 <div class="py-10 px-15 sm:px-5 sm:py-5">
-                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>
                 </div>
             </div>
             <div class="modalGrid__item js-item">
                 <div class="py-10 px-15 sm:px-5 sm:py-5">
-                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>
                 </div>
             </div>
             <div class="modalGrid__item js-item">
                 <div class="py-10 px-15 sm:px-5 sm:py-5">
-                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>
                 </div>
             </div>
             <div class="modalGrid__item js-item">
                 <div class="py-10 px-15 sm:px-5 sm:py-5">
-                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>
                 </div>
             </div>
             <div class="modalGrid__item js-item">
                 <div class="py-10 px-15 sm:px-5 sm:py-5">
-                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>
                 </div>
             </div>
             <div class="modalGrid__item js-item">
                 <div class="py-10 px-15 sm:px-5 sm:py-5">
-                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>                    
+                    <div class="text-15 lh-15 fw-500 text-dark-1">₹25,831.48</div>
                 </div>
             </div>
         </div>
 
         <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
-            <div class="text-20 fw-500 lh-15 priceDetailsHotel">Price details</div>            
+            <div class="text-20 fw-500 lh-15 priceDetailsHotel">Price details</div>
         </div>
 
         <div class="d-flex items-center justify-between px-30 py-20 sm:px-15 border-bottom-light">
-            <div class="text-20 fw-500 lh-15 priceDetailsHotel"><p class="text-15">Total traveller price</p></div>
+            <div class="text-20 fw-500 lh-15 priceDetailsHotel">
+                <p class="text-15">Total traveller price</p>
+            </div>
             <button class="pointer" data-x-click="priceDetails">
                 ₹77,494.43
             </button>

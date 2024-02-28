@@ -768,7 +768,14 @@ function FrmAddMoreGuest() {
                 j = oldchild;
                 for (var i = 1; i <= neddtoaddorremove; i++) {                   
                     var agess = `<div class="col-lg-2 agess">
-                    <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age</label>
+                    <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age
+                    <div class="tooltip-trigger-popup">
+                                                <div class="tooltip -top ">
+                                                    <i class="fa fa-question-circle" aria-hidden="true"></i>                                                   
+                                                    <div class="tooltip__content">You want child with bed please check the checkbox</div>
+                                                </div>
+                                            </div>
+                    </label>
                     <select name="age" id="age" class="age ">
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -788,17 +795,8 @@ function FrmAddMoreGuest() {
                               <div class="form-checkbox__icon icon-check"></div>
                             </div>
                             <div class="text-14 lh-12 ml-10">CWB</div>
-                          </div>                  
-                        </div>
-                        <div class="d-flex px-5 py-5 ageCWBCHK">
-                          <div class="form-checkbox ">
-                            <input type="radio" name="ageCWB[`+ roomNumber + `][` + j + `]" class="ageCWB" value="no">
-                            <div class="form-checkbox__mark">
-                              <div class="form-checkbox__icon icon-check"></div>
-                            </div>
-                            <div class="text-14 lh-12 ml-10">CNB</div>
-                          </div>                  
-                        </div>
+                                            
+                        </div>                        
                 </div>  `;
         j++
                     $(this).closest('.optionBox').find('.dynamicChilds').append(agess);
