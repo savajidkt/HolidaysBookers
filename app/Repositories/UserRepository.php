@@ -10,6 +10,7 @@ use App\Models\UserSurvey;
 use Illuminate\Support\Facades\DB;
 use App\Events\ForgotPasswordEvent;
 use App\Exceptions\GeneralException;
+use App\Models\Agent;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\RegisterdEmailNotification;
 
@@ -204,6 +205,8 @@ class UserRepository
         ];
 
         $userData = UserMeta::where('user_id', '=', $user->id)->first();
+        $agentData = Agent::where('user_id', '=', $user->id)->first();
+        
         if ($userData === null) {  
             $user->update($UserArr);  
              
@@ -232,7 +235,14 @@ class UserRepository
                         'phone_number'     => $data['phone_number']
                     ];
                 }
+
+                $dataMarkupSave = [
+                    'agent_global_markups_type'     => $data['agent_global_markups_type'],
+                    'agent_global_markup'     => $data['agent_global_markup']
+                ];
+
                 $user->userMeta->update($dataSave);
+                $agentData->update($dataMarkupSave);
             }
         }
         return $user;

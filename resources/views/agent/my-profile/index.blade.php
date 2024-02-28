@@ -104,6 +104,40 @@
                                         @enderror
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="text-16 lh-12 text-dark-1 fw-500 mb-30">Markup Type</div>
+                                        <div class="row y-gap-15">
+                                          <div class="col-4">
+                                            <div class="form-radio d-flex items-center ">
+                                              <div class="radio">
+                                                <input type="radio" name="agent_global_markups_type" value="1" {{ ($user->agents->agent_global_markups_type == '1') ? 'checked' : '' }}>
+                                                <div class="radio__mark">
+                                                  <div class="radio__icon"></div>
+                                                </div>
+                                              </div>
+                                              <div class="text-14 lh-1 ml-10">Percentage (%)</div>
+                                            </div>
+                                          </div>
+                                          <div class="col-2">
+                                            <div class="form-radio d-flex items-center ">
+                                              <div class="radio">
+                                                <input type="radio" name="agent_global_markups_type" value="2" {{ ($user->agents->agent_global_markups_type == '2') ? 'checked' : '' }}>
+                                                <div class="radio__mark">
+                                                  <div class="radio__icon"></div>
+                                                </div>
+                                              </div>
+                                              <div class="text-14 lh-1 ml-10">Fix</div>
+                                            </div>
+                                          </div> 
+                                        </div>
+                                      </div>
+                                    <div class="col-md-6">
+                                        <div class="form-input phoneCls">
+                                            <input type="text" value="{{ isset($user->agents->agent_global_markup) ? $user->agents->agent_global_markup : '' }}" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" name="agent_global_markup" class="has-value">
+                                            <label class="lh-1 text-16 text-light-1">Markup </label>
+                                        </div>                                        
+                                    </div>
+
                                 </div>
                             
                             <div class="d-inline-block pt-30">
