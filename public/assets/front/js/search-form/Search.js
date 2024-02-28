@@ -23,8 +23,8 @@ var FrmSearchPreference = function () {
                         } else {
                             return false;
                         }
-                }
-            },
+                    }
+                },
             },
             messages: {
                 location: {
@@ -38,25 +38,25 @@ var FrmSearchPreference = function () {
                 error.insertAfter(element);
             },
             submitHandler: function (form) {
-               
+
                 createCookie('location', JSON.stringify($('#location').val()), 1);
                 createCookie('hidden_city_id', JSON.stringify($('.hidden_city_id').val()), 1);
                 createCookie('hidden_hotel_id', JSON.stringify($('.hidden_hotel_id').val()), 1);
                 createCookie('country_id', JSON.stringify($('.hidden_country_id').val()), 1);
                 createCookie('search_from', JSON.stringify($('#hidden_from').val()), 1);
                 createCookie('search_to', JSON.stringify($('#hidden_to').val()), 1);
-                
+
                 form.submit();
             }
         });
     }
     var FrmAutocomplete = function () {
-        
+
         $("#location").autocomplete({
             source: function (request, response) {
 
                 MySearchArr['city'] = [];
-                MySearchArr['hotel'] = []; 
+                MySearchArr['hotel'] = [];
 
                 $.ajaxSetup({
                     headers: {
@@ -72,18 +72,18 @@ var FrmSearchPreference = function () {
                     data: {
                         search: request.term
                     },
-                    success: function (data) {    
-                        if(data.status){                                             
+                    success: function (data) {
+                        if (data.status) {
                             MySearchArr['city'] = data.data;
-                            MySearchArr['hotel'] = data.hotelData; 
+                            MySearchArr['hotel'] = data.hotelData;
                             liveSearches();
-                        }                                              
+                        }
                     }
                 });
             },
-        
+
             minLength: 2,
-            select: function (event, ui) {},
+            select: function (event, ui) { },
             open: function () {
                 console.log('open');
                 $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -138,7 +138,7 @@ var FrmSearchPreference = function () {
                     }
                 });
                 $.ajax({
-                    beforeSend: function () {},
+                    beforeSend: function () { },
                     complete: function () {
                         $('.SelectSignin').find('.fa-spin').hide();
                         $('.SelectSignin').find('.icon-arrow-top-right').show();
@@ -239,7 +239,7 @@ var FrmSearchPreference = function () {
                     }
                 });
                 $.ajax({
-                    beforeSend: function () {},
+                    beforeSend: function () { },
                     complete: function () {
                         $('.SelectSignin').find('.fa-spin').hide();
                         $('.SelectSignin').find('.icon-arrow-top-right').show();
@@ -318,18 +318,18 @@ window.addEventListener("load", function () {
 // });
 
 $(document).ready(function () {
-    
+
 
     FrmSearchPreference.init();
 
-    
-    $(document).on('click', '.priceBreakup', function () {       
-        $('.CustomPriceDetails').removeClass('is-hidden');        
+
+    $(document).on('click', '.priceBreakup', function () {
+        $('.CustomPriceDetails').removeClass('is-hidden');
     });
 
-    
+
     $(document).on('click', '.SelectRoomBook', function () {
-       
+
         $(this).closest('.SelectRoomBook').find('.icon-arrow-top-right').hide();
         $(this).closest('.SelectRoomBook').find('.fa-spin').show();
 
@@ -349,7 +349,7 @@ $(document).ready(function () {
             complete: function () {
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
-                
+
             },
             type: 'POST',
             url: moduleConfig.addedToCartBooking,
@@ -358,7 +358,7 @@ $(document).ready(function () {
                 extra: $(this).attr('data-extra')
             },
             success: function (data) {
-                if (data.status) {                    
+                if (data.status) {
                     swal({
                         title: "",
                         text: "Added to cart successfully",
@@ -370,43 +370,43 @@ $(document).ready(function () {
                         closeOnConfirm: false,
                         closeOnCancel: true
                     },
-                    function(resp) {
-                        if (resp) {                           
-                            window.location = data.redirectURL; 
-                        } else {                          
-                            //$('.ClickTome span').html('Added');
-                            //$('.ClickTome div').remove();
-                            //currentBTN.removeAttr('data-extra');
-                            //currentBTN.removeClass('SelectRoomBook');                             
-                            //currentBTN.removeClass('ClickTome'); 
+                        function (resp) {
+                            if (resp) {
+                                window.location = data.redirectURL;
+                            } else {
+                                //$('.ClickTome span').html('Added');
+                                //$('.ClickTome div').remove();
+                                //currentBTN.removeAttr('data-extra');
+                                //currentBTN.removeClass('SelectRoomBook');                             
+                                //currentBTN.removeClass('ClickTome'); 
 
-                            $('#lblCartCount').html('');
-                            $('#lblCartCount').html(data.cartItem);
+                                $('#lblCartCount').html('');
+                                $('#lblCartCount').html(data.cartItem);
 
-                            swal.close();
-                        }
-                    });
+                                swal.close();
+                            }
+                        });
                 } else {
-                   
+
                     swal({
                         title: "",
                         text: "Added to cart failed",
-                        type: "error",                       
+                        type: "error",
                         confirmButtonColor: '#DD6B55',
-                        confirmButtonText: 'OK',                        
+                        confirmButtonText: 'OK',
                         closeOnConfirm: true
                     },
-                    function(resp) {           
-                        if (resp) {
-                            window.location.reload();
-                        } 
-                    });
-                   
+                        function (resp) {
+                            if (resp) {
+                                window.location.reload();
+                            }
+                        });
+
                 }
                 //window.location.reload();
                 $('.SelectRoomBook').closest('.SelectRoomBook').find('.fa-spin').hide();
-                $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();               
-                
+                $('.SelectRoomBook').closest('.SelectRoomBook').find('.icon-arrow-top-right').show();
+
             }
         });
     });
@@ -433,9 +433,9 @@ $(document).ready(function () {
                     showConfirmButton: false,
                     timer: 2000
                 });
-                setTimeout(function(){
+                setTimeout(function () {
                     window.location.reload();
-                 }, 2000);
+                }, 2000);
             },
             type: 'POST',
             url: moduleConfig.removeToCartBooking,
@@ -447,7 +447,7 @@ $(document).ready(function () {
                 // if (data.status) {
                 //     window.location.replace(data.redirectURL);
                 // }
-               //window.location.reload();
+                //window.location.reload();
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.fa-spin').hide();
                 $('.RemoveRoomBook').closest('.RemoveRoomBook').find('.icon-trash').show();
             }
@@ -464,7 +464,7 @@ $(document).ready(function () {
             minDate: new Date(),
             locale: {
                 format: 'DD/MM/YYYY'
-              }
+            }
         }, function (start, end, label) {
             $('#hidden_from').val(start.format('YYYY-MM-DD'));
             $('#hidden_to').val(end.format('YYYY-MM-DD'));
@@ -563,9 +563,9 @@ $(document).ready(function () {
             $('.transfer_return_round').hide();
         }
     });
-  
-        $(".daterangepicker.ltr.show-calendar").appendTo(".masthead__tabs.is-in-view");
-    
+
+    $(".daterangepicker.ltr.show-calendar").appendTo(".masthead__tabs.is-in-view");
+
 });
 
 var createCookie = function (cname, cvalue, exdays) {
@@ -623,7 +623,7 @@ function FrmAddMoreGuest() {
             </div>
             <div class="col-lg-3 text-center">
                 <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Child</label>
-                <select name="child" id="child" class="addDynamicChilds text-center child">
+                <select name="child" id="child" class="addDynamicChilds text-center child" data-old-c="0">
                     <option value="0">0</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -666,7 +666,7 @@ function FrmAddMoreGuest() {
             collectionAge.each(function (index) {
                 var tempArr = [];
                 var cwb = "no";
-                if ($(this).find(".ageCWB").prop('checked') == true ) {
+                if ($(this).find(".ageCWB").prop('checked') == true) {
                     cwb = "yes";
                 }
 
@@ -677,13 +677,13 @@ function FrmAddMoreGuest() {
 
             });
             totalArray.push({
-                    room: RoomsCount,
-                    adult: parseInt($(this).find(".adult :selected").val()),
-                    child: parseInt($(this).find(".child :selected").val()),
-                    childAge: tempChildArr
+                room: RoomsCount,
+                adult: parseInt($(this).find(".adult :selected").val()),
+                child: parseInt($(this).find(".child :selected").val()),
+                childAge: tempChildArr
             });
         });
-        
+
         createCookie('searchGuestArr', JSON.stringify(totalArray), 1);
         createCookie('searchGuestRoomCount', JSON.stringify(RoomsCount), 1);
         createCookie('searchGuestChildCount', JSON.stringify(ChildCount), 1);
@@ -698,7 +698,7 @@ function FrmAddMoreGuest() {
 
     jQuery(document).on('click', '.wishlistMe', function () {
         // $(this).addClass('teampCLS');
-        var tempD = $(this);        
+        var tempD = $(this);
         if ($(this).attr('data-wishlist-u-id') > 0) {
 
             $.ajaxSetup({
@@ -732,47 +732,88 @@ function FrmAddMoreGuest() {
         // createCookie('wishListByUserArr', JSON.stringify(AdultCount), 1);       
     });
 
-    jQuery(document).on('change', '.addDynamicChilds', function () {
-        $(this).closest('.optionBox').find('.dynamicChilds').html('');
-        var roomNumber = $(this).closest('.optionBox').find('.roomNumber').html();
-        for (var i = 1; i <= $(this).val(); i++) {
-            var agess = `<div class="col-lg-2 agess">
-            <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age</label>
-            <select name="age" id="age" class="age ">
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-            </select>
-            <div class="d-flex px-5 py-5 ageCWBCHK">
-                  <div class="form-checkbox ">
-                    <input type="radio" name="ageCWB[`+roomNumber+`][`+i+`]" class="ageCWB" value="yes">
-                    <div class="form-checkbox__mark">
-                      <div class="form-checkbox__icon icon-check"></div>
-                    </div>
-                    <div class="text-14 lh-12 ml-10">CWB</div>
-                  </div>                  
-                </div>
-                <div class="d-flex px-5 py-5 ageCWBCHK">
-                  <div class="form-checkbox ">
-                    <input type="radio" name="ageCWB[`+roomNumber+`][`+i+`]" class="ageCWB" value="no">
-                    <div class="form-checkbox__mark">
-                      <div class="form-checkbox__icon icon-check"></div>
-                    </div>
-                    <div class="text-14 lh-12 ml-10">CNB</div>
-                  </div>                  
-                </div>
-        </div>  `;
-        
-            $(this).closest('.optionBox').find('.dynamicChilds').append(agess);
-            
+
+    function getSelectedChilds(old_child, new_child) {
+
+        if (new_child > old_child) {
+            return new_child - old_child;
+        } else if (new_child < old_child) {           
+            return old_child - new_child;
+        } else {           
+            return 0;
         }
+    }
+
+    function isAddChild(old_child, new_child) {
+
+        if (new_child > old_child) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+    jQuery(document).on('change', '.addDynamicChilds', function () {
+        //  $(this).closest('.optionBox').find('.dynamicChilds').html('');
+        var roomNumber = $(this).closest('.optionBox').find('.roomNumber').html();
+
+        var oldchild = $(this).attr('data-old-c');
+        
+        $(this).attr('data-old-c', $(this).val());
+        var neddtoaddorremove = parseInt(getSelectedChilds( parseInt(oldchild), parseInt($(this).val())));
+        
+        if (isAddChild(parseInt(oldchild), parseInt($(this).val()))) {
+            if (neddtoaddorremove > 0) {                
+                j = oldchild;
+                for (var i = 1; i <= neddtoaddorremove; i++) {                   
+                    var agess = `<div class="col-lg-2 agess">
+                    <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age</label>
+                    <select name="age" id="age" class="age ">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                    </select>
+                    <div class="d-flex px-5 py-5 ageCWBCHK">
+                          <div class="form-checkbox ">
+                            <input type="radio" name="ageCWB[`+ roomNumber + `][` + j + `]" class="ageCWB" value="yes">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                            <div class="text-14 lh-12 ml-10">CWB</div>
+                          </div>                  
+                        </div>
+                        <div class="d-flex px-5 py-5 ageCWBCHK">
+                          <div class="form-checkbox ">
+                            <input type="radio" name="ageCWB[`+ roomNumber + `][` + j + `]" class="ageCWB" value="no">
+                            <div class="form-checkbox__mark">
+                              <div class="form-checkbox__icon icon-check"></div>
+                            </div>
+                            <div class="text-14 lh-12 ml-10">CNB</div>
+                          </div>                  
+                        </div>
+                </div>  `;
+        j++
+                    $(this).closest('.optionBox').find('.dynamicChilds').append(agess);
+        
+                }
+            } 
+        } else {
+            if (neddtoaddorremove > 0) {
+                for (var i = 1; i <= neddtoaddorremove; i++) {
+                    $(this).closest('.optionBox').find('.dynamicChilds').children("div.agess").last().remove();
+
+                }
+            }
+        }
+        
     });
 
     // jQuery(document).on('change', '.age', function () {
@@ -799,7 +840,7 @@ function changeNumber() {
 }
 
 function getAllRoomslList(hotel_id) {
-   
+
     $.ajax({
         type: 'POST',
         url: moduleConfig.ajaxRoomURL,
@@ -860,8 +901,8 @@ function liveSearches() {
 
     const data = MySearchArr['city'];
     const hotelData = MySearchArr['hotel'];
-   
-    
+
+
     const targets = document.querySelectorAll('.js-liverSearch')
     if (!targets) return
 
@@ -875,7 +916,7 @@ function liveSearches() {
 
             const title = option.querySelector('.js-search-option-target').innerHTML
             option.addEventListener('click', () => {
-                
+
                 const cityId = $(option).attr('data-city_id');
                 const CountryId = $(option).attr('data-country_id');
                 const HotelId = $(option).attr('data-hotel_id');
@@ -885,9 +926,9 @@ function liveSearches() {
                 $('.hidden_hotel_id').val(HotelId);
 
                 search.value = title.replace(/^\s+|\s+$/gm, '')
-                
-                
-                
+
+
+
                 createCookie('location', JSON.stringify(search.value), 1);
                 createCookie('hidden_city_id', JSON.stringify(cityId), 1);
                 createCookie('hidden_hotel_id', JSON.stringify(HotelId), 1);
@@ -916,15 +957,15 @@ function liveSearches() {
     })
 
     const showList = (searchTerm, resultsEl) => {
-        
+
         resultsEl.innerHTML = '';
         var div5 = "";
         const div1 = document.createElement('div')
         div1.className = "locationDiv";
-        div1.innerHTML = `<h4 class="text-18 fw-500">Destinations & zones</h4>`;        
-        data.filter((item) => item.city.toLowerCase().includes(searchTerm))       
-            .forEach((e) => {      
-               
+        div1.innerHTML = `<h4 class="text-18 fw-500">Destinations & zones</h4>`;
+        data.filter((item) => item.city.toLowerCase().includes(searchTerm))
+            .forEach((e) => {
+
                 const div = document.createElement('div')
                 div.innerHTML = `
             <button type="button" class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option" data-city_id="${e.city_id}" data-country_id="${e.country_id}" data-country_name="${e.country}">
@@ -940,17 +981,17 @@ function liveSearches() {
                 div1.appendChild(div);
 
             })
-            resultsEl.appendChild(div1);
+        resultsEl.appendChild(div1);
 
         if (hotelData.length !== 0) {
             const div2 = document.createElement('div')
-        div2.className = "hotelDiv";
-        div2.innerHTML = `<h4 class="text-18 fw-500">Hotels</h4>`;
-        
-        hotelData.filter((item) => item.hotel_name.toLowerCase().includes(searchTerm))
-            .forEach((e) => {
-                const div3 = document.createElement('div')
-                div3.innerHTML = `
+            div2.className = "hotelDiv";
+            div2.innerHTML = `<h4 class="text-18 fw-500">Hotels</h4>`;
+
+            hotelData.filter((item) => item.hotel_name.toLowerCase().includes(searchTerm))
+                .forEach((e) => {
+                    const div3 = document.createElement('div')
+                    div3.innerHTML = `
             <button type="button" class="-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option" data-hotel_id="${e.hotel_id}" data-city_id="${e.city_id}" data-country_id="${e.country_id}" data-country_name="${e.country}">
               <div class="d-flex">
                 <div class="icon-bed text-light-1 text-20 pt-4"></div>
@@ -961,14 +1002,14 @@ function liveSearches() {
               </div>
             </button>
           `
-                div2.appendChild(div3);
+                    div2.appendChild(div3);
 
-            })
-           
+                })
 
-        resultsEl.appendChild(div2);
+
+            resultsEl.appendChild(div2);
+        }
     }
-}
 }
 
 function priceRangeSlider() {

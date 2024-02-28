@@ -54,7 +54,7 @@
                             </div>
                             <div class="col-lg-3 text-center">
                                 <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Child</label>
-                                <select name="child" id="child" class="addDynamicChilds text-center child">
+                                <select name="child" id="child" class="addDynamicChilds text-center child"  data-old-c="{{ ($guest->child) ? $guest->child : 0 }}">
                                     <option value="0" {{ $guest->child == 0 ? 'selected' : '' }}>0</option>
                                     <option value="1" {{ $guest->child == 1 ? 'selected' : '' }}>1</option>
                                     <option value="2" {{ $guest->child == 2 ? 'selected' : '' }}>2</option>
@@ -67,7 +67,7 @@
                         <div class="dynamicChilds col-lg-6 text-center">
                             @if (is_array($guest->childAge) && count($guest->childAge) > 0)
                             @php
-                                $j = 1;
+                                $j = 0;
                             @endphp
                                 @foreach ($guest->childAge as $key => $childAge)
                                     <div class="col-lg-2 agess">
@@ -156,7 +156,7 @@
                         </div>
                         <div class="col-lg-3 text-center">
                             <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Child</label>
-                            <select name="child" id="child" class="addDynamicChilds text-center child">
+                            <select name="child" id="child" class="addDynamicChilds text-center child" data-old-c="0">
                                 <option value="0">0</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>

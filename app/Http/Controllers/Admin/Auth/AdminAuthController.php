@@ -83,7 +83,7 @@ class AdminAuthController extends Controller
     {
         auth()->guard('admin')->logout();
         Session::flush();
-        Session::put('success','You are logout successfully');        
+       // Session::put('success','You are logout successfully');        
         return redirect(route('adminLogin'));
     }
 }
