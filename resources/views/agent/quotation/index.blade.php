@@ -165,6 +165,9 @@
                                                 <div class="row x-gap-10 y-gap-10 items-center">
                                                     <div class="col-auto">
                                                         <span class="fw-500 text-blue-1 QuoteDetails">
+                                                            @if ($value->status == '0')
+                                                                
+                                                            
                                                             <a href="javascript:void(0);"
                                                                 data-order-id="{{ $value->id }}"
                                                                 data-room-id="{{ $roomvalue->id }}"
@@ -180,12 +183,13 @@
                                                                 data-room-id="{{ $roomvalue->id }}"
                                                                 class="text-blue-1 mt-5 QuoteRoomDelete">Delete
                                                 </a>
-                                                            <a href="javascript:void(0);"
+                                                            {{-- <a href="javascript:void(0);"
                                                                 data-order-id="{{ $value->id }}"
                                                                 data-room-id="{{ $roomvalue->id }}" data-cart-type="single"
                                                                 class="text-blue-1 mt-5 QuoteRoomAddToCart">Add
                                                                 to
-                                                                cart</a>
+                                                                cart</a> --}}
+                                                                @endif
                                                         </span>
                                                     </div>
                                                 </div>
@@ -214,17 +218,29 @@
                         class="QuoteRoomAddToCart" data-order-id="{{ $value->id }}" data-cart-type="all">Add to
                         cart</a>
                 </div> --}}
+                @if ($value->status == '0')
                 <a href="javascript:void(0);" class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 QuoteRoomAddToCart"
                          data-order-id="{{ $value->id }}" data-cart-type="all">Add to
                         cart
                 </a>
-                <span class="fw-500 text-blue-1 QuoteDetails">
-                    {{-- <a href="javascript:void(0);" class="text-blue-1 mt-5"
-                        data-order-id="{{ $value->id }}">Duplicate</a> --}}
+                @endif
+                <span class="fw-500 text-blue-1 QuoteDetails">                   
+                  
+                        @if ($value->status == '1')
+                        <span class="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-blue-1-05 text-blue-1">Completed</span>
+                         @elseif ($value->status == '2')
+                         <span class="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-red-3 text-red-2">Canceled</span>
+                         @elseif ($value->status == '0')
+                         <span class="rounded-100 py-4 px-10 text-center text-14 fw-500 bg-yellow-4 text-yellow-3">Pending</span>
+                            @endif
+                        
+
                     <a href="{{ route('agent.order-view', $value->id) }}" class="text-blue-1 mt-5"
                         data-order-id="{{ $value->id }}">View </a>
+                        @if ($value->status == '0')
                     <a href="javascript:void(0);" class="text-blue-1 mt-5 QuoteOrderDelete"
                         data-order-id="{{ $value->id }}">Delete</a>
+                        @endif
                 </span>
             </div>
         </div>

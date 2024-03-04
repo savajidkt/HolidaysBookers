@@ -12,47 +12,15 @@ var FrmCheckoutPreference = function () {
             focusInvalid: false,
             ignore: ".ignore",
             rules: {
-                // firstname: {
-                //     required: true,
-                // },
-                // lastname: {
-                //     required: true,
-                // },
-                // email: {
-                //     email: true,
-                //     required: true,
-                //     emailExt: true
-                // },
-                // phone: {
-                //     required: true,
-                // },
-                // registration_number: {
-                //     required: function () {
-                //         if ($('input[name="gst_enable"]').is(':checked')) {
-                //             return true;
-                //         } else {
-                //             return false;
-                //         }
-                //     }
-                // },
-                // registered_company_name: {
-                //     required: function () {
-                //         if ($('input[name="gst_enable"]').is(':checked')) {
-                //             return true;
-                //         } else {
-                //             return false;
-                //         }
-                //     }
-                // },
-                // registered_company_address: {
-                //     required: function () {
-                //         if ($('input[name="gst_enable"]').is(':checked')) {
-                //             return true;
-                //         } else {
-                //             return false;
-                //         }
-                //     }
-                // },
+                lead_name: {
+                    required: true,
+                },
+                lead_surname: {
+                    required: true,
+                },                
+                agency_reference: {
+                    required: true,
+                },                
                 agree: {
                     required: true,
                 },
@@ -70,22 +38,6 @@ var FrmCheckoutPreference = function () {
 
             },
             errorPlacement: function (error, element) {
-                // if (element.attr("name") == "firstname") {
-                //     error.insertAfter(".firstname");
-                // } else if (element.attr("name") == "lastname") {
-                //     error.insertAfter(".lastname");
-                // } else if (element.attr("name") == "email") {
-                //     error.insertAfter(".email");
-                // } else if (element.attr("name") == "phone") {
-                //     error.insertAfter(".phone");
-                // } else if (element.attr("name") == "registration_number") {
-                //     error.insertAfter(".registration_number");
-                // } else if (element.attr("name") == "registered_company_name") {
-                //     error.insertAfter(".registered_company_name");
-                // } else if (element.attr("name") == "registered_company_address") {
-                //     error.insertAfter(".registered_company_address");
-                // } 
-                
                 if (element.attr("name") == "agree") {
                     error.insertAfter(".agree");
                 } else if (element.attr("name") == "payment_method") {
@@ -95,18 +47,6 @@ var FrmCheckoutPreference = function () {
                 }
             },
             submitHandler: function (form) {
-
-                var lead_passengers_country_code = $("<input>")
-                    .attr("type", "hidden")
-                    .attr("name", "lead_passengers_country_code").val($(".lead_passengers .phonenumber").intlTelInput("getSelectedCountryData").dialCode);
-
-                var all_passengers_country_code = $("<input>")
-                    .attr("type", "hidden")
-                    .attr("name", "all_passengers_country_code").val($(".all_passengers .phonenumber").intlTelInput("getSelectedCountryData").dialCode);
-
-                $('#CheckoutFrm').append(lead_passengers_country_code);
-                $('#CheckoutFrm').append(all_passengers_country_code);
-
                 if (ClickBTN_Quote) {
                     $("#saveQuotePopup").modal("show");
                 } else {
@@ -219,6 +159,96 @@ var FrmCheckoutPreference = function () {
 
 $(document).ready(function () {
     FrmCheckoutPreference.init();
+
+    $(document).on('click', '.removeHotel', function () {
+
+
+        var hotel_id = $(this).attr('data-hotel-id');
+        var hotel_room_id = $(this).attr('data-hotel-room-id');
+        var key_id = $(this).attr('data-cart-key');
+        swal({
+            title: "Are you sure?",
+            text: "You won't be remove this!",
+            icon: "warning",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3554d1",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+
+        },
+            function (resp) {
+                if (resp) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        beforeSend: function () {
+                            $('body').block({ message: null });
+                        },
+                        complete: function () {
+                            $('body').unblock();
+                        },
+                        type: 'POST',
+                        url: moduleConfig.removeHotel,
+                        dataType: 'json',
+                        data: {
+                            hotel_id: hotel_id,
+                            hotel_room_id: hotel_room_id,
+                            key_id: key_id
+                        },
+                        success: function (data) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            }
+        );
+    });
+
+    $(document).on('click', '.removeCart', function () {
+
+
+        swal({
+            title: "Are you sure?",
+            text: "You won't be remove cart!",
+            icon: "warning",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3554d1",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+
+        },
+            function (resp) {
+                if (resp) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        beforeSend: function () {
+                            $('body').block({ message: null });
+                        },
+                        complete: function () {
+                            $('body').unblock();
+                        },
+                        type: 'GET',
+                        url: moduleConfig.removeCart,
+                        dataType: 'json',
+                        success: function (data) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            }
+        );
+    });
+
     $(document).on('click', '.saveDraft', function () {
         ClickBTN_Draft = true;
         $('.button_name_cls').val('');
@@ -288,6 +318,12 @@ $(document).ready(function () {
             // $('.quote_email_cls').val($('.quote_email').val());
             // $('.margin_amt_cls').val($('.margin_amt').val());
             $('.quote_name_cls').val($('.quote_name').val());
+
+            var quote_name = $("<input>")
+                    .attr("type", "hidden")
+                    .attr("name", "quote_name").val($('.quote_name').val());             
+
+                $('#CheckoutFrm').append(quote_name);
             $('#CheckoutFrm').submit();
         } else {
             return false;

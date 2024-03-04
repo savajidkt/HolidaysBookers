@@ -320,7 +320,7 @@ class CheckoutController extends Controller
         setBookingCart('bookingCart', $cartsArr);
         return response()->json([
             'status' => true,
-            'redirectURL' => route('cart'),
+            'redirectURL' => route('checkout.index'),
             'message' => '',
             'cartItem' => getCartTotalItem()
         ]);
@@ -329,18 +329,21 @@ class CheckoutController extends Controller
     public function createCartData($requiredParamArr)
     {
 
+       
         $today = date("YmdHis");
         $uniqueId= $today.'_'.mt_rand();
         
-        $oldCart = getBookingCart('bookingCart');
+        $oldCart = getBookingCart('bookingCart');            
         //$requiredParamArr['is_type'] = "package";
         if (is_array($requiredParamArr) && count($requiredParamArr) > 0) {
 
             $requiredParamArr['unique_id'] = $uniqueId;
             if ($requiredParamArr['is_type'] == "hotel") {
                 if (is_array($oldCart) && count($oldCart) > 0) {
-                    if (isset($oldCart['hotel'])) {
-                        $oldCart['hotel'][] = $requiredParamArr;
+                    if (isset($oldCart['hotel'])) {                       
+                        //if($this->checkQuoteCartExist($oldCart['hotel'], $requiredParamArr)){
+                            $oldCart['hotel'][] = $requiredParamArr;
+                       // }                        
                     } else {
                         $oldCart['hotel'][] = $requiredParamArr;
                     }
@@ -380,6 +383,24 @@ class CheckoutController extends Controller
             }
         }
         return $oldCart;
+    }
+
+    public function checkQuoteCartExist($QuoteOrder){
+        $oldCart = getBookingCart('bookingCart'); 
+        
+        if (is_array($oldCart) && count($oldCart) > 0) {
+            if (isset($oldCart['hotel'])) {  
+                foreach ($oldCart['hotel'] as $key => $value) {                   
+                  
+                    if( isset($value['quote_id'])  ){                    
+                        if( $value['quote_id'] ==  $QuoteOrder ){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }        
+        return true;
     }
 
 
@@ -491,15 +512,17 @@ class CheckoutController extends Controller
 
     public function getAddToCartHotelData($request, $QuoteOrder)
     {
+        
+        if($this->checkQuoteCartExist($QuoteOrder->id)){
 
         
         $requiredParamArr = [];
         foreach ($QuoteOrder->quote_hotel as $hotel_key => $hotel_value) {           
             $requiredParamArr['is_type'] = "hotel";           
             foreach ($hotel_value->order_hotel_room as $room_key => $room_value) {
+               
                 $child_extraArr = unserialize($room_value->child_extra);
-                if ($request->order_type == "single" && $request->order_id ==  $room_value->quote_id && $request->order_room_id == $room_value->id) {
-                    dd($room_value->child_extra);
+                if ($request->order_type == "single" && $request->order_id ==  $room_value->quote_id && $request->order_room_id == $room_value->id) {                    
                     $requiredParamArr['hotel_id'] = $room_value->hotel_id;
                     $requiredParamArr['room_id'] = $room_value->room_id;
                     $requiredParamArr['price_id'] = $room_value->room_price_id;
@@ -514,7 +537,10 @@ class CheckoutController extends Controller
                     $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
                     $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
                     $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
-                    $requiredParamArr['finalAmount'] = $room_value->price;                    
+                    $requiredParamArr['finalAmount'] = $room_value->price;  
+                    $requiredParamArr['status'] = "Quote";
+                    $requiredParamArr['quote_id'] = $QuoteOrder->id;
+                    //dd($requiredParamArr);                  
                     $cartsArr = $this->createCartData($requiredParamArr);
                     setBookingCart('bookingCart', $cartsArr);
                 } else {                                        
@@ -534,12 +560,17 @@ class CheckoutController extends Controller
                     $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
                     $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
                     $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
-                    $requiredParamArr['finalAmount'] = $room_value->price;                    
+                    $requiredParamArr['finalAmount'] = $room_value->price;
+                    $requiredParamArr['status'] = "Quote";
+                    $requiredParamArr['quote_id'] = $QuoteOrder->id;
+                    //dd($requiredParamArr);                   
                     $cartsArr = $this->createCartData($requiredParamArr);                    
                     setBookingCart('bookingCart', $cartsArr);
                 }
             }
         }
+    }
+        
         return true;
     }
 

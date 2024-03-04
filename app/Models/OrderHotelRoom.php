@@ -28,7 +28,9 @@ class OrderHotelRoom extends Model
         'child',
         'child_extra',
         'child_with_bed',
-        'child_without_bed'        
+        'child_without_bed',
+        'request_stay',
+        'comments'        
     ];
 
     public function order_hotel_room_passenger()

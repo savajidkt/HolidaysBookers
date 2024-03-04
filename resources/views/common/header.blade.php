@@ -94,8 +94,7 @@
                                 $c_code = getUserWiseGlobalCurrency($user->agents->agent_country);  
                             } else if( $user->user_type == '2' ){
                                 $c_code = getUserWiseGlobalCurrency($user->usermeta->country_id);  
-                            }
-                                                            
+                            }                                                        
                             
                                           
                                            
@@ -104,9 +103,9 @@
                             <span class="js-currencyMenu-mainTitle">{{ $c_code }}</span>
                             
                         </button>
-
+                       
                         <a class="button"
-                            href="{{ route('cart') }}">
+                            href="{{ route('checkout.index') }}">
                             <i class="fa" style="font-size:24px">&#xf07a;</i>
                             <sup class='badge badge-warning' id='lblCartCount'> {{ getCartTotalItem() }} </sup>
                         </a>

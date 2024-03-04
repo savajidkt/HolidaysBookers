@@ -365,7 +365,7 @@ $(document).ready(function () {
                         type: "success",
                         showCancelButton: true,
                         confirmButtonColor: '#DD6B55',
-                        confirmButtonText: 'Go To Cart',
+                        confirmButtonText: 'Process to checkout',
                         cancelButtonText: "Continue shopping",
                         closeOnConfirm: false,
                         closeOnCancel: true
@@ -790,7 +790,7 @@ function FrmAddMoreGuest() {
                     </select>
                     <div class="d-flex px-5 py-5 ageCWBCHK">
                           <div class="form-checkbox ">
-                            <input type="radio" name="ageCWB[`+ roomNumber + `][` + j + `]" class="ageCWB" value="yes">
+                            <input type="checkbox" name="ageCWB[`+ roomNumber + `][` + j + `]" class="ageCWB" value="yes">
                             <div class="form-checkbox__mark">
                               <div class="form-checkbox__icon icon-check"></div>
                             </div>

@@ -113,9 +113,12 @@
                                             <h2 style="font-size: 17px; font-weight: 700; color: #091136;">
                                                 {{ $agentData->agent_company_name }}<br>
                                                 {{ $agentData->agent_office_address }}<br>
-                                                City: {{ $agentData->city->name }}, State: {{ $agentData->state->name }}, Country: {{ $agentData->country->name }} - {{ $agentData->agent_pincode }}<br>
+                                                City: {{ $agentData->city->name }}, State:
+                                                {{ $agentData->state->name }}, Country: {{ $agentData->country->name }}
+                                                - {{ $agentData->agent_pincode }}<br>
                                                 (P): {{ $agentData->agent_mobile_number }} <br>
-                                                (PAN): {{ $agentData->agent_pan_number }} (GST) {{ $agentData->agent_gst_number }}<br>
+                                                (PAN): {{ $agentData->agent_pan_number }} (GST)
+                                                {{ $agentData->agent_gst_number }}<br>
                                             </h2>
                                         </td>
                                     </tr>
@@ -146,7 +149,31 @@
 
                                     <?php
 
-                                    } 
+                                    } else if( $receive == "hotel" ){
+
+?>
+
+                                    <tr style="background-color: #eaeaea;">
+                                        <!-- Left Column -->
+                                        <td class="left-column" style="width: 50%; padding: 25px;">
+                                            <a href="{{ route('home') }}">
+                                                <img src="https://hbsingapore.co.in/public/assets/front/img/general/logo-dark.png"
+                                                    alt="logo">
+                                            </a>
+                                        </td>
+                                        <!-- right Column-->
+                                        <td class="left-column" style="width: 50%; text-align: end; padding: 25px;">
+                                            <h2 style="font-size: 17px; font-weight: 700; color: #091136;">
+
+                                                39A Ground Floor, Sarvodya School,<br>
+                                                Aya Nagar, New Delhi 110047<br>
+                                                State: Delhi (State Code: 07), Country: India.</h2>
+                                        </td>
+                                    </tr>
+
+                                    <?php
+
+} 
                                     ?>
 
                                 </table>

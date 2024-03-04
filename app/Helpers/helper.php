@@ -1005,6 +1005,11 @@ if (!function_exists('getOrderBookedBy')) {
 if (!function_exists('dateDiffInDays')) {
     function dateDiffInDays($date1, $date2)
     {
+        
+        // echo $date1;
+        // echo "<br>";
+        // echo $date2;
+        // exit;
         // Calculating the difference in timestamps
         $diff = strtotime($date2) - strtotime($date1);
         // 1 day = 24 hours

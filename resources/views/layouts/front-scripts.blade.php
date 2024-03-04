@@ -105,7 +105,7 @@
 
                                         <div class="d-flex px-5 py-5 ageCWBCHK ">
                                             <div class="form-checkbox ">
-                                                <input type="radio"
+                                                <input type="checkbox"
                                                     name="ageCWB[{{ $guest->room }}][{{ $j }}]"
                                                     class="ageCWB" value="yes"
                                                     {{ $childAge->cwb == 'yes' ? 'checked' : '' }}>

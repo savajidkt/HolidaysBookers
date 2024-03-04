@@ -17,17 +17,21 @@
             display: flex;
             justify-content: space-between
         }
-                .iti {
+
+        .iti {
             position: relative;
             display: inline-block;
             width: 100%;
         }
-.iti--separate-dial-code .iti__selected-flag {
-    background-color: transparent !important;
-}
-.iti--allow-dropdown .iti__flag-container:hover .iti__selected-flag:hover {
-    background-color: transparent !important;
-}
+
+        .iti--separate-dial-code .iti__selected-flag {
+            background-color: transparent !important;
+        }
+
+        .iti--allow-dropdown .iti__flag-container:hover .iti__selected-flag:hover {
+            background-color: transparent !important;
+        }
+
         .razorpay-payment-button {
             height: 60px !important;
             color: var(--color-white);
@@ -59,19 +63,24 @@
     @php
         $Taxes_and_fees = 0;
         $Taxes_and_fees_amt = 0;
+        $serviceSection = '';
+        
+        $serviceSectionAMT = 0;
+        $serviceSection_footer = '';
     @endphp
-    
-    
-    <section class="cart-page-block"  style="background-image: url('{{ asset('/assets/img/slider.jpg') }}');">
-    <div class="container">
-        <div class="cart-banner">
-            <div class="cart-banner-bg">
-                <h1>Checkout</h1>
+
+
+
+    <section class="cart-page-block" style="background-image: url('{{ asset('/assets/img/slider.jpg') }}');">
+        <div class="container">
+            <div class="cart-banner">
+                <div class="cart-banner-bg">
+                    <h1>Checkout</h1>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-    
+    </section>
+
     <section class="pt-40 layout-pb-md">
         <div class="container">
             <div class="row">
@@ -89,10 +98,9 @@
 
                         <form class="needs-validation1" id="CheckoutFrm" method="POST" enctype="multipart/form-data"
                             action="{{ route('checkout.store') }}">
-
                             @csrf
                             @php
-                                $amountFinalSubmit = 0;
+                                $amountFinalSubmit = 0;                               
                             @endphp
                             @if (is_array($requiredParamArr) && count($requiredParamArr) > 0)
                                 @foreach ($requiredParamArr as $bo_key => $bo_value)
@@ -104,7 +112,6 @@
                                         @endforeach
                                     @endif
                                 @endforeach
-
                                 @php
                                     $Taxes_and_fees_amt = ($amountFinalSubmit * $Taxes_and_fees) / 100;
                                 @endphp
@@ -115,176 +122,233 @@
                             <input type="hidden" name="button_name" class="button_name_cls" value="order">
 
                             <div class="row x-gap-20 y-gap-20 pt-20">
+                                <h2 class="fw-500 md:mt-24">Remarks and cancellation costs</h2>
+                                <div class="">
+                                    @if (count($requiredParamArr) > 0)
+                                        @foreach ($requiredParamArr as $bo_key => $bo_value)
+                                            @if ($bo_key == 'hotel')
+                                                <div
+                                                    class="px-30 py-30 sm:px-20 sm:py-20 mb-30 myDelete cart-detales-block">
+                                                    @foreach ($bo_value as $key => $value)
+                                                        @php
+                                                            $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+                                                            $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
+                                                        @endphp
+                                                        @php
+                                                            $age = [];
 
-                                <input type="hidden" name="popup_margin_type" class="popup_margin_type_cls" value="">
-                                <input type="hidden" name="margin_amt" class="margin_amt_cls" value="">
-                                <input type="hidden" name="quote_email" class="quote_email_cls" value="">
-                                <input type="hidden" name="quote_name" class="quote_name_cls" value="">
-                                {{-- <div class="checkout-detales-block">
-                                <div class="col-md-12">
-                                    <div class="form-input firstname">
-                                        <input type="hidden" name="bookingKey" value="{{ $bookingKey }}">
-                                        <span class="fa fa-user"></span>
-                                        <input type="text" name="firstname" required onkeydown="return /[a-zA-Z ]/.test(event.key)"
-                                            value="{{ $user->first_name ? $user->first_name : '' }}" placeholder="First Name*" style="font-family: 'FontAwesome', Arial;">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-input lastname">
-                                        <span class="fa fa-user"></span>
-                                        <input type="text" name="lastname" required onkeydown="return /[a-zA-Z ]/.test(event.key)"
-                                            value="{{ $user->last_name ? $user->last_name : '' }}" placeholder="Last Name*" style="font-family: 'FontAwesome', Arial;">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-input email">
-                                        <span class="fa fa-envelope"></span>
-                                        <input type="text" name="email" required
-                                            value="{{ $user->email ? $user->email : '' }}" placeholder="Email*" style="font-family: 'FontAwesome', Arial;">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-input phone">
-                                        <span class="fa fa-phone"></span>
-                                        <input type="text" name="phone" required oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
-                                            value="{{ isset($user->usermeta->phone_number) ? $user->usermeta->phone_number : '' }}" placeholder="Phone Number*" style="font-family: 'FontAwesome', Arial;">
-                                    </div>
-                                    </div>
-                                </div> --}}
-                                {{-- <div class="col-12">
-                                        <div class="d-flex items-center checkbox-check">
-                                        <div class="form-checkbox ">
-                                                <input type="checkbox" id="cbx" name="gst_enable">
-                                                <div class="form-checkbox__mark cbx">
-                                                <div class="form-checkbox__icon icon-check"></div>
-                                            </div>
-                                                <div for="cbx">Enter GST Details</div>
-                                        </div>
-                                          
-                                    </div>
-                                </div> --}}
-                                {{-- <div class="enablegst hide">
-                                   <div class="row input-tag-enablegst-block">
-                                            <div class="input-tag-enablegst">
-                                            <div class="form-input registration_number">
-                                                    <span class="fa fa-id-card"></span>
-                                                    <input type="text" name="registration_number" required value="" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" placeholder="Registration Number*">
-                                            </div>
-                                        </div>
-                                            <div class="input-tag-enablegst">
-                                            <div class="form-input registered_company_name">
-                                                    <span class="fa fa-building"></span>
-                                                    <input type="text" name="registered_company_name" required value="" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" placeholder="Registered Company name*">
-                                            </div>
-                                        </div>
-                                            <div class="input-tag-enablegst">
-                                            <div class="form-input registered_company_address">
-                                                    <span class="fa fa-map-marker"></span>
-                                                    <input type="text" name="registered_company_address" required value="" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" placeholder="Registered Company address*">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
+                                                        @endphp
 
-                                <h2 class="fw-500 md:mt-24">Passenger Details</h2>
-                                @if (is_array($requiredParamArr) && $requiredParamArr > 0)
-                                    @php
-                                        $roomNo = 0;
-                                    @endphp
-                                    <div class="main-checkout-redio-option">
-                                        <div class="checkout-redio-option">
-                                              <div class="active-redio-details">
-                                                <div class="">
-                                                  <div class="form-checkbox">
-                                                    <input class="form-check-input passengersEvent" type="radio" name="passengers" value="lead" checked>
-                                                        <div class="form-checkbox__mark">
-                                                            <div class="form-checkbox__icon icon-check"></div>
-                                                        </div>
-                                                    <div class="passengers">Enter the lead passenger data only</div>
-                                                    </div>
-                                                  
-                                                </div>
-                                            </div>
-                                              <div class="">
-                                                <div class="">
-                                                  <div class="form-checkbox">
-                                                    <input class="form-check-input passengersEvent" type="radio" name="passengers" value="all">
-                                                        <div class="form-checkbox__mark">
-                                                            <div class="form-checkbox__icon icon-check"></div>
-                                                        </div>
-                                                    <div class="passengers">Enter the data for all passengers</div>
-                                                    </div>
-                                                  
-                                                </div>
-                                            </div>
-                                        </div>
-                                       
-                                        <div class="row all_passengers hide">
-                                            <div class="col-12">
-
-                                                @foreach ($requiredParamArr as $bo_key => $bo_value)
-                                                
-                                                    @if ($bo_key == 'hotel')
-                                                        @foreach ($bo_value as $key => $value)
-@php
-    $age = [];
-    
-@endphp
                                                         @if (isset($value['room_child_age']))
-                                                                                            
                                                             @foreach ($value['room_child_age'] as $ckey => $child)
                                                                 @php
                                                                     $age[] = $child->age;
                                                                 @endphp
                                                             @endforeach
-                                                            @endif
+                                                        @endif
+                                                        @php
+                                                            $room_title_with_child = '';
+                                                            $room_adult_with_child = '';
+                                                            if ($value['adult']) {
+                                                                $room_title_with_child = $value['adult'] . ' adults';
+                                                                $room_adult_with_child = $value['adult'] . ' Adults';
+                                                            }
+                                                            if ($value['child']) {
+                                                                $room_title_with_child .= ', ' . $value['child'] . ' children - ' . implode(',', $age) . ' years old';
+                                                                $room_adult_with_child .= ', ' . $value['child'] . ' Child - ' . implode(',', $age) . ' years';
+                                                            }
 
+                                                        @endphp
+                                                        @if (count($hotelsDetails) > 0 && count($hotelsDetails['hotel']) > 0)
                                                             @php
-                                                            $room_title_with_child='';
-                                                            $room_adult_with_child='';
-                                                             if($value['adult']){
-                                                                 $room_title_with_child ='for '.$value['adult'].' adults';
-                                                                 $room_adult_with_child = $value['adult'].' Adults';
-                                                             }
-                                                             if($value['child']){
-                                                                 $room_title_with_child .=', '.$value['child'].' children - '.implode(',',$age).' years old';
-                                                                 $room_adult_with_child .=', '.$value['child'].' Child - '.implode(',',$age).' years';
-                                                             }
-                         
+                                                                $hotelsRoomDetails = $hotelsDetails['roomDetails'];
+                                                                $hotelsDetails = $hotelsDetails['hotel'];
+                                                                $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<br>' . $offlineRoom->roomtype->room_type . '<span class="pull-right">' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . '</span></li>';
+                                                                $serviceSection_footer .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<span class="pull-right">' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . '</span></li>';                                                               
+                                                                $serviceSectionAMT = $serviceSectionAMT + $value['finalAmount'];
+
+                                                                $night = dateDiffInDays(str_replace('/', '-', $value['search_from']), str_replace('/', '-', $value['search_to']));
+                                                            @endphp
+
+
+
+                                                            <div class="row ">
+                                                                <div class="">
+                                                                    <div class="roomGrid">
+                                                                        <div class="">
+                                                                            <div class="y-gap-30">
+                                                                                <div class="row">
+                                                                                    <div class="text-18 fw-500 mb-10">
+                                                                                        <i class="fa fa-bed"></i>
+                                                                                        {{ $hotelsDetails['hotel_name'] }}
+
+                                                                                    </div>
+                                                                                    <div class="y-gap-8">
+                                                                                        <div
+                                                                                            class="text-15 d-flex items-center">
+                                                                                            <div class=" x-gap-5 pb-10">
+                                                                                                <i
+                                                                                                    class="icon-location-pin text-12 mr-10"></i>
+                                                                                                {{ $hotelsDetails['hotel_address'] }}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="text-15 d-flex items-center">
+                                                                                            <div class=" x-gap-5 pb-10">
+
+                                                                                                <p
+                                                                                                    class="text-14 fw-500 mb-10">
+                                                                                                    1 x
+                                                                                                    {{ $offlineRoom->roomtype->room_type }}<br>
+                                                                                                    From
+                                                                                                    {{ dateFormat(str_replace('/', '-', $value['search_from']), 'd M, Y') }}
+                                                                                                    To
+                                                                                                    {{ dateFormat(str_replace('/', '-', $value['search_to']), 'd M, Y') }}
+                                                                                                    {{ $night ? '(' . $night . ' nights) ' : '' }}
+                                                                                                    <br>
+                                                                                                    {{ $room_title_with_child }}
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row pt-10">
+                                                                                            <div
+                                                                                                class="col-6 border-right-px">
+                                                                                                <div
+                                                                                                    class="text-15 fw-500 mb-10">
+                                                                                                    Cancellation fees
+                                                                                                </div>
+                                                                                                <div class="y-gap-8">
+                                                                                                    <?php if($offlineRoom->price[0]->cancelation_policy != "refundeble"){ ?>
+                                                                                                    <div
+                                                                                                        class="items-center">
+                                                                                                        <div
+                                                                                                            class="text-13 pull-left">
+                                                                                                            Non
+                                                                                                            refundable</div>
+                                                                                                    </div>
+                                                                                                    <?php } else { ?>
+                                                                                                    <?php echo CancellationFeesCalculated($offlineRoom->price[0], $value['search_from']); ?>
+                                                                                                    <?php } ?>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-6">
+                                                                                                <div
+                                                                                                    class="text-15 fw-500 mb-10">
+                                                                                                    Remarks
+                                                                                                </div>
+                                                                                                <div class="text-12">Car
+                                                                                                    park YES (with
+                                                                                                    additional debit notes).
+                                                                                                    Key Collection 00:00 -
+                                                                                                    23:00. Check-in hour
+                                                                                                    14:00 - 00:00. DBT-DX:
+                                                                                                    Children share the bed
+                                                                                                    with parents 1.</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="text-12">Date and time are
+                                                                                    calculated based on local time in the
+                                                                                    destination. In case of no-show,
+                                                                                    different fees will apply. Please refer
+                                                                                    to our T&C.</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="border-top-light mt-30 mb-20"></div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                </div>
+                                <h2 class="fw-500 md:mt-24">Travellers information</h2>
+                                <div class="main-checkout-redio-option">
+                                    <div class="col-12">
+                                        <div class="main-tag-input-data">
+                                            <div class="text-info-checkout">Lead traveller contact details </div>
+                                            <div class="sub-tag-input-data">
+                                                <div class="tag-input-data">
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlInput1">
+                                                            Name <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control lead_addvalidation"
+                                                            name="lead_name" placeholder="E.g: Maria">
+                                                    </div>
+                                                </div>
+                                                <div class="tag-input-data">
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlInput1">
+                                                            Surname <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control lead_addvalidation"
+                                                            name="lead_surname" placeholder="E.g: López">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="border-top-light mt-30 mb-20"></div>
+                                        @if (count($requiredParamArr) > 0)
+                                            @foreach ($requiredParamArr as $bo_key => $bo_value)
+                                                @if ($bo_key == 'hotel')
+                                                @php
+                                                            
+                                                            $roomNo = 0;
+                                                        @endphp
+                                                    @foreach ($bo_value as $key => $value)
+                                                        @php
+                                                       
+                                                            $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
+                                                            $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
+                                                        @endphp
+                                                        @php
+                                                            $age = [];
                                                         @endphp
 
-                                                        
+                                                        @if (isset($value['room_child_age']))
+                                                            @foreach ($value['room_child_age'] as $ckey => $child)
+                                                                @php
+                                                                    $age[] = $child->age;
+                                                                @endphp
+                                                            @endforeach
+                                                        @endif
+                                                        @php
+                                                            $totalPassanger = $value['adult'] + $value['child'];
+                                                            $room_title_with_child = '';
+                                                            $room_adult_with_child = '';
+                                                            if ($value['adult']) {
+                                                                $room_title_with_child = $value['adult'] . ' adults';
+                                                                $room_adult_with_child = $value['adult'] . ' Adults';
+                                                            }
+                                                            if ($value['child']) {
+                                                                $room_title_with_child .= ', ' . $value['child'] . ' children - ' . implode(',', $age) . ' years old';
+                                                                $room_adult_with_child .= ', ' . $value['child'] . ' Child - ' . implode(',', $age) . ' years';
+                                                            }
+
+                                                        @endphp
+
+                                                        @if (count($hotelsDetails) > 0 && count($hotelsDetails['hotel']) > 0)
                                                             @php
-
-                                                                $roomNo++;
-                                                                $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
-                                                                $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
-                                                                $hotelNameStr = $hotelsDetails['hotel']['hotel_name'] ? $hotelsDetails['hotel']['hotel_name'] : '';
-                                                                $hotelRoomTypeStr = $offlineRoom->roomtype->room_type ? ', ' . $offlineRoom->roomtype->room_type : '';
-                                                                $hotelAdultTypeStr = $value['adult'] > 0 ? ', ' . $value['adult'] . ' Adults' : '';
-                                                                $hotelChildTypeStr = $value['child'] > 0 ? ', ' . $value['child'] . ' Children' : '';
-                                                                $hotelTitleName = $hotelNameStr . '<span class="text-15 fw-300">' . $hotelRoomTypeStr . '' . $room_adult_with_child .'</span>';
-
+                                                             $roomNo++;
+                                                                $hotelsDetails = $hotelsDetails['hotel'];
+                                                                $night = dateDiffInDays(str_replace('/', '-', $value['search_from']), str_replace('/', '-', $value['search_to']));
                                                             @endphp
 
-                                                            
-
-                                                            <div class="text-20 fw-500 mb-20 mt-10">@php
-                                                                echo $hotelTitleName;
-                                                            @endphp
-                                                            </div>
-
-                                                            <input type="hidden" class="form-control"
+                                                                <input type="hidden" class="form-control"
                                                                 name="hotel[{{ $key }}][room_no_{{ $roomNo }}][hotel_id]"
                                                                 value="{{ $value['hotel_id'] }}">
-                                                            <input type="hidden" class="form-control"
+                                                                <input type="hidden" class="form-control"
                                                                 name="hotel[{{ $key }}][room_no_{{ $roomNo }}][room_id]"
                                                                 value="{{ $value['room_id'] }}">
 
-                                                            <input type="hidden" class="form-control"
+                                                                <input type="hidden" class="form-control"
                                                                 name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adults]"
                                                                 value="{{ $value['adult'] }}">
-                                                            <input type="hidden" class="form-control"
+                                                                <input type="hidden" class="form-control"
                                                                 name="hotel[{{ $key }}][room_no_{{ $roomNo }}][childs]"
                                                                 value="{{ $value['child'] }}">
 
@@ -303,310 +367,242 @@
                                                                 @endforeach
                                                                 @endif
 
+                                                            <div class="row ">
+                                                                <div class="">
+                                                                    <div class="roomGrid">
+                                                                        <div class="">
+                                                                            <div class="y-gap-30">
+                                                                                <div class="row">
+                                                                                    <div class="text-18 fw-500 mb-10">
+                                                                                        <i class="fa fa-bed"></i>
+                                                                                        {{ $hotelsDetails['hotel_name'] }}
 
-                                                            
+                                                                                    </div>
+                                                                                    <div class="y-gap-8">
+                                                                                        <div
+                                                                                            class="text-15 d-flex items-center">
+                                                                                            <div class=" x-gap-5 pb-10">
+                                                                                                <i
+                                                                                                    class="icon-location-pin text-12 mr-10"></i>
+                                                                                                {{ $hotelsDetails['hotel_address'] }}
+                                                                                                <p>
+                                                                                                    From
+                                                                                                    {{ dateFormat(str_replace('/', '-', $value['search_from']), 'd M, Y') }}
+                                                                                                    To
+                                                                                                    {{ dateFormat(str_replace('/', '-', $value['search_to']), 'd M, Y') }}
+                                                                                                    {{ $night ? '(' . $night . ' nights) ' : '' }}
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
 
+                                                                                        <div class="row pt-10">
+                                                                                            <div
+                                                                                                class="col-12 border-right-px">
+                                                                                                <div
+                                                                                                    class="text-15 fw-500 mb-10">
+                                                                                                    {{ strtoupper($offlineRoom->roomtype->room_type) }}
+                                                                                                    {{ $room_title_with_child }}
+                                                                                                </div>
+                                                                                                <div class="col-md-12">
+                                                                                                    <div
+                                                                                                        class="form-switch d-flex items-center">
+                                                                                                        <div
+                                                                                                            class="switch">
+                                                                                                            <input
+                                                                                                                type="checkbox"
+                                                                                                                value="{{ $roomNo }}"                                                                                                               
+                                                                                                                name="hotel[{{ $key }}][room_no_{{ $roomNo }}][all_travellers][]"
+                                                                                                                class="all_travellers">
+                                                                                                            <span
+                                                                                                                class="switch__slider"></span>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="text-13 lh-1 text-dark-1 ml-10">
+                                                                                                            Include all
+                                                                                                            travellers name
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="col-md-12 main-tag-input-data hide current_room_{{ $roomNo }}">
+                                                                                                    @if ($totalPassanger > 0)
+                                                                                                        @for ($i = 1; $i <= $totalPassanger; $i++)
+                                                                                                            <div
+                                                                                                                class="sub-tag-input-data">
+                                                                                                                <div
+                                                                                                                    class="tag-input-data">
+                                                                                                                    <div
+                                                                                                                        class="form-group">
+                                                                                                                        <label
+                                                                                                                            for="exampleFormControlInput1">
+                                                                                                                            Name
+                                                                                                                            (Optional)
+                                                                                                                        </label>
+                                                                                                                        <input
+                                                                                                                            type="text"
+                                                                                                                            class="form-control"
+                                                                                                                            name="hotel[{{ $key }}][room_no_{{ $roomNo }}][name][]"
+                                                                                                                            placeholder="E.g: Maria">
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div
+                                                                                                                    class="tag-input-data">
+                                                                                                                    <div
+                                                                                                                        class="form-group">
+                                                                                                                        <label
+                                                                                                                            for="exampleFormControlInput1">
+                                                                                                                            Surname
+                                                                                                                            (Optional)</label>
+                                                                                                                        <input
+                                                                                                                            type="text"
+                                                                                                                            class="form-control "                                                                                                                            
+                                                                                                                            name="hotel[{{ $key }}][room_no_{{ $roomNo }}][surname][]"
+                                                                                                                            placeholder="E.g: López">
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        @endfor
+                                                                                                    @endif
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="text-12">
+                                                                                    <div class="fw-500 mb-10">Request for
+                                                                                        the stay(Optional)</div>
+                                                                                    <div class="fw-500 mb-10">For reference
+                                                                                        only, Holidays Bookers can not
+                                                                                        guarantee them</div>
+                                                                                    <div class="col-md-12">
+                                                                                    <div class="col-md-4">
+                                                                                        <div class="d-flex items-center">
+                                                                                            <div class="form-checkbox ">
+                                                                                                <input type="checkbox"                                                                                                    
+                                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][request_stay][]" value="1">
+                                                                                                <div
+                                                                                                    class="form-checkbox__mark">
+                                                                                                    <div
+                                                                                                        class="form-checkbox__icon icon-check">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="text-14 lh-12 ml-10">
+                                                                                                static</div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <div class="d-flex items-center">
+                                                                                            <div class="form-checkbox ">
+                                                                                                <input type="checkbox"
+                                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][request_stay][]" value="2">
+                                                                                                <div
+                                                                                                    class="form-checkbox__mark">
+                                                                                                    <div
+                                                                                                        class="form-checkbox__icon icon-check">
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="text-14 lh-12 ml-10">
+                                                                                                static</div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    </div>
 
+                                                                                    <div class="col-lg-12 mt-15">
+                                                                                        <div class="fw-500 mb-10">Comments
+                                                                                            ( Optional )
+                                                                                        </div>
+                                                                                        <div class="form-input ">
+                                                                                            <textarea rows="4" name="hotel[{{ $key }}][room_no_{{ $roomNo }}][request_comment][]"></textarea>
+                                                                                            <label
+                                                                                                class="lh-1 text-16 text-light-1">Write
+                                                                                                your comments here</label>
+                                                                                        </div>
 
-                                                            @if ($value['adult'] > 0)
-                                                                @for ($i = 1; $i <= $value['adult']; $i++)
-                                                                    <div class="row x-gap-20 y-gap-20 pt-5">
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label
-                                                                                    for="exampleFormControlSelect1">Title-
-                                                                                    Adult</label>
-                                                                                <select class="form-control addvalidation"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][title][]">
-                                                                                    <option value="Mr">Mr.</option>
-                                                                                    <option value="Ms">Ms.</option>
-                                                                                    <option value="Mrs">Mrs.</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">First
-                                                                                    Name- Adult <span class="text-danger">*</span></label>
-                                                                                <input type="text"
-                                                                                    class="form-control addvalidation" onkeydown="return /[a-zA-Z ]/.test(event.key)"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][firstname][]">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">Last
-                                                                                    Name- Adult <span class="text-danger">*</span></label>
-                                                                                <input type="text"
-                                                                                    class="form-control addvalidation" onkeydown="return /[a-zA-Z ]/.test(event.key)"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][lastname][]">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">ID
-                                                                                    Proof
-                                                                                    Type- Adult</label>
-                                                                                <select class="form-control addvalidation"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][id_proof][]">
-                                                                                    <option value="Aadhaar">Aadhaar
-                                                                                    </option>
-                                                                                    <option value="Passport">Passport
-                                                                                    </option>
-                                                                                    <option value="Driving Licence">Driving
-                                                                                        Licence
-                                                                                    </option>
-                                                                                    <option value="Voters ID Card">Voters
-                                                                                        ID
-                                                                                        Card
-                                                                                    </option>
-                                                                                    <option value="PAN card">PAN card
-                                                                                    </option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">ID
-                                                                                    Proof
-                                                                                    No- Adult <span class="text-danger">*</span></label>
-                                                                                <input type="text"
-                                                                                    class="form-control addvalidation" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][id_proof_no][]">
-                                                                            </div>
-                                                                        </div>
-                                                                        @if ($i == 1)
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group">
-                                                                                    <label
-                                                                                        for="exampleFormControlInput1">Phone
-                                                                                        Number- Adult</label>
-
-
-                                                                                    <input type="text"
-                                                                                        class="form-control phonenumber"
-                                                                                        placeholder="Phone Number" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
-                                                                                        name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adult][phonenumber][]">
-
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
-                                                                        @endif
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="mt-10 border-top-light"></div>
-                                                                @endfor
-                                                            @endif
-
-                                                            @if ($value['child'] > 0)
-                                                                @php
-                                                                    $j = 0;
-                                                                @endphp
-                                                                @for ($i = 1; $i <= $value['child']; $i++)
-                                                                @php
-                                                                $cwb = "";
-                                                                $cwb_age = "";
-                                                                if( isset($value['room_child_age'][$j]) ){
-                                                                    $cwb_age = $value['room_child_age'][$j]->age;
-                                                                    $cwb = $value['room_child_age'][$j]->cwb;
-                                                                    //echo "<pre>";
-                                                                       // print_r($value['room_child_age'][$j]);
-                                                                }   
-                                                                $j++;                                                            
-                                                                @endphp
-                                                                    <div class="row x-gap-20 y-gap-20 pt-5">
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label
-                                                                                    for="exampleFormControlSelect1">Title -
-                                                                                    Child </label>
-                                                                                <select class="form-control addvalidation"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][child][title][]">
-                                                                                    <option value="Mr">Mr.</option>
-                                                                                    <option value="Ms">Ms.</option>
-                                                                                    <option value="Mrs">Mrs.</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">First
-                                                                                    Name -
-                                                                                    Child</label>
-                                                                                <input type="text"
-                                                                                    class="form-control addvalidation"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][child][firstname][]">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">Last
-                                                                                    Name
-                                                                                    -
-                                                                                    Child</label>
-                                                                                <input type="text"
-                                                                                    class="form-control addvalidation"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][child][lastname][]">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">ID
-                                                                                    Proof
-                                                                                    Type
-                                                                                    - Child</label>
-                                                                                <select class="form-control addvalidation"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][child][id_proof][]">
-                                                                                    <option value="Aadhaar">Aadhaar
-                                                                                    </option>
-                                                                                    <option value="Passport">Passport
-                                                                                    </option>
-                                                                                    <option value="Driving Licence">Driving
-                                                                                        Licence
-                                                                                    </option>
-                                                                                    <option value="Voters ID Card">Voters
-                                                                                        ID
-                                                                                        Card
-                                                                                    </option>
-                                                                                    <option value="PAN card">PAN card
-                                                                                    </option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">ID
-                                                                                    Proof
-                                                                                    No -
-                                                                                    Child</label>
-                                                                                <input type="text"
-                                                                                    class="form-control addvalidation"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][child][id_proof_no][]">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">Age</label>
-                                                                                <input type="text"
-                                                                                    class="form-control addvalidation"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][child][age][]" value="{{ $cwb_age }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label for="exampleFormControlInput1">CWB</label>
-                                                                                <input type="text"
-                                                                                    class="form-control addvalidation"
-                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][child][cwb][]" value="{{ $cwb }}">
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="mt-10 border-top-light"></div>
-                                                                @endfor
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="row lead_passengers">
-                                            <div class="col-12">
-                                                <div class="main-tag-input-data">
-                                                    <div class="text-info-checkout">Lead passenger</div>
-                                                    <div class="sub-tag-input-data">
-                                                        
-                                                    
-                                                  <div class="tag-input-data">
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlSelect1">Title - Adult</label>
-                                                            <select class="form-control lead_addvalidation" name="lead_title" id="exampleFormControlSelect1">
-                                                                <option value="Mr">Mr.</option>
-                                                                <option value="Ms">Ms.</option>
-                                                                <option value="Mrs">Mrs.</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="tag-input-data">
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlInput1">First
-                                                                Name- Adult <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control lead_addvalidation"
-                                                                name="lead_firstname" onkeydown="return /[a-zA-Z ]/.test(event.key)">
-                                                        </div>
-                                                    </div>
-                                                    <div class="tag-input-data">
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlInput1">Last
-                                                                Name- Adult <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control lead_addvalidation"
-                                                                name="lead_lastname" onkeydown="return /[a-zA-Z ]/.test(event.key)">
-                                                        </div>
-                                                    </div>
-                                                    <div class="tag-input-data">
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlInput1">ID Proof
-                                                                Type- Adult</label>
-                                                            <select class="form-control lead_addvalidation"
-                                                                name="lead_id_proof">
-                                                                <option value="Aadhaar">Aadhaar</option>
-                                                                <option value="Passport">Passport</option>
-                                                                <option value="Driving Licence">Driving Licence
-                                                                </option>
-                                                                <option value="Voters ID Card">Voters ID Card
-                                                                </option>
-                                                                <option value="PAN card">PAN card</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tag-input-data">
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlInput1">ID Proof
-                                                                No- Adult <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control lead_addvalidation"
-                                                                name="lead_id_proof_no" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="tag-input-data">
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlInput1">Phone
-                                                                Number- Adult <span class="text-danger">*</span></label>
-                                                            <input type="text" id="" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');"
-                                                                class="form-control phonenumber lead_addvalidation"
-                                                                placeholder="Phone Number" name="lead_phonenumber">
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
+                                                                    <div class="border-top-light mt-30 mb-20"></div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+                                <h2 class="fw-500 md:mt-24">Agency references</h2>
+                                <div class="main-checkout-redio-option">
+                                    <div class="sub-tag-input-data">
                                         <div class="tag-input-data">
                                             <div class="form-group">
-                                                <label for="exampleFormControlInput1">Agency Reference</label>
-                                                <input type="text" class="form-control"
-                                                    name="agency_reference">
+                                                <label for="exampleFormControlInput1">
+                                                    Agency Reference <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="agency_reference"
+                                                    placeholder="Write here">
                                             </div>
                                         </div>
                                     </div>
-                                @endif
+                                </div>
+                                <h2 class="fw-500 md:mt-24">Confirmation</h2>
+                                <div class="main-checkout-redio-option">
+                                    <div class="rounded-4 px-30 py-30 sm:px-20 sm:py-20 mb-30">
+                                        <div class="row y-gap-20">
+                                            <div class="col-12">
+                                                <div class="">
+                                                    <ul class=" y-gap-4 pt-5">
+                                                        <li class="text-14 border-bottom-light mt-5 mb-5 fw-500">Services
+                                                            <span class="pull-right fw-500">
+                                                                Total net price
+                                                            </span>
+                                                        </li>
+                                                        @php
+                                                            echo $serviceSection_footer;
+                                                        @endphp
+                                                        <li class="text-14 border-bottom-light mt-5 mb-5 fw-500">Total<span
+                                                                class="pull-right fw-500">{{ getNumberWithCommaGlobalCurrency($serviceSectionAMT) }}</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row y-gap-20">
+                                            <div class="col-12">
+                                                <div class="d-flex pull-right">
+                                                    <div class="text-15 lh-15 text-light-1 fw-500 ml-10"> Total net price
+                                                        to pay to Holidays
+                                                        Bookers: <span
+                                                            class="text-20">{{ getNumberWithCommaGlobalCurrency($serviceSectionAMT) }}<span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                
+                                </div>
                                 <div class="col-12 pt-20">
                                     <div class="row y-gap-20 items-center justify-between">
                                         <div class="col-auto">
                                             <div class="text-14 text-light-1">
                                                 <div class="d-flex items-center agree">
                                                     <div class="form-checkbox ">
-                                                <input type="checkbox" id="cbx" name="agree">
-                                                <div class="form-checkbox__mark cbx">
+                                                        <input type="checkbox" id="cbx" name="agree">
+                                                        <div class="form-checkbox__mark cbx">
                                                             <div class="form-checkbox__icon icon-check"></div>
                                                         </div>
-                                                <div class="class="lh-12" style="color: #333;  font-size: 17px;">By proceeding with this booking, I
-                                                        agree to
-                                                        GoTrip Terms of Use and Privacy Policy. <span class="text-danger">*</span></div>
+                                                        <div class="class="lh-12" style="color: #333;  font-size: 17px;">
+                                                            By proceeding with this booking, I
+                                                            agree to
+                                                            GoTrip Terms of Use and Privacy Policy. <span
+                                                                class="text-danger">*</span></div>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -622,7 +618,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="text-14 lh-1 ml-10">Pay using wallet (Balance :
-                                                            {{ getNumberWithCommaGlobalCurrency(availableBalance($user->agents->id)) }}) <span class="text-danger">*</span>
+                                                            {{ getNumberWithCommaGlobalCurrency(availableBalance($user->agents->id)) }})
+                                                            <span class="text-danger">*</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -635,38 +632,34 @@
                                                             <div class="radio__icon"></div>
                                                         </div>
                                                     </div>
-                                                    <div class="text-14 lh-1 ml-10">Pay On Online payment <span class="text-danger">*</span></div>
+                                                    <div class="text-14 lh-1 ml-10">Pay On Online payment <span
+                                                            class="text-danger">*</span></div>
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-12">
                                             <ul class="y-gap-4 pt-5 text-right inline-block">
-                                                <li class="text-14">
-                                                    <button type="button"
-                                                        class="button header-login-btn saveDraft"
+                                                {{-- <li class="text-14">
+                                                    <button type="button" class="button header-login-btn saveDraft"
                                                         name="Draft">
                                                         Save as Draft <i
                                                             class="fa fa-floppy-o fa-2x text-blue-1 px-10"></i>
                                                     </button>
-                                                </li>
+                                                </li> --}}
                                                 <li class="text-14">
-                                                    <button type="button"
-                                                        class="button header-login-btn saveQuote"
+                                                    <button type="button" class="button header-login-btn saveQuote"
                                                         name="Quote">
                                                         Save as Quote <i
                                                             class="fa fa-bookmark-o fa-2x text-blue-1 px-10 text-white"></i>
                                                     </button>
                                                 </li>
                                                 <li class="text-14">
-                                                    <button type="button"
-                                                        class="button header-login-btn saveOrder"
+                                                    <button type="button" class="button header-login-btn saveOrder"
                                                         name="Order">
                                                         Pay Now <div class="icon-arrow-top-right ml-15"></div>
                                                     </button>
                                                 </li>
                                             </ul>
-
                                         </div>
                                     </div>
                                 </div>
@@ -675,15 +668,16 @@
                     @endif
                     <div class="w-full h-1 bg-border mt-40 mb-40"></div>
                 </div>
+
                 <div class="col-xl-5 col-lg-4">
                     <div class="ml-80 lg:ml-40 md:ml-0">
                         @php
                             $amountFinal = 0;
                         @endphp
                         <div class="px-30 py-30 border-light rounded-4 mt-30">
-                            <div class="text-20 fw-500 mb-20">Your price summary</div>
+                            <div class="text-20 fw-500 mb-20">Cart</div>
                             <div class="review-section total-review">
-                                <ul class="review-list">
+                                <ul class="y-gap-4 pt-5">
                                     @if (is_array($requiredParamArr) && count($requiredParamArr) > 0)
                                         @foreach ($requiredParamArr as $bo_key => $bo_value)
                                             @if ($bo_key == 'hotel')
@@ -713,18 +707,23 @@
                                                         }
 
                                                     @endphp
-                                                    <ul class="y-gap-4 pt-5">
+                                                    
                                                         <li class="text-14">
-                                                            <i class="fa fa-bed"></i> {{ $hotelsDetails['hotel']['hotel_name'] }} <br> {{ $offlineRoom->roomtype->room_type }} 
-                                                            <span class="pull-right"> {{ getNumberWithCommaGlobalCurrency($value['finalAmount']) }}</span>
+                                                            <i class="fa fa-bed"></i>
+                                                            {{ $hotelsDetails['hotel']['hotel_name'] }} <br>
+                                                            {{ $offlineRoom->roomtype->room_type }}
+                                                            <span class="pull-right">
+                                                                {{ getNumberWithCommaGlobalCurrency($value['finalAmount']) }}
+                                                                <a href="javascript:void(0);" data-hotel-id="{{ $value['hotel_id'] }}" data-hotel-room-id="{{ $value['room_id'] }}" data-cart-key="{{ $value['unique_id'] }}" class="removeHotel"><i class="fa fa-times text-danger"></i></a>
+                                                            </span>
                                                         </li>
                                                         <li class="text-14">
                                                             <i class="fa fa-user"></i> {{ $room_adult_with_child }}
                                                         </li>
                                                         <li class="text-14">
                                                             <div class="border-top-light mt-30 mb-20"></div>
-                                                        </li>                               
-                                                    </ul>
+                                                        </li>
+                                                    
                                                     @php
                                                         $amountFinal = $amountFinal + $value['finalAmount'];
                                                     @endphp
@@ -735,19 +734,33 @@
                                 </ul>
                             </div>
                             <div class="border-top-light mt-30 mb-20"></div>
+
                             <div class="row y-gap-5 justify-between pt-5">
+                                <div class="col-auto">
+                                    <div class="text-15"></div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="text-15">
+                                        <a href="javascript:void(0);" class="removeCart"> <i
+                                            class="fa fa-times fa-2x text-danger"></i> Empty cart</a>
+                                    </div>
+                                </div>
+                            </div> 
+                            
+                            {{-- <div class="row y-gap-5 justify-between pt-5">
                                 <div class="col-auto">
                                     <div class="text-15">Taxes and fees ({{ $Taxes_and_fees }}%)</div>
                                 </div>
                                 <div class="col-auto">
 
-                                    <div class="text-15">{{ getNumberWithCommaGlobalCurrency($Taxes_and_fees_amt) }}</div>
+                                    <div class="text-15">{{ getNumberWithCommaGlobalCurrency($Taxes_and_fees_amt) }}
+                                    </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
                                 <div class="row y-gap-5 justify-between">
                                     <div class="col-auto">
-                                        <div class="text-18 lh-13 fw-500">Price</div>
+                                        <div class="text-18 lh-13 fw-500">Total</div>
                                     </div>
                                     <div class="col-auto">
                                         <div class="text-18 lh-13 fw-500">
@@ -778,56 +791,6 @@
                 <div class="modal-body relative">
                     <div class="bravo-theme-gotrip-login-form y-gap-20">
                         <div class="col-auto ">
-
-
-                            {{-- <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Margin Type</label>
-                            <div class="col-12 mb-2 text-14 text-light-1">
-                                <div class="form-radio d-flex items-center ">
-                                    <div class="radio">
-                                        <input type="radio" name="popup_margin_type" value="1"
-                                            class="popup_margin_type" checked>
-                                        <div class="radio__mark">
-                                            <div class="radio__icon"></div>
-                                        </div>
-                                    </div>
-                                    <div class="text-14 lh-1 ml-10">Percentage Margin
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 mb-2 text-14 text-light-1">
-                                <div class="form-radio d-flex items-center ">
-                                    <div class="radio">
-                                        <input type="radio" name="popup_margin_type" value="2"
-                                            class="popup_margin_type">
-                                        <div class="radio__mark">
-                                            <div class="radio__icon"></div>
-                                        </div>
-                                    </div>
-                                    <div class="text-14 lh-1 ml-10">Fix Margin</div>
-                                </div>
-                            </div>
-                            <span id="popup_margin_type-error" class="help-block help-block-error hide">This field is
-                                required.</span>
-                            <div class="col-12">
-                                <div class="form-input">
-                                    <input type="number" name="margin_amt" autocomplete="off"
-                                        class="has-value margin_amt">
-                                    <label class="lh-1 text-14 text-light-1">Margin</label>
-                                </div>
-                                <span id="margin_amt-error" class="help-block help-block-error hide">This field is
-                                    required.</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-input">
-                                <input type="text" name="quote_email" autocomplete="off"
-                                    class="has-value quote_email">
-                                <label class="lh-1 text-14 text-light-1">Email</label>
-                            </div>
-                            <span id="quote_email-error" class="help-block help-block-error hide">This field is
-                                required.</span>
-                        </div> --}}
-
                             <div class="col-12">
                                 <div class="form-input">
                                     <input type="text" name="quote_name" autocomplete="off"
@@ -855,33 +818,38 @@
 
         <script src="{{ asset('assets/front/js/code.jquery.com_jquery-3.6.0.js') }}"></script>
         <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('assets/front/js/jquery.blockUI.js') }}"></script>
         <script src="{{ asset('assets/front/js/Check-out.js') }}"></script>
         <script src="{{ asset('assets/front/js/search-form/Currencies.js') }}"></script>
         <script src="{{ asset('assets/front/js/intlTelInput/js/intlTelInput-jquery.min.js') }}"></script>
         <script type="text/javascript">
-            $(".phonenumber").intlTelInput({
-                initialCountry: "in",
-                separateDialCode: true,
-            });
-            // .on('countrychange', function (e, countryData) {
-            //     alert($(".phonenumber").intlTelInput("getSelectedCountryData").dialCode);
-            //     //alert($("#lead_phonenumber").intlTelInput("getNumber"));
-            //     console.log($("#lead_phonenumber").intlTelInput("getNumber"));
-            // });
+            $(function() {
+                $('.all_travellers').change(function() {
+                    console.log($(this).val());
+                    if ($(this).is(':checked')) {
+
+                        $('.current_room_' + $(this).val()).removeClass('hide');
+                    } else {
+                        $('.current_room_' + $(this).val()).addClass('hide');
+                    }
+                })
+            })
 
             var moduleConfig = {
                 checkoutLogin: "{!! route('post-login') !!}",
+                removeHotel: "{!! route('remove-cart-hotel') !!}",
+                removeCart: "{!! route('remove-cart') !!}",
             };
         </script>
-    <script>
-        $(document).ready(function() {
-              $('.checkout-redio-option').on('click', function() {
-                const activeDiv = $(this).find('.active-redio-details');
-                const nextDiv = activeDiv.next().length ? activeDiv.next() : $(this).children().first();
-            
-                activeDiv.removeClass('active-redio-details');
-                nextDiv.addClass('active-redio-details');
-              });
+        <script>
+            $(document).ready(function() {
+                $('.checkout-redio-option').on('click', function() {
+                    const activeDiv = $(this).find('.active-redio-details');
+                    const nextDiv = activeDiv.next().length ? activeDiv.next() : $(this).children().first();
+
+                    activeDiv.removeClass('active-redio-details');
+                    nextDiv.addClass('active-redio-details');
+                });
             });
-    </script>
+        </script>
     @endsection
