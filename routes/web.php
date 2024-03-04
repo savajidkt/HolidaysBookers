@@ -65,6 +65,7 @@ use App\Http\Controllers\Admin\Complimentaries\ComplimentariesController;
 use App\Http\Controllers\Admin\HotelFacilities\HotelFacilitiesController;
 use App\Http\Controllers\Admin\HotelFacility\HotelFacilityController;
 use App\Http\Controllers\Admin\Promotional\PromotionalController;
+use App\Http\Controllers\Admin\Settings\SettingsController;
 use App\Http\Controllers\Admin\StopSale\StopSaleController;
 
 
@@ -275,8 +276,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/order/order-itinerary-download/{order}', [OrdersController::class, 'orderItineraryDownload'])->name('order-itinerary-download');
 
     Route::post('/order/change-status', [OrdersController::class, 'changeStatus'])->name('change-order-status');
-
     Route::post('/get-booking-calendar-list', [OrdersController::class, 'getBookingCalendarList'])->name('get-booking-calendar-list');
+
+    Route::resource('/settings', SettingsController::class);
 });
 
 Auth::routes();

@@ -29,6 +29,7 @@ use App\Models\QuoteOrderHotel;
 use App\Models\QuoteOrderHotelRoom;
 use App\Models\QuoteOrderHotelRoomPassenger;
 use App\Models\RoomType;
+use App\Models\Setting;
 use App\Models\WalletTransaction;
 use App\Notifications\BookingNotification;
 use Illuminate\Support\Facades\DB;
@@ -227,16 +228,35 @@ class CheckoutRepository
         $this->addOrderHotels($extra_data, $OrderData->id, $passengerLead);
         // Send Email Booking email
         
-        $this->SendEmailAdmin($OrderData);        
-        $this->SendEmailAgent($OrderData);
+        $settingsArr = Setting::where('type','0')->first();  
 
-        $this->SendEmailHotel($OrderData);
-        $this->SendEmailAccount($OrderData);
-        $this->SendEmailSales($OrderData);
-        $this->SendEmailFrontOffice($OrderData);
-        $this->SendEmailReservation($OrderData);
+        if( $settingsArr  ){
+            $savedArr = unserialize($settingsArr->settings_data);
+            if( $savedArr ){
+                if( isset($savedArr['send_email_hb']) && $savedArr['send_email_hb'] =="yes" ){
+                    $this->SendEmailAdmin($OrderData); 
+                }
+                if( isset($savedArr['send_email_agent']) && $savedArr['send_email_agent'] =="yes" ){
+                    $this->SendEmailAgent($OrderData);
+                }
+                if( isset($savedArr['send_email_hotel']) && $savedArr['send_email_hotel'] =="yes" ){
+                    $this->SendEmailHotel($OrderData);
+                }
+                if( isset($savedArr['send_email_hotel_account']) && $savedArr['send_email_hotel_account'] =="yes" ){
+                    $this->SendEmailAccount($OrderData);
+                }
+                if( isset($savedArr['send_email_hotel_sales']) && $savedArr['send_email_hotel_sales'] =="yes" ){
+                    $this->SendEmailSales($OrderData);
+                }
+                if( isset($savedArr['send_email_hotel_front_office']) && $savedArr['send_email_hotel_front_office'] =="yes" ){
+                    $this->SendEmailFrontOffice($OrderData);
+                }
+                if( isset($savedArr['send_email_hotel_registration']) && $savedArr['send_email_hotel_registration'] =="yes" ){
+                    $this->SendEmailReservation($OrderData);
+                }
 
-
+            }
+        }
         // Below code implement is pendding
         //$this->addOrderPackage($extra_data, $OrderData->id, $passengerLead);
         //$this->addOrderTransfere($extra_data, $OrderData->id, $passengerLead);

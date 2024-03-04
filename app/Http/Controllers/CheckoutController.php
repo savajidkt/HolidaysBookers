@@ -331,19 +331,25 @@ class CheckoutController extends Controller
 
        
         $today = date("YmdHis");
-        $uniqueId= $today.'_'.mt_rand();
+        $uniqueId= $today.'_'.mt_rand();        
+        $oldCart = getBookingCart('bookingCart');      
+             
+              
         
-        $oldCart = getBookingCart('bookingCart');            
-        //$requiredParamArr['is_type'] = "package";
         if (is_array($requiredParamArr) && count($requiredParamArr) > 0) {
-
             $requiredParamArr['unique_id'] = $uniqueId;
             if ($requiredParamArr['is_type'] == "hotel") {
                 if (is_array($oldCart) && count($oldCart) > 0) {
-                    if (isset($oldCart['hotel'])) {                       
-                        //if($this->checkQuoteCartExist($oldCart['hotel'], $requiredParamArr)){
-                            $oldCart['hotel'][] = $requiredParamArr;
-                       // }                        
+                    if (isset($oldCart['hotel'])) {  
+                        $tempCartHotel = [];
+                        if(is_array($oldCart['hotel']) && count($oldCart['hotel']) > 0){
+                            
+                            $tempCartHotel[] = $requiredParamArr;
+                            foreach ($oldCart['hotel'] as $key => $value) {
+                                $tempCartHotel[] = $value;
+                            }
+                        }                     
+                            $oldCart['hotel'] = $tempCartHotel;                       
                     } else {
                         $oldCart['hotel'][] = $requiredParamArr;
                     }
@@ -382,6 +388,8 @@ class CheckoutController extends Controller
                 }
             }
         }
+
+        
         return $oldCart;
     }
 

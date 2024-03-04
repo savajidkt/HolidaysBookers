@@ -402,14 +402,11 @@
 
             </li>
             <li class=" nav-item {{ (Request::segment(2) == 'settings') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ url('admin/settings') }}">
+                <a class="d-flex align-items-center" href="{{ route('settings.index') }}">
                     <i data-feather='settings'></i><span class="menu-title text-truncate"
                         data-i18n="Settings">Settings</span>
                 </a>
-
             </li>
-
-
         </ul>
     </div>
 </div>
