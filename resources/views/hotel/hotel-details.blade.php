@@ -1244,6 +1244,9 @@ $search_to = (getSearchCookies('search_to')) ? date('d/m/Y', strtotime(str_repla
                    
                    <div>
                      @if (is_array($roomPrice))
+                     <div class="current-amount"> 
+                        {{ getNumberWithCommaGlobalCurrency($roomPrice['finalAmount']) }}  
+                  </div> 
                      <div class="text-18 lh-15 fw-500"> {{ getNumberWithCommaGlobalCurrency($roomPrice['finalAmount']) }}  </div> 
                      @endif 
                    </div>                 

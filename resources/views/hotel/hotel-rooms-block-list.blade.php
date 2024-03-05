@@ -105,6 +105,9 @@
                                     <div class="sub-hb-htl-list">
                                         <div class="total-price-col dispo-calendar ">
                                             <div class="avail-price">
+                                                <div class="current-amount"> 
+                                                    {{ getNumberWithCommaGlobalCurrency($priceroom['finalAmount']) }}  
+                                              </div> 
                                                 <span>
                                                     {{ getNumberWithCommaGlobalCurrency($priceroom['finalAmount']) }}
                                                 </span>

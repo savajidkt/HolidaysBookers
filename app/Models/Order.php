@@ -70,6 +70,8 @@ class Order extends Model
         'is_pay_using',
         'passenger_type',
         'lead_passenger_name',
+        'lead_nationality_text',
+        'lead_nationality_id',
         'lead_passenger_id_proof',
         'lead_passenger_id_proof_no',
         'lead_passenger_phone_code',

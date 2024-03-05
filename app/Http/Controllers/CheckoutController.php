@@ -24,6 +24,7 @@ use App\Repositories\CheckoutRepository;
 use App\Repositories\HotelListingRepository;
 use App\Http\Requests\Checkout\CreateRequest;
 use App\Models\DraftOrder;
+use App\Models\Nationality;
 use App\Models\QuoteOrder;
 use App\Notifications\QuoteOrderNotification;
 use App\Repositories\HotelRoomListingRepository;
@@ -53,7 +54,8 @@ class CheckoutController extends Controller
         $requiredParamArr = getBookingCart('bookingCart');
         
         if ($requiredParamArr) {
-            return view('checkout.checkout', ['hotelListingRepository' =>$this->hotelListingRepository,'hotelsDetails' =>[], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
+            $nationality = Nationality::all();            
+            return view('checkout.checkout', ['nationality' =>$nationality,'hotelListingRepository' =>$this->hotelListingRepository,'hotelsDetails' =>[], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
         } else {
             return redirect()->route('home');
         }
@@ -109,7 +111,6 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-
         
         if ($request->button_name == "Quote") {
 

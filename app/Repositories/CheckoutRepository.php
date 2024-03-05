@@ -93,9 +93,10 @@ class CheckoutRepository
             }
         }
         $room_child_age = json_decode(json_encode($room_child_age), FALSE);       
-        $extra_data['child_extra'] = $room_child_age;
-
+        $extra_data['child_extra'] = $room_child_age;        
         $extra_data['lead_passenger'] = $data['lead_name'] . ' ' . $data['lead_surname'];
+        $extra_data['lead_nationality_text'] = $data['lead_nationality_text'];
+        $extra_data['lead_nationality_id'] = $data['lead_nationality_id'];
         if (count($extra_data['cartData']) > 0) {
             $i = 1;
             foreach ($data['hotel'] as $key => $value) {                
@@ -123,8 +124,8 @@ class CheckoutRepository
             'passenger'     => serialize($this->roomPassenger($data)),
             'extra_data'     => serialize($extra_data),
             'unique_number'     => generateUniqueNumber('order', $langth=4),
-        ];
-       
+        ];      
+        
         $CheckoutRepository =  Checkout::create($dataSave);
         return $CheckoutRepository;
     }
@@ -152,7 +153,9 @@ class CheckoutRepository
         
         
         $user = User::find($checkout->user_id);
-        $extra_data = unserialize($checkout->extra_data);                
+        $extra_data = unserialize($checkout->extra_data);   
+              
+       
         $this->order_Rooms = $extra_data['cartData'];
         $passengerLead =  $extra_data['passenger'];             
        
@@ -200,14 +203,17 @@ class CheckoutRepository
         $OrderData['is_pay_using'] = ($checkout->payment_method) ? $checkout->payment_method : 0;
         $OrderData['passenger_type'] = '';
         $OrderData['lead_passenger_name'] = isset($extra_data['lead_passenger']) ? $extra_data['lead_passenger'] : '';
+        $OrderData['lead_nationality_text'] = isset($extra_data['lead_nationality_text']) ? $extra_data['lead_nationality_text'] : '';
+        $OrderData['lead_nationality_id'] = isset($extra_data['lead_nationality_id']) ? $extra_data['lead_nationality_id'] : '';
         $OrderData['lead_passenger_id_proof'] = '';
         $OrderData['lead_passenger_id_proof_no'] = '';
         $OrderData['lead_passenger_phone_code'] = '';
+        $OrderData['agency_reference'] = $checkout->agency_reference;
         $OrderData['lead_passenger_phone'] = '';
         if ($extra_data['button_name'] == "Draft") {
             $OrderData['order_type'] = 0;
         } else {
-        $OrderData['order_type'] = 1; //0 = Draft, 1 = Order 
+            $OrderData['order_type'] = 1; //0 = Draft, 1 = Order 
         }
 
         $OrderData['status'] = 1; //1 = Processed, 2 = Confirmed, 3 = Cancelled, 4 = Vouchered     
@@ -222,6 +228,8 @@ class CheckoutRepository
             'total_amount'        => $OrderData->booking_amount,
             'paid_amount'     => $OrderData->booking_amount,                        
         ];
+
+            
         
         Booking_payment_details::create($dataSave);        
 
@@ -392,7 +400,7 @@ class CheckoutRepository
         if (count($value) > 0) {
             if (isset($passengerLead) && count($passengerLead) > 0) {               
                 $totalAdult =  (int) $passengerLead['adults'] + (int) $passengerLead['childs'];
-                for ($i = 0; $i < $totalAdult; $i++) {                              
+                for ($i = 0; $i < $totalAdult; $i++) {                                            
                     $addHotelRoomPassengers = [];
                     $addHotelRoomPassengers['order_id'] = $OrderID;
                     $addHotelRoomPassengers['order_hotel_id'] = $hotelData->id;
@@ -401,6 +409,8 @@ class CheckoutRepository
                     $addHotelRoomPassengers['room_id'] = $value['room_id'];
                     $addHotelRoomPassengers['room_price_id'] = $value['price_id'];
                     $addHotelRoomPassengers['name'] = $passengerLead['name'][$i] . ' ' . $passengerLead['surname'][$i];                               
+                    $addHotelRoomPassengers['nationality_text'] = $passengerLead['nationality_text'][$i];                               
+                    $addHotelRoomPassengers['nationality_id'] = $passengerLead['nationality_id'][$i];                               
                     OrderHotelRoomPassenger::create($addHotelRoomPassengers);
                 }
                    
@@ -884,6 +894,8 @@ class CheckoutRepository
         $room_child_age = json_decode(json_encode($room_child_age), FALSE);       
         $extra_data['child_extra'] = $room_child_age;
         $extra_data['lead_passenger'] = $data['lead_name'] . ' ' . $data['lead_surname'];
+        $extra_data['lead_nationality_text'] = $data['lead_nationality_text'];
+        $extra_data['lead_nationality_id'] = $data['lead_nationality_id'];
         if (count($extra_data['cartData']) > 0) {
             $i = 1;
             foreach ($data['hotel'] as $key => $value) {                
@@ -952,6 +964,8 @@ class CheckoutRepository
         $OrderData['comments'] = '';
         $OrderData['passenger_type'] = '';
         $OrderData['lead_passenger_name'] = isset($extra_data['lead_passenger']) ? $extra_data['lead_passenger'] : '';
+        $OrderData['lead_nationality_text'] = isset($extra_data['lead_nationality_text']) ? $extra_data['lead_nationality_text'] : '';
+        $OrderData['lead_nationality_id'] = isset($extra_data['lead_nationality_id']) ? $extra_data['lead_nationality_id'] : '';
         $OrderData['lead_passenger_id_proof'] = '';
         $OrderData['lead_passenger_id_proof_no'] = '';
         $OrderData['lead_passenger_phone_code'] = '';
@@ -1001,6 +1015,7 @@ class CheckoutRepository
 
     public function addQuoteOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLead)
     {   
+        
         if (count($value) > 0) {
 
             $CWBCount = 0;
@@ -1036,7 +1051,7 @@ class CheckoutRepository
             $addHotelRoom['child_with_bed'] = $CWBCount;
             $addHotelRoom['child_without_bed'] = $CNBCount;
             $addHotelRoom['request_stay'] = isset($passengerLead['request_stay']) ? implode(',',$passengerLead['request_stay']):'';
-            $addHotelRoom['comments'] = ( $passengerLead['request_comment'][0]) ?  $passengerLead['request_comment'][0] : '';
+            $addHotelRoom['comments'] = isset( $passengerLead['request_comment'][0]) ?  $passengerLead['request_comment'][0] : '';
             
             $hotelRoomData = QuoteOrderHotelRoom::create($addHotelRoom);
             $this->addQuoteOrderHotelRoomPassengers($cartHotel, $value, $OrderID, $hotelData, $hotelRoomData, $passengerLead);
@@ -1059,7 +1074,9 @@ class CheckoutRepository
                                 $addHotelRoomPassengers['quote_hotel_room_id'] = $hotelRoomData->id;
                                 $addHotelRoomPassengers['room_id'] = $value['room_id'];
                                 $addHotelRoomPassengers['room_price_id'] = $value['price_id'];
-                                $addHotelRoomPassengers['name'] = $passengerLead['name'][$i] . ' ' . $passengerLead['surname'][$i];                               
+                                $addHotelRoomPassengers['name'] = $passengerLead['name'][$i] . ' ' . $passengerLead['surname'][$i];   
+                                $addHotelRoomPassengers['nationality_text'] = $passengerLead['nationality_text'][$i];                               
+                                $addHotelRoomPassengers['nationality_id'] = $passengerLead['nationality_id'][$i];                            
                                 QuoteOrderHotelRoomPassenger::create($addHotelRoomPassengers);
                             }
                            

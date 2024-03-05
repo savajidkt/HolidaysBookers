@@ -126,9 +126,9 @@
 
                             <div class="last-hb-list-block-d">
                                
-                                {{-- <div class="current-amount"> --}}
-                                    {{-- {{ getNumberWithCommaGlobalCurrency($hotel['room']['finalAmount']) }}                                     --}}
-                                {{-- </div> --}}
+                                <div class="current-amount"> 
+                                    {{ getNumberWithCommaGlobalCurrency($hotel['room']['finalAmount']) }}  
+                              </div> 
                                 <div class="text-22 lh-12 fw-600 mt-5 offer-amount">
                                     {{ getNumberWithCommaGlobalCurrency($hotel['room']['finalAmount']) }}                                   
                                 </div>

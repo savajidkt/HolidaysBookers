@@ -1345,6 +1345,18 @@
 
       options.forEach((el) => {
         el.addEventListener('click', () => {
+          var data_na_hotel = el.getAttribute('data-na-hotel');
+          var data_na_room = el.getAttribute('data-na-room');
+          var data_na_i = el.getAttribute('data-na-i');
+          console.log(data_na_hotel+'_'+data_na_room+'_'+data_na_i);
+          if( data_na_hotel !== null ){
+            $('.nationality_text_'+data_na_hotel+'_'+data_na_room+'_'+data_na_i).val(el.getAttribute('data-value'));
+            $('.nationality_id_'+data_na_hotel+'_'+data_na_room+'_'+data_na_i).val(el.getAttribute('data-id'));
+          } else {
+            $('.lead_nationality_text').val(el.getAttribute('data-value'));
+            $('.lead_nationality_id').val(el.getAttribute('data-id'));
+          }         
+                   
           title.innerHTML = el.innerHTML
           target.setAttribute("data-select-value", el.getAttribute('data-value'))
           dropdown.classList.toggle('-is-visible')

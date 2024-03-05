@@ -17,6 +17,7 @@ class SettingsController extends Controller
 
     public function index(Request $request)
     {
+       
         $settingsArr = Setting::where('type','0')->first();
         return view('admin.settings.emails.create',['model'=>$settingsArr]);       
     }

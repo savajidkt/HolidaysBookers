@@ -64,7 +64,7 @@
         $Taxes_and_fees = 0;
         $Taxes_and_fees_amt = 0;
         $serviceSection = '';
-        
+
         $serviceSectionAMT = 0;
         $serviceSection_footer = '';
     @endphp
@@ -100,7 +100,7 @@
                             action="{{ route('checkout.store') }}">
                             @csrf
                             @php
-                                $amountFinalSubmit = 0;                               
+                                $amountFinalSubmit = 0;
                             @endphp
                             @if (is_array($requiredParamArr) && count($requiredParamArr) > 0)
                                 @foreach ($requiredParamArr as $bo_key => $bo_value)
@@ -132,7 +132,9 @@
                                                     @foreach ($bo_value as $key => $value)
                                                         @php
                                                             $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
-                                                            $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
+                                                            $hotelsDetails = $hotelListingRepository->hotelDetailsArr(
+                                                                $value['hotel_id'],
+                                                            );
                                                         @endphp
                                                         @php
                                                             $age = [];
@@ -154,8 +156,18 @@
                                                                 $room_adult_with_child = $value['adult'] . ' Adults';
                                                             }
                                                             if ($value['child']) {
-                                                                $room_title_with_child .= ', ' . $value['child'] . ' children - ' . implode(',', $age) . ' years old';
-                                                                $room_adult_with_child .= ', ' . $value['child'] . ' Child - ' . implode(',', $age) . ' years';
+                                                                $room_title_with_child .=
+                                                                    ', ' .
+                                                                    $value['child'] .
+                                                                    ' children - ' .
+                                                                    implode(',', $age) .
+                                                                    ' years old';
+                                                                $room_adult_with_child .=
+                                                                    ', ' .
+                                                                    $value['child'] .
+                                                                    ' Child - ' .
+                                                                    implode(',', $age) .
+                                                                    ' years';
                                                             }
 
                                                         @endphp
@@ -163,15 +175,32 @@
                                                             @php
                                                                 $hotelsRoomDetails = $hotelsDetails['roomDetails'];
                                                                 $hotelsDetails = $hotelsDetails['hotel'];
-                                                                $serviceSection .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<br>' . $offlineRoom->roomtype->room_type . '<span class="pull-right">' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . '</span></li>';
-                                                                $serviceSection_footer .= '<li class="text-14 border-bottom-light mt-5 ">' . $hotelsDetails['hotel_name'] . '<span class="pull-right">' . getNumberWithCommaGlobalCurrency($value['finalAmount']) . '</span></li>';                                                               
-                                                                $serviceSectionAMT = $serviceSectionAMT + $value['finalAmount'];
+                                                                $serviceSection .=
+                                                                    '<li class="text-14 border-bottom-light mt-5 ">' .
+                                                                    $hotelsDetails['hotel_name'] .
+                                                                    '<br>' .
+                                                                    $offlineRoom->roomtype->room_type .
+                                                                    '<span class="pull-right">' .
+                                                                    getNumberWithCommaGlobalCurrency(
+                                                                        $value['finalAmount'],
+                                                                    ) .
+                                                                    '</span></li>';
+                                                                $serviceSection_footer .=
+                                                                    '<li class="text-14 border-bottom-light mt-5 ">' .
+                                                                    $hotelsDetails['hotel_name'] .
+                                                                    '<span class="pull-right">' .
+                                                                    getNumberWithCommaGlobalCurrency(
+                                                                        $value['finalAmount'],
+                                                                    ) .
+                                                                    '</span></li>';
+                                                                $serviceSectionAMT =
+                                                                    $serviceSectionAMT + $value['finalAmount'];
 
-                                                                $night = dateDiffInDays(str_replace('/', '-', $value['search_from']), str_replace('/', '-', $value['search_to']));
+                                                                $night = dateDiffInDays(
+                                                                    str_replace('/', '-', $value['search_from']),
+                                                                    str_replace('/', '-', $value['search_to']),
+                                                                );
                                                             @endphp
-
-
-
                                                             <div class="row ">
                                                                 <div class="">
                                                                     <div class="roomGrid">
@@ -289,21 +318,49 @@
                                                             name="lead_surname" placeholder="E.g: López">
                                                     </div>
                                                 </div>
+                                                <div class="tag-input-data">
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlInput1">
+                                                            Nationality </label>
+                                                        <div class="select js-select js-liveSearch" data-select-value="">
+                                                            <input type="hidden" name="lead_nationality_text" class="lead_nationality_text">
+                                                            <input type="hidden" name="lead_nationality_id" class="lead_nationality_id">
+                                                            <button type="button" class="select__button js-button">
+                                                                <span class="js-button-title">Select</span>
+                                                                <i class="select__icon" data-feather="chevron-down"></i>
+                                                            </button>
+                                                            @if ($nationality)
+                                                                <div class="select__dropdown js-dropdown">
+                                                                    <input type="text" placeholder="Search"
+                                                                        class="select__search js-search">
+                                                                    <div class="select__options js-options">
+                                                                        @foreach ($nationality as $value)
+                                                                        <div class="select__options__button"
+                                                                        data-value="{{ strtolower($value->nationality) }}" data-id="{{ strtolower($value->id) }}">{{ $value->nationality }}</div>
+                                                                        @endforeach                                                                                                                                           
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="border-top-light mt-30 mb-20"></div>
                                         @if (count($requiredParamArr) > 0)
                                             @foreach ($requiredParamArr as $bo_key => $bo_value)
                                                 @if ($bo_key == 'hotel')
-                                                @php
-                                                            
-                                                            $roomNo = 0;
-                                                        @endphp
+                                                    @php
+
+                                                        $roomNo = 0;
+                                                    @endphp
                                                     @foreach ($bo_value as $key => $value)
                                                         @php
-                                                       
+
                                                             $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
-                                                            $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
+                                                            $hotelsDetails = $hotelListingRepository->hotelDetailsArr(
+                                                                $value['hotel_id'],
+                                                            );
                                                         @endphp
                                                         @php
                                                             $age = [];
@@ -325,47 +382,59 @@
                                                                 $room_adult_with_child = $value['adult'] . ' Adults';
                                                             }
                                                             if ($value['child']) {
-                                                                $room_title_with_child .= ', ' . $value['child'] . ' children - ' . implode(',', $age) . ' years old';
-                                                                $room_adult_with_child .= ', ' . $value['child'] . ' Child - ' . implode(',', $age) . ' years';
+                                                                $room_title_with_child .=
+                                                                    ', ' .
+                                                                    $value['child'] .
+                                                                    ' children - ' .
+                                                                    implode(',', $age) .
+                                                                    ' years old';
+                                                                $room_adult_with_child .=
+                                                                    ', ' .
+                                                                    $value['child'] .
+                                                                    ' Child - ' .
+                                                                    implode(',', $age) .
+                                                                    ' years';
                                                             }
 
                                                         @endphp
 
                                                         @if (count($hotelsDetails) > 0 && count($hotelsDetails['hotel']) > 0)
                                                             @php
-                                                             $roomNo++;
+                                                                $roomNo++;
                                                                 $hotelsDetails = $hotelsDetails['hotel'];
-                                                                $night = dateDiffInDays(str_replace('/', '-', $value['search_from']), str_replace('/', '-', $value['search_to']));
+                                                                $night = dateDiffInDays(
+                                                                    str_replace('/', '-', $value['search_from']),
+                                                                    str_replace('/', '-', $value['search_to']),
+                                                                );
                                                             @endphp
 
-                                                                <input type="hidden" class="form-control"
+                                                            <input type="hidden" class="form-control"
                                                                 name="hotel[{{ $key }}][room_no_{{ $roomNo }}][hotel_id]"
                                                                 value="{{ $value['hotel_id'] }}">
-                                                                <input type="hidden" class="form-control"
+                                                            <input type="hidden" class="form-control"
                                                                 name="hotel[{{ $key }}][room_no_{{ $roomNo }}][room_id]"
                                                                 value="{{ $value['room_id'] }}">
 
-                                                                <input type="hidden" class="form-control"
+                                                            <input type="hidden" class="form-control"
                                                                 name="hotel[{{ $key }}][room_no_{{ $roomNo }}][adults]"
                                                                 value="{{ $value['adult'] }}">
-                                                                <input type="hidden" class="form-control"
+                                                            <input type="hidden" class="form-control"
                                                                 name="hotel[{{ $key }}][room_no_{{ $roomNo }}][childs]"
                                                                 value="{{ $value['child'] }}">
 
-                                                                @if (isset($value['room_child_age']))
-                                                                                            
+                                                            @if (isset($value['room_child_age']))
                                                                 @foreach ($value['room_child_age'] as $ckey => $child)
                                                                     @php
                                                                         $age[] = $child->age;
                                                                     @endphp
                                                                     <input type="hidden" class="form-control"
-                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][room_child_age][age][]"
-                                                                    value="{{ $child->age }}">
+                                                                        name="hotel[{{ $key }}][room_no_{{ $roomNo }}][room_child_age][age][]"
+                                                                        value="{{ $child->age }}">
                                                                     <input type="hidden" class="form-control"
-                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][room_child_age][cwd][]"
-                                                                    value="{{ $child->cwb }}">
+                                                                        name="hotel[{{ $key }}][room_no_{{ $roomNo }}][room_child_age][cwd][]"
+                                                                        value="{{ $child->cwb }}">
                                                                 @endforeach
-                                                                @endif
+                                                            @endif
 
                                                             <div class="row ">
                                                                 <div class="">
@@ -410,7 +479,7 @@
                                                                                                             class="switch">
                                                                                                             <input
                                                                                                                 type="checkbox"
-                                                                                                                value="{{ $roomNo }}"                                                                                                               
+                                                                                                                value="{{ $roomNo }}"
                                                                                                                 name="hotel[{{ $key }}][room_no_{{ $roomNo }}][all_travellers][]"
                                                                                                                 class="all_travellers">
                                                                                                             <span
@@ -455,9 +524,35 @@
                                                                                                                             (Optional)</label>
                                                                                                                         <input
                                                                                                                             type="text"
-                                                                                                                            class="form-control "                                                                                                                            
+                                                                                                                            class="form-control "
                                                                                                                             name="hotel[{{ $key }}][room_no_{{ $roomNo }}][surname][]"
                                                                                                                             placeholder="E.g: López">
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="tag-input-data">
+                                                                                                                    <div class="form-group">
+                                                                                                                        <label for="exampleFormControlInput1">
+                                                                                                                            Nationality </label>
+                                                                                                                        <div class="select js-select js-liveSearch" data-select-value="">                                                                                                                            
+                                                                                                                            <input type="hidden" name="hotel[{{ $key }}][room_no_{{ $roomNo }}][nationality_text][]" class="nationality_text_{{ $key.'_'.$roomNo.'_'.$i }}" value="">
+                                                                                                                            <input type="hidden" name="hotel[{{ $key }}][room_no_{{ $roomNo }}][nationality_id][]" class="nationality_id_{{ $key.'_'.$roomNo.'_'.$i }}" value="">
+                                                                                                                            <button type="button" class="select__button js-button">
+                                                                                                                                <span class="js-button-title">Select</span>
+                                                                                                                                <i class="select__icon" data-feather="chevron-down"></i>
+                                                                                                                            </button>
+                                                                                                                            @if ($nationality)
+                                                                                                                                <div class="select__dropdown js-dropdown">
+                                                                                                                                    <input type="text" name="lead_nationality" placeholder="Search"
+                                                                                                                                        class="select__search js-search">
+                                                                                                                                    <div class="select__options js-options">
+                                                                                                                                        @foreach ($nationality as $value)
+                                                                                                                                        <div class="select__options__button"
+                                                                                                                                        data-na-hotel={{ $key }} data-na-room={{ $roomNo }} data-na-i={{ $i }} data-value="{{ strtolower($value->nationality) }}" data-id="{{ strtolower($value->id) }}">{{ $value->nationality }}</div>
+                                                                                                                                        @endforeach                                                                                                                                           
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                            @endif
+                                                                                                                        </div>
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </div>
@@ -475,40 +570,46 @@
                                                                                         only, Holidays Bookers can not
                                                                                         guarantee them</div>
                                                                                     <div class="col-md-12">
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="d-flex items-center">
-                                                                                            <div class="form-checkbox ">
-                                                                                                <input type="checkbox"                                                                                                    
-                                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][request_stay][]" value="1">
+                                                                                        <div class="col-md-4">
+                                                                                            <div
+                                                                                                class="d-flex items-center">
                                                                                                 <div
-                                                                                                    class="form-checkbox__mark">
+                                                                                                    class="form-checkbox ">
+                                                                                                    <input type="checkbox"
+                                                                                                        name="hotel[{{ $key }}][room_no_{{ $roomNo }}][request_stay][]"
+                                                                                                        value="1">
                                                                                                     <div
-                                                                                                        class="form-checkbox__icon icon-check">
+                                                                                                        class="form-checkbox__mark">
+                                                                                                        <div
+                                                                                                            class="form-checkbox__icon icon-check">
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="text-14 lh-12 ml-10">
-                                                                                                static</div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="d-flex items-center">
-                                                                                            <div class="form-checkbox ">
-                                                                                                <input type="checkbox"
-                                                                                                    name="hotel[{{ $key }}][room_no_{{ $roomNo }}][request_stay][]" value="2">
                                                                                                 <div
-                                                                                                    class="form-checkbox__mark">
+                                                                                                    class="text-14 lh-12 ml-10">
+                                                                                                    static</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                            <div
+                                                                                                class="d-flex items-center">
+                                                                                                <div
+                                                                                                    class="form-checkbox ">
+                                                                                                    <input type="checkbox"
+                                                                                                        name="hotel[{{ $key }}][room_no_{{ $roomNo }}][request_stay][]"
+                                                                                                        value="2">
                                                                                                     <div
-                                                                                                        class="form-checkbox__icon icon-check">
+                                                                                                        class="form-checkbox__mark">
+                                                                                                        <div
+                                                                                                            class="form-checkbox__icon icon-check">
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                 </div>
+                                                                                                <div
+                                                                                                    class="text-14 lh-12 ml-10">
+                                                                                                    static</div>
                                                                                             </div>
-                                                                                            <div
-                                                                                                class="text-14 lh-12 ml-10">
-                                                                                                static</div>
                                                                                         </div>
-                                                                                    </div>
                                                                                     </div>
 
                                                                                     <div class="col-lg-12 mt-15">
@@ -684,7 +785,9 @@
                                                 @foreach ($bo_value as $key => $value)
                                                     @php
                                                         $age = [];
-                                                        $hotelsDetails = $hotelListingRepository->hotelDetailsArr($value['hotel_id']);
+                                                        $hotelsDetails = $hotelListingRepository->hotelDetailsArr(
+                                                            $value['hotel_id'],
+                                                        );
                                                         $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
                                                     @endphp
                                                     @if (isset($value['room_child_age']))
@@ -698,32 +801,48 @@
                                                         $room_title_with_child = '';
                                                         $room_adult_with_child = '';
                                                         if ($value['adult']) {
-                                                            $room_title_with_child = 'for ' . $value['adult'] . ' adults';
+                                                            $room_title_with_child =
+                                                                'for ' . $value['adult'] . ' adults';
                                                             $room_adult_with_child = $value['adult'] . ' Adults';
                                                         }
                                                         if ($value['child']) {
-                                                            $room_title_with_child .= ', ' . $value['child'] . ' children - ' . implode(',', $age) . ' years old';
-                                                            $room_adult_with_child .= ', ' . $value['child'] . ' Child - ' . implode(',', $age) . ' years';
+                                                            $room_title_with_child .=
+                                                                ', ' .
+                                                                $value['child'] .
+                                                                ' children - ' .
+                                                                implode(',', $age) .
+                                                                ' years old';
+                                                            $room_adult_with_child .=
+                                                                ', ' .
+                                                                $value['child'] .
+                                                                ' Child - ' .
+                                                                implode(',', $age) .
+                                                                ' years';
                                                         }
 
                                                     @endphp
-                                                    
-                                                        <li class="text-14">
-                                                            <i class="fa fa-bed"></i>
-                                                            {{ $hotelsDetails['hotel']['hotel_name'] }} <br>
-                                                            {{ $offlineRoom->roomtype->room_type }}
-                                                            <span class="pull-right">
-                                                                {{ getNumberWithCommaGlobalCurrency($value['finalAmount']) }}
-                                                                <a href="javascript:void(0);" data-hotel-id="{{ $value['hotel_id'] }}" data-hotel-room-id="{{ $value['room_id'] }}" data-cart-key="{{ $value['unique_id'] }}" class="removeHotel"><i class="fa fa-times text-danger"></i></a>
-                                                            </span>
-                                                        </li>
-                                                        <li class="text-14">
-                                                            <i class="fa fa-user"></i> {{ $room_adult_with_child }}
-                                                        </li>
-                                                        <li class="text-14">
-                                                            <div class="border-top-light mt-30 mb-20"></div>
-                                                        </li>
-                                                    
+
+                                                    <li class="text-14">
+                                                        <i class="fa fa-bed"></i>
+                                                        {{ $hotelsDetails['hotel']['hotel_name'] }} <br>
+                                                        {{ $offlineRoom->roomtype->room_type }}
+                                                        <span class="pull-right">
+                                                            {{ getNumberWithCommaGlobalCurrency($value['finalAmount']) }}
+                                                            <a href="javascript:void(0);"
+                                                                data-hotel-id="{{ $value['hotel_id'] }}"
+                                                                data-hotel-room-id="{{ $value['room_id'] }}"
+                                                                data-cart-key="{{ $value['unique_id'] }}"
+                                                                class="removeHotel"><i
+                                                                    class="fa fa-times text-danger"></i></a>
+                                                        </span>
+                                                    </li>
+                                                    <li class="text-14">
+                                                        <i class="fa fa-user"></i> {{ $room_adult_with_child }}
+                                                    </li>
+                                                    <li class="text-14">
+                                                        <div class="border-top-light mt-30 mb-20"></div>
+                                                    </li>
+
                                                     @php
                                                         $amountFinal = $amountFinal + $value['finalAmount'];
                                                     @endphp
@@ -742,11 +861,11 @@
                                 <div class="col-auto">
                                     <div class="text-15">
                                         <a href="javascript:void(0);" class="removeCart"> <i
-                                            class="fa fa-times fa-2x text-danger"></i> Empty cart</a>
+                                                class="fa fa-times fa-2x text-danger"></i> Empty cart</a>
                                     </div>
                                 </div>
-                            </div> 
-                            
+                            </div>
+
                             {{-- <div class="row y-gap-5 justify-between pt-5">
                                 <div class="col-auto">
                                     <div class="text-15">Taxes and fees ({{ $Taxes_and_fees }}%)</div>
