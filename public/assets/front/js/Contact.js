@@ -15,6 +15,7 @@ var FrmContactPreference = function () {
                 },
                 email: {
                     email: true,
+                    customemail: true,
                     required: true,
                 },
                 phone: {
@@ -68,6 +69,14 @@ var FrmContactPreference = function () {
 
 $(document).ready(function () {
     FrmContactPreference.init();
+
+    $.validator.addMethod("customemail",
+            function(value, element) {
+                return this.optional(element) || /^[\w-\.]+@([\w-]+\.)+[\w-]{3}$/.test(value);
+            },
+            "Please enter a valid email address."
+        );
+
     jQuery.validator.addMethod("phoneUS", function (phone_number, element) {
         phone_number = phone_number.replace(/\s+/g, "");
         return this.optional(element) || phone_number.length > 9 &&

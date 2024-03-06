@@ -210,8 +210,8 @@ class QuotationController extends Controller
 									<img src="' . $logo . '" style="width: 100px;" />
 								</td>
 								<td>
-                                (w)' . $user->agents->agent_website . '<br />
-                                (e)' . $user->agents->agent_email . '
+                                <a href="'.$user->agents->agent_website.'" target="_blank" >(w) '.$user->agents->agent_website.'</a><br />
+                                <a href="mailto:'.$user->agents->agent_email.'" target="_blank">(e) '.$user->agents->agent_email.'</a>                               
 								</td>
 							</tr>
 						</table>
@@ -342,8 +342,8 @@ class QuotationController extends Controller
                         $tableStr .= '<td class="py-1 pl-4">' . $hotelsDetails['hotel_name'] . '<br>' . $value->room_name . '</td>';
                         $tableStr .= '<td class="py-1">' . $value->adult . '</td>';
                         $tableStr .= '<td class="py-1">' .  $value->child . '</td>';
-                        $tableStr .= '<td class="py-1">' . $value->check_in_date . '</td>';
-                        $tableStr .= '<td class="py-1">' . $value->check_out_date . '</td>';
+                        $tableStr .= '<td class="py-1">' . dateFormat( $value->check_in_date,'d-m-Y')  . '</td>';
+                        $tableStr .= '<td class="py-1">' . dateFormat( $value->check_out_date,'d-m-Y')  . '</td>';                        
                         $tableStr .= '<td class="py-1">' . getNumberWithComma($value->price + $value->extra_markup_price, $quoteData->booking_currency) . '</td>';
                         $tableStr .= '</tr>';
                         $subTotal = $subTotal + ($value->price + $value->extra_markup_price);

@@ -69,6 +69,8 @@ class DraftOrder extends Model
         'passenger_type',
 
         'lead_passenger_name',
+        'lead_nationality_text',
+        'lead_nationality_id',
 
         'lead_passenger_id_proof',
 
@@ -76,7 +78,8 @@ class DraftOrder extends Model
 
         'lead_passenger_phone_code',
 
-        'lead_passenger_phone',      
+        'lead_passenger_phone',     
+        'agency_reference', 
 
     ];
 

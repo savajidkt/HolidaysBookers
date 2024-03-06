@@ -32,7 +32,7 @@
                             <div class="row y-gap-20 pt-20">
                                 <div class="col-12">
                                     <div class="form-input frmName">
-                                        <input type="text" name="name" value="{{ old('name') }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">
+                                        <input type="text" name="name" value="{{ old('name') }}" oninput="this.value = this.value.replace(/[^a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');">
                                         <label class="lh-1 text-16 text-light-1">Full Name <span class="text-danger">*</span></label>
                                     </div>
                                     @if ($errors->has('name'))
@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input frmEmail">
-                                        <input type="text" name="email" value="{{ old('email') }}">
+                                        <input type="email" name="email" value="{{ old('email') }}">
                                         <label class="lh-1 text-16 text-light-1">Email <span class="text-danger">*</span></label>
                                     </div>
                                     @if ($errors->has('email'))
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-input frmPhone">
-                                        <input type="text" name="phone" value="{{ old('phone') }}">
+                                        <input type="text" name="phone" value="{{ old('phone') }}" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');">
                                         <label class="lh-1 text-16 text-light-1">Contact Number <span class="text-danger">*</span></label>
                                     </div>
                                     @if ($errors->has('phone'))

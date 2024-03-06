@@ -26,7 +26,8 @@ class DraftOrderHotelRoom extends Model
         'adult',
         'child',
         'child_with_bed',
-        'child_without_bed'        
+        'child_without_bed',
+        'child_extra'      
     ];
 
     public function order_hotel_room_passenger()

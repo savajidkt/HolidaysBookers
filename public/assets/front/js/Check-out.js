@@ -47,6 +47,7 @@ var FrmCheckoutPreference = function () {
                 }
             },
             submitHandler: function (form) {
+                
                 if (ClickBTN_Quote) {
                     $("#saveQuotePopup").modal("show");
                 } else {
@@ -251,6 +252,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.saveDraft', function () {
         ClickBTN_Draft = true;
+        ClickBTN_Quote = false;
         $('.button_name_cls').val('');
         $('.button_name_cls').val('Draft');
         $('#CheckoutFrm').submit();

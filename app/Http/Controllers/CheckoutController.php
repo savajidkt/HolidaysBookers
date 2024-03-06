@@ -111,6 +111,7 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         
         if ($request->button_name == "Quote") {
 
@@ -174,11 +175,10 @@ class CheckoutController extends Controller
     }
 
     public function saveAsDraft($request)
-    {
-      
-
+    {  
         $data = $this->checkoutRepository->createBookingDraft($request->all());
         $res = $this->checkoutRepository->createOrderBookingDraft($data);
+        
         if ($res) {
             $this->removeTempData($data);
             return true;
@@ -520,66 +520,62 @@ class CheckoutController extends Controller
     }
 
     public function getAddToCartHotelData($request, $QuoteOrder)
-    {
-        
-        if($this->checkQuoteCartExist($QuoteOrder->id)){
+    {        
+        if($this->checkQuoteCartExist($QuoteOrder->id)){        
+            $requiredParamArr = [];
+            foreach ($QuoteOrder->quote_hotel as $hotel_key => $hotel_value) {           
+                $requiredParamArr['is_type'] = "hotel";           
+                foreach ($hotel_value->order_hotel_room as $room_key => $room_value) {
+                
+                    $child_extraArr = unserialize($room_value->child_extra);
+                    if ($request->order_type == "single" && $request->order_id ==  $room_value->quote_id && $request->order_room_id == $room_value->id) {                    
+                        $requiredParamArr['hotel_id'] = $room_value->hotel_id;
+                        $requiredParamArr['room_id'] = $room_value->room_id;
+                        $requiredParamArr['price_id'] = $room_value->room_price_id;
+                        $requiredParamArr['adult'] = $room_value->adult;
+                        $requiredParamArr['child'] = $room_value->child;
+                        $requiredParamArr['room_child_age'] = $child_extraArr;
+                        $requiredParamArr['room'] = 1;
+                        $requiredParamArr['city_id'] = "";
+                        $requiredParamArr['search_from'] = dateFormat( str_replace('/', '-', $room_value->check_in_date),'Y-m-d');
+                        $requiredParamArr['search_to'] = dateFormat( str_replace('/', '-', $room_value->check_out_date),'Y-m-d');
+                        $requiredParamArr['originAmount'] = $room_value->origin_amount;
+                        $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
+                        $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
+                        $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
+                        $requiredParamArr['finalAmount'] = $room_value->price;  
+                        $requiredParamArr['status'] = "Quote";
+                        $requiredParamArr['quote_id'] = $QuoteOrder->id;
+                        //dd($requiredParamArr);                  
+                        $cartsArr = $this->createCartData($requiredParamArr);
+                        setBookingCart('bookingCart', $cartsArr);
+                    } else {                                        
+                        $requiredParamArr['hotel_id'] = $room_value->hotel_id;
+                        $requiredParamArr['room_id'] = $room_value->room_id;
+                        $requiredParamArr['price_id'] = $room_value->room_price_id;
+                        $requiredParamArr['adult'] = $room_value->adult;
+                        $requiredParamArr['child'] = $room_value->child;
+                        $requiredParamArr['room_child_age'] = $child_extraArr;
 
-        
-        $requiredParamArr = [];
-        foreach ($QuoteOrder->quote_hotel as $hotel_key => $hotel_value) {           
-            $requiredParamArr['is_type'] = "hotel";           
-            foreach ($hotel_value->order_hotel_room as $room_key => $room_value) {
-               
-                $child_extraArr = unserialize($room_value->child_extra);
-                if ($request->order_type == "single" && $request->order_id ==  $room_value->quote_id && $request->order_room_id == $room_value->id) {                    
-                    $requiredParamArr['hotel_id'] = $room_value->hotel_id;
-                    $requiredParamArr['room_id'] = $room_value->room_id;
-                    $requiredParamArr['price_id'] = $room_value->room_price_id;
-                    $requiredParamArr['adult'] = $room_value->adult;
-                    $requiredParamArr['child'] = $room_value->child;
-                    $requiredParamArr['room_child_age'] = $child_extraArr;
-                    $requiredParamArr['room'] = 1;
-                    $requiredParamArr['city_id'] = "";
-                    $requiredParamArr['search_from'] = dateFormat( str_replace('/', '-', $room_value->check_in_date),'Y-m-d');
-                    $requiredParamArr['search_to'] = dateFormat( str_replace('/', '-', $room_value->check_out_date),'Y-m-d');
-                    $requiredParamArr['originAmount'] = $room_value->origin_amount;
-                    $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
-                    $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
-                    $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
-                    $requiredParamArr['finalAmount'] = $room_value->price;  
-                    $requiredParamArr['status'] = "Quote";
-                    $requiredParamArr['quote_id'] = $QuoteOrder->id;
-                    //dd($requiredParamArr);                  
-                    $cartsArr = $this->createCartData($requiredParamArr);
-                    setBookingCart('bookingCart', $cartsArr);
-                } else {                                        
-                    $requiredParamArr['hotel_id'] = $room_value->hotel_id;
-                    $requiredParamArr['room_id'] = $room_value->room_id;
-                    $requiredParamArr['price_id'] = $room_value->room_price_id;
-                    $requiredParamArr['adult'] = $room_value->adult;
-                    $requiredParamArr['child'] = $room_value->child;
-                    $requiredParamArr['room_child_age'] = $child_extraArr;
-
-                    $requiredParamArr['room'] = 1;
-                    $requiredParamArr['city_id'] = "";
-                    $requiredParamArr['search_from'] = dateFormat( str_replace('/', '-', $room_value->check_in_date),'Y-m-d');
-                    $requiredParamArr['search_to'] = dateFormat( str_replace('/', '-', $room_value->check_out_date),'Y-m-d');
-                    
-                    $requiredParamArr['originAmount'] = $room_value->origin_amount;
-                    $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
-                    $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
-                    $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
-                    $requiredParamArr['finalAmount'] = $room_value->price;
-                    $requiredParamArr['status'] = "Quote";
-                    $requiredParamArr['quote_id'] = $QuoteOrder->id;
-                    //dd($requiredParamArr);                   
-                    $cartsArr = $this->createCartData($requiredParamArr);                    
-                    setBookingCart('bookingCart', $cartsArr);
+                        $requiredParamArr['room'] = 1;
+                        $requiredParamArr['city_id'] = "";
+                        $requiredParamArr['search_from'] = dateFormat( str_replace('/', '-', $room_value->check_in_date),'Y-m-d');
+                        $requiredParamArr['search_to'] = dateFormat( str_replace('/', '-', $room_value->check_out_date),'Y-m-d');
+                        
+                        $requiredParamArr['originAmount'] = $room_value->origin_amount;
+                        $requiredParamArr['productMarkupAmount'] = $room_value->product_markup_amount;
+                        $requiredParamArr['agentMarkupAmount'] = $room_value->agent_markup_amount;
+                        $requiredParamArr['agentGlobalMarkupAmount'] = $room_value->agent_global_markup_amount;
+                        $requiredParamArr['finalAmount'] = $room_value->price;
+                        $requiredParamArr['status'] = "Quote";
+                        $requiredParamArr['quote_id'] = $QuoteOrder->id;
+                        //dd($requiredParamArr);                   
+                        $cartsArr = $this->createCartData($requiredParamArr);                    
+                        setBookingCart('bookingCart', $cartsArr);
+                    }
                 }
             }
-        }
-    }
-        
+        }        
         return true;
     }
 
@@ -592,12 +588,16 @@ class CheckoutController extends Controller
             $requiredParamArr['is_type'] = "hotel";
            
             foreach ($hotel_value->order_hotel_room as $room_key => $room_value) {
+
+                $child_extraArr = unserialize($room_value->child_extra);
+
                 if ($request->order_type == "single" && $request->order_id ==  $room_value->draft_id && $request->order_room_id == $room_value->id) {
                     $requiredParamArr['hotel_id'] = $room_value->hotel_id;
                     $requiredParamArr['room_id'] = $room_value->room_id;
                     $requiredParamArr['price_id'] = $room_value->room_price_id;
                     $requiredParamArr['adult'] = $room_value->adult;
-                    $requiredParamArr['child'] = $room_value->check_in_date;
+                    $requiredParamArr['child'] = $room_value->child;
+                    $requiredParamArr['room_child_age'] = $child_extraArr;
                     $requiredParamArr['room'] = 1;
                     $requiredParamArr['city_id'] = "";
                     $requiredParamArr['search_from'] = $room_value->check_in_date;
@@ -614,7 +614,8 @@ class CheckoutController extends Controller
                     $requiredParamArr['room_id'] = $room_value->room_id;
                     $requiredParamArr['price_id'] = $room_value->room_price_id;
                     $requiredParamArr['adult'] = $room_value->adult;
-                    $requiredParamArr['child'] = $room_value->check_in_date;
+                    $requiredParamArr['child'] = $room_value->child;
+                    $requiredParamArr['room_child_age'] = $child_extraArr;
                     $requiredParamArr['room'] = 1;
                     $requiredParamArr['city_id'] = "";
                     $requiredParamArr['search_from'] = $room_value->check_in_date;
@@ -630,5 +631,6 @@ class CheckoutController extends Controller
             }
         }
         return true;
+
     }
 }

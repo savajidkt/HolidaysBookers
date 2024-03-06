@@ -88,12 +88,12 @@
                                                                 data-room-id="{{ $roomvalue->id }}"
                                                                 class="text-blue-1 mt-5 QuoteRoomDelete">Delete
                                                             </a>
-                                                            <a href="javascript:void(0);"
+                                                            {{-- <a href="javascript:void(0);"
                                                                 data-order-id="{{ $value->id }}"
                                                                 data-room-id="{{ $roomvalue->id }}" data-cart-type="single"
                                                                 class="text-blue-1 mt-5 QuoteRoomAddToCart">Add
                                                                 to
-                                                                cart</a>
+                                                                cart</a> --}}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -118,10 +118,12 @@
                 </div>
             </div>
             <div class="pt-24">
-                <div class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 "><a href="javascript:void(0);"
-                        class="QuoteRoomAddToCart" data-order-id="{{ $value->id }}" data-cart-type="all">Add to
-                        cart</a>
+                <a href="javascript:void(0);"
+                        class="QuoteRoomAddToCart" data-order-id="{{ $value->id }}" data-cart-type="all">
+                <div class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 ">Add to
+                        cart
                 </div>
+            </a>
                 <span class="fw-500 text-blue-1 QuoteDetails">
                     {{-- <a href="javascript:void(0);" class="text-blue-1 mt-5"
                         data-order-id="{{ $value->id }}">Duplicate</a> --}}

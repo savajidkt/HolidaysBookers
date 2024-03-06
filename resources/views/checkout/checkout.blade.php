@@ -131,6 +131,7 @@
                                                     class="px-30 py-30 sm:px-20 sm:py-20 mb-30 myDelete cart-detales-block">
                                                     @foreach ($bo_value as $key => $value)
                                                         @php
+                                                        
                                                             $offlineRoom = getRoomDetailsByRoomID($value['room_id']);
                                                             $hotelsDetails = $hotelListingRepository->hotelDetailsArr(
                                                                 $value['hotel_id'],
@@ -349,8 +350,10 @@
                                         <div class="border-top-light mt-30 mb-20"></div>
                                         @if (count($requiredParamArr) > 0)
                                             @foreach ($requiredParamArr as $bo_key => $bo_value)
+                                            
                                                 @if ($bo_key == 'hotel')
                                                     @php
+                                                    
 
                                                         $roomNo = 0;
                                                     @endphp
@@ -374,6 +377,8 @@
                                                             @endforeach
                                                         @endif
                                                         @php
+
+                                                        
                                                             $totalPassanger = $value['adult'] + $value['child'];
                                                             $room_title_with_child = '';
                                                             $room_adult_with_child = '';
@@ -740,13 +745,13 @@
                                         </div>
                                         <div class="col-12">
                                             <ul class="y-gap-4 pt-5 text-right inline-block">
-                                                {{-- <li class="text-14">
+                                                <li class="text-14">
                                                     <button type="button" class="button header-login-btn saveDraft"
                                                         name="Draft">
                                                         Save as Draft <i
                                                             class="fa fa-floppy-o fa-2x text-blue-1 px-10"></i>
                                                     </button>
-                                                </li> --}}
+                                                </li>
                                                 <li class="text-14">
                                                     <button type="button" class="button header-login-btn saveQuote"
                                                         name="Quote">

@@ -220,8 +220,10 @@
                 </div> --}}
                 @if ($value->status == '0')
                 <a href="javascript:void(0);" class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 QuoteRoomAddToCart"
-                         data-order-id="{{ $value->id }}" data-cart-type="all">Add to
-                        cart
+                         data-order-id="{{ $value->id }}" data-cart-type="all">
+                         <div class="flex-center text-white fw-600 text-14  rounded-4 bg-blue-1 ">Add to
+                            cart
+                    </div>
                 </a>
                 @endif
                 <span class="fw-500 text-blue-1 QuoteDetails">                   

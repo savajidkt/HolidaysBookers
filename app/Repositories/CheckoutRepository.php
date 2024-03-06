@@ -591,50 +591,70 @@ class CheckoutRepository
 
         $extra_data = [];
         $extra_data['cartData'] = getBookingCart('bookingCart');
+       
         $extra_data['searchRoomData'] = getSearchCookies('searchGuestArr');
         $extra_data['searchLocation'] = getSearchCookies('location');
         $extra_data['searchCity_id'] = getSearchCookies('hidden_city_id');
         $extra_data['searchCountry_id'] = getSearchCookies('country_id');
         $extra_data['searchFrom'] = getSearchCookies('search_from');
-        $extra_data['searchTo'] = getSearchCookies('search_to');
-        $extra_data['passenger_type'] = $data['passengers'];
+        $extra_data['searchTo'] = getSearchCookies('search_to');        
         $extra_data['taxes_and_fees'] = $data['Taxes_and_fees'];
         $extra_data['taxes_and_fees_amt'] = $data['Taxes_and_fees_amt'];
-        $extra_data['button_name'] = $data['button_name'];
-        $extra_data['lead_passengers_country_code'] = $data['lead_passengers_country_code'];
-        $extra_data['all_passengers_country_code'] = $data['all_passengers_country_code'];
+        $extra_data['button_name'] = $data['button_name'];       
+        $extra_data['quote_name'] = isset($data['quote_name']) ? $data['quote_name']:'';
+
         $adultCount = 0;
         $childCount = 0;
         $roomCount = count($extra_data['cartData']);
+        $room_child_age = [];
 
-        if (count($extra_data['cartData']) > 0) {
+        if ($roomCount > 0) {
             $i = 1;
             foreach ($data['hotel'] as $key => $value) {
+                
+                if (isset($value['room_no_' . $i]['adults']) && is_numeric($value['room_no_' . $i]['adults'])) {
+                    $adultCount = $adultCount + (int) $value['room_no_' . $i]['adults'];
+                }
 
-                $adultCount = $adultCount + (int) $value['room_no_' . $i]['adults'];
-                $childCount = $childCount + (int) $value['room_no_' . $i]['childs'];
+                if (isset($value['room_no_' . $i]['childs']) && is_numeric($value['room_no_' . $i]['childs'])) {
+                    $childCount = $childCount + (int) $value['room_no_' . $i]['childs'];
+                }
+               
+               
+                   
+                   if( isset($value['room_no_' . $i]['room_child_age']) && is_array($value['room_no_' . $i]['room_child_age']) && count($value['room_no_' . $i]['room_child_age']) > 0 ){                   
+                        foreach ($value['room_no_' . $i]['room_child_age'] as $child_key => $child_value) {                            
+                            if( is_array( $child_value) && count( $child_value) > 0 ){
+                                foreach ($child_value as $s_child_key => $s_child_value) {
+                                    $tempArr = [];
+                                    $tempArr['cwb'] = $value['room_no_' . $i]['room_child_age']["cwd"][$s_child_key];
+                                    $tempArr['age'] = $s_child_value;
+                                   
+                                    $room_child_age[$i][] = $tempArr;
+                                   
+                                }
+                            }
+                            break;                            
+                        }
+                   }                
+
                 $i++;
             }
         }
 
-        if ($data['passengers'] == "lead") {
-            $learArr = [];
-            $learArr['name'] = $data['lead_title'] . ' ' . $data['lead_firstname'] . ' ' . $data['lead_lastname'];
-            $learArr['id_proof'] = $data['lead_id_proof'];
-            $learArr['id_proof_no'] = $data['lead_id_proof_no'];
-            $learArr['phone'] = $data['lead_phonenumber'];
-            $extra_data['lead_passenger'] = $learArr;
-        } else {
-            if (count($extra_data['cartData']) > 0) {
-
-                $i = 1;
-                foreach ($data['hotel'] as $key => $value) {
-                    $learArr = [];
-                    $extra_data['passenger'][] = $value['room_no_' . $i];
-                    $i++;
-                }
+        $room_child_age = json_decode(json_encode($room_child_age), FALSE);       
+        $extra_data['child_extra'] = $room_child_age;
+        $extra_data['lead_passenger'] = $data['lead_name'] . ' ' . $data['lead_surname'];
+        $extra_data['lead_nationality_text'] = $data['lead_nationality_text'];
+        $extra_data['lead_nationality_id'] = $data['lead_nationality_id'];
+        if (count($extra_data['cartData']) > 0) {
+            $i = 1;
+            foreach ($data['hotel'] as $key => $value) {                
+                $extra_data['passenger'][] = $value['room_no_' . $i];
+                $i++;
             }
         }
+        
         $dataSave = [
             'user_id'     => auth()->user()->id,
             'adult'     => $adultCount,
@@ -646,12 +666,13 @@ class CheckoutRepository
             'gst_enable'     => isset($data['gst_enable']) ? 1 : 0,
             'registration_number'     => isset($data['registration_number']) ? $data['registration_number'] : '',
             'registered_company_name'     => isset($data['registered_company_name'])?$data['registered_company_name'] : '',
-            'registered_company_address'     => isset($data['registered_company_address'])? $data['registered_company_address']: '',           
+            'registered_company_address'     => isset($data['registered_company_address'])? $data['registered_company_address']: '',
             'total_amount'     => getFinalAmountChackOut(),
             'currency'     => globalCurrency(),
             'payment_method'     => isset($data['payment_method']) ? $data['payment_method'] : 0,
             'passenger'     => serialize($this->roomPassenger($data)),
             'extra_data'     => serialize($extra_data),
+            'agency_reference'     => $data['agency_reference'],
             'unique_number'     => generateUniqueNumber('order', $langth = 4),
         ];
 
@@ -664,21 +685,8 @@ class CheckoutRepository
     {
         $user = User::find($checkout->user_id);
         $extra_data = unserialize($checkout->extra_data);
-
-        $phone_code = "";
         $this->order_Rooms = $extra_data['cartData'];
-        $passenger = unserialize($checkout->passenger);
-        $passengerLead = [];
-        $passenger_type = 0;
-        if ($extra_data['passenger_type'] == "all") {
-            $passengerLead = $extra_data['passenger'];
-            $passenger_type = 1;
-            $phone_code = $extra_data['all_passengers_country_code'];
-        } else {
-            $passenger_type = 0;
-            $passengerLead = $extra_data['lead_passenger'];
-            $phone_code = $extra_data['lead_passengers_country_code'];
-        }
+        $passengerLead = unserialize($checkout->passenger);
 
         $OrderData = [];
         $OrderData['original_amount'] = getOriginAmountChackOut($extra_data);
@@ -694,6 +702,7 @@ class CheckoutRepository
         $OrderData['agent_markup_type'] = $user->agents->agent_global_markups_type ?? '';
         $OrderData['agent_markup_val'] = $user->agents->agent_global_markup ?? '';
         $OrderData['total_price_markup'] = 0;
+        $OrderData['quote_name'] = ($extra_data['quote_name']) ? $extra_data['quote_name'] : 0;
         $OrderData['agent_code'] = ($user->agents->agent_code) ? $user->agents->agent_code : '';
         $OrderData['agent_email'] = ($user->email) ? $user->email : '';
         $OrderData['total_adult'] = $checkout->adult;
@@ -703,19 +712,18 @@ class CheckoutRepository
         $OrderData['total_rooms'] = $checkout->room;
         $OrderData['total_nights'] = (int) dateDiffInDays($checkout->search_from, $checkout->search_to);
         $OrderData['comments'] = '';
-        $OrderData['passenger_type'] = $passenger_type;
-        $OrderData['lead_passenger_name'] = isset($extra_data['lead_passenger']['name']) ? $extra_data['lead_passenger']['name'] : '';
-        $OrderData['lead_passenger_id_proof'] = isset($extra_data['lead_passenger']['id_proof']) ? $extra_data['lead_passenger']['id_proof'] : '';
-        $OrderData['lead_passenger_id_proof_no'] = isset($extra_data['lead_passenger']['id_proof_no']) ? $extra_data['lead_passenger']['id_proof_no'] : '';
-        $OrderData['lead_passenger_phone_code'] = isset($phone_code) ? $phone_code : '';
-        $OrderData['lead_passenger_phone'] = isset($extra_data['lead_passenger']['phone']) ? $extra_data['lead_passenger']['phone'] : '';
-
+        $OrderData['passenger_type'] = '';
+        $OrderData['lead_passenger_name'] = isset($extra_data['lead_passenger']) ? $extra_data['lead_passenger'] : '';
+        $OrderData['lead_nationality_text'] = isset($extra_data['lead_nationality_text']) ? $extra_data['lead_nationality_text'] : '';
+        $OrderData['lead_nationality_id'] = isset($extra_data['lead_nationality_id']) ? $extra_data['lead_nationality_id'] : '';
+        $OrderData['lead_passenger_id_proof'] = '';
+        $OrderData['lead_passenger_id_proof_no'] = '';
+        $OrderData['lead_passenger_phone_code'] = '';
+        $OrderData['lead_passenger_phone'] = '';
+        $OrderData['agency_reference'] = $checkout->agency_reference;
         $OrderData =  DraftOrder::create($OrderData);
-
         $this->addDraftOrderHotels($extra_data, $OrderData->id, $passengerLead);
-
         // Below code implement is pendding
-
         //$this->addOrderPackage($extra_data, $OrderData->id, $passengerLead);
         //$this->addOrderTransfere($extra_data, $OrderData->id, $passengerLead);
         //$this->addOrderSightseeing($extra_data, $OrderData->id, $passengerLead);       
@@ -728,16 +736,21 @@ class CheckoutRepository
         if ($cartHotel['cartData'] > 0) {
             $addHotel = [];
             $addHotel['draft_id'] = $OrderID;
-
+            $i = 1;
             foreach ($cartHotel['cartData'] as $bo_key => $bo_value) {
                 if ($bo_key == 'hotel') {
                     foreach ($bo_value as $key => $value) {
                         $hotelsDetails =  OfflineHotel::find($value['hotel_id']);
                         $addHotel['hotel_id'] = $hotelsDetails->id;
                         $addHotel['hotel_name'] = $hotelsDetails->hotel_name;
-                        $addHotel['type'] = $hotelsDetails->hotel_type;
+                        $addHotel['type'] = $hotelsDetails->hotel_type;                                               
                         $hotelData = DraftOrderHotel::create($addHotel);
-                        $this->addDraftOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLead);
+                        $passengerLeadData = [];
+                        if( isset($passengerLead['room_'.$i]) && is_array($passengerLead['room_'.$i]) && count($passengerLead['room_'.$i]) > 0 ){
+                            $passengerLeadData = $passengerLead['room_'.$i];
+                        }
+                        $i++;                       
+                        $this->addDraftOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLeadData);
                     }
                 }
             }
@@ -747,7 +760,21 @@ class CheckoutRepository
 
     public function addDraftOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLead)
     {
+        
         if (count($value) > 0) {
+
+            $CWBCount = 0;
+            $CNBCount = 0;
+            if(is_array($value['room_child_age']) && count($value['room_child_age']) > 0){
+                foreach($value['room_child_age'] as $room_child_age){
+                    if( $room_child_age->cwb == "yes" ){
+                        $CWBCount = $CWBCount + 1;
+                    } else if( $room_child_age->cwb == "no" ){
+                        $CNBCount = $CNBCount + 1;
+                    }
+                }
+            }
+
             $roomType = OfflineRoom::find($value['room_id']);
             $addHotelRoom = [];
             $addHotelRoom['draft_id'] = $OrderID;
@@ -765,9 +792,14 @@ class CheckoutRepository
             $addHotelRoom['price'] = $value['finalAmount'];
             $addHotelRoom['adult'] = $value['adult'];
             $addHotelRoom['child'] = $value['child'];
-            $addHotelRoom['child_with_bed'] = 0;
-            $addHotelRoom['child_without_bed'] = 0;
+            $addHotelRoom['child_extra'] = serialize($value['room_child_age']);
+            $addHotelRoom['child_with_bed'] = $CWBCount;
+            $addHotelRoom['child_without_bed'] = $CNBCount;
+            $addHotelRoom['request_stay'] = isset($passengerLead['request_stay']) ? implode(',',$passengerLead['request_stay']):'';
+            $addHotelRoom['comments'] = isset( $passengerLead['request_comment'][0]) ?  $passengerLead['request_comment'][0] : '';
+           
             $hotelRoomData = DraftOrderHotelRoom::create($addHotelRoom);
+            
             $this->addDraftOrderHotelRoomPassengers($cartHotel, $value, $OrderID, $hotelData, $hotelRoomData, $passengerLead);
         }
         return true;
@@ -778,52 +810,23 @@ class CheckoutRepository
 
         if (count($value) > 0) {
 
-            if (isset($cartHotel['passenger']) && count($cartHotel['passenger']) > 0) {
-                foreach ($cartHotel['passenger'] as $key => $value1) {
-                    if ($value1['hotel_id'] == $value['hotel_id'] && $value1['room_id'] == $value['room_id']) {
-                        if ($value1['adults'] > 0) {
-                            $i = 0;
-                            for ($i = 0; $i < $value1['adults']; $i++) {
-                                $addHotelRoomPassengers = [];
-                                $addHotelRoomPassengers['draft_id'] = $OrderID;
-                                $addHotelRoomPassengers['draft_hotel_id'] = $hotelData->id;
-                                $addHotelRoomPassengers['hotel_id'] = $value['hotel_id'];
-                                $addHotelRoomPassengers['draft_hotel_room_id'] = $hotelRoomData->id;
-                                $addHotelRoomPassengers['room_id'] = $value['room_id'];
-                                $addHotelRoomPassengers['room_price_id'] = $value['price_id'];
-                                $addHotelRoomPassengers['name'] = $value1['adult']['title'][$i] . ' ' . $value1['adult']['firstname'][$i] . ' ' . $value1['adult']['lastname'][$i];
-                                $addHotelRoomPassengers['id_proof'] = $value1['adult']['id_proof'][$i];
-                                $addHotelRoomPassengers['id_proof_no'] = $value1['adult']['id_proof_no'][$i];
-                                $addHotelRoomPassengers['phone_code'] = isset($cartHotel['all_passengers_country_code']) ? $cartHotel['all_passengers_country_code'] : '';
-                                $addHotelRoomPassengers['phone'] = isset($value1['adult']['phonenumber'][$i]) ? $value1['adult']['phonenumber'][$i] : '';
-                                $addHotelRoomPassengers['is_adult'] = 0;
-
-                                DraftOrderHotelRoomPassenger::create($addHotelRoomPassengers);
-                            }
-                        }
-
-                        if ($value1['childs'] > 0) {
-                            $i = 0;
-                            for ($i = 0; $i < $value1['childs']; $i++) {
-
-                                $addHotelRoomPassengers = [];
-                                $addHotelRoomPassengers['draft_id'] = $OrderID;
-                                $addHotelRoomPassengers['draft_hotel_id'] = $hotelData->id;
-                                $addHotelRoomPassengers['hotel_id'] = $value['hotel_id'];
-                                $addHotelRoomPassengers['draft_hotel_room_id'] = $hotelRoomData->id;
-                                $addHotelRoomPassengers['room_id'] = $value['room_id'];
-                                $addHotelRoomPassengers['room_price_id'] = $value['price_id'];
-                                $addHotelRoomPassengers['name'] = $value1['child']['title'][$i] . ' ' . $value1['child']['firstname'][$i] . ' ' . $value1['adult']['lastname'][$i];
-                                $addHotelRoomPassengers['id_proof'] = $value1['child']['id_proof'][$i];
-                                $addHotelRoomPassengers['id_proof_no'] = $value1['child']['id_proof_no'][$i];
-                                $addHotelRoomPassengers['phone_code'] = isset($cartHotel['all_passengers_country_code']) ? $cartHotel['all_passengers_country_code'] : '';
-                                $addHotelRoomPassengers['phone'] = isset($value1['child']['phonenumber'][$i]) ? $value1['child']['phonenumber'][$i] : '';
-                                $addHotelRoomPassengers['is_adult'] = 1;
-
-                                DraftOrderHotelRoomPassenger::create($addHotelRoomPassengers);
-                            }
-                        }
-                    }
+            if (isset($passengerLead) && count($passengerLead) > 0) {
+                $totalAdult =  (int) $passengerLead['adults'] + (int) $passengerLead['childs']; 
+                for ($i = 0; $i < $totalAdult; $i++) { 
+                    
+                    $addHotelRoomPassengers = [];
+                    $addHotelRoomPassengers['draft_id'] = $OrderID;
+                    $addHotelRoomPassengers['draft_hotel_id'] = $hotelData->id;
+                    $addHotelRoomPassengers['hotel_id'] = $value['hotel_id'];
+                    $addHotelRoomPassengers['draft_hotel_room_id'] = $hotelRoomData->id;
+                    $addHotelRoomPassengers['room_id'] = $value['room_id'];
+                    $addHotelRoomPassengers['room_price_id'] = $value['price_id'];
+                    $addHotelRoomPassengers['name'] = $passengerLead['name'][$i] . ' ' . $passengerLead['surname'][$i];   
+                    $addHotelRoomPassengers['nationality_text'] = $passengerLead['nationality_text'][$i];                               
+                    $addHotelRoomPassengers['nationality_id'] = $passengerLead['nationality_id'][$i];  
+                    
+                    DraftOrderHotelRoomPassenger::create($addHotelRoomPassengers);
+                    
                 }
             }
         }

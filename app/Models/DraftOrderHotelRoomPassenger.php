@@ -24,7 +24,9 @@ class DraftOrderHotelRoomPassenger extends Model
         'phone',
         'is_adult',
         'child_age',
-        'child_with_bed'    
+        'child_with_bed',
+        'nationality_text',    
+        'nationality_id'     
     ];
 
     
