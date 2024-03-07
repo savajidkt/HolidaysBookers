@@ -141,23 +141,37 @@
                                                                             </div>
                                                                             <div class="col-6 border-right-px">
                                                                                 <div class="y-gap-8">
-                                                                                    <?php if($offlineRoom->price[0]->cancelation_policy != "refundeble"){ ?>
-                                                                                        <div class="items-center">
-                                                                                            <div class="text-13 pull-left">Non refundable</div>
-                                                                                        </div>
-                                                                                        <?php } else { ?>
-                                                                                            <?php echo CancellationFeesCalculated($offlineRoom->price[0],  $value['search_from']); ?>
-                                                                                        <?php } ?>
+                                                                                    
+                                                                                    @if($offlineRoom->price[0]->cancelation_policy == 'non_refundeble')
+                                                                                    <div class="items-center">
+                                                                                        <div class="text-13 pull-left">Non refundable</div>
+                                                                                    </div>
+                                                                                    @endif
+                                                                                    @if($offlineRoom->price[0]->cancelation_policy == 'refundeble')
+                                @php
+                                $cancellatoin = RoomWiseCancellationPolicy($offlineRoom->price[0],  $value['search_from']);
+                                @endphp
+                                <div class="tooltip -top px-30 h-50">
+                                    @if($cancellatoin['free'])
+                                    <i class="fa fa-ban" aria-hidden="true"></i>Free Cancellation unit <p>{{ $cancellatoin['free'] }}</p>
+                                    @else
+                                    <i class="fa fa-ban" aria-hidden="true"></i>Non refundable
+                                    @endif
+                                    <div class="tooltip__content">Cancellation Charges<br>
+                                       @if(isset($cancellatoin['charge']))
+                                           @foreach ($cancellatoin['charge'] as $cancel )
+                                               {{ $cancel['after'] }}  {{ $cancel['charge'] }} <br>
+                                           @endforeach
+                                       @endif
+                                       Date and time is calculated based on local time of destination.
+                                   </div>
+                                   
+                                 </div>           
+                            @endif
                                                                                     
                                                                                     
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="col-6">
-                                                                                <div class="text-12">Lorem Ipsum is simply
-                                                                                    dummy text of the printing and
-                                                                                    typesetting
-                                                                                </div>
-                                                                            </div>
+                                                                            </div>                                                                            
                                                                         </div>
                                                                         <div class="px-20 py-20 bg-blue-2 rounded-4 mt-20">
                                                                             <div class="row y-gap-5 justify-between">

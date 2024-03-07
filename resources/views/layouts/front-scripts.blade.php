@@ -1359,26 +1359,26 @@
                     <div class="col-12">
                         <div class="form-input email-error">
                             <input type="text" name="email" autocomplete="off" class="has-value emailInput">
-                            <label class="lh-1 text-14 text-light-1">Email</label>
+                            <label class="lh-1 text-14 text-light-1">Email <span class="text-danger">*</span></label>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-input password-error">
                             <input type="password" name="password" autocomplete="off"
                                 class="has-value passwordInput">
-                            <label class="lh-1 text-14 text-light-1">Password</label>
+                            <label class="lh-1 text-14 text-light-1">Password <span class="text-danger">*</span></label>
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-between">
                         <div class="d-flex ">
-                            <div class="form-checkbox" style="margin-top: 3px">
+                            {{-- <div class="form-checkbox" style="margin-top: 3px">
                                 <input type="checkbox" name="remember" id="remember-me" value="1"
                                     class="has-value">
                                 <div class="form-checkbox__mark">
                                     <div class="form-checkbox__icon icon-check"></div>
                                 </div>
                             </div>
-                            <div class="text-15 lh-15 text-light-1 ml-10">Remember me</div>
+                            <div class="text-15 lh-15 text-light-1 ml-10">Remember me</div> --}}
                         </div>
                         @if (Route::has('password.request'))
                             <a href="{{ route('password.request') }}">Forgot Password?</a>
@@ -1425,19 +1425,19 @@
                         <div class="col-12">
                             <div class="form-input error-first_name">
                                 <input type="text" name="first_name" autocomplete="off" class="has-value">
-                                <label class="lh-1 text-14 text-light-1">First Name</label>
+                                <label class="lh-1 text-14 text-light-1">First Name <span class="text-danger">*</span></label>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-input error-last_name">
                                 <input type="text" name="last_name" autocomplete="off" class="has-value">
-                                <label class="lh-1 text-14 text-light-1">Last Name</label>
+                                <label class="lh-1 text-14 text-light-1">Last Name <span class="text-danger">*</span></label>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-input error-email">
                                 <input type="email" name="email" autocomplete="off" class="has-value">
-                                <label class="lh-1 text-14 text-light-1">Email</label>
+                                <label class="lh-1 text-14 text-light-1">Email <span class="text-danger">*</span></label>
                             </div>
                         </div>
                         <input type="hidden" name="type" value="1">
@@ -1478,14 +1478,14 @@
                             <div class="form-input error-password">
                                 <input type="password" name="password" id="password" autocomplete="off"
                                     class="has-value">
-                                <label class="lh-1 text-14 text-light-1">Password</label>
+                                <label class="lh-1 text-14 text-light-1">Password <span class="text-danger">*</span></label>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-input error-confirmation-password">
                                 <input type="password" name="password_confirmation" autocomplete="off"
                                     class="has-value">
-                                <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }}</label>
+                                <label class="lh-1 text-14 text-light-1">{{ __('Confirm Password') }} <span class="text-danger">*</span></label>
                             </div>
                         </div>
                         <div class="col-12">

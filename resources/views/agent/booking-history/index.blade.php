@@ -38,7 +38,7 @@
                         </a>
                     </div>
                     <div class="col-auto">
-                        <a href="{{ route('agent.booking-history', 'cancelled ') }}"
+                        <a href="{{ route('agent.booking-history', 'cancelled') }}"
                             class="tabs__button text-18 lg:text-16 text-light-1 fw-500 pb-5 lg:pb-0 {{ $status == 'cancelled' ? 'is-tab-el-active' : '' }}">
                             Cancelled
                         </a>

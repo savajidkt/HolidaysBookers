@@ -81,14 +81,14 @@
                                 </div>
                                 <div class="col-6">
 
-                                    <div class="d-flex checkbox-login">
+                                    {{-- <div class="d-flex checkbox-login">
 
                                             <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                                 {{ old('remember') ? 'checked' : '' }}>
 
                                         <label for="remember">Remember me</label>
 
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="col-6">
                                     @if (Route::has('password.request'))

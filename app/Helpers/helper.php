@@ -1601,8 +1601,16 @@ if (!function_exists('getUserWiseGlobalCurrency')) {
     function getUserWiseGlobalCurrency($country_id)
     { 
 
-        $currency  = Currency::where('country_id',$country_id)->first(); 
-       
+        $myCountry = '101';        
+        if( isset($country_id) && strlen($country_id) > 0 ){
+            $myCountry = $country_id;
+        }
+
+       // DB::enableQueryLog();
+
+        $currency  = Currency::where('country_id',$myCountry)->first();  
+        //print_r(DB::getQueryLog()); 
+       //  exit;     
         if($currency){
             $currencyArr = [];
             $currencyArr['id'] = $currency->id;
@@ -1611,14 +1619,6 @@ if (!function_exists('getUserWiseGlobalCurrency')) {
             $currencyArr['symbol'] = $currency->symbol;
             setBookingCart('currencySet', $currencyArr); 
             return $currency->code;            
-        } else {
-            $currency  = Currency::where('country_id',6)->first(); 
-            $currencyArr['id'] = $currency->id;
-            $currencyArr['name'] = $currency->name;
-            $currencyArr['code'] = $currency->code;
-            $currencyArr['symbol'] = $currency->symbol;
-            setBookingCart('currencySet', $currencyArr); 
-            return $currency->code;
         }
     }
 }
@@ -1974,6 +1974,7 @@ if (!function_exists('orderStatusByID')) {
     function orderStatusByID($status)
 
     {
+        $status = trim($status);
 
         if ($status == 'processed') {
 
@@ -2423,7 +2424,7 @@ if (!function_exists('RoomWiseCancellationPolicy')) {
                         }else{
                             $CancellationArr[$j]['date'] = $checkInDate->format('Y-m-d');
                             $CancellationArr[$j]['check_in_date'] = $checkInDate->format('Y-m-d');
-                            $CancellationArr[$j]['after'] = $checkInDate->format('Y-m-d').', '.$endOfDay->format('g:i A');
+                            $CancellationArr[$j]['after'] = $checkInDate->format('d-m-Y').', '.$endOfDay->format('g:i A');
                             $CancellationArr[$j]['charge'] = globalCurrency().''.$value->night_charge;
                             $CancellationArr[$j]['days'] = $value->before_check_in_days;
                             $j++;

@@ -196,10 +196,17 @@ var FrmSearchPreference = function () {
                 },
                 type: {
                     required: true,
-                },
+                }, 
                 password: {
+                    minlength: 5,
                     required: true,
                 },
+                password_confirmation: {
+                    minlength: 5,
+                    equalTo: "#password",
+                    required: true,
+                },
+
                 term: {
                     required: true,
                 },
