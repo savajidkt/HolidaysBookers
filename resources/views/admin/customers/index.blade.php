@@ -35,7 +35,7 @@
                             <th>{{ __('core.id') }}</th>
                             <th>Fulll Name</th>
                             <th>Email</th>
-                            <th>Mobile</th>
+                            
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -212,11 +212,7 @@
                     {
                         data: 'email',
                         name: 'email'
-                    },
-                    {
-                        data: 'mobile_number',
-                        name: 'mobile_number'
-                    },
+                    },                   
                     {
                         data: 'status',
                         name: 'status',

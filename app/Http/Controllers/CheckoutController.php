@@ -111,7 +111,7 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        
         
         if ($request->button_name == "Quote") {
 

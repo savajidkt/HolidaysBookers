@@ -49,16 +49,10 @@ class CustomersController extends Controller
                 })->filterColumn('email', function ($query, $keyword) {
                     $sql = "email  like ?";
                     $query->whereRaw($sql, ["%{$keyword}%"]);
-                })->addColumn('mobile_number', function (User $user) {
-                    return $user->customers->mobile_number;
-                })->filterColumn('mobile_number', function ($query, $keyword) {
-                    $query->whereHas('customers', function ($query) use ($keyword) {
-                        $query->where('mobile_number', 'LIKE', '%' . $keyword . '%');
-                    });
                 })->editColumn('status', function (User $user) {
                     return $user->status_name;
                 })->addColumn('action', function ($row) {
-                    return $row->customers->action;
+                    return $row->action_name;
                 })->rawColumns(['action', 'status'])->make(true);
         }
 
