@@ -60,6 +60,37 @@ class SettingRepository
         throw new Exception('Setting update failed.');
     }
 
+
+    public function createMarkup(array $data): Setting
+    {
+        unset($data['_token']);        
+        $dataSave = [
+            'type'    => $data['type'],
+            'settings_data'     => serialize($data),
+        ];
+
+        $Setting =  Setting::create($dataSave);        
+        return $Setting;
+    }
+
+
+    public function updateMarkup(array $data, Setting $setting): Setting
+    {
+        $id = $data['setting_id'];  
+        unset($data['_method']);    
+        unset($data['_token']);    
+        unset($data['type']);    
+        unset($data['setting_id']);                  
+        Setting::where('id', $id)
+       ->update([
+           'settings_data' => serialize($data)
+        ]);   
+        
+        return $setting;
+
+        throw new Exception('Setting update failed.');
+    }
+
     /**
      * Method delete
      *

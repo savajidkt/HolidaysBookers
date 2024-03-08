@@ -33,5 +33,25 @@ class SettingsController extends Controller
         
         $this->settingRepository->update($request->all(), $setting);
         return redirect()->route('settings.index')->with('success', "Settings updated successfully!");
-    }    
+    }  
+  
+    
+    public function markupCreate(Request $request)
+    {   
+        $settingsArr = Setting::where('type','1')->first();
+        return view('admin.settings.markup.create', ['model'=>$settingsArr]);
+    }
+
+    public function markupStore(Request $request)
+    {   
+        $this->settingRepository->createMarkup($request->all());
+        return redirect()->route('setting-global-markup')->with('success','Global Markup add successfully!');
+    }
+
+    public function markupUpdate(Request $request, Setting $setting)
+    {        
+        
+        $this->settingRepository->updateMarkup($request->all(), $setting);
+        return redirect()->route('setting-global-markup')->with('success','Global Markup update successfully!');
+    }
 }

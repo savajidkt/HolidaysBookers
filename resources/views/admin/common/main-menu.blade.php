@@ -419,6 +419,12 @@
                             data-i18n="Email Settings">Email Settings</span>
                     </a>
                 </li>
+                <li class=" ">
+                    <a class="d-flex align-items-center" href="{{ route('setting-global-markup') }}">
+                        <i data-feather='settings'></i><span class="menu-item text-truncate"
+                            data-i18n="Email Settings">Global Markup</span>
+                    </a>
+                </li>
 
             </ul>
         </li>

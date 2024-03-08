@@ -284,6 +284,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/get-booking-calendar-list', [OrdersController::class, 'getBookingCalendarList'])->name('get-booking-calendar-list');
 
     Route::resource('/settings', SettingsController::class);
+    Route::get('/agent-global-markup', [SettingsController::class, 'markupCreate'])->name('setting-global-markup');
+    Route::post('/agent-global-markup-add', [SettingsController::class, 'markupStore'])->name('setting-global-markup-add');
+    Route::post('/agent-global-markup-update/{id}', [SettingsController::class, 'markupUpdate'])->name('setting-global-markup-update');
 });
 
 Auth::routes();

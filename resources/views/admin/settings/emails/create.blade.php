@@ -20,7 +20,7 @@
                         @endif
                         
                             @csrf
-                            <input type="hidden" name="type" value="Email Setting">
+                            <input type="hidden" name="type" value="0">
                             @include('admin.settings.emails.form')
                         </form>
                     </div>
