@@ -11,6 +11,7 @@ use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\DB;
 use App\Events\ForgotPasswordEvent;
 use App\Exceptions\GeneralException;
+use App\Models\UserMeta;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\RegisterdEmailNotification;
@@ -27,7 +28,7 @@ class AgentRepository
      */
     public function create(array $data): User
     {
-        // dd($data);
+         
         $UserArr = [
             'first_name'    => $data['agent_first_name'],
             'last_name'    => $data['agent_last_name'],
@@ -66,6 +67,18 @@ class AgentRepository
         }
         $agent =  Agent::create($UserProfileArr);
 
+        $UserMetaArr = [
+            'user_id'    => $user->id,
+            'country_id'    => $agent->agent_country,
+            'phone_number'    => $data['agent_mobile_number'],
+            'address_1'    => $data['agent_office_address'],
+            'address_2'    => '',
+            'city'    => $agent->city->name,
+            'state'    => $agent->state->name,
+            'zip'    => $data['agent_pincode'],
+        ];
+
+        UserMeta::create($UserMetaArr);
         $WalletTransactionArr = [
             'user_id'    => $user->id,
             'agent_id'    => $agent->id
@@ -109,10 +122,9 @@ class AgentRepository
      * @throws Exception
      */
     public function update(array $data, Agent $agent): Agent
-    {
+    {       
 
-
-       
+      
        
         $UserArr = [
             'first_name'    => $data['agent_first_name'],
@@ -121,11 +133,26 @@ class AgentRepository
             'user_type'    => 1,
             'status'    => 1,
         ];
+        
         if (isset($data['agent_password'])) {
             $UserArr['password'] = Hash::make($data['agent_password']);
         }
 
         if ($agent->user->update($UserArr)) {
+
+            $UserMetaArr = [
+                'phone_number'    => $data['agent_mobile_number'],
+                'address_1'    => $data['agent_office_address'],                
+                'city'    => $agent->city->name,
+                'state'    => $agent->state->name,
+                'zip'    => $data['agent_pincode'],
+            ];
+
+            
+            
+
+            $agent->userMeta->update($UserMetaArr);
+            
 
             $UserProfileArr = [];
             foreach ($data as $key => $value) {

@@ -52,15 +52,15 @@
                                     <div class="col-12">
                                         <div class="form-input ferrorCls">
                                             <input type="text" value="{{ isset($user->userMeta->address_1) ? $user->userMeta->address_1 : '' }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" name="address">
-                                            <label class="lh-1 text-16 text-light-1">Address Line 1 <span class="text-danger">*</span></label>
+                                            <label class="lh-1 text-16 text-light-1">Address<span class="text-danger">*</span></label>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    {{-- <div class="col-12">
                                         <div class="form-input lerrorCls">
                                             <input type="text" value="{{ isset($user->userMeta->address_2) ? $user->userMeta->address_2 : '' }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');" name="address2">
                                             <label class="lh-1 text-16 text-light-1">Address Line 2 <span class="text-danger">*</span></label>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-6">
                                         <div class="form-input eerrorCls">
                                             <input type="text" value="{{ isset($user->userMeta->city) ? $user->userMeta->city : '' }}" onkeydown="return /[a-z]/i.test(event.key)" name="city">
@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input countryCls">
-                                            <select name="country" class="form-control select2">
+                                            <select name="country" class="form-control select2" id="location_country">
                                                 <option value="">Select Country</option>
                                                 @foreach ($countries as $country)
                                                     <option value="{{ $country->id }}"
@@ -83,7 +83,6 @@
                                                         {{ $country->name }}
                                                     </option>
                                                 @endforeach
-
                                             </select>
                                             {{-- <label class="lh-1 text-16 text-light-1">Select Country</label> --}}
                                         </div>

@@ -151,7 +151,7 @@ class CheckoutRepository
     public function createOrderBooking(Checkout $checkout, $paymentResponce = '', $WalletTransaction_id = ''): Order
     {
         
-        
+       
         $user = User::find($checkout->user_id);
         $extra_data = unserialize($checkout->extra_data);   
               
@@ -386,8 +386,8 @@ class CheckoutRepository
             $addHotelRoom['child_with_bed'] = $CWBCount;
             $addHotelRoom['child_without_bed'] =$CNBCount;
             $addHotelRoom['request_stay'] = isset($passengerLead['request_stay']) ? implode(',',$passengerLead['request_stay']):'';
-            $addHotelRoom['comments'] = ( $passengerLead['request_comment'][0]) ?  $passengerLead['request_comment'][0] : '';            
-            $hotelRoomData = OrderHotelRoom::create($addHotelRoom);            
+            $addHotelRoom['comments'] = ( $passengerLead['request_comment'][0]) ?  $passengerLead['request_comment'][0] : '';                        
+            $hotelRoomData = OrderHotelRoom::create($addHotelRoom);                       
             $this->addOrderHotelRoomPassengers($cartHotel, $value, $OrderID, $hotelData, $hotelRoomData, $passengerLead);
         }
         return true;
@@ -686,8 +686,10 @@ class CheckoutRepository
         $user = User::find($checkout->user_id);
         $extra_data = unserialize($checkout->extra_data);
         $this->order_Rooms = $extra_data['cartData'];
-        $passengerLead = unserialize($checkout->passenger);
-
+        //$passengerLead = unserialize($checkout->passenger);
+        $passengerLead =  $extra_data['passenger']; 
+       // $passengerLead = $extra_data['passenger'];
+        
         $OrderData = [];
         $OrderData['original_amount'] = getOriginAmountChackOut($extra_data);
         $OrderData['original_currency'] = trim($checkout->currency);
@@ -736,7 +738,7 @@ class CheckoutRepository
         if ($cartHotel['cartData'] > 0) {
             $addHotel = [];
             $addHotel['draft_id'] = $OrderID;
-            $i = 1;
+           // $i = 1;
             foreach ($cartHotel['cartData'] as $bo_key => $bo_value) {
                 if ($bo_key == 'hotel') {
                     foreach ($bo_value as $key => $value) {
@@ -746,10 +748,15 @@ class CheckoutRepository
                         $addHotel['type'] = $hotelsDetails->hotel_type;                                               
                         $hotelData = DraftOrderHotel::create($addHotel);
                         $passengerLeadData = [];
-                        if( isset($passengerLead['room_'.$i]) && is_array($passengerLead['room_'.$i]) && count($passengerLead['room_'.$i]) > 0 ){
-                            $passengerLeadData = $passengerLead['room_'.$i];
-                        }
-                        $i++;                       
+
+                        if( isset($passengerLead[$key]) && is_array($passengerLead[$key]) && count($passengerLead[$key]) > 0 ){
+                            $passengerLeadData = $passengerLead[$key];
+                        } 
+
+                        // if( isset($passengerLead['room_'.$i]) && is_array($passengerLead['room_'.$i]) && count($passengerLead['room_'.$i]) > 0 ){
+                        //     $passengerLeadData = $passengerLead['room_'.$i];
+                        // }
+                        // $i++;                       
                         $this->addDraftOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLeadData);
                     }
                 }
@@ -760,7 +767,7 @@ class CheckoutRepository
 
     public function addDraftOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLead)
     {
-        
+       
         if (count($value) > 0) {
 
             $CWBCount = 0;
@@ -798,8 +805,7 @@ class CheckoutRepository
             $addHotelRoom['request_stay'] = isset($passengerLead['request_stay']) ? implode(',',$passengerLead['request_stay']):'';
             $addHotelRoom['comments'] = isset( $passengerLead['request_comment'][0]) ?  $passengerLead['request_comment'][0] : '';
            
-            $hotelRoomData = DraftOrderHotelRoom::create($addHotelRoom);
-            
+            $hotelRoomData = DraftOrderHotelRoom::create($addHotelRoom);            
             $this->addDraftOrderHotelRoomPassengers($cartHotel, $value, $OrderID, $hotelData, $hotelRoomData, $passengerLead);
         }
         return true;
@@ -939,7 +945,9 @@ class CheckoutRepository
         $user = User::find($checkout->user_id);
         $extra_data = unserialize($checkout->extra_data);
         $this->order_Rooms = $extra_data['cartData'];
-        $passengerLead = unserialize($checkout->passenger);
+        //$passengerLead = unserialize($checkout->passenger);
+        $passengerLead =  $extra_data['passenger']; 
+       
        
         $OrderData = [];
         $OrderData['original_amount'] = getOriginAmountChackOut($extra_data);
@@ -993,7 +1001,7 @@ class CheckoutRepository
         if ($cartHotel['cartData'] > 0) {
             $addHotel = [];
             $addHotel['quote_id'] = $OrderID;
-            $i = 1;
+            
             foreach ($cartHotel['cartData'] as $bo_key => $bo_value) {
                 if ($bo_key == 'hotel') {
                     foreach ($bo_value as $key => $value) {
@@ -1003,10 +1011,9 @@ class CheckoutRepository
                         $addHotel['type'] = $hotelsDetails->hotel_type;                       
                         $hotelData = QuoteOrderHotel::create($addHotel);
                         $passengerLeadData = [];
-                        if( isset($passengerLead['room_'.$i]) && is_array($passengerLead['room_'.$i]) && count($passengerLead['room_'.$i]) > 0 ){
-                            $passengerLeadData = $passengerLead['room_'.$i];
-                        }
-                        $i++;
+                        if( isset($passengerLead[$key]) && is_array($passengerLead[$key]) && count($passengerLead[$key]) > 0 ){
+                            $passengerLeadData = $passengerLead[$key];
+                        } 
                         
                         $this->addQuoteOrderHotelRooms($cartHotel, $value, $OrderID, $hotelData, $passengerLeadData);
                     }

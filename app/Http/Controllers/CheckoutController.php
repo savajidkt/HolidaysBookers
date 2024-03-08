@@ -26,6 +26,7 @@ use App\Http\Requests\Checkout\CreateRequest;
 use App\Models\DraftOrder;
 use App\Models\Nationality;
 use App\Models\QuoteOrder;
+use App\Models\StayRequest;
 use App\Notifications\QuoteOrderNotification;
 use App\Repositories\HotelRoomListingRepository;
 use Redirect;
@@ -55,7 +56,9 @@ class CheckoutController extends Controller
         
         if ($requiredParamArr) {
             $nationality = Nationality::all();            
-            return view('checkout.checkout', ['nationality' =>$nationality,'hotelListingRepository' =>$this->hotelListingRepository,'hotelsDetails' =>[], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
+            $stayRequest = StayRequest::where('status','1')->get();            
+
+            return view('checkout.checkout', ['nationality' =>$nationality,'stayRequest' =>$stayRequest,'hotelListingRepository' =>$this->hotelListingRepository,'hotelsDetails' =>[], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
         } else {
             return redirect()->route('home');
         }
@@ -112,7 +115,7 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         
-        
+       
         if ($request->button_name == "Quote") {
 
             $res = $this->saveAsQuote($request);
@@ -130,6 +133,7 @@ class CheckoutController extends Controller
                 return redirect()->route('agent.draft')->with('error', 'Your booking draft created failed!');
             }
         } else {
+            
             $SafeencryptionObj = new Safeencryption;
 
         if ($request->payment_method == 1) {
@@ -152,7 +156,7 @@ class CheckoutController extends Controller
                 return redirect()->back()->with('error', 'Insufficient Balance');
             }
         } else if ($request->payment_method == 3) {
-            dd($request->all());
+            dd('Online Payment');
             //Pay On Online payment            
             $dataObj = $this->checkoutRepository->createBooking($request->all());
             return view('checkout.rozarpay', ['requestData' => $request->all(), 'dataObj' => $dataObj]);
@@ -232,11 +236,12 @@ class CheckoutController extends Controller
         $checkout = Checkout::find($data->id);
     }
     public function payUsingWallet($data)
-    {
+    { 
         $WalletTransaction = $this->PayForAgentWallet($data);
         if ($WalletTransaction) {
            // dd($WalletTransaction->id);
            // dd($WalletTransaction->id);
+           
             return $this->checkoutRepository->createOrderBooking($data,'',$WalletTransaction->id);
         }
         return false;

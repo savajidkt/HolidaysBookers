@@ -193,7 +193,14 @@
                                 <i data-feather="circle"></i><span class="menu-item text-truncate"
                                     data-i18n="Hotel Facility">Hotel Facility</span>
                             </a>
-                        </li>                       
+                        </li>  
+                        
+                        <li class=" {{ (Request::segment(2) == 'stayrequest') ? 'active' : '' }}">
+                            <a class="d-flex align-items-center" href="{{ url('admin/stayrequest') }}">
+                                <i data-feather="circle"></i><span class="menu-item text-truncate"
+                                    data-i18n="Stay Request">Stay Request</span>
+                            </a>
+                        </li>  
                     {{-- @endif --}}
 
                     @if (
@@ -401,12 +408,20 @@
                 </a>
 
             </li>
-            <li class=" nav-item {{ (Request::segment(2) == 'settings') ? 'active' : '' }}">
-                <a class="d-flex align-items-center" href="{{ route('settings.index') }}">
-                    <i data-feather='settings'></i><span class="menu-title text-truncate"
-                        data-i18n="Settings">Settings</span>
-                </a>
-            </li>
+           
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#">
+                <i data-feather='settings'></i><span class="menu-title text-truncate"
+                    data-i18n="settings">Settings</span></a>
+            <ul class="menu-content">
+                <li class=" {{ (Request::segment(2) == 'settings') ? 'active' : '' }}">
+                    <a class="d-flex align-items-center" href="{{ route('settings.index') }}">
+                        <i data-feather='settings'></i><span class="menu-item text-truncate"
+                            data-i18n="Email Settings">Email Settings</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
         </ul>
     </div>
 </div>

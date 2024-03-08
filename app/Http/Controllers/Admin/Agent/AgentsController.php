@@ -168,10 +168,9 @@ class AgentsController extends Controller
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function update(EditNewRequest $request, Agent $agent)
-    {
-       
+    {      
+        
         $this->agentRepository->update($request->all(), $agent);
-
         return redirect()->route('agents.index')->with('success', "Agent updated successfully!");
     }
 

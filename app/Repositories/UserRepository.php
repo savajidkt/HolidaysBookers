@@ -238,7 +238,10 @@ class UserRepository
 
                 $dataMarkupSave = [
                     'agent_global_markups_type'     => $data['agent_global_markups_type'],
-                    'agent_global_markup'     => $data['agent_global_markup']
+                    'agent_global_markup'     => $data['agent_global_markup'],
+                    'agent_first_name'     => $data['first_name'],
+                    'agent_last_name'     => $data['last_name'],
+                    'agent_mobile_number'     => $data['phone_number'],
                 ];
 
                 $user->userMeta->update($dataSave);

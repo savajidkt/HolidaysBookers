@@ -44,7 +44,7 @@
         <div class="form-group">
             <label class="form-label" for="nature_of_business">{{ __('agent/agent.nature_of_business') }} <span class="text-danger">*</span></label>
             <input type="text" id="nature_of_business" name="nature_of_business" class="form-control"
-                placeholder="{{ __('agent/agent.nature_of_business') }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
+                placeholder="{{ __('agent/agent.nature_of_business') }}" 
                 value="{{ isset($model->nature_of_business) ? $model->nature_of_business : old('nature_of_business') }}"
                 data-error="{{ __('agent/agent.nature_of_business') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -57,7 +57,7 @@
         <div class="form-group">
             <label class="form-label" for="agent_first_name">{{ __('agent/agent.agent_first_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="agent_first_name" name="agent_first_name" class="form-control"
-                placeholder="{{ __('agent/agent.agent_first_name') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                placeholder="{{ __('agent/agent.agent_first_name') }}" 
                 value="{{ isset($model->agent_first_name) ? $model->agent_first_name : old('agent_first_name') }}"
                 data-error="{{ __('agent/agent.agent_first_name') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -70,7 +70,7 @@
         <div class="form-group">
             <label class="form-label" for="agent_last_name">{{ __('agent/agent.agent_last_name') }} <span class="text-danger">*</span></label>
             <input type="text" id="agent_last_name" name="agent_last_name" class="form-control"
-                placeholder="{{ __('agent/agent.agent_last_name') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                placeholder="{{ __('agent/agent.agent_last_name') }}" 
                 value="{{ isset($model->agent_last_name) ? $model->agent_last_name : old('agent_last_name') }}"
                 data-error="{{ __('agent/agent.agent_last_name') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -83,7 +83,7 @@
         <div class="form-group">
             <label class="form-label" for="agent_designation">{{ __('agent/agent.agent_designation') }} <span class="text-danger">*</span></label>
             <input type="text" id="agent_designation" name="agent_designation" class="form-control"
-                placeholder="{{ __('agent/agent.agent_designation') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                placeholder="{{ __('agent/agent.agent_designation') }}" 
                 value="{{ isset($model->agent_designation) ? $model->agent_designation : old('agent_designation') }}"
                 data-error="{{ __('agent/agent.agent_designation') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -109,7 +109,7 @@
         <div class="form-group">
             <label class="form-label" for="agent_office_address">{{ __('agent/agent.agent_office_address') }} <span class="text-danger">*</span></label>
             <input type="text" id="agent_office_address" name="agent_office_address" class="form-control"
-                placeholder="{{ __('agent/agent.agent_office_address') }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
+                placeholder="{{ __('agent/agent.agent_office_address') }}" 
                 value="{{ isset($model->agent_office_address) ? $model->agent_office_address : old('agent_office_address') }}"
                 data-error="{{ __('agent/agent.agent_office_address') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -296,7 +296,7 @@
             <label class="form-label"
                 for="agent_other_certification">{{ __('agent/agent.agent_other_certification') }}</label>
             <input type="text" id="agent_other_certification" name="agent_other_certification"
-                class="form-control" placeholder="{{ __('agent/agent.agent_other_certification') }}" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
+                class="form-control" placeholder="{{ __('agent/agent.agent_other_certification') }}" 
                 value="{{ isset($model->agent_other_certification) ? $model->agent_other_certification : old('agent_other_certification') }}"
                 data-error="{{ __('agent/agent.agent_other_certification') }}" />
             <div class="valid-feedback">Looks good!</div>
@@ -397,7 +397,7 @@
     <div class="col-4 otherData {{ $hide }}">
         <div class="form-group">
             <label class="form-label" for="agent_know_about">{{ __('agent/agent.agent_know_about') }}</label>
-            <input type="text" id="othername" name="othername" class="form-control" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]+/g, '').replace(/(\..*)\./g, '$1');"
+            <input type="text" id="othername" name="othername" class="form-control" 
                 value="{{ isset($model->othername) ? $model->othername : old('othername') }}" />
         </div>
     </div>
@@ -415,7 +415,7 @@
             <div class="form-group">
                 <label class="form-label" for="mgmt_first_name">{{ __('agent/agent.mgmt_first_name') }} <span class="text-danger">*</span></label>
                 <input type="text" id="mgmt_first_name" name="mgmt_first_name" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_first_name') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                    placeholder="{{ __('agent/agent.mgmt_first_name') }}" 
                     value="{{ isset($model->mgmt_first_name) ? $model->mgmt_first_name : old('mgmt_first_name') }}"
                     data-error="{{ __('agent/agent.mgmt_first_name') }}" />
                 <div class="valid-feedback">Looks good!</div>
@@ -428,7 +428,7 @@
             <div class="form-group">
                 <label class="form-label" for="mgmt_last_name">{{ __('agent/agent.mgmt_last_name') }} <span class="text-danger">*</span></label>
                 <input type="text" id="mgmt_last_name" name="mgmt_last_name" class="form-control"
-                    placeholder="{{ __('agent/agent.mgmt_last_name') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                    placeholder="{{ __('agent/agent.mgmt_last_name') }}" 
                     value="{{ isset($model->mgmt_last_name) ? $model->mgmt_last_name : old('mgmt_last_name') }}"
                     data-error="{{ __('agent/agent.mgmt_last_name') }}" />
                 <div class="valid-feedback">Looks good!</div>
@@ -477,7 +477,7 @@
                 <label class="form-label"
                     for="account_first_name">{{ __('agent/agent.account_first_name') }} <span class="text-danger">*</span></label>
                 <input type="text" id="account_first_name" name="account_first_name" class="form-control"
-                    placeholder="{{ __('agent/agent.account_first_name') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                    placeholder="{{ __('agent/agent.account_first_name') }}" 
                     value="{{ isset($model->account_first_name) ? $model->account_first_name : old('account_first_name') }}"
                     data-error="{{ __('agent/agent.account_first_name') }}" />
                 <div class="valid-feedback">Looks good!</div>
@@ -490,7 +490,7 @@
             <div class="form-group">
                 <label class="form-label" for="account_last_name">{{ __('agent/agent.account_last_name') }} <span class="text-danger">*</span></label>
                 <input type="text" id="account_last_name" name="account_last_name" class="form-control"
-                    placeholder="{{ __('agent/agent.account_last_name') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                    placeholder="{{ __('agent/agent.account_last_name') }}" 
                     value="{{ isset($model->account_last_name) ? $model->account_last_name : old('account_last_name') }}"
                     data-error="{{ __('agent/agent.account_last_name') }}" />
                 <div class="valid-feedback">Looks good!</div>
@@ -538,7 +538,7 @@
                 <label class="form-label"
                     for="reserve_first_name">{{ __('agent/agent.reserve_first_name') }} <span class="text-danger">*</span></label>
                 <input type="text" id="reserve_first_name" name="reserve_first_name" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_first_name') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                    placeholder="{{ __('agent/agent.reserve_first_name') }}" 
                     value="{{ isset($model->reserve_first_name) ? $model->reserve_first_name : old('reserve_first_name') }}"
                     data-error="{{ __('agent/agent.reserve_first_name') }}" />
                 <div class="valid-feedback">Looks good!</div>
@@ -551,7 +551,7 @@
             <div class="form-group">
                 <label class="form-label" for="reserve_last_name">{{ __('agent/agent.account_last_name') }} <span class="text-danger">*</span></label>
                 <input type="text" id="reserve_last_name" name="reserve_last_name" class="form-control"
-                    placeholder="{{ __('agent/agent.reserve_last_name') }}" onkeydown="return /[a-z]/i.test(event.key)"
+                    placeholder="{{ __('agent/agent.reserve_last_name') }}" 
                     value="{{ isset($model->reserve_last_name) ? $model->reserve_last_name : old('reserve_last_name') }}"
                     data-error="{{ __('agent/agent.reserve_last_name') }}" />
                 <div class="valid-feedback">Looks good!</div>

@@ -69,7 +69,7 @@
                                 <div class="row x-gap-20 y-gap-20">                                    
                                     <div class="col-md-6">
                                         <div class="form-input ferrorCls">
-                                            <input type="text" value="{{ $user->first_name }}" onkeydown="return /[a-z]/i.test(event.key)" name="first_name" class="has-value">
+                                            <input type="text" value="{{ $user->first_name }}" name="first_name" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">First Name <span class="text-danger">*</span></label>
                                         </div>
                                         @error('first_name')
@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-input lerrorCls">
-                                            <input type="text" value="{{ $user->last_name }}" onkeydown="return /[a-z]/i.test(event.key)" name="last_name" class="has-value">
+                                            <input type="text" value="{{ $user->last_name }}"  name="last_name" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">Last Name <span class="text-danger">*</span></label>
                                         </div>
                                         @error('last_name')
@@ -93,7 +93,7 @@
                                         @error('email')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
-                                    </div>
+                                    </div>                                    
                                     <div class="col-md-6">
                                         <div class="form-input phoneCls">
                                             <input type="text" value="{{ isset($user->userMeta->phone_number) ? $user->userMeta->phone_number : '' }}" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" name="phone_number" class="has-value">

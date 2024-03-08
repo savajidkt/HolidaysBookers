@@ -568,6 +568,8 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
+
+                                                                                @if ($stayRequest) 
                                                                                 <div class="text-12">
                                                                                     <div class="fw-500 mb-10">Request for
                                                                                         the stay(Optional)</div>
@@ -575,6 +577,11 @@
                                                                                         only, Holidays Bookers can not
                                                                                         guarantee them</div>
                                                                                     <div class="col-md-12">
+
+                                                                                        @foreach ( $stayRequest as $stay)
+                                                                                           
+                                                                                        
+
                                                                                         <div class="col-md-4">
                                                                                             <div
                                                                                                 class="d-flex items-center">
@@ -582,7 +589,7 @@
                                                                                                     class="form-checkbox ">
                                                                                                     <input type="checkbox"
                                                                                                         name="hotel[{{ $key }}][room_no_{{ $roomNo }}][request_stay][]"
-                                                                                                        value="1">
+                                                                                                        value="{{ $stay->id }}">
                                                                                                     <div
                                                                                                         class="form-checkbox__mark">
                                                                                                         <div
@@ -592,29 +599,11 @@
                                                                                                 </div>
                                                                                                 <div
                                                                                                     class="text-14 lh-12 ml-10">
-                                                                                                    static</div>
+                                                                                                    {{ $stay->request }}</div>
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="col-md-4">
-                                                                                            <div
-                                                                                                class="d-flex items-center">
-                                                                                                <div
-                                                                                                    class="form-checkbox ">
-                                                                                                    <input type="checkbox"
-                                                                                                        name="hotel[{{ $key }}][room_no_{{ $roomNo }}][request_stay][]"
-                                                                                                        value="2">
-                                                                                                    <div
-                                                                                                        class="form-checkbox__mark">
-                                                                                                        <div
-                                                                                                            class="form-checkbox__icon icon-check">
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div
-                                                                                                    class="text-14 lh-12 ml-10">
-                                                                                                    static</div>
-                                                                                            </div>
-                                                                                        </div>
+                                                                                        @endforeach
+                                                                                        
                                                                                     </div>
 
                                                                                     <div class="col-lg-12 mt-15">
@@ -630,6 +619,7 @@
 
                                                                                     </div>
                                                                                 </div>
+                                                                                @endif
                                                                             </div>
                                                                         </div>
                                                                     </div>

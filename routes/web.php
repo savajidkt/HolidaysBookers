@@ -66,6 +66,7 @@ use App\Http\Controllers\Admin\HotelFacilities\HotelFacilitiesController;
 use App\Http\Controllers\Admin\HotelFacility\HotelFacilityController;
 use App\Http\Controllers\Admin\Promotional\PromotionalController;
 use App\Http\Controllers\Admin\Settings\SettingsController;
+use App\Http\Controllers\Admin\StayRequest\StayRequestController;
 use App\Http\Controllers\Admin\StopSale\StopSaleController;
 
 
@@ -159,6 +160,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/hotelfacility', HotelFacilityController::class);
     Route::post('/hotelfacility/change-hotelfacility-status', [HotelFacilityController::class, 'changeStatus'])->name('change-hotelfacility-status');
+
+
+    Route::resource('/stayrequest', StayRequestController::class);
+    Route::post('/stayrequest/change-stayrequest-status', [StayRequestController::class, 'changeStatus'])->name('change-stayrequest-status');
     
     Route::resource('/hotelfacilities', HotelFacilitiesController::class);
     Route::post('/hotelfacilities/change-hotelfacilities-status', [HotelFacilitiesController::class, 'changeStatus'])->name('change-hotelfacilities-status');

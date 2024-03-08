@@ -140,6 +140,11 @@ class Agent extends Authenticatable
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function userMeta()
+    {
+        return $this->belongsTo(UserMeta::class, 'user_id', 'user_id');
+    }
+
     public function country()
     {
         return $this->belongsTo(Country::class, 'agent_country', 'id');
