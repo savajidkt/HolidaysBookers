@@ -419,10 +419,18 @@
                             data-i18n="Email Settings">Email Settings</span>
                     </a>
                 </li>
-                <li class=" ">
+                
+                <li class=" {{ (Request::segment(2) == 'agent-global-markup') ? 'active' : '' }} ">
                     <a class="d-flex align-items-center" href="{{ route('setting-global-markup') }}">
                         <i data-feather='settings'></i><span class="menu-item text-truncate"
                             data-i18n="Email Settings">Global Markup</span>
+                    </a>
+                </li>
+
+                <li class=" {{ (Request::segment(2) == 'hb-email-settings') ? 'active' : '' }} ">
+                    <a class="d-flex align-items-center" href="{{ route('setting-hb-email') }}">
+                        <i data-feather='settings'></i><span class="menu-item text-truncate"
+                            data-i18n="HB Emails">HB Emails</span>
                     </a>
                 </li>
 

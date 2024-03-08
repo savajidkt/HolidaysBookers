@@ -61,6 +61,7 @@ class OfflineHotelRepository
             'reservation_designation'         => $data['reservation_designation'],
             'reservation_contact_number'         => $data['reservation_contact_number'],
             'reservation_email'         => $data['reservation_email'],
+            'multiple_email_recipients'         => $data['multiple_email_recipients'],
             'status'    => OfflineHotel::ACTIVE,
         ];
 
@@ -171,6 +172,7 @@ class OfflineHotelRepository
             'reservation_designation'         => $data['reservation_designation'],
             'reservation_contact_number'         => $data['reservation_contact_number'],
             'reservation_email'         => $data['reservation_email'],
+            'multiple_email_recipients'         => $data['multiple_email_recipients'],
         ];
 
         $offlinehotel->update($HotelArr);

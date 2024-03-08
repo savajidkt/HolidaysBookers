@@ -213,6 +213,18 @@
             @enderror
         </div>
     </div>
+
+    
+
+    <div class="col-4">
+        <div class="form-group">
+            <label class="form-label" for="multiple_email_recipients">Multiple Email Recipients (By Comma (,) as a Separator)</label>
+            <textarea id="multiple_email_recipients" name="multiple_email_recipients" class="form-control" 
+                placeholder="Multiple Email Recipients (By Comma (,) as a Separator)" cols="30" rows="2">{{ isset($model->multiple_email_recipients) ? $model->multiple_email_recipients : old('multiple_email_recipients') }}</textarea>
+            
+        </div>
+    </div>
+
     <div class="col-4">
         <div class="form-group">
             <label class="form-label" for="hotel_freebies">Hotel Freebies</label>

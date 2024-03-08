@@ -58,6 +58,7 @@ class CreateAgentsTable extends Migration
             $table->string('agent_company_logo')->nullable();
             
             $table->string('othername')->nullable();
+            $table->text('multiple_email_recipients')->nullable();
 
             //FOREIGN KEY CONSTRAINTS
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

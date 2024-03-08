@@ -75,6 +75,7 @@ class Agent extends Authenticatable
         'agent_company_logo',
         'agent_know_about',
         'othername',
+        'multiple_email_recipients',
 
     ];
 

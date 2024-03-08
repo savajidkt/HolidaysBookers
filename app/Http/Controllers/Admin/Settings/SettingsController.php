@@ -54,4 +54,26 @@ class SettingsController extends Controller
         $this->settingRepository->updateMarkup($request->all(), $setting);
         return redirect()->route('setting-global-markup')->with('success','Global Markup update successfully!');
     }
+
+
+    public function emailCreate(Request $request)
+    {   
+        $settingsArr = Setting::where('type','2')->first();
+        
+        return view('admin.settings.hb-emails.create', ['model'=>$settingsArr]);
+    }
+
+    public function emailStore(Request $request)
+    {   
+        $this->settingRepository->createEmails($request->all());
+        return redirect()->route('setting-hb-email')->with('success','HB emails add successfully!');
+    }
+
+    public function emailUpdate(Request $request, Setting $setting)
+    {        
+        
+        $this->settingRepository->updateEmails($request->all(), $setting);
+        return redirect()->route('setting-hb-email')->with('success','HB emails update successfully!');
+    }
+
 }

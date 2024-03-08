@@ -95,6 +95,16 @@
                                         @enderror
                                     </div>                                    
                                     <div class="col-md-6">
+                                        <div class="form-input eerrorCls">
+                                            
+                                            <textarea name="multiple_email_recipients">{{ $user->agents->multiple_email_recipients }}</textarea>
+                                            <label class="lh-1 text-16 text-light-1">Multiple Email Recipients (By Comma (,) as a Separator)</label>
+                                        </div>
+                                        @error('email')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>                                    
+                                    <div class="col-md-6">
                                         <div class="form-input phoneCls">
                                             <input type="text" value="{{ isset($user->userMeta->phone_number) ? $user->userMeta->phone_number : '' }}" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" name="phone_number" class="has-value">
                                             <label class="lh-1 text-16 text-light-1">Phone Number <span class="text-danger">*</span></label>

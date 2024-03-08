@@ -71,6 +71,7 @@ class OfflineHotel extends Authenticatable
         'reservation_contact_number',
         'reservation_email',
         'status',
+        'multiple_email_recipients',
 
     ];
 

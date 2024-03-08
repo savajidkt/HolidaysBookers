@@ -177,7 +177,8 @@ class AgentRepository
                         
                     }
                 }
-            }            
+            }         
+            
             $agent->update($UserProfileArr);
             //$agent->notify(new RegisterdEmailNotification($password,$agent));
         }

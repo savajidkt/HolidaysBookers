@@ -242,6 +242,7 @@ class UserRepository
                     'agent_first_name'     => $data['first_name'],
                     'agent_last_name'     => $data['last_name'],
                     'agent_mobile_number'     => $data['phone_number'],
+                    'multiple_email_recipients'     => $data['multiple_email_recipients'],
                 ];
 
                 $user->userMeta->update($dataSave);

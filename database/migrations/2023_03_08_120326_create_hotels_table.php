@@ -41,6 +41,7 @@ class CreateHotelsTable extends Migration
             $table->longText('cancellation_policy')->nullable();
             $table->string('hotel_type')->default(true)->comment('1=Offline, 2=API');            
             $table->boolean('status')->default(true)->comment('1=Active, 0=Inactive');
+            $table->text('multiple_email_recipients')->nullable();
            
 
             //FOREIGN KEY CONSTRAINTS

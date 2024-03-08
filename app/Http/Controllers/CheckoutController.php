@@ -58,7 +58,7 @@ class CheckoutController extends Controller
             $nationality = Nationality::all();            
             $stayRequest = StayRequest::where('status','1')->get();            
 
-            return view('checkout.checkout', ['nationality' =>$nationality,'stayRequest' =>$stayRequest,'hotelListingRepository' =>$this->hotelListingRepository,'hotelsDetails' =>[], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
+            return view('checkout.checkout', ['nationality' =>$nationality, 'stayRequest' => $stayRequest, 'hotelListingRepository' =>$this->hotelListingRepository,'hotelsDetails' =>[], 'offlineRoom' => [], 'requiredParamArr' => $requiredParamArr, 'bookingKey' => '', 'extraData' => [], 'user' => auth()->user()]);
         } else {
             return redirect()->route('home');
         }

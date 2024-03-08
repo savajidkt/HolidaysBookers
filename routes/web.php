@@ -287,6 +287,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/agent-global-markup', [SettingsController::class, 'markupCreate'])->name('setting-global-markup');
     Route::post('/agent-global-markup-add', [SettingsController::class, 'markupStore'])->name('setting-global-markup-add');
     Route::post('/agent-global-markup-update/{id}', [SettingsController::class, 'markupUpdate'])->name('setting-global-markup-update');
+
+
+    Route::get('/hb-email-setting', [SettingsController::class, 'emailCreate'])->name('setting-hb-email');
+    Route::post('/hb-email-setting-add', [SettingsController::class, 'emailStore'])->name('setting-hb-email-add');
+    Route::post('/hb-email-setting-update/{id}', [SettingsController::class, 'emailUpdate'])->name('setting-hb-email-update');
 });
 
 Auth::routes();
