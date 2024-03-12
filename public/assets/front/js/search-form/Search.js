@@ -38,6 +38,25 @@ var FrmSearchPreference = function () {
                 error.insertAfter(element);
             },
             submitHandler: function (form) {
+                var issetArr = readCookie('searchGuestArr');
+                if (issetArr) {
+
+                } else {
+
+                    var totalArray = new Array();
+                    totalArray.push({
+                        room: 1,
+                        adult: parseInt($(this).find(".adult :selected").val()),
+                        child: parseInt($(this).find(".child :selected").val()),
+                        childAge: []
+                    });
+
+                    createCookie('searchGuestArr', JSON.stringify(totalArray), 1);
+                    createCookie('searchGuestRoomCount', JSON.stringify(1), 1);
+                    createCookie('searchGuestChildCount', JSON.stringify(0), 1);
+                    createCookie('searchGuestAdultCount', JSON.stringify(1), 1);
+
+                }
 
                 createCookie('location', JSON.stringify($('#location').val()), 1);
                 createCookie('hidden_city_id', JSON.stringify($('.hidden_city_id').val()), 1);
@@ -196,7 +215,7 @@ var FrmSearchPreference = function () {
                 },
                 type: {
                     required: true,
-                }, 
+                },
                 password: {
                     minlength: 5,
                     required: true,
@@ -744,9 +763,9 @@ function FrmAddMoreGuest() {
 
         if (new_child > old_child) {
             return new_child - old_child;
-        } else if (new_child < old_child) {           
+        } else if (new_child < old_child) {
             return old_child - new_child;
-        } else {           
+        } else {
             return 0;
         }
     }
@@ -766,14 +785,14 @@ function FrmAddMoreGuest() {
         var roomNumber = $(this).closest('.optionBox').find('.roomNumber').html();
 
         var oldchild = $(this).attr('data-old-c');
-        
+
         $(this).attr('data-old-c', $(this).val());
-        var neddtoaddorremove = parseInt(getSelectedChilds( parseInt(oldchild), parseInt($(this).val())));
-        
+        var neddtoaddorremove = parseInt(getSelectedChilds(parseInt(oldchild), parseInt($(this).val())));
+
         if (isAddChild(parseInt(oldchild), parseInt($(this).val()))) {
-            if (neddtoaddorremove > 0) {                
+            if (neddtoaddorremove > 0) {
                 j = oldchild;
-                for (var i = 1; i <= neddtoaddorremove; i++) {                   
+                for (var i = 1; i <= neddtoaddorremove; i++) {
                     var agess = `<div class="col-lg-2 agess">
                     <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Age
                     <div class="tooltip-trigger-popup">
@@ -805,11 +824,11 @@ function FrmAddMoreGuest() {
                                             
                         </div>                        
                 </div>  `;
-        j++
+                    j++
                     $(this).closest('.optionBox').find('.dynamicChilds').append(agess);
-        
+
                 }
-            } 
+            }
         } else {
             if (neddtoaddorremove > 0) {
                 for (var i = 1; i <= neddtoaddorremove; i++) {
@@ -818,7 +837,7 @@ function FrmAddMoreGuest() {
                 }
             }
         }
-        
+
     });
 
     // jQuery(document).on('change', '.age', function () {

@@ -64,13 +64,13 @@
                                     <div class="hb-form-serviceadd">
                                         <div class="sub-hb-htl-list">
                                          <div class="tooltip-trigger-popup">
-                                           @if($offlineRoom->price[0]->cancelation_policy=='non_refundeble')                                            
+                                           @if( isset($offlineRoom->price[0]) && $offlineRoom->price[0]->cancelation_policy=='non_refundeble')                                            
                                              <div class="tooltip -top px-30 h-50">
                                                 <i class="fa fa-ban" aria-hidden="true"></i> Non refundable
                                                 <div class="tooltip__content">Non refundable</div>
                                               </div>
                                             @endif
-                                            @if($offlineRoom->price[0]->cancelation_policy=='refundeble')
+                                            @if(isset($offlineRoom->price[0]) && $offlineRoom->price[0]->cancelation_policy=='refundeble')
                                                 @php
                                                 $cancellatoin = RoomWiseCancellationPolicy($offlineRoom->price[0],  $bookingParam['search_from']);
                                                     //echo '<pre>';
