@@ -4,7 +4,8 @@
 <div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
    
     <div class="col-md-6">
-        <a class="btn btn-outline-secondary waves-effect" href="{{ route('offlinehotels.show', $model->hotel_id) }}">Back</a>
+        <a class="btn btn-outline-secondary waves-effect" href="{{ route('offlinerooms.edit', $model->id) }}">Back</a>
+        
     </div>    
    
 </div>

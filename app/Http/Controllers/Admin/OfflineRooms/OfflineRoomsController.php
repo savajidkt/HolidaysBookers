@@ -80,6 +80,48 @@ class OfflineRoomsController extends Controller
         return view('admin.offline-rooms.index');
     }
 
+    public function hotelRooms(Request $request, $hotel_id)
+    {
+        if ($request->ajax()) {
+            $data = OfflineRoom::where('type', OfflineRoom::OFFLINE)->where('hotel_id', $hotel_id);
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('hotel_name', function (OfflineRoom $room) {
+                    return $room->hotel->hotel_name;
+                })->filterColumn('hotel_name', function ($query, $keyword) {
+                    $query->whereHas('hotel', function ($query) use ($keyword) {
+                        $query->where('hotel_name', 'LIKE', '%' . $keyword . '%');
+                    });
+                })->addColumn('room_type', function (OfflineRoom $room) {
+                    return $room->roomtype->room_type;
+                })->filterColumn('room_type', function ($query, $keyword) {
+                    $query->whereHas('roomtype', function ($query) use ($keyword) {
+                        $query->where('room_type', 'LIKE', '%' . $keyword . '%');
+                    });
+                })->addColumn('occ_sleepsmax', function (OfflineRoom $room) {
+                    return $room->occ_sleepsmax;
+                })->filterColumn('occ_sleepsmax', function ($query, $keyword) {
+                    $query->where('occ_sleepsmax', 'LIKE', '%' . $keyword . '%');
+                })->addColumn('occ_num_beds', function (OfflineRoom $room) {
+                    return $room->occ_num_beds;
+                })->filterColumn('occ_num_beds', function ($query, $keyword) {
+                    $query->where('occ_num_beds', 'LIKE', '%' . $keyword . '%');
+                })->addColumn('occ_max_adults', function (OfflineRoom $room) {
+                    return $room->occ_max_adults;
+                })->filterColumn('occ_max_adults', function ($query, $keyword) {
+                    $query->where('occ_max_adults', 'LIKE', '%' . $keyword . '%');
+                })->addColumn('status', function (OfflineRoom $room) {
+                    return $room->status_name;
+                })->filterColumn('status', function ($query, $keyword) {
+                    $query->where('status', '=', $keyword);
+                })->addColumn('action', function ($row) {
+                    return $row->action;
+                })->rawColumns(['action', 'status'])->make(true);
+        }
+
+        return view('admin.offline-rooms.index',['model'=>$hotel_id]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -98,12 +140,13 @@ class OfflineRoomsController extends Controller
 
     public function roomCreate(OfflineHotel $offlinehotel)
     {
+       
         $rawData    = new OfflineRoom;
         $HotelsList  = OfflineHotel::where('hotel_type', OfflineHotel::OFFLINE)->pluck('hotel_name', 'id')->toArray();
         $HotelsRoomType  = RoomType::where('status', RoomType::ACTIVE)->pluck('room_type', 'id')->toArray();
         $HotelsAmenities  = Amenity::where('status', Amenity::ACTIVE)->where('type', Amenity::ROOM)->pluck('amenity_name', 'id')->toArray();
         $HotelsRoomMealPlan  = MealPlan::where('status', MealPlan::ACTIVE)->pluck('name', 'id')->toArray();
-        $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::ROOM)->pluck('name', 'id')->toArray();
+        $HotelsFreebies  = Freebies::where('status', Freebies::ACTIVE)->where('type', Freebies::ROOM)->pluck('name', 'id')->toArray();       
         return view('admin.offline-rooms.create', ['model' => $rawData, 'HotelsList' => $HotelsList, 'HotelsRoomType' => $HotelsRoomType, 'HotelsAmenities' => $HotelsAmenities, 'offlinehotel' => $offlinehotel, 'HotelsRoomMealPlan' => $HotelsRoomMealPlan, 'HotelsFreebies' => $HotelsFreebies]);
     }
 
@@ -125,7 +168,7 @@ class OfflineRoomsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Offline Room created successfully!',
-            'url' => route('offlinehotels.show', $request->hotel_id)
+            'url' => route('hotel-room-list', $request->hotel_id)
         ]);
         //return redirect()->route('offlinehotels.show', $request->hotel_id)->with('success', 'Offline Room created successfully!');
         //return redirect()->route('offlinerooms.index')->with('success', 'Offline Room created successfully!');
@@ -181,7 +224,7 @@ class OfflineRoomsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Offline Room updated successfully!',
-            'url' => route('offlinehotels.show', $request->hotel_id)
+            'url' => route('hotel-room-list', $request->hotel_id)
         ]);
         //return redirect()->route('offlinerooms.index')->with('success', 'Offline Room updated successfully!');
     }
@@ -198,7 +241,7 @@ class OfflineRoomsController extends Controller
     {
         
         $this->offlineRoomRepository->delete($offlineroom);
-        return redirect()->route('offlinehotels.show', $offlineroom->hotel_id)->with('success', 'Offline Room deleted successfully!');
+        return redirect()->route('hotel-room-list', $offlineroom->hotel_id)->with('success', 'Offline Room deleted successfully!');
     }
 
     /**
@@ -321,7 +364,7 @@ class OfflineRoomsController extends Controller
             //     'message' => 'Offline Room Price created successfully!',
             //     'url' => route('offlinehotels.show', $offlineroom->hotel_id)
             // ]);
-            return redirect()->route('offlinehotels.show', $offlineroom->hotel_id)->with('success', 'Offline Room Price created successfully!');
+            return redirect()->route('offlinerooms.edit', $offlineroom->id)->with('success', 'Offline Room Price created successfully!');
         }
     }
 
@@ -355,7 +398,7 @@ class OfflineRoomsController extends Controller
         $offlineroom =  $offlineroomprice->room;
         
         $this->offlineRoomRepository->updatePrice($request->all(), $offlineroomprice);
-        return redirect()->route('offlinehotels.show', $offlineroom->hotel_id)->with('success', 'Offline Room Price updated successfully!');
+        return redirect()->route('offlinerooms.edit', $offlineroom->id)->with('success', 'Offline Room Price updated successfully!');
     }
 
     /**
@@ -369,7 +412,7 @@ class OfflineRoomsController extends Controller
     {
         $offlineroom =  $offlineroomprice->room;        
         $this->offlineRoomRepository->deletePrice($offlineroomprice);
-        return redirect()->route('offlinehotels.show', $offlineroom->hotel_id)->with('success', 'Offline Room Price deleted successfully!');
+        return redirect()->route('offlinerooms.edit', $offlineroom->id)->with('success', 'Offline Room Price deleted successfully!');
     }
 
     /**

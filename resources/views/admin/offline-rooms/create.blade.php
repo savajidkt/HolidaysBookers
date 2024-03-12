@@ -1,11 +1,13 @@
 @extends('admin.layout.app')
 @section('page_title', 'Add Offline Room')
 @section('content')
-<div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">   
-    <div class="col-md-6">
-        <a class="btn btn-outline-secondary waves-effect" href="{{ route('offlinehotels.show', $offlinehotel->id) }}">Back</a>
-    </div>       
-</div>
+    <div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
+        <div class="col-md-6">
+            <a class="btn btn-outline-secondary waves-effect"
+                href="{{ route('hotel-room-list', $offlinehotel->id) }}">Back</a>
+        </div>
+        
+    </div>
     <section class="form-control-repeater">
         <div class="row">
             <!-- Bootstrap Validation -->
@@ -21,7 +23,7 @@
                             @include('admin.offline-rooms.form')
                             <div class="row mt-3">
                                 <div class="col-12">
-                                   
+
                                     <button type="submit" id="user-save" class="btn btn-primary btn-sm"><span
                                             class="spinner-border spinner-border-sm buttonLoader hide" role="status"
                                             aria-hidden="true"></span><span
@@ -48,9 +50,11 @@
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <label class="form-label"
-                                                                for="basic-addon-room_type">{{ __('roomtype/roomtype.form_room_type') }} <span class="text-danger">*</span></label>
+                                                                for="basic-addon-room_type">{{ __('roomtype/roomtype.form_room_type') }}
+                                                                <span class="text-danger">*</span></label>
                                                             <input type="text" id="basic-addon-room_type"
-                                                                name="room_type" class="form-control" onkeydown="return /[a-zA-Z ]/.test(event.key)"
+                                                                name="room_type" class="form-control"
+                                                                onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                                 placeholder="{{ __('roomtype/roomtype.form_room_type') }}"
                                                                 value="" aria-describedby="basic-addon-room_type"
                                                                 data-error="{{ __('roomtype/message.room_type_required') }}" />
@@ -70,7 +74,7 @@
 
                                 </div>
                             </div>
-                        </div>                       
+                        </div>
                         <div class="modal fade text-left" id="roomAmenityBTN" tabindex="-1"
                             aria-labelledby="myModalLabel120" aria-hidden="true" data-backdrop="static">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -89,10 +93,11 @@
                                                     @csrf
                                                     <div class="col-12">
                                                         <div class="form-group">
-                                                            <label class="form-label"
-                                                                for="basic-addon-amenity_name">Amenity Name <span class="text-danger">*</span></label>
+                                                            <label class="form-label" for="basic-addon-amenity_name">Amenity
+                                                                Name <span class="text-danger">*</span></label>
                                                             <input type="text" id="basic-addon-amenity_name"
-                                                                name="amenity_name" class="form-control" onkeydown="return /[a-zA-Z ]/.test(event.key)"
+                                                                name="amenity_name" class="form-control"
+                                                                onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                                 placeholder="Amenity Name" value=""
                                                                 aria-describedby="basic-addon-amenity_name"
                                                                 data-error="Amenity name is required." />
@@ -114,7 +119,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="modal fade text-left" id="roomFreebiesBTN" tabindex="-1"
                             aria-labelledby="myModalLabel120" aria-hidden="true" data-backdrop="static">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -135,7 +139,8 @@
                                                         <div class="form-group">
                                                             <label class="form-label" for="basic-addon-name">Freebies
                                                                 Name <span class="text-danger">*</span></label>
-                                                            <input type="text" id="basic-addon-name" name="name" onkeydown="return /[a-zA-Z ]/.test(event.key)"
+                                                            <input type="text" id="basic-addon-name" name="name"
+                                                                onkeydown="return /[a-zA-Z ]/.test(event.key)"
                                                                 class="form-control" placeholder="Freebies Name"
                                                                 value="" aria-describedby="basic-addon-name"
                                                                 data-error="Freebies name is required." />
@@ -157,11 +162,9 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-@endsection
+    </section> 
+    @endsection

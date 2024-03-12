@@ -49,7 +49,7 @@
     <div class="col-md-4 mb-1 hotelDrp">
         <label>Select Hotel</label>
         <div class="form-group">
-            <select class="select2-hotel form-control" name="hotel_id">
+            <select class="select2-hotel form-control" name="hotel_id" >
             </select>
             <div class="hotel_idCLS"></div>
             @error('hotel_id')

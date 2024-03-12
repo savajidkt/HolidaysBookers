@@ -10,9 +10,13 @@
     <section id="page-account-settings">
         <div class="card">
 
+            
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                 <div class="col-md-6">
-                    <h4 class="card-title">Hotel : #{{ $model->hotel_name }}</h4>
+                    <h4 class="card-title">Hotel : #{{ $model->hotel_name }}</h4>                    
+                </div>
+                <div class="col-md-6 ">                    
+                    <a href="{{ route('hotel-room-list', $model->id) }}" class="edit btn btn-primary btn-sm pull-right" data-toggle="tooltip" data-original-title="Add Room" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i> Room List</a> 
                 </div>
             </div>
 
@@ -362,7 +366,10 @@
             <!--/ right content section -->
         </div>
     </section>
-    @if ($offlineRoom)
+    @php
+    $jayesh = false;
+@endphp
+    @if ($jayesh && $offlineRoom)
         <section id="accordion-with-margin">
             <div class="row">
                 <div class="col-sm-12">
@@ -443,7 +450,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @if ($room->price)
+                                              
+                                                @if ( $room->price)
                                                     <div class="row" id="">
                                                         <div class="col-12">
                                                             <div class="card">

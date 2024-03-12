@@ -215,6 +215,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('/offlinerooms', OfflineRoomsController::class);
     Route::post('/offlineroom/change-status', [OfflineRoomsController::class, 'changeStatus'])->name('change-offline-room-status');
+
+    Route::get('/offlineroom/roomlist/{id}', [OfflineRoomsController::class, 'hotelRooms'])->name('hotel-room-list');
+
     Route::get('/offlineroom/view/{offlineroom}/offlineroom', [OfflineRoomsController::class, 'show'])->name('view-room');
     Route::get('/offlineroom/{offlineroom}/price', [OfflineRoomsController::class, 'viewPrice'])->name('view-room-price');
     Route::get('/offlineroom/{offlineroom}/price/add', [OfflineRoomsController::class, 'createPrice'])->name('add-room-price');

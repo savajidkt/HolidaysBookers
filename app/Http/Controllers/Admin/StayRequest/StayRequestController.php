@@ -128,15 +128,15 @@ class StayRequestController extends Controller
     public function changeStatus(Request $request): JsonResponse
     {
         $input = $request->all();
-        $facility  = StayRequest::find($input['facility_id']);
+        $facility  = StayRequest::find($input['request_id']);
         // dd($user);
         if ($this->stayRequestRepository->changeStatus($input, $facility)) {
             return response()->json([
                 'status' => true,
-                'message' => 'Hotel facility status updated successfully!'
+                'message' => 'Hotel stay request status updated successfully!'
             ]);
         }
 
-        throw new Exception('Hotel facility status does not change. Please check sometime later.');
+        throw new Exception('Hotel stay request status does not change. Please check sometime later.');
     }   
 }

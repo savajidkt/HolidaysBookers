@@ -6,14 +6,19 @@
         <!-- users filter end -->
         <!-- list section start -->
         <div class="card">
+            <div class="card-header border-bottom d-flex justify-content-between align-items-center my-2">
+  
+                <div class="col-md-6">
+                    <a class="btn btn-outline-secondary waves-effect" href="{{ route('offlinehotels.show', $model) }}">Back</a>
+                </div>                  
+            </div>
             <div class="card-header border-bottom d-flex justify-content-between align-items-center">
 
                 <div class="col-md-6">
                     <h4 class="card-title">Offline Rooms</h4>
                 </div>
                 <div class="col-md-6 text-right">
-                    <a href="{{ route('offlinerooms.create') }}"><button type="reset"
-                            class="btn btn-primary btn-sm mr-1 waves-effect waves-float waves-light">Add New</button></a>
+                    <a href="{{ route('room-create', $model) }}" class="btn btn-primary btn-sm waves-effect waves-float waves-light" data-toggle="tooltip" data-original-title="Add New Room" data-animation="false"><i class="fa fa-plus" aria-hidden="true"></i> Add Room</a>                
                 </div>
             </div>
 
@@ -87,7 +92,7 @@
                 order: [
                     [1, 'desc']
                 ],
-                ajax: "{{ route('offlinerooms.index') }}",
+                ajax: "{{ route('hotel-room-list',$model) }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'id',
