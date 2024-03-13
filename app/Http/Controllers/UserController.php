@@ -16,6 +16,7 @@ use App\Http\Requests\User\PasswordRequest;
 use App\Http\Requests\User\DemofromCreateRequest;
 use App\Models\Agent;
 use App\Models\AgentMarkup;
+use App\Models\Cart;
 use App\Models\WalletTransaction;
 
 class UserController extends Controller
@@ -79,6 +80,17 @@ class UserController extends Controller
         ]);
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
+
+            $user_id = Auth::id();
+
+            $isCartExist = Cart::where('user_id', $user_id)->where('status','1')->first();
+            if( $isCartExist ){
+                $bookingCartArr = unserialize($isCartExist->cartData);
+                if( is_array($bookingCartArr) && count($bookingCartArr) > 0 ){
+                    setBookingCart('bookingCart', $bookingCartArr);
+                }                    
+            }
+
             return response()->json([
                 'status' => true,
                 'message' => 'You have Successfully loggedin'
