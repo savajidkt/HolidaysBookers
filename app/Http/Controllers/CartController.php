@@ -10,6 +10,7 @@ use App\Models\Order;
 use Razorpay\Api\Api;
 use App\Models\Amenity;
 use App\Models\Country;
+use App\Models\Cart;
 
 use App\Models\Checkout;
 use App\Models\OfflineRoom;
@@ -74,6 +75,19 @@ class CartController extends Controller
             }
         }
 
+        $user_id = Auth::id();
+        $isCartExist = Cart::where('user_id', $user_id)->where('status','1')->first();
+        
+        if( $isCartExist ){             
+            Cart::where('user_id',$user_id)->update(['cartData' => serialize($bookingCartArr)]);          
+        } else {
+            $dataSave = [
+                'user_id'    => $user_id,
+                'cartData'    => serialize($bookingCartArr)                
+            ];            
+            Cart::create($dataSave);
+        }
+
         //dd($bookingCartArr);
         setBookingCart('bookingCart', $bookingCartArr);
         return response()->json([
@@ -84,6 +98,18 @@ class CartController extends Controller
     public function removeCart()
     {
         $newTempArray = [];
+        $user_id = Auth::id();
+        $isCartExist = Cart::where('user_id', $user_id)->where('status','1')->first();
+        
+        if( $isCartExist ){             
+            Cart::where('user_id',$user_id)->update(['cartData' => serialize($newTempArray)]);          
+        } else {
+            $dataSave = [
+                'user_id'    => $user_id,
+                'cartData'    => serialize($newTempArray)                
+            ];            
+            Cart::create($dataSave);
+        }
         setBookingCart('bookingCart', $newTempArray);
         return response()->json([
             'status' => true,

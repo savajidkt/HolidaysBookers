@@ -2373,7 +2373,7 @@ if (!function_exists('CancellationFeesCalculated')) {
     function CancellationFeesCalculated($roomPriceData, $fromDate)
     {
         
-        if($roomPriceData->cancelationpolicies ){
+        if($roomPriceData){
             foreach ($roomPriceData->cancelationpolicies as $key => $value) {
                 $date = Carbon::createFromFormat('Y-m-d H:i:s', dateFormat( str_replace('/', '-', $fromDate),'Y-m-d H:i:s'));
                 $date->subDay($value->before_check_in_days);

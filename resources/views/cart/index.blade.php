@@ -184,12 +184,12 @@
                                                 <div class="col-6 border-right-px">
                                                     <div class="y-gap-8">
                                                         
-                                                        <?php if($offlineRoom->price[0]->cancelation_policy != "refundeble"){ ?>
+                                                        <?php if(isset($offlineRoom->price[0]) && $offlineRoom->price[0]->cancelation_policy != "refundeble"){ ?>
                                                             <div class="items-center">
                                                                 <div class="text-13 pull-left">Non refundable</div>
                                                             </div>
                                                             <?php } else { ?>                                                               
-                                                                <?php echo CancellationFeesCalculated($offlineRoom->price[0],  $value['search_from']); ?>
+                                                                <?php echo CancellationFeesCalculated(isset($offlineRoom->price[0]) ? $offlineRoom->price[0]: '',  $value['search_from']); ?>
                                                             <?php } ?>
                                                         
                                                         

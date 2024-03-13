@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -73,6 +74,14 @@ class LoginController extends Controller
 
 
             if ($user->status == User::ACTIVE && $this->attemptLogin($request)) {
+                
+                $isCartExist = Cart::where('user_id', $user->id)->where('status','1')->first();
+                if( $isCartExist ){
+                    $bookingCartArr = unserialize($isCartExist->cartData);
+                    if( is_array($bookingCartArr) && count($bookingCartArr) > 0 ){
+                        setBookingCart('bookingCart', $bookingCartArr);
+                    }                    
+                }
                 
                 // Send the normal successful login response
                 return $this->sendLoginResponse($request);

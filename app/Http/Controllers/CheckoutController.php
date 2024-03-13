@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Repositories\CheckoutRepository;
 use App\Repositories\HotelListingRepository;
 use App\Http\Requests\Checkout\CreateRequest;
+use App\Models\Cart;
 use App\Models\DraftOrder;
 use App\Models\Nationality;
 use App\Models\QuoteOrder;
@@ -321,9 +322,24 @@ class CheckoutController extends Controller
     {
         $SafeencryptionObj = new Safeencryption;
         $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));       
-        $cartsArr = $this->createCartData($requiredParamArr);
-        // dd($cartsArr);
+        $cartsArr = $this->createCartData($requiredParamArr);        
+        $user_id = Auth::id();       
+
+        $isCartExist = Cart::where('user_id', $user_id)->where('status','1')->first();
+        
+        if( $isCartExist ){             
+            Cart::where('user_id',$user_id)->update(['cartData' => serialize($cartsArr)]);          
+        } else {
+            $dataSave = [
+                'user_id'    => $user_id,
+                'cartData'    => serialize($cartsArr),
+                'status'    => '1'
+            ];            
+            Cart::create($dataSave);
+        }
+
         setBookingCart('bookingCart', $cartsArr);
+
         return response()->json([
             'status' => true,
             'redirectURL' => route('checkout.index'),
@@ -420,6 +436,7 @@ class CheckoutController extends Controller
 
     public function ajaxTempRemove(Request $request)
     {
+        
         $SafeencryptionObj = new Safeencryption;
         $requiredParamArr = unserialize($SafeencryptionObj->decode($request->extra));
         $bookingCartArr = getBookingCart('bookingCart');
@@ -430,6 +447,19 @@ class CheckoutController extends Controller
                     unset($bookingCartArr[$key]);
                 }
             }
+        }
+
+        $user_id = Auth::id();
+        $isCartExist = Cart::where('user_id', $user_id)->where('status','1')->first();
+        
+        if( $isCartExist ){             
+            Cart::where('user_id',$user_id)->update(['cartData' => serialize($bookingCartArr)]);          
+        } else {
+            $dataSave = [
+                'user_id'    => $user_id,
+                'cartData'    => serialize($bookingCartArr)                
+            ];            
+            Cart::create($dataSave);
         }
         setBookingCart('bookingCart', $bookingCartArr);
         return response()->json([
@@ -497,6 +527,12 @@ class CheckoutController extends Controller
             unset($_COOKIE["countryName"]);
             setcookie('countryName', null, -1, '/');
         }
+
+        $user_id = Auth::id();
+        $isCartExist = Cart::where('user_id', $user_id)->where('status','1')->first();                            
+        if( $isCartExist ){                         
+                Cart::where('user_id', $user_id)->delete();                
+        }
         setBookingCart('bookingCart', array());
 
         return $data->forceDelete();
@@ -553,6 +589,20 @@ class CheckoutController extends Controller
                         $requiredParamArr['quote_id'] = $QuoteOrder->id;
                         //dd($requiredParamArr);                  
                         $cartsArr = $this->createCartData($requiredParamArr);
+
+                        $user_id = Auth::id();
+                        $isCartExist = Cart::where('user_id', $user_id)->where('status','1')->first();                            
+                            if( $isCartExist ){             
+                                Cart::where('user_id',$user_id)->update(['cartData' => serialize($cartsArr)]);          
+                            } else {
+                                $dataSave = [
+                                    'user_id'    => $user_id,
+                                    'cartData'    => serialize($cartsArr),
+                                    'status'    => '1'
+                                ];            
+                                Cart::create($dataSave);
+                            }  
+
                         setBookingCart('bookingCart', $cartsArr);
                     } else {                                        
                         $requiredParamArr['hotel_id'] = $room_value->hotel_id;
@@ -575,7 +625,20 @@ class CheckoutController extends Controller
                         $requiredParamArr['status'] = "Quote";
                         $requiredParamArr['quote_id'] = $QuoteOrder->id;
                         //dd($requiredParamArr);                   
-                        $cartsArr = $this->createCartData($requiredParamArr);                    
+                        $cartsArr = $this->createCartData($requiredParamArr);  
+                        $user_id = Auth::id();
+                        $isCartExist = Cart::where('user_id', $user_id)->where('status','1')->first();                            
+                            if( $isCartExist ){             
+                                Cart::where('user_id',$user_id)->update(['cartData' => serialize($cartsArr)]);          
+                            } else {
+                                $dataSave = [
+                                    'user_id'    => $user_id,
+                                    'cartData'    => serialize($cartsArr),
+                                    'status'    => '1'
+                                ];            
+                                Cart::create($dataSave);
+                            }        
+
                         setBookingCart('bookingCart', $cartsArr);
                     }
                 }
