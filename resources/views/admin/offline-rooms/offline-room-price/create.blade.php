@@ -103,20 +103,20 @@
                                                     <div class="row g-3">
                                                         <div class="col-sm-4 fv-plugins-icon-container">
                                                             <label class="form-label" for="plFirstName">Surcharge
-                                                                Name</label>
+                                                                Name *</label>
                                                             <input type="text" name="surcharge_name"
                                                                 class="form-control" placeholder="Surcharge Name">
 
                                                         </div>
                                                         <div class="col-sm-4 fv-plugins-icon-container">
                                                             <label class="form-label" for="plLastName">Surcharge
-                                                                Price</label>
+                                                                Price *</label>
                                                             <input type="text" name="surcharge_price"
                                                                 class="form-control" placeholder="10000">
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <label class="form-label" for="plUserName">Surcharge
-                                                                Date</label>
+                                                                Date *</label>
 
                                                             <input type="text" id="surcharge_date"
                                                                 name="surcharge_date"
@@ -186,13 +186,13 @@
                                                     <div class="row g-3">
                                                         <div class="col-sm-6 fv-plugins-icon-container">
                                                             <label class="form-label" for="plFirstName">Supplementary
-                                                                Name</label>                                                            
-                                                                <select class="select2-room-meal-plan-complimentary form-control" name="complimentary_name"></select>
+                                                                Name *</label>                                                            
+                                                                <select class="select2-room-meal-plan-complimentary form-control select2" name="complimentary_name"></select>
 
                                                         </div>
                                                         <div class="col-sm-6 fv-plugins-icon-container">
                                                             <label class="form-label" for="plLastName">Supplementary
-                                                                Price</label>
+                                                                Price *</label>
                                                             <input type="text" name="complimentary_price"
                                                                 class="form-control" placeholder="10000">
                                                         </div>
@@ -256,36 +256,36 @@
                                                     <input type="hidden" name="action" id="action" value="add">
                                                     <div class="row g-3">
                                                         <div class="col-sm-4 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Single Adult</label>
+                                                            <label class="form-label" for="plFirstName">Single Adult *</label>
                                                             <input type="number" name="single_adult" class="form-control" placeholder="Single Adult">
                                                         </div>
                                                         <div class="col-sm-4 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Per Room</label>
+                                                            <label class="form-label" for="plFirstName">Per Room *</label>
                                                             <input type="number" name="per_room" class="form-control" placeholder="Per Room">
                                                         </div>
                                                         <div class="col-sm-4 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Extra Adult</label>
+                                                            <label class="form-label" for="plFirstName">Extra Adult *</label>
                                                             <input type="number" name="extra_adult" class="form-control" placeholder="Extra Adult">
                                                         </div>
                                                         <div class="col-sm-4 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Child with Bed</label>
+                                                            <label class="form-label" for="plFirstName">Child with Bed *</label>
                                                             <input type="number" name="child_with_bed" class="form-control" placeholder="Child with Bed">
                                                         </div>
                                                         <div class="col-sm-4 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Child no Bed (0-4 Years)</label>
+                                                            <label class="form-label" for="plFirstName">Child no Bed (0-4 Years) *</label>
                                                             <input type="number" name="child_with_no_bed_0_4" class="form-control" placeholder="Child no Bed (0-4 Years)">
                                                         </div>
                                                         <div class="col-sm-4 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Child no Bed (5-12 Years)</label>
+                                                            <label class="form-label" for="plFirstName">Child no Bed (5-12 Years) *</label>
                                                             <input type="number" name="child_with_no_bed_5_12" class="form-control" placeholder="Child no Bed (5-12 Years)">
                                                         </div>
                                                         <div class="col-sm-4 fv-plugins-icon-container">
-                                                            <label class="form-label" for="plFirstName">Child no Bed (13-18 Years)</label>
+                                                            <label class="form-label" for="plFirstName">Child no Bed (13-18 Years) *</label>
                                                             <input type="number" name="child_with_no_bed_13_18" class="form-control" placeholder="Child no Bed (13-18 Years)">
                                                         </div>
                                                         
                                                         <div class="col-sm-4">
-                                                            <label class="form-label" for="plUserName">Date Validity</label>
+                                                            <label class="form-label" for="plUserName">Date Validity *</label>
                                                             <input type="text" id="date_validity"
                                                                 name="date_validity"
                                                                 class="form-control basic-promotional flatpickr-input"
@@ -353,7 +353,7 @@
                                                     <div class="row">
                                                     <div class="col-sm-8">
                                                         <label class="form-label" for="plUserName">Stop Sale
-                                                            Date</label>
+                                                            Date *</label>
                                                         <input type="text" id="stop_sale_date"
                                                             name="stop_sale_date"
                                                             class="form-control basic-stopSale flatpickr-input"

@@ -3,6 +3,7 @@ var varHotelsID = HotelID;
 var selectedMealId;
 var FrmOfflineRoomPreference = function () {
     var FrmOfflineRoomValidation = function () {
+      
         var FrmOfflineRoomPreferenceForm = $('#FrmOfflineRoom');
         var error4 = $('.error-message', FrmOfflineRoomPreferenceForm);
         var success4 = $('.error-message', FrmOfflineRoomPreferenceForm);
@@ -17,26 +18,16 @@ var FrmOfflineRoomPreference = function () {
                     required: true
                 },
 
-            },
-            messages: {
-                hotel_id: {
-                    required: 'Hotel is required'
-                },
-            },
-            errorPlacement: function (error, element) {
-
-
+            },           
+            errorPlacement: function (error, element) {               
                 if (element.attr("name") == "price_type") {
                     error.insertAfter(".price_typeCLS");
-                } else if (element.attr("name") == "hotel_id") {
-                    error.insertAfter(".hotel_idCLS");
-                } else if (element.attr("name").indexOf('[room_type]') >= 0) {
-                    error.insertAfter(".room_typeCLS");
-                } else if (element.attr("name").indexOf('[room_amenities]') >= 0) {
-                    error.insertAfter(".room_amenitiesCLS");
-                } else {
+                }  else if(element.hasClass('select2') && element.next('.select2-container').length) {
+                    error.insertAfter(element.next('.select2-container'));
+                }else {
                     error.insertAfter(element);
                 }
+                
             },
             submitHandler: function (form) {
                 $(".buttonLoader").removeClass('hide');
@@ -144,12 +135,8 @@ var FrmOfflineRoomPreference = function () {
             errorPlacement: function (error, element) {
                 if (element.attr("name") == "price_type") {
                     error.insertAfter(".price_typeCLS");
-                } else if (element.attr("name") == "hotel_id") {
-                    error.insertAfter(".hotel_idCLS");
-                } else if (element.attr("name") == "room_type") {
-                    error.insertAfter(".room_typeCLS");
-                } else if (element.attr("name") == "room_amenities") {
-                    error.insertAfter(".room_amenitiesCLS");
+                }  else if(element.hasClass('select2') && element.next('.select2-container').length) {
+                    error.insertAfter(element.next('.select2-container'));
                 } else {
                     error.insertAfter(element);
                 }
@@ -946,7 +933,11 @@ var FrmOfflineRoomPreference = function () {
                 }
             },
             errorPlacement: function (error, element) {
-                error.insertAfter(element);
+                if(element.hasClass('select2') && element.next('.select2-container').length) {
+                    error.insertAfter(element.next('.select2-container'));
+                }else {
+                    error.insertAfter(element);
+                }
             },
             submitHandler: function (form) {
                 $.ajaxSetup({
@@ -1262,6 +1253,15 @@ var FrmOfflineRoomPreference = function () {
 
 $(document).ready(function () {
     FrmOfflineRoomPreference.init();
+
+    $(document.body).on("change",".select2-room-types, .select2, .select2-hotel",function(){
+        $(this).valid();
+       });
+
+    
+
+  
+
     $(document).on('click', '.surchargePlan', function () {
         $('#surchargePlanFrm #hotel_id').val($(this).attr('data-hotel-id'));
         $('#surchargePlanFrm #room_id').val($(this).attr('data-room-id'));

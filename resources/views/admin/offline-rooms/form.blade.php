@@ -29,7 +29,7 @@
     <div class="col-md-4 mb-1 hotelDrp">
         <label>Select Hotel <span class="text-danger">*</span></label>
         <div class="form-group">
-            <select class="select2-hotel form-control" name="hotel_id">
+            <select class="select2-hotel form-control select2" name="hotel_id">
             </select>
             <div class="hotel_idCLS"></div>
             @error('hotel_id')
@@ -67,7 +67,7 @@
                         <a class="badge badge-success roomTypeBTN" style="color:#FFF; float: right;">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New Room Type
                         </a>
-                        <select class="select2-room-types form-control" name="room_type"></select>
+                        <select class="select2-room-types form-control select2" name="room_type"></select>
                         <div class="room_typeCLS"></div>
                         @error('room_type')
                             <div class="invalid-feedback" style="display: block;">{{ $message }}</div>

@@ -11,6 +11,7 @@
   
   /*******  Flatpickr  *****/
   var basicPickr = $('.flatpickr-basic'),
+  BirthBasicPickr = $('.date-of-birth'),
     timePickr = $('.flatpickr-time'),
     dateTimePickr = $('.flatpickr-date-time'),
     multiPickr = $('.flatpickr-multiple'),
@@ -23,6 +24,12 @@
     RangeBasicPickr = $('.rage-date-basic');
 
   // Default
+  if (BirthBasicPickr.length) {
+    BirthBasicPickr.flatpickr({
+            dateFormat: "d/m/Y",
+            maxDate: 'today'
+        });
+  }
   if (basicPickr.length) {
     basicPickr.flatpickr({
             dateFormat: "d/m/Y",

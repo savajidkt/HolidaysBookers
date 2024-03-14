@@ -128,14 +128,14 @@
                                         <div class="form-group">
                                             <label for="account-username">Travel Date Validity</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->from_date) ? $model->from_date . ' to ' . $model->to_date : '' }}</strong>
+                                                class="disp-below">{{ isset($model->from_date) ? dateFormat($model->from_date,'d-m-Y') . ' to ' . dateFormat($model->to_date,'d-m-Y') : '' }}</strong>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <label for="account-username">Booking Date Validity</label>
                                             <strong
-                                                class="disp-below">{{ isset($model->booking_start_date) ? $model->booking_start_date . ' to ' . $model->booking_end_date : '' }}</strong>
+                                                class="disp-below">{{ isset($model->booking_start_date) ? dateFormat($model->booking_start_date,'d-m-Y') . ' to ' . dateFormat($model->booking_end_date,'d-m-Y') : '' }}</strong>
                                         </div>
                                     </div>
                                      <div class="col-12 col-sm-4">

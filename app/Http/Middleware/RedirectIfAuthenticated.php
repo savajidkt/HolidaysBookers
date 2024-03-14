@@ -27,20 +27,22 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
 
             if (Auth::guard($guard)->check()) {
-                if (auth()->user()->user_type == User::AGENT) {
+                if (isset(auth()->user()->user_type) && auth()->user()->user_type == User::AGENT) {
                     return redirect(route('agent.dashboard'));
-                } else if (auth()->user()->user_type == User::VENDOR) {
+                } else if (isset(auth()->user()->user_type) && auth()->user()->user_type == User::VENDOR) {
                     return redirect(route('vendor.dashboard'));
-                } else if (auth()->user()->user_type == User::CORPORATE) {
+                } else if (isset(auth()->user()->user_type) && auth()->user()->user_type == User::CORPORATE) {
                     return redirect(route('corporate.dashboard'));
-                } else if (auth()->user()->user_type == User::CUSTOMER) {                    
+                } else if (isset(auth()->user()->user_type) && auth()->user()->user_type == User::CUSTOMER) {                    
                     return redirect(route('customer.dashboard'));
-                } else {
+                } else if ($guard == "admin") {                    
+                    return redirect(RouteServiceProvider::adminHOME);
+                } else {                    
                     return redirect(RouteServiceProvider::HOME);
-                }
-                return redirect(RouteServiceProvider::adminHOME);
+                }                                
             }
         }
+        
         //dd(Auth::guard($guard)->check());
         return $next($request);
     }
