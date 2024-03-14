@@ -50,22 +50,38 @@ class AgentsController extends Controller
         
         if ($request->ajax()) {
 
+            
             $data = User::with('agents')->where('user_type', User::AGENT);
+
             return DataTables::of($data)
-                ->addIndexColumn()
+                ->addIndexColumn()              
                 ->addColumn('agent_code', function (User $user) {
                     return $user->agents->agent_code ?? '-';
-                })->filterColumn('agent_code', function ($query, $keyword) {
+                })->filterColumn('agent_code', function ($query, $keyword) {                    
                     $query->whereHas('agents', function ($query) use ($keyword) {
                         $query->where('agent_code', 'LIKE', '%' . $keyword . '%');
-                    });
-                })->addColumn('agent_company_name', function (User $user) {
+                    });                      
+                })
+                ->orderColumn('agent_code', function ($query, $order) {
+                    $query
+                        ->leftJoin('agents', 'users.id', '=','agents.user_id' )
+                        ->orderBy('agents.agent_code', $order)
+                         ->select('users.*');
+                })
+                ->addColumn('agent_company_name', function (User $user) {
                     return $user->agents->agent_company_name ?? '';
                 })->filterColumn('agent_company_name', function ($query, $keyword) {
                     $query->whereHas('agents', function ($query) use ($keyword) {
                         $query->where('agent_company_name', 'LIKE', '%' . $keyword . '%');
                     });
-                })->addColumn('full_name', function (User $user) {
+                })
+                ->orderColumn('agent_company_name', function ($query, $order) {
+                    $query
+                        ->leftJoin('agents', 'users.id', '=','agents.user_id' )
+                        ->orderBy('agents.agent_company_name', $order)
+                         ->select('users.*');
+                })
+                ->addColumn('full_name', function (User $user) {
                     return $user->fullName;
                 })->filterColumn('full_name', function ($query, $keyword) {
                     $sql = "CONCAT(users.first_name,'-',users.last_name)  like ?";
@@ -76,24 +92,42 @@ class AgentsController extends Controller
                     $query->whereHas('agents', function ($query) use ($keyword) {
                         $query->where('agent_mobile_number', 'LIKE', '%' . $keyword . '%');
                     });
+                })->orderColumn('agent_mobile_number', function ($query, $order) {
+                    $query
+                        ->leftJoin('agents', 'users.id', '=','agents.user_id' )
+                        ->orderBy('agents.agent_mobile_number', $order)
+                         ->select('users.*');
                 })->addColumn('agent_email', function (User $user) {
                     return $user->agents->agent_email ?? '';
                 })->filterColumn('agent_email', function ($query, $keyword) {
                     $query->whereHas('agents', function ($query) use ($keyword) {
                         $query->where('agent_email', 'LIKE', '%' . $keyword . '%');
                     });
+                })->orderColumn('agent_email', function ($query, $order) {
+                    $query
+                        ->leftJoin('agents', 'users.id', '=','agents.user_id' )
+                        ->orderBy('agents.agent_email', $order)
+                         ->select('users.*');
                 })->addColumn('email', function (User $user) {
                     return $user->email;
+                })->orderColumn('email', function ($query, $order) {                    
+                    $query->orderByRaw('email ' . $order);
                 })->filterColumn('email', function ($query, $keyword) {
                     $sql = "CONCAT(users.email)  like ?";
                     $query->whereRaw($sql, ["%{$keyword}%"]);
-                })->addColumn('balance', function(User $user){
-                    //dd($user->agents->getbalance);
+                })->addColumn('balance', function(User $user){                    
                     return (isset($user->agents->getbalance)) ? $user->agents->getbalance->balance : '0';
-
+                })->orderColumn('balance', function ($query, $order) {
+                    $query
+                    ->leftJoin('wallet_transactions', function($query) {
+                        $query->on('wallet_transactions.user_id','=','users.id')
+                            ->whereRaw('wallet_transactions.id IN (select MAX(a2.id) from wallet_transactions as a2 join users as u2 on u2.id = a2.user_id group by u2.id)');
+                    })
+                    ->orderBy('wallet_transactions.balance', $order)                       
+                    ->select('users.*');
                 })->editColumn('status', function (User $user) {
                     return $user->status_name;
-                })->orderColumn('full_name', function ($query, $order) {
+                })->orderColumn('full_name', function ($query, $order) {                    
                     $query->orderByRaw('CONCAT_WS(\' \', first_name, last_name) ' . $order);
                 })->addColumn('action', function ($row) {
                     return $row->agents->action ?? '';
@@ -248,7 +282,7 @@ class AgentsController extends Controller
         if (session()->has('skip_row')) {
             session()->forget('skip_row');
         }
-
+        
         Excel::import(new AgentsImport, $request->file);
 
 

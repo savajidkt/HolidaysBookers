@@ -308,7 +308,7 @@
                     {
                         data: 'status',
                         name: 'status',
-                        searchable: false
+                        
                     },
                     {
                         data: 'action',

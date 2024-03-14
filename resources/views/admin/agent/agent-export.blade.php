@@ -41,45 +41,44 @@
     </thead>
     <tbody>
         @foreach ($agents as $agent)
-         
+       
             <tr>
-                <td>{{ $agent->agent_company_name }}</td>
-                <td>{{ $agent->company->company_type }}</td>
-                <td>{{ $agent->nature_of_business }}</td>
-                <td>{{ $agent->agent_first_name }}</td>
-                <td>{{ $agent->agent_last_name }}</td>
-                <td>{{ $agent->agent_designation }}</td>
-                <td>{{ $agent->agent_dob }}</td>
-                <td>{{ $agent->agent_office_address }}</td>
-                <td>{{ $agent->country->name }}</td>
-                <td>{{ $agent->state->name }}</td>
-                <td>{{ $agent->city->name }}</td>
-                <td>{{ $agent->agent_pincode }}</td>
-                <td>{{ $agent->agent_telephone }}</td>
-                <td>{{ $agent->agent_mobile_number }}</td>
-                <td>{{ $agent->agent_email }}</td>
-                <td>{{ $agent->agent_website }}</td>
-                <td>{{ $agent->agent_iata }}</td>
-                <td>{{ $agent->agent_iata_number }}</td>
-                <td>{{ $agent->agent_other_certification }}</td>
-                <td>{{ $agent->agent_pan_number }}</td>
-                <td>{{ $agent->agent_gst_number }}</td>               
+                <td>{{ isset($agent->agent_company_name) ? $agent->agent_company_name : ''  }}</td>
+                <td>{{ isset($agent->company->company_type) ? $agent->company->company_type : ''  }}</td>
+                <td>{{ isset($agent->nature_of_business) ? $agent->nature_of_business : ''  }}</td>
+                <td>{{ isset($agent->agent_first_name) ? $agent->agent_first_name : ''  }}</td>
+                <td>{{ isset($agent->agent_last_name) ? $agent->agent_last_name : ''  }}</td>
+                <td>{{ isset($agent->agent_designation) ? $agent->agent_designation : ''  }}</td>
+                <td>{{ isset($agent->agent_dob) ? $agent->agent_dob : ''  }}</td>
+                <td>{{ isset($agent->agent_office_address) ? $agent->agent_office_address : ''  }}</td>
+                <td>{{ isset($agent->country->name) ? $agent->country->name : ''  }}</td>
+                <td>{{ isset($agent->state->name) ? $agent->state->name : ''  }}</td>
+                <td>{{ isset($agent->city->name) ? $agent->city->name : ''  }}</td>
+                <td>{{ isset($agent->agent_pincode) ? $agent->agent_pincode : ''  }}</td>
+                <td>{{ isset($agent->agent_telephone) ? $agent->agent_telephone : ''  }}</td>
+                <td>{{ isset($agent->agent_mobile_number) ? $agent->agent_mobile_number : ''  }}</td>
+                <td>{{ isset($agent->agent_email) ? $agent->agent_email : ''  }}</td>                
+                <td>{{ isset($agent->agent_website) ? $agent->agent_website : ''  }}</td>                
+                <td>{{ isset($agent->agent_iata) ? $agent->agent_iata : ''  }}</td>                
+                <td>{{ isset($agent->agent_iata_number) ? $agent->agent_iata_number : ''  }}</td>                
+                <td>{{ isset($agent->agent_other_certification) ? $agent->agent_other_certification : ''  }}</td>                
+                <td>{{ isset($agent->agent_pan_number) ? $agent->agent_pan_number : ''  }}</td>                
+                <td>{{ isset($agent->agent_gst_number) ? $agent->agent_gst_number : ''  }}</td> 
                 <td>{{ (isset($agent->reachus->name)) ?$agent->reachus->name : '' }}</td>
-                <td>{{ $agent->othername }}</td>                
-                <td>{{ $agent->mgmt_first_name }}</td>
-                <td>{{ $agent->mgmt_last_name }}</td>
-                <td>{{ $agent->mgmt_contact_number }}</td>
-                <td>{{ $agent->mgmt_email }}</td>
-                <td>{{ $agent->account_first_name }}</td>
-                <td>{{ $agent->account_last_name }}</td>
-                <td>{{ $agent->account_contact_number }}</td>
-                <td>{{ $agent->account_email }}</td>
-                <td>{{ $agent->reserve_first_name }}</td>
-                <td>{{ $agent->reserve_last_name }}</td>
-                <td>{{ $agent->reserve_contact_number }}</td>
-                <td>{{ $agent->reserve_email }}</td>
-                <td>{{ $agent->user->email }}</td>
-                
+                <td>{{ (isset($agent->othername)) ?$agent->othername : '' }}</td>
+                <td>{{ (isset($agent->mgmt_first_name)) ?$agent->mgmt_first_name : '' }}</td>
+                <td>{{ (isset($agent->mgmt_last_name)) ?$agent->mgmt_last_name : '' }}</td>
+                <td>{{ (isset($agent->mgmt_contact_number)) ?$agent->mgmt_contact_number : '' }}</td>
+                <td>{{ (isset($agent->mgmt_email)) ?$agent->mgmt_email : '' }}</td>
+                <td>{{ (isset($agent->account_first_name)) ?$agent->account_first_name : '' }}</td>
+                <td>{{ (isset($agent->account_last_name)) ?$agent->account_last_name : '' }}</td>
+                <td>{{ (isset($agent->account_contact_number)) ?$agent->account_contact_number : '' }}</td>
+                <td>{{ (isset($agent->account_email)) ?$agent->account_email : '' }}</td>
+                <td>{{ (isset($agent->reserve_first_name)) ?$agent->reserve_first_name : '' }}</td>
+                <td>{{ (isset($agent->reserve_last_name)) ?$agent->reserve_last_name : '' }}</td>
+                <td>{{ (isset($agent->reserve_contact_number)) ?$agent->reserve_contact_number : '' }}</td>
+                <td>{{ (isset($agent->reserve_email)) ?$agent->reserve_email : '' }}</td>
+                <td>{{ (isset($agent->user->email)) ?$agent->user->email : '' }}</td>
             </tr>
         @endforeach
     </tbody>

@@ -12,7 +12,7 @@
                     <h4 class="card-title">Offline Hotels</h4>
                 </div>
                 <div class="col-md-6 text-right">
-                    <a href="{{ route('rezlive-api') }}" class="btn btn-outline-primary btn-sm waves-effect">
+                    {{-- <a href="{{ route('rezlive-api') }}" class="btn btn-outline-primary btn-sm waves-effect">
                         Rezlive
                     </a>
                     <button type="button" class="btn btn-outline-primary waves-effect btn-sm" id="DownloadOfflineHotel">
@@ -25,7 +25,7 @@
                     <button type="button" class="btn btn-outline-primary waves-effect btn-sm" data-toggle="modal"
                         data-target="#ImportOfflineHotels" data-backdrop="false">
                         Import Excel
-                    </button>
+                    </button> --}}
                     <a href="{{ route('offlinehotels.create') }}"><button type="reset"
                             class="btn btn-primary mr-1 waves-effect waves-float waves-light btn-sm">New Hotel</button></a>
                 </div>
