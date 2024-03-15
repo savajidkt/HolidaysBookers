@@ -105,14 +105,14 @@
                                                             <label class="form-label" for="plFirstName">Surcharge
                                                                 Name *</label>
                                                             <input type="text" name="surcharge_name"
-                                                                class="form-control" placeholder="Surcharge Name">
+                                                                class="form-control" placeholder="Surcharge Name" onkeydown="return /[a-zA-Z ]/.test(event.key)">
 
                                                         </div>
                                                         <div class="col-sm-4 fv-plugins-icon-container">
                                                             <label class="form-label" for="plLastName">Surcharge
                                                                 Price *</label>
                                                             <input type="text" name="surcharge_price"
-                                                                class="form-control" placeholder="10000">
+                                                                class="form-control" placeholder="10000" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')">
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <label class="form-label" for="plUserName">Surcharge
@@ -193,7 +193,7 @@
                                                 <div class="col-sm-6 fv-plugins-icon-container">
                                                     <label class="form-label" for="plLastName">Supplementary Price *</label>
                                                     <input type="text" name="complimentary_price" class="form-control"
-                                                        placeholder="10000">
+                                                        placeholder="10000" oninput="this.value = this.value.replace(/[^0-9]+/g, '').replace(/(\..*)\./g, '$1');" onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')">
                                                 </div>
                                                 <div class="col-sm-6 fv-plugins-icon-container mt-2">
                                                     <label class="form-label" for="plLastName">Apply For</label>
