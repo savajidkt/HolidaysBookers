@@ -120,7 +120,7 @@
                                                             <input type="text" id="surcharge_date"
                                                                 name="surcharge_date"
                                                                 class="form-control basic-surcharge flatpickr-input"
-                                                                placeholder="DD-MM-YYYY To DD-MM-YYYY" value =""
+                                                                placeholder="DD/MM/YYYY To DD/MM/YYYY" value =""
                                                                 data-error="Surcharge date is required" />
 
                                                         </div>
@@ -288,7 +288,7 @@
                                                             <input type="text" id="date_validity"
                                                                 name="date_validity"
                                                                 class="form-control basic-promotional flatpickr-input"
-                                                                placeholder="DD-MM-YYYY To DD-MM-YYYY" value =""
+                                                                placeholder="DD/MM/YYYY To DD/MM/YYYY" value =""
                                                                 data-error="Date validity date is required" />
 
                                                         </div>
@@ -356,7 +356,7 @@
                                                         <input type="text" id="stop_sale_date"
                                                             name="stop_sale_date"
                                                             class="form-control basic-stopSale flatpickr-input"
-                                                            placeholder="DD-MM-YYYY" value =""
+                                                            placeholder="DD/MM/YYYY" value =""
                                                             data-error="Stop Sale date is required" />
                                                     </div>
                                                     <div class="col-sm-2">
