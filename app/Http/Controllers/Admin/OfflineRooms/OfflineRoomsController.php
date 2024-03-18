@@ -288,21 +288,21 @@ class OfflineRoomsController extends Controller
                     return $price->price_type_name;
                 })->addColumn('from_date', function (OfflineRoomPrice $price) {
                     if ($price->from_date && $price->to_date) {
-                        return $price->from_date . ' <strong> to </strong> ' . $price->to_date;
+                        return dateFormat($price->from_date,'d/m/Y') . ' <strong> to </strong> ' . dateFormat($price->to_date,'d/m/Y');
                     } else if ($price->from_date) {
-                        return $price->from_date;
+                        return dateFormat($price->from_date,'d/m/Y');
                     } else if ($price->to_date) {
-                        return $price->to_date;
+                        return dateFormat($price->to_date,'d/m/Y');
                     } else {
                         return '';
                     }
                 })->addColumn('booking_start_date', function (OfflineRoomPrice $price) {
                     if ($price->booking_start_date && $price->booking_end_date) {
-                        return $price->booking_start_date . '<strong> to </strong>' . $price->booking_end_date;
+                        return dateFormat($price->booking_start_date,'d/m/Y') . '<strong> to </strong>' . dateFormat($price->booking_end_date,'d/m/Y');
                     } else if ($price->booking_start_date) {
-                        return $price->booking_start_date;
+                        return dateFormat($price->booking_start_date,'d/m/Y');
                     } else if ($price->booking_end_date) {
-                        return $price->booking_end_date;
+                        return dateFormat($price->booking_end_date,'d/m/Y');
                     } else {
                         return '';
                     }

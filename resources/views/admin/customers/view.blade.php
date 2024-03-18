@@ -53,7 +53,7 @@
                                         <div class="form-group">
                                             <strong for="account-username">First Name</strong>
                                             <span
-                                                class="disp-below">{{ isset($model->user->first_name) ? $model->user->first_name : '' }}</span>
+                                                class="disp-below">{{ isset($model->first_name) ? $model->first_name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
@@ -61,91 +61,53 @@
                                             <strong for="account-username">Last Name</strong>
 
                                             <span
-                                                class="disp-below">{{ isset($model->user->last_name) ? $model->user->last_name : '' }}</span>
+                                                class="disp-below">{{ isset($model->last_name) ? $model->last_name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <strong for="account-username">Date Of Birth</strong>
-                                            <span class="disp-below">{{(isset($model->dob))? formatdate($model->dob):''}}</span>
+                                            <span class="disp-below">{{(isset($model->customers->dob))? dateFormat($model->customers->dob,'d/m/Y'):''}}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <strong for="account-username">Country</strong>
-                                            @php
-                                                $country = '';
-                                            @endphp
-                                            @foreach ($countries as $country)
-                                                @if ($model->country == $country->id)
-                                                    @php
-                                                        $country = $country->name;
-                                                        break;
-                                                    @endphp
-                                                @endif
-                                            @endforeach
-                                            <span class="disp-below">{{ isset($country) ? $country : '' }}</span>
+                                            <strong for="account-username">Country</strong>                                            
+                                            <span class="disp-below">{{ isset($model->customers->countryname->name) ? $model->customers->countryname->name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
-                                            <strong for="account-username">State</strong>
-                                            @php
-                                                $state = '';
-                                            @endphp
-                                            @php $states = getCountryStates($model->country);  @endphp
-                                            @if ($states->count() > 0)
-                                                @foreach ($states as $state)
-                                                    @if ($model->state == $state->id)
-                                                        @php
-                                                            $state = $state->name;
-                                                            break;
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                            <span class="disp-below">{{ isset($state) ? $state : '' }}</span>
+                                            <strong for="account-username">State</strong>                                           
+                                            <span class="disp-below">{{ isset($model->customers->statename->name) ? $model->customers->statename->name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <strong for="account-username">City</strong>
-                                            @php
-                                                $city = '';
-                                            @endphp
-                                            @php $cities = getStateWiseCity($model->state);  @endphp
-                                            @if ($cities->count() > 0)
-                                                @foreach ($cities as $city)
-                                                    @if ($model->city == $city->id)
-                                                        @php
-                                                            $city = $city->name;
-                                                            break;
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                            <span class="disp-below">{{ isset($city) ? $city : '' }}</span>
+                                           
+                                            <span class="disp-below">{{ isset($model->customers->cityname->name) ? $model->customers->cityname->name : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <strong for="account-username">Zipcode</strong>
                                             <span
-                                                class="disp-below">{{ isset($model->zipcode) ? $model->zipcode : '' }}</span>
+                                                class="disp-below">{{ isset($model->customers->zipcode) ? $model->customers->zipcode : '' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <strong for="account-username">Telephone</strong>
                                             <span
-                                                class="disp-below">{{ isset($model->telephone) ? $model->telephone : '' }}</span>
+                                                class="disp-below">{{ isset($model->customers->telephone) ? $model->customers->telephone : '-' }}</span>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group">
                                             <strong for="account-username">Mobile Number</strong>
                                             <span
-                                                class="disp-below">{{ isset($model->mobile_number) ? $model->mobile_number : '' }}</span>
+                                                class="disp-below">{{ isset($model->customers->mobile_number) ? $model->customers->mobile_number : '' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +121,7 @@
                                         <div class="form-group">
                                             <strong for="account-username">Email</strong>
                                             <span
-                                                class="disp-below">{{ isset($model->user->email) ? $model->user->email : '' }}</span>
+                                                class="disp-below">{{ isset($model->email) ? $model->email : '' }}</span>
                                         </div>
                                     </div>
                                 </div>

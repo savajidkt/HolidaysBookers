@@ -106,29 +106,36 @@ class CustomersImport implements ToCollection, WithStartRow
 
     public function requiredFilds($row)
     {
+        
         for ($i = 0; $i < count($row); $i++) {
             if ($i != 7) {
+                _P($row);
                 if ($i == 3) {
                     $country = Country::where('name', $row[3])->first();
                     if (!$country) {
+                        echo "1"; exit;
                         return false;
                     }
                 } else if ($i == 4) {
                     $States = State::where('name', $row[4])->first();
                     if (!$States) {
+                        echo "2"; exit;
                         return false;
                     }
                 } else if ($i == 5) {
                     $city = City::where('name', $row[5])->first();
                     if (!$city) {
+                        echo "3"; exit;
                         return false;
                     }
                 } else if ($i == 9) {
                     $userArr = User::where('email', $row[$i])->first();
                     if ($userArr) {
+                        echo "4"; exit;
                         return false;
                     }
                 } else if (strlen($row[$i]) == 0 || $row[$i] == " ") {
+                    echo "5"; exit;
                     return false;
                 }
             }

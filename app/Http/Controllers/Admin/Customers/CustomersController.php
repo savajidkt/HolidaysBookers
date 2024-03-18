@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Customers;
 
 use Exception;
+
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Customer;
@@ -19,6 +20,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Customer\EditRequest;
 use App\Http\Requests\Customer\CreateRequest;
 use App\Http\Requests\Customer\UpdatePasswordRequest;
+
 
 class CustomersController extends Controller
 {
@@ -51,8 +53,8 @@ class CustomersController extends Controller
                     $query->whereRaw($sql, ["%{$keyword}%"]);
                 })->editColumn('status', function (User $user) {
                     return $user->status_name;
-                })->addColumn('action', function ($row) {
-                    return $row->action_name;
+                })->addColumn('action', function (User $user) {
+                    return $user->action;
                 })->rawColumns(['action', 'status'])->make(true);
         }
 
@@ -68,7 +70,7 @@ class CustomersController extends Controller
     {
         $rawData    = new Customer;
         $countries    =  Country::where('status', Country::ACTIVE)->get();
-        return view('admin.customers.create', ['model' => $rawData, 'countries' => $countries]);
+        return view('admin.customers.create', ['model' => $rawData, 'customer' => [], 'countries' => $countries]);
     }
 
     /**
@@ -90,10 +92,10 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Customer $customer)
-    {
-        $countries    =  Country::where('status', Country::ACTIVE)->get();
-        return view('admin.customers.view', ['model' => $customer, 'countries' => $countries]);
+    public function show($id)
+    {        
+        $user  = User::find($id);                
+        return view('admin.customers.view', ['model' => $user]);
     }
 
     /**
@@ -103,10 +105,13 @@ class CustomersController extends Controller
      *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function edit(Customer $customer)
+    public function edit(Request $request, Customer $customer)
     {
+        
+        $user  = User::find($customer->user_id);
         $countries    =  Country::where('status', Country::ACTIVE)->get();
-        return view('admin.customers.edit', ['model' => $customer, 'countries' => $countries]);
+       // dd($customer->country);
+        return view('admin.customers.edit', ['model' => $user, 'customer' => $customer, 'countries' => $countries]);
     }
 
     /**

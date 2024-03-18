@@ -11,7 +11,7 @@
                     </div>
                     <div class="card-body">
                         <form id="FrmCustomer" class="needs-validation1" novalidate method="post"
-                            enctype="multipart/form-data" action="{{ route('customers.update', $model) }}">
+                            enctype="multipart/form-data" action="{{ route('customers.update', $customer) }}">
                             @csrf
                             @method('PUT')
                             @include('admin.customers.form')
