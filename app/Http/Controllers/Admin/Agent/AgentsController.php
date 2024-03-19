@@ -51,7 +51,7 @@ class AgentsController extends Controller
         if ($request->ajax()) {
 
             
-            $data = User::with('agents')->where('user_type', User::AGENT);
+            $data = User::with('agents')->with('wallet_transactions')->where('user_type', User::AGENT);
 
             return DataTables::of($data)
                 ->addIndexColumn()              
@@ -117,6 +117,14 @@ class AgentsController extends Controller
                     $query->whereRaw($sql, ["%{$keyword}%"]);
                 })->addColumn('balance', function(User $user){                    
                     return (isset($user->agents->getbalance)) ? $user->agents->getbalance->balance : '0';
+                })->filterColumn('balance', function ($query, $keyword) {
+
+                    $query->whereHas('wallet_transactions', function ($query) use ($keyword) {
+                        
+                        $query->where('balance', 'LIKE', '%' . $keyword . '%');
+                    });
+                    
+
                 })->orderColumn('balance', function ($query, $order) {
                     $query
                     ->leftJoin('wallet_transactions', function($query) {

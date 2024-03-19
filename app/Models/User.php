@@ -29,7 +29,7 @@ class User extends Authenticatable
         self::INACTIVE => 'Inactive'
     ];
 
-    protected $with = ['agents'];
+    protected $with = ['agents','wallet_transactions'];
 
     /**
      * The attributes that are mass assignable.
@@ -133,6 +133,12 @@ class User extends Authenticatable
     {
         //return $this->belongsTo(Agent::class,'id','user_id');
         return $this->hasOne(Agent::class, 'user_id', 'id');
+        //return $this->morphTo();
+    }
+    public function wallet_transactions()
+    {
+        //return $this->belongsTo(Agent::class,'id','user_id');
+        return $this->hasOne(WalletTransaction::class, 'user_id', 'id');
         //return $this->morphTo();
     }
 
