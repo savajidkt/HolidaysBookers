@@ -477,7 +477,7 @@ $(document).ready(function () {
     $(document).on('click', '#DownloadCustomer', function () {
 
         var link = moduleConfig.fileUrl;
-        alert(link);
+        
 
         var element = document.createElement('a');
 

@@ -22,6 +22,12 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
+       
+
+        if( Auth::guard('admin')->user() ){            
+            return redirect(route('dashboard'));
+        }
+
         $guards = empty($guards) ? [null] : $guards;
         $webRoute = Route::getCurrentRoute()->getAction('authGrouping') === 'users.auth';
         foreach ($guards as $guard) {
